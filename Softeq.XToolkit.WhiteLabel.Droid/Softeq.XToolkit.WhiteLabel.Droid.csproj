@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7F44F0F6-8396-42D0-8A1B-DC40CE8C478C}</ProjectGuid>
+    <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Softeq.XToolkit.WhiteLabel.Droid</RootNamespace>
+    <AssemblyName>Softeq.XToolkit.WhiteLabel.Droid</AssemblyName>
+    <FileAlignment>512</FileAlignment>
+    <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+    <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
+    <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <AndroidSigningKeyPass>
+    </AndroidSigningKeyPass>
+    <LangVersion>7</LangVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Autofac">
+      <Version>4.8.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugins.Settings">
+      <Version>3.1.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.v4">
+      <Version>27.0.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
+      <Version>27.0.2.1</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.FFImageLoading">
+      <Version>2.4.3.840</Version>
+    </PackageReference>
+    <PackageReference Include="Plugin.CurrentActivity">
+      <Version>2.1.0.4</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Mono.Android" />
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AndroidPlatformProvider.cs" />
+    <Compile Include="Controls\ObservableStackView.cs" />
+    <Compile Include="Extensions\ViewExtensions.cs" />
+    <Compile Include="IDefaultAlertBuilder.cs" />
+    <Compile Include="MainApplicationBase.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="DroidInternalSettings.cs" />
+    <Compile Include="Services\AppService.cs" />
+    <Compile Include="Services\DroidFragmentDialogService.cs" />
+    <Compile Include="Services\KeyboardService.cs" />
+    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="ViewLocator.cs" />
+    <Compile Include="ActivityBase.cs" />
+    <Compile Include="FragmentBase.cs" />
+    <Compile Include="Navigation\PageNavigationService.cs" />
+    <Compile Include="ViewType.cs" />
+    <Compile Include="Navigation\FrameNavigationService.cs" />
+    <Compile Include="LauncherService.cs" />
+    <Compile Include="Services\DefaultAlertBuilder.cs" />
+    <Compile Include="ExternalStorageProvider.cs" />
+    <Compile Include="DialogFragmentBase.cs" />
+    <Compile Include="Services\Logger\DroidConsoleLogger.cs" />
+    <Compile Include="Services\Logger\DroidConsoleLogManager.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
+      <Project>{2b4a678b-63b4-49db-99b1-bfe7793110c4}</Project>
+      <Name>Softeq.XToolkit.Bindings.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
+      <Project>{6CC4B55D-2EA0-4883-BF2A-BBEBC80150AF}</Project>
+      <Name>Softeq.XToolkit.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
+      <Project>{18d3fdc1-b0a1-401e-87f2-1c43034e610c}</Project>
+      <Name>Softeq.XToolkit.Common.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{21503153-9566-4789-9B5A-73F2BA71AA51}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
+      <Project>{051C065C-DF97-4406-BEAB-F2F91842275C}</Project>
+      <Name>Softeq.XToolkit.WhiteLabel</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
+      <Project>{2E23511B-836D-4614-9B7F-547FEF22D665}</Project>
+      <Name>Softeq.XToolkit.Permissions</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\Logger\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+</Project>
