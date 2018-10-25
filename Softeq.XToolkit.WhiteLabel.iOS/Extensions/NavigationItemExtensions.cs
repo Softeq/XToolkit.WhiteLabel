@@ -38,16 +38,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
             var item = new UIBarButtonItem(
                 image,
                 UIBarButtonItemStyle.Plain,
-                (sender, e) => { command?.Execute(sender); });
+                (sender, e) => command?.Execute(sender));
 
-            if (left)
-            {
-                navigationItem.SetLeftBarButtonItem(item, false);
-            }
-            else
-            {
-                navigationItem.SetRightBarButtonItem(item, false);
-            }
+            navigationItem.AddButtonItem(item, left);
         }
 
         public static void SetCommand(this UINavigationItem navigationItem, string title, UIColor color,
@@ -56,11 +49,25 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
             var item = new UIBarButtonItem(
                 title,
                 UIBarButtonItemStyle.Plain,
-                (sender, e) => { command?.Execute(sender); })
+                (sender, e) => command?.Execute(sender))
             {
                 TintColor = color
             };
 
+            navigationItem.AddButtonItem(item, left);
+        }
+
+        public static void SetCommand(this UINavigationItem navigationItem, UIBarButtonSystemItem systemItem,
+            ICommand command, bool left)
+        {
+            var item = new UIBarButtonItem(
+                systemItem,
+                (sender, e) => command?.Execute(sender));
+            navigationItem.AddButtonItem(item, left);
+        }
+
+        public static void AddButtonItem(this UINavigationItem navigationItem, UIBarButtonItem item, bool left)
+        {
             if (left)
             {
                 navigationItem.SetLeftBarButtonItem(item, false);
@@ -70,7 +77,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
                 navigationItem.SetRightBarButtonItem(item, false);
             }
         }
-        
+
         public static void AddTitleView(this UINavigationItem navigationItem, UIView view)
         {
             view.TranslatesAutoresizingMaskIntoConstraints = false;
