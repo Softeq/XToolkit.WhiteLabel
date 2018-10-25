@@ -6,17 +6,19 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS
+namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public interface IViewLocator
     {
-        ViewControllerBase<T> GetView<T, TParameter>(TParameter parameter,
+        UIViewController GetView<T, TParameter>(TParameter parameter,
             IFrameNavigationService frameNavigationService = null)
-            where T : ViewModelBase, IViewModelParameter<TParameter>;
+            where T : IViewModelBase, IViewModelParameter<TParameter>;
 
         UIViewController GetView<T>(IFrameNavigationService frameNavigationService = null)
-            where T : ViewModelBase;
+            where T : IViewModelBase;
 
         UIViewController GetView(object model);
+
+        UIViewController GetTopViewController();
     }
 }

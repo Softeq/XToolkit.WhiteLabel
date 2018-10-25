@@ -21,7 +21,6 @@
   <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="Services\" />
-    <Folder Include="Permissions\" />
     <Folder Include="ImagePicker\" />
     <Folder Include="Messenger\" />
     <Folder Include="Extensions\" />

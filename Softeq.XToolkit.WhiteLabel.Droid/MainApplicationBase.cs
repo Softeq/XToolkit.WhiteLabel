@@ -12,6 +12,7 @@ using Autofac;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
@@ -45,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             StartScopeForIoc();
 
             //init ui thread helper
-            PlatformProvider.Current = new AndroidPlatformProvider();
+            PlatformProvider.Current = new DroidPlatformProvider();
         }
 
         public abstract IList<Assembly> SelectAssemblies();

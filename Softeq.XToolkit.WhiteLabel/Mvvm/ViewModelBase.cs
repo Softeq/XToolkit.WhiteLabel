@@ -10,6 +10,12 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
+    public interface IViewModelBase
+    {
+        void OnNavigated();
+    }
+
+    
     /// <summary>
     ///     A base class for the ViewModel classes in the MVVM pattern.
     /// </summary>
@@ -17,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         "Microsoft.Design",
         "CA1012",
         Justification = "Constructors should remain public to allow serialization.")]
-    public abstract class ViewModelBase : ObservableObject
+    public abstract class ViewModelBase : ObservableObject, IViewModelBase
     {
         private bool _isBusy;
 

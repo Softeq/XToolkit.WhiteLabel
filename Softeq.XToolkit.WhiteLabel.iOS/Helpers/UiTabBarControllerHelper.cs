@@ -4,15 +4,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS
+namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
 {
     public static class UiTabBarControllerHelper
     {
         public static UITabBarController CreateForViewModels(
-            IEnumerable<RootFrameNavigationViewModelBase> viewModels,
+            IEnumerable<IViewModelBase> viewModels,
             IList<UITabBarItem> tabBarItems,
             IViewLocator viewLocator,
             Func<UITabBarController> tabBarControllerFactory = null)
@@ -30,7 +31,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             return tabBarController;
         }
 
-        private static UIViewController Create(RootFrameNavigationViewModelBase viewModel, IViewLocator viewLocator)
+        private static UIViewController Create(IViewModelBase viewModel, IViewLocator viewLocator)
         {
             var root = viewLocator.GetView(viewModel);
             return root;

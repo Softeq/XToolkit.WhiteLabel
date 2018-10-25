@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 using Android.App;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid
+namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
 {
     /// <summary>
     ///     A <see cref="IPlatformProvider" /> implementation for the Xamarin Android platfrom.
     /// </summary>
-    public class AndroidPlatformProvider : IPlatformProvider
+    public class DroidPlatformProvider : IPlatformProvider
     {
         /// <summary>
         ///     Indicates whether or not the framework is in design-time mode.

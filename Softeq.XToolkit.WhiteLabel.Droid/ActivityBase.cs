@@ -2,36 +2,23 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using Android.Content.PM;
 using Android.OS;
+using Android.Runtime;
+using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Permissions;
+using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Permission = Android.Content.PM.Permission;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
-    public class ActivityBase : AppCompatActivity
+    public abstract class ActivityBase : AppCompatActivity
     {
-        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
-        {
-            var viewLocator = ServiceLocator.Resolve<ViewLocator>();
-            var fragment = (Android.Support.V4.App.Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
-            SupportFragmentManager
-                .BeginTransaction()
-                .Add(containerId, fragment)
-                .Commit();
-        }
-    }
-
-    public class ActivityBase<TViewModel> : ActivityBase
-        where TViewModel : ViewModelBase
-    {
-        private TViewModel _viewModel;
-        protected IList<Binding> Bindings { get; } = new List<Binding>();
-
-        public TViewModel ViewModel => _viewModel ?? (_viewModel = ServiceLocator.Resolve<TViewModel>());
-
         public override void OnBackPressed()
         {
             var pageNavigation = ServiceLocator.Resolve<IPageNavigationService>();
@@ -45,9 +32,46 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             }
         }
 
+        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
+        {
+            var viewLocator = ServiceLocator.Resolve<ViewLocator>();
+            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
+            SupportFragmentManager
+                .BeginTransaction()
+                .Add(containerId, fragment)
+                .Commit();
+        }
+
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        {
+            if (ServiceLocator.IsRegistered<IPermissionRequestHandler>())
+            {
+                var permissionRequestHandler = ServiceLocator.Resolve<IPermissionRequestHandler>();
+                permissionRequestHandler.Handle(requestCode, permissions, grantResults);
+            }
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    public abstract class ActivityBase<TViewModel> : ActivityBase
+        where TViewModel : ViewModelBase
+    {
+        protected TViewModel _viewModel;
+        protected List<Binding> Bindings { get; } = new List<Binding>();
+
+        public virtual TViewModel ViewModel => _viewModel ?? (_viewModel = ServiceLocator.Resolve<TViewModel>());
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(null);
+
+            RequestedOrientation = ScreenOrientation.Portrait;
+
+#if DEBUG
+            var vmPolicy = new StrictMode.VmPolicy.Builder();
+            StrictMode.SetVmPolicy(vmPolicy.DetectActivityLeaks().PenaltyLog().Build());
+#endif
 
             ViewModel.OnInitialize();
         }
@@ -57,14 +81,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.OnResume();
 
             ViewModel.OnAppearing();
-            AttachBindings();
+            DoAttachBindings();
         }
 
         protected override void OnPause()
         {
             base.OnPause();
 
-            DetachBindings();
+            DoDetachBindings();
             ViewModel.OnDisappearing();
         }
 
@@ -72,6 +96,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             base.OnDestroy();
 
+            _viewModel = null;
             Dispose();
         }
 
@@ -83,15 +108,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             Bindings.DetachAllAndClear();
         }
-
-        private void AttachBindings()
-        {
-            DoAttachBindings();
-        }
-
-        private void DetachBindings()
-        {
-            DoDetachBindings();
-        }
+    }
+    
+    public abstract class ActivityBase<TViewModel, TInterface> : ActivityBase<TViewModel>
+        where TViewModel : ViewModelBase, TInterface
+        where TInterface : IViewModelBase
+    {
+        public override TViewModel ViewModel =>
+            _viewModel ?? (_viewModel = (TViewModel) ServiceLocator.Resolve<TInterface>());
     }
 }

@@ -3,10 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -17,39 +18,66 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     public class StoryboardViewLocator : IViewLocator
     {
         private const string FrameNavigationServiceParameterName = "FrameNavigationService";
+        
+        private readonly Func<UIViewController, UIViewController> _getViewControllerFunc;
+        private readonly ILogger _logger;
 
-        public ViewControllerBase<T> GetView<T, TParameter>(TParameter parameter,
-            IFrameNavigationService frameNavigationService = null)
-            where T : ViewModelBase, IViewModelParameter<TParameter>
+        public StoryboardViewLocator(
+            ILogManager logManager,
+            Func<UIViewController, UIViewController> getViewControllerFunc)
         {
-            var controller = (ViewControllerBase<T>) GetContollerForModel(typeof(T));
+            _getViewControllerFunc = getViewControllerFunc;
+            _logger = logManager.GetLogger<StoryboardViewLocator>();
+        }
+        
+        public UIViewController GetView<T, TParameter>(TParameter parameter,
+            IFrameNavigationService frameNavigationService = null)
+            where T : IViewModelBase, IViewModelParameter<TParameter>
+        {
             var viewModel = ServiceLocator.Resolve<T>();
-            controller.SetExistingViewModel(viewModel);
-            TryInjectParameters(controller.ViewModel, frameNavigationService, FrameNavigationServiceParameterName);
-            TryInjectParameters(controller.ViewModel, parameter, "Parameter");
+            var controller = GetView(viewModel);
+            TryInjectParameters(viewModel, frameNavigationService, FrameNavigationServiceParameterName);
+            TryInjectParameters(viewModel, parameter, "Parameter");
             return controller;
         }
 
         public UIViewController GetView<T>(IFrameNavigationService frameNavigationService = null)
-            where T : ViewModelBase
+            where T : IViewModelBase
         {
             var viewModel = ServiceLocator.Resolve<T>();
-            var controller = GetContollerForModel(viewModel.GetType());
-            var method = controller.GetType().GetMethod("SetExistingViewModel");
-            method?.Invoke(controller, new[] {viewModel});
+            var controller = GetView(viewModel);
             TryInjectParameters(viewModel, frameNavigationService, FrameNavigationServiceParameterName);
             return controller;
         }
 
         public UIViewController GetView(object model)
         {
-            var controller = GetContollerForModel(model.GetType());
+            var controller = GetControllerForModel(model.GetType());
             var method = controller.GetType().GetMethod("SetExistingViewModel");
             method?.Invoke(controller, new[] {model});
             return controller;
         }
 
-        private static UIViewController GetContollerForModel(Type type)
+        public UIViewController GetTopViewController()
+        {
+            if (_getViewControllerFunc == null)
+            {
+                throw new Exception("you should set _getViewControllerFunc from ctor");
+            }
+
+            for (var i = 0; i < UIApplication.SharedApplication.Windows.Length; i++)
+            {
+                var rootViewController = UIApplication.SharedApplication.Windows[i].RootViewController;
+                if (rootViewController != null)
+                {
+                    return _getViewControllerFunc(rootViewController);
+                }
+            }
+
+            return null;
+        }
+
+        private UIViewController GetControllerForModel(Type type)
         {
             var typeName = type.Name;
 
@@ -64,7 +92,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return CreateWithActivator(type.FullName);
         }
 
-        private static bool TryCreateViewControllerFromStoryboard(string storyBoardName, string targetTypeName,
+        private bool TryCreateViewControllerFromStoryboard(string storyBoardName, string targetTypeName,
             out UIViewController viewController)
         {
             viewController = default(UIViewController);
@@ -77,7 +105,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
             catch (Exception ex)
             {
-                Debug.WriteLine(ex.Message);
+                _logger.Warn(ex);
             }
 
             return result;

@@ -47,6 +47,9 @@
     <PackageReference Include="Xam.Plugins.Settings">
       <Version>3.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Android.Support.Design">
+      <Version>27.0.2.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v4">
       <Version>27.0.2.1</Version>
     </PackageReference>
@@ -67,29 +70,34 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AndroidPlatformProvider.cs" />
+    <Compile Include="Dialogs\DialogFragmentBase.cs" />
+    <Compile Include="Dialogs\DroidFragmentDialogService.cs" />
+    <Compile Include="Dialogs\IAlertBuilder.cs" />
     <Compile Include="Controls\ObservableStackView.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
-    <Compile Include="IDefaultAlertBuilder.cs" />
     <Compile Include="MainApplicationBase.cs" />
+    <Compile Include="Navigation\ViewLocator.cs" />
+    <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="DroidInternalSettings.cs" />
-    <Compile Include="Services\AppService.cs" />
-    <Compile Include="Services\DroidFragmentDialogService.cs" />
+    <Compile Include="Providers\DroidPlatformProvider.cs" />
+    <Compile Include="Providers\ExternalStorageProvider.cs" />
+    <Compile Include="Services\DroidAppService.cs" />
+    <Compile Include="Services\DroidInternalSettings.cs" />
+    <Compile Include="Services\DroidToastService.cs" />
     <Compile Include="Services\KeyboardService.cs" />
+    <Compile Include="Services\LauncherService.cs" />
     <Compile Include="Services\LocationService.cs" />
-    <Compile Include="ViewLocator.cs" />
     <Compile Include="ActivityBase.cs" />
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Navigation\PageNavigationService.cs" />
-    <Compile Include="ViewType.cs" />
     <Compile Include="Navigation\FrameNavigationService.cs" />
-    <Compile Include="LauncherService.cs" />
     <Compile Include="Services\DefaultAlertBuilder.cs" />
-    <Compile Include="ExternalStorageProvider.cs" />
-    <Compile Include="DialogFragmentBase.cs" />
     <Compile Include="Services\Logger\DroidConsoleLogger.cs" />
     <Compile Include="Services\Logger\DroidConsoleLogManager.cs" />
+    <Compile Include="Controls\NavigationBarView.cs" />
+    <Compile Include="Resources\Resource.Designer.cs" />
+    <Compile Include="Controls\BusyOverlayView.cs" />
+    <Compile Include="Navigation\RootFrameFragmentBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
@@ -97,7 +105,7 @@
       <Name>Softeq.XToolkit.Bindings.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{6CC4B55D-2EA0-4883-BF2A-BBEBC80150AF}</Project>
+      <Project>{78833174-8D1D-4C67-AD54-4C9EEEDFBBDB}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
@@ -105,15 +113,15 @@
       <Name>Softeq.XToolkit.Common.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{21503153-9566-4789-9B5A-73F2BA71AA51}</Project>
+      <Project>{B4208549-9B41-4EB2-9F80-8E60D75E6BFA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{051C065C-DF97-4406-BEAB-F2F91842275C}</Project>
+      <Project>{690D58CB-A04C-418F-863B-F4ED17775120}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{2E23511B-836D-4614-9B7F-547FEF22D665}</Project>
+      <Project>{424EABDC-DCC0-4616-B603-93582D9A9AD4}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
@@ -121,6 +129,16 @@
   <ItemGroup />
   <ItemGroup>
     <Folder Include="Services\Logger\" />
+    <Folder Include="Resources\layout\" />
+    <Folder Include="Resources\drawable\" />
+    <Folder Include="Resources\values\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\layout\control_navigation_bar.xml" />
+    <AndroidResource Include="Resources\drawable\core_nav_bar_background.xml" />
+    <AndroidResource Include="Resources\values\styles.xml" />
+    <AndroidResource Include="Resources\layout\control_busy_overlay.xml" />
+    <AndroidResource Include="Resources\layout\fragment_navigation_root.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

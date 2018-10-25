@@ -8,23 +8,23 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
-    public class CustomViewBase : UIView
+    public abstract class CustomViewBase : UIView
     {
-        public CustomViewBase(IntPtr handle) : base(handle)
+        protected CustomViewBase(IntPtr handle) : base(handle)
         {
+#pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
             Initialize();
+#pragma warning restore RECS0021 // Warns about calls to virtual member functions occuring in the constructor
         }
 
-        public CustomViewBase(CGRect frame) : base(frame)
+        protected CustomViewBase(CGRect frame) : base(frame)
         {
+#pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
             Initialize();
+#pragma warning restore RECS0021 // Warns about calls to virtual member functions occuring in the constructor
         }
 
-        protected virtual void DoInit()
-        {
-        }
-
-        private void Initialize()
+        protected virtual void Initialize()
         {
             var xibName = GetType().Name;
             var nib = UINib.FromName(xibName, NSBundle.MainBundle);
@@ -36,8 +36,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
             var top = view.TopAnchor.ConstraintEqualTo(TopAnchor);
             var bottom = view.BottomAnchor.ConstraintEqualTo(BottomAnchor);
             NSLayoutConstraint.ActivateConstraints(new[] {right, left, top, bottom});
-
-            DoInit();
         }
     }
 }

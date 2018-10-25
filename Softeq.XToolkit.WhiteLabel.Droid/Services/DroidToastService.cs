@@ -1,0 +1,125 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using Android.Support.Design.Widget;
+using Java.Lang;
+using Plugin.CurrentActivity;
+using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Threading;
+
+namespace Softeq.XToolkit.WhiteLabel.Droid.Services
+{
+    public class DroidToastService
+    {
+        private readonly ToastSettings _toastSettings;
+        private readonly ILogger _logger;
+        private readonly Queue<ToastModel> _queue;
+
+        private bool _isBusy;
+
+        public DroidToastService(
+            ToastSettings toastSettings,
+            ILogManager logManager)
+        {
+            _toastSettings = toastSettings;
+            _logger = logManager.GetLogger<DroidToastService>();
+            _queue = new Queue<ToastModel>();
+        }
+
+        public void Enqueue(ToastModel model)
+        {
+            _queue.Enqueue(model);
+            StartHandleImp().SafeTaskWrapper(_logger);
+        }
+
+        private async Task StartHandleImp()
+        {
+            if (_isBusy)
+            {
+                return;
+            }
+
+            _isBusy = true;
+
+            while (_queue.Count > 0)
+            {
+                var action = _queue.Dequeue();
+                await HandleTask(action).ConfigureAwait(false);
+            }
+
+            _isBusy = false;
+        }
+
+        private Task HandleTask(ToastModel model)
+        {
+            var taskCompletionSource = new TaskCompletionSource<bool>();
+
+            Execute.BeginOnUIThread(() =>
+            {
+                var activity = CrossCurrentActivity.Current.Activity;
+                var view = activity.FindViewById<CoordinatorLayout>(_toastSettings.ContainerId);
+                if (view == null)
+                {
+                    taskCompletionSource.TrySetResult(false);
+                    return;
+                }
+
+                var snackbar = Snackbar
+                    .Make(view, model.Label, Snackbar.LengthLong)
+                    .SetAction(model.CommandAction.Title, x => { model.CommandAction.Command.Execute(x); });
+                var snackbarView = snackbar.View;
+                snackbarView.SetBackgroundResource(_toastSettings.NotificationBgColor);
+                snackbar.SetActionTextColor(snackbarView.GetColor(_toastSettings.NotificationTextColor));
+                var callback = new SnackbarCallback(taskCompletionSource, model.AltCommandAction);
+                snackbar.AddCallback(callback);
+                snackbar.Show();
+            });
+
+            return taskCompletionSource.Task;
+        }
+
+        private class SnackbarCallback : BaseTransientBottomBar.BaseCallback
+        {
+            private readonly TaskCompletionSource<bool> _taskCompletionSource;
+
+            private CommandAction _commandAction;
+
+            public SnackbarCallback(
+                TaskCompletionSource<bool> taskCompletionSource,
+                CommandAction commandAction)
+            {
+                _taskCompletionSource = taskCompletionSource;
+                _commandAction = commandAction;
+            }
+
+            public override void OnDismissed(Object transientBottomBar, int eventCode)
+            {
+                base.OnDismissed(transientBottomBar, eventCode);
+
+                _commandAction?.Command?.Execute(this);
+                _commandAction = null;
+
+                _taskCompletionSource.TrySetResult(true);
+            }
+        }
+    }
+    
+    public class ToastModel
+    {
+        public string Label { get; set; }
+        public CommandAction CommandAction { get; set; }
+        public CommandAction AltCommandAction { get; set; }
+    }
+
+    public class ToastSettings
+    {
+        public int ContainerId { get; set; }
+        public int NotificationBgColor { get; set; }
+        public int NotificationTextColor { get; set; }
+    }
+}

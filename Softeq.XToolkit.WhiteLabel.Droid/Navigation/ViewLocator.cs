@@ -8,7 +8,7 @@ using System.Linq;
 using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid
+namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class ViewLocator
     {
@@ -17,12 +17,27 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             return GetTargetType(typeof(T), viewType);
         }
 
+        public Type GetTargetType(Type type, ViewType viewType)
+        {
+            var typeName = type.FullName;
+            return GetTargetType(typeName, viewType);
+        }
+
         public object GetView(ViewModelBase viewModel, ViewType viewType)
         {
             var targetType = GetTargetType(viewModel.GetType(), viewType);
             var inst = Activator.CreateInstance(targetType);
             var method = inst.GetType().GetMethod("SetExistingViewModel");
-            method?.Invoke(inst, new object[] { viewModel });
+            method.Invoke(inst, new[] {viewModel});
+            return inst;
+        }
+
+        public object GetView(IViewModelBase viewModel, ViewType viewType)
+        {
+            var targetType = GetTargetType(viewModel.GetType(), viewType);
+            var inst = Activator.CreateInstance(targetType);
+            var method = inst.GetType().GetMethod("SetExistingViewModel");
+            method.Invoke(inst, new[] {viewModel});
             return inst;
         }
 
@@ -31,21 +46,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             var targetTypeName = viewModelTypeName.Replace(".ViewModels.", ".Droid.Views.");
             targetTypeName = targetTypeName.Replace("ViewModel", viewType.ToString());
 
-            var targetType = Type.GetType(targetTypeName)
-                            ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+            var targeType = Type.GetType(targetTypeName)
+                            ?? AssemblySource.FindTypeByNames(new[] {targetTypeName});
 
-            if (targetType == null)
+            if (targeType == null)
             {
-                throw new DllNotFoundException($"[Droid.ViewLocator] Can't find target type: {targetTypeName}");
+                throw new DllNotFoundException("can't find target type");
             }
 
-            return targetType;
-        }
-
-        private Type GetTargetType(Type type, ViewType viewType)
-        {
-            var typeName = type.FullName;
-            return GetTargetType(typeName, viewType);
+            return targeType;
         }
 
         #region inject parameter
@@ -67,7 +76,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         private PropertyInfo GetPropertyCaseInsensitive(Type type, string propertyName)
         {
             var typeInfo = type.GetTypeInfo();
-            var typeList = new List<Type> { type };
+            var typeList = new List<Type> {type};
 
             if (typeInfo.IsInterface)
             {
@@ -96,7 +105,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 if (destinationType.GetTypeInfo().IsEnum)
                 {
-                    if (providedValue is string stringValue)
+                    var stringValue = providedValue as string;
+                    if (stringValue != null)
                     {
                         return Enum.Parse(destinationType, stringValue, true);
                     }
@@ -106,7 +116,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
                 if (typeof(Guid).IsAssignableFrom(destinationType))
                 {
-                    if (providedValue is string stringValue)
+                    var stringValue = providedValue as string;
+                    if (stringValue != null)
                     {
                         return new Guid(stringValue);
                     }

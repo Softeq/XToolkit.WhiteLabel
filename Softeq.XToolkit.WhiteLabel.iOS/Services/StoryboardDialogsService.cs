@@ -4,7 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.Common.iOS.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -81,7 +81,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                         action => { dialogResult.TrySetResult(false); }));
                 }
 
-                var viewController = UIViewControllerExtensions.TopViewController;
+                var viewController = _viewLocator.GetTopViewController();
                 viewController.PresentViewController(alertController, true, null);
             });
 
@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 var controller = _viewLocator.GetView(viewModel);
                 controller.ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
-                var viewController = UIViewControllerExtensions.TopViewController;
+                var viewController = _viewLocator.GetTopViewController();
                 viewController.View.EndEditing(true);
                 viewController.PresentViewController(controller, true, null);
                 source.TrySetResult(viewController);

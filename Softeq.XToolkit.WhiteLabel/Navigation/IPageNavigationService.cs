@@ -13,9 +13,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         bool CanGoBack { get; }
 
         void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
-            where T : ViewModelBase, IViewModelParameter<TParameter>;
+            where T : IViewModelBase, IViewModelParameter<TParameter>;
 
-        void NavigateToViewModel<T>(bool clearBackStack = false) where T : ViewModelBase;
+        void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase;
 
         void Initialize(object navigation);
 

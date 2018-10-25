@@ -1,0 +1,19 @@
+﻿<resources>
+
+  <color name="core_navigation_bar_text_color">#000000</color>
+  <color name="core_notification_bg_color">#000000</color>
+  <color name="core_notification_text_color">#000000</color>
+  
+  <style name="CoreNavigationBarTextStyle">
+    <item name="android:textSize">20sp</item>
+    <item name="android:fontFamily">sans-serif-medium</item>
+    <item name="android:textStyle">normal</item>
+    <item name="android:textColor">@color/core_navigation_bar_text_color</item>
+    <item name="android:lineSpacingExtra">24sp</item>
+  </style>
+
+  <style name="CoreDialogTheme" parent="@style/Theme.AppCompat.Light.NoActionBar" />
+    
+  <style name="CoreNavigationButtonStyle" />
+    
+</resources>

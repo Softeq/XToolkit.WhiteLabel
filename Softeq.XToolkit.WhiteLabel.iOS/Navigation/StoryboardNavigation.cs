@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Softeq.XToolkit.Common;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -12,11 +13,18 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
     public abstract class StoryboardNavigation
     {
         protected readonly IViewLocator ViewLocator;
-        protected UINavigationController NavigationController;
+
+        private WeakReferenceEx<UINavigationController> _navigationControllerRef;
 
         protected StoryboardNavigation(IViewLocator viewLocator)
         {
             ViewLocator = viewLocator;
+        }
+
+        protected UINavigationController NavigationController
+        {
+            get => _navigationControllerRef?.Target;
+            set => _navigationControllerRef = WeakReferenceEx.Create(value);
         }
 
         public int BackStackCount => NavigationController.ChildViewControllers.Length;
@@ -24,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         public bool CanGoBack => NavigationController.ViewControllers.Length > 1;
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
-            where T : ViewModelBase, IViewModelParameter<TParameter>
+            where T : IViewModelBase, IViewModelParameter<TParameter>
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -33,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             });
         }
 
-        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : ViewModelBase
+        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -42,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             });
         }
 
-        public void NavigateToViewModel<T>(T t) where T : ViewModelBase
+        public void NavigateToViewModel<T>(T t) where T : IViewModelBase
         {
             Execute.BeginOnUIThread(() =>
             {

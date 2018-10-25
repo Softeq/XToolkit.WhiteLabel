@@ -6,11 +6,12 @@ using Android.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
-    public class DefaultAlertBuilder : IDefaultAlertBuilder
+    public class DefaultAlertBuilder : IAlertBuilder
     {
         public Task<bool> ShowAlertAsync(string title, string message, string okButtonText,
             string cancelButtonText = null)

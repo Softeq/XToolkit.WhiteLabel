@@ -54,7 +54,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
     <Folder Include="Services\Logger\" />
     <Folder Include="ImagePicker\" />
   </ItemGroup>
@@ -64,26 +63,27 @@
     <Compile Include="Controls\GradientView.cs" />
     <Compile Include="Controls\NotifyingView.cs" />
     <Compile Include="Controls\ObservableStackViewBase.cs" />
+    <Compile Include="Controls\SelectorModel.cs" />
+    <Compile Include="Controls\SupportRotationViewController.cs" />
     <Compile Include="Extensions\NavigationItemExtensions.cs" />
     <Compile Include="Extensions\UiViewExtensions.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
-    <Compile Include="IosInternalSettings.cs" />
+    <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
     <Compile Include="IosPlatformProvider.cs" />
+    <Compile Include="IViewControllerComponet.cs" />
+    <Compile Include="Navigation\IViewLocator.cs" />
     <Compile Include="Navigation\StoryboardFrameNavigationService.cs" />
     <Compile Include="Navigation\StoryboardNavigation.cs" />
     <Compile Include="Navigation\StoryboardPageNavigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SelectorModel.cs" />
     <Compile Include="Services\IosAppService.cs" />
+    <Compile Include="Services\IosInternalSettings.cs" />
+    <Compile Include="Services\LauncherService.cs" />
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="Services\StoryboardDialogsService.cs" />
     <Compile Include="Services\StoryboardViewLocator.cs" />
     <Compile Include="ViewControllerBase.cs" />
-    <Compile Include="UITabBarControllerHelper.cs" />
     <Compile Include="Controls\ActionsSheetControl.cs" />
-    <Compile Include="LauncherService.cs" />
-    <Compile Include="IViewLocator.cs" />
-    <Compile Include="SupportRotationViewController.cs" />
     <Compile Include="Controls\SupportRotationAlertController.cs" />
     <Compile Include="Navigation\RootFrameNavigationControllerBase.cs" />
     <Compile Include="Controls\GradientFadeView.cs" />
@@ -103,15 +103,15 @@
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{6CC4B55D-2EA0-4883-BF2A-BBEBC80150AF}</Project>
+      <Project>{78833174-8D1D-4C67-AD54-4C9EEEDFBBDB}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{21503153-9566-4789-9B5A-73F2BA71AA51}</Project>
+      <Project>{B4208549-9B41-4EB2-9F80-8E60D75E6BFA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{051C065C-DF97-4406-BEAB-F2F91842275C}</Project>
+      <Project>{690D58CB-A04C-418F-863B-F4ED17775120}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
@@ -119,7 +119,7 @@
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{2E23511B-836D-4614-9B7F-547FEF22D665}</Project>
+      <Project>{424EABDC-DCC0-4616-B603-93582D9A9AD4}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
