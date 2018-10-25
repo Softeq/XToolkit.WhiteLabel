@@ -4,14 +4,21 @@
 using AVFoundation;
 using AVKit;
 using Foundation;
-using Softeq.XToolkit.Common.iOS.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS
+namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
     public class LauncherService : ILauncherService
     {
+        private readonly IViewLocator _viewLocator;
+
+        public LauncherService(IViewLocator viewLocator)
+        {
+            _viewLocator = viewLocator;
+        }
+        
         public void OpenUrl(string url)
         {
             UIApplication.SharedApplication.OpenUrl(new NSUrl(url));
@@ -29,13 +36,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public void OpenVideo(string videoUrl)
         {
+            var vc = _viewLocator.GetTopViewController();
+            if (vc == null)
+            {
+                return;
+            }
+
             var controller = new AVPlayerViewController();
             if (controller.Player == null)
             {
                 controller.Player = new AVPlayer(NSUrl.FromString(videoUrl));
             }
 
-            UIViewControllerExtensions.TopViewController.PresentViewController(controller, true, null);
+            vc.PresentViewController(controller, true, null);
             controller.Player.Play();
         }
 

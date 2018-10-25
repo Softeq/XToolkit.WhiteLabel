@@ -66,17 +66,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         }
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
-            where T : ViewModelBase, IViewModelParameter<TParameter>
+            where T : IViewModelBase, IViewModelParameter<TParameter>
         {
             var viewModel = ServiceLocator.Resolve<T>();
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
             viewModel.Parameter = parameter;
             var baseFragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
-            _backStack.Push(viewModel);
+            _backStack.Push(viewModel as ViewModelBase);
             ReplaceFragment(baseFragment);
         }
 
-        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : ViewModelBase
+        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = ServiceLocator.Resolve<T>();
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
@@ -87,15 +87,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 _backStack.Clear();
             }
 
-            _backStack.Push(viewModel);
+            _backStack.Push(viewModel as ViewModelBase);
             ReplaceFragment(fragment);
         }
 
-        public void NavigateToViewModel<T>(T t) where T : ViewModelBase
+        public void NavigateToViewModel<T>(T t) where T : IViewModelBase
         {
-            if (_backStack.Contains(t))
+            if (Contains(_backStack, t))
             {
-                while (t != _backStack.Peek())
+                while (ReferenceEquals(t, _backStack.Peek()))
                 {
                     _backStack.Pop();
                 }
@@ -104,7 +104,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
             else
             {
-                NavigateToExistingViewModel(t);
+                NavigateToExistingViewModel(t as ViewModelBase);
             }
         }
 
@@ -130,6 +130,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 .BeginTransaction()
                 .Replace(_containerId, fragment)
                 .Commit();
+        }
+
+        private static bool Contains(Stack<ViewModelBase> stack, IViewModelBase viewModelBase)
+        {
+            foreach (var item in stack)
+            {
+                if (ReferenceEquals(item, viewModelBase))
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
     }
 }

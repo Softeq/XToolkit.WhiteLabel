@@ -7,7 +7,7 @@ using Android.Provider;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid
+namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
     public class LauncherService : ILauncherService
     {

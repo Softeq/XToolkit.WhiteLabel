@@ -7,7 +7,7 @@ using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
-    public class AppService : IAppService
+    public class DroidAppService : IAppService
     {
         public Platform Platform => Platform.Android;
 

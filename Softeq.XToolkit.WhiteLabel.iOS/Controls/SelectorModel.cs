@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS
+namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
     public class SelectorModel<T> : UIPickerViewModel
     {

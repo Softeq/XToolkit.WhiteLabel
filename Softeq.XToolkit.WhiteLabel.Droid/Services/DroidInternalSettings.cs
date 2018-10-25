@@ -6,7 +6,7 @@ using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using Softeq.XToolkit.Common.Interfaces;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid
+namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
     public class DroidInternalSettings : IInternalSettings
     {

@@ -6,7 +6,7 @@ using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 using Softeq.XToolkit.Common.Interfaces;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS
+namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
     public class IosInternalSettings : IInternalSettings
     {

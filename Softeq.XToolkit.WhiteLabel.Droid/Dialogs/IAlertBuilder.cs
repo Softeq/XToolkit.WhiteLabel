@@ -3,9 +3,9 @@
 
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid
+namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
-    public interface IDefaultAlertBuilder
+    public interface IAlertBuilder
     {
         Task<bool> ShowAlertAsync(string title, string message, string okButtonText, string cancelButtonText = null);
     }

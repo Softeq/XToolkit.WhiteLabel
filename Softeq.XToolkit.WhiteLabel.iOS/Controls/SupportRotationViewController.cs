@@ -3,7 +3,7 @@
 
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS
+namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
     public class SupportRotationViewController : UIViewController
     {

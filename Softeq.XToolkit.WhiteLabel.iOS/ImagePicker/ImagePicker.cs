@@ -104,7 +104,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             var permission = _options.ImagePickerOpenType == ImagePickerOpenTypes.Camera
                 ? Permission.Camera
-                : Permission.MediaLibrary;
+                : Permission.Photos;
 
             return await _permissionManager.CheckWithRequestAsync(permission).ConfigureAwait(false) == PermissionStatus.Granted;
         }

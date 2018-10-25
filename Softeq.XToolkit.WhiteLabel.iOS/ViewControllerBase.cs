@@ -10,7 +10,20 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
-    public class ViewControllerBase<TViewModel> : UIViewController where TViewModel : ViewModelBase
+    public abstract class ViewControllerBase : UIViewController
+    {
+        protected ViewControllerBase()
+        {
+        }
+        
+        protected internal ViewControllerBase(IntPtr handle) : base(handle)
+        {
+        }
+        
+        public List<IViewControllerComponet> ControllerComponets { get; } = new List<IViewControllerComponet>();
+    }
+
+    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase where TViewModel : ViewModelBase
     {
         protected ViewControllerBase()
         {
@@ -21,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         }
 
         public TViewModel ViewModel { get; private set; }
-
+        
         protected IList<Binding> Bindings { get; } = new List<Binding>();
 
         public void SetExistingViewModel(TViewModel viewModel)

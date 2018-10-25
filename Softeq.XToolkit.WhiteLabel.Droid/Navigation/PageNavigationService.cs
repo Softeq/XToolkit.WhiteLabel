@@ -38,27 +38,27 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         }
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
-            where T : ViewModelBase, IViewModelParameter<TParameter>
+            where T : IViewModelBase, IViewModelParameter<TParameter>
         {
             var viewModel = ServiceLocator.Resolve<T>();
             viewModel.Parameter = parameter;
             NavigateToViewModel<T>(clearBackStack);
         }
 
-        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : ViewModelBase
+        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            var type = _viewLocator.GetTargetType<T>(ViewType.Activity);
-            var viewModelTypeName = typeof(T).FullName;
-
             if (clearBackStack)
             {
                 _backStack.Clear();
             }
 
-            _backStack.Push(viewModelTypeName);
             var viewModel = ServiceLocator.Resolve<T>();
+
+            _backStack.Push(viewModel.GetType().FullName);
+
             viewModel.OnNavigated();
 
+            var type = _viewLocator.GetTargetType(viewModel.GetType(), ViewType.Activity);
             StartActivityImpl(type);
         }
 

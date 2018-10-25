@@ -10,10 +10,11 @@ using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid
+namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public abstract class DialogFragmentBase<TViewModel> : DialogFragment
         where TViewModel : class, IDialogViewModel
@@ -51,14 +52,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.OnResume();
 
             ViewModel.OnAppearing();
-            AttachBindings();
+            DoAttachBindings();
         }
 
         public override void OnPause()
         {
             base.OnPause();
 
-            DetachBindings();
+            DoDetachBindings();
             ViewModel.OnDisappearing();
         }
 
@@ -85,16 +86,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected virtual void DoDetachBindings()
         {
             Bindings.DetachAllAndClear();
-        }
-
-        private void AttachBindings()
-        {
-            DoAttachBindings();
-        }
-
-        private void DetachBindings()
-        {
-            DoDetachBindings();
         }
     }
 }

@@ -34,14 +34,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.OnResume();
 
             ViewModel.OnAppearing();
-            AttachBindings();
+            DoAttachBindings();
         }
 
         public override void OnPause()
         {
             base.OnPause();
 
-            DetachBindings();
+            DoDetachBindings();
             ViewModel.OnDisappearing();
         }
 
@@ -59,16 +59,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected virtual void DoDetachBindings()
         {
             Bindings.DetachAllAndClear();
-        }
-
-        private void AttachBindings()
-        {
-            DoAttachBindings();
-        }
-
-        private void DetachBindings()
-        {
-            DoDetachBindings();
         }
     }
 }

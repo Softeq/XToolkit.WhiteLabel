@@ -8,13 +8,13 @@ using CoreGraphics;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
-    public class NotifyingView : CustomViewBase, INotifyPropertyChanged
+    public abstract class NotifyingView : CustomViewBase, INotifyPropertyChanged
     {
-        public NotifyingView(IntPtr handle) : base(handle)
+        protected NotifyingView(IntPtr handle) : base(handle)
         {
         }
 
-        public NotifyingView(CGRect frame) : base(frame)
+        protected NotifyingView(CGRect frame) : base(frame)
         {
         }
 
