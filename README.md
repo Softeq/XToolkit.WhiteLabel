@@ -2,16 +2,22 @@
 
 XToolkit.WhiteLabel is a collection of "lego" components for fast create cross-platform mobile applications with Xamarin, based on [XToolkit](https://github.com/Softeq/XToolkit).
 
+## Installation
+
+NuGet:
+
+```
+Install-Package Softeq.XToolkit.WhiteLabel
+```
+
 ## Quick Start
 
-1. Use `XToolkit` and `XToolkit.WhiteLabel` repositories (clone/submodules).
+1. Install NuGet package or use `XToolkit` and `XToolkit.WhiteLabel` repositories (clone/submodules).
 2. To start using WhiteLabel SDK:
 
 ### iOS 
 
-1. Add reference to `Softeq.XToolkit.WhiteLabel` & `Softeq.XToolkit.WhiteLabel.iOS` to your project.
-2. Add from nuget: `Autofac`, `NETStandard.Library`, `Xam.Plugins.Settings`, `Newtonsoft.Json`
-3. Configure SDK in `AppDelegate.cs`
+Configure SDK in `AppDelegate.cs`
 
 ```csharp
 public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
@@ -42,9 +48,7 @@ public override bool FinishedLaunching(UIApplication application, NSDictionary l
 
 ### Android
 
-1. Add reference to `Softeq.XToolkit.WhiteLabel` & `Softeq.XToolkit.WhiteLabel.Droid` to your project.
-2. Add from nuget: `Autofac`, `NETStandard.Library`, `Xam.Plugins.Settings`, `Newtonsoft.Json`, `Plugin.CurrentActivity`, `Xam.Plugin.Connectivity`, `Xamarin.Android.Support.v4`
-3. Add `MainApplication.cs` to your project
+Add `MainApplication.cs` to your project
 
 ```csharp
 [Application]
