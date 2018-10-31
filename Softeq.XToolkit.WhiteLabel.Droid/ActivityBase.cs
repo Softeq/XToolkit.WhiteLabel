@@ -11,6 +11,7 @@ using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
+using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Permission = Android.Content.PM.Permission;
@@ -19,6 +20,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     public abstract class ActivityBase : AppCompatActivity
     {
+        public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
+
         public override void OnBackPressed()
         {
             var pageNavigation = ServiceLocator.Resolve<IPageNavigationService>();
@@ -32,16 +35,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             }
         }
 
-        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
-        {
-            var viewLocator = ServiceLocator.Resolve<ViewLocator>();
-            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
-            SupportFragmentManager
-                .BeginTransaction()
-                .Add(containerId, fragment)
-                .Commit();
-        }
-
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             if (ServiceLocator.IsRegistered<IPermissionRequestHandler>())
@@ -51,6 +44,22 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             }
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        protected override void OnCreate(Bundle savedInstanceState)
+        {
+            base.OnCreate(savedInstanceState);
+            ViewComponents = new List<IViewComponent<ActivityBase>>();
+        }
+
+        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
+        {
+            var viewLocator = ServiceLocator.Resolve<ViewLocator>();
+            var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
+            SupportFragmentManager
+                .BeginTransaction()
+                .Add(containerId, fragment)
+                .Commit();
         }
     }
 

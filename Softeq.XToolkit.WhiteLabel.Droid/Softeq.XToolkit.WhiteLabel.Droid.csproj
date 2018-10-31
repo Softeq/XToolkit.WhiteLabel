@@ -99,6 +99,8 @@
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />
     <Compile Include="Navigation\RootFrameFragmentBase.cs" />
+    <Compile Include="ViewComponents\IViewComponent.cs" />
+    <Compile Include="ViewComponents\ToastContainerComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
@@ -133,6 +135,7 @@
     <Folder Include="Resources\layout\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\values\" />
+    <Folder Include="ViewComponents\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\control_navigation_bar.xml" />

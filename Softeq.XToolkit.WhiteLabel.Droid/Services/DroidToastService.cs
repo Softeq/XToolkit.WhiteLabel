@@ -2,13 +2,16 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Android.Support.Design.Widget;
+using Android.Views;
 using Java.Lang;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
@@ -61,8 +64,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
             Execute.BeginOnUIThread(() =>
             {
+                var toastContainerComponent = default(ToastContainerComponent);
+
                 var activity = CrossCurrentActivity.Current.Activity;
-                var view = activity.FindViewById<CoordinatorLayout>(_toastSettings.ContainerId);
+
+                if (activity is ActivityBase activityBase)
+                {
+                    toastContainerComponent = activityBase.ViewComponents.FirstOrDefault(x => x.Key == nameof(ToastContainerComponent)) as ToastContainerComponent;
+                }
+
+                var view = toastContainerComponent == null
+                    ? activity.FindViewById<ViewGroup>(Android.Resource.Id.Content).GetChildAt(0)
+                    : activity.FindViewById<ViewGroup>(toastContainerComponent.ContainerId);
+
                 if (view == null)
                 {
                     taskCompletionSource.TrySetResult(false);
@@ -118,7 +132,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
     public class ToastSettings
     {
-        public int ContainerId { get; set; }
         public int NotificationBgColor { get; set; }
         public int NotificationTextColor { get; set; }
     }
