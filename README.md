@@ -76,7 +76,6 @@ public class AppDelegate : AppDelegateBase
         builder.PerDependency<IosConsoleLogManager, ILogManager>();
 
         //view models
-        builder.PerDependency<>();
         builder.PerDependency<MyCustomNamePage1ViewModel>();
         builder.PerDependency<MyCustomNamePage2ViewModel>();
     }
