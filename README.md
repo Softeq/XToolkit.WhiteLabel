@@ -140,7 +140,8 @@ Install: `Softeq.XToolkit.WhiteLabel` and `Softeq.XToolkit.Common` to Android pr
 Remove `MainActivity.cs`.
 
 Create `MainApplication` in root folder and paste the following code:
-```
+
+```csharp
 [Application]
 public class MainApplication : MainApplicationBase
 {
