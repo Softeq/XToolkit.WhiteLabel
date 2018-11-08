@@ -40,7 +40,7 @@ public class MyCustomNamePageViewModel : ViewModelBase
 ## Configure iOS
 
 #### Configure AppDelegate file
-Copy and replace AppDelegateClass:
+Copy and replace AppDelegate:
 
 ```csharp
 [Register("AppDelegate")]
