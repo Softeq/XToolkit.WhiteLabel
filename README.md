@@ -15,87 +15,228 @@ Install-Package Softeq.XToolkit.WhiteLabel
 1. Install NuGet package or use `XToolkit` and `XToolkit.WhiteLabel` repositories (clone/submodules).
 2. To start using WhiteLabel SDK:
 
-### iOS 
+## Get Started
 
-Configure SDK in `AppDelegate.cs`
+Before starting you have to have three projects.
+1. ApplicationName(Should be .Net Standart project) which will be include your shared viewModels
+2. ApplicationName.iOS
+3. ApplicationName.Droid
+
+### Configuring shared logic
+
+#### Create ViewModel
+
+Create class `MyCustomNamePageViewModel` in `ApplicationName.ViewModels` folder.
 
 ```csharp
-public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+public class MyCustomNamePageViewModel : ViewModelBase
 {
-    // init factory for bindings
-    BindingExtensions.Initialize(new AppleBindingFactory());
+}
+```
+```diff
++ Note: you have to inherit from ViewModelBase
+```
 
-    // init assembly sources for Activator.cs
-    AssemblySourceCache.Install();
-    AssemblySourceCache.ExtractTypes = assembly => assembly.GetExportedTypes()
-                                                           .Where(t => typeof(UIViewController).IsAssignableFrom(t));
-    AssemblySource.Instance.AddRange(SelectAssemblies());
+## Configure iOS
 
-    // init ui thread helper
-    PlatformProvider.Current = new IosPlatformProvider();
+#### Configure AppDelegate file
+Copy and replace AppDelegate:
 
-    // init dependencies
-    var containerBuilder = new ContainerBuilder();
-    
-    containerBuilder.RegisterType<StoryboardPageNavigation>().As<IPageNavigationService>().InstancePerLifetimeScope();
-    containerBuilder.RegisterType<StoryboardFrameNavigationService>().As<IFrameNavigationService>().InstancePerDependency();
-    
-    // register other services here...
+```csharp
+[Register("AppDelegate")]
+public class AppDelegate : AppDelegateBase
+{
+    public override UIWindow Window { get; set; }
 
-    ServiceLocator.StartScope(containerBuilder);
+    public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
+    {
+        var result = base.FinishedLaunching(application, launchOptions);
+
+        return result;
+    }
+
+    public override IList<Assembly> SelectAssemblies()
+    {
+        return new List<Assembly>
+            {
+                GetType().Assembly,
+            };
+    }
+
+    public override void ConfigureIoc(ContainerBuilder builder)
+    {
+        //services InstancePerLifetimeScope
+        builder.PerLifetimeScope<StoryboardPageNavigation, IPageNavigationService>();
+        builder.PerLifetimeScope<StoryboardViewLocator, IViewLocator>()
+        .WithParameter(new TypedParameter(typeof(Func<UIViewController, UIViewController>), GetRootViewFinder()));
+
+        //services InstancePerDependency
+        builder.PerDependency<IPermissionsDialogService, IPermissionsDialogService>();
+        builder.PerDependency<StoryboardDialogsService, IDialogsService>();
+        builder.PerDependency<IosConsoleLogManager, ILogManager>();
+
+        //view models
+        builder.PerDependency<MyCustomNamePage1ViewModel>();
+        builder.PerDependency<MyCustomNamePage2ViewModel>();
+    }
+
+    private static Func<UIViewController, UIViewController> GetRootViewFinder()
+    {
+        UIViewController Func(UIViewController controller)
+        {
+            if (controller.PresentedViewController != null)
+            {
+                var presentedViewController = controller.PresentedViewController;
+                return Func(presentedViewController);
+            }
+
+            switch (controller)
+            {
+                case UINavigationController navigationController:
+                    return Func(navigationController.VisibleViewController);
+                case UITabBarController tabBarController:
+                    return Func(tabBarController.SelectedViewController);
+            }
+
+            return controller;
+        }
+
+        return Func;
+    }
 }
 ```
 
-### Android
+#### Create and initialize Storyboard
 
-Add `MainApplication.cs` to your project
+1. Create `MyCustomNamePage1ViewConstroller` class
+
+```csharp
+public partial class MyCustomNamePageViewController : ViewControllerBase<MyCustomNamePageViewModel>
+{
+    public MyCustomNamePageViewController(IntPtr handle) : base(handle)
+    {
+    }
+}
+```
+```diff
++ Note: you have to inherit from ViewControllerBase<MyCustomNamePageViewModel>
+```
+```diff
++ Note: if you what to use storyboard you have to create constructor MyCustomNameViewConstroller(IntPtr handle) : base(handle). If you load storyboard via code you have to create constructor without parameters.
+```
+
+2. Create `MyCustomNameStoryboard` from `Pages folder-> Add-> New File-> iOS -> Storyboard`. Then open storyboard via Interface Builder(`MyCustomNameStoryboard -> Open With -> XCode Interface Builder`) select `Identity Inspector` and update next properties:
+    1. `Class` to `MuCustomNamePageViewController.cs`     
+    2. `Storyboard Id` to `MuCustomNameViewController`
+
+After this steps you should be able to navigate to `MyCustomNamePageViewModel`.
+
+## Configure Android
+
+Install: `Softeq.XToolkit.WhiteLabel` and `Softeq.XToolkit.Common` to Android project.
+
+#### Configure project
+
+Remove `MainActivity.cs`.
+
+Create `MainApplication` in root folder and paste the following code:
 
 ```csharp
 [Application]
-public abstract class MainApplicationBase : Application
+public class MainApplication : MainApplicationBase
 {
-    protected MainApplicationBase(IntPtr handle, JniHandleOwnership transfer)
-        : base(handle, transfer)
+    protected MainApplication(IntPtr handle, JniHandleOwnership transer) : base(handle, transer)
     {
     }
 
-    public override void OnCreate()
+    public override IList<Assembly> SelectAssemblies()
     {
-        base.OnCreate();
-        
-        CrossCurrentActivity.Current.Init(this);
-
-        //init factory for bindings
-        BindingExtensions.Initialize(new DroidBindingFactory());
-
-        //init assembly sources for Activator.cs
-        AssemblySourceCache.Install();
-        AssemblySourceCache.ExtractTypes = assembly =>
-            assembly.GetExportedTypes()
-            .Where(t => typeof(FragmentActivity).IsAssignableFrom(t)
-                       || typeof(Android.Support.V4.App.Fragment).IsAssignableFrom(t)
-                       || typeof(Android.Support.V4.App.DialogFragment).IsAssignableFrom(t));
-        AssemblySource.Instance.AddRange(new List<Assembly> {GetType().Assembly});
-
-        //init dependencies
-        StartScopeForIoc();
-
-        //init ui thread helper
-        PlatformProvider.Current = new AndroidPlatformProvider();
+        return new List<Assembly> { GetType().Assembly };
     }
 
-    private void StartScopeForIoc()
+    protected override void ConfigureIoc(ContainerBuilder builder)
     {
-        var containerBuilder = new ContainerBuilder();
+        //services InstancePerLifetimeScope
+        builder.PerLifetimeScope<PageNavigationService, IPageNavigationService>();
+        builder.RegisterType<ViewLocator>();
+        builder.PerLifetimeScope<DroidInternalSettings, IInternalSettings>();
+        builder.PerLifetimeScope<ViewModelFactoryService, IViewModelFactoryService>();
 
-        //TODO: add registration here
+        //services InstancePerDependency
+        builder.PerDependency<FrameNavigationService, IFrameNavigationService>();
+        builder.PerDependency<DroidFragmentDialogService, IDialogsService>();
+        builder.PerDependency<DefaultAlertBuilder, IAlertBuilder>();
 
-        ServiceLocator.StartScope(containerBuilder);
+        //services InstancePerDependency
+        //builder.PerDependency<PermissionsDialogService>().As<IPermissionsDialogService>().InstancePerDependency();
+        builder.PerDependency<DroidConsoleLogManager>().As<ILogManager>().InstancePerDependency();
+
+        //view models InstancePerLifetimeScope
+        builder.PerLifetimeScope<MyCustomNamePage1ViewModel>();
+        builder.PerLifetimeScope<MyCustomNamePage2ViewModel>();
+
+        //view models InstancePerDependency
+        builder.PerDependency<DetailsPageViewModel>();
     }
-    
-    protected abstract void ConfigureIoc(ContainerBuilder containerBuilder);
 }
 ```
+
+#### Create Activity
+
+1. Create `StartPageActivity.cs` in `ApplicationName.Droid.Views.Pages`
+
+```csharp
+[Activity(MainLauncher = true, Icon = "@mipmap/icon", NoHistory = true)]
+public class SplashActivity : AppCompatActivity
+{
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+
+        var intent = new Intent(this, typeof(StartPageActivity));
+
+        if (Intent?.Extras != null)
+        {
+            intent.PutExtras(Intent.Extras);
+        }
+
+        StartActivity(intent);
+        Finish();
+   }
+}
+
+[Activity(Theme = "@style/SplashTheme")]
+public class StartPageActivity : ActivityBase<StartPageViewModel>
+{
+    protected override void OnCreate(Bundle savedInstanceState)
+    {
+        base.OnCreate(savedInstanceState);
+
+        SetContentView(Resource.Layout.my_custom_name_page);
+    }
+}
+```
+```diff
++ Note: you have to inherit from ActivityBase<MyCustomNamePageViewModel>
+```
+2. Create `my_custom_name_page.xml` in `YourProjectName.Droid.Resources.layout`
+
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:minWidth="25px"
+                android:minHeight="25px"
+                android:background="#00ff00">
+		<Button android:id="@+id/button2"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:text="Button" />
+</RelativeLayout>
+```
+
+After that you have to be able navigate to first page.
 
 ## Contributing
 
