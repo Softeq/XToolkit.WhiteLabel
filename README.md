@@ -15,9 +15,9 @@ Install-Package Softeq.XToolkit.WhiteLabel
 1. Install NuGet package or use `XToolkit` and `XToolkit.WhiteLabel` repositories (clone/submodules).
 2. To start using WhiteLabel SDK:
 
-### Get Started
+## Get Started
 
-Before started you have to have three projects.
+Before starting you have to have three projects.
 1. ApplicationName(Should be .Net Standart project) which will be include your shared viewModels
 2. ApplicationName.iOS
 3. ApplicationName.Droid
@@ -183,40 +183,38 @@ public class MainApplication : MainApplicationBase
 
 #### Create Activity
 
-1. Create `StartPageActivity.cs` in `YourProjectName.Droid.Views.Pages`
+1. Create `StartPageActivity.cs` in `ApplicationName.Droid.Views.Pages`
 
 ```csharp
- [Activity(MainLauncher = true, Icon = "@mipmap/icon", NoHistory = true)]
-    public class SplashActivity : AppCompatActivity
+[Activity(MainLauncher = true, Icon = "@mipmap/icon", NoHistory = true)]
+public class SplashActivity : AppCompatActivity
+{
+    protected override void OnCreate(Bundle savedInstanceState)
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        base.OnCreate(savedInstanceState);
+
+        var intent = new Intent(this, typeof(StartPageActivity));
+
+        if (Intent?.Extras != null)
         {
-            base.OnCreate(savedInstanceState);
-
-            var intent = new Intent(this, typeof(StartPageActivity));
-
-            if (Intent?.Extras != null)
-            {
-                intent.PutExtras(Intent.Extras);
-            }
-
-            StartActivity(intent);
-            Finish();
+            intent.PutExtras(Intent.Extras);
         }
-    }
 
-    [Activity(Theme = "@style/SplashTheme")]
-    public class StartPageActivity : ActivityBase<StartPageViewModel>
+        StartActivity(intent);
+        Finish();
+   }
+}
+
+[Activity(Theme = "@style/SplashTheme")]
+public class StartPageActivity : ActivityBase<StartPageViewModel>
+{
+    protected override void OnCreate(Bundle savedInstanceState)
     {
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
+        base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.my_custom_name_page);
-
-            //FindViewById<Button>(Resource.Id.button1).SetCommand(new RelayCommand(ViewModel.NavigateToNextPage));
-        }
+        SetContentView(Resource.Layout.my_custom_name_page);
     }
+}
 ```
 ```diff
 + Note: you have to inherit from ActivityBase<MyCustomNamePageViewModel>
