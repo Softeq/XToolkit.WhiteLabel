@@ -45,21 +45,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateToViewModel<T>(clearBackStack);
         }
 
+        public NavigateHelper<T> For<T>() where T : IViewModelBase
+        {
+            return new NavigateHelper<T>(ServiceLocator.Resolve<T>(),
+                shouldClearBackStack => NavigateToViewModelInternal(ServiceLocator.Resolve<T>(), shouldClearBackStack));
+        }
+
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            if (clearBackStack)
-            {
-                _backStack.Clear();
-            }
-
-            var viewModel = ServiceLocator.Resolve<T>();
-
-            _backStack.Push(viewModel.GetType().FullName);
-
-            viewModel.OnNavigated();
-
-            var type = _viewLocator.GetTargetType(viewModel.GetType(), ViewType.Activity);
-            StartActivityImpl(type);
+            NavigateToViewModelInternal(ServiceLocator.Resolve<T>(), clearBackStack);
         }
 
         public void RestoreState()
@@ -71,6 +65,21 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private void NavigateToExistingViewModel(string viewModelType)
         {
             var type = _viewLocator.GetTargetType(viewModelType, ViewType.Activity);
+            StartActivityImpl(type);
+        }
+
+        private void NavigateToViewModelInternal(IViewModelBase viewModel, bool clearBackStack = false)
+        {
+            if (clearBackStack)
+            {
+                _backStack.Clear();
+            }
+
+            _backStack.Push(viewModel.GetType().FullName);
+
+            viewModel.OnNavigated();
+
+            var type = _viewLocator.GetTargetType(viewModel.GetType(), ViewType.Activity);
             StartActivityImpl(type);
         }
 

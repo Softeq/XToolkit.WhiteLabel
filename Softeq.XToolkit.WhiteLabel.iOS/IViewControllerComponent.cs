@@ -5,7 +5,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
-    public interface IViewControllerComponet
+    public interface IViewControllerComponent
     {
         string Key { get; }
 

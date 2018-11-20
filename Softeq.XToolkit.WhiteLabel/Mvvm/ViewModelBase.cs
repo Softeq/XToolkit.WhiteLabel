@@ -13,6 +13,9 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
     public interface IViewModelBase
     {
         void OnNavigated();
+        void OnInitialize();
+        void OnAppearing();
+        void OnDisappearing();
     }
 
     
