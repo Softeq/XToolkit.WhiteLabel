@@ -20,10 +20,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
         }
         
-        public List<IViewControllerComponet> ControllerComponets { get; } = new List<IViewControllerComponet>();
+        public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
     }
 
-    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase where TViewModel : ViewModelBase
+    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase where TViewModel : IViewModelBase
     {
         protected ViewControllerBase()
         {

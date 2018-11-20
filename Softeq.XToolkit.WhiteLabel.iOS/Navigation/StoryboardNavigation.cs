@@ -50,6 +50,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             });
         }
 
+        public NavigateHelper<T> For<T>() where T : IViewModelBase
+        {
+            var controller = (ViewControllerBase<T>) ViewLocator.GetView<T>(this as IFrameNavigationService);
+
+            return new NavigateHelper<T>(controller.ViewModel,
+                shouldClearBackStack => { NavigateToViewControllerImpl(controller, shouldClearBackStack); });
+        }
+
         public void NavigateToViewModel<T>(T t) where T : IViewModelBase
         {
             Execute.BeginOnUIThread(() =>
