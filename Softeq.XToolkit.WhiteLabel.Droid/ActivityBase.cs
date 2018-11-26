@@ -24,19 +24,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     public abstract class ActivityBase : AppCompatActivity
     {
-        protected readonly Lazy<IPageNavigationService> PageNavigation;
-        public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
+        protected readonly Lazy<IPageNavigationService> PageNavigationLazy;
+        public List<IViewComponent<ActivityBase>> ViewComponentsLazy { get; private set; }
 
         protected ActivityBase()
         {
-            PageNavigation = new Lazy<IPageNavigationService>(ServiceLocator.Resolve<IPageNavigationService>);
+            PageNavigationLazy = new Lazy<IPageNavigationService>(ServiceLocator.Resolve<IPageNavigationService>);
         }
 
         public override void OnBackPressed()
         {
-            if (PageNavigation.Value.CanGoBack)
+            if (PageNavigationLazy.Value.CanGoBack)
             {
-                PageNavigation.Value.GoBack();
+                PageNavigationLazy.Value.GoBack();
             }
             else
             {
@@ -59,7 +59,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            ViewComponents = new List<IViewComponent<ActivityBase>>();
+            ViewComponentsLazy = new List<IViewComponent<ActivityBase>>();
         }
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
@@ -93,7 +93,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             if (ViewModel == null)
             {
-                ViewModel = (TViewModel)PageNavigation.Value.GetExistingOrCreateViewModel(typeof(TViewModel));
+                ViewModel = (TViewModel)PageNavigationLazy.Value.GetExistingOrCreateViewModel(typeof(TViewModel));
             }
 
             RequestedOrientation = ScreenOrientation.Portrait;
