@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
@@ -8,8 +9,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IPageNavigationService
     {
-        int BackStackCount { get; }
-
         bool CanGoBack { get; }
 
         void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
@@ -21,8 +20,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         void GoBack();
 
-        void RestoreState();
-
         NavigateHelper<T> For<T>() where T : IViewModelBase;
+
+        IViewModelBase GetExistingOrCreateViewModel(Type type);
     }
 }

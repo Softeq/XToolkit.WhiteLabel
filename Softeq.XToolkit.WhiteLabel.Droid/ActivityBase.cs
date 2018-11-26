@@ -1,14 +1,18 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
+using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
+using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
@@ -20,22 +24,26 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     public abstract class ActivityBase : AppCompatActivity
     {
+        protected readonly Lazy<IPageNavigationService> PageNavigation;
         public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
+
+        protected ActivityBase()
+        {
+            PageNavigation = new Lazy<IPageNavigationService>(ServiceLocator.Resolve<IPageNavigationService>);
+        }
 
         public override void OnBackPressed()
         {
-            var pageNavigation = ServiceLocator.Resolve<IPageNavigationService>();
-            if (pageNavigation.CanGoBack)
+            if (PageNavigation.Value.CanGoBack)
             {
-                pageNavigation.GoBack();
+                PageNavigation.Value.GoBack();
             }
-            else
-            {
-                base.OnBackPressed();
-            }
+
+            base.OnBackPressed();
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
+        public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
+            [GeneratedEnum] Permission[] grantResults)
         {
             if (ServiceLocator.IsRegistered<IPermissionRequestHandler>())
             {
@@ -55,7 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
             var viewLocator = ServiceLocator.Resolve<ViewLocator>();
-            var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
+            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
             SupportFragmentManager
                 .BeginTransaction()
                 .Add(containerId, fragment)
@@ -66,23 +74,71 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     public abstract class ActivityBase<TViewModel> : ActivityBase
         where TViewModel : ViewModelBase
     {
-        protected TViewModel _viewModel;
-        protected List<Binding> Bindings { get; } = new List<Binding>();
+        private const string ShouldRestoreStateKey = "shouldRestore";
+        private readonly Lazy<IJsonSerializer> _jsonSerializer;
+        protected List<Binding> Bindings { get; }
+        protected virtual TViewModel ViewModel { get; set; }
 
-        public virtual TViewModel ViewModel => _viewModel ?? (_viewModel = ServiceLocator.Resolve<TViewModel>());
+        protected ActivityBase()
+        {
+            Bindings = new List<Binding>();
+            _jsonSerializer = new Lazy<IJsonSerializer>(ServiceLocator.Resolve<IJsonSerializer>);
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(null);
 
-            RequestedOrientation = ScreenOrientation.Portrait;
+            if (ViewModel == null)
+            {
+                ViewModel = (TViewModel) PageNavigation.Value.GetExistingOrCreateViewModel(typeof(TViewModel));
+            }
 
+            RequestedOrientation = ScreenOrientation.Portrait;
 #if DEBUG
             var vmPolicy = new StrictMode.VmPolicy.Builder();
             StrictMode.SetVmPolicy(vmPolicy.DetectActivityLeaks().PenaltyLog().Build());
 #endif
+            RestoreIfNeeded();
 
             ViewModel.OnInitialize();
+        }
+
+        private void RestoreIfNeeded()
+        {
+            if (ViewModel.IsInitialized || Intent.HasExtra(ShouldRestoreStateKey) ||
+                !Intent.HasExtra(Constants.ParametersKey))
+            {
+                return;
+            }
+
+            var parametersObject = Intent.GetStringExtra(Constants.ParametersKey);
+            var parameters =
+                _jsonSerializer.Value.Deserialize<IReadOnlyCollection<NavigationParameterModel>>(parametersObject);
+
+            foreach (var parameter in parameters)
+            {
+                SetValueToProperty(parameter);
+            }
+
+            Intent.RemoveExtra(ShouldRestoreStateKey);
+        }
+
+        private void SetValueToProperty(NavigationParameterModel parameter)
+        {
+            var property = parameter.PropertyInfo.ToProperty();
+
+            object GetValue(object value)
+            {
+                if (property.PropertyType.IsEnum)
+                {
+                    return Enum.ToObject(property.PropertyType, value);
+                }
+
+                return ((JObject) value).ToObject(property.PropertyType);
+            }
+
+            property.SetValue(ViewModel, GetValue(parameter.Value), null);
         }
 
         protected override void OnResume()
@@ -103,10 +159,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected override void OnDestroy()
         {
-            base.OnDestroy();
+            Intent.PutExtra(ShouldRestoreStateKey, true);
 
-            _viewModel = null;
-            Dispose();
+            if (IsFinishing)
+            {
+                ViewModel = null;
+                base.OnDestroy();
+                Dispose();
+            }
+            else
+            {
+                base.OnDestroy();
+            }
         }
 
         protected virtual void DoAttachBindings()
@@ -118,12 +182,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             Bindings.DetachAllAndClear();
         }
     }
-    
+
     public abstract class ActivityBase<TViewModel, TInterface> : ActivityBase<TViewModel>
         where TViewModel : ViewModelBase, TInterface
         where TInterface : IViewModelBase
     {
-        public override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel) ServiceLocator.Resolve<TInterface>());
+        protected override TViewModel ViewModel =>
+            ViewModel ?? (ViewModel = (TViewModel) ServiceLocator.Resolve<TInterface>());
     }
 }

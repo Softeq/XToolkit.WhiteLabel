@@ -77,6 +77,7 @@
     <Compile Include="Controls\ObservableStackView.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="MainApplicationBase.cs" />
+    <Compile Include="Navigation\Constants.cs" />
     <Compile Include="Navigation\ViewLocator.cs" />
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -108,7 +109,7 @@
       <Name>Softeq.XToolkit.Bindings.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{78833174-8D1D-4C67-AD54-4C9EEEDFBBDB}</Project>
+      <Project>{6CC4B55D-2EA0-4883-BF2A-BBEBC80150AF}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
@@ -116,15 +117,15 @@
       <Name>Softeq.XToolkit.Common.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{B4208549-9B41-4EB2-9F80-8E60D75E6BFA}</Project>
+      <Project>{21503153-9566-4789-9B5A-73F2BA71AA51}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{690D58CB-A04C-418F-863B-F4ED17775120}</Project>
+      <Project>{051C065C-DF97-4406-BEAB-F2F91842275C}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{424EABDC-DCC0-4616-B603-93582D9A9AD4}</Project>
+      <Project>{546960A9-305B-4989-B82C-6F3D0ABD16C8}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>

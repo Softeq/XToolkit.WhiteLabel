@@ -3,8 +3,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.Content;
 using Plugin.CurrentActivity;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -13,23 +15,39 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class PageNavigationService : IPageNavigationService
     {
-        private readonly Stack<string> _backStack;
+        private readonly Stack<IViewModelBase> _backStack;
         private readonly ViewLocator _viewLocator;
+        private readonly IJsonSerializer _jsonSerializer;
 
-        public PageNavigationService(ViewLocator viewLocator)
+        public PageNavigationService(ViewLocator viewLocator, IJsonSerializer jsonSerializer)
         {
             _viewLocator = viewLocator;
-            _backStack = new Stack<string>();
+            _jsonSerializer = jsonSerializer;
+            _backStack = new Stack<IViewModelBase>();
         }
 
-        public int BackStackCount => _backStack.Count;
+        public bool CanGoBack => !CrossCurrentActivity.Current.Activity.IsTaskRoot;
 
-        public bool CanGoBack => _backStack.Count > 1;
+        public IViewModelBase GetExistingOrCreateViewModel(Type type)
+        {
+            if (_backStack.TryPeek(out var viewModel))
+            {
+                return viewModel;
+            }
+
+            //Used to recreate viewmodel if processes or activity was killed
+            viewModel = (IViewModelBase) ServiceLocator.Resolve(type);
+            _backStack.Push(viewModel);
+
+            return viewModel;
+        }
 
         public void GoBack()
         {
-            _backStack.Pop();
-            NavigateToExistingViewModel(_backStack.Peek());
+            if (_backStack.Count != 0)
+            {
+                _backStack.Pop();
+            }
         }
 
         public void Initialize(object navigation)
@@ -40,55 +58,70 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
-            var viewModel = ServiceLocator.Resolve<T>();
-            viewModel.Parameter = parameter;
-            NavigateToViewModel<T>(clearBackStack);
+            For<T>().WithParam(x => x.Parameter, parameter).Navigate(clearBackStack);
         }
 
         public NavigateHelper<T> For<T>() where T : IViewModelBase
         {
-            return new NavigateHelper<T>(ServiceLocator.Resolve<T>(),
-                shouldClearBackStack => NavigateToViewModelInternal(ServiceLocator.Resolve<T>(), shouldClearBackStack));
+            return new NavigateHelper<T>(NavigateToViewModelInternal<T>);
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            NavigateToViewModelInternal(ServiceLocator.Resolve<T>(), clearBackStack);
+            NavigateToViewModelInternal<T>(clearBackStack);
         }
 
         public void RestoreState()
         {
             var viewModelType = _backStack.Peek();
-            NavigateToExistingViewModel(viewModelType);
+            NavigateToExistingViewModel(viewModelType.GetType());
         }
 
-        private void NavigateToExistingViewModel(string viewModelType)
+        private void NavigateToExistingViewModel(Type viewModelType)
         {
             var type = _viewLocator.GetTargetType(viewModelType, ViewType.Activity);
+
             StartActivityImpl(type);
         }
 
-        private void NavigateToViewModelInternal(IViewModelBase viewModel, bool clearBackStack = false)
+        private void NavigateToViewModelInternal<T>(bool clearBackStack = false,
+            IReadOnlyList<NavigationParameterModel> parameters = null) where T : IViewModelBase
         {
             if (clearBackStack)
             {
                 _backStack.Clear();
             }
 
-            _backStack.Push(viewModel.GetType().FullName);
+            var viewModel = ServiceLocator.Resolve<T>();
+            NavigateHelper<T>.ApplyParametersToViewModel(viewModel, parameters);
 
-            viewModel.OnNavigated();
+            var type = _viewLocator.GetTargetType(typeof(T), ViewType.Activity);
+            StartActivityImpl(type, clearBackStack, parameters);
 
-            var type = _viewLocator.GetTargetType(viewModel.GetType(), ViewType.Activity);
-            StartActivityImpl(type);
+            _backStack.Push(viewModel);
         }
 
-        private void StartActivityImpl(Type type)
+        private void StartActivityImpl(Type type, bool shouldClearBackStack = false,
+            IReadOnlyList<NavigationParameterModel> parameters = null)
         {
             var intent = new Intent(CrossCurrentActivity.Current.Activity, type);
-            var currentActivity = CrossCurrentActivity.Current.Activity;
+            SetParameters(intent, parameters);
+
+            if (shouldClearBackStack)
+            {
+                intent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
+                _backStack.Clear();
+            }
+
             CrossCurrentActivity.Current.Activity.StartActivity(intent);
-            currentActivity.Finish();
+        }
+
+        private void SetParameters(Intent intent, IReadOnlyList<NavigationParameterModel> parameters)
+        {
+            if (parameters != null && parameters.Any())
+            {
+                intent.PutExtra(Constants.ParametersKey, _jsonSerializer.Serialize(parameters));
+            }
         }
     }
 }

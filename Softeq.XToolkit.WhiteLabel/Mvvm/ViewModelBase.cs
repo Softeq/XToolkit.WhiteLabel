@@ -12,13 +12,12 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
     public interface IViewModelBase
     {
-        void OnNavigated();
         void OnInitialize();
         void OnAppearing();
         void OnDisappearing();
     }
 
-    
+
     /// <summary>
     ///     A base class for the ViewModel classes in the MVVM pattern.
     /// </summary>
@@ -36,10 +35,13 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
             set { Set(() => IsBusy, ref _isBusy, value); }
         }
 
+        public bool IsInitialized { get; private set; }
+
         public IFrameNavigationService FrameNavigationService { get; set; }
 
         public virtual void OnInitialize()
         {
+            IsInitialized = true;
         }
 
         public virtual void OnAppearing()
@@ -47,10 +49,6 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         public virtual void OnDisappearing()
-        {
-        }
-
-        public virtual void OnNavigated()
         {
         }
 

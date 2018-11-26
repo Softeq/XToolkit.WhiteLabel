@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Extensions;
@@ -8,40 +9,43 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class NavigateHelper<TViewModel> where TViewModel : IViewModelBase
     {
-        private readonly TViewModel _viewModel;
-        private readonly Action<bool> _navigateAction;
+        private readonly Action<bool, IReadOnlyList<NavigationParameterModel>> _navigateAction;
+        private readonly List<NavigationParameterModel> _parameters = new List<NavigationParameterModel>();
 
-        public NavigateHelper(TViewModel viewModel, Action<bool> navigateAction)
+        public NavigateHelper(Action<bool, IReadOnlyList<NavigationParameterModel>> navigateAction)
         {
-            _viewModel = viewModel;
             _navigateAction = navigateAction;
         }
 
         public NavigateHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property, TValue value)
         {
-            SetMemberValue(property.GetMemberInfo(), _viewModel, value);
-            
+            var parameter = new NavigationParameterModel {Value = value};
+
+            var propertyInfo = (PropertyInfo) property.GetMemberInfo();
+            parameter.PropertyInfo = new PropertyInfoModel(propertyInfo);
+
+            _parameters.Add(parameter);
+
             return this;
+        }
+
+        public static void ApplyParametersToViewModel(IViewModelBase viewmodel,
+            IReadOnlyList<NavigationParameterModel> parameters)
+        {
+            if (parameters == null)
+            {
+                return;
+            }
+
+            foreach (var parameter in parameters)
+            {
+                parameter.PropertyInfo.ToProperty().SetValue(viewmodel, parameter.Value);
+            }
         }
 
         public void Navigate(bool clearBackStack = false)
         {
-            _navigateAction(clearBackStack);
-        }
-
-        private static void SetMemberValue(MemberInfo member, object target, object value)
-        {
-            switch (member.MemberType)
-            {
-                case MemberTypes.Field:
-                    ((FieldInfo) member).SetValue(target, value);
-                    break;
-                case MemberTypes.Property:
-                    ((PropertyInfo) member).SetValue(target, value, null);
-                    break;
-                default:
-                    throw new ArgumentException("MemberInfo must be if type FieldInfo or PropertyInfo", nameof(member));
-            }
+            _navigateAction(clearBackStack, _parameters);
         }
     }
 }

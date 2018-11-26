@@ -1,6 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+using System.Collections.Generic;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -27,44 +29,32 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             set => _navigationControllerRef = WeakReferenceEx.Create(value);
         }
 
-        public int BackStackCount => NavigationController.ChildViewControllers.Length;
+        //protected int BackStackCount => NavigationController.ChildViewControllers.Length;
 
         public bool CanGoBack => NavigationController.ViewControllers.Length > 1;
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
-            Execute.BeginOnUIThread(() =>
-            {
-                var controller = ViewLocator.GetView<T, TParameter>(parameter, this as IFrameNavigationService);
-                NavigateToViewControllerImpl(controller, clearBackStack);
-            });
+            For<T>().WithParam(x => x.Parameter, parameter).Navigate();
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            Execute.BeginOnUIThread(() =>
-            {
-                var controller = ViewLocator.GetView<T>(this as IFrameNavigationService);
-                NavigateToViewControllerImpl(controller, clearBackStack);
-            });
+            NavigateToViewControllerInternal<T>(null, clearBackStack);
         }
 
         public NavigateHelper<T> For<T>() where T : IViewModelBase
         {
-            var controller = (ViewControllerBase<T>) ViewLocator.GetView<T>(this as IFrameNavigationService);
-
-            return new NavigateHelper<T>(controller.ViewModel,
-                shouldClearBackStack => { NavigateToViewControllerImpl(controller, shouldClearBackStack); });
+            return new NavigateHelper<T>((shouldClearBackStack, parameters) =>
+            {
+                NavigateToViewControllerInternal<T>(parameters, shouldClearBackStack);
+            });
         }
 
-        public void NavigateToViewModel<T>(T t) where T : IViewModelBase
+        public IViewModelBase GetExistingOrCreateViewModel(Type type)
         {
-            Execute.BeginOnUIThread(() =>
-            {
-                var controller = ViewLocator.GetView(t);
-                NavigateToViewControllerImpl(controller, false);
-            });
+            throw new NotImplementedException("Not supported in current platform");
         }
 
         public void Initialize(object navigation)
@@ -77,7 +67,23 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Execute.BeginOnUIThread(() => NavigationController.PopViewController(true));
         }
 
-        private void NavigateToViewControllerImpl(UIViewController controller, bool clearBackStack)
+        private void NavigateToViewControllerInternal<T>(IReadOnlyList<NavigationParameterModel> parameters,
+            bool clearBackStack) where T : IViewModelBase
+        {
+            Execute.BeginOnUIThread(() =>
+            {
+                var controller = ViewLocator.GetView<T>(this as IFrameNavigationService);
+
+                if (controller is ViewControllerBase<T> viewControllerBase)
+                {
+                    NavigateHelper<T>.ApplyParametersToViewModel(viewControllerBase.ViewModel, parameters);
+                }
+
+                Navigate(controller, clearBackStack);
+            });
+        }
+
+        protected void Navigate(UIViewController controller, bool clearBackStack)
         {
             if (clearBackStack)
             {

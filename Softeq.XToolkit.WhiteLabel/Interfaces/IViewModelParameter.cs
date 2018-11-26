@@ -3,8 +3,8 @@
 
 namespace Softeq.XToolkit.WhiteLabel.Interfaces
 {
-    public interface IViewModelParameter<in T>
+    public interface IViewModelParameter<T>
     {
-        T Parameter { set; }
+        T Parameter { get; set; }
     }
 }

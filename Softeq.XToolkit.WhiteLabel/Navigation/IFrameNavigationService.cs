@@ -9,7 +9,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
     public interface IFrameNavigationService
     {
         bool CanGoBack { get; }
-        int BackStackCount { get; }
         bool IsInitialized { get; }
         ViewModelBase CurrentViewModel { get; }
 
