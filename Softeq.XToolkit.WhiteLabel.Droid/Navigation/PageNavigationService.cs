@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             //Used to recreate viewmodel if processes or activity was killed
-            viewModel = (IViewModelBase) ServiceLocator.Resolve(type);
+            viewModel = (IViewModelBase)ServiceLocator.Resolve(type);
             _backStack.Push(viewModel);
 
             return viewModel;
@@ -47,6 +47,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             if (_backStack.Count != 0)
             {
                 _backStack.Pop();
+                CrossCurrentActivity.Current.Activity.Finish();
+            }
+            else
+            {
+                CrossCurrentActivity.Current.Activity.OnBackPressed();
             }
         }
 

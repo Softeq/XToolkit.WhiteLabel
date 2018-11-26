@@ -38,8 +38,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 PageNavigation.Value.GoBack();
             }
-
-            base.OnBackPressed();
+            else
+            {
+                base.OnBackPressed();
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
