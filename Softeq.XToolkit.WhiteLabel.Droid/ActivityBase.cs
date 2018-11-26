@@ -115,7 +115,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             var parametersObject = Intent.GetStringExtra(Constants.ParametersKey);
             var parameters =
-                _jsonSerializer.Value.Deserialize<IReadOnlyCollection<NavigationParameterModel>>(parametersObject);
+                _jsonSerializer.Value.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
 
             foreach (var parameter in parameters)
             {

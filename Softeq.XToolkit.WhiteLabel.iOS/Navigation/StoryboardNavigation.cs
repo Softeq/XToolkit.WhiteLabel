@@ -29,8 +29,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             set => _navigationControllerRef = WeakReferenceEx.Create(value);
         }
 
-        //protected int BackStackCount => NavigationController.ChildViewControllers.Length;
-
         public bool CanGoBack => NavigationController.ViewControllers.Length > 1;
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
