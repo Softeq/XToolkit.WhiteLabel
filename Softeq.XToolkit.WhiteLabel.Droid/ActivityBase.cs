@@ -106,6 +106,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         private void RestoreIfNeeded()
         {
+            //We skip restore if viewmodel was alive, or if activity still alive or we don't have data to restore
             if (ViewModel.IsInitialized || Intent.HasExtra(ShouldRestoreStateKey) ||
                 !Intent.HasExtra(Constants.ParametersKey))
             {
@@ -187,7 +188,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         where TViewModel : ViewModelBase, TInterface
         where TInterface : IViewModelBase
     {
+        private TViewModel _viewModel;
+
         protected override TViewModel ViewModel =>
-            ViewModel ?? (ViewModel = (TViewModel) ServiceLocator.Resolve<TInterface>());
+            _viewModel ?? (_viewModel = (TViewModel) ServiceLocator.Resolve<TInterface>());
     }
 }
