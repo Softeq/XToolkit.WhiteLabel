@@ -63,7 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
             var viewLocator = ServiceLocator.Resolve<ViewLocator>();
-            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
+            var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
             SupportFragmentManager
                 .BeginTransaction()
                 .Add(containerId, fragment)
@@ -91,7 +91,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             if (ViewModel == null)
             {
-                ViewModel = (TViewModel) PageNavigation.Value.GetExistingOrCreateViewModel(typeof(TViewModel));
+                ViewModel = (TViewModel)PageNavigation.Value.GetExistingOrCreateViewModel(typeof(TViewModel));
             }
 
             RequestedOrientation = ScreenOrientation.Portrait;
@@ -99,15 +99,64 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             var vmPolicy = new StrictMode.VmPolicy.Builder();
             StrictMode.SetVmPolicy(vmPolicy.DetectActivityLeaks().PenaltyLog().Build());
 #endif
-            RestoreIfNeeded();
+            RestoreIfNeeded(savedInstanceState);
 
             ViewModel.OnInitialize();
         }
 
-        private void RestoreIfNeeded()
+        protected override void OnResume()
         {
-            //We skip restore if viewmodel was alive, or if activity still alive or we don't have data to restore
-            if (ViewModel.IsInitialized || Intent.HasExtra(ShouldRestoreStateKey) ||
+            base.OnResume();
+
+            ViewModel.OnAppearing();
+            DoAttachBindings();
+        }
+
+        protected override void OnPause()
+        {
+            base.OnPause();
+
+            DoDetachBindings();
+            ViewModel.OnDisappearing();
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutInt(ShouldRestoreStateKey, 0);
+            base.OnSaveInstanceState(outState);
+        }
+
+        protected override void OnDestroy()
+        {
+            if (IsFinishing)
+            {
+                ViewModel = null;
+                base.OnDestroy();
+                Dispose();
+            }
+            else
+            {
+                base.OnDestroy();
+            }
+        }
+
+        protected virtual void DoAttachBindings()
+        {
+        }
+
+        protected virtual void DoDetachBindings()
+        {
+            Bindings.DetachAllAndClear();
+        }
+
+        private void RestoreIfNeeded(Bundle outState)
+        {
+            /* We skip restore if:
+                1) viewmodel was alive
+                2) activity never been destroyed
+                3) we don't have data to restore
+            */
+            if (ViewModel.IsInitialized || outState == null || !outState.ContainsKey(ShouldRestoreStateKey) ||
                 !Intent.HasExtra(Constants.ParametersKey))
             {
                 return;
@@ -136,51 +185,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                     return Enum.ToObject(property.PropertyType, value);
                 }
 
-                return ((JObject) value).ToObject(property.PropertyType);
+                return ((JObject)value).ToObject(property.PropertyType);
             }
 
             property.SetValue(ViewModel, GetValue(parameter.Value), null);
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
-
-            ViewModel.OnAppearing();
-            DoAttachBindings();
-        }
-
-        protected override void OnPause()
-        {
-            base.OnPause();
-
-            DoDetachBindings();
-            ViewModel.OnDisappearing();
-        }
-
-        protected override void OnDestroy()
-        {
-            Intent.PutExtra(ShouldRestoreStateKey, true);
-
-            if (IsFinishing)
-            {
-                ViewModel = null;
-                base.OnDestroy();
-                Dispose();
-            }
-            else
-            {
-                base.OnDestroy();
-            }
-        }
-
-        protected virtual void DoAttachBindings()
-        {
-        }
-
-        protected virtual void DoDetachBindings()
-        {
-            Bindings.DetachAllAndClear();
         }
     }
 
@@ -191,6 +199,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         private TViewModel _viewModel;
 
         protected override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel) ServiceLocator.Resolve<TInterface>());
+            _viewModel ?? (_viewModel = (TViewModel)ServiceLocator.Resolve<TInterface>());
     }
 }

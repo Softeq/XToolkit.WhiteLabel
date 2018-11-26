@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             var parameter = new NavigationParameterModel {Value = value};
 
             var propertyInfo = (PropertyInfo) property.GetMemberInfo();
-            parameter.PropertyInfo = new PropertyInfoModel(propertyInfo);
+            parameter.PropertyInfo = PropertyInfoModel.FromProperty(propertyInfo);
 
             _parameters.Add(parameter);
 
