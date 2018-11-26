@@ -19,9 +19,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         public NavigateHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property, TValue value)
         {
-            var parameter = new NavigationParameterModel {Value = value};
+            var parameter = new NavigationParameterModel { Value = value };
 
-            var propertyInfo = (PropertyInfo) property.GetMemberInfo();
+            var propertyInfo = (PropertyInfo)property.GetMemberInfo();
             parameter.PropertyInfo = PropertyInfoModel.FromProperty(propertyInfo);
 
             _parameters.Add(parameter);

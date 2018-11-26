@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     public abstract class ActivityBase : AppCompatActivity
     {
         protected readonly Lazy<IPageNavigationService> PageNavigationLazy;
-        public List<IViewComponent<ActivityBase>> ViewComponentsLazy { get; private set; }
+        public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
 
         protected ActivityBase()
         {
@@ -59,7 +59,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            ViewComponentsLazy = new List<IViewComponent<ActivityBase>>();
+            ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
