@@ -47,5 +47,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         {
             _navigateAction(clearBackStack, _parameters);
         }
+
+        ~NavigateHelper()
+        {
+        }
     }
 }

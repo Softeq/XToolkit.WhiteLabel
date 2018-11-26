@@ -76,12 +76,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateToViewModelInternal<T>(clearBackStack);
         }
 
-        public void RestoreState()
-        {
-            var viewModelType = _backStack.Peek();
-            NavigateToExistingViewModel(viewModelType.GetType());
-        }
-
         private void NavigateToExistingViewModel(Type viewModelType)
         {
             var type = _viewLocator.GetTargetType(viewModelType, ViewType.Activity);
