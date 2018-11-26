@@ -14,7 +14,6 @@ Install-Package Softeq.XToolkit.WhiteLabel
 
 1. Install NuGet package or use `XToolkit` and `XToolkit.WhiteLabel` repositories (clone/submodules).
 2. To start using WhiteLabel SDK:
-
 ## Get Started
 
 Before starting you have to have three projects.
@@ -237,6 +236,28 @@ public class StartPageActivity : ActivityBase<StartPageViewModel>
 ```
 
 After that you have to be able navigate to first page.
+
+## Navigation Service
+
+To navigate from viewmodel to viewmodel you can use the following code:
+
+```csharp
+//simple navigation
+var _pageNavigationService = new PageNavigationService(viewLocator, jsonSerializer);
+_pageNavigationService.NavigateToViewModel<MainPageViewModel>(shouldClearBackstack);
+ 
+//navigation with parameter
+_pageNavigationService.For<MainPageViewModel>()
+                      .WithParam(x => x.ParameterName, parameterValue)
+                      .Navigate(shouldClearBackstack);
+
+//navigation with several parameters
+_pageNavigationService.For<MainPageViewModel>()
+                      .WithParam(x => x.Name, "Guy Fawkes")
+                      .WithParam(x => x.Age, 15)
+                      .WithParam(x => x.Gender, null)
+                      .Navigate(shouldClearBackstack);
+```
 
 ## Contributing
 
