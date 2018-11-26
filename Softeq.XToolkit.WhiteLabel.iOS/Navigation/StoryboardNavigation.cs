@@ -39,15 +39,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            NavigateToViewControllerInternal<T>(null, clearBackStack);
+            NavigateToViewControllerInternal<T>(clearBackStack, null);
         }
 
         public NavigateHelper<T> For<T>() where T : IViewModelBase
         {
-            return new NavigateHelper<T>((shouldClearBackStack, parameters) =>
-            {
-                NavigateToViewControllerInternal<T>(parameters, shouldClearBackStack);
-            });
+            return new NavigateHelper<T>(NavigateToViewControllerInternal<T>);
         }
 
         public IViewModelBase GetExistingOrCreateViewModel(Type type)
@@ -65,8 +62,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Execute.BeginOnUIThread(() => NavigationController.PopViewController(true));
         }
 
-        private void NavigateToViewControllerInternal<T>(IReadOnlyList<NavigationParameterModel> parameters,
-            bool clearBackStack) where T : IViewModelBase
+        private void NavigateToViewControllerInternal<T>(bool clearBackStack,
+            IReadOnlyList<NavigationParameterModel> parameters)
+            where T : IViewModelBase
         {
             Execute.BeginOnUIThread(() =>
             {
