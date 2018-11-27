@@ -161,6 +161,7 @@ public class MainApplication : MainApplicationBase
         builder.RegisterType<ViewLocator>();
         builder.PerLifetimeScope<DroidInternalSettings, IInternalSettings>();
         builder.PerLifetimeScope<ViewModelFactoryService, IViewModelFactoryService>();
+	builder.PerLifetimeScope<BackStackManager, IBackStackManager>();
 
         //services InstancePerDependency
         builder.PerDependency<FrameNavigationService, IFrameNavigationService>();
@@ -170,13 +171,12 @@ public class MainApplication : MainApplicationBase
         //services InstancePerDependency
         //builder.PerDependency<PermissionsDialogService>().As<IPermissionsDialogService>().InstancePerDependency();
         builder.PerDependency<DroidConsoleLogManager>().As<ILogManager>().InstancePerDependency();
-
-        //view models InstancePerLifetimeScope
-        builder.PerLifetimeScope<MyCustomNamePage1ViewModel>();
-        builder.PerLifetimeScope<MyCustomNamePage2ViewModel>();
-
+	
         //view models InstancePerDependency
         builder.PerDependency<DetailsPageViewModel>();
+	builder.PerDependency<MyCustomNamePage1ViewModel>();
+        builder.PerDependency<MyCustomNamePage2ViewModel>();
+
     }
 }
 ```
