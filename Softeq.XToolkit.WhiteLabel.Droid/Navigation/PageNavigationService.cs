@@ -13,40 +13,27 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
-    public class PageNavigationService : IPageNavigationService
+    public class PageNavigationService : IPageNavigationService, IInternalNavigationService
     {
-        private readonly Stack<IViewModelBase> _backStack;
         private readonly ViewLocator _viewLocator;
         private readonly IJsonSerializer _jsonSerializer;
+        private readonly IBackStackManager _backStackManager;
 
-        public PageNavigationService(ViewLocator viewLocator, IJsonSerializer jsonSerializer)
+        public PageNavigationService(ViewLocator viewLocator, IJsonSerializer jsonSerializer,
+            IBackStackManager backStackManager)
         {
             _viewLocator = viewLocator;
             _jsonSerializer = jsonSerializer;
-            _backStack = new Stack<IViewModelBase>();
+            _backStackManager = backStackManager;
         }
 
         public bool CanGoBack => !CrossCurrentActivity.Current.Activity.IsTaskRoot;
 
-        public IViewModelBase GetExistingOrCreateViewModel(Type type)
-        {
-            if (_backStack.TryPeek(out var viewModel))
-            {
-                return viewModel;
-            }
-
-            //Used to recreate viewmodel if processes or activity was killed
-            viewModel = (IViewModelBase)ServiceLocator.Resolve(type);
-            _backStack.Push(viewModel);
-
-            return viewModel;
-        }
-
         public void GoBack()
         {
-            if (_backStack.Count != 0)
+            if (_backStackManager.Count != 0)
             {
-                _backStack.Pop();
+                _backStackManager.PopViewModel();
                 CrossCurrentActivity.Current.Activity.Finish();
             }
             else
@@ -68,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public NavigateHelper<T> For<T>() where T : IViewModelBase
         {
-            return new NavigateHelper<T>(NavigateToViewModelInternal<T>);
+            return new NavigateHelper<T>(this);
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
@@ -76,28 +63,21 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateToViewModelInternal<T>(clearBackStack);
         }
 
-        private void NavigateToExistingViewModel(Type viewModelType)
-        {
-            var type = _viewLocator.GetTargetType(viewModelType, ViewType.Activity);
-
-            StartActivityImpl(type);
-        }
-
-        private void NavigateToViewModelInternal<T>(bool clearBackStack = false,
+        public void NavigateToViewModelInternal<T>(bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel> parameters = null) where T : IViewModelBase
         {
             if (clearBackStack)
             {
-                _backStack.Clear();
+                _backStackManager.Clear();
             }
 
             var viewModel = ServiceLocator.Resolve<T>();
-            NavigateHelper<T>.ApplyParametersToViewModel(viewModel, parameters);
+            viewModel.ApplyParameters(parameters);
 
             var type = _viewLocator.GetTargetType(typeof(T), ViewType.Activity);
             StartActivityImpl(type, clearBackStack, parameters);
 
-            _backStack.Push(viewModel);
+            _backStackManager.PushViewModel(viewModel);
         }
 
         private void StartActivityImpl(Type type, bool shouldClearBackStack = false,
@@ -109,7 +89,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             if (shouldClearBackStack)
             {
                 intent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
-                _backStack.Clear();
+                _backStackManager.Clear();
             }
 
             CrossCurrentActivity.Current.Activity.StartActivity(intent);

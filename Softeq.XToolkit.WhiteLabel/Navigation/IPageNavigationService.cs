@@ -11,6 +11,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
     {
         bool CanGoBack { get; }
 
+        [ObsoleteAttribute(
+            "Will be removed in future versions. Please use For<T>().WithParam(x=>x.ParameterName, parameterValue) method in NavigationService")]
         void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
             where T : IViewModelBase, IViewModelParameter<TParameter>;
 
@@ -21,7 +23,5 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         void GoBack();
 
         NavigateHelper<T> For<T>() where T : IViewModelBase;
-
-        IViewModelBase GetExistingOrCreateViewModel(Type type);
     }
 }

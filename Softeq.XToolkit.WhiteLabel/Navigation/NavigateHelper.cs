@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
@@ -9,19 +10,19 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class NavigateHelper<TViewModel> where TViewModel : IViewModelBase
     {
-        private readonly Action<bool, IReadOnlyList<NavigationParameterModel>> _navigateAction;
+        private readonly IInternalNavigationService _navigationService;
         private readonly List<NavigationParameterModel> _parameters = new List<NavigationParameterModel>();
 
-        public NavigateHelper(Action<bool, IReadOnlyList<NavigationParameterModel>> navigateAction)
+        public NavigateHelper(IInternalNavigationService navigationService)
         {
-            _navigateAction = navigateAction;
+            _navigationService = navigationService;
         }
 
         public NavigateHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property, TValue value)
         {
-            var parameter = new NavigationParameterModel { Value = value };
+            var parameter = new NavigationParameterModel {Value = value};
 
-            var propertyInfo = (PropertyInfo)property.GetMemberInfo();
+            var propertyInfo = (PropertyInfo) property.GetMemberInfo();
             parameter.PropertyInfo = PropertyInfoModel.FromProperty(propertyInfo);
 
             _parameters.Add(parameter);
@@ -29,27 +30,18 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             return this;
         }
 
-        public static void ApplyParametersToViewModel(IViewModelBase viewmodel,
-            IReadOnlyList<NavigationParameterModel> parameters)
-        {
-            if (parameters == null)
-            {
-                return;
-            }
-
-            foreach (var parameter in parameters)
-            {
-                parameter.PropertyInfo.ToProperty().SetValue(viewmodel, parameter.Value);
-            }
-        }
-
         public void Navigate(bool clearBackStack = false)
         {
-            _navigateAction(clearBackStack, _parameters);
+            _navigationService.NavigateToViewModelInternal<TViewModel>(clearBackStack, _parameters);
         }
+    }
 
-        ~NavigateHelper()
+    public static class NavigationHelperExtensions
+    {
+        public static void ApplyParameters(this IViewModelBase viewmodel,
+            IEnumerable<NavigationParameterModel> parameters)
         {
+            parameters?.Apply(p => p.PropertyInfo.ToProperty().SetValue(viewmodel, p.Value));
         }
     }
 }

@@ -24,19 +24,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     public abstract class ActivityBase : AppCompatActivity
     {
-        protected readonly Lazy<IPageNavigationService> PageNavigationLazy;
-        public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
+        private readonly Lazy<IPageNavigationService> _pageNavigationLazy;
 
         protected ActivityBase()
         {
-            PageNavigationLazy = new Lazy<IPageNavigationService>(ServiceLocator.Resolve<IPageNavigationService>);
+            _pageNavigationLazy = new Lazy<IPageNavigationService>(ServiceLocator.Resolve<IPageNavigationService>);
         }
+
+        public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
 
         public override void OnBackPressed()
         {
-            if (PageNavigationLazy.Value.CanGoBack)
+            if (_pageNavigationLazy.Value.CanGoBack)
             {
-                PageNavigationLazy.Value.GoBack();
+                _pageNavigationLazy.Value.GoBack();
             }
             else
             {
@@ -65,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
             var viewLocator = ServiceLocator.Resolve<ViewLocator>();
-            var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
+            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
             SupportFragmentManager
                 .BeginTransaction()
                 .Add(containerId, fragment)
@@ -77,15 +78,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         where TViewModel : ViewModelBase
     {
         private const string ShouldRestoreStateKey = "shouldRestore";
-        private readonly Lazy<IJsonSerializer> _jsonSerializer;
-        protected List<Binding> Bindings { get; }
-        protected virtual TViewModel ViewModel { get; set; }
+        private readonly Lazy<IJsonSerializer> _jsonSerializerLazy;
+        private readonly IBackStackManager _backStackManager;
 
         protected ActivityBase()
         {
             Bindings = new List<Binding>();
-            _jsonSerializer = new Lazy<IJsonSerializer>(ServiceLocator.Resolve<IJsonSerializer>);
+            _jsonSerializerLazy = new Lazy<IJsonSerializer>(ServiceLocator.Resolve<IJsonSerializer>);
+            _backStackManager = ServiceLocator.Resolve<IBackStackManager>();
         }
+
+        protected List<Binding> Bindings { get; }
+        protected virtual TViewModel ViewModel { get; set; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -93,7 +97,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             if (ViewModel == null)
             {
-                ViewModel = (TViewModel)PageNavigationLazy.Value.GetExistingOrCreateViewModel(typeof(TViewModel));
+                ViewModel = (TViewModel) _backStackManager.GetExistingOrCreateViewmodel(typeof(TViewModel));
             }
 
             RequestedOrientation = ScreenOrientation.Portrait;
@@ -166,7 +170,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             var parametersObject = Intent.GetStringExtra(Constants.ParametersKey);
             var parameters =
-                _jsonSerializer.Value.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
+                _jsonSerializerLazy.Value.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
 
             foreach (var parameter in parameters)
             {
@@ -187,7 +191,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                     return Enum.ToObject(property.PropertyType, value);
                 }
 
-                return ((JObject)value).ToObject(property.PropertyType);
+                return ((JObject) value).ToObject(property.PropertyType);
             }
 
             property.SetValue(ViewModel, GetValue(parameter.Value), null);
@@ -201,6 +205,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         private TViewModel _viewModel;
 
         protected override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel)ServiceLocator.Resolve<TInterface>());
+            _viewModel ?? (_viewModel = (TViewModel) ServiceLocator.Resolve<TInterface>());
     }
 }

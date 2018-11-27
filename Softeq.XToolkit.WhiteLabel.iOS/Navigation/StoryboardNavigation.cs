@@ -12,7 +12,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
-    public abstract class StoryboardNavigation
+    public abstract class StoryboardNavigation : IInternalNavigationService
     {
         protected readonly IViewLocator ViewLocator;
 
@@ -39,17 +39,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            NavigateToViewControllerInternal<T>(clearBackStack, null);
+            NavigateToViewModelInternal<T>(clearBackStack);
         }
 
         public NavigateHelper<T> For<T>() where T : IViewModelBase
         {
-            return new NavigateHelper<T>(NavigateToViewControllerInternal<T>);
-        }
-
-        public IViewModelBase GetExistingOrCreateViewModel(Type type)
-        {
-            throw new NotImplementedException("Not supported in current platform");
+            return new NavigateHelper<T>(this);
         }
 
         public void Initialize(object navigation)
@@ -62,9 +57,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Execute.BeginOnUIThread(() => NavigationController.PopViewController(true));
         }
 
-        private void NavigateToViewControllerInternal<T>(bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters)
-            where T : IViewModelBase
+        public void NavigateToViewModelInternal<T>(bool clearBackStack = false,
+            IReadOnlyList<NavigationParameterModel> parameters = null) where T : IViewModelBase
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -72,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
                 if (controller is ViewControllerBase<T> viewControllerBase)
                 {
-                    NavigateHelper<T>.ApplyParametersToViewModel(viewControllerBase.ViewModel, parameters);
+                    viewControllerBase.ViewModel.ApplyParameters(parameters);
                 }
 
                 Navigate(controller, clearBackStack);
