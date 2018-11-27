@@ -19,12 +19,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private readonly IJsonSerializer _jsonSerializer;
         private readonly IBackStackManager _backStackManager;
 
+        private bool _isParamsSerializationEnabled;
+
         public PageNavigationService(ViewLocator viewLocator, IJsonSerializer jsonSerializer,
             IBackStackManager backStackManager)
         {
             _viewLocator = viewLocator;
             _jsonSerializer = jsonSerializer;
             _backStackManager = backStackManager;
+
+            _isParamsSerializationEnabled = true;
         }
 
         public bool CanGoBack => !CrossCurrentActivity.Current.Activity.IsTaskRoot;
@@ -45,6 +49,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void Initialize(object navigation)
         {
             //not used in this platform
+        }
+
+        public PageNavigationService DisableParameterSerialization()
+        {
+            _isParamsSerializationEnabled = false;
+
+            return this;
         }
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
@@ -74,7 +85,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             var viewModel = ServiceLocator.Resolve<T>();
             viewModel.ApplyParameters(parameters);
 
-            var type = _viewLocator.GetTargetType(typeof(T), ViewType.Activity);
+            var type = _viewLocator.GetTargetType(viewModel.GetType(), ViewType.Activity);
             StartActivityImpl(type, clearBackStack, parameters);
 
             _backStackManager.PushViewModel(viewModel);
@@ -84,7 +95,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             IReadOnlyList<NavigationParameterModel> parameters = null)
         {
             var intent = new Intent(CrossCurrentActivity.Current.Activity, type);
-            SetParameters(intent, parameters);
+            TryToSetParameters(intent, parameters);
 
             if (shouldClearBackStack)
             {
@@ -95,9 +106,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             CrossCurrentActivity.Current.Activity.StartActivity(intent);
         }
 
-        private void SetParameters(Intent intent, IReadOnlyList<NavigationParameterModel> parameters)
+        private void TryToSetParameters(Intent intent, IReadOnlyList<NavigationParameterModel> parameters)
         {
-            if (parameters != null && parameters.Any())
+            if (_isParamsSerializationEnabled && parameters != null && parameters.Any())
             {
                 intent.PutExtra(Constants.ParametersKey, _jsonSerializer.Serialize(parameters));
             }

@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -20,28 +23,33 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _backStack.Push(viewModel);
         }
 
-        public void Clear()
-        {
-            _backStack.Clear();
-        }
-
         public IViewModelBase PopViewModel()
         {
             return _backStack.Pop();
         }
 
-        public IViewModelBase GetExistingOrCreateViewModel(Type type)
+        public void Clear()
+        {
+            _backStack.Clear();
+        }
+
+        public TViewModel GetExistingOrCreateViewModel<TViewModel>() where TViewModel : IViewModelBase
         {
             if (_backStack.TryPeek(out var viewModel))
             {
-                return viewModel;
+                if (viewModel.GetType() != typeof(TViewModel))
+                {
+                    throw new ArgumentException($"Please use {nameof(PageNavigationService)} navigating, instead d of navigation via StartActivity()");
+                }
+
+                return (TViewModel)viewModel;
             }
 
             //Used to recreate viewmodel if processes or activity was killed
-            viewModel = (IViewModelBase) ServiceLocator.Resolve(type);
+            viewModel = ServiceLocator.Resolve<TViewModel>();
             _backStack.Push(viewModel);
 
-            return viewModel;
+            return (TViewModel)viewModel;
         }
     }
 }
