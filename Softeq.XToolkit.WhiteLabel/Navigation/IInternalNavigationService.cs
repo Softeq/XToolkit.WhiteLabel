@@ -5,7 +5,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IInternalNavigationService
     {
-        void NavigateToViewModelInternal<T>(bool clearBackStack = false,
+        void NavigateToViewModel<T>(bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel> parameters = null) where T : IViewModelBase;
     }
 }

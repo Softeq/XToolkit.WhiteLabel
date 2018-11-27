@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         public void Navigate(bool clearBackStack = false)
         {
-            _navigationService.NavigateToViewModelInternal<TViewModel>(clearBackStack, _parameters);
+            _navigationService.NavigateToViewModel<TViewModel>(clearBackStack, _parameters);
         }
     }
 

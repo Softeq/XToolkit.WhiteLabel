@@ -60,11 +60,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            NavigateToViewModelInternal<T>(clearBackStack);
+            NavigateToViewModel<T>(clearBackStack, null);
         }
 
-        public void NavigateToViewModelInternal<T>(bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null) where T : IViewModelBase
+        public void NavigateToViewModel<T>(bool clearBackStack,
+            IReadOnlyList<NavigationParameterModel> parameters) where T : IViewModelBase
         {
             if (clearBackStack)
             {
