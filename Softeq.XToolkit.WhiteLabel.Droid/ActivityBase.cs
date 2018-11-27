@@ -97,7 +97,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             if (ViewModel == null)
             {
-                ViewModel = (TViewModel) _backStackManager.GetExistingOrCreateViewmodel(typeof(TViewModel));
+                ViewModel = (TViewModel) _backStackManager.GetExistingOrCreateViewModel(typeof(TViewModel));
             }
 
             RequestedOrientation = ScreenOrientation.Portrait;

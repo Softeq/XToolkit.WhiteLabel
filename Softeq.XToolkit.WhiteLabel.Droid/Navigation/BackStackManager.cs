@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return _backStack.Pop();
         }
 
-        public IViewModelBase GetExistingOrCreateViewmodel(Type type)
+        public IViewModelBase GetExistingOrCreateViewModel(Type type)
         {
             if (_backStack.TryPeek(out var viewModel))
             {

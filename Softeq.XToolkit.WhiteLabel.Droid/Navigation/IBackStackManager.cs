@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         void PushViewModel(IViewModelBase viewModel);
         void Clear();
         IViewModelBase PopViewModel();
-        IViewModelBase GetExistingOrCreateViewmodel(Type type);
+        IViewModelBase GetExistingOrCreateViewModel(Type type);
         int Count { get; }
     }
 }
