@@ -174,7 +174,7 @@ public class MainApplication : MainApplicationBase
 	
         //view models InstancePerDependency
         builder.PerDependency<DetailsPageViewModel>();
-	builder.PerDependency<MyCustomNamePage1ViewModel>();
+        builder.PerDependency<MyCustomNamePage1ViewModel>();
         builder.PerDependency<MyCustomNamePage2ViewModel>();
 
     }
