@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     public class StoryboardViewLocator : IViewLocator
     {
         private const string FrameNavigationServiceParameterName = "FrameNavigationService";
-        
+
         private readonly Func<UIViewController, UIViewController> _getViewControllerFunc;
         private readonly ILogger _logger;
 
@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _getViewControllerFunc = getViewControllerFunc;
             _logger = logManager.GetLogger<StoryboardViewLocator>();
         }
-        
+
         public UIViewController GetView<T, TParameter>(TParameter parameter,
             IFrameNavigationService frameNavigationService = null)
             where T : IViewModelBase, IViewModelParameter<TParameter>
@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             var controller = GetControllerForModel(model.GetType());
             var method = controller.GetType().GetMethod("SetExistingViewModel");
-            method?.Invoke(controller, new[] {model});
+            method?.Invoke(controller, new[] { model });
             return controller;
         }
 
@@ -117,18 +117,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             targetTypeName = targetTypeName.Replace("ViewModel", "ViewController");
 
             var targeType = Type.GetType(targetTypeName)
-                            ?? AssemblySource.FindTypeByNames(new[] {targetTypeName});
+                            ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
 
             if (targeType == null)
             {
                 throw new DllNotFoundException("can't find target type");
             }
 
-            return (UIViewController) Activator.CreateInstance(targeType);
+            return (UIViewController)Activator.CreateInstance(targeType);
         }
 
         #region inject parameter
 
+        [Obsolete("Use another way for inject params (for example WithParam() navigation)")]
         private static void TryInjectParameters(object viewModel, object parameter, string parameterName)
         {
             var viewModelType = viewModel.GetType();
@@ -146,7 +147,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         private static PropertyInfo GetPropertyCaseInsensitive(Type type, string propertyName)
         {
             var typeInfo = type.GetTypeInfo();
-            var typeList = new List<Type> {type};
+            var typeList = new List<Type> { type };
 
             if (typeInfo.IsInterface)
             {

@@ -62,11 +62,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var controller = ViewLocator.GetView<T>(this as IFrameNavigationService);
+                var viewModel = ServiceLocator.Resolve<T>() as ViewModelBase;
+                viewModel.FrameNavigationService = this as IFrameNavigationService;
+                var controller = ViewLocator.GetView(viewModel);
 
-                if (controller is ViewControllerBase<T> viewControllerBase)
+                if (parameters != null && parameters.Count > 0)
                 {
-                    viewControllerBase.ViewModel.ApplyParameters(parameters);
+                    viewModel.ApplyParameters(parameters);
                 }
 
                 Navigate(controller, clearBackStack);
@@ -77,7 +79,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             if (clearBackStack)
             {
-                NavigationController.SetViewControllers(new[] {controller}, false);
+                NavigationController.SetViewControllers(new[] { controller }, false);
                 return;
             }
 
