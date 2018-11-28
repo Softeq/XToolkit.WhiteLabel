@@ -9,6 +9,7 @@ using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
+using Android.Views;
 using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -79,26 +80,23 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     {
         private const string ShouldRestoreStateKey = "shouldRestore";
         private readonly Lazy<IJsonSerializer> _jsonSerializerLazy;
-        private readonly IBackStackManager _backStackManager;
+        private Lazy<TViewModel> _viewModel;
 
         protected ActivityBase()
         {
             Bindings = new List<Binding>();
             _jsonSerializerLazy = new Lazy<IJsonSerializer>(ServiceLocator.Resolve<IJsonSerializer>);
-            _backStackManager = ServiceLocator.Resolve<IBackStackManager>();
+            _viewModel = new Lazy<TViewModel>(() =>
+                (TViewModel) ServiceLocator.Resolve<IBackStackManager>()
+                    .GetExistingOrCreateViewModel(typeof(TViewModel)));
         }
 
         protected List<Binding> Bindings { get; }
-        protected virtual TViewModel ViewModel { get; set; }
+        protected virtual TViewModel ViewModel => _viewModel.Value;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(null);
-
-            if (ViewModel == null)
-            {
-                ViewModel = (TViewModel) _backStackManager.GetExistingOrCreateViewModel(typeof(TViewModel));
-            }
 
             RequestedOrientation = ScreenOrientation.Portrait;
 #if DEBUG
@@ -136,7 +134,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             if (IsFinishing)
             {
-                ViewModel = null;
+                _viewModel = null;
                 base.OnDestroy();
                 Dispose();
             }
