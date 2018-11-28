@@ -50,16 +50,12 @@ public class AppDelegate : AppDelegateBase
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
         var result = base.FinishedLaunching(application, launchOptions);
-
         return result;
     }
 
     public override IList<Assembly> SelectAssemblies()
     {
-        return new List<Assembly>
-            {
-                GetType().Assembly,
-            };
+        return new List<Assembly> { GetType().Assembly };
     }
 
     public override void ConfigureIoc(ContainerBuilder builder)
@@ -67,7 +63,7 @@ public class AppDelegate : AppDelegateBase
         //services InstancePerLifetimeScope
         builder.PerLifetimeScope<StoryboardPageNavigation, IPageNavigationService>();
         builder.PerLifetimeScope<StoryboardViewLocator, IViewLocator>()
-        .WithParameter(new TypedParameter(typeof(Func<UIViewController, UIViewController>), GetRootViewFinder()));
+               .WithParameter(new TypedParameter(typeof(Func<UIViewController, UIViewController>), GetRootViewFinder()));
 
         //services InstancePerDependency
         builder.PerDependency<IPermissionsDialogService, IPermissionsDialogService>();
@@ -166,16 +162,13 @@ public class MainApplication : MainApplicationBase
         builder.PerDependency<FrameNavigationService, IFrameNavigationService>();
         builder.PerDependency<DroidFragmentDialogService, IDialogsService>();
         builder.PerDependency<DefaultAlertBuilder, IAlertBuilder>();
-
-        //services InstancePerDependency
-        //builder.PerDependency<PermissionsDialogService>().As<IPermissionsDialogService>().InstancePerDependency();
-        builder.PerDependency<DroidConsoleLogManager>().As<ILogManager>().InstancePerDependency();
+        builder.PerDependency<DroidConsoleLogManager, ILogManager>();
+	//builder.PerDependency<PermissionsDialogService, IPermissionsDialogService>();
 	
         //view models InstancePerDependency
         builder.PerDependency<DetailsPageViewModel>();
         builder.PerDependency<MyCustomNamePage1ViewModel>();
         builder.PerDependency<MyCustomNamePage2ViewModel>();
-
     }
 }
 ```
