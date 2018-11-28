@@ -18,8 +18,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         bool IFrameNavigationService.CanGoBack => CanGoBack;
 
-        int IFrameNavigationService.BackStackCount => BackStackCount;
-
         ViewModelBase IFrameNavigationService.CurrentViewModel => null;
 
         void IFrameNavigationService.GoBack()
@@ -58,12 +56,21 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         void IFrameNavigationService.NavigateToViewModel<T>(T t)
         {
-            NavigateToViewModel(t);
+            NavigateToViewModel<T>(t);
         }
 
         void IFrameNavigationService.RestoreState()
         {
             //
+        }
+
+        private void NavigateToViewModel<T>(T t) where T : IViewModelBase
+        {
+            Execute.BeginOnUIThread(() =>
+            {
+                var controller = ViewLocator.GetView(t);
+                Navigate(controller, false);
+            });
         }
     }
 }

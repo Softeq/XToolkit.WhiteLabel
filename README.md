@@ -14,7 +14,6 @@ Install-Package Softeq.XToolkit.WhiteLabel
 
 1. Install NuGet package or use `XToolkit` and `XToolkit.WhiteLabel` repositories (clone/submodules).
 2. To start using WhiteLabel SDK:
-
 ## Get Started
 
 Before starting you have to have three projects.
@@ -51,16 +50,12 @@ public class AppDelegate : AppDelegateBase
     public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
         var result = base.FinishedLaunching(application, launchOptions);
-
         return result;
     }
 
     public override IList<Assembly> SelectAssemblies()
     {
-        return new List<Assembly>
-            {
-                GetType().Assembly,
-            };
+        return new List<Assembly> { GetType().Assembly };
     }
 
     public override void ConfigureIoc(ContainerBuilder builder)
@@ -68,7 +63,7 @@ public class AppDelegate : AppDelegateBase
         //services InstancePerLifetimeScope
         builder.PerLifetimeScope<StoryboardPageNavigation, IPageNavigationService>();
         builder.PerLifetimeScope<StoryboardViewLocator, IViewLocator>()
-        .WithParameter(new TypedParameter(typeof(Func<UIViewController, UIViewController>), GetRootViewFinder()));
+               .WithParameter(new TypedParameter(typeof(Func<UIViewController, UIViewController>), GetRootViewFinder()));
 
         //services InstancePerDependency
         builder.PerDependency<IPermissionsDialogService, IPermissionsDialogService>();
@@ -161,22 +156,19 @@ public class MainApplication : MainApplicationBase
         builder.RegisterType<ViewLocator>();
         builder.PerLifetimeScope<DroidInternalSettings, IInternalSettings>();
         builder.PerLifetimeScope<ViewModelFactoryService, IViewModelFactoryService>();
+        builder.PerLifetimeScope<BackStackManager, IBackStackManager>();
 
         //services InstancePerDependency
         builder.PerDependency<FrameNavigationService, IFrameNavigationService>();
         builder.PerDependency<DroidFragmentDialogService, IDialogsService>();
         builder.PerDependency<DefaultAlertBuilder, IAlertBuilder>();
-
-        //services InstancePerDependency
-        //builder.PerDependency<PermissionsDialogService>().As<IPermissionsDialogService>().InstancePerDependency();
-        builder.PerDependency<DroidConsoleLogManager>().As<ILogManager>().InstancePerDependency();
-
-        //view models InstancePerLifetimeScope
-        builder.PerLifetimeScope<MyCustomNamePage1ViewModel>();
-        builder.PerLifetimeScope<MyCustomNamePage2ViewModel>();
-
+        builder.PerDependency<DroidConsoleLogManager, ILogManager>();
+        //builder.PerDependency<PermissionsDialogService, IPermissionsDialogService>();
+	
         //view models InstancePerDependency
         builder.PerDependency<DetailsPageViewModel>();
+        builder.PerDependency<MyCustomNamePage1ViewModel>();
+        builder.PerDependency<MyCustomNamePage2ViewModel>();
     }
 }
 ```
@@ -237,6 +229,28 @@ public class StartPageActivity : ActivityBase<StartPageViewModel>
 ```
 
 After that you have to be able navigate to first page.
+
+## Navigation Service
+
+To navigate from viewmodel to viewmodel you can use the following code:
+
+```csharp
+//simple navigation
+var _pageNavigationService = new PageNavigationService(viewLocator, jsonSerializer);
+_pageNavigationService.NavigateToViewModel<MainPageViewModel>(shouldClearBackstack);
+ 
+//navigation with parameter
+_pageNavigationService.For<MainPageViewModel>()
+                      .WithParam(x => x.ParameterName, parameterValue)
+                      .Navigate(shouldClearBackstack);
+
+//navigation with several parameters
+_pageNavigationService.For<MainPageViewModel>()
+                      .WithParam(x => x.Name, "Guy Fawkes")
+                      .WithParam(x => x.Age, 15)
+                      .WithParam(x => x.Gender, null)
+                      .Navigate(shouldClearBackstack);
+```
 
 ## Contributing
 

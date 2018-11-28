@@ -37,13 +37,13 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 
         public void RestoreState()
         {
-            if (FrameNavigationService.BackStackCount == 0)
+            if(FrameNavigationService.CanGoBack)
             {
-                NavigateToFirstPage();
+                FrameNavigationService.RestoreState();
             }
             else
             {
-                FrameNavigationService.RestoreState();
+                NavigateToFirstPage();
             }
         }
     }

@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
@@ -8,40 +10,38 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class NavigateHelper<TViewModel> where TViewModel : IViewModelBase
     {
-        private readonly TViewModel _viewModel;
-        private readonly Action<bool> _navigateAction;
+        private readonly IInternalNavigationService _navigationService;
+        private readonly List<NavigationParameterModel> _parameters = new List<NavigationParameterModel>();
 
-        public NavigateHelper(TViewModel viewModel, Action<bool> navigateAction)
+        public NavigateHelper(IInternalNavigationService navigationService)
         {
-            _viewModel = viewModel;
-            _navigateAction = navigateAction;
+            _navigationService = navigationService;
         }
 
         public NavigateHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property, TValue value)
         {
-            SetMemberValue(property.GetMemberInfo(), _viewModel, value);
-            
+            var parameter = new NavigationParameterModel {Value = value};
+
+            var propertyInfo = (PropertyInfo) property.GetMemberInfo();
+            parameter.PropertyInfo = PropertyInfoModel.FromProperty(propertyInfo);
+
+            _parameters.Add(parameter);
+
             return this;
         }
 
         public void Navigate(bool clearBackStack = false)
         {
-            _navigateAction(clearBackStack);
+            _navigationService.NavigateToViewModel<TViewModel>(clearBackStack, _parameters);
         }
+    }
 
-        private static void SetMemberValue(MemberInfo member, object target, object value)
+    public static class NavigationHelperExtensions
+    {
+        public static void ApplyParameters(this IViewModelBase viewmodel,
+            IEnumerable<NavigationParameterModel> parameters)
         {
-            switch (member.MemberType)
-            {
-                case MemberTypes.Field:
-                    ((FieldInfo) member).SetValue(target, value);
-                    break;
-                case MemberTypes.Property:
-                    ((PropertyInfo) member).SetValue(target, value, null);
-                    break;
-                default:
-                    throw new ArgumentException("MemberInfo must be if type FieldInfo or PropertyInfo", nameof(member));
-            }
+            parameters?.Apply(p => p.PropertyInfo.ToProperty().SetValue(viewmodel, p.Value));
         }
     }
 }

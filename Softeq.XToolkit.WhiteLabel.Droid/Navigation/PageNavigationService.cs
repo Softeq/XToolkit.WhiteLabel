@@ -3,33 +3,47 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.Content;
 using Plugin.CurrentActivity;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
-    public class PageNavigationService : IPageNavigationService
+    public class PageNavigationService : IPageNavigationService, IInternalNavigationService
     {
-        private readonly Stack<string> _backStack;
         private readonly ViewLocator _viewLocator;
+        private readonly IJsonSerializer _jsonSerializer;
+        private readonly IBackStackManager _backStackManager;
 
-        public PageNavigationService(ViewLocator viewLocator)
+        private bool _isParamsSerializationEnabled;
+
+        public PageNavigationService(ViewLocator viewLocator, IJsonSerializer jsonSerializer,
+            IBackStackManager backStackManager)
         {
             _viewLocator = viewLocator;
-            _backStack = new Stack<string>();
+            _jsonSerializer = jsonSerializer;
+            _backStackManager = backStackManager;
+
+            _isParamsSerializationEnabled = true;
         }
 
-        public int BackStackCount => _backStack.Count;
-
-        public bool CanGoBack => _backStack.Count > 1;
+        public bool CanGoBack => !CrossCurrentActivity.Current.Activity.IsTaskRoot;
 
         public void GoBack()
         {
-            _backStack.Pop();
-            NavigateToExistingViewModel(_backStack.Peek());
+            if (_backStackManager.Count != 0)
+            {
+                _backStackManager.PopViewModel();
+                CrossCurrentActivity.Current.Activity.Finish();
+            }
+            else
+            {
+                CrossCurrentActivity.Current.Activity.OnBackPressed();
+            }
         }
 
         public void Initialize(object navigation)
@@ -37,58 +51,67 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             //not used in this platform
         }
 
+        public PageNavigationService DisableParameterSerialization()
+        {
+            _isParamsSerializationEnabled = false;
+
+            return this;
+        }
+
         public void NavigateToViewModel<T, TParameter>(TParameter parameter, bool clearBackStack = false)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
-            var viewModel = ServiceLocator.Resolve<T>();
-            viewModel.Parameter = parameter;
-            NavigateToViewModel<T>(clearBackStack);
+            For<T>().WithParam(x => x.Parameter, parameter).Navigate(clearBackStack);
         }
 
         public NavigateHelper<T> For<T>() where T : IViewModelBase
         {
-            return new NavigateHelper<T>(ServiceLocator.Resolve<T>(),
-                shouldClearBackStack => NavigateToViewModelInternal(ServiceLocator.Resolve<T>(), shouldClearBackStack));
+            return new NavigateHelper<T>(this);
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            NavigateToViewModelInternal(ServiceLocator.Resolve<T>(), clearBackStack);
+            NavigateToViewModel<T>(clearBackStack, null);
         }
 
-        public void RestoreState()
-        {
-            var viewModelType = _backStack.Peek();
-            NavigateToExistingViewModel(viewModelType);
-        }
-
-        private void NavigateToExistingViewModel(string viewModelType)
-        {
-            var type = _viewLocator.GetTargetType(viewModelType, ViewType.Activity);
-            StartActivityImpl(type);
-        }
-
-        private void NavigateToViewModelInternal(IViewModelBase viewModel, bool clearBackStack = false)
+        public void NavigateToViewModel<T>(bool clearBackStack,
+            IReadOnlyList<NavigationParameterModel> parameters) where T : IViewModelBase
         {
             if (clearBackStack)
             {
-                _backStack.Clear();
+                _backStackManager.Clear();
             }
 
-            _backStack.Push(viewModel.GetType().FullName);
-
-            viewModel.OnNavigated();
+            var viewModel = ServiceLocator.Resolve<T>();
+            viewModel.ApplyParameters(parameters);
 
             var type = _viewLocator.GetTargetType(viewModel.GetType(), ViewType.Activity);
-            StartActivityImpl(type);
+            StartActivityImpl(type, clearBackStack, parameters);
+
+            _backStackManager.PushViewModel(viewModel);
         }
 
-        private void StartActivityImpl(Type type)
+        private void StartActivityImpl(Type type, bool shouldClearBackStack = false,
+            IReadOnlyList<NavigationParameterModel> parameters = null)
         {
             var intent = new Intent(CrossCurrentActivity.Current.Activity, type);
-            var currentActivity = CrossCurrentActivity.Current.Activity;
+            TryToSetParameters(intent, parameters);
+
+            if (shouldClearBackStack)
+            {
+                intent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
+                _backStackManager.Clear();
+            }
+
             CrossCurrentActivity.Current.Activity.StartActivity(intent);
-            currentActivity.Finish();
+        }
+
+        private void TryToSetParameters(Intent intent, IReadOnlyList<NavigationParameterModel> parameters)
+        {
+            if (_isParamsSerializationEnabled && parameters != null && parameters.Any())
+            {
+                intent.PutExtra(Constants.ParametersKey, _jsonSerializer.Serialize(parameters));
+            }
         }
     }
 }

@@ -77,6 +77,9 @@
     <Compile Include="Controls\ObservableStackView.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="MainApplicationBase.cs" />
+    <Compile Include="Navigation\BackStackManager.cs" />
+    <Compile Include="Navigation\Constants.cs" />
+    <Compile Include="Navigation\IBackStackManager.cs" />
     <Compile Include="Navigation\ViewLocator.cs" />
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -104,11 +107,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
-      <Project>{2b4a678b-63b4-49db-99b1-bfe7793110c4}</Project>
+      <Project>{78833174-8D1D-4C67-AD54-4C9EEEDFBBDB}</Project>
       <Name>Softeq.XToolkit.Bindings.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{78833174-8D1D-4C67-AD54-4C9EEEDFBBDB}</Project>
+      <Project>{6CC4B55D-2EA0-4883-BF2A-BBEBC80150AF}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
