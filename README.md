@@ -156,14 +156,14 @@ public class MainApplication : MainApplicationBase
         builder.RegisterType<ViewLocator>();
         builder.PerLifetimeScope<DroidInternalSettings, IInternalSettings>();
         builder.PerLifetimeScope<ViewModelFactoryService, IViewModelFactoryService>();
-	builder.PerLifetimeScope<BackStackManager, IBackStackManager>();
+        builder.PerLifetimeScope<BackStackManager, IBackStackManager>();
 
         //services InstancePerDependency
         builder.PerDependency<FrameNavigationService, IFrameNavigationService>();
         builder.PerDependency<DroidFragmentDialogService, IDialogsService>();
         builder.PerDependency<DefaultAlertBuilder, IAlertBuilder>();
         builder.PerDependency<DroidConsoleLogManager, ILogManager>();
-	//builder.PerDependency<PermissionsDialogService, IPermissionsDialogService>();
+        //builder.PerDependency<PermissionsDialogService, IPermissionsDialogService>();
 	
         //view models InstancePerDependency
         builder.PerDependency<DetailsPageViewModel>();
