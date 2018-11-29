@@ -86,9 +86,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             Bindings = new List<Binding>();
             _jsonSerializerLazy = new Lazy<IJsonSerializer>(ServiceLocator.Resolve<IJsonSerializer>);
-            _viewModel = new Lazy<TViewModel>(() =>
-                (TViewModel) ServiceLocator.Resolve<IBackStackManager>()
-                    .GetExistingOrCreateViewModel(typeof(TViewModel)));
+            _viewModel = new Lazy<TViewModel>(() => ServiceLocator.Resolve<IBackStackManager>()
+                .GetExistingOrCreateViewModel<TViewModel>());
         }
 
         protected List<Binding> Bindings { get; }
