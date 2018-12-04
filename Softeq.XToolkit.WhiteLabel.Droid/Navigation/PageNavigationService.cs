@@ -10,6 +10,7 @@ using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
@@ -35,15 +36,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void GoBack()
         {
-            if (_backStackManager.Count != 0)
+            Execute.BeginOnUIThread(() =>
             {
-                _backStackManager.PopViewModel();
-                CrossCurrentActivity.Current.Activity.Finish();
-            }
-            else
-            {
-                CrossCurrentActivity.Current.Activity.OnBackPressed();
-            }
+                if (_backStackManager.Count != 0)
+                {
+                    _backStackManager.PopViewModel();
+                    CrossCurrentActivity.Current.Activity.Finish();
+                }
+                else
+                {
+                    CrossCurrentActivity.Current.Activity.OnBackPressed();
+                }
+            });
         }
 
         public void Initialize(object navigation)

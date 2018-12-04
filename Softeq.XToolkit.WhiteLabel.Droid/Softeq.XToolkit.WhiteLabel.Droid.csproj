@@ -71,10 +71,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\AvatarPlaceholderDrawable.cs" />
+    <Compile Include="Controls\ImagePicker.cs" />
+    <Compile Include="Controls\ToolbarMenuComponent.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
     <Compile Include="Dialogs\DroidFragmentDialogService.cs" />
     <Compile Include="Dialogs\IAlertBuilder.cs" />
     <Compile Include="Controls\ObservableStackView.cs" />
+    <Compile Include="Extensions\ImageViewExtensions.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="MainApplicationBase.cs" />
     <Compile Include="Navigation\BackStackManager.cs" />
@@ -104,6 +108,7 @@
     <Compile Include="Navigation\RootFrameFragmentBase.cs" />
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
+    <Compile Include="Views\FullScreenImageDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
@@ -138,7 +143,10 @@
     <Folder Include="Resources\layout\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\values\" />
+    <Folder Include="Shared" />
     <Folder Include="ViewComponents\" />
+    <Folder Include="Shared\" />
+    <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\control_navigation_bar.xml" />
@@ -146,6 +154,8 @@
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\layout\control_busy_overlay.xml" />
     <AndroidResource Include="Resources\layout\fragment_navigation_root.xml" />
+    <AndroidResource Include="Resources\layout\dialog_full_screen_image.xml" />
+    <AndroidResource Include="Resources\drawable\core_ic_close.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
