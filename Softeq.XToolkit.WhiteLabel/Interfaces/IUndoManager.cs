@@ -4,7 +4,7 @@
 using System;
 using System.Threading;
 
-namespace Softeq.XToolkit.WhiteLabel.Services
+namespace Softeq.XToolkit.WhiteLabel.Interfaces
 {
     public interface IUndoManager
     {

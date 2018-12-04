@@ -1,10 +1,12 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using FFImageLoading;
 using FFImageLoading.Cross;
 using FFImageLoading.Work;
 using UIKit;
+using static Softeq.XToolkit.WhiteLabel.iOS.Helpers.AvatarImageHelpers;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
 {
@@ -34,5 +36,29 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
 
             expr.IntoAsync(imageView);
         }
+
+        public static void LoadImageWithTextPlaceholder(this UIImageView imageView,
+            string url,
+            string name,
+            AvatarStyles styles,
+            Action<TaskParameter> transform = null)
+        {
+            imageView.Image = CreateAvatarWithTextPlaceholder(name, styles);
+
+            if (string.IsNullOrEmpty(url))
+            {
+                return;
+            }
+
+            var loader = ImageService.Instance
+                .LoadUrl(url)
+                .DownSampleInDip((int)styles.Size.Width, (int)styles.Size.Height);
+
+            transform?.Invoke(loader);
+
+            loader.IntoAsync(imageView);
+        }
+
+
     }
 }

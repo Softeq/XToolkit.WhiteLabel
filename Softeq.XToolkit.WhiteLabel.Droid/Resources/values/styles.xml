@@ -16,4 +16,10 @@
     
   <style name="CoreNavigationButtonStyle" />
     
+  <style name="CoreFullScreenImageTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <item name="android:windowBackground">?android:attr/colorBackground</item>
+    <item name="android:colorPrimaryDark">#000000</item>
+    <item name="android:windowAnimationStyle">@null</item>
+  </style>
+    
 </resources>

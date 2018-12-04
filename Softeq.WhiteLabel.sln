@@ -21,10 +21,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iOS", "..\XToolkit\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj", "{2D399BA9-1878-43E2-AF05-6873EAE9151B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Tests", "Softeq.XToolkit.Tests.Core\Softeq.XToolkit.WhiteLabel.Tests.csproj", "{2B06D0B2-8BED-49EC-AC0B-154850F68190}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.UCrop", "..\XToolkit\Softeq.XToolkit.UCrop\Softeq.XToolkit.UCrop.csproj", "{0E755697-78B1-41CE-96A7-2E3DCAD33919}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,18 +151,6 @@ Global
 		{2B06D0B2-8BED-49EC-AC0B-154850F68190}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{2B06D0B2-8BED-49EC-AC0B-154850F68190}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{2B06D0B2-8BED-49EC-AC0B-154850F68190}.Debug|iPhone.Build.0 = Debug|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Release|iPhone.ActiveCfg = Release|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Release|iPhone.Build.0 = Release|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Debug|iPhone.ActiveCfg = Debug|Any CPU
-		{0E755697-78B1-41CE-96A7-2E3DCAD33919}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
