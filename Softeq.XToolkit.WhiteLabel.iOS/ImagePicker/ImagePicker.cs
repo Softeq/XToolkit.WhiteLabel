@@ -20,15 +20,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private readonly UIImagePickerController _imagePicker;
         private readonly WeakReferenceEx<UIViewController> _viewController;
         private RelayCommand<ImageOpenedEventArgs> _openCommand;
-        private IFilesProvider _fileProvider;
-        private IPermissionsManager _permissionManager;
+        private readonly IFilesProvider _fileProvider;
+        private readonly IPermissionsManager _permissionManager;
         private ImagePickerOptions _options;
 
         public ImagePicker(UIViewController viewController)
         {
             _viewController = WeakReferenceEx.Create(viewController);
-            _fileProvider = WhiteLabelDependencies.InternalStorageProvider;
-            _permissionManager = ServiceLocator.Resolve<IPermissionsManager>();
+            _fileProvider = Dependencies.InternalStorageProvider;
+            _permissionManager = Dependencies.PermissionsManager;
 
             _imagePicker = new UIImagePickerController();
         }
@@ -62,9 +62,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private async Task HandlePickerResultAsync(UIImagePickerMediaPickedEventArgs e)
         {
-            string path;
-            UIImage thumbnail;
-
             Unsubscribe();
 
             var imageKey = _options.AllowEditing ? UIImagePickerController.EditedImage : UIImagePickerController.OriginalImage;
@@ -74,20 +71,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
             var stream = await Task.Run(() => image.AsPNG().AsStream()).ConfigureAwait(false);
 
-            path = await _fileProvider.WriteStreamAsync(name, stream).ConfigureAwait(false);
+            var path = await _fileProvider.WriteStreamAsync(name, stream).ConfigureAwait(false);
 
-            thumbnail = await ImageService.Instance
-                                          .LoadFileFromApplicationBundle(path)
-                                          .DownSample(_options.ThumbnailWidth, _options.ThumbnailHeight)
-                                          .AsUIImageAsync()
-                                          .ConfigureAwait(false);
+            var thumbnail = await ImageService.Instance
+                .LoadFileFromApplicationBundle(path)
+                .DownSample(_options.ThumbnailWidth, _options.ThumbnailHeight)
+                .AsUIImageAsync()
+                .ConfigureAwait(false);
 
             Execute.OnUIThread(() =>
             {
-                if (_openCommand != null)
-                {
-                    _openCommand.Execute(new ImageOpenedEventArgs(path, thumbnail));
-                }
+                _openCommand?.Execute(new ImageOpenedEventArgs(path, thumbnail));
             });
         }
 

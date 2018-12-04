@@ -105,8 +105,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             {
                 if (destinationType.GetTypeInfo().IsEnum)
                 {
-                    var stringValue = providedValue as string;
-                    if (stringValue != null)
+                    if (providedValue is string stringValue)
                     {
                         return Enum.Parse(destinationType, stringValue, true);
                     }
@@ -116,8 +115,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
                 if (typeof(Guid).IsAssignableFrom(destinationType))
                 {
-                    var stringValue = providedValue as string;
-                    if (stringValue != null)
+                    if (providedValue is string stringValue)
                     {
                         return new Guid(stringValue);
                     }

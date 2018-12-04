@@ -9,10 +9,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class BackStackManager : IBackStackManager
     {
+        private readonly IServiceLocator _serviceLocator;
         private readonly Stack<IViewModelBase> _backStack;
 
-        public BackStackManager()
+        public BackStackManager(IServiceLocator serviceLocator)
         {
+            _serviceLocator = serviceLocator;
             _backStack = new Stack<IViewModelBase>();
         }
 
@@ -46,7 +48,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             //Used to recreate viewmodel if processes or activity was killed
-            viewModel = ServiceLocator.Resolve<TViewModel>();
+            viewModel = _serviceLocator.Resolve<TViewModel>();
             _backStack.Push(viewModel);
 
             return (TViewModel)viewModel;

@@ -71,7 +71,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
-            var viewLocator = ServiceLocator.Resolve<ViewLocator>();
+            var viewLocator = Dependencies.ServiceLocator.Resolve<ViewLocator>();
             var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
             ChildFragmentManager
                 .BeginTransaction()

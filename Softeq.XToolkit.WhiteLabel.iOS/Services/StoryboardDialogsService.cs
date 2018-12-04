@@ -17,10 +17,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         private readonly ILogger _logger;
         private readonly IViewLocator _viewLocator;
+        private readonly IServiceLocator _serviceLocator;
 
-        public StoryboardDialogsService(IViewLocator viewLocator, ILogManager logManager)
+        public StoryboardDialogsService(IViewLocator viewLocator, ILogManager logManager, IServiceLocator serviceLocator)
         {
             _viewLocator = viewLocator;
+            _serviceLocator = serviceLocator;
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
@@ -32,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             IDialogViewModel result = null;
             try
             {
-                var viewModel = ServiceLocator.Resolve<TViewModel>();
+                var viewModel = _serviceLocator.Resolve<TViewModel>();
                 var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
                 result = await GetResultAndDismiss(viewModel, viewController);
             }
@@ -51,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             IDialogViewModel result = null;
             try
             {
-                var viewModel = ServiceLocator.Resolve<TViewModel>();
+                var viewModel = _serviceLocator.Resolve<TViewModel>();
                 var viewModelWithParameter = (IViewModelParameter<TParameter>) viewModel;
                 viewModelWithParameter.Parameter = parameter;
                 var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);

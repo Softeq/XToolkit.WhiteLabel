@@ -10,7 +10,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public class StoryboardFrameNavigationService : StoryboardNavigation, IFrameNavigationService
     {
-        public StoryboardFrameNavigationService(IViewLocator viewLocator) : base(viewLocator)
+        public StoryboardFrameNavigationService(IViewLocator viewLocator, IServiceLocator serviceLocator) : base(
+            viewLocator, serviceLocator)
         {
         }
 

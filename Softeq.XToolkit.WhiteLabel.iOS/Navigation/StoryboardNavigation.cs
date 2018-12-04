@@ -15,12 +15,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
     public abstract class StoryboardNavigation : IInternalNavigationService
     {
         protected readonly IViewLocator ViewLocator;
+        private readonly IServiceLocator _serviceLocator;
 
         private WeakReferenceEx<UINavigationController> _navigationControllerRef;
 
-        protected StoryboardNavigation(IViewLocator viewLocator)
+        protected StoryboardNavigation(IViewLocator viewLocator, IServiceLocator serviceLocator)
         {
             ViewLocator = viewLocator;
+            _serviceLocator = serviceLocator;
         }
 
         protected UINavigationController NavigationController
@@ -62,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var viewModel = ServiceLocator.Resolve<T>() as ViewModelBase;
+                var viewModel = _serviceLocator.Resolve<T>() as ViewModelBase;
                 viewModel.FrameNavigationService = this as IFrameNavigationService;
                 var controller = ViewLocator.GetView(viewModel);
 
