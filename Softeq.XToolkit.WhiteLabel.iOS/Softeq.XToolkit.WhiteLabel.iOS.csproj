@@ -57,6 +57,9 @@
   <ItemGroup>
     <Folder Include="Services\Logger\" />
     <Folder Include="ImagePicker\" />
+    <Folder Include="Shared" />
+    <Folder Include="Shared\" />
+    <Folder Include="ViewControllers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDelegateBase.cs" />
@@ -68,8 +71,10 @@
     <Compile Include="Controls\SupportRotationViewController.cs" />
     <Compile Include="Extensions\NavigationItemExtensions.cs" />
     <Compile Include="Extensions\UiViewExtensions.cs" />
+    <Compile Include="Helpers\AvatarImageHelpers.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
+    <Compile Include="ImagePicker\SimpleImagePicker.cs" />
     <Compile Include="IosPlatformProvider.cs" />
     <Compile Include="IViewControllerComponent.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
@@ -95,6 +100,10 @@
     <Compile Include="ImagePicker\ImageOpenedEventArgs.cs" />
     <Compile Include="ImagePicker\ImagePickerOptions.cs" />
     <Compile Include="ImagePicker\ImagePicker.cs" />
+    <Compile Include="ViewControllers\FullScreenImageViewController.cs" />
+    <Compile Include="ViewControllers\FullScreenImageViewController.designer.cs">
+      <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -123,6 +132,9 @@
       <Project>{546960A9-305B-4989-B82C-6F3D0ABD16C8}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="ViewControllers\FullScreenImageStoryboard.storyboard" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -9,6 +9,7 @@ using Android.Util;
 using Android.Views;
 using Android.Widget;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
@@ -41,10 +42,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public Button RightTextButton { get; private set; }
 
-        public void SetLeftButton(int resourceId, ICommand command)
+        public void SetLeftButton(int resourceId, ICommand command, int? color = null)
         {
             _leftButton.SetImageResource(resourceId);
             _leftButton.Visibility = ViewStates.Visible;
+
+            if (color.HasValue)
+            {
+                _leftButton.SetColorFilter(_leftButton.GetColor(color.Value));
+            }
 
             if (command != null)
             {

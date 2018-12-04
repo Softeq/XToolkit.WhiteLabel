@@ -51,6 +51,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         public abstract IList<Assembly> SelectAssemblies();
 
+        public abstract void NavigateToFirstPage();
+
         private void StartScopeForIoc()
         {
             var containerBuilder = new ContainerBuilder();

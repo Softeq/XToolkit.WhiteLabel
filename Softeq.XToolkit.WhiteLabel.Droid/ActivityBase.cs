@@ -3,13 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using Android.Content;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
-using Android.Views;
 using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -61,13 +59,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
             ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
             var viewLocator = ServiceLocator.Resolve<ViewLocator>();
-            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
+            var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
             SupportFragmentManager
                 .BeginTransaction()
                 .Add(containerId, fragment)
@@ -188,7 +187,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                     return Enum.ToObject(property.PropertyType, value);
                 }
 
-                return ((JObject) value).ToObject(property.PropertyType);
+                return ((JObject)value).ToObject(property.PropertyType);
             }
 
             property.SetValue(ViewModel, GetValue(parameter.Value), null);
@@ -202,6 +201,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         private TViewModel _viewModel;
 
         protected override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel) ServiceLocator.Resolve<TInterface>());
+            _viewModel ?? (_viewModel = (TViewModel)ServiceLocator.Resolve<TInterface>());
     }
 }
