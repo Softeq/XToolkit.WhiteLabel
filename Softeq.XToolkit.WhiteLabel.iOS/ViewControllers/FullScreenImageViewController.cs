@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using FFImageLoading;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.iOS.Extensions;

@@ -1,4 +1,7 @@
-﻿using Android.OS;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using Android.OS;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
@@ -24,7 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
         public override void OnViewCreated(View view, Bundle savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
-            
+
             _closeButton = View.FindViewById<ImageButton>(Resource.Id.dialog_full_screen_image_close_button);
             _closeButton.SetCommand(nameof(_closeButton.Click),
                 new RelayCommand(() => { ViewModel.DialogComponent.CloseCommand.Execute(true); }));

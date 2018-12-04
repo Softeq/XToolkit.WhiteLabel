@@ -1,4 +1,7 @@
-﻿using Softeq.XToolkit.WhiteLabel.Interfaces;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.ViewModels
