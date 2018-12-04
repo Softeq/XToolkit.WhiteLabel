@@ -136,14 +136,11 @@
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
-  <ItemGroup />
   <ItemGroup>
     <Folder Include="Services\Logger\" />
     <Folder Include="Resources\layout\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\values\" />
-    <Folder Include="Shared" />
     <Folder Include="ViewComponents\" />
     <Folder Include="Shared\" />
     <Folder Include="Views\" />
