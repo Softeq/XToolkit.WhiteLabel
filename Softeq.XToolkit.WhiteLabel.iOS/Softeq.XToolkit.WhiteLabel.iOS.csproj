@@ -57,7 +57,6 @@
   <ItemGroup>
     <Folder Include="Services\Logger\" />
     <Folder Include="ImagePicker\" />
-    <Folder Include="Shared" />
     <Folder Include="Shared\" />
     <Folder Include="ViewControllers\" />
   </ItemGroup>

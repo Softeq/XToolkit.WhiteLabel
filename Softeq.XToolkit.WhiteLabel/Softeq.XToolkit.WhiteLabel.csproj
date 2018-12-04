@@ -24,12 +24,7 @@
     <Folder Include="ImagePicker\" />
     <Folder Include="Messenger\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Shared" />
     <Folder Include="Shared\" />
     <Folder Include="ViewModels\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="NetworkConnection\IInternetConnectionStatusService.cs" />
-    <Compile Remove="ImagePicker\ImagePickerViewModel.cs" />
   </ItemGroup>
 </Project>
