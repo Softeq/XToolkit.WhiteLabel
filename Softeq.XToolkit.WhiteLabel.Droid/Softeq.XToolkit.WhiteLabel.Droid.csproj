@@ -81,9 +81,7 @@
     <Compile Include="Extensions\ImageViewExtensions.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="MainApplicationBase.cs" />
-    <Compile Include="Navigation\BackStackManager.cs" />
     <Compile Include="Navigation\Constants.cs" />
-    <Compile Include="Navigation\IBackStackManager.cs" />
     <Compile Include="Navigation\ViewLocator.cs" />
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -97,7 +95,7 @@
     <Compile Include="Services\LocationService.cs" />
     <Compile Include="ActivityBase.cs" />
     <Compile Include="FragmentBase.cs" />
-    <Compile Include="Navigation\PageNavigationService.cs" />
+    <Compile Include="Navigation\ActivityPageNavigationService.cs" />
     <Compile Include="Navigation\FrameNavigationService.cs" />
     <Compile Include="Services\DefaultAlertBuilder.cs" />
     <Compile Include="Services\Logger\DroidConsoleLogger.cs" />
@@ -142,7 +140,6 @@
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\values\" />
     <Folder Include="ViewComponents\" />
-    <Folder Include="Shared\" />
     <Folder Include="Views\" />
   </ItemGroup>
   <ItemGroup>

@@ -1,7 +1,9 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Collections.Generic;
 using System.Linq;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -10,9 +12,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public class StoryboardFrameNavigationService : StoryboardNavigation, IFrameNavigationService
     {
+        private readonly IServiceLocator _serviceLocator;
+
         public StoryboardFrameNavigationService(IViewLocator viewLocator, IServiceLocator serviceLocator) : base(
-            viewLocator, serviceLocator)
+            viewLocator)
         {
+            _serviceLocator = serviceLocator;
         }
 
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
@@ -20,6 +25,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         bool IFrameNavigationService.CanGoBack => CanGoBack;
 
         ViewModelBase IFrameNavigationService.CurrentViewModel => null;
+
+        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
+        {
+            var viewModel = _serviceLocator.Resolve<T>();
+            NavigateToViewModel(viewModel as ViewModelBase, false, null);
+        }
+
+        public void NavigateToViewModel<T, TParameter>(TParameter parameter)
+            where T : IViewModelBase, IViewModelParameter<TParameter>
+        {
+            var viewModel = _serviceLocator.Resolve<T>();
+            viewModel.Parameter = parameter;
+            NavigateToViewModel(viewModel as ViewModelBase, false, null);
+        }
 
         void IFrameNavigationService.GoBack()
         {
@@ -33,6 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
                 var controller = NavigationController
                     .ChildViewControllers
                     .FirstOrDefault(x => x is ViewControllerBase<T>);
+
                 if (controller != null)
                 {
                     NavigationController.PopToViewController(controller, false);
@@ -45,33 +65,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Initialize(navigation);
         }
 
-        void IFrameNavigationService.NavigateToViewModel<T, TParameter>(TParameter parameter)
-        {
-            NavigateToViewModel<T, TParameter>(parameter);
-        }
-
-        void IFrameNavigationService.NavigateToViewModel<T>(bool clearBackStack)
-        {
-            NavigateToViewModel<T>(clearBackStack);
-        }
-
         void IFrameNavigationService.NavigateToViewModel<T>(T t)
-        {
-            NavigateToViewModel<T>(t);
-        }
-
-        void IFrameNavigationService.RestoreState()
-        {
-            //
-        }
-
-        private void NavigateToViewModel<T>(T t) where T : IViewModelBase
         {
             Execute.BeginOnUIThread(() =>
             {
                 var controller = ViewLocator.GetView(t);
                 Navigate(controller, false);
             });
+        }
+
+        void IFrameNavigationService.RestoreState()
+        {
         }
     }
 }
