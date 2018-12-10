@@ -3,7 +3,7 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
-    public interface IInternalNavigationService
+    public interface IPlatformNavigationService
     {
         void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,
             IReadOnlyList<NavigationParameterModel> parameters);

@@ -5,11 +5,12 @@ using System.Collections.Generic;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
-    public class StoryboardNavigation : IInternalNavigationService
+    public class StoryboardNavigation : IPlatformNavigationService
     {
         protected readonly IViewLocator ViewLocator;
 
@@ -35,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public void GoBack()
         {
-            NavigationController.PopViewController(true);
+            Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
         }
 
         public void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,

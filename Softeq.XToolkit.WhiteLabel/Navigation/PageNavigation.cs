@@ -7,11 +7,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class PageNavigationService : IPageNavigationService
     {
-        private readonly IInternalNavigationService _pageNavigationService;
+        private readonly IPlatformNavigationService _pageNavigationService;
         private readonly IBackStackManager _backStackManager;
         private readonly IServiceLocator _serviceLocator;
 
-        public PageNavigationService(IInternalNavigationService pageNavigationService,
+        public PageNavigationService(IPlatformNavigationService pageNavigationService,
             IBackStackManager backStackManager, IServiceLocator serviceLocator)
         {
             _pageNavigationService = pageNavigationService;
@@ -25,6 +25,26 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             where T : IViewModelBase
         {
             NavigateToViewModel<T>(clearBackStack, null);
+        }
+
+        public void Initialize(object navigation)
+        {
+            _pageNavigationService.Initialize(navigation);
+        }
+
+        public void GoBack()
+        {
+            if (_backStackManager.Count != 0)
+            {
+                _backStackManager.PopViewModel();
+            }
+
+            _pageNavigationService.GoBack();
+        }
+
+        public NavigateHelper<T> For<T>() where T : IViewModelBase
+        {
+            return new NavigateHelper<T>(this);
         }
 
         internal void NavigateToViewModel<T>(bool clearBackStack, IReadOnlyList<NavigationParameterModel> parameters)
@@ -41,29 +61,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _pageNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
 
             _backStackManager.PushViewModel(viewModel);
-        }
-
-        public void Initialize(object navigation)
-        {
-            _pageNavigationService.Initialize(navigation);
-        }
-
-        public void GoBack()
-        {
-            Execute.BeginOnUIThread(() =>
-            {
-                if (_backStackManager.Count != 0)
-                {
-                    _backStackManager.PopViewModel();
-                }
-
-                _pageNavigationService.GoBack();
-            });
-        }
-
-        public NavigateHelper<T> For<T>() where T : IViewModelBase
-        {
-            return new NavigateHelper<T>(this);
         }
     }
 }

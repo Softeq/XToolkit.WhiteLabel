@@ -9,10 +9,11 @@ using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
-    public class ActivityPageNavigationService : IInternalNavigationService
+    public class ActivityPageNavigationService : IPlatformNavigationService
     {
         private readonly ViewLocator _viewLocator;
         private readonly IJsonSerializer _jsonSerializer;
@@ -34,14 +35,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void GoBack()
         {
-            if (CanGoBack)
+            Execute.BeginOnUIThread(() =>
             {
-                _currentActivity.Activity.Finish();
-            }
-            else
-            {
-                _currentActivity.Activity.OnBackPressed();
-            }
+                if (CanGoBack)
+                {
+                    _currentActivity.Activity.Finish();
+                }
+                else
+                {
+                    _currentActivity.Activity.OnBackPressed();
+                }
+            });
         }
 
         public void Initialize(object navigation){}
