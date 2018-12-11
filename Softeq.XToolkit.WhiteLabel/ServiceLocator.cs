@@ -4,10 +4,6 @@
 using System;
 using Autofac;
 using Autofac.Core;
-using Softeq.XToolkit.Common.Files;
-using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel
 {
@@ -90,33 +86,5 @@ namespace Softeq.XToolkit.WhiteLabel
             _rootScope = builder.Build();
             _currentScope = _rootScope.BeginLifetimeScope();
         }
-    }
-
-    public static class Dependencies
-    {
-        private static bool _isInitialized;
-        private static IIocContainer _iocContainer;
-
-        public static void Initialize(IIocContainer iocContainer)
-        {
-            if (_isInitialized)
-            {
-                throw new ArgumentException($"{nameof(Dependencies)} already initialized");
-            }
-
-            _iocContainer = iocContainer;
-            _isInitialized = true;
-        }
-
-        public static IIocContainer IocContainer => _iocContainer;
-        
-        public static IPageNavigationService PageNavigationService => IocContainer.Resolve<IPageNavigationService>();
-
-        public static IPermissionRequestHandler PermissionRequestHandler =>
-            IocContainer.Resolve<IPermissionRequestHandler>();
-
-        public static IJsonSerializer JsonSerializer => IocContainer.Resolve<IJsonSerializer>();
-        public static IFilesProvider InternalStorageProvider => IocContainer.Resolve<InternalStorageProvider>();
-        public static IPermissionsManager PermissionsManager => IocContainer.Resolve<IPermissionsManager>();
     }
 }
