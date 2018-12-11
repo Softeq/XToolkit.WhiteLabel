@@ -12,12 +12,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public class StoryboardFrameNavigationService : StoryboardNavigation, IFrameNavigationService
     {
-        private readonly IServiceLocator _serviceLocator;
+        private readonly IIocContainer _iocContainer;
 
-        public StoryboardFrameNavigationService(IViewLocator viewLocator, IServiceLocator serviceLocator) : base(
+        public StoryboardFrameNavigationService(IViewLocator viewLocator, IIocContainer iocContainer) : base(
             viewLocator)
         {
-            _serviceLocator = serviceLocator;
+            _iocContainer = iocContainer;
         }
 
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
@@ -28,14 +28,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            var viewModel = _serviceLocator.Resolve<T>();
+            var viewModel = _iocContainer.Resolve<T>();
             NavigateToViewModel(viewModel as ViewModelBase, false, null);
         }
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
-            var viewModel = _serviceLocator.Resolve<T>();
+            var viewModel = _iocContainer.Resolve<T>();
             viewModel.Parameter = parameter;
             NavigateToViewModel(viewModel as ViewModelBase, false, null);
         }

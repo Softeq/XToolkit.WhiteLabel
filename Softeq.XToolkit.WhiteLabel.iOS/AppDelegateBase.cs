@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             var containerBuilder = new ContainerBuilder();
             ConfigureIoc(containerBuilder);
-            Dependencies.ServiceLocator.StartScope(containerBuilder);
+            Dependencies.IocContainer.StartScope(containerBuilder);
         }
     }
 }

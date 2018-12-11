@@ -19,16 +19,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         private const string FrameNavigationServiceParameterName = "FrameNavigationService";
 
-        private readonly IServiceLocator _serviceLocator;
+        private readonly IIocContainer _iocContainer;
         private readonly Func<UIViewController, UIViewController> _getViewControllerFunc;
         private readonly ILogger _logger;
 
         public StoryboardViewLocator(
             ILogManager logManager,
-            IServiceLocator serviceLocator,
+            IIocContainer iocContainer,
             Func<UIViewController, UIViewController> getViewControllerFunc)
         {
-            _serviceLocator = serviceLocator;
+            _iocContainer = iocContainer;
             _getViewControllerFunc = getViewControllerFunc;
             _logger = logManager.GetLogger<StoryboardViewLocator>();
         }
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             IFrameNavigationService frameNavigationService = null)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
-            var viewModel = _serviceLocator.Resolve<T>();
+            var viewModel = _iocContainer.Resolve<T>();
             var controller = GetView(viewModel);
             TryInjectParameters(viewModel, frameNavigationService, FrameNavigationServiceParameterName);
             TryInjectParameters(viewModel, parameter, "Parameter");
@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         public UIViewController GetView<T>(IFrameNavigationService frameNavigationService = null)
             where T : IViewModelBase
         {
-            var viewModel = _serviceLocator.Resolve<T>();
+            var viewModel = _iocContainer.Resolve<T>();
             var controller = GetView(viewModel);
             TryInjectParameters(viewModel, frameNavigationService, FrameNavigationServiceParameterName);
             return controller;

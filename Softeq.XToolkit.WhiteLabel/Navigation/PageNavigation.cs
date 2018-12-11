@@ -9,14 +9,14 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
     {
         private readonly IPlatformNavigationService _pageNavigationService;
         private readonly IBackStackManager _backStackManager;
-        private readonly IServiceLocator _serviceLocator;
+        private readonly IIocContainer _iocContainer;
 
         public PageNavigationService(IPlatformNavigationService pageNavigationService,
-            IBackStackManager backStackManager, IServiceLocator serviceLocator)
+            IBackStackManager backStackManager, IIocContainer iocContainer)
         {
             _pageNavigationService = pageNavigationService;
             _backStackManager = backStackManager;
-            _serviceLocator = serviceLocator;
+            _iocContainer = iocContainer;
         }
 
         public bool CanGoBack => _pageNavigationService.CanGoBack;
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
                 _backStackManager.Clear();
             }
 
-            var viewModel = _serviceLocator.Resolve<T>() as ViewModelBase;
+            var viewModel = _iocContainer.Resolve<T>() as ViewModelBase;
             viewModel.ApplyParameters(parameters);
 
             _pageNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);

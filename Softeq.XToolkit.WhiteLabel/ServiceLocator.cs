@@ -11,7 +11,7 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel
 {
-    public interface IServiceLocator
+    public interface IIocContainer
     {
         void StartScope(ContainerBuilder builder);
         void RestartScope();
@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel
         Lazy<T> LazyResolve<T>(params Parameter[] par);
     }
 
-    public class ServiceLocator : IServiceLocator
+    public class IocContainer : IIocContainer
     {
         private ILifetimeScope _currentScope;
         private ILifetimeScope _rootScope;
@@ -95,28 +95,28 @@ namespace Softeq.XToolkit.WhiteLabel
     public static class Dependencies
     {
         private static bool _isInitialized;
-        private static IServiceLocator _serviceLocator;
+        private static IIocContainer _iocContainer;
 
-        public static void Initialize(IServiceLocator serviceLocator)
+        public static void Initialize(IIocContainer iocContainer)
         {
             if (_isInitialized)
             {
                 throw new ArgumentException($"{nameof(Dependencies)} already initialized");
             }
 
-            _serviceLocator = serviceLocator;
+            _iocContainer = iocContainer;
             _isInitialized = true;
         }
 
-        public static IServiceLocator ServiceLocator => _serviceLocator;
+        public static IIocContainer IocContainer => _iocContainer;
         
-        public static IPageNavigationService PageNavigationService => ServiceLocator.Resolve<IPageNavigationService>();
+        public static IPageNavigationService PageNavigationService => IocContainer.Resolve<IPageNavigationService>();
 
         public static IPermissionRequestHandler PermissionRequestHandler =>
-            ServiceLocator.Resolve<IPermissionRequestHandler>();
+            IocContainer.Resolve<IPermissionRequestHandler>();
 
-        public static IJsonSerializer JsonSerializer => ServiceLocator.Resolve<IJsonSerializer>();
-        public static IFilesProvider InternalStorageProvider => ServiceLocator.Resolve<InternalStorageProvider>();
-        public static IPermissionsManager PermissionsManager => ServiceLocator.Resolve<IPermissionsManager>();
+        public static IJsonSerializer JsonSerializer => IocContainer.Resolve<IJsonSerializer>();
+        public static IFilesProvider InternalStorageProvider => IocContainer.Resolve<InternalStorageProvider>();
+        public static IPermissionsManager PermissionsManager => IocContainer.Resolve<IPermissionsManager>();
     }
 }

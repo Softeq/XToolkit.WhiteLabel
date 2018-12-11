@@ -9,12 +9,12 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class BackStackManager : IBackStackManager
     {
-        private readonly IServiceLocator _serviceLocator;
+        private readonly IIocContainer _iocContainer;
         private readonly Stack<IViewModelBase> _backStack;
 
-        public BackStackManager(IServiceLocator serviceLocator)
+        public BackStackManager(IIocContainer iocContainer)
         {
-            _serviceLocator = serviceLocator;
+            _iocContainer = iocContainer;
             _backStack = new Stack<IViewModelBase>();
         }
 
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             }
 
             //Used to recreate viewmodel if processes or activity was killed
-            viewModel = _serviceLocator.Resolve<TViewModel>();
+            viewModel = _iocContainer.Resolve<TViewModel>();
             _backStack.Push(viewModel);
 
             return (TViewModel) viewModel;

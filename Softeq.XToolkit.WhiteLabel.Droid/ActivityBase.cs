@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
-            var viewLocator = Dependencies.ServiceLocator.Resolve<ViewLocator>();
+            var viewLocator = Dependencies.IocContainer.Resolve<ViewLocator>();
             var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
             SupportFragmentManager
                 .BeginTransaction()
@@ -81,7 +81,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             Bindings = new List<Binding>();
             _jsonSerializer = Dependencies.JsonSerializer;
-            _viewModel = new Lazy<TViewModel>(() => Dependencies.ServiceLocator.Resolve<IBackStackManager>()
+            _viewModel = new Lazy<TViewModel>(() => Dependencies.IocContainer.Resolve<IBackStackManager>()
                 .GetExistingOrCreateViewModel<TViewModel>());
         }
 
@@ -197,6 +197,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         private TViewModel _viewModel;
 
         protected override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel) Dependencies.ServiceLocator.Resolve<TInterface>());
+            _viewModel ?? (_viewModel = (TViewModel) Dependencies.IocContainer.Resolve<TInterface>());
     }
 }

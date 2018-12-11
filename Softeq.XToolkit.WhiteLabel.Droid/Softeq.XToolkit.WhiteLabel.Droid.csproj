@@ -14,7 +14,6 @@
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <AndroidUseLatestPlatformSdk>false</AndroidUseLatestPlatformSdk>
     <TargetFrameworkVersion>v8.1</TargetFrameworkVersion>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
@@ -110,11 +109,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
-      <Project>{78833174-8D1D-4C67-AD54-4C9EEEDFBBDB}</Project>
+      <Project>{2B4A678B-63B4-49DB-99B1-BFE7793110C4}</Project>
       <Name>Softeq.XToolkit.Bindings.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{6CC4B55D-2EA0-4883-BF2A-BBEBC80150AF}</Project>
+      <Project>{AE01FC6D-43B3-41ED-ABC6-941AF07E6C3A}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
@@ -122,11 +121,11 @@
       <Name>Softeq.XToolkit.Common.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{B4208549-9B41-4EB2-9F80-8E60D75E6BFA}</Project>
+      <Project>{A58E3E80-FD9B-4368-90C2-9C1FE5B0B4D6}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{690D58CB-A04C-418F-863B-F4ED17775120}</Project>
+      <Project>{797907F2-95D6-40E5-811E-3206CBF62213}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
