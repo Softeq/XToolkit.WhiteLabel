@@ -3,7 +3,7 @@
 
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
+namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IBackStackManager
     {

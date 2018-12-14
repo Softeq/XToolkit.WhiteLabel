@@ -19,11 +19,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private readonly Stack<ViewModelBase> _backStack;
         private readonly ViewLocator _viewLocator;
+        private readonly IIocContainer _iocContainer;
         private int _containerId;
 
-        public FrameNavigationService(ViewLocator viewLocator)
+        public FrameNavigationService(ViewLocator viewLocator, IIocContainer iocContainer)
         {
             _viewLocator = viewLocator;
+            _iocContainer = iocContainer;
             _backStack = new Stack<ViewModelBase>();
         }
 
@@ -68,7 +70,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
-            var viewModel = ServiceLocator.Resolve<T>();
+            var viewModel = _iocContainer.Resolve<T>();
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
             viewModel.Parameter = parameter;
             var baseFragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
@@ -78,7 +80,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            var viewModel = ServiceLocator.Resolve<T>();
+            var viewModel = _iocContainer.Resolve<T>();
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
             var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
 

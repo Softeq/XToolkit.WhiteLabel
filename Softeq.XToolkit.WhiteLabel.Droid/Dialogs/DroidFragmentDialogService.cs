@@ -13,14 +13,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     public class DroidFragmentDialogService : IDialogsService
     {
         private readonly IAlertBuilder _alertBuilder;
+        private readonly IIocContainer _iocContainer;
         private readonly ViewLocator _viewLocator;
 
         public DroidFragmentDialogService(
             ViewLocator viewLocator,
-            IAlertBuilder alertBuilder)
+            IAlertBuilder alertBuilder, IIocContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _alertBuilder = alertBuilder;
+            _iocContainer = iocContainer;
         }
 
         public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions();
@@ -33,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public Task<TViewModel> ShowForViewModel<TViewModel>(OpenDialogOptions options = null)
             where TViewModel : class, IDialogViewModel
         {
-            var viewModel = ServiceLocator.Resolve<TViewModel>();
+            var viewModel = _iocContainer.Resolve<TViewModel>();
             return ShowImpl<TViewModel>(viewModel as ViewModelBase);
         }
 
@@ -41,7 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             OpenDialogOptions options = null)
             where TViewModel : class, IDialogViewModel, IViewModelParameter<TParameter>
         {
-            var viewModel = ServiceLocator.Resolve<TViewModel>();
+            var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.Parameter = parameter;
             return ShowImpl<TViewModel>(viewModel as ViewModelBase);
         }

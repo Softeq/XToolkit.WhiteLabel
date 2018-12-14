@@ -10,7 +10,8 @@ namespace Softeq.XToolkit.WhiteLabel
     {
         public static ILogger GetLogger<T>()
         {
-            var logManager = ServiceLocator.Resolve<ILogManager>();
+            //TODO: Yauhen Sampir Static class with name LogManager resolve ILogManager, very strange logic
+            var logManager = Dependencies.IocContainer.Resolve<ILogManager>();
             var logger = logManager.GetLogger<T>();
             return logger;
         }

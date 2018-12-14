@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             var containerBuilder = new ContainerBuilder();
             ConfigureIoc(containerBuilder);
-            ServiceLocator.StartScope(containerBuilder);
+            Dependencies.IocContainer.StartScope(containerBuilder);
         }
 
         protected abstract void ConfigureIoc(ContainerBuilder containerBuilder);

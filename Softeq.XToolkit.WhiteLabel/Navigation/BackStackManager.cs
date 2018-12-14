@@ -5,14 +5,16 @@ using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
+namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class BackStackManager : IBackStackManager
     {
+        private readonly IIocContainer _iocContainer;
         private readonly Stack<IViewModelBase> _backStack;
 
-        public BackStackManager()
+        public BackStackManager(IIocContainer iocContainer)
         {
+            _iocContainer = iocContainer;
             _backStack = new Stack<IViewModelBase>();
         }
 
@@ -35,21 +37,26 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public TViewModel GetExistingOrCreateViewModel<TViewModel>() where TViewModel : IViewModelBase
         {
-            if (_backStack.TryPeek(out var viewModel))
+            IViewModelBase viewModel;
+
+            if (_backStack.Count != 0)
             {
+                viewModel = _backStack.Peek();
+
                 if (viewModel.GetType() != typeof(TViewModel))
                 {
-                    throw new ArgumentException($"Please use {nameof(PageNavigationService)} navigating, instead d of navigation via StartActivity()");
+                    throw new ArgumentException(
+                        $"Please use {nameof(PageNavigationService)} navigating, instead d of navigation via StartActivity()");
                 }
 
-                return (TViewModel)viewModel;
+                return (TViewModel) viewModel;
             }
 
             //Used to recreate viewmodel if processes or activity was killed
-            viewModel = ServiceLocator.Resolve<TViewModel>();
+            viewModel = _iocContainer.Resolve<TViewModel>();
             _backStack.Push(viewModel);
 
-            return (TViewModel)viewModel;
+            return (TViewModel) viewModel;
         }
     }
 }

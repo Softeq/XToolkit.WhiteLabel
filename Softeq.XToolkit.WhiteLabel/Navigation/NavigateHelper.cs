@@ -10,10 +10,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class NavigateHelper<TViewModel> where TViewModel : IViewModelBase
     {
-        private readonly IInternalNavigationService _navigationService;
+        private readonly PageNavigationService _navigationService;
         private readonly List<NavigationParameterModel> _parameters = new List<NavigationParameterModel>();
 
-        public NavigateHelper(IInternalNavigationService navigationService)
+        public NavigateHelper(PageNavigationService navigationService)
         {
             _navigationService = navigationService;
         }
