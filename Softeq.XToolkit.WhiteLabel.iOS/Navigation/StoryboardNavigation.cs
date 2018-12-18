@@ -48,13 +48,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         protected void Navigate(UIViewController controller, bool clearBackStack)
         {
-            if (clearBackStack)
+            Execute.BeginOnUIThread(() =>
             {
-                NavigationController.SetViewControllers(new[] {controller}, false);
-                return;
-            }
+                if (clearBackStack)
+                {
+                    NavigationController.SetViewControllers(new[] { controller }, false);
+                    return;
+                }
 
-            NavigationController.PushViewController(controller, true);
+                NavigationController.PushViewController(controller, true);
+            });
         }
     }
 }

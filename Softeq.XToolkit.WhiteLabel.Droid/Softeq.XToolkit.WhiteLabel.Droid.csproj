@@ -57,7 +57,7 @@
       <Version>27.0.2.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
-      <Version>2.4.3.840</Version>
+      <Version>2.4.4.859</Version>
     </PackageReference>
     <PackageReference Include="Plugin.CurrentActivity">
       <Version>2.1.0.4</Version>
@@ -108,14 +108,6 @@
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
-      <Project>{2B4A678B-63B4-49DB-99B1-BFE7793110C4}</Project>
-      <Name>Softeq.XToolkit.Bindings.Droid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{AE01FC6D-43B3-41ED-ABC6-941AF07E6C3A}</Project>
-      <Name>Softeq.XToolkit.Bindings</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
       <Project>{18d3fdc1-b0a1-401e-87f2-1c43034e610c}</Project>
       <Name>Softeq.XToolkit.Common.Droid</Name>
@@ -131,6 +123,14 @@
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
       <Project>{424EABDC-DCC0-4616-B603-93582D9A9AD4}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
+      <Project>{78833174-8D1D-4C67-AD54-4C9EEEDFBBDB}</Project>
+      <Name>Softeq.XToolkit.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
+      <Project>{2B4A678B-63B4-49DB-99B1-BFE7793110C4}</Project>
+      <Name>Softeq.XToolkit.Bindings.Droid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

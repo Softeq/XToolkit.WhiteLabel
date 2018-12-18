@@ -25,6 +25,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private UIImagePickerController _imagePicker;
         private Size _calculatedImageSize;
 
+        public event EventHandler PickerWillOpen;
+
         public SimpleImagePicker(
             UIViewController parentViewController,
             IPermissionsManager permissionsManager,
@@ -104,6 +106,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private void OpenSelector()
         {
+            PickerWillOpen?.Invoke(this, EventArgs.Empty);
+
             _imagePicker.FinishedPickingMedia += OnFinishedPickingMedia;
             _imagePicker.Canceled += OnCanceled;
 

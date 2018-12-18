@@ -12,6 +12,7 @@ using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using UIKit;
+using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
@@ -102,8 +103,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             var result = false;
             try
             {
-                var storyboard = UIStoryboard.FromName(storyBoardName, null);
-                viewController = storyboard.InstantiateViewController(targetTypeName);
+                var newViewController = default(UIViewController);
+                Execute.OnUIThread(() =>
+                {
+                    var storyboard = UIStoryboard.FromName(storyBoardName, null);
+                    newViewController = storyboard.InstantiateViewController(targetTypeName);
+                });
+                viewController = newViewController;
                 result = true;
             }
             catch (Exception ex)
@@ -124,7 +130,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
             if (targeType == null)
             {
-                throw new DllNotFoundException("can't find target type");
+                throw new DllNotFoundException($"Can't find target type: {targetTypeName}");
             }
 
             return (UIViewController)Activator.CreateInstance(targeType);

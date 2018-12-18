@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Reflection;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation

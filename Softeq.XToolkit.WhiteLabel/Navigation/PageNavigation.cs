@@ -1,7 +1,8 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.Collections.Generic;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {

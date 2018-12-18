@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             var targetType = GetTargetType(viewModel.GetType(), viewType);
             var inst = Activator.CreateInstance(targetType);
             var method = inst.GetType().GetMethod("SetExistingViewModel");
-            method.Invoke(inst, new[] {viewModel});
+            method.Invoke(inst, new[] { viewModel });
             return inst;
         }
 
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             var targetType = GetTargetType(viewModel.GetType(), viewType);
             var inst = Activator.CreateInstance(targetType);
             var method = inst.GetType().GetMethod("SetExistingViewModel");
-            method.Invoke(inst, new[] {viewModel});
+            method.Invoke(inst, new[] { viewModel });
             return inst;
         }
 
@@ -47,11 +47,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             targetTypeName = targetTypeName.Replace("ViewModel", viewType.ToString());
 
             var targeType = Type.GetType(targetTypeName)
-                            ?? AssemblySource.FindTypeByNames(new[] {targetTypeName});
+                            ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
 
             if (targeType == null)
             {
-                throw new DllNotFoundException("can't find target type");
+                throw new DllNotFoundException($"Can't find target type: {targetTypeName}");
             }
 
             return targeType;
@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private PropertyInfo GetPropertyCaseInsensitive(Type type, string propertyName)
         {
             var typeInfo = type.GetTypeInfo();
-            var typeList = new List<Type> {type};
+            var typeList = new List<Type> { type };
 
             if (typeInfo.IsInterface)
             {

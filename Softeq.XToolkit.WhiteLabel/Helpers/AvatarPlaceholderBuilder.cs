@@ -44,12 +44,12 @@ namespace Softeq.XToolkit.WhiteLabel.Helpers
 
         private static string GetAbbreviation(string data)
         {
-            var trimedData = data.Trim();
-
-            if (trimedData.Length == 0)
+            if (string.IsNullOrWhiteSpace(data))
             {
                 return string.Empty;
             }
+
+            var trimedData = data.Trim();
 
             if (trimedData.Contains(' '))
             {

@@ -25,7 +25,6 @@
     <Folder Include="ImagePicker\" />
     <Folder Include="Messenger\" />
     <Folder Include="Extensions\" />
-    <Folder Include="Shared\" />
     <Folder Include="ViewModels\" />
   </ItemGroup>
 </Project>
