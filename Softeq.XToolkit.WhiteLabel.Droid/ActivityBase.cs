@@ -75,18 +75,32 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     {
         private const string ShouldRestoreStateKey = "shouldRestore";
         private readonly IJsonSerializer _jsonSerializer;
-        private Lazy<TViewModel> _viewModel;
+        private Lazy<TViewModel> _viewModelLazy;
 
         protected ActivityBase()
         {
             Bindings = new List<Binding>();
             _jsonSerializer = Dependencies.JsonSerializer;
-            _viewModel = new Lazy<TViewModel>(() => Dependencies.IocContainer.Resolve<IBackStackManager>()
-                .GetExistingOrCreateViewModel<TViewModel>());
+            _viewModel = new Lazy<TViewModel>(() =>
+            {
+                var backStack = Dependencies.IocContainer.Resolve<IBackStackManager>();
+                return backStack.GetExistingOrCreateViewModel<TViewModel>();
+            });
         }
 
         protected List<Binding> Bindings { get; }
-        protected virtual TViewModel ViewModel => _viewModel.Value;
+
+        protected virtual TViewModel ViewModel
+        {
+            get
+            {
+                if (Handle == IntPtr.Zero)
+                {
+                    throw new Exception("Don't forget to detach last ViewModel bindings.");
+                }
+                return _viewModelLazy.Value;
+            }
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -128,7 +142,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             if (IsFinishing)
             {
-                _viewModel = null;
+                _viewModelLazy = null;
                 base.OnDestroy();
                 Dispose();
             }

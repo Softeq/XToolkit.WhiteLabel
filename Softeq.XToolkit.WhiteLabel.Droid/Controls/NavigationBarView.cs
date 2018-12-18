@@ -4,6 +4,7 @@
 using System;
 using System.Windows.Input;
 using Android.Content;
+using Android.Graphics.Drawables;
 using Android.Runtime;
 using Android.Util;
 using Android.Views;
@@ -61,6 +62,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         public void SetRightButton(int resourceId, ICommand command)
         {
             _rightButton.SetImageResource(resourceId);
+            _rightButton.Visibility = ViewStates.Visible;
+
+            if (command != null)
+            {
+                _rightButton.SetCommand(nameof(_rightButton.Click), command);
+            }
+        }
+
+        public void SetRightButton(Drawable drawable, ICommand command)
+        {
+            _rightButton.SetImageDrawable(drawable);
             _rightButton.Visibility = ViewStates.Visible;
 
             if (command != null)

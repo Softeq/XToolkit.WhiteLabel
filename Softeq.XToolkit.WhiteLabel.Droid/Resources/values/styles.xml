@@ -3,6 +3,7 @@
   <color name="core_navigation_bar_text_color">#000000</color>
   <color name="core_notification_bg_color">#000000</color>
   <color name="core_notification_text_color">#000000</color>
+  <color name="core_progress_indicator_color">#000000</color>
   
   <style name="CoreNavigationBarTextStyle">
     <item name="android:textSize">20sp</item>
@@ -20,6 +21,10 @@
     <item name="android:windowBackground">?android:attr/colorBackground</item>
     <item name="android:colorPrimaryDark">#000000</item>
     <item name="android:windowAnimationStyle">@null</item>
+  </style>
+    
+  <style name="ProgressBarStyle" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <item name="colorAccent">@color/core_progress_indicator_color</item>
   </style>
     
 </resources>

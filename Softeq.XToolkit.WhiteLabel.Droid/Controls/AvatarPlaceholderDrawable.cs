@@ -1,9 +1,12 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Drawing;
 using Android.Graphics;
 using Android.Graphics.Drawables;
+using Plugin.CurrentActivity;
+using Softeq.XToolkit.Common.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.Helpers;
 using Color = Android.Graphics.Color;
 
@@ -16,7 +19,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         private readonly Paint _textPaint;
         private readonly Paint _backgroundPaint;
         private readonly string _avatarText;
-        
+        private readonly int _size;
+
         private RectF _placeholderBounds;
         private float _textStartXPoint;
         private float _textStartYPoint;
@@ -42,21 +46,35 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             };
             _backgroundPaint.SetStyle(Paint.Style.Fill);
             _backgroundPaint.Color = Color.ParseColor(info.Color);
+            _size = Math.Min(styles.Size.Width, styles.Size.Height);
         }
 
         public override void Draw(Canvas canvas)
         {
             if (_placeholderBounds == null)
             {
-                _placeholderBounds = new RectF(0, 0, canvas.Width, canvas.Height);
+                var centerPoint = new Android.Graphics.PointF(canvas.Width / 2f, canvas.Height / 2f);
+                var context = CrossCurrentActivity.Current.AppContext;
+                var width = context.ToPixels(_size);
+                var sizeInPixels = new SizeF(width, width);
+                var x = centerPoint.X - sizeInPixels.Width / 2f;
+                var y = centerPoint.Y - sizeInPixels.Height / 2f;
+
+                _placeholderBounds = new RectF(
+                    x,
+                    y,
+                    x + sizeInPixels.Width,
+                    y + sizeInPixels.Height); 
+
                 SetAvatarTextValues();
             }
 
             canvas.DrawCircle(
-                _placeholderBounds.CenterX(),
-                _placeholderBounds.CenterY(),
-                _placeholderBounds.Width() / 2,
+                canvas.Width / 2f,
+                canvas.Height / 2f,
+                _placeholderBounds.Width() / 2f,
                 _backgroundPaint);
+
             canvas.DrawText(_avatarText, _textStartXPoint, _textStartYPoint, _textPaint);
         }
 
@@ -92,7 +110,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         private float CalculateTextSize()
         {
-            return Bounds.Height() * TextSizePercentage / 100;
+            return _placeholderBounds.Height() * TextSizePercentage / 100;
         }
 
         public class AvatarStyles
