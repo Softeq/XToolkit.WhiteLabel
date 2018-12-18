@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -20,9 +23,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         public NavigateHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property, TValue value)
         {
-            var parameter = new NavigationParameterModel {Value = value};
+            var parameter = new NavigationParameterModel { Value = value };
 
-            var propertyInfo = (PropertyInfo) property.GetMemberInfo();
+            var propertyInfo = (PropertyInfo)property.GetMemberInfo();
             parameter.PropertyInfo = PropertyInfoModel.FromProperty(propertyInfo);
 
             _parameters.Add(parameter);

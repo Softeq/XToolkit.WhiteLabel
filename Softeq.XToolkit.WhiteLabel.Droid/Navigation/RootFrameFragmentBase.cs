@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using Android.OS;
 using Android.Views;
 using Softeq.XToolkit.WhiteLabel.Mvvm;

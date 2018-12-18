@@ -12,7 +12,6 @@ using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -81,7 +80,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             Bindings = new List<Binding>();
             _jsonSerializer = Dependencies.JsonSerializer;
-            _viewModel = new Lazy<TViewModel>(() =>
+            _viewModelLazy = new Lazy<TViewModel>(() =>
             {
                 var backStack = Dependencies.IocContainer.Resolve<IBackStackManager>();
                 return backStack.GetExistingOrCreateViewModel<TViewModel>();
@@ -211,6 +210,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         private TViewModel _viewModel;
 
         protected override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel) Dependencies.IocContainer.Resolve<TInterface>());
+            _viewModel ?? (_viewModel = (TViewModel)Dependencies.IocContainer.Resolve<TInterface>());
     }
 }
