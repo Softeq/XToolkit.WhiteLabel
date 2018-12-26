@@ -7,7 +7,7 @@ using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.WhiteLabel.Commands;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.ViewModels;
 

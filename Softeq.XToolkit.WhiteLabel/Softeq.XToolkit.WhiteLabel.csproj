@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -20,6 +20,7 @@
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Commands" />
     <Folder Include="Model\" />
     <Folder Include="Services\" />
     <Folder Include="ImagePicker\" />

@@ -9,7 +9,7 @@ using Android.Support.V4.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.WhiteLabel.Commands;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;

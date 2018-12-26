@@ -3,7 +3,7 @@
 
 using System;
 using Softeq.XToolkit.Common;
-using Softeq.XToolkit.WhiteLabel.Commands;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;

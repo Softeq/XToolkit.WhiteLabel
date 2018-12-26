@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.WhiteLabel.Commands;
+using Softeq.XToolkit.Common.Command;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
