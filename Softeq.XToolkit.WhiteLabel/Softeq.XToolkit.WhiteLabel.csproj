@@ -20,7 +20,6 @@
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Commands" />
     <Folder Include="Model\" />
     <Folder Include="Services\" />
     <Folder Include="ImagePicker\" />
