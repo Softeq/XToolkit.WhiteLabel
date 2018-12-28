@@ -12,6 +12,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 {
     public abstract class ViewControllerBase : UIViewController
     {
+        public abstract void SetExistingViewModel(object viewModel);
+
         protected ViewControllerBase()
         {
         }
@@ -37,9 +39,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         
         protected IList<Binding> Bindings { get; } = new List<Binding>();
 
-        public void SetExistingViewModel(TViewModel viewModel)
+        public override void SetExistingViewModel(object viewModel)
         {
-            ViewModel = viewModel;
+            ViewModel = (TViewModel) viewModel;
         }
 
         public override void ViewDidLoad()

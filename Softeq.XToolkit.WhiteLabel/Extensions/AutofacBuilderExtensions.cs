@@ -39,14 +39,14 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
             return builder.RegisterType<T1>().InstancePerLifetimeScope();
         }
 
-        public static void PerLifetimeScope<T1>(this ContainerBuilder builder, Func<IComponentContext, T1> func)
+        public static IRegistrationBuilder<T1, SimpleActivatorData, SingleRegistrationStyle> PerLifetimeScope<T1>(this ContainerBuilder builder, Func<IComponentContext, T1> func)
         {
-            builder.Register(func).InstancePerLifetimeScope();
+            return builder.Register(func).InstancePerLifetimeScope();
         }
 
-        public static void PerLifetimeScope<T1>(this ContainerBuilder builder, Func<IComponentContext, object> func)
+        public static IRegistrationBuilder<object, SimpleActivatorData, SingleRegistrationStyle> PerLifetimeScope<T1>(this ContainerBuilder builder, Func<IComponentContext, object> func)
         {
-            builder.Register(func).As<T1>().InstancePerLifetimeScope();
+            return builder.Register(func).As<T1>().InstancePerLifetimeScope();
         }
     }
 }
