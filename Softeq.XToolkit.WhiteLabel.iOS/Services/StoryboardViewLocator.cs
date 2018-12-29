@@ -24,6 +24,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public void Initialize(Dictionary<Type, Type> viewModelToViewController)
         {
+            if (viewModelToViewController == null)
+            {
+                return;
+            }
+
             _modelToControllerTypes = viewModelToViewController;
         }
 
@@ -71,7 +76,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 Execute.OnUIThread(() =>
                 {
                     var storyboard = UIStoryboard.FromName(storyBoardName, null);
-                    newViewController = (ViewControllerBase) storyboard.InstantiateViewController(targetTypeName);
+                    newViewController = (ViewControllerBase)storyboard.InstantiateViewController(targetTypeName);
                 });
             }
             catch (Exception ex)
@@ -88,14 +93,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             targetTypeName = targetTypeName.Replace("ViewModel", "ViewController");
 
             var targetType = Type.GetType(targetTypeName)
-                             ?? AssemblySource.FindTypeByNames(new[] {targetTypeName});
+                             ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
 
             if (targetType == null)
             {
                 throw new DllNotFoundException($"Can't find target type: {targetTypeName}");
             }
 
-            return (ViewControllerBase) Activator.CreateInstance(targetType);
+            return (ViewControllerBase)Activator.CreateInstance(targetType);
         }
     }
 }

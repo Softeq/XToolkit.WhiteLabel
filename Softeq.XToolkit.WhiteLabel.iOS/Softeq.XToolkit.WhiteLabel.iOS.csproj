@@ -102,6 +102,7 @@
     <Compile Include="ViewControllers\FullScreenImageViewController.designer.cs">
       <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="AutoRegistrationAppDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

@@ -44,49 +44,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             return true;
         }
 
-        protected abstract void ConfigureIoc(ContainerBuilder builder);
-
-        protected abstract IList<Assembly> SelectAssemblies();
-
-        private void StartScopeForIoc()
-        {
-            var containerBuilder = new ContainerBuilder();
-            ConfigureIoc(containerBuilder);
-            RegisterInternalServices(containerBuilder);
-
-            var dictionary = CreateAndRegisterMissedViewModels(containerBuilder);
-
-            Dependencies.IocContainer.StartScope(containerBuilder);
-            Dependencies.IocContainer.Resolve<IViewLocator>().Initialize(dictionary);
-        }
-
-        private Dictionary<Type, Type> CreateAndRegisterMissedViewModels(ContainerBuilder builder)
-        {
-            var viewModelToViewControllerTypes = new Dictionary<Type, Type>();
-
-            foreach (var type in GetType().Assembly.GetTypes().View("ViewController"))
-            {
-                var viewModelType = type.BaseType.GetGenericArguments()[0];
-                viewModelToViewControllerTypes.Add(viewModelType, type);
-
-                builder.RegisterType(viewModelType).PreserveExistingDefaults();
-            }
-
-            return viewModelToViewControllerTypes;
-        }
-
-        private void RegisterInternalServices(ContainerBuilder builder)
-        {
-            builder.PerLifetimeScope<IAppDelegate>(c => this)
-                .PreserveExistingDefaults();
-            builder.PerLifetimeScope<StoryboardViewLocator, IViewLocator>()
-                .PreserveExistingDefaults();
-            builder.PerLifetimeScope<StoryboardNavigation, IPlatformNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>()
-                .PreserveExistingDefaults();
-        }
-
         public ViewControllerBase GetRootViewFinder(UIViewController controller)
         {
             if (controller.PresentedViewController != null)
@@ -103,7 +60,32 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
                     return GetRootViewFinder(tabBarController.SelectedViewController);
             }
 
-            return (ViewControllerBase) controller;
+            return (ViewControllerBase)controller;
+        }
+
+        protected abstract void ConfigureIoc(ContainerBuilder builder);
+
+        protected abstract IList<Assembly> SelectAssemblies();
+
+        protected virtual void StartScopeForIoc()
+        {
+            var containerBuilder = new ContainerBuilder();
+            ConfigureIoc(containerBuilder);
+            RegisterInternalServices(containerBuilder);
+
+            Dependencies.IocContainer.StartScope(containerBuilder);
+        }
+
+        protected void RegisterInternalServices(ContainerBuilder builder)
+        {
+            builder.PerLifetimeScope<IAppDelegate>(c => this)
+                .PreserveExistingDefaults();
+            builder.PerLifetimeScope<StoryboardViewLocator, IViewLocator>()
+                .PreserveExistingDefaults();
+            builder.PerLifetimeScope<StoryboardNavigation, IPlatformNavigationService>()
+                .PreserveExistingDefaults();
+            builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>()
+                .PreserveExistingDefaults();
         }
     }
 }
