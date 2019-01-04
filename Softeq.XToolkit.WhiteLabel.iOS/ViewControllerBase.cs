@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq.Expressions;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -17,11 +18,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         protected ViewControllerBase()
         {
         }
-        
+
         protected internal ViewControllerBase(IntPtr handle) : base(handle)
         {
         }
-        
+
         public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
     }
 
@@ -36,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         }
 
         public TViewModel ViewModel { get; private set; }
-        
+
         protected IList<Binding> Bindings { get; } = new List<Binding>();
 
         public override void SetExistingViewModel(object viewModel)
@@ -62,6 +63,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             base.ViewWillDisappear(animated);
             DetachBindings();
             ViewModel.OnDisappearing();
+        }
+
+        protected void Bind<T1, T2>(Expression<Func<T1>> sourcePropertyExpression,
+            Expression<Func<T2>> targetPropertyExpression = null, BindingMode mode = BindingMode.OneWay)
+        {
+            Bindings.Add(this.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode));
         }
 
         protected virtual void DoAttachBindings()
