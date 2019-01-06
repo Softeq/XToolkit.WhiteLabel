@@ -76,6 +76,7 @@
     <Compile Include="Interfaces\IAppDelegate.cs" />
     <Compile Include="IosPlatformProvider.cs" />
     <Compile Include="IViewControllerComponent.cs" />
+    <Compile Include="Navigation\Attributes\ModalPresentation.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
     <Compile Include="Navigation\StoryboardFrameNavigationService.cs" />
     <Compile Include="Navigation\StoryboardNavigation.cs" />

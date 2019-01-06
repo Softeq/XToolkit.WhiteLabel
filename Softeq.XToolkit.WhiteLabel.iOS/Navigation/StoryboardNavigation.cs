@@ -2,7 +2,9 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Linq;
 using Softeq.XToolkit.Common;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation.Attributes;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -36,7 +38,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public void GoBack()
         {
-            Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
+            Execute.BeginOnUIThread(() =>
+            {
+                if (GetAttribute(NavigationController.PresentedViewController) == null)
+                {
+                    NavigationController.PopViewController(true);
+                }
+                else
+                {
+                    NavigationController.DismissModalViewController(true);
+                }
+            });
         }
 
         public void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,
@@ -52,12 +64,28 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             {
                 if (clearBackStack)
                 {
-                    NavigationController.SetViewControllers(new[] { controller }, false);
+                    NavigationController.SetViewControllers(new[] {controller}, false);
                     return;
                 }
 
-                NavigationController.PushViewController(controller, true);
+                var attribute = GetAttribute(controller);
+                if (attribute == null)
+                {
+                    NavigationController.PushViewController(controller, true);
+                }
+                else
+                {
+                    controller.ModalPresentationStyle = attribute.ModalPresentationStyle;
+                    controller.ModalTransitionStyle = attribute.ModalTransitionStyle;
+                    NavigationController.PresentViewController(controller, true, null);
+                }
             });
+        }
+
+        private ModalPresentation GetAttribute(UIViewController controller)
+        {
+            return controller.GetType().GetCustomAttributes(typeof(ModalPresentation), false)
+                .FirstOrDefault() as ModalPresentation;
         }
     }
 }

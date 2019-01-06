@@ -15,6 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         void OnInitialize();
         void OnAppearing();
         void OnDisappearing();
+        void OnDestroy();
     }
 
 
@@ -49,6 +50,10 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         public virtual void OnDisappearing()
+        {
+        }
+
+        public virtual void OnDestroy()
         {
         }
 
