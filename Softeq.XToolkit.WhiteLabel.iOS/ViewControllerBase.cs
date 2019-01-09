@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -29,6 +30,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
     public abstract class ViewControllerBase<TViewModel> : ViewControllerBase where TViewModel : IViewModelBase
     {
+        private IList<object> _converters { get; } = new List<object>();
+
         protected ViewControllerBase()
         {
         }
@@ -43,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public override void SetExistingViewModel(object viewModel)
         {
-            ViewModel = (TViewModel)viewModel;
+            ViewModel = (TViewModel) viewModel;
         }
 
         public override void ViewDidLoad()
@@ -71,13 +74,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             IValueConverter<T1, T2> converter = null)
         {
             var binding = this.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
-
-            if (converter != null)
-            {
-                binding.ConvertSourceToTarget(converter.Convert);
-                binding.ConvertTargetToSource(converter.ConvertBack);
-            }
-
+            SetConverters(binding, converter);
             Bindings.Add(binding);
         }
 
@@ -97,8 +94,24 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         private void DetachBindings()
         {
             Bindings.DetachAllAndClear();
-
+            _converters.Clear();
             DoDetachBindings();
+        }
+
+        private void SetConverters<T1, T2>(Binding<T1, T2> binding, IValueConverter<T1, T2> converter)
+        {
+            if (converter == null)
+            {
+                return;
+            }
+
+            if (!_converters.Contains(converter))
+            {
+                _converters.Add(converter);
+            }
+
+            binding.ConvertSourceToTarget(converter.Convert);
+            binding.ConvertTargetToSource(converter.ConvertBack);
         }
     }
 }
