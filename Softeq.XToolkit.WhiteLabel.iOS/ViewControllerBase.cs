@@ -7,6 +7,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
@@ -30,8 +31,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
     public abstract class ViewControllerBase<TViewModel> : ViewControllerBase where TViewModel : IViewModelBase
     {
-        private IList<object> _converters { get; } = new List<object>();
-
         protected ViewControllerBase()
         {
         }
@@ -46,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public override void SetExistingViewModel(object viewModel)
         {
-            ViewModel = (TViewModel) viewModel;
+            ViewModel = (TViewModel)viewModel;
         }
 
         public override void ViewDidLoad()
@@ -69,13 +68,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             ViewModel.OnDisappearing();
         }
 
-        protected void Bind<T1, T2>(Expression<Func<T1>> sourcePropertyExpression,
-            Expression<Func<T2>> targetPropertyExpression = null, BindingMode mode = BindingMode.OneWay,
-            IValueConverter<T1, T2> converter = null)
+        protected void Bind<T1, T2>(
+            Expression<Func<T1>> sourcePropertyExpression,
+            Expression<Func<T2>> targetPropertyExpression = null,
+            BindingMode mode = BindingMode.OneWay,
+            IConverter<T2, T1> converter = null)
         {
-            var binding = this.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
-            SetConverters(binding, converter);
-            Bindings.Add(binding);
+            Bindings.Add(this.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
+                .SetConverter(converter));
         }
 
         protected virtual void DoAttachBindings()
@@ -94,24 +94,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         private void DetachBindings()
         {
             Bindings.DetachAllAndClear();
-            _converters.Clear();
             DoDetachBindings();
-        }
-
-        private void SetConverters<T1, T2>(Binding<T1, T2> binding, IValueConverter<T1, T2> converter)
-        {
-            if (converter == null)
-            {
-                return;
-            }
-
-            if (!_converters.Contains(converter))
-            {
-                _converters.Add(converter);
-            }
-
-            binding.ConvertSourceToTarget(converter.Convert);
-            binding.ConvertTargetToSource(converter.ConvertBack);
         }
     }
 }

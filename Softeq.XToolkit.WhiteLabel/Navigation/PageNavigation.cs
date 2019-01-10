@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         {
             if (_backStackManager.Count != 0)
             {
-                _backStackManager.PopViewModel().OnDestroy();
+                _backStackManager.PopViewModel();
             }
 
             _pageNavigationService.GoBack();
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             {
                 while (_backStackManager.Count != 0)
                 {
-                    _backStackManager.PopViewModel().OnDestroy();
+                    _backStackManager.PopViewModel();
                 }
             }
 

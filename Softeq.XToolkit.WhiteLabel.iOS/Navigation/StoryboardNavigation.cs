@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Softeq.XToolkit.Common;
-using Softeq.XToolkit.WhiteLabel.iOS.Navigation.Attributes;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -38,17 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public void GoBack()
         {
-            Execute.BeginOnUIThread(() =>
-            {
-                if (GetAttribute(NavigationController.PresentedViewController) == null)
-                {
-                    NavigationController.PopViewController(true);
-                }
-                else
-                {
-                    NavigationController.DismissModalViewController(true);
-                }
-            });
+            Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
         }
 
         public void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,
@@ -68,24 +57,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
                     return;
                 }
 
-                var attribute = GetAttribute(controller);
-                if (attribute == null)
-                {
-                    NavigationController.PushViewController(controller, true);
-                }
-                else
-                {
-                    controller.ModalPresentationStyle = attribute.ModalPresentationStyle;
-                    controller.ModalTransitionStyle = attribute.ModalTransitionStyle;
-                    NavigationController.PresentViewController(controller, true, null);
-                }
+                NavigationController.PushViewController(controller, true);
             });
-        }
-
-        private ModalPresentation GetAttribute(UIViewController controller)
-        {
-            return controller.GetType().GetCustomAttributes(typeof(ModalPresentation), false)
-                .FirstOrDefault() as ModalPresentation;
         }
     }
 }
