@@ -53,10 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         {
             if (clearBackStack)
             {
-                while (_backStackManager.Count != 0)
-                {
-                    _backStackManager.PopViewModel();
-                }
+                _backStackManager.Clear();
             }
 
             var viewModel = _iocContainer.Resolve<T>() as ViewModelBase;
