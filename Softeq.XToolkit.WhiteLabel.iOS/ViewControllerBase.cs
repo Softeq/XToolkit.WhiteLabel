@@ -3,8 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
 
@@ -17,11 +21,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         protected ViewControllerBase()
         {
         }
-        
+
         protected internal ViewControllerBase(IntPtr handle) : base(handle)
         {
         }
-        
+
         public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
     }
 
@@ -36,12 +40,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         }
 
         public TViewModel ViewModel { get; private set; }
-        
+
         protected IList<Binding> Bindings { get; } = new List<Binding>();
 
         public override void SetExistingViewModel(object viewModel)
         {
-            ViewModel = (TViewModel) viewModel;
+            ViewModel = (TViewModel)viewModel;
         }
 
         public override void ViewDidLoad()
@@ -64,6 +68,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             ViewModel.OnDisappearing();
         }
 
+        protected void Bind<T1, T2>(
+            Expression<Func<T1>> sourcePropertyExpression,
+            Expression<Func<T2>> targetPropertyExpression = null,
+            BindingMode mode = BindingMode.OneWay,
+            IConverter<T2, T1> converter = null)
+        {
+            Bindings.Add(this.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
+                .SetConverter(converter));
+        }
+
         protected virtual void DoAttachBindings()
         {
         }
@@ -80,7 +94,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         private void DetachBindings()
         {
             Bindings.DetachAllAndClear();
-
             DoDetachBindings();
         }
     }
