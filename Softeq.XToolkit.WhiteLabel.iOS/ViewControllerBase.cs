@@ -3,12 +3,10 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
 
@@ -45,7 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public override void SetExistingViewModel(object viewModel)
         {
-            ViewModel = (TViewModel)viewModel;
+            ViewModel = (TViewModel) viewModel;
         }
 
         public override void ViewDidLoad()
@@ -76,6 +74,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             Bindings.Add(this.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
                 .SetConverter(converter));
+        }
+
+        protected void Bind<T1, T2>(Expression<Func<T1>> sourcePropertyExpression,
+            Expression<Func<T2>> targetPropertyExpression, IConverter<T2, T1> converter)
+        {
+            Bind(sourcePropertyExpression, targetPropertyExpression, BindingMode.OneWay, converter);
         }
 
         protected virtual void DoAttachBindings()
