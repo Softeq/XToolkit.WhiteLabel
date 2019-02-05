@@ -16,12 +16,12 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
-    public class SimpleImagePicker
+    public class SimpleImagePicker : ISimpleImagePicker
     {
         private readonly IPermissionsManager _permissionsManager;
         private readonly bool _allowsEditing;
-        private readonly WeakReferenceEx<UIViewController> _parentViewControllerRef;
-        
+        private WeakReferenceEx<UIViewController> _parentViewControllerRef;
+
         private UIImagePickerController _imagePicker;
         private Size _calculatedImageSize;
 
@@ -45,8 +45,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             get
             {
-                _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
-                    (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
+                _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
+                    (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
 
                 Func<(Task<Stream>, string)> func = () =>
                 {
@@ -66,38 +66,43 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         }
 
         public int MaxImageWidth { get; set; } = 1125;
-        
+
         public int MaxImageHeight { get; set; } = 1125;
 
-        public async void OpenGalleryAsync()
+        public void SetViewContrcoller(UIViewController parentViewController)
+        {
+            _parentViewControllerRef = WeakReferenceEx.Create(parentViewController);
+        }
+
+        public async Task OpenGalleryAsync()
         {
             var status = await _permissionsManager.CheckWithRequestAsync(Permission.Photos);
             if (status != PermissionStatus.Granted)
             {
                 return;
             }
-            
+
             _imagePicker = new UIImagePickerController
             {
                 SourceType = UIImagePickerControllerSourceType.PhotoLibrary,
-                MediaTypes = new string[] {UTType.Image},
+                MediaTypes = new string[] { UTType.Image },
                 AllowsEditing = _allowsEditing
             };
             OpenSelector();
         }
 
-        public async void OpenCameraAsync()
+        public async Task OpenCameraAsync()
         {
             var status = await _permissionsManager.CheckWithRequestAsync(Permission.Camera);
             if (status != PermissionStatus.Granted)
             {
                 return;
             }
-            
+
             _imagePicker = new UIImagePickerController
             {
                 SourceType = UIImagePickerControllerSourceType.Camera,
-                MediaTypes = new string[] {UTType.Image},
+                MediaTypes = new string[] { UTType.Image },
                 AllowsEditing = _allowsEditing
             };
 
@@ -111,7 +116,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             _imagePicker.FinishedPickingMedia += OnFinishedPickingMedia;
             _imagePicker.Canceled += OnCanceled;
 
-            _parentViewControllerRef.Target?.PresentViewController(_imagePicker, true, null);
+            _parentViewControllerRef.Target.PresentViewController(_imagePicker, true, null);
         }
 
         private void OnFinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
