@@ -12,6 +12,7 @@ using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
+using Softeq.XToolkit.Common;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
@@ -23,7 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private UIImagePickerController _imagePicker;
         private Size _calculatedImageSize;
         private ICropper _cropper;
-        private UIViewController _lastUsedViewController;
+        private WeakReferenceEx<UIViewController> _lastUsedViewControllerRef;
         private ImagePickerOpenTypes _lastOpenedType;
 
         public event EventHandler PickerWillOpen;
@@ -45,20 +46,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
                     (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
 
-                Func<(Task<Stream>, string)> func = () =>
+                (Task<Stream>, string) Func()
                 {
                     if (ViewModel.ImageCacheKey == null)
                     {
                         return (Task.FromResult(default(Stream)), default(string));
                     }
 
-                    return (ImageService.Instance
-                        .LoadFile(ViewModel.ImageCacheKey)
+                    return (ImageService.Instance.LoadFile(ViewModel.ImageCacheKey)
                         .DownSample(_calculatedImageSize.Width, _calculatedImageSize.Height)
                         .AsPNGStreamAsync(), ".png");
-                };
+                }
 
-                return func;
+                return Func;
             }
         }
 
@@ -118,8 +118,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             _imagePicker.FinishedPickingMedia += OnFinishedPickingMedia;
             _imagePicker.Canceled += OnCanceled;
 
-            _lastUsedViewController = Dependencies.IocContainer.Resolve<IViewLocator>().GetTopViewController();
-            _lastUsedViewController.PresentViewController(_imagePicker, true, null);
+            _lastUsedViewControllerRef =
+                new WeakReferenceEx<UIViewController>(Dependencies.IocContainer.Resolve<IViewLocator>()
+                    .GetTopViewController());
+            _lastUsedViewControllerRef.Target.PresentViewController(_imagePicker, true, null);
         }
 
         private void OnFinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
@@ -147,7 +149,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 ReleaseImagePicker(() =>
                 {
                     _cropper.FinishedCropping += OnCroppingEnded;
-                    _cropper.StartCropping(selectedImage, _lastUsedViewController);
+                    _cropper.StartCropping(selectedImage, _lastUsedViewControllerRef.Target);
                 });
             }
             //just save image if don't has cropper
@@ -215,7 +217,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             _imagePicker.Canceled -= OnCanceled;
             _imagePicker.Dispose();
             _imagePicker = null;
-            _lastUsedViewController = null;
         }
     }
 }
