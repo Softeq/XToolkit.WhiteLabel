@@ -2,40 +2,48 @@
 // http://www.softeq.com
 
 using System;
-using Softeq.XToolkit.Common;
+using System.Collections.Generic;
+using System.Windows.Input;
 using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
-    public class ActionsSheetControl
+    public class ActionsSheetControl : IActionSheet
     {
-        private readonly WeakReferenceEx<UIViewController> _parentRef;
-        private readonly WeakReferenceEx<IActionSheet> _viewModelRef;
+        private readonly IViewLocator _viewLocator;
+        private string _actionHeader;
+        private IList<CommandAction> _actions;
 
-        public ActionsSheetControl(IActionSheet actionSheet, UIViewController parent)
+        public ActionsSheetControl(IViewLocator viewLocator)
         {
-            _parentRef = WeakReferenceEx.Create(parent);
-            _viewModelRef = WeakReferenceEx.Create(actionSheet);
+            _viewLocator = viewLocator;
+            OpenCommand = new RelayCommand(Open);
+        }
 
-            actionSheet.OpenCommand = new RelayCommand(Open);
+        public ICommand OpenCommand { get; }
+
+        public void SetHeader(string header)
+        {
+            _actionHeader = header;
+        }
+
+        public void SetActions(IList<CommandAction> actions)
+        {
+            _actions = actions;
         }
 
         public UIColor TintColor { get; set; } = UIColor.Clear;
 
         private void Open()
         {
-            if (_parentRef.Target == null || _viewModelRef.Target == null)
-            {
-                return;
-            }
-
-            var controller = new SupportRotationAlertController(_viewModelRef.Target.ActionHeader, null,
+            var controller = new SupportRotationAlertController(_actionHeader, null,
                 UIAlertControllerStyle.ActionSheet);
 
-            foreach (var action in _viewModelRef.Target.Actions)
+            foreach (var action in _actions)
             {
                 controller.AddAction(UIAlertAction.Create(action.Title, Convert(action.CommandActionStyle),
                     action.Command.Execute));
@@ -46,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
                 controller.View.TintColor = TintColor;
             }
 
-            _parentRef.Target.PresentViewController(controller, true, null);
+            _viewLocator.GetTopViewController().PresentViewController(controller, true, null);
 
             if (!Equals(TintColor, UIColor.Clear))
             {
