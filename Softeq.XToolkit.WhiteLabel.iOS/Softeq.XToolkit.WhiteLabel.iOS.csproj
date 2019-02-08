@@ -72,6 +72,7 @@
     <Compile Include="Helpers\AvatarImageHelpers.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
+    <Compile Include="ImagePicker\ICropper.cs" />
     <Compile Include="ImagePicker\SimpleImagePicker.cs" />
     <Compile Include="Interfaces\IAppDelegate.cs" />
     <Compile Include="IosPlatformProvider.cs" />
@@ -112,15 +113,15 @@
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{B5A02DDB-2FC5-43C6-85A1-757177959B09}</Project>
+      <Project>{CC6CF7C4-AB9F-41C1-BA45-A889E8FF11F5}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{AB228909-3470-4246-A7B7-45B40F9FD42E}</Project>
+      <Project>{B776744C-4A23-48FF-A177-7A0ED4AD76C5}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{C8DDBABD-9EF7-4027-961F-9DC829491E64}</Project>
+      <Project>{C10D58B5-A4E7-4607-BCD8-4D28191B2B2A}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
@@ -128,7 +129,7 @@
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{D05DE68D-3FE9-4818-9E8F-642158A1E46E}</Project>
+      <Project>{76517B8B-160F-4116-8153-28D78EA11324}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
