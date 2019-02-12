@@ -44,8 +44,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             get
             {
-                _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
-                    (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
+                _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
+                    (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
 
                 (Task<Stream>, string) Func()
                 {
@@ -92,7 +92,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             _imagePicker = new UIImagePickerController
             {
                 SourceType = UIImagePickerControllerSourceType.PhotoLibrary,
-                MediaTypes = new string[] {UTType.Image},
+                MediaTypes = new string[] { UTType.Image },
                 AllowsEditing = _allowsEditing
             };
             OpenSelector();
@@ -111,7 +111,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             _imagePicker = new UIImagePickerController
             {
                 SourceType = UIImagePickerControllerSourceType.Camera,
-                MediaTypes = new string[] {UTType.Image},
+                MediaTypes = new string[] { UTType.Image },
                 AllowsEditing = _allowsEditing
             };
 
@@ -170,9 +170,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private async void OnCroppingEnded(object sender, CropEventArgs e)
         {
-            _cropper.FinishedCropping -= OnCroppingEnded;
-            _cropper.StartProcessing -= OnStartProcessing;
-            ViewModel.IsImageProcessing = false;
+            Execute.OnUIThread(() =>
+            {
+                _cropper.FinishedCropping -= OnCroppingEnded;
+                _cropper.StartProcessing -= OnStartProcessing;
+            });
 
             if (!e.IsDismissed)
             {
@@ -189,6 +191,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                     await OpenGalleryAsync().ConfigureAwait(false);
                     break;
             }
+
+            Execute.OnUIThread(() =>
+            {
+                ViewModel.IsImageProcessing = false;
+            });
         }
 
         private void OnStartProcessing(object sender, EventArgs e)
@@ -198,14 +205,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private void SaveImage(UIImage selectedImage)
         {
-            if (!_shouldSaveImage)
-            {
-                ViewModel.ImageStream = selectedImage.AsPNG().AsStream();
-                return;
-            }
-
             Execute.BeginOnUIThread(() =>
             {
+                if (!_shouldSaveImage)
+                {
+                    ViewModel.ImageStream = selectedImage.AsPNG().AsStream();
+                    return;
+                }
+
                 Task.Run(async () =>
                 {
                     using (var stream = selectedImage.AsPNG().AsStream())
