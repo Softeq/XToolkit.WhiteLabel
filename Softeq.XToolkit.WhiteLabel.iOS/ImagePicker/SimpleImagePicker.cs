@@ -26,6 +26,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private ICropper _cropper;
         private WeakReferenceEx<UIViewController> _lastUsedViewControllerRef;
         private ImagePickerOpenTypes _lastOpenedType;
+        private bool _shouldSaveImage;
 
         public event EventHandler PickerWillOpen;
 
@@ -69,6 +70,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         public SimpleImagePicker SetCropper(ICropper cropper)
         {
             _cropper = cropper;
+            return this;
+        }
+
+        public SimpleImagePicker ShouldSave(bool shouldSave)
+        {
+            _shouldSaveImage = shouldSave;
             return this;
         }
 
@@ -149,6 +156,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 ReleaseImagePicker(() =>
                 {
                     _cropper.FinishedCropping += OnCroppingEnded;
+                    _cropper.StartProcessing += OnStartProcessing;
                     _cropper.StartCropping(selectedImage, _lastUsedViewControllerRef.Target);
                 });
             }
@@ -163,6 +171,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private async void OnCroppingEnded(object sender, CropEventArgs e)
         {
             _cropper.FinishedCropping -= OnCroppingEnded;
+            _cropper.StartProcessing -= OnStartProcessing;
+            ViewModel.IsImageProcessing = false;
 
             if (!e.IsDismissed)
             {
@@ -181,8 +191,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             }
         }
 
+        private void OnStartProcessing(object sender, EventArgs e)
+        {
+            ViewModel.IsImageProcessing = true;
+        }
+
         private void SaveImage(UIImage selectedImage)
         {
+            if (!_shouldSaveImage)
+            {
+                ViewModel.ImageStream = selectedImage.AsPNG().AsStream();
+                return;
+            }
+
             Execute.BeginOnUIThread(() =>
             {
                 Task.Run(async () =>

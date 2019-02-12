@@ -9,7 +9,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
     public interface ICropper
     {
         void StartCropping(UIImage image, UIViewController viewController);
-        EventHandler<CropEventArgs> FinishedCropping { get; set; }
+        event EventHandler<CropEventArgs> FinishedCropping;
+        event EventHandler StartProcessing;
     }
 
     public class CropEventArgs : EventArgs
