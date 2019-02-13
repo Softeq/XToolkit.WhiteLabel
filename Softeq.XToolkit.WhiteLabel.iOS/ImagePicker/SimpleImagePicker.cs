@@ -174,6 +174,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             {
                 _cropper.FinishedCropping -= OnCroppingEnded;
                 _cropper.StartProcessing -= OnStartProcessing;
+                ViewModel.IsImageProcessing = false;
             });
 
             if (!e.IsDismissed)
@@ -191,11 +192,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                     await OpenGalleryAsync().ConfigureAwait(false);
                     break;
             }
-
-            Execute.OnUIThread(() =>
-            {
-                ViewModel.IsImageProcessing = false;
-            });
         }
 
         private void OnStartProcessing(object sender, EventArgs e)

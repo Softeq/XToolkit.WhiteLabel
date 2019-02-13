@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
@@ -80,6 +81,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             Expression<Func<T2>> targetPropertyExpression, IConverter<T2, T1> converter)
         {
             Bind(sourcePropertyExpression, targetPropertyExpression, BindingMode.OneWay, converter);
+        }
+
+        protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Action whenSourceChanges)
+        {
+            Bindings.Add(this.SetBinding(sourcePropertyExpression).WhenSourceChanges(whenSourceChanges));
+        }
+
+        protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Func<T1, Task> whenSourceChanges)
+        {
+            Bindings.Add(this.SetBinding(sourcePropertyExpression).WhenSourceChanges(whenSourceChanges));
         }
 
         protected virtual void DoAttachBindings()
