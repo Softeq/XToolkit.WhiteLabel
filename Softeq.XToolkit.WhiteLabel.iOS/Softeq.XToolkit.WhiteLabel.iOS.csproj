@@ -72,7 +72,6 @@
     <Compile Include="Helpers\AvatarImageHelpers.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
-    <Compile Include="ImagePicker\ICropper.cs" />
     <Compile Include="ImagePicker\SimpleImagePicker.cs" />
     <Compile Include="Interfaces\IAppDelegate.cs" />
     <Compile Include="IosPlatformProvider.cs" />

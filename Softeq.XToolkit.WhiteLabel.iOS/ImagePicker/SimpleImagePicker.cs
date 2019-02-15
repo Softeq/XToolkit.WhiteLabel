@@ -1,37 +1,35 @@
-// Developed by Softeq Development Corporation
-// http://www.softeq.com
-
 using System;
 using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using FFImageLoading;
 using MobileCoreServices;
+using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
-using Softeq.XToolkit.Common;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
-    public class SimpleImagePicker : ISimpleImagePicker
+    public class SimpleImagePicker
     {
         private readonly IPermissionsManager _permissionsManager;
         private readonly bool _allowsEditing;
+        private readonly WeakReferenceEx<UIViewController> _parentViewControllerRef;
 
         private UIImagePickerController _imagePicker;
         private Size _calculatedImageSize;
-        private ICropper _cropper;
-        private WeakReferenceEx<UIViewController> _lastUsedViewControllerRef;
-        private ImagePickerOpenTypes _lastOpenedType;
-        private bool _shouldSaveImage;
 
         public event EventHandler PickerWillOpen;
 
-        public SimpleImagePicker(IPermissionsManager permissionsManager, bool allowsEditing)
+        public SimpleImagePicker(
+            UIViewController parentViewController,
+            IPermissionsManager permissionsManager,
+            bool allowsEditing)
         {
+            _parentViewControllerRef = WeakReferenceEx.Create(parentViewController);
             _permissionsManager = permissionsManager;
             _allowsEditing = allowsEditing;
 
@@ -47,19 +45,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
                     (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
 
-                (Task<Stream>, string) Func()
+                Func<(Task<Stream>, string)> func = () =>
                 {
                     if (ViewModel.ImageCacheKey == null)
                     {
                         return (Task.FromResult(default(Stream)), default(string));
                     }
 
-                    return (ImageService.Instance.LoadFile(ViewModel.ImageCacheKey)
+                    return (ImageService.Instance
+                        .LoadFile(ViewModel.ImageCacheKey)
                         .DownSample(_calculatedImageSize.Width, _calculatedImageSize.Height)
                         .AsPNGStreamAsync(), ".png");
-                }
+                };
 
-                return Func;
+                return func;
             }
         }
 
@@ -67,22 +66,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         public int MaxImageHeight { get; set; } = 1125;
 
-        public SimpleImagePicker SetCropper(ICropper cropper)
+        public async void OpenGalleryAsync()
         {
-            _cropper = cropper;
-            return this;
-        }
-
-        public SimpleImagePicker ShouldSave(bool shouldSave)
-        {
-            _shouldSaveImage = shouldSave;
-            return this;
-        }
-
-        public async Task OpenGalleryAsync()
-        {
-            _lastOpenedType = ImagePickerOpenTypes.Gallery;
-
             var status = await _permissionsManager.CheckWithRequestAsync(Permission.Photos);
             if (status != PermissionStatus.Granted)
             {
@@ -98,10 +83,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             OpenSelector();
         }
 
-        public async Task OpenCameraAsync()
+        public async void OpenCameraAsync()
         {
-            _lastOpenedType = ImagePickerOpenTypes.Camera;
-
             var status = await _permissionsManager.CheckWithRequestAsync(Permission.Camera);
             if (status != PermissionStatus.Granted)
             {
@@ -125,10 +108,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             _imagePicker.FinishedPickingMedia += OnFinishedPickingMedia;
             _imagePicker.Canceled += OnCanceled;
 
-            _lastUsedViewControllerRef =
-                new WeakReferenceEx<UIViewController>(Dependencies.IocContainer.Resolve<IViewLocator>()
-                    .GetTopViewController());
-            _lastUsedViewControllerRef.Target.PresentViewController(_imagePicker, true, null);
+            _parentViewControllerRef.Target?.PresentViewController(_imagePicker, true, null);
         }
 
         private void OnFinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
@@ -144,71 +124,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private void OnImageSelected(UIImagePickerMediaPickedEventArgs args)
         {
             var selectedImage = _allowsEditing ? args.EditedImage : args.OriginalImage;
-
-            //if picker was dismissed
             if (selectedImage == null)
             {
                 ReleaseImagePicker();
-            }
-            //if not dismissed and has cropper, apply it
-            else if (_cropper != null)
-            {
-                ReleaseImagePicker(() =>
-                {
-                    _cropper.FinishedCropping += OnCroppingEnded;
-                    _cropper.StartProcessing += OnStartProcessing;
-                    _cropper.StartCropping(selectedImage, _lastUsedViewControllerRef.Target);
-                });
-            }
-            //just save image if don't has cropper
-            else
-            {
-                ReleaseImagePicker();
-                SaveImage(selectedImage);
-            }
-        }
-
-        private async void OnCroppingEnded(object sender, CropEventArgs e)
-        {
-            Execute.OnUIThread(() =>
-            {
-                _cropper.FinishedCropping -= OnCroppingEnded;
-                _cropper.StartProcessing -= OnStartProcessing;
-                ViewModel.IsImageProcessing = false;
-            });
-
-            if (!e.IsDismissed)
-            {
-                SaveImage(e.Image);
                 return;
             }
 
-            switch (_lastOpenedType)
-            {
-                case ImagePickerOpenTypes.Camera:
-                    await OpenCameraAsync().ConfigureAwait(false);
-                    break;
-                case ImagePickerOpenTypes.Gallery:
-                    await OpenGalleryAsync().ConfigureAwait(false);
-                    break;
-            }
-        }
+            selectedImage = selectedImage.ToUpImageOrientation();
 
-        private void OnStartProcessing(object sender, EventArgs e)
-        {
-            ViewModel.IsImageProcessing = true;
-        }
-
-        private void SaveImage(UIImage selectedImage)
-        {
             Execute.BeginOnUIThread(() =>
             {
-                if (!_shouldSaveImage)
-                {
-                    ViewModel.ImageStream = selectedImage.AsPNG().AsStream();
-                    return;
-                }
-
+                ReleaseImagePicker();
                 Task.Run(async () =>
                 {
                     using (var stream = selectedImage.AsPNG().AsStream())
@@ -234,9 +160,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             });
         }
 
-        private void ReleaseImagePicker(Action action = null)
+        private void ReleaseImagePicker()
         {
-            _imagePicker.DismissViewController(true, action);
+            _imagePicker.DismissViewController(true, null);
             _imagePicker.FinishedPickingMedia -= OnFinishedPickingMedia;
             _imagePicker.Canceled -= OnCanceled;
             _imagePicker.Dispose();

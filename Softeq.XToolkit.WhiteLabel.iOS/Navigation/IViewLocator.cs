@@ -3,9 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
