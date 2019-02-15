@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public override void SetExistingViewModel(object viewModel)
         {
-            ViewModel = (TViewModel) viewModel;
+            ViewModel = (TViewModel)viewModel;
         }
 
         public override void ViewDidLoad()
@@ -91,6 +91,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Func<T1, Task> whenSourceChanges)
         {
             Bindings.Add(this.SetBinding(sourcePropertyExpression).WhenSourceChanges(whenSourceChanges));
+        }
+
+        protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Action<T1> action,
+            BindingMode bindingMode = BindingMode.OneWay)
+        {
+            Bindings.Add(this.SetBinding(sourcePropertyExpression, bindingMode).WhenSourceChanges(action));
         }
 
         protected virtual void DoAttachBindings()
