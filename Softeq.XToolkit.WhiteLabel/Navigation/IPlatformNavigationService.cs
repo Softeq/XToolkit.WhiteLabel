@@ -16,5 +16,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         void Initialize(object navigation);
 
         void GoBack();
+        void GoBack<T>() where T : IViewModelBase;
     }
 }

@@ -43,6 +43,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _pageNavigationService.GoBack();
         }
 
+        public void PopToScreenBefore<T>() where T : IViewModelBase
+        {
+            _pageNavigationService.GoBack<T>();
+        }
+
         public NavigateHelper<T> For<T>() where T : IViewModelBase
         {
             return new NavigateHelper<T>(this);

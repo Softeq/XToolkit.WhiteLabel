@@ -40,6 +40,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
         }
 
+        public void GoBack<T>() where T : IViewModelBase
+        {
+            var i = NavigationController.ChildViewControllers.Length - 1;
+            while (i > 0 && !(NavigationController.ChildViewControllers[i] is ViewControllerBase<T>))
+            {
+                i--;
+            }
+            if (i > 0)
+            {
+                var targetViewController = NavigationController.ChildViewControllers[i - 1];
+                NavigationController.PopToViewController(targetViewController, true);
+            }
+        }
+
         public void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,
             IReadOnlyList<NavigationParameterModel> parameters)
         {

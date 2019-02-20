@@ -20,5 +20,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         void NavigateToViewModel<T>(bool clearBackStack = false)
             where T : IViewModelBase;
+        void PopToScreenBefore<T>() where T : IViewModelBase;
     }
 }
