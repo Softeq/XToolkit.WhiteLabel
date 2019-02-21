@@ -40,17 +40,30 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
         }
 
-        public void GoBack<T>() where T : IViewModelBase
+        public void PopScreensGroup(string groupName)
         {
-            var i = NavigationController.ChildViewControllers.Length - 1;
-            while (i > 0 && !(NavigationController.ChildViewControllers[i] is ViewControllerBase<T>))
+            if (string.IsNullOrEmpty(groupName))
             {
+                throw new System.ArgumentException($"{groupName} must not be empty");
+            }
+            var i = NavigationController.ChildViewControllers.Length - 1;
+            while (i > 0)
+            {
+                var viewController = NavigationController.ChildViewControllers[i] as ViewControllerBase;
+                if (viewController == null || viewController.ScreensGroupName != groupName)
+                {
+                    break;
+                }
                 i--;
             }
-            if (i > 0)
+            if (i >= 0)
             {
-                var targetViewController = NavigationController.ChildViewControllers[i - 1];
+                var targetViewController = NavigationController.ChildViewControllers[i];
                 NavigationController.PopToViewController(targetViewController, true);
+            }
+            else
+            {
+                throw new System.Exception($"ViewController of group {groupName} was not found");
             }
         }
 

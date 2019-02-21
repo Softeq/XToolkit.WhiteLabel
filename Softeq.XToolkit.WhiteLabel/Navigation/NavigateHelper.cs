@@ -16,6 +16,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         private readonly PageNavigationService _navigationService;
         private readonly List<NavigationParameterModel> _parameters = new List<NavigationParameterModel>();
 
+        private string _screensGroupName;
+
         public NavigateHelper(PageNavigationService navigationService)
         {
             _navigationService = navigationService;
@@ -31,6 +33,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _parameters.Add(parameter);
 
             return this;
+        }
+
+        public NavigateHelper<TViewModel> InScreensGroup(string screensGroupName)
+        {
+            return WithParam(x => x.ScreensGroupName, screensGroupName);
         }
 
         public void Navigate(bool clearBackStack = false)

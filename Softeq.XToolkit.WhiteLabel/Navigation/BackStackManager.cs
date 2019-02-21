@@ -30,6 +30,18 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             return _backStack.Pop();
         }
 
+        public void PopScreensGroup(string groupName)
+        {
+            if (string.IsNullOrEmpty(groupName))
+            {
+                throw new ArgumentException($"{groupName} must not be empty");
+            }
+            while (_backStack.Count > 0 && _backStack.Peek().ScreensGroupName == groupName)
+            {
+                _backStack.Pop();
+            }
+        }
+
         public void Clear()
         {
             _backStack.Clear();

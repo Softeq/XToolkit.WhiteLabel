@@ -13,6 +13,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         IViewModelBase PopViewModel();
 
+        void PopScreensGroup(string groupName);
+
         void Clear();
 
         TViewModel GetExistingOrCreateViewModel<TViewModel>() where TViewModel : IViewModelBase;

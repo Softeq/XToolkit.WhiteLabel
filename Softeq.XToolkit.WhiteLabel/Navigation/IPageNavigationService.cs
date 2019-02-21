@@ -1,9 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Collections.Generic;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
@@ -16,10 +13,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         void GoBack();
 
+        void PopScreensGroup(string groupName);
+
         NavigateHelper<T> For<T>() where T : IViewModelBase;
 
         void NavigateToViewModel<T>(bool clearBackStack = false)
             where T : IViewModelBase;
-        void PopToScreenBefore<T>() where T : IViewModelBase;
     }
 }
