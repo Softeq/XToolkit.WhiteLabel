@@ -22,10 +22,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         public bool CanGoBack => _pageNavigationService.CanGoBack;
 
-        public void NavigateToViewModel<T>(bool clearBackStack = false)
+        public void NavigateToViewModel<T>(bool clearBackStack = false, string screensGroupName = null)
             where T : IViewModelBase
         {
-            NavigateToViewModel<T>(clearBackStack, null);
+            NavigateToViewModel<T>(clearBackStack, null, screensGroupName);
         }
 
         public void Initialize(object navigation)
@@ -45,8 +45,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         public void PopScreensGroup(string groupName)
         {
-            _backStackManager.PopScreensGroup(groupName);
-            _pageNavigationService.PopScreensGroup(groupName);
+            var targetViewModel = _pageNavigationService.PopScreensGroup(groupName);
+            _backStackManager.PopTo(targetViewModel);
         }
 
         public NavigateHelper<T> For<T>() where T : IViewModelBase
@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             return new NavigateHelper<T>(this);
         }
 
-        internal void NavigateToViewModel<T>(bool clearBackStack, IReadOnlyList<NavigationParameterModel> parameters)
+        internal void NavigateToViewModel<T>(bool clearBackStack, IReadOnlyList<NavigationParameterModel> parameters, string screensGroupName)
             where T : IViewModelBase
         {
             if (clearBackStack)
@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             var viewModel = _iocContainer.Resolve<T>() as ViewModelBase;
             viewModel.ApplyParameters(parameters);
 
-            _pageNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
+            _pageNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters, screensGroupName);
 
             _backStackManager.PushViewModel(viewModel);
         }

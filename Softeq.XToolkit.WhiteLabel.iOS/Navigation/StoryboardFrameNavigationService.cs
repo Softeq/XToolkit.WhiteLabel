@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<T>();
-            NavigateToViewModel(viewModel as ViewModelBase, false, null);
+            NavigateToViewModel(viewModel as ViewModelBase, false, null, null);
         }
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             var viewModel = _iocContainer.Resolve<T>();
             viewModel.Parameter = parameter;
-            NavigateToViewModel(viewModel as ViewModelBase, false, null);
+            NavigateToViewModel(viewModel as ViewModelBase, false, null, null);
         }
 
         void IFrameNavigationService.GoBack()

@@ -9,13 +9,13 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
     public interface IPlatformNavigationService
     {
         void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters);
+            IReadOnlyList<NavigationParameterModel> parameters, string screensGroupName);
 
         bool CanGoBack { get; }
 
         void Initialize(object navigation);
 
         void GoBack();
-        void PopScreensGroup(string groupName);
+        IViewModelBase PopScreensGroup(string groupName);
     }
 }

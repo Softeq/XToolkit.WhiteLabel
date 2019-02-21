@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         NavigateHelper<T> For<T>() where T : IViewModelBase;
 
-        void NavigateToViewModel<T>(bool clearBackStack = false)
+        void NavigateToViewModel<T>(bool clearBackStack = false, string screensGroupName = null)
             where T : IViewModelBase;
     }
 }

@@ -26,7 +26,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         }
 
         public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
-        public abstract string ScreensGroupName { get; }
     }
 
     public abstract class ViewControllerBase<TViewModel> : ViewControllerBase where TViewModel : IViewModelBase
@@ -40,8 +39,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         }
 
         public TViewModel ViewModel { get; private set; }
-
-        public override string ScreensGroupName => ViewModel?.ScreensGroupName;
 
         protected IList<Binding> Bindings { get; } = new List<Binding>();
 

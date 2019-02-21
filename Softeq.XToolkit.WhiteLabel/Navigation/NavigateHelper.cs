@@ -37,12 +37,13 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         public NavigateHelper<TViewModel> InScreensGroup(string screensGroupName)
         {
-            return WithParam(x => x.ScreensGroupName, screensGroupName);
+            _screensGroupName = screensGroupName;
+            return this;
         }
 
         public void Navigate(bool clearBackStack = false)
         {
-            _navigationService.NavigateToViewModel<TViewModel>(clearBackStack, _parameters);
+            _navigationService.NavigateToViewModel<TViewModel>(clearBackStack, _parameters, _screensGroupName);
         }
     }
 

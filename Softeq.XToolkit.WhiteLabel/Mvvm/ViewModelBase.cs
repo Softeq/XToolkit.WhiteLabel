@@ -12,7 +12,6 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
     public interface IViewModelBase
     {
-        string ScreensGroupName { get; set; }
         void OnInitialize();
         void OnAppearing();
         void OnDisappearing();
@@ -39,8 +38,6 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         public bool IsInitialized { get; private set; }
 
         public IFrameNavigationService FrameNavigationService { get; set; }
-
-        public string ScreensGroupName { get; set; }
 
         public virtual void OnInitialize()
         {

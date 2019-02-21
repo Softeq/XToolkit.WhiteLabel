@@ -40,17 +40,21 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
         }
 
-        public void PopScreensGroup(string groupName)
+        public IViewModelBase PopScreensGroup(string groupName)
         {
             if (string.IsNullOrEmpty(groupName))
             {
                 throw new System.ArgumentException($"{groupName} must not be empty");
             }
-            var i = NavigationController.ChildViewControllers.Length - 1;
+            var navigationStack = NavigationController.ChildViewControllers;
+            if (!IsViewControllerFromGroup(navigationStack.Last(), groupName))
+            {
+                throw new System.Exception($"Top view controller does not belong to group {groupName}");
+            }
+            var i = navigationStack.Length - 1;
             while (i > 0)
             {
-                var viewController = NavigationController.ChildViewControllers[i] as ViewControllerBase;
-                if (viewController == null || viewController.ScreensGroupName != groupName)
+                if (!IsViewControllerFromGroup(navigationStack[i], groupName))
                 {
                     break;
                 }
@@ -58,8 +62,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             }
             if (i >= 0)
             {
-                var targetViewController = NavigationController.ChildViewControllers[i];
+                var lastViewControllerToPop = navigationStack[i + 1];
+                var lastViewModelToPop = GetViewModelFromViewController(lastViewControllerToPop);
+
+                var targetViewController = navigationStack[i];
                 NavigationController.PopToViewController(targetViewController, true);
+
+                return lastViewModelToPop;
             }
             else
             {
@@ -68,10 +77,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         }
 
         public void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters)
+            IReadOnlyList<NavigationParameterModel> parameters, string screensGroupName)
         {
             viewModelBase.FrameNavigationService = this as IFrameNavigationService;
-            Navigate(ViewLocator.GetView(viewModelBase), clearBackStack);
+            var viewController = ViewLocator.GetView(viewModelBase);
+            if (!string.IsNullOrEmpty(screensGroupName))
+            {
+                var screensGroupComponent = new ScreensGroupComponent(screensGroupName);
+                (viewController as ViewControllerBase).ControllerComponents.Add(screensGroupComponent);
+            }
+            Navigate(viewController, clearBackStack);
         }
 
         protected void Navigate(UIViewController controller, bool clearBackStack)
@@ -86,6 +101,26 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
                 NavigationController.PushViewController(controller, true);
             });
+        }
+
+        private static bool IsViewControllerFromGroup(UIViewController viewController, string groupName)
+        {
+            if (viewController is ViewControllerBase baseViewController)
+            {
+                var screensGroupComponent = baseViewController
+                    .ControllerComponents.FirstOrDefault(x => x is ScreensGroupComponent) as ScreensGroupComponent;
+                return screensGroupComponent?.ScreensGroupName == groupName;
+            }
+            return false;
+        }
+
+        private IViewModelBase GetViewModelFromViewController(UIViewController viewController)
+        {
+            if (viewController is ViewControllerBase)
+            {
+                return viewController.GetType().GetProperty("ViewModel").GetValue(viewController) as IViewModelBase;
+            }
+            return null;
         }
     }
 }

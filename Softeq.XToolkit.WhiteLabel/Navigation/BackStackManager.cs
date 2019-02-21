@@ -30,13 +30,14 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             return _backStack.Pop();
         }
 
-        public void PopScreensGroup(string groupName)
+        public void PopTo(IViewModelBase viewModel)
         {
-            if (string.IsNullOrEmpty(groupName))
+            if (!_backStack.Contains(viewModel))
             {
-                throw new ArgumentException($"{groupName} must not be empty");
+                var viewModelType = viewModel.GetType();
+                throw new ArgumentException($"There are no ViewModels of type {viewModelType.Name} in back stack");
             }
-            while (_backStack.Count > 0 && _backStack.Peek().ScreensGroupName == groupName)
+            while (_backStack.Peek() != viewModel)
             {
                 _backStack.Pop();
             }
