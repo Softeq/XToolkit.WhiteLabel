@@ -51,29 +51,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             {
                 throw new System.Exception($"Top view controller does not belong to group {groupName}");
             }
-            var i = navigationStack.Length - 1;
-            while (i > 0)
+            var targetViewController = navigationStack.LastOrDefault(x => !IsViewControllerFromGroup(x, groupName));
+            if (targetViewController != null)
             {
-                if (!IsViewControllerFromGroup(navigationStack[i], groupName))
-                {
-                    break;
-                }
-                i--;
-            }
-            if (i >= 0)
-            {
-                var lastViewControllerToPop = navigationStack[i + 1];
-                var lastViewModelToPop = GetViewModelFromViewController(lastViewControllerToPop);
-
-                var targetViewController = navigationStack[i];
+                var targetModelToPop = GetViewModelFromViewController(targetViewController);
                 NavigationController.PopToViewController(targetViewController, true);
-
-                return lastViewModelToPop;
+                return targetModelToPop;
             }
-            else
-            {
-                throw new System.Exception($"ViewController of group {groupName} was not found");
-            }
+            throw new System.Exception($"ViewController of group {groupName} was not found");
         }
 
         public void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,
