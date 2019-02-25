@@ -18,6 +18,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             OpenDialogOptions options = null)
             where TViewModel : class, IDialogViewModel, IViewModelParameter<TParameter>;
 
-        Task<bool> ShowDialogAsync(string title, string message, string okButtonText, string cancelButtonText = null);
+        Task<bool> ShowDialogAsync(string title,
+                                   string message,
+                                   string okButtonText,
+                                   string cancelButtonText = null,
+                                   bool isDestructiveConfirmation = false);
     }
 }

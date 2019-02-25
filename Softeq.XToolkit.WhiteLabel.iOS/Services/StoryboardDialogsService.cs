@@ -67,14 +67,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return result as TViewModel;
         }
 
-        public Task<bool> ShowDialogAsync(string title, string message, string okButtonText, string cancelButtonText = null)
+        public Task<bool> ShowDialogAsync(string title,
+                                          string message,
+                                          string okButtonText,
+                                          string cancelButtonText = null,
+                                          bool isDestructiveConfirmation = false)
         {
             var dialogResult = new TaskCompletionSource<bool>();
 
             Execute.BeginOnUIThread(() =>
             {
                 var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-                alertController.AddAction(UIAlertAction.Create(okButtonText, UIAlertActionStyle.Default,
+                var okActionStyle = isDestructiveConfirmation ? UIAlertActionStyle.Destructive : UIAlertActionStyle.Default;
+                alertController.AddAction(UIAlertAction.Create(okButtonText, okActionStyle,
                     action => { dialogResult.TrySetResult(true); }));
 
                 if (cancelButtonText != null)
