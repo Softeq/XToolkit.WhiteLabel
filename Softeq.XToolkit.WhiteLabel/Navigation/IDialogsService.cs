@@ -22,6 +22,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
                                    string message,
                                    string okButtonText,
                                    string cancelButtonText = null,
-                                   bool isDestructiveConfirmation = false);
+                                   OpenDialogOptions options = null);
     }
 }

@@ -71,14 +71,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                                           string message,
                                           string okButtonText,
                                           string cancelButtonText = null,
-                                          bool isDestructiveConfirmation = false)
+                                          OpenDialogOptions options = null)
         {
             var dialogResult = new TaskCompletionSource<bool>();
 
             Execute.BeginOnUIThread(() =>
             {
                 var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-                var okActionStyle = isDestructiveConfirmation ? UIAlertActionStyle.Destructive : UIAlertActionStyle.Default;
+                var okActionStyle = options?.DialogType == DialogType.Destructive 
+                    ? UIAlertActionStyle.Destructive 
+                    : UIAlertActionStyle.Default;
                 alertController.AddAction(UIAlertAction.Create(okButtonText, okActionStyle,
                     action => { dialogResult.TrySetResult(true); }));
 
