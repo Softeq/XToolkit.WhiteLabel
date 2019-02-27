@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
                 viewModelToViewControllerTypes.Add(viewModelType, type);
 
-                builder.RegisterType(viewModelType).PreserveExistingDefaults();
+                builder.PerDependency(viewModelType).PreserveExistingDefaults();
             }
 
             return viewModelToViewControllerTypes;
