@@ -24,6 +24,11 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
             builder.Register(func).InstancePerDependency();
         }
 
+        public static IRegistrationBuilder<object, ConcreteReflectionActivatorData, SingleRegistrationStyle> PerDependency(this ContainerBuilder builder, Type type)
+        {
+            return builder.RegisterType(type).InstancePerDependency();
+        }
+
         public static void PerDependency<T1>(this ContainerBuilder builder, Func<IComponentContext, object> func)
         {
             builder.Register(func).As<T1>().InstancePerDependency();
