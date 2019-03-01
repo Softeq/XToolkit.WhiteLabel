@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
@@ -33,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IDialogViewModel where TResult : class;
+            where TViewModel : IDialogViewModel;
 
         DialogNavigationHelper<T> For<T>() where T : IDialogViewModel;
     }
