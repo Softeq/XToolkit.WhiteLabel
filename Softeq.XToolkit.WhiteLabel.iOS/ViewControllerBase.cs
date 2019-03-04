@@ -7,9 +7,11 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
+using BindingExtensions = Softeq.XToolkit.Bindings.Extensions.BindingExtensions;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
@@ -44,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public override void SetExistingViewModel(object viewModel)
         {
-            ViewModel = (TViewModel)viewModel;
+            ViewModel = (TViewModel) viewModel;
         }
 
         public override void ViewDidLoad()
@@ -73,8 +75,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             BindingMode mode = BindingMode.OneWay,
             IConverter<T2, T1> converter = null)
         {
-            Bindings.Add(this.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
-                .SetConverter(converter));
+            Bindings.Add(BindingExtensions.Bind(this, sourcePropertyExpression, targetPropertyExpression, mode,
+                converter));
         }
 
         protected void Bind<T1, T2>(Expression<Func<T1>> sourcePropertyExpression,
@@ -85,18 +87,18 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Action whenSourceChanges)
         {
-            Bindings.Add(this.SetBinding(sourcePropertyExpression).WhenSourceChanges(whenSourceChanges));
+            Bindings.Add(BindingExtensions.Bind(this, sourcePropertyExpression, whenSourceChanges));
         }
 
         protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Func<T1, Task> whenSourceChanges)
         {
-            Bindings.Add(this.SetBinding(sourcePropertyExpression).WhenSourceChanges(whenSourceChanges));
+            Bindings.Add(BindingExtensions.Bind(this, sourcePropertyExpression, whenSourceChanges));
         }
 
         protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Action<T1> action,
             BindingMode bindingMode = BindingMode.OneWay)
         {
-            Bindings.Add(this.SetBinding(sourcePropertyExpression, bindingMode).WhenSourceChanges(action));
+            Bindings.Add(BindingExtensions.Bind(this, sourcePropertyExpression, action, bindingMode));
         }
 
         protected virtual void DoAttachBindings()

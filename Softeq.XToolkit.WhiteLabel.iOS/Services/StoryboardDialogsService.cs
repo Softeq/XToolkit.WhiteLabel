@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public async Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IDialogViewModel where TResult : class
+            where TViewModel : IDialogViewModel
         {
             var result = default(TResult);
 
@@ -106,7 +106,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 viewModel.ApplyParameters(parameters);
                 var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
 
-                result = await viewModel.DialogComponent.TaskWithResult.ConfigureAwait(false) as TResult;
+                var resultObject = await viewModel.DialogComponent.TaskWithResult.ConfigureAwait(false);
+
+                if (resultObject is TResult tResult)
+                {
+                    result = tResult;
+                }
+
                 DismissViewController(viewController).ConfigureAwait(false);
             }
             catch (Exception e)

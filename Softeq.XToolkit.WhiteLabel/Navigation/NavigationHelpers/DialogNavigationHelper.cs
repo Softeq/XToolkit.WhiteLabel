@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
     {
         private readonly IDialogsService _storyboardDialogsService;
 
-        public Task<TResult> NavigateAsync<TResult>() where TResult : class
+        public Task<TResult> NavigateAsync<TResult>()
         {
             return _storyboardDialogsService.ShowForViewModel<TViewModel, TResult>(Parameters);
         }
