@@ -97,7 +97,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             if (Contains(_backStack, t))
             {
-                while (ReferenceEquals(t, _backStack.Peek()))
+                while (!ReferenceEquals(t, _backStack.Peek()))
                 {
                     _backStack.Pop();
                 }
