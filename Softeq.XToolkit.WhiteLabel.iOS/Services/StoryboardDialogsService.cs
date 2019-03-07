@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return new DialogNavigationHelper<T>(this);
         }
 
-        public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions {ShouldShowBackgroundOverlay = false};
+        public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions { ShouldShowBackgroundOverlay = false };
 
         public async Task<TViewModel> ShowForViewModel<TViewModel>(OpenDialogOptions options = null)
             where TViewModel : class, IDialogViewModel
@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             try
             {
                 var viewModel = _iocContainer.Resolve<TViewModel>();
-                var viewModelWithParameter = (IViewModelParameter<TParameter>) viewModel;
+                var viewModelWithParameter = (IViewModelParameter<TParameter>)viewModel;
                 viewModelWithParameter.Parameter = parameter;
                 var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
                 result = await GetResultAndDismiss(viewModel, viewController);
@@ -106,14 +106,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 viewModel.ApplyParameters(parameters);
                 var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
 
-                var resultObject = await viewModel.DialogComponent.TaskWithResult.ConfigureAwait(false);
+                var resultObject = await viewModel.DialogComponent.TaskWithResult;
 
                 if (resultObject is TResult tResult)
                 {
                     result = tResult;
                 }
 
-                DismissViewController(viewController).ConfigureAwait(false);
+                await DismissViewController(viewController);
             }
             catch (Exception e)
             {
