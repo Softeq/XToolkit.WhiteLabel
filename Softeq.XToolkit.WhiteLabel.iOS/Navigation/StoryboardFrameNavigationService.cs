@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<T>();
-            NavigateToViewModel(viewModel as ViewModelBase, false, null);
+            NavigateToViewModel(viewModel as ViewModelBase, clearBackStack, null);
         }
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)

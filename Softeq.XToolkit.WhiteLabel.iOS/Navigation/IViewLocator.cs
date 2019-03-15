@@ -9,10 +9,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public interface IViewLocator
     {
-        UIViewController GetView(object model);
+        UIViewController GetView(object viewModel);
 
         UIViewController GetTopViewController();
 
-        void Initialize(Dictionary<Type,Type> viewmodelToView);
+        void Initialize(Dictionary<Type, Type> viewmodelToView);
     }
 }
