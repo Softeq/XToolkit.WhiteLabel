@@ -38,7 +38,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                                  (UIViewController) Activator.CreateInstance(
                                      _modelToControllerTypes[viewModel.GetType()]);
 
-            SetViewModel(viewController, viewModel);
+            var method = viewController.GetType().GetMethod("SetExistingViewModel");
+            method?.Invoke(viewController, new[] {viewModel});
 
             return viewController;
         }
@@ -82,12 +83,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
 
             return newViewController;
-        }
-
-        private void SetViewModel(UIViewController controller, object viewModel)
-        {
-            var method = controller.GetType().GetMethod("SetExistingViewModel");
-            method?.Invoke(controller, new[] {viewModel});
         }
     }
 }

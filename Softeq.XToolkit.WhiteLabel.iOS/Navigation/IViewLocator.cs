@@ -10,7 +10,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
     public interface IViewLocator
     {
         UIViewController GetView(object viewModel);
-        //UIViewController GetViewTest(object viewModel);
 
         UIViewController GetTopViewController();
 
