@@ -32,11 +32,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _modelToControllerTypes = viewModelToViewController;
         }
 
-        public UIViewController GetView(object model)
+        public UIViewController GetView(object viewModel)
         {
-            var controller = GetViewFromPredefinedTypes(model) ?? GetControllerForModel(model.GetType());
-            controller.SetExistingViewModel(model);
-            return controller;
+            var viewController = GetViewFromPredefinedTypes(viewModel) ??
+                                 (UIViewController) Activator.CreateInstance(
+                                     _modelToControllerTypes[viewModel.GetType()]);
+
+            SetViewModel(viewController, viewModel);
+
+            return viewController;
         }
 
         private ViewControllerBase GetViewFromPredefinedTypes(object model)
@@ -59,24 +63,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 .FirstOrDefault();
         }
 
-        private ViewControllerBase GetControllerForModel(Type type)
-        {
-            var storyBoardName = type.Name.Replace("ViewModel", "Storyboard");
-            var targetTypeName = type.Name.Replace("ViewModel", "ViewController");
-
-            return TryCreateViewController(storyBoardName, targetTypeName) ?? CreateWithActivator(type.FullName);
-        }
-
         private ViewControllerBase TryCreateViewController(string storyBoardName, string targetTypeName)
         {
             ViewControllerBase newViewController = null;
 
             try
             {
+                //TODO: VPY review this
                 Execute.OnUIThread(() =>
                 {
                     var storyboard = UIStoryboard.FromName(storyBoardName, null);
-                    newViewController = (ViewControllerBase)storyboard.InstantiateViewController(targetTypeName);
+                    newViewController = (ViewControllerBase) storyboard.InstantiateViewController(targetTypeName);
                 });
             }
             catch (Exception ex)
@@ -87,20 +84,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return newViewController;
         }
 
-        private static ViewControllerBase CreateWithActivator(string viewModelType)
+        private void SetViewModel(UIViewController controller, object viewModel)
         {
-            var targetTypeName = viewModelType.Replace(".ViewModels.", ".iOS.ViewControllers.");
-            targetTypeName = targetTypeName.Replace("ViewModel", "ViewController");
-
-            var targetType = Type.GetType(targetTypeName)
-                             ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
-
-            if (targetType == null)
-            {
-                throw new DllNotFoundException($"Can't find target type: {targetTypeName}");
-            }
-
-            return (ViewControllerBase)Activator.CreateInstance(targetType);
+            var method = controller.GetType().GetMethod("SetExistingViewModel");
+            method?.Invoke(controller, new[] {viewModel});
         }
     }
 }

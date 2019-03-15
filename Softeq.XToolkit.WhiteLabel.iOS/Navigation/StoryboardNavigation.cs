@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
-using System.Linq;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -49,11 +48,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         protected void Navigate(UIViewController controller, bool clearBackStack)
         {
-            Execute.BeginOnUIThread(() =>
+            Execute.OnUIThread(() =>
             {
                 if (clearBackStack)
                 {
-                    NavigationController.SetViewControllers(new[] {controller}, false);
+                    NavigationController.SetViewControllers(new[] { controller }, false);
                     return;
                 }
 
