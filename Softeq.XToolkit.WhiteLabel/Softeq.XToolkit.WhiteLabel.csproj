@@ -11,8 +11,8 @@
     <LangVersion>7</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Autofac" Version="4.8.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
+    <PackageReference Include="DryIoc" Version="4.0.0" />
   </ItemGroup>
 
   <ItemGroup>

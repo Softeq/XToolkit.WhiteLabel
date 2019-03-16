@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Autofac;
+using DryIoc;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 
@@ -10,20 +10,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     {
         protected override void StartScopeForIoc()
         {
-            var containerBuilder = new ContainerBuilder();
-            ConfigureIoc(containerBuilder);
-            RegisterInternalServices(containerBuilder);
+            var container = new Container(rules => rules.WithoutFastExpressionCompiler());
+            ConfigureIoc(container);
+            RegisterInternalServices(container);
 
             var viewModelToViewControllerDictionary = new Dictionary<Type, Type>();
 
-            viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(containerBuilder);
+            viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(container);
 
-            Dependencies.IocContainer.StartScope(containerBuilder);
+            Dependencies.IocContainer.StartScope(container);
 
             Dependencies.IocContainer.Resolve<IViewLocator>().Initialize(viewModelToViewControllerDictionary);
         }
 
-        private Dictionary<Type, Type> CreateAndRegisterMissedViewModels(ContainerBuilder builder)
+        private Dictionary<Type, Type> CreateAndRegisterMissedViewModels(Container builder)
         {
             var viewModelToViewControllerTypes = new Dictionary<Type, Type>();
 
@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
                 viewModelToViewControllerTypes.Add(viewModelType, type);
 
-                builder.PerDependency(viewModelType).PreserveExistingDefaults();
+                builder.TryPerDependency(viewModelType);
             }
 
             return viewModelToViewControllerTypes;

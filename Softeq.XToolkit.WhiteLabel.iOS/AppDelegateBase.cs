@@ -1,11 +1,10 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Autofac;
+using DryIoc;
 using Foundation;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.iOS;
@@ -63,29 +62,25 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             return (ViewControllerBase)controller;
         }
 
-        protected abstract void ConfigureIoc(ContainerBuilder builder);
+        protected abstract void ConfigureIoc(Container builder);
 
         protected abstract IList<Assembly> SelectAssemblies();
 
         protected virtual void StartScopeForIoc()
         {
-            var containerBuilder = new ContainerBuilder();
+            var containerBuilder = new Container();
             ConfigureIoc(containerBuilder);
             RegisterInternalServices(containerBuilder);
 
             Dependencies.IocContainer.StartScope(containerBuilder);
         }
 
-        protected void RegisterInternalServices(ContainerBuilder builder)
+        protected void RegisterInternalServices(Container builder)
         {
-            builder.PerLifetimeScope<IAppDelegate>(c => this)
-                .PreserveExistingDefaults();
-            builder.PerLifetimeScope<StoryboardViewLocator, IViewLocator>()
-                .PreserveExistingDefaults();
-            builder.PerLifetimeScope<StoryboardNavigation, IPlatformNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>()
-                .PreserveExistingDefaults();
+            builder.RegisterInstance<IAppDelegate>(this, IfAlreadyRegistered.Keep);
+            builder.TryPerLifeTimeScope<StoryboardViewLocator, IViewLocator>();
+            builder.TryPerLifeTimeScope<StoryboardNavigation, IPlatformNavigationService>();
+            builder.TryPerDependency<StoryboardFrameNavigationService, IFrameNavigationService>();
         }
     }
 }
