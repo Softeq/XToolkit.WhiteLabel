@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 
         public void RestoreState()
         {
-            if(FrameNavigationService.CanGoBack)
+            if (FrameNavigationService.CanGoBack)
             {
                 FrameNavigationService.RestoreState();
             }

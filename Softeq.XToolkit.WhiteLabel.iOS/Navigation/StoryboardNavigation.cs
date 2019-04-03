@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             {
                 if (clearBackStack)
                 {
-                    NavigationController.SetViewControllers(new[] { controller }, false);
+                    NavigationController.SetViewControllers(new[] {controller}, false);
                     return;
                 }
 

@@ -5,14 +5,8 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
-    public interface IDialogViewModel
+    public interface IDialogViewModel : IViewModelBase
     {
         DialogViewModelComponent DialogComponent { get; }
-        
-        void OnInitialize();
-        
-        void OnAppearing();
-        
-        void OnDisappearing();
     }
 }
