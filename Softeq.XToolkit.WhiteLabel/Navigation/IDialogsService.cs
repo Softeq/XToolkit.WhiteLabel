@@ -28,12 +28,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         Task<IDialogViewModel> ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IDialogViewModel;
+            where TViewModel : class, IDialogViewModel;
 
         Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IDialogViewModel;
-
-        DialogNavigationHelper<T> For<T>() where T : IDialogViewModel;
+            where TViewModel : class, IDialogViewModel;
     }
 }

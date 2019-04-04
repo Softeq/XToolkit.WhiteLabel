@@ -10,6 +10,7 @@ using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
@@ -108,6 +109,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             {
                 NavigateToExistingViewModel(t as ViewModelBase);
             }
+        }
+
+        public void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters) 
+            where TViewModel : IViewModelBase
+        {
+            var viewModel = _iocContainer.Resolve<TViewModel>();
+            viewModel.ApplyParameters(navigationParameters);
+            NavigateToViewModel(viewModel);
         }
 
         public void RestoreState()

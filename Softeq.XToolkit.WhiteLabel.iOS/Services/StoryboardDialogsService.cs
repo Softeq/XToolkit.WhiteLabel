@@ -29,11 +29,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
-        public DialogNavigationHelper<T> For<T>() where T : IDialogViewModel
-        {
-            return new DialogNavigationHelper<T>(this);
-        }
-
         public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions { ShouldShowBackgroundOverlay = false };
 
         public async Task<TViewModel> ShowForViewModel<TViewModel>(OpenDialogOptions options = null)
@@ -76,7 +71,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         }
 
         public async Task<IDialogViewModel> ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters) where TViewModel : IDialogViewModel
+            IEnumerable<NavigationParameterModel> parameters) 
+            where TViewModel : class, IDialogViewModel
         {
             IDialogViewModel result = null;
             try
@@ -96,7 +92,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public async Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IDialogViewModel
+            where TViewModel : class, IDialogViewModel
         {
             var result = default(TResult);
 

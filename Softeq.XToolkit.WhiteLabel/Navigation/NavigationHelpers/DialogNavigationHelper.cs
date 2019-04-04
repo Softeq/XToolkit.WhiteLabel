@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
 {
     public class DialogNavigationHelper<TViewModel> : NavigationHelper<TViewModel>
-        where TViewModel : IDialogViewModel
+        where TViewModel : class, IDialogViewModel
     {
         private readonly IDialogsService _storyboardDialogsService;
 

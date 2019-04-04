@@ -23,6 +23,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Whitelabel.Tests", "Softeq.XToolkit.Whitelabel.Tests\Softeq.XToolkit.Whitelabel.Tests.csproj", "{B5A6100B-D12E-43A2-BBDE-027D6E2B5835}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions", "..\XToolKit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj", "{A3D48FCC-AE70-4728-BF5C-8A695203146B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -165,6 +167,18 @@ Global
 		{B5A6100B-D12E-43A2-BBDE-027D6E2B5835}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{B5A6100B-D12E-43A2-BBDE-027D6E2B5835}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{B5A6100B-D12E-43A2-BBDE-027D6E2B5835}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Release|iPhone.Build.0 = Release|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{A3D48FCC-AE70-4728-BF5C-8A695203146B}.Debug|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
