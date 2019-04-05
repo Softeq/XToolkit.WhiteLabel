@@ -21,11 +21,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             _iocContainer = iocContainer;
         }
 
-        public NavigateHelper<T> For<T>() where T : IViewModelBase
-        {
-            return new NavigateHelper<T>(this);
-        }
-
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
 
         bool IFrameNavigationService.CanGoBack => CanGoBack;
