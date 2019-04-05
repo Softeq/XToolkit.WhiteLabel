@@ -6,6 +6,7 @@ using System.Linq;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
@@ -29,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<T>();
-            NavigateToViewModel(viewModel as ViewModelBase, false, null);
+            NavigateToViewModel(viewModel as ViewModelBase, clearBackStack, null);
         }
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
@@ -37,6 +38,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             var viewModel = _iocContainer.Resolve<T>();
             viewModel.Parameter = parameter;
+            NavigateToViewModel(viewModel as ViewModelBase, false, null);
+        }
+
+        public void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> parameters)
+            where TViewModel : IViewModelBase
+        {
+            var viewModel = _iocContainer.Resolve<TViewModel>();
+            viewModel.ApplyParameters(parameters);
             NavigateToViewModel(viewModel as ViewModelBase, false, null);
         }
 

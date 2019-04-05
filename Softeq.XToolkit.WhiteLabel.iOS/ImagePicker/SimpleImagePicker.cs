@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private readonly IPermissionsManager _permissionsManager;
         private readonly bool _allowsEditing;
         private readonly WeakReferenceEx<UIViewController> _parentViewControllerRef;
-        
+
         private UIImagePickerController _imagePicker;
         private Size _calculatedImageSize;
 
@@ -45,8 +45,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             get
             {
-                _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
-                    (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
+                _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
+                    (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
 
                 Func<(Task<Stream>, string)> func = () =>
                 {
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         }
 
         public int MaxImageWidth { get; set; } = 1125;
-        
+
         public int MaxImageHeight { get; set; } = 1125;
 
         public async void OpenGalleryAsync()
@@ -76,11 +76,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             {
                 return;
             }
-            
+
             _imagePicker = new UIImagePickerController
             {
                 SourceType = UIImagePickerControllerSourceType.PhotoLibrary,
-                MediaTypes = new string[] {UTType.Image},
+                MediaTypes = new string[] { UTType.Image },
                 AllowsEditing = _allowsEditing
             };
             OpenSelector();
@@ -93,11 +93,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             {
                 return;
             }
-            
+
             _imagePicker = new UIImagePickerController
             {
                 SourceType = UIImagePickerControllerSourceType.Camera,
-                MediaTypes = new string[] {UTType.Image},
+                MediaTypes = new string[] { UTType.Image },
                 AllowsEditing = _allowsEditing
             };
 
