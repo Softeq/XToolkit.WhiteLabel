@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             var version = NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"];
             return withBuildNumber
-                ? $"{version}.{NSBundle.MainBundle.InfoDictionary["CFBundleVersion"]}"
+                ? $"{version} ({NSBundle.MainBundle.InfoDictionary["CFBundleVersion"]})"
                 : version.ToString();
         }
     }
