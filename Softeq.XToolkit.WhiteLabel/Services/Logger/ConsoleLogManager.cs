@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services.Logger
             return CreateInstance(name);
         }
 
-        private ILogger CreateInstance(string name)
+        private static ILogger CreateInstance(string name)
         {
             return new ConsoleLogger();
         }
