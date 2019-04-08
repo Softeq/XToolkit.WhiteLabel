@@ -13,27 +13,18 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
     {
         OpenDialogOptions DefaultOptions { get; }
 
-        Task<TViewModel> ShowForViewModel<TViewModel>(OpenDialogOptions options = null)
-            where TViewModel : class, IDialogViewModel;
-
-        Task<TViewModel> ShowForViewModel<TViewModel, TParameter>(TParameter parameter,
-            OpenDialogOptions options = null)
-            where TViewModel : class, IDialogViewModel, IViewModelParameter<TParameter>;
-
         Task<bool> ShowDialogAsync(string title,
             string message,
             string okButtonText,
             string cancelButtonText = null,
             OpenDialogOptions options = null);
 
-        Task<IDialogViewModel> ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IDialogViewModel;
-
         Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel;
 
         DialogNavigationHelper<T> For<T>() where T : IDialogViewModel;
+
+        Task ShowForViewModel<TViewModel>() where TViewModel : IDialogViewModel;
     }
 }
