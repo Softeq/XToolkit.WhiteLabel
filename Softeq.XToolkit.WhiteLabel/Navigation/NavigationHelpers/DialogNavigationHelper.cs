@@ -17,11 +17,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
             return _storyboardDialogsService.ShowForViewModel<TViewModel, TResult>(Parameters);
         }
 
-        public Task<IDialogViewModel> NavigateAsync()
-        {
-            return _storyboardDialogsService.ShowForViewModel<TViewModel>(Parameters);
-        }
-
         public DialogNavigationHelper(IDialogsService storyboardDialogsService)
         {
             _storyboardDialogsService = storyboardDialogsService;
