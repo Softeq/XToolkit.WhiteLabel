@@ -55,7 +55,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\Logger\" />
     <Folder Include="ImagePicker\" />
     <Folder Include="ViewControllers\" />
   </ItemGroup>
@@ -91,8 +90,6 @@
     <Compile Include="Controls\SupportRotationAlertController.cs" />
     <Compile Include="Navigation\RootFrameNavigationControllerBase.cs" />
     <Compile Include="Controls\GradientFadeView.cs" />
-    <Compile Include="Services\Logger\IosConsoleLogger.cs" />
-    <Compile Include="Services\Logger\IosConsoleLogManager.cs" />
     <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
     <Compile Include="ImagePicker\ImageOpenedEventArgs.cs" />
