@@ -4,9 +4,9 @@
 using System;
 using Softeq.XToolkit.Common.Interfaces;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.Services.Logger
+namespace Softeq.XToolkit.WhiteLabel.Services.Logger
 {
-    public class IosConsoleLogger : ILogger
+    public class ConsoleLogger : ILogger
     {
         public void Debug(string message)
         {

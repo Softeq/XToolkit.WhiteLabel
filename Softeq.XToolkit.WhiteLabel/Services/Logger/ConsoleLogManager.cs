@@ -3,9 +3,9 @@
 
 using Softeq.XToolkit.Common.Interfaces;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.Services.Logger
+namespace Softeq.XToolkit.WhiteLabel.Services.Logger
 {
-    public class IosConsoleLogManager : ILogManager
+    public class ConsoleLogManager : ILogManager
     {
         public ILogger GetLogger<T>()
         {
@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services.Logger
 
         private ILogger CreateInstance(string name)
         {
-            return new IosConsoleLogger();
+            return new ConsoleLogger();
         }
     }
 }
