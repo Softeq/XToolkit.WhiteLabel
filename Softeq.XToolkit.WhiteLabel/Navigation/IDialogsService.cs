@@ -24,5 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             where TViewModel : IDialogViewModel;
 
         DialogNavigationHelper<T> For<T>() where T : IDialogViewModel;
+
+        Task ShowForViewModel<TViewModel>() where TViewModel : IDialogViewModel;
     }
 }

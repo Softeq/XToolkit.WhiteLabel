@@ -6,9 +6,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -63,6 +61,22 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
 
             return result;
+        }
+
+        public async Task ShowForViewModel<TViewModel>() where TViewModel : IDialogViewModel
+        {
+            try
+            {
+                var viewModel = _iocContainer.Resolve<TViewModel>();
+                var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
+
+                await viewModel.DialogComponent.Task;
+                await DismissViewController(viewController);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+            }
         }
 
         public Task<bool> ShowDialogAsync(string title,
