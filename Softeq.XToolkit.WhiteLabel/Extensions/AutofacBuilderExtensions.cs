@@ -9,12 +9,14 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
 {
     public static class AutofacBuilderExtensions
     {
-        public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle> PerDependency<T1, T2>(this ContainerBuilder builder) where T1 : T2
+        public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle>
+            PerDependency<T1, T2>(this ContainerBuilder builder) where T1 : T2
         {
             return builder.RegisterType<T1>().As<T2>().InstancePerDependency();
         }
 
-        public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle> PerDependency<T1>(this ContainerBuilder builder)
+        public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle>
+            PerDependency<T1>(this ContainerBuilder builder)
         {
             return builder.RegisterType<T1>().InstancePerDependency();
         }
@@ -24,7 +26,8 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
             builder.Register(func).InstancePerDependency();
         }
 
-        public static IRegistrationBuilder<object, ConcreteReflectionActivatorData, SingleRegistrationStyle> PerDependency(this ContainerBuilder builder, Type type)
+        public static IRegistrationBuilder<object, ConcreteReflectionActivatorData, SingleRegistrationStyle>
+            PerDependency(this ContainerBuilder builder, Type type)
         {
             return builder.RegisterType(type).InstancePerDependency();
         }
@@ -34,19 +37,22 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
             builder.Register(func).As<T1>().InstancePerDependency();
         }
 
-        public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle> PerLifetimeScope<T1, T2>(this ContainerBuilder builder) where T1 : T2
+        public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle>
+            PerLifetimeScope<T1, T2>(this ContainerBuilder builder) where T1 : T2
         {
-            return builder.RegisterType<T1>().As<T2>().InstancePerLifetimeScope();
+            return builder.RegisterType<T1>().As<T2>().InstancePerLifetimeScope().SingleInstance();
         }
 
-        public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle> PerLifetimeScope<T1>(this ContainerBuilder builder)
+        public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle>
+            PerLifetimeScope<T1>(this ContainerBuilder builder)
         {
-            return builder.RegisterType<T1>().InstancePerLifetimeScope();
+            return builder.RegisterType<T1>().InstancePerLifetimeScope().SingleInstance();
         }
 
-        public static IRegistrationBuilder<T1, SimpleActivatorData, SingleRegistrationStyle> PerLifetimeScope<T1>(this ContainerBuilder builder, Func<IComponentContext, T1> func)
+        public static IRegistrationBuilder<T1, SimpleActivatorData, SingleRegistrationStyle> PerLifetimeScope<T1>(
+            this ContainerBuilder builder, Func<IComponentContext, T1> func)
         {
-            return builder.Register(func).InstancePerLifetimeScope();
+            return builder.Register(func).InstancePerLifetimeScope().SingleInstance();
         }
     }
 }
