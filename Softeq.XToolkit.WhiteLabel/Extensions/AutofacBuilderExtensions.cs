@@ -38,18 +38,18 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
         }
 
         public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle>
-            PerLifetimeScope<T1, T2>(this ContainerBuilder builder) where T1 : T2
+            Singleton<T1, T2>(this ContainerBuilder builder) where T1 : T2
         {
             return builder.RegisterType<T1>().As<T2>().InstancePerLifetimeScope().SingleInstance();
         }
 
         public static IRegistrationBuilder<T1, ConcreteReflectionActivatorData, SingleRegistrationStyle>
-            PerLifetimeScope<T1>(this ContainerBuilder builder)
+            Singleton<T1>(this ContainerBuilder builder)
         {
             return builder.RegisterType<T1>().InstancePerLifetimeScope().SingleInstance();
         }
 
-        public static IRegistrationBuilder<T1, SimpleActivatorData, SingleRegistrationStyle> PerLifetimeScope<T1>(
+        public static IRegistrationBuilder<T1, SimpleActivatorData, SingleRegistrationStyle> Singleton<T1>(
             this ContainerBuilder builder, Func<IComponentContext, T1> func)
         {
             return builder.Register(func).InstancePerLifetimeScope().SingleInstance();

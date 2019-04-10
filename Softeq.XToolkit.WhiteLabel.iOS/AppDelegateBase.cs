@@ -78,11 +78,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         protected void RegisterInternalServices(ContainerBuilder builder)
         {
-            builder.PerLifetimeScope<IAppDelegate>(c => this)
+            builder.Singleton<IAppDelegate>(c => this)
                 .PreserveExistingDefaults();
-            builder.PerLifetimeScope<StoryboardViewLocator, IViewLocator>()
+            builder.Singleton<StoryboardViewLocator, IViewLocator>()
                 .PreserveExistingDefaults();
-            builder.PerLifetimeScope<StoryboardNavigation, IPlatformNavigationService>()
+            builder.Singleton<StoryboardNavigation, IPlatformNavigationService>()
                 .PreserveExistingDefaults();
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>()
                 .PreserveExistingDefaults();
