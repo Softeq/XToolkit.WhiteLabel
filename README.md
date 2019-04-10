@@ -61,8 +61,8 @@ public class AppDelegate : AppDelegateBase
     public override void ConfigureIoc(ContainerBuilder builder)
     {
         //services InstancePerLifetimeScope
-        builder.PerLifetimeScope<StoryboardPageNavigation, IPageNavigationService>();
-        builder.PerLifetimeScope<StoryboardViewLocator, IViewLocator>()
+        builder.Singleton<StoryboardPageNavigation, IPageNavigationService>();
+        builder.Singleton<StoryboardViewLocator, IViewLocator>()
                .WithParameter(new TypedParameter(typeof(Func<UIViewController, UIViewController>), GetRootViewFinder()));
 
         //services InstancePerDependency
@@ -152,11 +152,11 @@ public class MainApplication : MainApplicationBase
     protected override void ConfigureIoc(ContainerBuilder builder)
     {
         //services InstancePerLifetimeScope
-        builder.PerLifetimeScope<PageNavigationService, IPageNavigationService>();
+        builder.Singleton<PageNavigationService, IPageNavigationService>();
         builder.RegisterType<ViewLocator>();
-        builder.PerLifetimeScope<DroidInternalSettings, IInternalSettings>();
-        builder.PerLifetimeScope<ViewModelFactoryService, IViewModelFactoryService>();
-        builder.PerLifetimeScope<BackStackManager, IBackStackManager>();
+        builder.Singleton<DroidInternalSettings, IInternalSettings>();
+        builder.Singleton<ViewModelFactoryService, IViewModelFactoryService>();
+        builder.Singleton<BackStackManager, IBackStackManager>();
 
         //services InstancePerDependency
         builder.PerDependency<FrameNavigationService, IFrameNavigationService>();
