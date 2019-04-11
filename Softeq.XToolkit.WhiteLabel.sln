@@ -19,7 +19,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Droid", "XToolkit.Bindings\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj", "{2B4A678B-63B4-49DB-99B1-BFE7793110C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid", "..\..\XToolkit.Common\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj", "{18D3FDC1-B0A1-401E-87F2-1C43034E610C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid", "XToolkit.Bindings\XToolkit.Common\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj", "{18D3FDC1-B0A1-401E-87F2-1C43034E610C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS", "XToolkit.Bindings\XToolkit.Common\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj", "{6BCB2009-2E46-458C-BCAA-AFC27A631924}"
 EndProject
