@@ -13,6 +13,13 @@
     <copyright>Copyright 2018 Softeq Development Corp.</copyright>
     <tags>Softeq XToolkit iOS Android</tags>
     <releaseNotes></releaseNotes>
+    <dependencies>
+     <group>
+        <dependency id="Softeq.XToolkit.Permissions" version="[1.0.2-beta]" />
+        <dependency id="Softeq.XToolkit.Bindings" version="[1.0.2-beta]" />
+        <dependency id="Softeq.XToolkit.Common" version="[1.0.2-beta]" />
+      </group>
+   </dependencies>
   </metadata>
   <files>
     <file src="Softeq.XToolkit.WhiteLabel/bin/Release/netstandard2.0/Softeq.XToolkit.WhiteLabel.dll" target="lib\netstandard2.0" />
