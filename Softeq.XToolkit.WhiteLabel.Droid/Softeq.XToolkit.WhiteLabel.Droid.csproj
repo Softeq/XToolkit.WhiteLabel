@@ -39,7 +39,6 @@
     </AndroidSigningKeyPass>
     <LangVersion>7</LangVersion>
   </PropertyGroup>
-  <Import Project="..\..\Configurations.targets" />
   <ItemGroup>
     <PackageReference Include="Autofac">
       <Version>4.8.1</Version>
@@ -108,29 +107,29 @@
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
-      <Project>{18d3fdc1-b0a1-401e-87f2-1c43034e610c}</Project>
-      <Name>Softeq.XToolkit.Common.Droid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{A58E3E80-FD9B-4368-90C2-9C1FE5B0B4D6}</Project>
-      <Name>Softeq.XToolkit.Common</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
       <Project>{797907F2-95D6-40E5-811E-3206CBF62213}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{A3D48FCC-AE70-4728-BF5C-8A695203146B}</Project>
+    <ProjectReference Include="..\XToolkit.Permissions\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
+      <Project>{A11C16B8-C5A4-445B-8142-823464D03E16}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{AE01FC6D-43B3-41ED-ABC6-941AF07E6C3A}</Project>
+    <ProjectReference Include="..\XToolkit.Bindings\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
+      <Project>{1F525832-B5C9-4459-9E19-95E7B5D92E9E}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\XToolkit\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
+    <ProjectReference Include="..\XToolkit.Bindings\XToolkit.Common\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{663BB4C7-03BA-49B0-B3EB-81E470D34A4D}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\XToolkit.Bindings\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
       <Project>{2B4A678B-63B4-49DB-99B1-BFE7793110C4}</Project>
       <Name>Softeq.XToolkit.Bindings.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\XToolkit.Common\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
+      <Project>{18D3FDC1-B0A1-401E-87F2-1C43034E610C}</Project>
+      <Name>Softeq.XToolkit.Common.Droid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
