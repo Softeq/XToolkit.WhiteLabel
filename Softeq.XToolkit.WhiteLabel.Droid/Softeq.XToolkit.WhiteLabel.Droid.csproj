@@ -127,7 +127,7 @@
       <Project>{2B4A678B-63B4-49DB-99B1-BFE7793110C4}</Project>
       <Name>Softeq.XToolkit.Bindings.Droid</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\XToolkit.Common\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
+    <ProjectReference Include="..\XToolkit.Bindings\XToolkit.Common\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
       <Project>{18D3FDC1-B0A1-401E-87F2-1C43034E610C}</Project>
       <Name>Softeq.XToolkit.Common.Droid</Name>
     </ProjectReference>
