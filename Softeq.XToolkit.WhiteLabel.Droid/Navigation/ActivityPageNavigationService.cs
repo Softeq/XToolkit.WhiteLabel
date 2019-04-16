@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Android.Content;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Interfaces;
@@ -31,7 +32,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _isParamsSerializationEnabled = true;
         }
 
-        public bool CanGoBack => !_currentActivity.Activity.IsTaskRoot;
+        public bool CanGoBack
+        {
+            get
+            {
+                var memberInfo = _currentActivity.Activity.GetType();
+                return memberInfo.GetCustomAttribute(typeof(StartActivity)) == null;
+            }
+        }
 
         public void GoBack()
         {

@@ -12,6 +12,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class ViewLocator
     {
+        private Dictionary<Type, Type> _modelToViewTypes;
+
+        public void Initialize(Dictionary<Type, Type> viewModelToView)
+        {
+            if (viewModelToView == null)
+            {
+                return;
+            }
+
+            _modelToViewTypes = viewModelToView;
+        }
+
         public Type GetTargetType<T>(ViewType viewType)
         {
             return GetTargetType(typeof(T), viewType);
@@ -19,6 +31,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public Type GetTargetType(Type type, ViewType viewType)
         {
+            if(_modelToViewTypes.TryGetValue(type, out var typeOfView))
+            {
+                return typeOfView;
+            }
+
             var typeName = type.FullName;
             return GetTargetType(typeName, viewType);
         }
@@ -41,7 +58,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return inst;
         }
 
-        public Type GetTargetType(string viewModelTypeName, ViewType viewType)
+        private Type GetTargetType(string viewModelTypeName, ViewType viewType)
         {
             var targetTypeName = viewModelTypeName.Replace(".ViewModels.", ".Droid.Views.");
             targetTypeName = targetTypeName.Replace("ViewModel", viewType.ToString());
