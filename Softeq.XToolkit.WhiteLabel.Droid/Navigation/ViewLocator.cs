@@ -14,6 +14,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     {
         private Dictionary<Type, Type> _modelToViewTypes;
 
+        public ViewLocator()
+        {
+            _modelToViewTypes = new Dictionary<Type, Type>();
+        }
+
         public void Initialize(Dictionary<Type, Type> viewModelToView)
         {
             if (viewModelToView == null)
