@@ -2,7 +2,7 @@
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     [AttributeUsage(AttributeTargets.Class)]
-    public class StartActivity : Attribute
+    public class StartActivityAttribute : Attribute
     {
     }
 }

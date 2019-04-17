@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 .PreserveExistingDefaults();
             builder.PerDependency<FrameNavigationService, IFrameNavigationService>()
                 .PreserveExistingDefaults();
-            builder.PerLifetimeScope<ViewLocator>()
+            builder.PerLifetimeScope<ViewLocator, IViewLocator>()
                 .PreserveExistingDefaults();
         }
 

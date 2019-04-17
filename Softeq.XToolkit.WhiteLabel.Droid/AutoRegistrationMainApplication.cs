@@ -22,29 +22,29 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ConfigureIoc(containerBuilder);
             RegisterInternalServices(containerBuilder);
 
-            var viewModelToViewControllerDictionary = new Dictionary<Type, Type>();
+            var viewModelToViewDictionary = new Dictionary<Type, Type>();
 
-            viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(containerBuilder);
+            viewModelToViewDictionary = CreateAndRegisterMissedViewModels(containerBuilder);
 
             Dependencies.IocContainer.StartScope(containerBuilder);
 
-            Dependencies.IocContainer.Resolve<ViewLocator>().Initialize(viewModelToViewControllerDictionary);
+            Dependencies.IocContainer.Resolve<IViewLocator>().Initialize(viewModelToViewDictionary);
         }
 
         private Dictionary<Type, Type> CreateAndRegisterMissedViewModels(ContainerBuilder builder)
         {
-            var viewModelToViewControllerTypes = new Dictionary<Type, Type>();
+            var viewModelToViewTypes = new Dictionary<Type, Type>();
 
             foreach (var type in GetType().Assembly.GetTypes()
-                .View(((ViewType[])Enum.GetValues(typeof(ViewType))).Select(x => x.ToString()).ToArray()))
+                .View(Enum.GetNames(typeof(ViewType))))
             {
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
-                viewModelToViewControllerTypes.Add(viewModelType, type);
+                viewModelToViewTypes.Add(viewModelType, type);
 
                 builder.PerDependency(viewModelType).PreserveExistingDefaults();
             }
 
-            return viewModelToViewControllerTypes;
+            return viewModelToViewTypes;
         }
     }
 }

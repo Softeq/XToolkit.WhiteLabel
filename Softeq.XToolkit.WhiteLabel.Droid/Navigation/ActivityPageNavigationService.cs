@@ -16,13 +16,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class ActivityPageNavigationService : IPlatformNavigationService
     {
-        private readonly ViewLocator _viewLocator;
+        private readonly IViewLocator _viewLocator;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly ICurrentActivity _currentActivity;
 
         private bool _isParamsSerializationEnabled;
 
-        public ActivityPageNavigationService(ViewLocator viewLocator, IJsonSerializer jsonSerializer,
+        public ActivityPageNavigationService(IViewLocator viewLocator, IJsonSerializer jsonSerializer,
             ICurrentActivity currentActivity)
         {
             _viewLocator = viewLocator;
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             get
             {
                 var memberInfo = _currentActivity.Activity.GetType();
-                return memberInfo.GetCustomAttribute(typeof(StartActivity)) == null;
+                return memberInfo.GetCustomAttribute(typeof(StartActivityAttribute)) == null;
             }
         }
 

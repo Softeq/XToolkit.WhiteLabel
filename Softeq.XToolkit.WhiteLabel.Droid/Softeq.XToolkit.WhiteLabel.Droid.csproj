@@ -105,8 +105,9 @@
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
-    <Compile Include="Navigation\StartActivity.cs" />
+    <Compile Include="Navigation\StartActivityAttribute.cs" />
     <Compile Include="AutoRegistrationMainApplication.cs" />
+    <Compile Include="Navigation\IViewLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">

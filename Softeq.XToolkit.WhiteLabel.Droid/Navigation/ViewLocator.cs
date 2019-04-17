@@ -10,7 +10,7 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
-    public class ViewLocator
+    public class ViewLocator : IViewLocator
     {
         private Dictionary<Type, Type> _modelToViewTypes;
 
@@ -38,15 +38,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             var typeName = type.FullName;
             return GetTargetType(typeName, viewType);
-        }
-
-        public object GetView(ViewModelBase viewModel, ViewType viewType)
-        {
-            var targetType = GetTargetType(viewModel.GetType(), viewType);
-            var inst = Activator.CreateInstance(targetType);
-            var method = inst.GetType().GetMethod("SetExistingViewModel");
-            method.Invoke(inst, new[] { viewModel });
-            return inst;
         }
 
         public object GetView(IViewModelBase viewModel, ViewType viewType)

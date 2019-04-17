@@ -19,11 +19,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private const string FrameNavigationServiceParameterName = "FrameNavigationService";
 
         private readonly Stack<ViewModelBase> _backStack;
-        private readonly ViewLocator _viewLocator;
+        private readonly IViewLocator _viewLocator;
         private readonly IIocContainer _iocContainer;
         private int _containerId;
 
-        public FrameNavigationService(ViewLocator viewLocator, IIocContainer iocContainer)
+        public FrameNavigationService(IViewLocator viewLocator, IIocContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
