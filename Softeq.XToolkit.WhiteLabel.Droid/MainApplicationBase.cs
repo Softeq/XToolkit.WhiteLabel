@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             PlatformProvider.Current = new DroidPlatformProvider();
         }
 
-        public abstract IList<Assembly> SelectAssemblies();
+        protected abstract IList<Assembly> SelectAssemblies();
 
         protected void RegisterInternalServices(ContainerBuilder builder)
         {

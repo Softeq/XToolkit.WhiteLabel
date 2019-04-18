@@ -111,19 +111,19 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{B310B18B-8908-4CD9-A12B-93DF97671B99}</Project>
+      <Project>{051C065C-DF97-4406-BEAB-F2F91842275C}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\XToolkit.Permissions\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{D3E8E73F-BD8D-4B6C-AC87-3F00FA453728}</Project>
+      <Project>{33058D2B-E6F2-41D2-98BF-6C1C89B89225}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
     <ProjectReference Include="..\XToolkit.Bindings\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{42158868-A850-4B98-A022-26571BEFD7AC}</Project>
+      <Project>{556D5257-68D9-43B6-B06D-DAA137E2A9FD}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\XToolkit.Bindings\XToolkit.Common\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{1A885724-8453-419D-A6A1-CF9FEA19347D}</Project>
+      <Project>{93F44531-29C0-4FDE-AD7B-DE391727C174}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\XToolkit.Bindings\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">

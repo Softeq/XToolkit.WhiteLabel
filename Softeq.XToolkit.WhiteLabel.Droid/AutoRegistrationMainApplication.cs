@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Android.Runtime;
+using Android.Support.V4.App;
+using Android.Support.V7.App;
 using Autofac;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Extensions;
@@ -35,8 +37,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             var viewModelToViewTypes = new Dictionary<Type, Type>();
 
-            foreach (var type in GetType().Assembly.GetTypes()
-                .View(Enum.GetNames(typeof(ViewType))))
+            foreach (var type in SelectAssemblies().SelectMany(assembly => assembly.GetTypes()
+                .View(typeof(AppCompatActivity), typeof(Fragment), typeof(DialogFragment))))
             {
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
                 viewModelToViewTypes.Add(viewModelType, type);
