@@ -71,9 +71,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return targetType;
         }
 
-        private ViewControllerBase TryCreateViewController(string storyBoardName, Type targetType)
+        private UIViewController TryCreateViewController(string storyBoardName, Type targetType)
         {
-            ViewControllerBase newViewController = null;
+            UIViewController newViewController = null;
 
             try
             {
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                     }
                     else
                     {
-                        newViewController = (ViewControllerBase)Activator.CreateInstance(targetType);
+                        newViewController = (UIViewController)Activator.CreateInstance(targetType);
                     }
                 });
             }
