@@ -10,8 +10,25 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
-    public class ViewLocator
+    public class ViewLocator : IViewLocator
     {
+        private Dictionary<Type, Type> _modelToViewTypes;
+
+        public ViewLocator()
+        {
+            _modelToViewTypes = new Dictionary<Type, Type>();
+        }
+
+        public void Initialize(Dictionary<Type, Type> viewModelToView)
+        {
+            if (viewModelToView == null)
+            {
+                return;
+            }
+
+            _modelToViewTypes = viewModelToView;
+        }
+
         public Type GetTargetType<T>(ViewType viewType)
         {
             return GetTargetType(typeof(T), viewType);
@@ -19,17 +36,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public Type GetTargetType(Type type, ViewType viewType)
         {
+            if(_modelToViewTypes.TryGetValue(type, out var typeOfView))
+            {
+                return typeOfView;
+            }
+
             var typeName = type.FullName;
             return GetTargetType(typeName, viewType);
-        }
-
-        public object GetView(ViewModelBase viewModel, ViewType viewType)
-        {
-            var targetType = GetTargetType(viewModel.GetType(), viewType);
-            var inst = Activator.CreateInstance(targetType);
-            var method = inst.GetType().GetMethod("SetExistingViewModel");
-            method.Invoke(inst, new[] { viewModel });
-            return inst;
         }
 
         public object GetView(IViewModelBase viewModel, ViewType viewType)
@@ -41,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return inst;
         }
 
-        public Type GetTargetType(string viewModelTypeName, ViewType viewType)
+        private Type GetTargetType(string viewModelTypeName, ViewType viewType)
         {
             var targetTypeName = viewModelTypeName.Replace(".ViewModels.", ".Droid.Views.");
             targetTypeName = targetTypeName.Replace("ViewModel", viewType.ToString());

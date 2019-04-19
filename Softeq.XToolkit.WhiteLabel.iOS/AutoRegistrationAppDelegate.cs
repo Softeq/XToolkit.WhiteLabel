@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Autofac;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
+using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
@@ -27,7 +29,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             var viewModelToViewControllerTypes = new Dictionary<Type, Type>();
 
-            foreach (var type in GetType().Assembly.GetTypes().View("ViewController"))
+            foreach (var type in SelectAssemblies().SelectMany(x => x.GetTypes().View(typeof(UIViewController))))
             {
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
                 viewModelToViewControllerTypes.Add(viewModelType, type);

@@ -16,10 +16,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     {
         private readonly IAlertBuilder _alertBuilder;
         private readonly IIocContainer _iocContainer;
-        private readonly ViewLocator _viewLocator;
+        private readonly IViewLocator _viewLocator;
 
         public DroidFragmentDialogService(
-            ViewLocator viewLocator,
+            IViewLocator viewLocator,
             IAlertBuilder alertBuilder, IIocContainer iocContainer)
         {
             _viewLocator = viewLocator;

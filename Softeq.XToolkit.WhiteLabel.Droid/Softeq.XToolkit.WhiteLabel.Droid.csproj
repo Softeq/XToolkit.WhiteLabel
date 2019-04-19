@@ -105,22 +105,25 @@
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
+    <Compile Include="Navigation\StartActivityAttribute.cs" />
+    <Compile Include="AutoRegistrationMainApplication.cs" />
+    <Compile Include="Navigation\IViewLocator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{797907F2-95D6-40E5-811E-3206CBF62213}</Project>
+      <Project>{051C065C-DF97-4406-BEAB-F2F91842275C}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\XToolkit.Permissions\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{A11C16B8-C5A4-445B-8142-823464D03E16}</Project>
+      <Project>{33058D2B-E6F2-41D2-98BF-6C1C89B89225}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
     <ProjectReference Include="..\XToolkit.Bindings\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{1F525832-B5C9-4459-9E19-95E7B5D92E9E}</Project>
+      <Project>{556D5257-68D9-43B6-B06D-DAA137E2A9FD}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\XToolkit.Bindings\XToolkit.Common\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{663BB4C7-03BA-49B0-B3EB-81E470D34A4D}</Project>
+      <Project>{93F44531-29C0-4FDE-AD7B-DE391727C174}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\XToolkit.Bindings\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">

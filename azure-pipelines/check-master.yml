@@ -16,3 +16,6 @@ steps:
   inputs:
     contents: '*.nupkg'
     targetFolder: $(Build.ArtifactStagingDirectory)
+- task: PublishBuildArtifacts@1
+  inputs:
+    ArtifactName: 'drop'
