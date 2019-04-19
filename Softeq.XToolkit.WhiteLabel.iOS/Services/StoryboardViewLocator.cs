@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public UIViewController GetView(object viewModel)
         {
-            var controllerType = GetTargetType();
+            var controllerType = GetTargetType(viewModel.GetType());
             var storyboardName = controllerType.Name.Replace("ViewController", "Storyboard");
             var viewController = TryCreateViewController(storyboardName, controllerType);
             var method = viewController.GetType().GetMethod("SetExistingViewModel");
@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return viewController;
         }
 
-        private static Type GetTargetType(Type type)
+        private Type GetTargetType(Type type)
         {
             Type targetType;
 
@@ -59,7 +59,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 return targetType;
             }
 
-            var targetTypeName = viewModelType.Replace(".ViewModels.", ".iOS.ViewControllers.");
+            var targetTypeName = type.FullName.Replace(".ViewModels.", ".iOS.ViewControllers.");
             targetTypeName = targetTypeName.Replace("ViewModel", "ViewController");
             targetType = Type.GetType(targetTypeName)
                 ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
