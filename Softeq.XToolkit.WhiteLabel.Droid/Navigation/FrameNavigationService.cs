@@ -9,7 +9,6 @@ using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
@@ -146,19 +145,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             return false;
-        }
-
-        public NavigateHelper<T> For<T>() where T : IViewModelBase
-        {
-            return new NavigateHelper<T>(this);
-        }
-
-        public void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters)
-            where TViewModel : IViewModelBase
-        {
-            var viewModel = _iocContainer.Resolve<TViewModel>();
-            viewModel.ApplyParameters(navigationParameters);
-            NavigateToViewModel(viewModel as ViewModelBase);
         }
     }
 }

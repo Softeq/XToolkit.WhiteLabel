@@ -17,7 +17,7 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public abstract class DialogFragmentBase<TViewModel> : DialogFragment
-        where TViewModel : IDialogViewModel
+        where TViewModel : class, IDialogViewModel
     {
         protected IList<Binding> Bindings { get; } = new List<Binding>();
 
@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             var baseActivity = (ActivityBase)CrossCurrentActivity.Current.Activity;
             Show(baseActivity.SupportFragmentManager, null);
             var result = await ViewModel.DialogComponent.Task.ConfigureAwait(false);
-            return (TViewModel)result;
+            return result as TViewModel;
         }
 
         public override void OnCreate(Bundle savedInstanceState)

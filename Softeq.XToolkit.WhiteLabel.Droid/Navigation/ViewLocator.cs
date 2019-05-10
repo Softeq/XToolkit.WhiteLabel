@@ -43,10 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public Type GetTargetType(string viewModelTypeName, ViewType viewType)
         {
-            ///TODO PL: we must not relay on the core project name.
-            /// This won't work if core project is named e.g. "SomeProj.Core" 
-            /// and android project is "SomeProj.Droid" or "SomeProj.Android"
-            var targetTypeName = viewModelTypeName.Replace(".Core.ViewModels.", ".Droid.Views.");
+            var targetTypeName = viewModelTypeName.Replace(".ViewModels.", ".Droid.Views.");
             targetTypeName = targetTypeName.Replace("ViewModel", viewType.ToString());
 
             var targeType = Type.GetType(targetTypeName)

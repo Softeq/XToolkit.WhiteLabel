@@ -10,21 +10,21 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
     public class DialogNavigationHelper<TViewModel> : NavigationHelper<TViewModel>
         where TViewModel : IDialogViewModel
     {
-        private readonly IDialogsService _dialogsService;
-
-        public DialogNavigationHelper(IDialogsService dialogsService)
-        {
-            _dialogsService = dialogsService;
-        }
+        private readonly IDialogsService _storyboardDialogsService;
 
         public Task<TResult> Navigate<TResult>()
         {
-            return _dialogsService.ShowForViewModel<TViewModel, TResult>(Parameters);
+            return _storyboardDialogsService.ShowForViewModel<TViewModel, TResult>(Parameters);
         }
 
         public Task Navigate()
         {
-            return _dialogsService.ShowForViewModel<TViewModel>();
+            return _storyboardDialogsService.ShowForViewModel<TViewModel>();
+        }
+
+        public DialogNavigationHelper(IDialogsService storyboardDialogsService)
+        {
+            _storyboardDialogsService = storyboardDialogsService;
         }
 
         public new DialogNavigationHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property,
