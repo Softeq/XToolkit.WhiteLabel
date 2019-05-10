@@ -84,7 +84,7 @@ namespace Softeq.XToolkit.WhiteLabel
         private void Initialize(ContainerBuilder builder)
         {
             _rootScope = builder.Build();
-            _currentScope = _rootScope.BeginLifetimeScope();
+            _currentScope = _rootScope;
         }
     }
 }
