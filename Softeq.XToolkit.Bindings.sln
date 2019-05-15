@@ -1,0 +1,44 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings", "Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj", "{5D118FC2-7CB7-4339-92DC-2DE69B15A630}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Droid", "Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj", "{2B4A678B-63B4-49DB-99B1-BFE7793110C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iOS", "Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj", "{2D399BA9-1878-43E2-AF05-6873EAE9151B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "XToolkit.Common\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{30A309A4-88DF-4504-8D0B-0B9792314CCD}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+		Release.Stage|Any CPU = Release.Stage|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{5D118FC2-7CB7-4339-92DC-2DE69B15A630}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D118FC2-7CB7-4339-92DC-2DE69B15A630}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D118FC2-7CB7-4339-92DC-2DE69B15A630}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D118FC2-7CB7-4339-92DC-2DE69B15A630}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D118FC2-7CB7-4339-92DC-2DE69B15A630}.Release.Stage|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D118FC2-7CB7-4339-92DC-2DE69B15A630}.Release.Stage|Any CPU.Build.0 = Debug|Any CPU
+		{2B4A678B-63B4-49DB-99B1-BFE7793110C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2B4A678B-63B4-49DB-99B1-BFE7793110C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2B4A678B-63B4-49DB-99B1-BFE7793110C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2B4A678B-63B4-49DB-99B1-BFE7793110C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2B4A678B-63B4-49DB-99B1-BFE7793110C4}.Release.Stage|Any CPU.ActiveCfg = Release.Stage|Any CPU
+		{2B4A678B-63B4-49DB-99B1-BFE7793110C4}.Release.Stage|Any CPU.Build.0 = Release.Stage|Any CPU
+		{2D399BA9-1878-43E2-AF05-6873EAE9151B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2D399BA9-1878-43E2-AF05-6873EAE9151B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2D399BA9-1878-43E2-AF05-6873EAE9151B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2D399BA9-1878-43E2-AF05-6873EAE9151B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2D399BA9-1878-43E2-AF05-6873EAE9151B}.Release.Stage|Any CPU.ActiveCfg = Release|Any CPU
+		{2D399BA9-1878-43E2-AF05-6873EAE9151B}.Release.Stage|Any CPU.Build.0 = Release|Any CPU
+		{30A309A4-88DF-4504-8D0B-0B9792314CCD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{30A309A4-88DF-4504-8D0B-0B9792314CCD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{30A309A4-88DF-4504-8D0B-0B9792314CCD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{30A309A4-88DF-4504-8D0B-0B9792314CCD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{30A309A4-88DF-4504-8D0B-0B9792314CCD}.Release.Stage|Any CPU.ActiveCfg = Release|Any CPU
+		{30A309A4-88DF-4504-8D0B-0B9792314CCD}.Release.Stage|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
