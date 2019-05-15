@@ -2,25 +2,34 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using Softeq.XToolkit.Common.Extensions;
 using System.Text.RegularExpressions;
 using Foundation;
 using UIKit;
+using System;
 
 namespace Softeq.XToolkit.Common.iOS.Helpers
 {
     public static class AttributedStringHelper
     {
+        public static NSUrl ToNSUrl(this string link)
+        {
+            var uri = new Uri(link);
+            var url = NSUrl.FromString(uri.AbsoluteUri);
+            return url;
+        }
+
         public static NSMutableAttributedString BuildAttributedString(this string inputString)
         {
             return new NSMutableAttributedString(inputString);
         }
-        
+
         public static NSMutableAttributedString BuildAttributedStringFromHtml(this string inputString)
         {
             var importParams = new NSAttributedStringDocumentAttributes
             {
                 DocumentType = NSDocumentType.HTML,
-                
+
             };
 
             NSError error = new NSError();
@@ -59,26 +68,34 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
             return self;
         }
 
-        public static NSMutableAttributedString DetectLinks(this NSMutableAttributedString self, UIColor color,
-            NSUnderlineStyle style, out string[] result)
+        public static NSMutableAttributedString DetectLinks(this NSMutableAttributedString self,
+            UIColor color,
+            NSUnderlineStyle style,
+            bool highlightLink,
+            out string[] result)
         {
-            result = default(string[]);
+            var linkNames = new List<string>();
+            var i = 0;
 
-            var linkPattern = @"(http|ftp|https)://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?";
-            var links = Regex.Matches(self.Value, linkPattern);
-            if (links.Count == 0)
+            foreach (var link in self.Value.FindLinks())
             {
-                return self;
-            }
+                var range = new NSRange(link.Index, link.Length);
+                var linkName = $"link{i++}";
+                var url = link.Value.ToNSUrl();
 
-            var linkNames = new List<string>(links.Count);
-            for (var i = 0; i < links.Count; i++)
-            {
-                var item = links[i];
-                var range = new NSRange(item.Index, item.Value.Length);
-                var linkName = $"link{i}";
-                self.AddLink(item.Value, linkName, color, style, range);
+                if (url == null)
+                {
+                    continue; // skip URLs which we can't open
+                }
+
                 linkNames.Add(linkName);
+
+                self.AddLink(url, linkName, color, style, range);
+
+                if (highlightLink)
+                {
+                    self.Foreground(color, range);
+                }
             }
 
             result = linkNames.ToArray();
@@ -86,11 +103,11 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
             return self;
         }
 
-        public static NSMutableAttributedString AddLink(this NSMutableAttributedString self, string link,
+        public static NSMutableAttributedString AddLink(this NSMutableAttributedString self, NSUrl url,
             string linkName, UIColor color, NSUnderlineStyle style, NSRange range)
         {
-            self.AddAttribute(new NSString(linkName), NSUrl.FromString(link), range);
-            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int) style), range);
+            self.AddAttribute(new NSString(linkName), url, range);
+            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int)style), range);
             self.AddAttribute(UIStringAttributeKey.UnderlineColor, color, range);
             return self;
         }
