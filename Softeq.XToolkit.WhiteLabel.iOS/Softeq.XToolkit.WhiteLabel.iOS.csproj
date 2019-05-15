@@ -105,28 +105,28 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{B310B18B-8908-4CD9-A12B-93DF97671B99}</Project>
+      <Project>{797907F2-95D6-40E5-811E-3206CBF62213}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XToolkit.Bindings\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{42158868-A850-4B98-A022-26571BEFD7AC}</Project>
+    <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
+      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XToolkit.Bindings\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{B6D39FB0-BD3C-477A-BDED-579D688D59DA}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
+      <Project>{7DFADBE8-C2DE-4C1E-A72C-125B40B0A416}</Project>
+      <Name>Softeq.XToolkit.Permissions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
       <Project>{2D399BA9-1878-43E2-AF05-6873EAE9151B}</Project>
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\XToolkit.Bindings\XToolkit.Common\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{1A885724-8453-419D-A6A1-CF9FEA19347D}</Project>
-      <Name>Softeq.XToolkit.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\XToolkit.Bindings\XToolkit.Common\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
+    <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
       <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
       <Name>Softeq.XToolkit.Common.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\XToolkit.Permissions\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{D3E8E73F-BD8D-4B6C-AC87-3F00FA453728}</Project>
-      <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
