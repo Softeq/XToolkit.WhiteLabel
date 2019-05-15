@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Tests.Core.Common
         public void GetAssemblyNameTest()
         {
             var name = GetType().Assembly.GetName().Name;
-            Assert.Equal(name, "Softeq.XToolkit.Tests.Core");
+            Assert.Equal(name, "Softeq.XToolkit.Common.Tests");
         }
 
         [Fact]
