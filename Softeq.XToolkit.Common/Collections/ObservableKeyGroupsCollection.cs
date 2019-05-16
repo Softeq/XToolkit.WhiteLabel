@@ -354,5 +354,40 @@ namespace Softeq.XToolkit.Common.Collections
         {
             return new NotifyKeyGroupsCollectionChangedEventArgs(action, Items.Select(x => x.Count).ToList());
         }
+
+        /// <summary>
+        /// Union for groups with items
+        /// </summary>
+        /// <param name="newCollection">Sorted group collection</param>
+        public void UnionSortedGroups(
+            ObservableKeyGroupsCollection<TKey, TValue> newCollection,
+            IEqualityComparer<TValue> itemComparer)
+        {
+            var newKeys = Keys.Union(newCollection.Keys).OrderBy(x => x).ToArray();
+
+            for (var i = 0; i < newKeys.Length; i++)
+            {
+                var newKey = newKeys[i];
+                var currentGroupItems = Items.FirstOrDefault(x => x.Key.Equals(newKey));
+                var newGroupItems = newCollection.FirstOrDefault(x => x.Key.Equals(newKey));
+
+                if (currentGroupItems != null && newGroupItems != null && newGroupItems.Count > 0)
+                {
+                    var mergedGroupItems = currentGroupItems.Union(newGroupItems, itemComparer).ToList();
+                    currentGroupItems.ReplaceRange(mergedGroupItems);
+                }
+                else
+                {
+                    if (currentGroupItems == null && newGroupItems != null)
+                    {
+                        Insert(i, newGroupItems);
+                    }
+                }
+            }
+
+            Keys.ReplaceRange(newKeys);
+
+            ItemsChanged?.Invoke(this, CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Reset));
+        }
     }
 }

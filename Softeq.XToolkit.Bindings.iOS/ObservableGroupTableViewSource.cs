@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -48,7 +48,16 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         public nfloat? HeightForFooter { get; set; }
 
+        /// <summary>
+        /// Called when item was selected
+        /// </summary>
+        public event EventHandler<GenericEventArgs<TItem>> ItemSelected;
+
+        /// <summary>
+        /// Called every time when user clicked by item (select/deselect)
+        /// </summary>
         public event EventHandler<GenericEventArgs<TItem>> ItemTapped;
+
         public event EventHandler LastItemRequested;
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
@@ -108,14 +117,21 @@ namespace Softeq.XToolkit.Bindings.iOS
             return HeightForFooter ?? 0;
         }
 
-        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
-        {
-            ItemTapped?.Invoke(this, new GenericEventArgs<TItem>(GetItemByIndex(indexPath)));
-        }
-
         public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
         {
-            ItemTapped?.Invoke(this, new GenericEventArgs<TItem>(GetItemByIndex(indexPath)));
+            var item = GetItemByIndex(indexPath);
+            var args = new GenericEventArgs<TItem>(item);
+
+            ItemTapped?.Invoke(this, args);
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var item = GetItemByIndex(indexPath);
+            var args = new GenericEventArgs<TItem>(item);
+
+            ItemSelected?.Invoke(this, args);
+            ItemTapped?.Invoke(this, args);
         }
 
         private TItem GetItemByIndex(NSIndexPath indexPath)

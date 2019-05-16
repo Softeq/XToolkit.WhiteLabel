@@ -3,6 +3,7 @@
 
 using System;
 using FFImageLoading;
+using FFImageLoading.Work;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.ViewModels;
@@ -16,6 +17,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
         {
         }
 
+        private bool StatusBarHidden
+        {
+            set
+            {
+                var keyWindow = UIApplication.SharedApplication.KeyWindow;
+                if (keyWindow != null)
+                {
+                    keyWindow.WindowLevel = value
+                        ? UIWindowLevel.StatusBar
+                        : UIWindowLevel.Normal;
+                }
+            }
+        }
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -25,7 +40,37 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             CloseButton.SetImage(UIImage.FromBundle(ViewModel.FullScreenImageOptions.IosCloseButtonImageBoundleName), UIControlState.Normal);
             CloseButton.SetCommand(ViewModel.DialogComponent.CloseCommand, true);
 
-            ImageService.Instance.LoadUrl(ViewModel.ImageUrl).IntoAsync(ImageView);
+            LoadImage();
+        }
+
+        public override void ViewWillAppear(bool animated)
+        {
+            base.ViewWillAppear(animated);
+
+            StatusBarHidden = true;
+        }
+
+        public override void ViewWillDisappear(bool animated)
+        {
+            base.ViewWillDisappear(animated);
+
+            StatusBarHidden = false;
+        }
+
+        private void LoadImage()
+        {
+            TaskParameter task;
+
+            if (string.IsNullOrEmpty(ViewModel.ImagePath) == false)
+            {
+                task = ImageService.Instance.LoadFile(ViewModel.ImagePath);
+            }
+            else
+            {
+                task = ImageService.Instance.LoadUrl(ViewModel.ImageUrl);
+            }
+
+            task.IntoAsync(ImageView);
         }
     }
 }

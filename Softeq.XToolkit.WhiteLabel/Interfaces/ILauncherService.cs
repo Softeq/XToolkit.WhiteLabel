@@ -9,5 +9,7 @@ namespace Softeq.XToolkit.WhiteLabel.Interfaces
         void OpenDeviceSecuritySettings();
         void OpenAppSettings();
         void OpenVideo(string videoUrl);
+        void OpenEmail(string email);
+        void OpenPhoneNumber(string number);
     }
 }

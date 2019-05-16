@@ -18,10 +18,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             _viewLocator = viewLocator;
         }
-        
-        public void OpenUrl(string url)
+
+        public void OpenUrl(string urlStr)
         {
-            UIApplication.SharedApplication.OpenUrl(new NSUrl(url));
+            var uri = new System.Uri(urlStr);
+            var url = new NSUrl(uri.AbsoluteUri);
+            var app = UIApplication.SharedApplication;
+
+            if (app.CanOpenUrl(url))
+            {
+                app.OpenUrl(url);
+            }
         }
 
         public void OpenDeviceSecuritySettings()
@@ -57,6 +64,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             var prefsUrl = new NSUrl($"prefs{url}");
             var nativeUrl = UIApplication.SharedApplication.CanOpenUrl(prefsUrl) ? prefsUrl : new NSUrl($"App-Prefs{url}");
             UIApplication.SharedApplication.OpenUrl(nativeUrl);
+        }
+
+        public void OpenEmail(string email)
+        {
+            OpenUrl($"mailto:{email}");
+        }
+
+        public void OpenPhoneNumber(string number)
+        {
+            OpenUrl($"tel:{number}");
         }
     }
 }

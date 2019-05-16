@@ -43,6 +43,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public Button RightTextButton { get; private set; }
 
+        public ImageButton RightImageButton => _rightButton;
+
         public void SetLeftButton(int resourceId, ICommand command, int? color = null)
         {
             _leftButton.SetImageResource(resourceId);

@@ -12,11 +12,13 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
         public int DroidCloseButtonImageResId { get; set; }
         public string CloseButtonTintColor { get; set; }
         public string ImageUrl { get; set; }
+        public string ImagePath { get; set; }
     }
 
     public class FullScreenImageViewModel : DialogViewModelBase, IViewModelParameter<FullScreenImageOptions>
     {
         public string ImageUrl => FullScreenImageOptions.ImageUrl;
+        public string ImagePath => FullScreenImageOptions.ImagePath;
 
         public FullScreenImageOptions FullScreenImageOptions { get; set; }
 
