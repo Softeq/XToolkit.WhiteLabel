@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Collections.Generic;
 using Android.Content;
 using Android.Support.V7.Widget;
