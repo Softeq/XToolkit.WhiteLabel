@@ -45,5 +45,25 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
             CrossCurrentActivity.Current.Activity.StartActivity(intent);
         }
+
+        public void OpenEmail(string email)
+        {
+            var intent = new Intent(Intent.ActionSendto);
+            intent.SetData(Uri.Parse($"mailto:{email}"));
+            if (intent.ResolveActivity(CrossCurrentActivity.Current.Activity.PackageManager) != null)
+            {
+                CrossCurrentActivity.Current.Activity.StartActivity(Intent.CreateChooser(intent, string.Empty));
+            }
+        }
+
+        public void OpenPhoneNumber(string number)
+        {
+            var intent = new Intent(Intent.ActionDial);
+            intent.SetData(Uri.Parse($"tel:{number}"));
+            if (intent.ResolveActivity(CrossCurrentActivity.Current.Activity.PackageManager) != null)
+            {
+                CrossCurrentActivity.Current.Activity.StartActivity(intent);
+            }
+        }
     }
 }
