@@ -102,6 +102,7 @@
       <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="AutoRegistrationAppDelegate.cs" />
+    <Compile Include="Services\KeyboardService.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
