@@ -108,6 +108,7 @@
     <Compile Include="Navigation\StartActivityAttribute.cs" />
     <Compile Include="AutoRegistrationMainApplication.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
+    <Compile Include="Controls\DroidContextMenuComponent.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
