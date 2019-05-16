@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             return ShowImpl<TViewModel>(viewModel as ViewModelBase);
         }
 
-        public Task<IDialogViewModel> ShowForViewModel<TViewModel>(IEnumerable<NavigationParameterModel> parameters) 
+        public Task<IDialogViewModel> ShowForViewModel<TViewModel>(IEnumerable<NavigationParameterModel> parameters)
             where TViewModel : class, IDialogViewModel
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
@@ -60,13 +60,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             return viewModel.DialogComponent.Task;
         }
 
-        public async Task<TResult> ShowForViewModel<TViewModel, TResult>(IEnumerable<NavigationParameterModel> parameters) 
+        public async Task<TResult> ShowForViewModel<TViewModel, TResult>(IEnumerable<NavigationParameterModel> parameters)
             where TViewModel : class, IDialogViewModel
         {
             var result = default(TResult);
 
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
+
+            await ShowImpl<TViewModel>(viewModel as ViewModelBase);
 
             var resultObject = await viewModel.DialogComponent.TaskWithResult.ConfigureAwait(false);
 
