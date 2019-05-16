@@ -353,6 +353,7 @@ namespace Softeq.XToolkit.Common.Collections
             NotifyCollectionChangedAction action)
         {
             return new NotifyKeyGroupsCollectionChangedEventArgs(action, Items.Select(x => x.Count).ToList());
+        }
 
         /// <summary>
         /// Union for groups with items
