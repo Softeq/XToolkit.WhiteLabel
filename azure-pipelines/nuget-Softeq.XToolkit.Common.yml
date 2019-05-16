@@ -1,0 +1,18 @@
+resources:
+- repo: self
+queue:
+  name: Hosted macOS
+  demands: Xamarin.iOS
+
+variables:
+  BuildConfiguration: 'Release'
+steps:
+- script: 'msbuild Softeq.XToolkit.Common.sln /t:Clean /p:Configuration="Release" /p:Platform="Any CPU"'
+- script: 'nuget restore Softeq.XToolkit.Common.sln'
+- script: 'msbuild Softeq.XToolkit.Common.sln /t:Restore /p:Configuration="Release" /p:Platform="Any CPU"'
+- script: 'msbuild Softeq.XToolkit.Common.sln /p:Configuration="Release" /p:Platform="Any CPU"'
+- script: 'nuget pack Softeq.XToolkit.Common.nuspec'
+- task: CopyFiles@2
+  inputs:
+    contents: 'Softeq.XToolkit.Common*.nupkg'
+    targetFolder: $(Build.ArtifactStagingDirectory)

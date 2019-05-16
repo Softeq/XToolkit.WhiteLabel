@@ -104,6 +104,49 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             OpenSelector();
         }
 
+        public ImagePickerArgs GetPickerData()
+        {
+            if (string.IsNullOrEmpty(ViewModel.ImageCacheKey))
+            {
+                return default(ImagePickerArgs);
+            }
+
+            var imageExtension = ImageExtension.Png;
+
+            if (ViewModel.ImageCacheKey.Contains(".jpg") || ViewModel.ImageCacheKey.Contains(".jpeg"))
+            {
+                imageExtension = ImageExtension.Jpg;
+            }
+
+            _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
+                (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
+
+            var func = default(Func<Task<Stream>>);
+
+            switch (imageExtension)
+            {
+                case ImageExtension.Png:
+                    func = () => ImageService.Instance
+                        .LoadFile(ViewModel.ImageCacheKey)
+                        .DownSample(_calculatedImageSize.Width, _calculatedImageSize.Height)
+                        .AsPNGStreamAsync();
+                    break;
+                case ImageExtension.Jpg:
+                    func = () => ImageService.Instance
+                        .LoadFile(ViewModel.ImageCacheKey)
+                        .DownSample(_calculatedImageSize.Width, _calculatedImageSize.Height)
+                        .AsJPGStreamAsync();
+                    break;
+            }
+
+            return new ImagePickerArgs
+            {
+                ImageCacheKey = ViewModel.ImageCacheKey,
+                ImageStream = func,
+                ImageExtension = imageExtension
+            };
+        }
+
         private void OpenSelector()
         {
             PickerWillOpen?.Invoke(this, EventArgs.Empty);

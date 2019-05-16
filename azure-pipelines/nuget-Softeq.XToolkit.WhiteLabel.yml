@@ -14,7 +14,7 @@ steps:
 - script: 'nuget pack Softeq.XToolkit.WhiteLabel.nuspec'
 - task: CopyFiles@2
   inputs:
-    contents: '*.nupkg'
+    contents: 'Softeq.XToolkit.WhiteLabel*.nupkg'
     targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:

@@ -1,6 +1,0 @@
-[submodule "XToolkit.Permissions"]
-	path = XToolkit.Permissions
-	url = https://github.com/Softeq/XToolkit.Permissions.git
-[submodule "XToolkit.Bindings"]
-	path = XToolkit.Bindings
-	url = https://github.com/Softeq/XToolkit.Bindings.git
