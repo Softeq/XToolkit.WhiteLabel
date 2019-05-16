@@ -15,6 +15,8 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
                     return ".png";
                 case ImageExtension.Jpg:
                     return ".jpg";
+                case ImageExtension.Unknown:
+                    return null;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(extension), extension, null);
             }
@@ -64,5 +66,11 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
                 return converter.ConvertValue(ImageExtension);
             }
         }
+
+        public static ImagePickerArgs Empty => new ImagePickerArgs 
+        {
+            ImageExtension = ImageExtension.Unknown,
+            ImageStream = () => Task.FromResult(default(Stream))
+        };
     }
 }

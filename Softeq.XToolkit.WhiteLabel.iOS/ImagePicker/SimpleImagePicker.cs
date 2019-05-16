@@ -108,7 +108,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             if (string.IsNullOrEmpty(ViewModel.ImageCacheKey))
             {
-                return default(ImagePickerArgs);
+                return ImagePickerArgs.Empty;
             }
 
             var imageExtension = ImageExtension.Png;
@@ -208,6 +208,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private void ReleaseImagePicker()
         {
+            if (_imagePicker == null)
+            {
+                return;
+            }
+
             _imagePicker.DismissViewController(true, null);
             _imagePicker.FinishedPickingMedia -= OnFinishedPickingMedia;
             _imagePicker.Canceled -= OnCanceled;

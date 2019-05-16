@@ -20,19 +20,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
     public class ImagePicker
     {
+        private const string Png = ".png";
+
         private readonly IPermissionsManager _permissionsManager;
         private readonly IImagePickerService _imagePickerService;
 
         public ImagePicker(
-            IPermissionsManager permissionsManager, 
+            IPermissionsManager permissionsManager,
             IImagePickerService imagePickerService)
         {
             _permissionsManager = permissionsManager;
             _imagePickerService = imagePickerService;
-            ViewModel = new SimpleImagePickerViewModel();
         }
 
-        public SimpleImagePickerViewModel ViewModel { get; }
+        public SimpleImagePickerViewModel ViewModel { get; } = new SimpleImagePickerViewModel();
 
         public int MaxImageWidth { get; set; } = 1125;
 
@@ -56,28 +57,30 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
                 return;
             }
 
+            result = await _permissionsManager.CheckWithRequestAsync(Permission.Photos).ConfigureAwait(false);
+            if (result != PermissionStatus.Granted)
+            {
+                return;
+            }
+
             var key = await _imagePickerService.TakePhotoAsync().ConfigureAwait(false);
             Execute.BeginOnUIThread(() => { ViewModel.ImageCacheKey = key; });
         }
 
+        // TODO YP: refactor
         public Func<(Task<Stream>, string)> GetStreamFunc()
         {
-            Func<(Task<Stream>, string)> getStreamFunc = () =>
+            (Task<Stream>, string) getStreamFunc()
             {
                 if (ViewModel.ImageCacheKey == null)
                 {
                     return (Task.FromResult(default(Stream)), default(string));
                 }
 
-                var isPng = ViewModel.ImageCacheKey.Contains(".png");
-                var expr = ImageService.Instance
-                    .LoadFile(ViewModel.ImageCacheKey)
-                    .DownSample(MaxImageWidth, 0);
+                var imageExtension = GetImageExtension();
 
-                return isPng
-                    ? (expr.AsPNGStreamAsync(), ".png")
-                    : (expr.AsJPGStreamAsync(), Path.GetExtension(ViewModel.ImageCacheKey));
-            };
+                return (GetLoadTaskFunc(imageExtension)(), GetFileExtension(imageExtension));
+            }
 
             return getStreamFunc;
         }
@@ -86,7 +89,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         {
             if (string.IsNullOrEmpty(ViewModel.ImageCacheKey))
             {
-                return default(ImagePickerArgs);
+                return ImagePickerArgs.Empty;
             }
 
             var imageExtension = GetImageExtension();
@@ -109,6 +112,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
                     return CreateJpegLoadTask;
                 default:
                     return default(Func<Task<Stream>>);
+            }
+        }
+
+        private string GetFileExtension(ImageExtension imageExtension)
+        {
+            switch (imageExtension)
+            {
+                case ImageExtension.Png:
+                    return Png;
+                default:
+                    return Path.GetExtension(ViewModel.ImageCacheKey);
             }
         }
 
