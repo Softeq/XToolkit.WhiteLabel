@@ -67,6 +67,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             base.OnDismiss(dialog);
             ViewModel.DialogComponent.CloseCommand.Execute(false);
+            ViewModel.DialogComponent.CloseWithResultCommand.Execute(false);
         }
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)

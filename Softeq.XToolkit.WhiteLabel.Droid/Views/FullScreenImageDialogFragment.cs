@@ -32,7 +32,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
             _closeButton = View.FindViewById<ImageButton>(Resource.Id.dialog_full_screen_image_close_button);
             _closeButton.SetCommand(nameof(_closeButton.Click),
-                new RelayCommand(() => { ViewModel.DialogComponent.CloseCommand.Execute(true); }));
+                new RelayCommand(() =>
+                {
+                    ViewModel.DialogComponent.CloseCommand.Execute(true);
+                    ViewModel.DialogComponent.CloseWithResultCommand.Execute(true);
+                }));
             _closeButton.SetImageResource(Resource.Drawable.core_ic_close);
 
             _imageView = View.FindViewById<ImageViewAsync>(Resource.Id.dialog_full_screen_image_image);
