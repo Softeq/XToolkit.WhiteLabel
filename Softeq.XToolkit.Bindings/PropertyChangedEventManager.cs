@@ -85,7 +85,7 @@ namespace Softeq.XToolkit.Bindings
                         entry => entry.InstanceReference != null
                                  && entry.InstanceReference.IsAlive
                                  && entry.InstanceReference.Target != null
-                                 && entry.InstanceReference.Target.Equals(source)));
+                                 && ReferenceEquals(entry.InstanceReference.Target, source)));
 
                 if (_list.ContainsKey(propertyName))
                 {
@@ -162,7 +162,7 @@ namespace Softeq.XToolkit.Bindings
                                 i => i.InstanceReference != null
                                      && i.InstanceReference.IsAlive
                                      && i.InstanceReference.Target != null
-                                     && i.InstanceReference.Target.Equals(toRemove.InstanceReference.Target)));
+                                     && ReferenceEquals(i.InstanceReference.Target, toRemove.InstanceReference.Target)));
 
                     if (!checkInstance)
                     {
