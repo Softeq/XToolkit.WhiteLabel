@@ -85,7 +85,7 @@ namespace Softeq.XToolkit.Bindings
                         entry => entry.InstanceReference != null
                                  && entry.InstanceReference.IsAlive
                                  && entry.InstanceReference.Target != null
-                                 && entry.InstanceReference.Target.Equals(source)));
+                                 && ReferenceEquals(entry.InstanceReference.Target, source)));
 
                 if (_list.ContainsKey(propertyName))
                 {
