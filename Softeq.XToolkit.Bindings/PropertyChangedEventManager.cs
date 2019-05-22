@@ -162,7 +162,7 @@ namespace Softeq.XToolkit.Bindings
                                 i => i.InstanceReference != null
                                      && i.InstanceReference.IsAlive
                                      && i.InstanceReference.Target != null
-                                     && i.InstanceReference.Target.Equals(toRemove.InstanceReference.Target)));
+                                     && ReferenceEquals(i.InstanceReference.Target, toRemove.InstanceReference.Target)));
 
                     if (!checkInstance)
                     {
