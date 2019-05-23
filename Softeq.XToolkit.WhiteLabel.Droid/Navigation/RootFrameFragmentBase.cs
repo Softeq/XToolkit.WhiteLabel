@@ -18,10 +18,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             var view = frame.FindViewById<View>(Resource.Id.fragment_navigation_root_frame_layout);
             var id = View.GenerateViewId();
             view.Id = id;
-            ViewModel.FrameNavigationService.Initialize(id);
+            _frameNavigationService = ((FrameNavigationService) ViewModel.FrameNavigationService);
+
+            _frameNavigationService.Initialize(id);
             ViewModel.RestoreState();
 
-            _frameNavigationService = ((FrameNavigationService) ViewModel.FrameNavigationService);
             return frame;
         }
 
