@@ -56,12 +56,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected void RegisterInternalServices(ContainerBuilder builder)
         {
-            builder.PerLifetimeScope<ICurrentActivity>(c =>
-            {
-                var currentActivity = new CurrentActivityImplementation();
-                currentActivity.Init(this);
-                return currentActivity;
-            }).PreserveExistingDefaults();
+            builder.PerLifetimeScope<ICurrentActivity>(c => CrossCurrentActivity.Current)
+                .PreserveExistingDefaults();
             builder.PerLifetimeScope<ActivityPageNavigationService, IPlatformNavigationService>()
                 .PreserveExistingDefaults();
             builder.PerDependency<FrameNavigationService, IFrameNavigationService>()
