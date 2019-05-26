@@ -12,7 +12,7 @@ using UIKit;
 namespace Playground.iOS
 {
     [Register("ViewController")]
-    partial class ViewController
+    partial class MainPageViewController
     {
     }
 }

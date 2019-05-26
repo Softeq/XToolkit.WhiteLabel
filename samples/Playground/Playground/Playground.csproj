@@ -6,5 +6,9 @@
 
   <ItemGroup>
     <Folder Include="ViewModels\" />
+    <Folder Include="ViewModels\Pages\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
   </ItemGroup>
 </Project>
