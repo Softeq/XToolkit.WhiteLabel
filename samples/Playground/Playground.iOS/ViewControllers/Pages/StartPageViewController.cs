@@ -1,33 +1,27 @@
-﻿//
-// StartPageViewController.cs
-//
-// Author:
-//       Yauheni Pakala <evgeniy.pakalo@gmail.com>
-//
-// Copyright (c) 2019 Yauheni Pakala
-//
-using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
 
-using UIKit;
+using System;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.iOS;
+using Playground.ViewModels.Pages;
 
 namespace Playground.iOS.ViewControllers.Pages
 {
-    public partial class StartPageViewController : UIViewController
+    public partial class StartPageViewController
+        : ViewControllerBase<StartPageViewModel>
     {
-        public StartPageViewController() : base("StartPageViewController", null)
+        public StartPageViewController(IntPtr handle) : base(handle)
         {
         }
 
         public override void ViewDidLoad()
         {
-            base.ViewDidLoad();
-            // Perform any additional setup after loading the view, typically from a nib.
-        }
+            // TODO YP: need another way to register starting navigation
+            var viewModel = Dependencies.IocContainer.Resolve<StartPageViewModel>();
+            SetExistingViewModel(viewModel);
 
-        public override void DidReceiveMemoryWarning()
-        {
-            base.DidReceiveMemoryWarning();
-            // Release any cached data, images, etc that aren't in use.
+            base.ViewDidLoad();
         }
     }
 }

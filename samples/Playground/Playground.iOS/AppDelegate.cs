@@ -1,27 +1,45 @@
-﻿using Foundation;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System.Collections.Generic;
+using System.Reflection;
+using Autofac;
+using Foundation;
 using UIKit;
+using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS;
+using Softeq.XToolkit.WhiteLabel.iOS.Services.Logger;
 
 namespace Playground.iOS
 {
     // The UIApplicationDelegate for the application. This class is responsible for launching the
     // User Interface of the application, as well as listening (and optionally responding) to application events from iOS.
-    [Register("AppDelegate")]
-    public class AppDelegate : UIApplicationDelegate
+    [Register(nameof(AppDelegate))]
+    public class AppDelegate : AutoRegistrationAppDelegate
     {
-        // class-level declarations
-
-        public override UIWindow Window
-        {
-            get;
-            set;
-        }
-
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
+            var _ = base.FinishedLaunching(application, launchOptions);
 
             return true;
+        }
+
+        protected override IList<Assembly> SelectAssemblies() => new List<Assembly>
+        {
+            GetType().Assembly
+        };
+
+        protected override void ConfigureIoc(ContainerBuilder builder)
+        {
+            // core
+            Bootstrapper.Configure(builder);
+
+            builder.PerDependency<IosConsoleLogManager, ILogManager>();
+            //builder.PerDependency<StoryboardDialogsService, IDialogsService>();
+            //builder.PerLifetimeScope<IosInternalSettings, IInternalSettings>();
         }
 
         public override void OnResignActivation(UIApplication application)

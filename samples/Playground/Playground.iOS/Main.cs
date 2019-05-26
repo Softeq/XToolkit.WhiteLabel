@@ -1,4 +1,7 @@
-﻿using UIKit;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using UIKit;
 
 namespace Playground.iOS
 {

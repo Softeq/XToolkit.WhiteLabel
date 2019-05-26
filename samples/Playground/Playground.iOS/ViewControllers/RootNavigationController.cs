@@ -1,18 +1,27 @@
-﻿//
-// RootNavigationController.cs
-//
-// Author:
-//       Yauheni Pakala <evgeniy.pakalo@gmail.com>
-//
-// Copyright (c) 2019 Yauheni Pakala
-//
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System;
+using Foundation;
+using UIKit;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Navigation;
+
 namespace Playground.iOS.ViewControllers
 {
-    public class RootNavigationController
+    [Register(nameof(RootNavigationController))]
+    public class RootNavigationController : UINavigationController
     {
-        public RootNavigationController()
+        public RootNavigationController(IntPtr handle) : base(handle)
         {
+        }
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            var navigationService = Dependencies.IocContainer.Resolve<IPageNavigationService>();
+            navigationService.Initialize(this);
         }
     }
 }

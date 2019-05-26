@@ -1,15 +1,11 @@
-﻿//
-// MainPageViewModel.cs
-//
-// Author:
-//       Yauheni Pakala <evgeniy.pakalo@gmail.com>
-//
-// Copyright (c) 2019 Yauheni Pakala
-//
-using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using Softeq.XToolkit.WhiteLabel.Mvvm;
+
 namespace Playground.ViewModels.Pages
 {
-    public class MainPageViewModel
+    public class MainPageViewModel : ViewModelBase
     {
         public MainPageViewModel()
         {

@@ -1,18 +1,25 @@
-﻿//
-// StartPageViewModel.cs
-//
-// Author:
-//       Yauheni Pakala <evgeniy.pakalo@gmail.com>
-//
-// Copyright (c) 2019 Yauheni Pakala
-//
-using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Navigation;
+
 namespace Playground.ViewModels.Pages
 {
-    public class StartPageViewModel
+    public class StartPageViewModel : ViewModelBase
     {
-        public StartPageViewModel()
+        private readonly IPageNavigationService _pageNavigationService;
+
+        public StartPageViewModel(IPageNavigationService pageNavigationService)
         {
+            _pageNavigationService = pageNavigationService;
+        }
+
+        public override void OnInitialize()
+        {
+            base.OnInitialize();
+
+            _pageNavigationService.For<MainPageViewModel>().Navigate(true);
         }
     }
 }

@@ -11,7 +11,7 @@ using UIKit;
 
 namespace Playground.iOS
 {
-    [Register("ViewController")]
+    [Register("MainPageViewController")]
     partial class MainPageViewController
     {
     }
