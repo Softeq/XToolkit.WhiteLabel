@@ -83,11 +83,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                     if (Foundation.NSBundle.MainBundle.PathForResource(storyBoardName, "storyboardc") != null)
                     {
                         var storyboard = UIStoryboard.FromName(storyBoardName, null);
-                        newViewController = (ViewControllerBase)storyboard.InstantiateViewController(targetType.Name);
+                        newViewController = storyboard.InstantiateViewController(targetType.Name);
                     }
                     else
                     {
-                        newViewController = (UIViewController)Activator.CreateInstance(targetType);
+                        newViewController = (UIViewController) Activator.CreateInstance(targetType);
                     }
                 });
             }
