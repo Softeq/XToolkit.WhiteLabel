@@ -5,7 +5,7 @@ using System;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Playground.ViewModels.Pages;
 
-namespace Playground.iOS
+namespace Playground.iOS.ViewControllers.Pages
 {
     public partial class MainPageViewController
         : ViewControllerBase<MainPageViewModel>
