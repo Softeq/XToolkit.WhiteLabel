@@ -9,7 +9,7 @@ using Playground.ViewModels.Pages;
 namespace Playground.Droid.Views.Pages
 {
     [Activity(Theme = "@style/AppTheme")]
-    public class MainPageActivity : ActivityBase<MainPageViewModel>
+    public class MainPageActivity : ActivityBase<MainViewModel>
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
