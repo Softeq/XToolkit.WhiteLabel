@@ -77,7 +77,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
             try
             {
-                //TODO: VPY review this
                 Execute.OnUIThread(() =>
                 {
                     if (Foundation.NSBundle.MainBundle.PathForResource(storyBoardName, "storyboardc") != null)
