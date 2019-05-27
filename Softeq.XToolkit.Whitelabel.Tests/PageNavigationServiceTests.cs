@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.Collections.Generic;
 using NSubstitute;
 using Softeq.XToolkit.WhiteLabel;
