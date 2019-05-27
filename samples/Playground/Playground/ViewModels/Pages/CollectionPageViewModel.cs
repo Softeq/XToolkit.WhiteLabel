@@ -1,11 +1,15 @@
-﻿using System.Collections.Generic;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Playground.Models;
 
 namespace Playground.ViewModels.Pages
 {
-    public class CollectionViewModel : ViewModelBase
+    public class CollectionPageViewModel : ViewModelBase
     {
-        public CollectionViewModel()
+        public CollectionPageViewModel()
         {
             Items = new List<ItemModel>
             {
@@ -23,20 +27,6 @@ namespace Playground.ViewModels.Pages
             };
         }
 
-        public List<ItemModel> Items { get; set; }
-    }
-
-    public class ItemModel
-    {
-        public string Title { get; set; }
-        public string Description { get; set; }
-        public string IconUrl { get; set; }
-
-        public ItemModel(string title, string description, string iconUrl)
-        {
-            Title = title;
-            Description = description;
-            IconUrl = iconUrl;
-        }
+        public List<ItemModel> Items { get; }
     }
 }

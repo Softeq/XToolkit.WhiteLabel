@@ -6,18 +6,18 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Pages
 {
-    public class MainViewModel : ViewModelBase
+    public class MainPageViewModel : ViewModelBase
     {
         private readonly IPageNavigationService _navigationService;
 
-        public MainViewModel(IPageNavigationService navigationService)
+        public MainPageViewModel(IPageNavigationService navigationService)
         {
             _navigationService = navigationService;
         }
 
         public void NavigateToCollectionsSample()
         {
-            _navigationService.NavigateToViewModel<CollectionViewModel>();
+            _navigationService.NavigateToViewModel<CollectionPageViewModel>();
         }
     }
 }

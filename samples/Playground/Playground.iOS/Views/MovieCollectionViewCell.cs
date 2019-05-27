@@ -1,10 +1,13 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using FFImageLoading;
 using Foundation;
-using Playground.ViewModels.Pages;
+using UIKit;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.Bindings.iOS.Bindable.Abstract;
-using UIKit;
+using Playground.Models;
 
 namespace Playground.iOS.Views
 {

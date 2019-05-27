@@ -126,8 +126,8 @@
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Resources\Main.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\MainStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\CollectionStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Pages\CollectionPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Pages\MainPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
   </ItemGroup>
   <ItemGroup>
@@ -137,19 +137,19 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ViewControllers\RootNavigationController.cs" />
-    <Compile Include="ViewControllers\StartPageViewController.cs" />
-    <Compile Include="ViewControllers\StartPageViewController.designer.cs">
+    <Compile Include="ViewControllers\Pages\CollectionPageViewController.cs" />
+    <Compile Include="ViewControllers\Pages\CollectionPageViewController.designer.cs">
+      <DependentUpon>CollectionPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Pages\MainPageViewController.cs" />
+    <Compile Include="ViewControllers\Pages\MainPageViewController.designer.cs">
+      <DependentUpon>MainPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Pages\StartPageViewController.cs" />
+    <Compile Include="ViewControllers\Pages\StartPageViewController.designer.cs">
       <DependentUpon>StartPageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewControllers\MainViewController.cs" />
-    <Compile Include="ViewControllers\MainViewController.designer.cs">
-      <DependentUpon>MainViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\CollectionViewController.cs" />
-    <Compile Include="ViewControllers\CollectionViewController.designer.cs">
-      <DependentUpon>CollectionViewController.cs</DependentUpon>
-    </Compile>
+    <Compile Include="ViewControllers\RootNavigationController.cs" />
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>

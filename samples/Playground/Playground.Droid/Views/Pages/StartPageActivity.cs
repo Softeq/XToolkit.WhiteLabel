@@ -16,7 +16,8 @@ namespace Playground.Droid.Views.Pages
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
-            //SetContentView(Resource.Layout.activity_start);
+
+            SetContentView(Resource.Layout.activity_start);
         }
     }
 }

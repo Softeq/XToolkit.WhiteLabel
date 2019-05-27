@@ -1,7 +1,11 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System;
 using System.Collections.Generic;
 using Foundation;
 using Playground.iOS.Views;
+using Playground.Models;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView;
 using Softeq.XToolkit.WhiteLabel.iOS;
@@ -9,10 +13,11 @@ using UIKit;
 
 namespace Playground.iOS.ViewControllers
 {
-    public partial class CollectionViewController : ViewControllerBase<CollectionViewModel>
+    public partial class CollectionPageViewController
+        : ViewControllerBase<CollectionPageViewModel>
     {
         private UIColor _navBarColor;
-        public CollectionViewController(IntPtr handle) : base(handle)
+        public CollectionPageViewController(IntPtr handle) : base(handle)
         {
         }
 

@@ -1,28 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_0" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Collection View Controller-->
+        <!--Collection Page View Controller-->
         <scene sceneID="rec-A3-92w">
             <objects>
-                <viewController storyboardIdentifier="CollectionViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7Nr-oE-5af" customClass="CollectionViewController" sceneMemberID="viewController">
-                    <layoutGuides>
-                        <viewControllerLayoutGuide type="top" id="7Tl-ZL-hSR"/>
-                        <viewControllerLayoutGuide type="bottom" id="m2V-qB-uQQ"/>
-                    </layoutGuides>
+                <viewController storyboardIdentifier="CollectionPageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="7Nr-oE-5af" customClass="CollectionPageViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="KuI-VS-PJ9">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" showsHorizontalScrollIndicator="NO" showsVerticalScrollIndicator="NO" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="vPD-Mr-fky" customClass="BindableCollectionView">
-                                <rect key="frame" x="16" y="40" width="288" height="528"/>
+                                <rect key="frame" x="0.0" y="20" width="320" height="548"/>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Obm-VB-f2L">
                                     <size key="itemSize" width="288" height="70"/>
@@ -35,11 +32,12 @@
                         </subviews>
                         <color key="backgroundColor" red="0.15686274509803921" green="0.15686274509803921" blue="0.15686274509803921" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
-                            <constraint firstItem="m2V-qB-uQQ" firstAttribute="top" secondItem="vPD-Mr-fky" secondAttribute="bottom" id="XBR-nq-AYu"/>
-                            <constraint firstAttribute="trailingMargin" secondItem="vPD-Mr-fky" secondAttribute="trailing" id="duS-sd-OJw"/>
-                            <constraint firstItem="vPD-Mr-fky" firstAttribute="top" secondItem="7Tl-ZL-hSR" secondAttribute="bottom" constant="20" id="e4N-Hh-aZP"/>
-                            <constraint firstItem="vPD-Mr-fky" firstAttribute="leading" secondItem="KuI-VS-PJ9" secondAttribute="leadingMargin" id="iHe-Yc-YFI"/>
+                            <constraint firstItem="vPD-Mr-fky" firstAttribute="leading" secondItem="y3w-bg-E7e" secondAttribute="leading" id="Uqy-77-TWN"/>
+                            <constraint firstItem="vPD-Mr-fky" firstAttribute="top" secondItem="y3w-bg-E7e" secondAttribute="top" id="WeT-Ug-dOe"/>
+                            <constraint firstItem="vPD-Mr-fky" firstAttribute="bottom" secondItem="y3w-bg-E7e" secondAttribute="bottom" id="cYu-Pu-yx1"/>
+                            <constraint firstItem="y3w-bg-E7e" firstAttribute="trailing" secondItem="vPD-Mr-fky" secondAttribute="trailing" id="d0Z-bV-8ta"/>
                         </constraints>
+                        <viewLayoutGuide key="safeArea" id="y3w-bg-E7e"/>
                     </view>
                     <connections>
                         <outlet property="CollectionView" destination="vPD-Mr-fky" id="I5j-lK-C4v"/>

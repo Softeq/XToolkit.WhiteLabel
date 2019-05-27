@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Main View Controller-->
+        <!--Main Page View Controller-->
         <scene sceneID="Hgl-ur-GMN">
             <objects>
-                <viewController storyboardIdentifier="MainViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MVr-Tg-qiT" customClass="MainViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="MainPageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MVr-Tg-qiT" customClass="MainPageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="as0-tO-MIa"/>
                         <viewControllerLayoutGuide type="bottom" id="bhL-4d-7Lg"/>

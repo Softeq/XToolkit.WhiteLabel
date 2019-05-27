@@ -11,8 +11,8 @@ using System.CodeDom.Compiler;
 
 namespace Playground.iOS.ViewControllers
 {
-    [Register ("CollectionViewController")]
-    partial class CollectionViewController
+    [Register ("CollectionPageViewController")]
+    partial class CollectionPageViewController
     {
         [Outlet]
         BindableCollectionView CollectionView { get; set; }
