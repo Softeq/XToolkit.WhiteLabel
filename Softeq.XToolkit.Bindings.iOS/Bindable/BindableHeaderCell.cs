@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.Bindings.iOS.Bindable.Abstract;
