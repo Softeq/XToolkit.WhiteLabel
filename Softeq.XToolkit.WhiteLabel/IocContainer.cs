@@ -23,11 +23,9 @@ namespace Softeq.XToolkit.WhiteLabel
     public class IocContainer : IIocContainer
     {
         private ILifetimeScope _rootScope;
-        private ContainerBuilder _containerBuilder;
 
         public void StartScope(ContainerBuilder builder)
         {
-            _containerBuilder = builder;
             _rootScope = builder.Build();
         }
 

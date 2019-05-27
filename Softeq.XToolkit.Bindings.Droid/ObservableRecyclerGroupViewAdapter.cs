@@ -87,6 +87,11 @@ namespace Softeq.XToolkit.Bindings.Droid
         {
             return _plainItems[position].IsHeader ? 0 : 1;
         }
+        
+        public TItem GetItem(int index)
+        {
+            return _plainItems[index].Item;
+        }
 
         protected void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
