@@ -3,11 +3,13 @@
 
 using System;
 using System.Threading.Tasks;
+using System.ComponentModel;
 using Foundation;
-using Plugin.Permissions;
 using UIKit;
 using UserNotifications;
-using System.ComponentModel;
+using Plugin.Permissions;
+using PluginPermission = Plugin.Permissions.Abstractions.Permission;
+using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
@@ -21,7 +23,8 @@ namespace Softeq.XToolkit.Permissions.iOS
             }
 
             var pluginPermission = ToPluginPermission(permission);
-            var result = await CrossPermissions.Current.RequestPermissionsAsync(pluginPermission);
+            var result = await CrossPermissions.Current.RequestPermissionsAsync(pluginPermission).ConfigureAwait(false);
+            
             return result.TryGetValue(pluginPermission, out var permissionStatus)
                 ? ToPermissionStatus(permissionStatus)
                 : PermissionStatus.Unknown;
@@ -34,33 +37,38 @@ namespace Softeq.XToolkit.Permissions.iOS
                 return await CheckNotificationsPermissionAsync().ConfigureAwait(false);
             }
 
-            var result = await CrossPermissions.Current
-                .CheckPermissionStatusAsync(ToPluginPermission(permission)).ConfigureAwait(false);
+            var pluginPermission = ToPluginPermission(permission);
+            var result = await CrossPermissions.Current.CheckPermissionStatusAsync(pluginPermission).ConfigureAwait(false);
+            
             return ToPermissionStatus(result);
         }
 
         public void OpenSettings()
         {
+            RunInMainThread(() => { CrossPermissions.Current.OpenAppSettings(); });
+        }
+        
+        private static void RunInMainThread(Action action)
+        {
             if (NSThread.IsMain)
             {
-                CrossPermissions.Current.OpenAppSettings();
+                action();
             }
             else
             {
-                UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
-                {
-                    CrossPermissions.Current.OpenAppSettings();
-                });
+                UIApplication.SharedApplication.BeginInvokeOnMainThread(action);
             }
         }
 
-        private async Task<PermissionStatus> CheckNotificationsPermissionAsync()
+        private static async Task<PermissionStatus> CheckNotificationsPermissionAsync()
         {
-            var notificationSettings = await UNUserNotificationCenter.Current.GetNotificationSettingsAsync().ConfigureAwait(false);
+            var notificationCenter = UNUserNotificationCenter.Current;
+            var notificationSettings = await notificationCenter.GetNotificationSettingsAsync().ConfigureAwait(false);
             var notificationsSettingsEnabled = notificationSettings.SoundSetting == UNNotificationSetting.Enabled
                 && notificationSettings.AlertSetting == UNNotificationSetting.Enabled;
             return notificationsSettingsEnabled
-                ? PermissionStatus.Granted : PermissionStatus.Denied;
+                ? PermissionStatus.Granted
+                : PermissionStatus.Denied;
         }
 
         private static async Task<PermissionStatus> RequestNotificationPermissionAsync()
@@ -68,46 +76,46 @@ namespace Softeq.XToolkit.Permissions.iOS
             var notificationCenter = UNUserNotificationCenter.Current;
             var result = await notificationCenter.RequestAuthorizationAsync(
                 UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound);
-            return result.Item1 ? PermissionStatus.Granted : PermissionStatus.Denied;
+            return result.Item1
+                ? PermissionStatus.Granted
+                : PermissionStatus.Denied;
         }
 
-        private PermissionStatus ToPermissionStatus(Plugin.Permissions.Abstractions.PermissionStatus permissionStatus)
+        private static PermissionStatus ToPermissionStatus(PluginPermissionStatus permissionStatus)
         {
             switch (permissionStatus)
             {
-                case Plugin.Permissions.Abstractions.PermissionStatus.Denied:
+                case PluginPermissionStatus.Denied: 
                     return PermissionStatus.Denied;
-                case Plugin.Permissions.Abstractions.PermissionStatus.Disabled:
+                case PluginPermissionStatus.Disabled:
                     return PermissionStatus.Denied;
-                case Plugin.Permissions.Abstractions.PermissionStatus.Granted:
+                case PluginPermissionStatus.Granted:
                     return PermissionStatus.Granted;
-                case Plugin.Permissions.Abstractions.PermissionStatus.Restricted:
+                case PluginPermissionStatus.Restricted:
                     return PermissionStatus.Denied;
-                case Plugin.Permissions.Abstractions.PermissionStatus.Unknown:
+                case PluginPermissionStatus.Unknown:
                     return PermissionStatus.Unknown;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(permissionStatus), permissionStatus, null);
+                    throw new InvalidEnumArgumentException(nameof(permissionStatus),
+                        (int)permissionStatus, permissionStatus.GetType());
             }
         }
 
-        private static Plugin.Permissions.Abstractions.Permission ToPluginPermission(Permission permission)
+        private static PluginPermission ToPluginPermission(Permission permission)
         {
             switch (permission)
             {
                 case Permission.Camera:
-                    return Plugin.Permissions.Abstractions.Permission.Camera;
+                    return PluginPermission.Camera;
                 case Permission.Storage:
-                    return Plugin.Permissions.Abstractions.Permission.Storage;
+                    return PluginPermission.Storage;
                 case Permission.Photos:
-                    return Plugin.Permissions.Abstractions.Permission.Photos;
+                    return PluginPermission.Photos;
                 case Permission.LocationInUse:
-                    return Plugin.Permissions.Abstractions.Permission.LocationWhenInUse;
-                case Permission.Notifications:
-                    throw new InvalidEnumArgumentException(
-                        $"Plugin.Permissions does not work with {permission} permissions. " +
-                        "Please handle it separately");
+                    return PluginPermission.LocationWhenInUse;
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException(
+                        $"Permissions does not work with {permission} permissions. Please handle it separately");
             }
         }
     }

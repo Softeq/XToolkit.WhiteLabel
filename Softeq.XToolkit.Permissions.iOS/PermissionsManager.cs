@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Permissions.iOS
             return _permissionsService.CheckPermissionsAsync(permission);
         }
 
-        private void OpenSettings(Permission permission)
+        private void OpenSettings()
         {
             _permissionsService.OpenSettings();
         }
@@ -52,21 +52,20 @@ namespace Softeq.XToolkit.Permissions.iOS
         {
             if (!IsNotificationsPermissionRequested)
             {
-                var isConfirmed = await _permissionsDialogService.ConfirmPermissionAsync(Permission.Notifications)
-                    .ConfigureAwait(false);
+                var isConfirmed = await _permissionsDialogService.ConfirmPermissionAsync(Permission.Notifications).ConfigureAwait(false);
                 if (!isConfirmed)
                 {
                     return PermissionStatus.Denied;
                 }
             }
 
-            var permissionStatus = await _permissionsService.RequestPermissionsAsync(Permission.Notifications)
-                .ConfigureAwait(false);
+            var permissionStatus = await _permissionsService.RequestPermissionsAsync(Permission.Notifications).ConfigureAwait(false);
+            
             if (IsNotificationsPermissionRequested && permissionStatus != PermissionStatus.Granted)
             {
-                permissionStatus =
-                    await OpenSettingsWithConfirmationAsync(Permission.Notifications).ConfigureAwait(false);
+                permissionStatus = await OpenSettingsWithConfirmationAsync(Permission.Notifications).ConfigureAwait(false);
             }
+            
             IsNotificationsPermissionRequested = true;
 
             return permissionStatus;
@@ -87,12 +86,10 @@ namespace Softeq.XToolkit.Permissions.iOS
 
             if (permissionStatus == PermissionStatus.Unknown)
             {
-                var confirmationResult =
-                    await _permissionsDialogService.ConfirmPermissionAsync(permission).ConfigureAwait(false);
+                var confirmationResult = await _permissionsDialogService.ConfirmPermissionAsync(permission).ConfigureAwait(false);
                 if (confirmationResult)
                 {
-                    permissionStatus =
-                        await _permissionsService.RequestPermissionsAsync(permission).ConfigureAwait(false);
+                    permissionStatus = await _permissionsService.RequestPermissionsAsync(permission).ConfigureAwait(false);
                 }
             }
 
@@ -105,7 +102,7 @@ namespace Softeq.XToolkit.Permissions.iOS
                 .ConfirmOpenSettingsForPermissionAsync(permission).ConfigureAwait(false);
             if (openSettingsConfirmed)
             {
-                OpenSettings(permission);
+                OpenSettings();
             }
 
             return PermissionStatus.Unknown;

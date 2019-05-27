@@ -2,9 +2,12 @@
 // http://www.softeq.com
 
 using System;
+using System.ComponentModel;
 using System.Threading.Tasks;
 using Android.OS;
 using Plugin.Permissions;
+using PluginPermission = Plugin.Permissions.Abstractions.Permission;
+using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
@@ -13,7 +16,8 @@ namespace Softeq.XToolkit.Permissions.Droid
         public async Task<PermissionStatus> RequestPermissionsAsync(Permission permission)
         {
             var pluginPermission = ToPluginPermission(permission);
-            var result = await CrossPermissions.Current.RequestPermissionsAsync(pluginPermission);
+            var result = await CrossPermissions.Current.RequestPermissionsAsync(pluginPermission).ConfigureAwait(false);
+            
             return result.TryGetValue(pluginPermission, out var permissionStatus) 
                 ? ToPermissionStatus(permissionStatus) 
                 : PermissionStatus.Unknown;
@@ -21,70 +25,78 @@ namespace Softeq.XToolkit.Permissions.Droid
 
         public async Task<PermissionStatus> CheckPermissionsAsync(Permission permission)
         {
-            var result = await CrossPermissions.Current
-                .CheckPermissionStatusAsync(ToPluginPermission(permission)).ConfigureAwait(false);
+            var pluginPermission = ToPluginPermission(permission);
+            var result = await CrossPermissions.Current.CheckPermissionStatusAsync(pluginPermission).ConfigureAwait(false);
+            
             return ToPermissionStatus(result);
         }
 
         public void OpenSettings()
         {
+            RunInMainThread(() => { CrossPermissions.Current.OpenAppSettings(); });
+        }
+
+        private static void RunInMainThread(Action action)
+        {
             if (Looper.MainLooper == Looper.MyLooper())
             {
-                CrossPermissions.Current.OpenAppSettings();
+                action();
             }
             else
             {
-                var h = new Handler(Looper.MainLooper);
-                h.Post(() => { CrossPermissions.Current.OpenAppSettings(); });
+                var _ = new Handler(Looper.MainLooper).Post(action);
             }
         }
 
-        private PermissionStatus ToPermissionStatus(Plugin.Permissions.Abstractions.PermissionStatus permissionStatus)
+        private static PermissionStatus ToPermissionStatus(PluginPermissionStatus permissionStatus)
         {
             switch (permissionStatus)
             {
-                case Plugin.Permissions.Abstractions.PermissionStatus.Denied:
+                case PluginPermissionStatus.Denied:
                     return PermissionStatus.Denied;
-                case Plugin.Permissions.Abstractions.PermissionStatus.Disabled:
+                case PluginPermissionStatus.Disabled:
                     return PermissionStatus.Denied;
-                case Plugin.Permissions.Abstractions.PermissionStatus.Granted:
+                case PluginPermissionStatus.Granted:
                     return PermissionStatus.Granted;
-                case Plugin.Permissions.Abstractions.PermissionStatus.Restricted:
+                case PluginPermissionStatus.Restricted:
                     return PermissionStatus.Denied;
-                case Plugin.Permissions.Abstractions.PermissionStatus.Unknown:
+                case PluginPermissionStatus.Unknown:
                     return PermissionStatus.Unknown;
                 default:
-                    throw new ArgumentOutOfRangeException(nameof(permissionStatus), permissionStatus, null);
+                    throw new InvalidEnumArgumentException(nameof(permissionStatus),
+                        (int)permissionStatus, permissionStatus.GetType());
             }
         }
 
-        private static Plugin.Permissions.Abstractions.Permission ToPluginPermission(Permission permission)
+        private static PluginPermission ToPluginPermission(Permission permission)
         {
             switch (permission)
             {
                 case Permission.Camera:
-                    return Plugin.Permissions.Abstractions.Permission.Camera;
+                    return PluginPermission.Camera;
                 case Permission.Photos:
-                    return Plugin.Permissions.Abstractions.Permission.Storage;
+                    return PluginPermission.Storage;
                 case Permission.LocationInUse:
-                    return Plugin.Permissions.Abstractions.Permission.Location;
+                    return PluginPermission.Location;
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException(
+                        $"Permissions does not work with {permission} permissions. Please handle it separately");
             }
         }
         
-        private static Permission ToPermission(Plugin.Permissions.Abstractions.Permission permission)
+        private static Permission ToPermission(PluginPermission permission)
         {
             switch (permission)
             {
-                case Plugin.Permissions.Abstractions.Permission.Camera:
+                case PluginPermission.Camera:
                     return Permission.Camera;
-                case Plugin.Permissions.Abstractions.Permission.Storage:
+                case PluginPermission.Storage:
                     return Permission.Photos;
-                case Plugin.Permissions.Abstractions.Permission.Location:
+                case PluginPermission.Location:
                     return Permission.LocationInUse;
                 default:
-                    throw new NotImplementedException();
+                    throw new NotImplementedException(
+                        $"Permissions does not work with {permission} permissions. Please handle it separately");
             }
         }
     }
