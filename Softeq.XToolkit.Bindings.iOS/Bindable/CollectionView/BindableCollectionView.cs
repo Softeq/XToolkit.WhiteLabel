@@ -16,18 +16,22 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
 
         public BindableCollectionView(NSCoder coder) : base(coder)
         {
+            InitInternal();
         }
 
         protected BindableCollectionView(NSObjectFlag t) : base(t)
         {
+            InitInternal();
         }
 
         protected internal BindableCollectionView(IntPtr handle) : base(handle)
         {
+            InitInternal();
         }
 
         public BindableCollectionView(CGRect frame, UICollectionViewLayout layout) : base(frame, layout)
         {
+            InitInternal();
         }
 
         public new IUICollectionViewDataSource DataSource
@@ -64,6 +68,11 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
 
             cell.SetDataContext(_source.GetItemAt(indexPath.Row));
             return cell;
+        }
+
+        private void InitInternal()
+        {
+            Delegate = new BindableUICollectionViewDelegateFlowLayout();
         }
     }
 }
