@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿using NSubstitute;
 using Softeq.XToolkit.Common.Interfaces;
 using Xunit;
