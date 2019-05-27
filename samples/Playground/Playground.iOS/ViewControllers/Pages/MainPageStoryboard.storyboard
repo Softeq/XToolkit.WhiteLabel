@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="MVr-Tg-qiT">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main Page View Controller-->
+        <scene sceneID="Hgl-ur-GMN">
+            <objects>
+                <viewController storyboardIdentifier="MainPageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MVr-Tg-qiT" customClass="MainPageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="as0-tO-MIa"/>
+                        <viewControllerLayoutGuide type="bottom" id="bhL-4d-7Lg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="fx3-P4-ELV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="NWW-ug-AdL">
+                                <rect key="frame" x="16" y="20" width="106" height="30"/>
+                                <state key="normal" title="Collection View"/>
+                                <connections>
+                                    <action selector="OnCollectionViewTapped:" destination="MVr-Tg-qiT" eventType="touchUpInside" id="nbX-mu-bkC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="NWW-ug-AdL" firstAttribute="leading" secondItem="fx3-P4-ELV" secondAttribute="leadingMargin" id="UUv-IT-qH3"/>
+                            <constraint firstItem="NWW-ug-AdL" firstAttribute="top" secondItem="as0-tO-MIa" secondAttribute="bottom" id="aaa-wZ-eFV"/>
+                        </constraints>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dMp-ig-ZQq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-60" y="39"/>
+        </scene>
+    </scenes>
+</document>

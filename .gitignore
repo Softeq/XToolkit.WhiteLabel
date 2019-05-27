@@ -71,6 +71,9 @@ artifacts/
 # Chutzpah Test files
 _Chutzpah*
 
+#rider
+.idea/
+
 # Visual C++ cache files
 ipch/
 *.aps
