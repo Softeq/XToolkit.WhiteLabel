@@ -19,7 +19,6 @@ namespace Playground.iOS.ViewControllers
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
             var navigationService = Dependencies.IocContainer.Resolve<IPageNavigationService>();
             navigationService.Initialize(this);
         }
