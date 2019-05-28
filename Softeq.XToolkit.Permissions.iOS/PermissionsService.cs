@@ -74,9 +74,9 @@ namespace Softeq.XToolkit.Permissions.iOS
         private static async Task<PermissionStatus> RequestNotificationPermissionAsync()
         {
             var notificationCenter = UNUserNotificationCenter.Current;
-            var result = await notificationCenter.RequestAuthorizationAsync(
+            var (isGranted, _) = await notificationCenter.RequestAuthorizationAsync(
                 UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound);
-            return result.Item1
+            return isGranted
                 ? PermissionStatus.Granted
                 : PermissionStatus.Denied;
         }
