@@ -9,6 +9,8 @@ namespace Softeq.XToolkit.Permissions.Droid
 {
     public class PermissionsManager : IPermissionsManager
     {
+        private readonly string _isPermissionRequestedKey = $"{nameof(PermissionsManager)}_{nameof(IsPermissionRequested)}";
+        
         private readonly IPermissionsService _permissionsService;
         private readonly IPermissionsDialogService _permissionsDialogService;
         private readonly ISettings _internalSettings;
@@ -21,6 +23,12 @@ namespace Softeq.XToolkit.Permissions.Droid
             _permissionsDialogService = permissionsDialogService;
             _internalSettings = CrossSettings.Current;
         }
+        
+        private bool IsPermissionRequested
+        {
+            get => _internalSettings.GetValueOrDefault(_isPermissionRequestedKey, false);
+            set => _internalSettings.AddOrUpdateValue(_isPermissionRequestedKey, value);
+        }
 
         public Task<PermissionStatus> CheckWithRequestAsync(Permission permission)
         {
@@ -32,7 +40,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             return _permissionsService.CheckPermissionsAsync(permission);
         }
 
-        public void OpenSettings()
+        private void OpenSettings()
         {
             _permissionsService.OpenSettings();
         }
@@ -45,10 +53,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                 return permissionStatus;
             }
 
-            var key = $"PermissionsManager_PermissionRequested_{permission}";
-            var isRequested = _internalSettings.GetValueOrDefault(key, false);
-
-            if (permissionStatus == PermissionStatus.Denied && isRequested)
+            if (permissionStatus == PermissionStatus.Denied && IsPermissionRequested)
             {
                 await OpenSettingsWithConfirmationAsync(permission).ConfigureAwait(false);
                 return PermissionStatus.Denied;
@@ -57,25 +62,22 @@ namespace Softeq.XToolkit.Permissions.Droid
             var confirmationResult = await _permissionsDialogService.ConfirmPermissionAsync(permission).ConfigureAwait(false);
             if (confirmationResult)
             {
-                if (!isRequested)
-                {
-                    _internalSettings.AddOrUpdateValue(key, true);
-                }
                 permissionStatus = await _permissionsService.RequestPermissionsAsync(permission).ConfigureAwait(false);
+                
+                IsPermissionRequested = true;
             }
 
             return permissionStatus;
         }
 
-        private async Task<PermissionStatus> OpenSettingsWithConfirmationAsync(Permission permission)
+        private async Task OpenSettingsWithConfirmationAsync(Permission permission)
         {
-            var openSettingsConfirmed = await _permissionsDialogService.ConfirmOpenSettingsForPermissionAsync(permission).ConfigureAwait(false);
+            var openSettingsConfirmed = await _permissionsDialogService
+                .ConfirmOpenSettingsForPermissionAsync(permission).ConfigureAwait(false);
             if (openSettingsConfirmed)
             {
                 OpenSettings();
             }
-
-            return PermissionStatus.Unknown;
         }
     }
 }
