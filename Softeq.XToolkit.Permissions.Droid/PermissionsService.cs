@@ -17,9 +17,9 @@ namespace Softeq.XToolkit.Permissions.Droid
         {
             var pluginPermission = ToPluginPermission(permission);
             var result = await CrossPermissions.Current.RequestPermissionsAsync(pluginPermission).ConfigureAwait(false);
-            
-            return result.TryGetValue(pluginPermission, out var permissionStatus) 
-                ? ToPermissionStatus(permissionStatus) 
+
+            return result.TryGetValue(pluginPermission, out var permissionStatus)
+                ? ToPermissionStatus(permissionStatus)
                 : PermissionStatus.Unknown;
         }
 
@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         {
             var pluginPermission = ToPluginPermission(permission);
             var result = await CrossPermissions.Current.CheckPermissionStatusAsync(pluginPermission).ConfigureAwait(false);
-            
+
             return ToPermissionStatus(result);
         }
 
@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                     return PermissionStatus.Unknown;
                 default:
                     throw new InvalidEnumArgumentException(nameof(permissionStatus),
-                        (int)permissionStatus, permissionStatus.GetType());
+                        (int) permissionStatus, permissionStatus.GetType());
             }
         }
 
@@ -76,24 +76,10 @@ namespace Softeq.XToolkit.Permissions.Droid
                     return PluginPermission.Camera;
                 case Permission.Photos:
                     return PluginPermission.Storage;
+                case Permission.Storage:
+                    return PluginPermission.Storage;
                 case Permission.LocationInUse:
                     return PluginPermission.Location;
-                default:
-                    throw new NotImplementedException(
-                        $"Permissions does not work with {permission} permissions. Please handle it separately");
-            }
-        }
-        
-        private static Permission ToPermission(PluginPermission permission)
-        {
-            switch (permission)
-            {
-                case PluginPermission.Camera:
-                    return Permission.Camera;
-                case PluginPermission.Storage:
-                    return Permission.Photos;
-                case PluginPermission.Location:
-                    return Permission.LocationInUse;
                 default:
                     throw new NotImplementedException(
                         $"Permissions does not work with {permission} permissions. Please handle it separately");
