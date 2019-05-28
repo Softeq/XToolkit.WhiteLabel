@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                 case Permission.Camera:
                     return PluginPermission.Camera;
                 case Permission.Photos:
-                    return PluginPermission.Photos;
+                    return PluginPermission.Storage;
                 case Permission.Storage:
                     return PluginPermission.Storage;
                 case Permission.LocationInUse:
