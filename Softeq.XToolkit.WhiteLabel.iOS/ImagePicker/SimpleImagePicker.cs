@@ -203,9 +203,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 return;
             }
 
-            var filePath = Path.Combine(
-                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                Guid.NewGuid().ToString());
+            var filePath = GenerateFilePath();
 
             Execute.BeginOnUIThread(async () =>
             {
@@ -213,17 +211,24 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 IsBusy = true;
                 ReleaseImagePicker();
 
-                if(args.ImageUrl != null)
-                {
-                    ViewModel.ImageCacheKey = args.ImageUrl.Path;
-                }
-                else
+                if(args.ImageUrl == null)
                 {
                     await SaveImage(Image, filePath);
                     ViewModel.ImageCacheKey = filePath;
-                    IsBusy = false;
                 }
+                else
+                {
+                    ViewModel.ImageCacheKey = args.ImageUrl.Path;
+                }
+                IsBusy = false;
             });
+        }
+
+        private string GenerateFilePath()
+        { 
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                Guid.NewGuid().ToString());
         }
 
         private Task SaveImage(UIImage image, string filePath)
