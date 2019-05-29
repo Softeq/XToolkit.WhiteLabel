@@ -6,17 +6,19 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using FFImageLoading;
+using Foundation;
 using MobileCoreServices;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
-    public class SimpleImagePicker
+    public class SimpleImagePicker : ObservableObject
     {
         private readonly IPermissionsManager _permissionsManager;
         private readonly bool _allowsEditing;
@@ -24,7 +26,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private UIImagePickerController _imagePicker;
         private Size _calculatedImageSize;
+        private UIImage _image;
+        private bool _isBusy;
 
+        [Obsolete]
         public event EventHandler PickerWillOpen;
 
         public SimpleImagePicker(
@@ -45,8 +50,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             get
             {
-                _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
-                    (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
+                _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
+                    (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
 
                 Func<(Task<Stream>, string)> func = () =>
                 {
@@ -65,9 +70,31 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             }
         }
 
+        public UIImage Image
+        {
+            get => _image;
+            private set
+            {
+                Set(ref _image, value);
+            }
+        }
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => Set(ref _isBusy, value);
+        }
+
         public int MaxImageWidth { get; set; } = 1125;
 
         public int MaxImageHeight { get; set; } = 1125;
+
+        public void Clear()
+        {
+            Image = null;
+            ViewModel.ImageCacheKey = null;
+            IsBusy = false;
+        }
 
         public async void OpenGalleryAsync()
         {
@@ -118,8 +145,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 imageExtension = ImageExtension.Jpg;
             }
 
-            _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
-                (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
+            _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
+                (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
 
             var func = default(Func<Task<Stream>>);
 
@@ -176,33 +203,33 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 return;
             }
 
-            selectedImage = selectedImage.ToUpImageOrientation();
-
             Execute.BeginOnUIThread(() =>
             {
+                Image = selectedImage.ToUpImageOrientation();
+                IsBusy = true;
                 ReleaseImagePicker();
-                Task.Run(async () =>
+
+                if(args.ImageUrl != null)
                 {
-                    using (var stream = selectedImage.AsPNG().AsStream())
+                    ViewModel.ImageCacheKey = args.ImageUrl.Path;
+                }
+                else
+                {
+                    Task.Run(() =>
                     {
                         var filePath = Path.Combine(
                             Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                             Guid.NewGuid().ToString());
 
-                        using (var outputStream = File.OpenWrite(filePath))
-                        {
-                            var buffer = new byte[4096];
-                            int bytesRead;
-                            while ((bytesRead = await stream.ReadAsync(
-                                       buffer, 0, 4096).ConfigureAwait(false)) > 0)
-                            {
-                                await outputStream.WriteAsync(buffer, 0, bytesRead).ConfigureAwait(false);
-                            }
-                        }
+                        Image.AsPNG().Save(filePath, true);
 
-                        ViewModel.ImageCacheKey = filePath;
-                    }
-                });
+                        Execute.BeginOnUIThread(() =>
+                        {
+                            ViewModel.ImageCacheKey = filePath;
+                            IsBusy = false;
+                        });
+                    });
+                }
             });
         }
 
