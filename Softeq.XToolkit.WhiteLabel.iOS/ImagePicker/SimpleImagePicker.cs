@@ -203,7 +203,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 return;
             }
 
-            Execute.BeginOnUIThread(() =>
+            var filePath = Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                Guid.NewGuid().ToString());
+
+            Execute.BeginOnUIThread(async () =>
             {
                 Image = selectedImage.ToUpImageOrientation();
                 IsBusy = true;
@@ -215,22 +219,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 }
                 else
                 {
-                    Task.Run(() =>
-                    {
-                        var filePath = Path.Combine(
-                            Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                            Guid.NewGuid().ToString());
-
-                        Image.AsPNG().Save(filePath, true);
-
-                        Execute.BeginOnUIThread(() =>
-                        {
-                            ViewModel.ImageCacheKey = filePath;
-                            IsBusy = false;
-                        });
-                    });
+                    await SaveImage(Image, filePath);
+                    ViewModel.ImageCacheKey = filePath;
+                    IsBusy = false;
                 }
             });
+        }
+
+        private Task SaveImage(UIImage image, string filePath)
+        {
+            return Task.Run(() => Image.AsPNG().Save(filePath, true));
         }
 
         private void ReleaseImagePicker()
