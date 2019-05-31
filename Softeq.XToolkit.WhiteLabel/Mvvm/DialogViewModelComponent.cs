@@ -3,9 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {

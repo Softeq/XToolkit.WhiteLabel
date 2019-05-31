@@ -20,7 +20,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         private readonly IViewLocator _viewLocator;
         private readonly IIocContainer _iocContainer;
 
-        public StoryboardDialogsService(IViewLocator viewLocator, ILogManager logManager, IIocContainer iocContainer)
+        public StoryboardDialogsService(
+            IViewLocator viewLocator,
+            ILogManager logManager,
+            IIocContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
@@ -32,7 +35,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return new DialogNavigationHelper<T>(this);
         }
 
-        public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions {ShouldShowBackgroundOverlay = false};
+        public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions
+        {
+            ShouldShowBackgroundOverlay = false
+        };
 
         public async Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
