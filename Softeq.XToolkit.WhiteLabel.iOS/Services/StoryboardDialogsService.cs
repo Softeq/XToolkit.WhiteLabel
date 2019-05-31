@@ -35,11 +35,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return new DialogNavigationHelper<T>(this);
         }
 
-        public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions
-        {
-            ShouldShowBackgroundOverlay = false
-        };
-
         public async Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel

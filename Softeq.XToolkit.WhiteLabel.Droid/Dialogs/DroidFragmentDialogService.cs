@@ -1,12 +1,10 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
 
@@ -28,8 +26,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             _iocContainer = iocContainer;
         }
 
-        public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions();
-
         public DialogNavigationHelper<TViewModel> For<TViewModel>() where TViewModel : IDialogViewModel
         {
             return new DialogNavigationHelper<TViewModel>(this);
@@ -49,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
 
-            await ShowImpl<TViewModel>(viewModel as ViewModelBase);
+            ShowImpl(viewModel);
 
             var resultObject = await viewModel.DialogComponent.Task;
 
@@ -65,16 +61,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
 
-            await ShowImpl<TViewModel>(viewModel as ViewModelBase);
+            ShowImpl(viewModel);
 
             await viewModel.DialogComponent.Task;
         }
 
-        private Task<TViewModel> ShowImpl<TViewModel>(ViewModelBase viewModel)
-            where TViewModel : IDialogViewModel
+        private void ShowImpl<TViewModel>(TViewModel viewModel) where TViewModel : IDialogViewModel
         {
             var fragmentBase = (DialogFragmentBase<TViewModel>) _viewLocator.GetView(viewModel, ViewType.DialogFragment);
-            return fragmentBase.ShowAsync();
+            fragmentBase.Show();
         }
     }
 }

@@ -10,8 +10,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IDialogsService
     {
-        OpenDialogOptions DefaultOptions { get; }
-
         Task<bool> ShowDialogAsync(string title,
             string message,
             string okButtonText,
