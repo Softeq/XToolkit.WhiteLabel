@@ -96,8 +96,6 @@
     <Compile Include="Navigation\ActivityPageNavigationService.cs" />
     <Compile Include="Navigation\FrameNavigationService.cs" />
     <Compile Include="Services\DefaultAlertBuilder.cs" />
-    <Compile Include="Services\Logger\DroidConsoleLogger.cs" />
-    <Compile Include="Services\Logger\DroidConsoleLogManager.cs" />
     <Compile Include="Controls\NavigationBarView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />
@@ -138,7 +136,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\Logger\" />
     <Folder Include="Resources\layout\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\values\" />

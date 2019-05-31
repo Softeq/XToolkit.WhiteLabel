@@ -34,8 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public bool IsInitialized => _containerId != 0;
 
-        //TODO: need to completely switch to IViewModel
-        public ViewModelBase CurrentViewModel => _backStack.Peek().ViewModel as ViewModelBase;
+        public IViewModelBase CurrentViewModel => _backStack.Peek().ViewModel;
 
         public void GoBack()
         {
@@ -47,8 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             });
         }
 
-        //TODO: need to completely switch to IViewModelBase
-        public void GoBack<T>() where T : ViewModelBase
+        public void GoBack<T>() where T : IViewModelBase
         {
             var viewModel = _backStack.FirstOrDefault(x => x.ViewModel is T).ViewModel;
             if (viewModel == null)
@@ -97,11 +95,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateInternal(viewModel);
         }
 
-        public void NavigateToViewModel<T>(T t) where T : IViewModelBase
+        public void NavigateToViewModel<T>(T viewModel) where T : IViewModelBase
         {
-            if (Contains(t))
+            if (Contains(viewModel))
             {
-                while (!ReferenceEquals(t, _backStack.Peek().ViewModel))
+                while (!ReferenceEquals(viewModel, _backStack.Peek().ViewModel))
                 {
                     _backStack.Pop();
                 }
@@ -110,7 +108,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
             else
             {
-                NavigateToExistingViewModel(t as ViewModelBase);
+                NavigateToExistingViewModel(viewModel);
             }
         }
 

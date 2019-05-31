@@ -8,26 +8,27 @@ using System.Threading.Tasks;
 namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
 {
     public class DialogNavigationHelper<TViewModel> : NavigationHelper<TViewModel>
-        where TViewModel : class, IDialogViewModel
+        where TViewModel : IDialogViewModel
     {
-        private readonly IDialogsService _storyboardDialogsService;
+        private readonly IDialogsService _dialogsService;
 
-        public Task<TResult> NavigateAsync<TResult>()
+        public DialogNavigationHelper(IDialogsService dialogsService)
         {
-            return _storyboardDialogsService.ShowForViewModel<TViewModel, TResult>(Parameters);
+            _dialogsService = dialogsService;
         }
 
-        public Task<IDialogViewModel> NavigateAsync()
+        public Task<TResult> Navigate<TResult>()
         {
-            return _storyboardDialogsService.ShowForViewModel<TViewModel>(Parameters);
+            return _dialogsService.ShowForViewModel<TViewModel, TResult>(Parameters);
         }
 
-        public DialogNavigationHelper(IDialogsService storyboardDialogsService)
+        public Task Navigate()
         {
-            _storyboardDialogsService = storyboardDialogsService;
+            return _dialogsService.ShowForViewModel<TViewModel>();
         }
 
-        public new DialogNavigationHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property,
+        public new DialogNavigationHelper<TViewModel> WithParam<TValue>(
+            Expression<Func<TViewModel, TValue>> property,
             TValue value)
         {
             base.WithParam(property, value);

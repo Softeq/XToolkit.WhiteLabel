@@ -22,7 +22,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private bool _isParamsSerializationEnabled;
 
-        public ActivityPageNavigationService(IViewLocator viewLocator, IJsonSerializer jsonSerializer,
+        public ActivityPageNavigationService(
+            IViewLocator viewLocator,
+            IJsonSerializer jsonSerializer,
             ICurrentActivity currentActivity)
         {
             _viewLocator = viewLocator;
@@ -56,7 +58,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             });
         }
 
-        public void Initialize(object navigation){}
+        public void Initialize(object navigation) { }
 
         public ActivityPageNavigationService DisableParameterSerialization()
         {
@@ -65,7 +67,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return this;
         }
 
-        public void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack, IReadOnlyList<NavigationParameterModel> parameters)
+        public void NavigateToViewModel(
+            IViewModelBase viewModelBase,
+            bool clearBackStack,
+            IReadOnlyList<NavigationParameterModel> parameters)
         {
             var type = _viewLocator.GetTargetType(viewModelBase.GetType(), ViewType.Activity);
             StartActivityImpl(type, clearBackStack, parameters);

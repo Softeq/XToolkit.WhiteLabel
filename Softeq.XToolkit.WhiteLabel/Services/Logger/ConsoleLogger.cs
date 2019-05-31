@@ -4,9 +4,9 @@
 using System;
 using Softeq.XToolkit.Common.Interfaces;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.Services.Logger
+namespace Softeq.XToolkit.WhiteLabel.Services.Logger
 {
-    public class DroidConsoleLogger : ILogger
+    public class ConsoleLogger : ILogger
     {
         public void Debug(string message)
         {

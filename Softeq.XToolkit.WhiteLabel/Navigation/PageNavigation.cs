@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
                 _backStackManager.Clear();
             }
 
-            var viewModel = _iocContainer.Resolve<T>() as ViewModelBase;
+            var viewModel = _iocContainer.Resolve<T>();
             viewModel.ApplyParameters(parameters);
 
             _pageNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
