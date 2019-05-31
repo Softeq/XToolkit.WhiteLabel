@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
 
         public Task Navigate()
         {
-            return _dialogsService.ShowForViewModel<TViewModel>();
+            return _dialogsService.ShowForViewModel<TViewModel>(Parameters);
         }
 
         public new DialogNavigationHelper<TViewModel> WithParam<TValue>(

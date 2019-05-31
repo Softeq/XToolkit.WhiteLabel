@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.ViewModels
@@ -15,17 +14,11 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
         public string ImagePath { get; set; }
     }
 
-    public class FullScreenImageViewModel : DialogViewModelBase, IViewModelParameter<FullScreenImageOptions>
+    public class FullScreenImageViewModel : DialogViewModelBase
     {
         public string ImageUrl => FullScreenImageOptions.ImageUrl;
         public string ImagePath => FullScreenImageOptions.ImagePath;
 
         public FullScreenImageOptions FullScreenImageOptions { get; set; }
-
-        public FullScreenImageOptions Parameter
-        {
-            get => FullScreenImageOptions;
-            set => FullScreenImageOptions = value;
-        }
     }
 }
