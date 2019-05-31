@@ -1,0 +1,10 @@
+resources:
+- repo: self
+queue:
+  name: Hosted macOS
+  demands: Xamarin.iOS
+
+variables:
+  BuildConfiguration: 'Release'
+steps:
+- script: 'msbuild samples/Playground/Playground.sln /t:Clean /t:Restore /p:Configuration="Release" /p:Platform="Any CPU"'

@@ -10,7 +10,6 @@ namespace Softeq.XToolkit.WhiteLabel
     public interface IIocContainer
     {
         void StartScope(ContainerBuilder builder);
-        void RestartScope();
         T Resolve<T>(params Parameter[] par);
         T Resolve<T>();
         object Resolve(Type type);
@@ -23,52 +22,41 @@ namespace Softeq.XToolkit.WhiteLabel
 
     public class IocContainer : IIocContainer
     {
-        private ILifetimeScope _currentScope;
         private ILifetimeScope _rootScope;
-        private ContainerBuilder _containerBuilder;
 
         public void StartScope(ContainerBuilder builder)
         {
-            _containerBuilder = builder;
-            Initialize(_containerBuilder);
-        }
-
-        public void RestartScope()
-        {
-            _rootScope.Dispose();
-            _currentScope.Dispose();
-
-            Initialize(_containerBuilder);
+            _rootScope = builder.Build();
         }
 
         public T Resolve<T>(params Parameter[] par)
         {
-            return _currentScope.Resolve<T>(par);
+            return _rootScope.Resolve<T>(par);
         }
 
         public T Resolve<T>()
         {
-            return _currentScope.Resolve<T>();
+            return _rootScope.Resolve<T>();
         }
 
         public object Resolve(Type type)
         {
-            return _currentScope.Resolve(type);
+            return _rootScope.Resolve(type);
         }
 
         public object Resolve(Type type, params Parameter[] par)
         {
-            return _currentScope.Resolve(type, par);
+            return _rootScope.Resolve(type, par);
         }
 
         public bool IsRegistered<T>()
         {
-            return _currentScope.IsRegistered(typeof(T));
+            return _rootScope.IsRegistered(typeof(T));
         }
 
         public bool IsRegistered(Type type)
         {
-            return _currentScope.IsRegistered(type);
+            return _rootScope.IsRegistered(type);
         }
 
         public Lazy<T> LazyResolve<T>()
@@ -79,12 +67,6 @@ namespace Softeq.XToolkit.WhiteLabel
         public Lazy<T> LazyResolve<T>(params Parameter[] par)
         {
             return new Lazy<T>(() => Resolve<T>(par));
-        }
-
-        private void Initialize(ContainerBuilder builder)
-        {
-            _rootScope = builder.Build();
-            _currentScope = _rootScope.BeginLifetimeScope();
         }
     }
 }

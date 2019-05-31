@@ -6,6 +6,7 @@ using Android.Views;
 using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Views;
+using FFImageLoading.Work;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
@@ -16,6 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
     public class FullScreenImageDialogFragment : DialogFragmentBase<FullScreenImageViewModel>
     {
         private ImageButton _closeButton;
+        private ImageViewAsync _imageView;
 
         protected override int ThemeId => Resource.Style.CoreFullScreenImageTheme;
 
@@ -30,11 +32,32 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
             _closeButton = View.FindViewById<ImageButton>(Resource.Id.dialog_full_screen_image_close_button);
             _closeButton.SetCommand(nameof(_closeButton.Click),
-                new RelayCommand(() => { ViewModel.DialogComponent.CloseCommand.Execute(true); }));
+                new RelayCommand(() =>
+                {
+                    ViewModel.DialogComponent.CloseCommand.Execute(true);
+                    ViewModel.DialogComponent.CloseWithResultCommand.Execute(true);
+                }));
             _closeButton.SetImageResource(Resource.Drawable.core_ic_close);
 
-            var imageView = View.FindViewById<ImageViewAsync>(Resource.Id.dialog_full_screen_image_image);
-            ImageService.Instance.LoadUrl(ViewModel.ImageUrl).IntoAsync(imageView);
+            _imageView = View.FindViewById<ImageViewAsync>(Resource.Id.dialog_full_screen_image_image);
+
+            LoadImage();
+        }
+
+        private void LoadImage()
+        {
+            TaskParameter task;
+
+            if (string.IsNullOrEmpty(ViewModel.ImagePath) == false)
+            {
+                task = ImageService.Instance.LoadFile(ViewModel.ImagePath);
+            }
+            else
+            {
+                task = ImageService.Instance.LoadUrl(ViewModel.ImageUrl);
+            }
+
+            task.IntoAsync(_imageView);
         }
     }
 }

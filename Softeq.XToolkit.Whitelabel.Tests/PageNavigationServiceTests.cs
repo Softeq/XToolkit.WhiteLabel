@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.Collections.Generic;
 using NSubstitute;
 using Softeq.XToolkit.WhiteLabel;
@@ -20,7 +23,7 @@ namespace Softeq.XToolkit.Whitelabel.Tests
             _platformNavService = Substitute.For<IPlatformNavigationService>();
             _backStackManager = Substitute.For<IBackStackManager>();
 
-            var serviceLocator = Substitute.For<IServiceLocator>();
+            var serviceLocator = Substitute.For<IocContainer>();
             serviceLocator.Resolve<ViewModelStub>().Returns(_viewModelStub);
 
             _pageNavigationService =

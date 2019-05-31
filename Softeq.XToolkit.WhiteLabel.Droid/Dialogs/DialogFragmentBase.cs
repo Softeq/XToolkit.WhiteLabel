@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         public TViewModel ViewModel { get; private set; }
 
-        protected abstract int ThemeId { get; }
+        protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
 
         public void SetExistingViewModel(TViewModel viewModel)
         {
@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public async Task<TViewModel> ShowAsync()
         {
             SetStyle(StyleNoFrame, ThemeId);
-            var baseActivity = (ActivityBase)CrossCurrentActivity.Current.Activity;
+            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
             Show(baseActivity.SupportFragmentManager, null);
             var result = await ViewModel.DialogComponent.Task.ConfigureAwait(false);
             return result as TViewModel;
@@ -67,12 +67,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             base.OnDismiss(dialog);
             ViewModel.DialogComponent.CloseCommand.Execute(false);
+            ViewModel.DialogComponent.CloseWithResultCommand.Execute(false);
         }
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
-            var viewLocator = Dependencies.IocContainer.Resolve<ViewLocator>();
-            var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
+            var viewLocator = Dependencies.IocContainer.Resolve<IViewLocator>();
+            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
             ChildFragmentManager
                 .BeginTransaction()
                 .Add(containerId, fragment)

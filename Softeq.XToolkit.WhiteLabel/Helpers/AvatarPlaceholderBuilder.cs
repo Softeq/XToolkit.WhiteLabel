@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Helpers
             }
 
             var abbr = GetAbbreviation(name);
-            var index = Math.Abs(abbr.GetHashCode()) % (colors.Length - 1);
+            var index = Math.Abs(abbr.GetHashCode()) % Math.Max(1, colors.Length - 1);
 
             return (abbr, colors[index]);
         }
@@ -49,29 +49,36 @@ namespace Softeq.XToolkit.WhiteLabel.Helpers
                 return string.Empty;
             }
 
-            var trimedData = data.Trim();
+            var trimmedData = data.Trim();
 
-            if (trimedData.Contains(' '))
+            // case for: First Last -> FL
+            if (trimmedData.Contains(' '))
             {
-                var splited = trimedData.Split(' ');
-                return $"{splited[0].ToUpper()[0]}{splited[1].ToUpper()[0]}";
+                var splitted = trimmedData.Split(' ');
+                if (splitted.Length == 2)
+                {
+                    var firstSymbol = char.ToUpper(splitted[0].FirstOrDefault());
+                    var secondSymbol = char.ToUpper(splitted[1].FirstOrDefault());
+                    return string.Concat(firstSymbol, secondSymbol);
+                }
             }
 
-            var pascalCase = trimedData;
-            pascalCase = trimedData.ToUpper()[0] + pascalCase.Substring(1);
+            // case for: First .* Last -> FL
+            var pascalCase = char.ToUpper(trimmedData[0]) + trimmedData.Substring(1);
             var upperCaseOnly = string.Concat(pascalCase.Where(char.IsUpper));
-
             if (upperCaseOnly.Length > 1 && upperCaseOnly.Length <= 3)
             {
                 return upperCaseOnly.ToUpper();
             }
 
-            if (trimedData.Length <= 3)
+            // case for: fl -> FL
+            if (trimmedData.Length <= 3)
             {
-                return trimedData.ToUpper();
+                return trimmedData.ToUpper();
             }
 
-            return trimedData.Substring(0, 3).ToUpper();
+            // case for: SuperLongName -> SUP
+            return trimmedData.Substring(0, 3).ToUpper();
         }
     }
 }

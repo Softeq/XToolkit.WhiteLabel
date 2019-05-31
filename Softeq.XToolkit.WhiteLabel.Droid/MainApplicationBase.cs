@@ -12,7 +12,10 @@ using Autofac;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
+using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
+using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
@@ -49,12 +52,25 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             PlatformProvider.Current = new DroidPlatformProvider();
         }
 
-        public abstract IList<Assembly> SelectAssemblies();
+        protected abstract IList<Assembly> SelectAssemblies();
 
-        private void StartScopeForIoc()
+        protected void RegisterInternalServices(ContainerBuilder builder)
+        {
+            builder.PerLifetimeScope<ICurrentActivity>(c => CrossCurrentActivity.Current)
+                .PreserveExistingDefaults();
+            builder.PerLifetimeScope<ActivityPageNavigationService, IPlatformNavigationService>()
+                .PreserveExistingDefaults();
+            builder.PerDependency<FrameNavigationService, IFrameNavigationService>()
+                .PreserveExistingDefaults();
+            builder.PerLifetimeScope<ViewLocator, IViewLocator>()
+                .PreserveExistingDefaults();
+        }
+
+        protected virtual void StartScopeForIoc()
         {
             var containerBuilder = new ContainerBuilder();
             ConfigureIoc(containerBuilder);
+            RegisterInternalServices(containerBuilder);
             Dependencies.IocContainer.StartScope(containerBuilder);
         }
 

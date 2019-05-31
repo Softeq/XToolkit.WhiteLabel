@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,30 +35,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _modelToControllerTypes = viewModelToViewController;
         }
 
-        public UIViewController GetView(object viewModel)
-        {
-            var viewController = GetViewFromPredefinedTypes(viewModel) ??
-                                 (UIViewController) Activator.CreateInstance(
-                                     _modelToControllerTypes[viewModel.GetType()]);
-
-            var method = viewController.GetType().GetMethod("SetExistingViewModel");
-            method?.Invoke(viewController, new[] {viewModel});
-
-            return viewController;
-        }
-
-        private ViewControllerBase GetViewFromPredefinedTypes(object model)
-        {
-            if (_modelToControllerTypes.TryGetValue(model.GetType(), out var controllerType))
-            {
-                var storyboardName = controllerType.Name.Replace("ViewController", "Storyboard");
-
-                return TryCreateViewController(storyboardName, controllerType.Name);
-            }
-
-            return null;
-        }
-
         public UIViewController GetTopViewController()
         {
             return UIApplication.SharedApplication.Windows
@@ -64,17 +43,54 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 .FirstOrDefault();
         }
 
-        private ViewControllerBase TryCreateViewController(string storyBoardName, string targetTypeName)
+        public UIViewController GetView(object viewModel)
         {
-            ViewControllerBase newViewController = null;
+            var controllerType = GetTargetType(viewModel.GetType());
+            var storyboardName = controllerType.Name.Replace("ViewController", "Storyboard");
+            var viewController = TryCreateViewController(storyboardName, controllerType);
+            var method = viewController.GetType().GetMethod("SetExistingViewModel");
+            method?.Invoke(viewController, new[] { viewModel });
+            return viewController;
+        }
+
+        private Type GetTargetType(Type type)
+        {
+            Type targetType;
+
+            if (_modelToControllerTypes.TryGetValue(type, out targetType))
+            {
+                return targetType;
+            }
+
+            var targetTypeName = type.FullName.Replace(".ViewModels.", ".iOS.ViewControllers.");
+            targetTypeName = targetTypeName.Replace("ViewModel", "ViewController");
+            targetType = Type.GetType(targetTypeName)
+                ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+            if (targetType == null)
+            {
+                throw new Exception($"Can't find target type: {targetTypeName}");
+            }
+
+            return targetType;
+        }
+
+        private UIViewController TryCreateViewController(string storyBoardName, Type targetType)
+        {
+            UIViewController newViewController = null;
 
             try
             {
-                //TODO: VPY review this
                 Execute.OnUIThread(() =>
                 {
-                    var storyboard = UIStoryboard.FromName(storyBoardName, null);
-                    newViewController = (ViewControllerBase) storyboard.InstantiateViewController(targetTypeName);
+                    if (Foundation.NSBundle.MainBundle.PathForResource(storyBoardName, "storyboardc") != null)
+                    {
+                        var storyboard = UIStoryboard.FromName(storyBoardName, null);
+                        newViewController = storyboard.InstantiateViewController(targetType.Name);
+                    }
+                    else
+                    {
+                        newViewController = (UIViewController) Activator.CreateInstance(targetType);
+                    }
                 });
             }
             catch (Exception ex)

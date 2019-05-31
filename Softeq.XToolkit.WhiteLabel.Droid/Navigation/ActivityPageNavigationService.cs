@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Android.Content;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Interfaces;
@@ -15,13 +16,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class ActivityPageNavigationService : IPlatformNavigationService
     {
-        private readonly ViewLocator _viewLocator;
+        private readonly IViewLocator _viewLocator;
         private readonly IJsonSerializer _jsonSerializer;
         private readonly ICurrentActivity _currentActivity;
 
         private bool _isParamsSerializationEnabled;
 
-        public ActivityPageNavigationService(ViewLocator viewLocator, IJsonSerializer jsonSerializer,
+        public ActivityPageNavigationService(IViewLocator viewLocator, IJsonSerializer jsonSerializer,
             ICurrentActivity currentActivity)
         {
             _viewLocator = viewLocator;
@@ -31,7 +32,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _isParamsSerializationEnabled = true;
         }
 
-        public bool CanGoBack => !_currentActivity.Activity.IsTaskRoot;
+        public bool CanGoBack
+        {
+            get
+            {
+                var memberInfo = _currentActivity.Activity.GetType();
+                return memberInfo.GetCustomAttribute(typeof(StartActivityAttribute)) == null;
+            }
+        }
 
         public void GoBack()
         {

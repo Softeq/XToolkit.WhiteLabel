@@ -7,11 +7,10 @@ using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
-using BindingExtensions = Softeq.XToolkit.Bindings.Extensions.BindingExtensions;
+using BindingExtensions = Softeq.XToolkit.Bindings.BindingExtensions;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {

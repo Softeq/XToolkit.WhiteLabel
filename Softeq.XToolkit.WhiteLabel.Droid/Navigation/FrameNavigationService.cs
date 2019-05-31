@@ -10,6 +10,7 @@ using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
@@ -17,44 +18,45 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     {
         private const string FrameNavigationServiceParameterName = "FrameNavigationService";
 
-        private readonly Stack<ViewModelBase> _backStack;
-        private readonly ViewLocator _viewLocator;
+        private readonly IViewLocator _viewLocator;
         private readonly IIocContainer _iocContainer;
         private int _containerId;
+        private readonly Stack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
 
-        public FrameNavigationService(ViewLocator viewLocator, IIocContainer iocContainer)
+        public FrameNavigationService(IViewLocator viewLocator, IIocContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
-            _backStack = new Stack<ViewModelBase>();
+            _backStack = new Stack<(IViewModelBase viewModelBase, Fragment fragment)>();
         }
 
         public bool CanGoBack => _backStack.Count > 1;
 
-        public int BackStackCount => _backStack.Count;
-
         public bool IsInitialized => _containerId != 0;
 
-        public ViewModelBase CurrentViewModel => _backStack.Peek();
+        //TODO: need to completely switch to IViewModel
+        public ViewModelBase CurrentViewModel => _backStack.Peek().ViewModel as ViewModelBase;
 
         public void GoBack()
         {
             Execute.BeginOnUIThread(() =>
             {
                 _backStack.Pop();
-                RestoreState();
+
+                ReplaceFragment(_backStack.Peek().Fragment);
             });
         }
 
+        //TODO: need to completely switch to IViewModelBase
         public void GoBack<T>() where T : ViewModelBase
         {
-            var viewModel = _backStack.FirstOrDefault(x => x is T);
+            var viewModel = _backStack.FirstOrDefault(x => x.ViewModel is T).ViewModel;
             if (viewModel == null)
             {
                 return;
             }
 
-            while (viewModel != _backStack.Peek())
+            while (viewModel != _backStack.Peek().ViewModel)
             {
                 _backStack.Pop();
             }
@@ -67,37 +69,39 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _containerId = (int) navigation;
         }
 
+        internal Fragment GetTopFragment()
+        {
+            return _backStack.FirstOrDefault().Fragment;
+        }
+
+        //TODO: replace with For<>.WithParam implementation
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
             var viewModel = _iocContainer.Resolve<T>();
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
             viewModel.Parameter = parameter;
-            var baseFragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
-            _backStack.Push(viewModel as ViewModelBase);
-            ReplaceFragment(baseFragment);
+            NavigateInternal(viewModel);
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<T>();
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
-            var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
 
             if (clearBackStack)
             {
                 _backStack.Clear();
             }
 
-            _backStack.Push(viewModel as ViewModelBase);
-            ReplaceFragment(fragment);
+            NavigateInternal(viewModel);
         }
 
         public void NavigateToViewModel<T>(T t) where T : IViewModelBase
         {
-            if (Contains(_backStack, t))
+            if (Contains(t))
             {
-                while (ReferenceEquals(t, _backStack.Peek()))
+                while (!ReferenceEquals(t, _backStack.Peek().ViewModel))
                 {
                     _backStack.Pop();
                 }
@@ -110,41 +114,47 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
         }
 
-        public void RestoreState()
+        public void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters)
+            where TViewModel : IViewModelBase
         {
-            var viewModel = _backStack.Peek();
-            var view = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
-            ReplaceFragment(view);
+            var viewModel = _iocContainer.Resolve<TViewModel>();
+            viewModel.ApplyParameters(navigationParameters);
+            NavigateToViewModel(viewModel);
         }
 
-        private void NavigateToExistingViewModel(ViewModelBase viewModel)
+        public void RestoreState()
+        {
+            ReplaceFragment(_backStack.Peek().Fragment);
+        }
+
+        private void NavigateToExistingViewModel(IViewModelBase viewModel)
         {
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
-            var baseFragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
-            _backStack.Push(viewModel);
-            ReplaceFragment(baseFragment);
+            NavigateInternal(viewModel);
+        }
+
+        private void NavigateInternal(IViewModelBase viewModel)
+        {
+            var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
+
+            _backStack.Push((viewModel, fragment));
+            ReplaceFragment(fragment);
         }
 
         private void ReplaceFragment(Fragment fragment)
         {
             var activity = (AppCompatActivity) CrossCurrentActivity.Current.Activity;
-            activity.SupportFragmentManager
-                .BeginTransaction()
+            var manager = activity.SupportFragmentManager;
+
+            manager.BeginTransaction()
                 .Replace(_containerId, fragment)
+                .AddToBackStack(null)
                 .Commit();
         }
 
-        private static bool Contains(Stack<ViewModelBase> stack, IViewModelBase viewModelBase)
+        private bool Contains(IViewModelBase viewModelBase)
         {
-            foreach (var item in stack)
-            {
-                if (ReferenceEquals(item, viewModelBase))
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return _backStack.Any(item => ReferenceEquals(item.ViewModel, viewModelBase));
         }
     }
 }
