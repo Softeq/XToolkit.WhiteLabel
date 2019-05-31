@@ -56,13 +56,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected void RegisterInternalServices(ContainerBuilder builder)
         {
-            builder.PerLifetimeScope<ICurrentActivity>(c => CrossCurrentActivity.Current)
+            builder.Singleton(c => CrossCurrentActivity.Current)
                 .PreserveExistingDefaults();
-            builder.PerLifetimeScope<ActivityPageNavigationService, IPlatformNavigationService>()
+            builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>()
                 .PreserveExistingDefaults();
             builder.PerDependency<FrameNavigationService, IFrameNavigationService>()
                 .PreserveExistingDefaults();
-            builder.PerLifetimeScope<ViewLocator, IViewLocator>()
+            builder.Singleton<ViewLocator, IViewLocator>()
                 .PreserveExistingDefaults();
         }
 
@@ -74,6 +74,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             Dependencies.IocContainer.StartScope(containerBuilder);
         }
 
-        protected abstract void ConfigureIoc(ContainerBuilder containerBuilder);
+        protected abstract void ConfigureIoc(ContainerBuilder builder);
     }
 }
