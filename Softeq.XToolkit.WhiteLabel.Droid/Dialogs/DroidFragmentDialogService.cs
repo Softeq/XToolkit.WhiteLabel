@@ -57,9 +57,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             return result;
         }
 
-        public async Task ShowForViewModel<TViewModel>() where TViewModel : IDialogViewModel
+        public async Task ShowForViewModel<TViewModel>(
+            IEnumerable<NavigationParameterModel> parameters = null)
+            where TViewModel : IDialogViewModel
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
+            viewModel.ApplyParameters(parameters);
 
             ShowImpl(viewModel);
 
