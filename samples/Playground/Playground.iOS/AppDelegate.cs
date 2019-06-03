@@ -42,7 +42,7 @@ namespace Playground.iOS
             Window.MakeKeyAndVisible();
 
             // Entry point
-            navigationService.NavigateToViewModel<StartPageViewModel>();
+            navigationService.For<StartPageViewModel>().Navigate();
 
             return true;
         }
