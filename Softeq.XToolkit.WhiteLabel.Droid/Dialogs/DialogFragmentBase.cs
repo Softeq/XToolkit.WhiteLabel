@@ -30,13 +30,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             ViewModel = viewModel;
         }
 
-        public async Task<TViewModel> ShowAsync()
+        public void Show()
         {
             SetStyle(StyleNoFrame, ThemeId);
             var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
             Show(baseActivity.SupportFragmentManager, null);
-            var result = await ViewModel.DialogComponent.Task.ConfigureAwait(false);
-            return (TViewModel) result;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -66,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public override void OnDismiss(IDialogInterface dialog)
         {
             base.OnDismiss(dialog);
-            ViewModel.DialogComponent.CloseCommand.Execute(false);
+            ViewModel.DialogComponent.CloseCommand.Execute(null);
         }
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)

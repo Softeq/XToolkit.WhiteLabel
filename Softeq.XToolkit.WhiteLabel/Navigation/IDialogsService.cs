@@ -10,20 +10,20 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IDialogsService
     {
-        OpenDialogOptions DefaultOptions { get; }
-
         Task<bool> ShowDialogAsync(string title,
             string message,
             string okButtonText,
             string cancelButtonText = null,
             OpenDialogOptions options = null);
 
-        Task<TResult> ShowForViewModel<TViewModel, TResult>(
+        DialogNavigationHelper<T> For<T>() where T : IDialogViewModel;
+
+        Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel;
 
-        DialogNavigationHelper<T> For<T>() where T : IDialogViewModel;
-
-        Task ShowForViewModel<TViewModel>() where TViewModel : IDialogViewModel;
+        Task<TResult> ShowForViewModel<TViewModel, TResult>(
+            IEnumerable<NavigationParameterModel> parameters = null)
+            where TViewModel : IDialogViewModel;
     }
 }

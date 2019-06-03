@@ -35,11 +35,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return new DialogNavigationHelper<T>(this);
         }
 
-        public OpenDialogOptions DefaultOptions { get; } = new OpenDialogOptions
-        {
-            ShouldShowBackgroundOverlay = false
-        };
-
         public async Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel
@@ -69,11 +64,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return result;
         }
 
-        public async Task ShowForViewModel<TViewModel>() where TViewModel : IDialogViewModel
+        public async Task ShowForViewModel<TViewModel>(
+            IEnumerable<NavigationParameterModel> parameters = null)
+            where TViewModel : IDialogViewModel
         {
             try
             {
                 var viewModel = _iocContainer.Resolve<TViewModel>();
+                viewModel.ApplyParameters(parameters);
                 var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
 
                 await viewModel.DialogComponent.Task;

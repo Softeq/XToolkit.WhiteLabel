@@ -39,10 +39,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
         }
 
-        public void NavigateToViewModel(ViewModelBase viewModelBase, bool clearBackStack,
+        public void NavigateToViewModel(
+            IViewModelBase viewModelBase,
+            bool clearBackStack,
             IReadOnlyList<NavigationParameterModel> parameters)
         {
-            viewModelBase.FrameNavigationService = this as IFrameNavigationService;
+            if (viewModelBase is ViewModelBase viewModel)
+            {
+                viewModel.FrameNavigationService = this as IFrameNavigationService;
+            }
             Navigate(ViewLocator.GetView(viewModelBase), clearBackStack);
         }
 
@@ -52,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             {
                 if (clearBackStack)
                 {
-                    NavigationController.SetViewControllers(new[] {controller}, false);
+                    NavigationController.SetViewControllers(new[] { controller }, false);
                     return;
                 }
 
