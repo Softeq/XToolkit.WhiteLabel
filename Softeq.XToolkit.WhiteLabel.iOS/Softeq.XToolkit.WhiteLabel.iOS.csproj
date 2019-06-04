@@ -54,7 +54,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Services\Logger\" />
     <Folder Include="ImagePicker\" />
     <Folder Include="ViewControllers\" />
   </ItemGroup>
@@ -90,8 +89,6 @@
     <Compile Include="Controls\SupportRotationAlertController.cs" />
     <Compile Include="Navigation\RootFrameNavigationControllerBase.cs" />
     <Compile Include="Controls\GradientFadeView.cs" />
-    <Compile Include="Services\Logger\IosConsoleLogger.cs" />
-    <Compile Include="Services\Logger\IosConsoleLogManager.cs" />
     <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
     <Compile Include="ImagePicker\ImageOpenedEventArgs.cs" />
@@ -107,28 +104,28 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{051C065C-DF97-4406-BEAB-F2F91842275C}</Project>
+      <Project>{C10D58B5-A4E7-4607-BCD8-4D28191B2B2A}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{D5F562B4-D878-4B86-AB35-93BC43A253C5}</Project>
+      <Project>{00BB8927-C9BC-4F4A-B4A1-1FEBAB0C74C9}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{5626D784-EB87-4BE3-8297-AC707451C3C6}</Project>
-      <Name>Softeq.XToolkit.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{E8FAA479-4003-4A66-B355-CA96A2D59DA0}</Project>
-      <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
       <Project>{2D399BA9-1878-43E2-AF05-6873EAE9151B}</Project>
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{69B5CB62-EAA0-4441-A261-3E11FA9868A9}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
       <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
       <Name>Softeq.XToolkit.Common.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
+      <Project>{7F58FADC-23EC-4E49-ACEE-9035F57B8BCA}</Project>
+      <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

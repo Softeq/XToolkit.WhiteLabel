@@ -9,8 +9,8 @@ using Android.Runtime;
 using Autofac;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid;
-using Softeq.XToolkit.WhiteLabel.Droid.Services.Logger;
 using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.Services.Logger;
 
 namespace Playground.Droid
 {
@@ -31,18 +31,16 @@ namespace Playground.Droid
             GetType().Assembly
         };
 
-#pragma warning disable RECS0133
         protected override void ConfigureIoc(ContainerBuilder builder)
-#pragma warning restore RECS0133
         {
             // core
             Bootstrapper.Configure(builder);
 
-            builder.PerLifetimeScope<DroidConsoleLogManager, ILogManager>();
+            builder.Singleton<ConsoleLogManager, ILogManager>();
             //builder.PerDependency<DefaultAlertBuilder, IAlertBuilder>();
             //builder.PerDependency<DroidFragmentDialogService, IDialogsService>();
-            //builder.PerLifetimeScope<DroidInternalSettings, IInternalSettings>();
-            //builder.PerLifetimeScope<LauncherService, ILauncherService>();
+            //builder.Singleton<DroidInternalSettings, IInternalSettings>();
+            //builder.Singleton<LauncherService, ILauncherService>();
         }
     }
 }

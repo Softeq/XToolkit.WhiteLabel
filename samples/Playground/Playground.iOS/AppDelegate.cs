@@ -9,7 +9,10 @@ using UIKit;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS;
-using Softeq.XToolkit.WhiteLabel.iOS.Services.Logger;
+using Softeq.XToolkit.WhiteLabel.Services.Logger;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Navigation;
+using Playground.ViewModels.Pages;
 
 namespace Playground.iOS
 {
@@ -18,11 +21,28 @@ namespace Playground.iOS
     [Register(nameof(AppDelegate))]
     public class AppDelegate : AutoRegistrationAppDelegate
     {
+        public override UIWindow Window { get; set; }
+
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             // Override point for customization after application launch.
             // If not required for your application you can safely delete this method
             var _ = base.FinishedLaunching(application, launchOptions);
+
+            // Init navigation
+            var rootNavigationController = new UINavigationController();
+
+            var navigationService = Dependencies.IocContainer.Resolve<IPageNavigationService>();
+            navigationService.Initialize(rootNavigationController);
+
+            Window = new UIWindow(UIScreen.MainScreen.Bounds)
+            {
+                RootViewController = rootNavigationController
+            };
+            Window.MakeKeyAndVisible();
+
+            // Entry point
+            navigationService.For<StartPageViewModel>().Navigate();
 
             return true;
         }
@@ -37,7 +57,7 @@ namespace Playground.iOS
             // core
             Bootstrapper.Configure(builder);
 
-            builder.PerDependency<IosConsoleLogManager, ILogManager>();
+            builder.PerDependency<ConsoleLogManager, ILogManager>();
             //builder.PerDependency<StoryboardDialogsService, IDialogsService>();
             //builder.PerLifetimeScope<IosInternalSettings, IInternalSettings>();
         }

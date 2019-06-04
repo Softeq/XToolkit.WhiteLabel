@@ -1,10 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using Android.Runtime;
 using Android.Support.V4.App;
 using Android.Support.V7.App;

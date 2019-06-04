@@ -9,6 +9,16 @@ namespace Softeq.XToolkit.Permissions
         Camera,
         Storage,
         Notifications,
-        LocationInUse
+        LocationInUse,
+        LocationAlways,
+        Calendar,
+        Contacts,
+        Microphone,
+        Phone,
+        Reminders,
+        Sensors,
+        Sms,
+        Speech,
+        MediaLibrary
     }
 }

@@ -35,7 +35,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
                 new RelayCommand(() =>
                 {
                     ViewModel.DialogComponent.CloseCommand.Execute(true);
-                    ViewModel.DialogComponent.CloseWithResultCommand.Execute(true);
                 }));
             _closeButton.SetImageResource(Resource.Drawable.core_ic_close);
 

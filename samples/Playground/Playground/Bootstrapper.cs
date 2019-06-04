@@ -12,25 +12,25 @@ namespace Playground
 {
     public static class Bootstrapper
     {
-        public static void Configure(ContainerBuilder containerBuilder)
+        public static void Configure(ContainerBuilder builder)
         {
             // common
-            containerBuilder.PerLifetimeScope<JsonSerializer, IJsonSerializer>();
+            builder.Singleton<JsonSerializer, IJsonSerializer>();
 
             // navigation
-            containerBuilder.PerLifetimeScope<PageNavigationService, IPageNavigationService>();
-            containerBuilder.PerLifetimeScope<BackStackManager, IBackStackManager>();
+            builder.Singleton<PageNavigationService, IPageNavigationService>();
+            builder.Singleton<BackStackManager, IBackStackManager>();
 
-            RegisterServiceLocator(containerBuilder);
+            RegisterServiceLocator(builder);
         }
 
-        private static void RegisterServiceLocator(ContainerBuilder containerBuilder)
+        private static void RegisterServiceLocator(ContainerBuilder builder)
         {
             var serviceLocator = new IocContainer();
 
             Dependencies.Initialize(serviceLocator);
 
-            containerBuilder.PerLifetimeScope<IIocContainer>(c => serviceLocator);
+            builder.Singleton<IIocContainer>(c => serviceLocator);
         }
     }
 }

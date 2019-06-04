@@ -8,13 +8,11 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
     public class DialogViewModelBase : ViewModelBase, IDialogViewModel
     {
-        private readonly Lazy<DialogViewModelComponent> _dialogComponentLazy;
-
         protected DialogViewModelBase()
         {
-            _dialogComponentLazy = new Lazy<DialogViewModelComponent>(() => new DialogViewModelComponent(this));
+            DialogComponent = new DialogViewModelComponent();
         }
 
-        public DialogViewModelComponent DialogComponent => _dialogComponentLazy.Value;
-    }
+        public DialogViewModelComponent DialogComponent { get; }
+    };
 }

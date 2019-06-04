@@ -1,6 +1,3 @@
-// Developed by Softeq Development Corporation
-// http://www.softeq.com
-
 using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
@@ -9,16 +6,28 @@ namespace Softeq.XToolkit.Common.Command
 {
     public abstract class AsyncCommandBase : ICommand
     {
+        private readonly WeakFunc<bool> _canExecute;
         private bool _isRunning;
 
-        public virtual bool CanExecute(object parameter)
+        protected AsyncCommandBase(Func<bool> canExecute)
         {
-            return !_isRunning;
+            if (canExecute != null)
+            {
+                _canExecute = new WeakFunc<bool>(canExecute);
+            }
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            var canExecute = _canExecute == null
+                   || (_canExecute.IsStatic || _canExecute.IsAlive)
+                   && _canExecute.Execute();
+            return !_isRunning && canExecute;
         }
 
         public async void Execute(object parameter)
         {
-            if (_isRunning)
+            if (!CanExecute(parameter))
             {
                 return;
             }
@@ -45,7 +54,7 @@ namespace Softeq.XToolkit.Common.Command
     {
         private readonly Func<Task> _action;
 
-        public AsyncCommand(Func<Task> myAsyncFunction)
+        public AsyncCommand(Func<Task> myAsyncFunction, Func<bool> canExecute = null) : base(canExecute)
         {
             _action = myAsyncFunction;
         }
@@ -56,11 +65,12 @@ namespace Softeq.XToolkit.Common.Command
         }
     }
 
+    //TODO PL: add parameter to canExecute
     public class AsyncCommand<T> : AsyncCommandBase, ICommand<T>
     {
         private readonly Func<T, Task> _action;
 
-        public AsyncCommand(Func<T, Task> myAsyncFunction)
+        public AsyncCommand(Func<T, Task> myAsyncFunction, Func<bool> canExecute = null) : base(canExecute)
         {
             _action = myAsyncFunction;
         }

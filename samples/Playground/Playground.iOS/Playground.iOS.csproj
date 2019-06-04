@@ -125,7 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
-    <InterfaceDefinition Include="Resources\Main.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\CollectionPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\MainPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
@@ -149,7 +148,6 @@
     <Compile Include="ViewControllers\Pages\StartPageViewController.designer.cs">
       <DependentUpon>StartPageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewControllers\RootNavigationController.cs" />
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>

@@ -23,5 +23,11 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
             var toReturn = new SwipeGestureRecognizerBehaviour(view, direction, numberOfTouchesRequired);
             return toReturn;
         }
+
+        public static PanGestureRecognizerBehaviour Pan(this UIView view)
+        {
+            var toReturn = new PanGestureRecognizerBehaviour(view);
+            return toReturn;
+        }
     }
 }

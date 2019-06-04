@@ -80,7 +80,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
             }
         }
 
-        internal static void SetDataContext(this UIView view, object context)
+        public static void SetDataContext(this UIView view, object context)
         {
             var bindable = (IBindable) view;
             bindable.BindingContext = context;

@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 
         public override void NavigateToFirstPage()
         {
-            FrameNavigationService.NavigateToViewModel(_viewModelType);
+            FrameNavigationService.NavigateToViewModel(_viewModelType, false);
         }
 
         internal void Initialize(Type viewModel)

@@ -5,17 +5,4 @@
 		<AssemblyName>Softeq.XToolkit.Common</AssemblyName>
 		<RootNamespace>Softeq.XToolkit.Common</RootNamespace>
 	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-		<LangVersion>7</LangVersion>
-	</PropertyGroup>
-	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-		<LangVersion>7</LangVersion>
-	</PropertyGroup>
-	<ItemGroup>
-		<Folder Include="Models\" />
-		<Folder Include="Interfaces\" />
-		<Folder Include="WeakSubscription\" />
-		<Folder Include="Files\" />
-		<Folder Include="Exceptions\" />
-	</ItemGroup>
 </Project>
