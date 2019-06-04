@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
@@ -30,6 +31,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<T>();
+            NavigateToViewModel(viewModel as ViewModelBase, clearBackStack, null);
+        }
+
+        public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false)
+        {
+            if (!viewModelType.GetInterfaces().Any(x => x.Equals(typeof(IViewModelBase))))
+            {
+                throw new Exception("Class must implement IViewModelBase");
+            }
+
+            var viewModel = _iocContainer.Resolve(viewModelType);
             NavigateToViewModel(viewModel as ViewModelBase, clearBackStack, null);
         }
 

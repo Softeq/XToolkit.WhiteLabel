@@ -17,6 +17,7 @@ using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
@@ -63,6 +64,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             builder.PerDependency<FrameNavigationService, IFrameNavigationService>()
                 .PreserveExistingDefaults();
             builder.PerLifetimeScope<ViewLocator, IViewLocator>()
+                .PreserveExistingDefaults();
+            builder.PerDependency<RootFrameNavigationViewModel>()
                 .PreserveExistingDefaults();
         }
 

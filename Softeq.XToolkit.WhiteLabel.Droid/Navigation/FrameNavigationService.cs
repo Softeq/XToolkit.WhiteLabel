@@ -11,6 +11,7 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using System;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
@@ -87,6 +88,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<T>();
+            _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
+
+            if (clearBackStack)
+            {
+                _backStack.Clear();
+            }
+
+            NavigateInternal(viewModel);
+        }
+
+        public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false)
+        {
+            if(!viewModelType.GetInterfaces().Any(x => x.Equals(typeof(IViewModelBase))))
+            {
+                throw new Exception("Class must implement IViewModelBase");
+            }
+
+            var viewModel = (IViewModelBase) _iocContainer.Resolve(viewModelType);
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
 
             if (clearBackStack)
