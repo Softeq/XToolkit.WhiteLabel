@@ -8,15 +8,22 @@ using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Halo.Core.ViewModels.Tab
 {
     public abstract class ToolbarViewModelBase : ViewModelBase
     {
-        public ToolbarViewModelBase(int count)
+        private readonly ITabNavigationService _tabNavigationService;
+
+        public ToolbarViewModelBase(ITabNavigationService tabNavigationService, int count)
         {
+            _tabNavigationService = tabNavigationService;
+
             SelectionChangedCommand = new RelayCommand<int>(SelectionChanged);
+
+            GoBackCommand = new RelayCommand(GoBack);
 
             Dictionary = new List<RootFrameNavigationViewModel>();
            
@@ -26,9 +33,13 @@ namespace Halo.Core.ViewModels.Tab
             }
         }
 
+        public bool CanGoBack => _tabNavigationService.CanGoBack;
+
+        public ICommand GoBackCommand { get; }
+
         public ICommand SelectionChangedCommand { get; }
 
-        public int SelectedViewModel { get; set; }
+        public int SelectedIndex { get; set; }
 
         public List<RootFrameNavigationViewModel> Dictionary { get; }
 
@@ -42,16 +53,23 @@ namespace Halo.Core.ViewModels.Tab
             {
                 rootViewModel.Initialize(GetViewModel(Dictionary.IndexOf(rootViewModel)));
             }
+            _tabNavigationService.SetSelectedViewModel(Dictionary[SelectedIndex]);
         }
 
         private void SelectionChanged(int selectedViewModel)
         {
-            if (Equals(SelectedViewModel, selectedViewModel))
+            if (Equals(SelectedIndex, selectedViewModel))
             {
                 return;
             }
 
-            SelectedViewModel = selectedViewModel;
+            SelectedIndex = selectedViewModel;
+            _tabNavigationService.SetSelectedViewModel(Dictionary[SelectedIndex]);
+        }
+
+        private void GoBack()
+        {
+            _tabNavigationService.GoBack();
         }
     }
 }

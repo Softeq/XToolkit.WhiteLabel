@@ -13,6 +13,8 @@ using Softeq.XToolkit.WhiteLabel.Services.Logger;
 using Softeq.XToolkit.WhiteLabel;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Playground.ViewModels.Pages;
+using System;
+using System.Linq;
 
 namespace Playground.iOS
 {
@@ -47,10 +49,19 @@ namespace Playground.iOS
             return true;
         }
 
-        protected override IList<Assembly> SelectAssemblies() => new List<Assembly>
+        protected override IList<Assembly> SelectAssemblies()
         {
-            GetType().Assembly
-        };
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .Where(assembly =>
+                    new[]
+                    {
+                        "Playground.iOS",
+                        "Softeq.XToolkit.Chat.iOS",
+                        "Softeq.XToolkit.WhiteLabel.iOS"
+                    }
+                    .Any(x => x.Equals(assembly.GetName().Name)))
+                .ToList();
+        }
 
         protected override void ConfigureIoc(ContainerBuilder builder)
         {

@@ -96,7 +96,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateInternal(viewModel);
         }
 
-<<<<<<< HEAD
         public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false)
         {
             if(!viewModelType.GetInterfaces().Any(x => x.Equals(typeof(IViewModelBase))))
@@ -115,10 +114,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateInternal(viewModel);
         }
 
-        public void NavigateToViewModel<T>(T t) where T : IViewModelBase
-=======
         public void NavigateToViewModel<T>(T viewModel) where T : IViewModelBase
->>>>>>> master
         {
             if (Contains(viewModel))
             {

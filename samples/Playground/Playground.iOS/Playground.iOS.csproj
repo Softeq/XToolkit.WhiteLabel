@@ -122,12 +122,17 @@
     <Folder Include="Resources\" />
     <Folder Include="ViewControllers\" />
     <Folder Include="Views\" />
+    <Folder Include="ViewControllers\Pages\Temp\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\CollectionPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\MainPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\Pages\Temp\RedStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Pages\Temp\YellowStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Pages\Temp\GreenStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Pages\Temp\BlueStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -151,6 +156,22 @@
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Pages\Temp\RedViewController.cs" />
+    <Compile Include="ViewControllers\Pages\Temp\RedViewController.designer.cs">
+      <DependentUpon>RedViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Pages\Temp\YellowViewController.cs" />
+    <Compile Include="ViewControllers\Pages\Temp\YellowViewController.designer.cs">
+      <DependentUpon>YellowViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Pages\Temp\GreenViewController.cs" />
+    <Compile Include="ViewControllers\Pages\Temp\GreenViewController.designer.cs">
+      <DependentUpon>GreenViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Pages\Temp\BlueViewController.cs" />
+    <Compile Include="ViewControllers\Pages\Temp\BlueViewController.designer.cs">
+      <DependentUpon>BlueViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -177,6 +198,10 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
       <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
       <Name>Softeq.XToolkit.Common.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
+      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
+      <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

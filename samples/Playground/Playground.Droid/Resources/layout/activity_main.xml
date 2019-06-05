@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <LinearLayout
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:orientation="vertical">
-
-        <Button
-            android:id="@+id/activity_main_collection_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Collection Page" />
-
-    </LinearLayout>
-
-</RelativeLayout>
+        android:layout_height="match_parent"
+        android:id="@+id/activity_main_page_coordinator_layout"
+        android:layout_weight="1">
+        <FrameLayout
+            android:id="@+id/activity_main_page_navigation_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </android.support.design.widget.CoordinatorLayout>
+    <android.support.design.widget.BottomNavigationView
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:background="@drawable/app_bar_background"
+        android:id="@+id/activity_main_page_navigation_view"
+        app:itemIconTint="@drawable/menu_tint_color"
+        app:itemTextColor="@drawable/menu_tint_color"
+        app:menu="@menu/main_navigation_menu" />
+</LinearLayout>

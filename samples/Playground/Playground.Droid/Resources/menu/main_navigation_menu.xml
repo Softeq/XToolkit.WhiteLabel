@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+ <menu xmlns:android="http://schemas.android.com/apk/res/android">
+     <item
+        android:id="@+id/main_navigation_menu_chat"
+        android:title="first"
+        android:icon="@drawable/ic_chat" />
+     <item
+        android:id="@+id/main_navigation_menu_settimgs"
+        android:title="second"
+        android:icon="@drawable/ic_settings" /> />
+ </menu>

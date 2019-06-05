@@ -25,14 +25,35 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             }
             base.OnCreate(savedInstanceState);
            
-            ViewModel.Dictionary.ElementAt(ViewModel.SelectedViewModel).NavigateToFirstPage();
+            ViewModel.Dictionary.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
         }
 
-        protected void TabSelected(int num)
+        protected void TabSelected(int index)
         {
-            ViewModel.SelectionChangedCommand?.Execute(num);
+            var oldSelectedIndex = ViewModel.SelectedIndex;
 
-            ViewModel.Dictionary.ElementAt(ViewModel.SelectedViewModel).NavigateToFirstPage();
+            ViewModel.SelectionChangedCommand?.Execute(index);
+
+            if(oldSelectedIndex == index)
+            {
+                ViewModel.Dictionary.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
+            }
+            else
+            {
+                ViewModel.Dictionary.ElementAt(ViewModel.SelectedIndex).RestoreState();
+            }
+        }
+
+        public override void OnBackPressed()
+        {
+            if(ViewModel.CanGoBack)
+            {
+                ViewModel.GoBackCommand.Execute(null);
+            }
+            else
+            {
+                base.OnBackPressed();
+            }
         }
     }
 }
