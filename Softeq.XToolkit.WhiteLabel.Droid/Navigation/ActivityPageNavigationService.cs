@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private readonly IJsonSerializer _jsonSerializer;
         private readonly ICurrentActivity _currentActivity;
 
-        private bool _isParamsSerializationEnabled = true;
+        private bool _isParamsSerializationEnabled;
 
         public ActivityPageNavigationService(
             IViewLocator viewLocator,
@@ -30,6 +30,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _viewLocator = viewLocator;
             _jsonSerializer = jsonSerializer;
             _currentActivity = currentActivity;
+
+            _isParamsSerializationEnabled = true;
         }
 
         public void Initialize(object navigation) { }
