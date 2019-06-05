@@ -11,7 +11,7 @@ using Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;
 
-namespace Playground.iOS.ViewControllers
+namespace Playground.iOS.ViewControllers.Pages
 {
     public partial class CollectionPageViewController
         : ViewControllerBase<CollectionPageViewModel>

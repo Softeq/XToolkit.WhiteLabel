@@ -8,7 +8,6 @@ using Playground.ViewModels.Pages.Temp;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.Bindings;
 
-
 namespace Playground.Droid.Views.Pages.Temp
 {
     public class RedFragment : FragmentBase<RedViewModel>

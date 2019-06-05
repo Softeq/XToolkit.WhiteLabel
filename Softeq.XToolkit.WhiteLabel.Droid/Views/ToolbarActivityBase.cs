@@ -1,11 +1,8 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
 using System.Linq;
 using Android.OS;
-using Android.Support.V4.App;
-using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Views

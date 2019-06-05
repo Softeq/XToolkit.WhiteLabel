@@ -1,14 +1,12 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Foundation;
-using Playground.ViewModels.Pages.Temp;
-using Softeq.XToolkit.WhiteLabel.iOS;
 using System;
-using UIKit;
+using Playground.ViewModels.Pages.Temp;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.WhiteLabel.iOS;
 
-namespace Playground.iOS
+namespace Playground.iOS.ViewControllers.Pages.Temp
 {
     public partial class RedViewController : ViewControllerBase<RedViewModel>
     {
