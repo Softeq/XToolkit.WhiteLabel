@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Android.Content;
 using Android.OS;
 using Android.Support.V4.App;

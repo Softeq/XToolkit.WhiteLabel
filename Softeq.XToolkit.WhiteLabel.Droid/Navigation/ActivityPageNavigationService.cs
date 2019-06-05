@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private readonly IJsonSerializer _jsonSerializer;
         private readonly ICurrentActivity _currentActivity;
 
-        private bool _isParamsSerializationEnabled;
+        private bool _isParamsSerializationEnabled = true;
 
         public ActivityPageNavigationService(
             IViewLocator viewLocator,
@@ -30,8 +30,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _viewLocator = viewLocator;
             _jsonSerializer = jsonSerializer;
             _currentActivity = currentActivity;
+        }
 
-            _isParamsSerializationEnabled = true;
+        public void Initialize(object navigation) { }
+
+        public ActivityPageNavigationService DisableParameterSerialization()
+        {
+            _isParamsSerializationEnabled = false;
+
+            return this;
         }
 
         public bool CanGoBack
@@ -58,18 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             });
         }
 
-        public void Initialize(object navigation) { }
-
-        public ActivityPageNavigationService DisableParameterSerialization()
-        {
-            _isParamsSerializationEnabled = false;
-
-            return this;
-        }
-
-        public void NavigateToViewModel(
-            IViewModelBase viewModelBase,
-            bool clearBackStack,
+        public void NavigateToViewModel(IViewModelBase viewModelBase, bool clearBackStack,
             IReadOnlyList<NavigationParameterModel> parameters)
         {
             var type = _viewLocator.GetTargetType(viewModelBase.GetType(), ViewType.Activity);

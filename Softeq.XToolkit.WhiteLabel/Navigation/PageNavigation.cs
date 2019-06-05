@@ -13,26 +13,22 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         private readonly IBackStackManager _backStackManager;
         private readonly IIocContainer _iocContainer;
 
-        public PageNavigationService(IPlatformNavigationService pageNavigationService,
-            IBackStackManager backStackManager, IIocContainer iocContainer)
+        public PageNavigationService(
+            IPlatformNavigationService pageNavigationService,
+            IBackStackManager backStackManager,
+            IIocContainer iocContainer)
         {
             _pageNavigationService = pageNavigationService;
             _backStackManager = backStackManager;
             _iocContainer = iocContainer;
         }
 
-        public bool CanGoBack => _pageNavigationService.CanGoBack;
-
-        public void NavigateToViewModel<T>(bool clearBackStack = false)
-            where T : IViewModelBase
-        {
-            NavigateToViewModel<T>(clearBackStack, null);
-        }
-
         public void Initialize(object navigation)
         {
             _pageNavigationService.Initialize(navigation);
         }
+
+        public bool CanGoBack => _pageNavigationService.CanGoBack;
 
         public void GoBack()
         {
@@ -49,7 +45,15 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             return new NavigateHelper<T>(this);
         }
 
-        internal void NavigateToViewModel<T>(bool clearBackStack, IReadOnlyList<NavigationParameterModel> parameters)
+        public void NavigateToViewModel<T>(bool clearBackStack = false)
+           where T : IViewModelBase
+        {
+            NavigateToViewModel<T>(clearBackStack, null);
+        }
+
+        internal void NavigateToViewModel<T>(
+            bool clearBackStack,
+            IReadOnlyList<NavigationParameterModel> parameters)
             where T : IViewModelBase
         {
             if (clearBackStack)
@@ -58,6 +62,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             }
 
             var viewModel = _iocContainer.Resolve<T>();
+
             viewModel.ApplyParameters(parameters);
 
             _pageNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
