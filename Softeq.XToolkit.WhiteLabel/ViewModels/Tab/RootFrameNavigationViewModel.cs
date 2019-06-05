@@ -12,12 +12,14 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         {
         }
 
+        public int Index { get; set; }
+
         public override void NavigateToFirstPage()
         {
             FrameNavigationService.NavigateToViewModel(_viewModelType, true);
         }
 
-        internal void Initialize(Type viewModel)
+        internal void SetViewModelTyupe(Type viewModel)
         {
             _viewModelType = viewModel;
         }

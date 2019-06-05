@@ -5,11 +5,4 @@
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="#ff19ff00">
-	<Button
-		android:text="Button"
-		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:minWidth="25px"
-		android:minHeight="25px"
-		android:id="@+id/button1" />
 </LinearLayout>

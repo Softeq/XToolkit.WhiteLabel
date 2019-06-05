@@ -83,9 +83,6 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_main.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\values\strings.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
@@ -109,8 +106,6 @@
     <AndroidResource Include="Resources\layout\activity_start.xml" />
     <AndroidResource Include="Resources\layout\activity_collection.xml" />
     <AndroidResource Include="Resources\drawable\background_splash.xml" />
-    <AndroidResource Include="Resources\drawable\app_bar_background.xml" />
-    <AndroidResource Include="Resources\drawable\menu_tint_color.xml" />
     <AndroidResource Include="Resources\menu\main_navigation_menu.xml" />
     <AndroidResource Include="Resources\drawable\ic_chat.png" />
     <AndroidResource Include="Resources\drawable\ic_settings.png" />

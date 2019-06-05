@@ -8,7 +8,7 @@
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/activity_main_page_coordinator_layout"
+        android:id="@+id/activity_bottom_navigationn_page_coordinator_layout"
         android:layout_weight="1">
         <FrameLayout
             android:id="@+id/activity_main_page_navigation_container"
@@ -16,11 +16,7 @@
             android:layout_height="match_parent" />
     </android.support.design.widget.CoordinatorLayout>
     <android.support.design.widget.BottomNavigationView
+        android:id="@+id/activity_bottom_navigation_page_navigation_view"
         android:layout_width="match_parent"
-        android:layout_height="56dp"
-        android:background="@drawable/app_bar_background"
-        android:id="@+id/activity_main_page_navigation_view"
-        app:itemIconTint="@drawable/menu_tint_color"
-        app:itemTextColor="@drawable/menu_tint_color"
-        app:menu="@menu/main_navigation_menu" />
+        android:layout_height="wrap_content" />
 </LinearLayout>

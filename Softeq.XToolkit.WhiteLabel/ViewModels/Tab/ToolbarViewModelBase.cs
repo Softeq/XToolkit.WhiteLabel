@@ -51,7 +51,8 @@ namespace Halo.Core.ViewModels.Tab
 
             foreach (var rootViewModel in TabViewModels)
             {
-                rootViewModel.Initialize(GetViewModel(TabViewModels.IndexOf(rootViewModel)));
+                var index = TabViewModels.IndexOf(rootViewModel);
+                rootViewModel.SetViewModelTyupe(GetViewModel(index));
             }
             _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
         }

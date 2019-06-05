@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Linq;
 using Halo.Core.ViewModels.Tab;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
@@ -22,13 +24,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             AddTabBarView();
         }
 
-        protected abstract UITabBarItem[] TabBarItems { get; }
+        protected abstract UITabBarItem GetTabBarItem(RootFrameNavigationViewModel viewModel);
 
         private void AddTabBarView()
         {
             _tabBarController = UiTabBarControllerHelper.CreateForViewModels(
                 ViewModel.TabViewModels,
-                TabBarItems,
+                ViewModel.TabViewModels.Select(GetTabBarItem).ToArray(),
                 Dependencies.IocContainer.Resolve<IViewLocator>());
 
             _tabBarController.AddAsChildWithConstraints(this);

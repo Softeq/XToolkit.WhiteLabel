@@ -28,9 +28,5 @@ namespace Playground.ViewModels.Pages
                     throw new NotImplementedException();
             }
         }
-
-        public void NavigateToCollectionsSample()
-        {
-        }
     }
 }

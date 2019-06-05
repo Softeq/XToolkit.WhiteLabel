@@ -6,6 +6,4 @@
 
     <color name="ic_launcher_background">#2C3E50</color>
     <color name="splash_background">@android:color/white</color>
-    <color name="navigation_menu_focused_color">@color/colorAccent</color>
-    <color name="navigation_menu_default_color">@color/colorPrimary</color>
 </resources>

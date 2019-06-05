@@ -10,6 +10,7 @@ using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.ViewControllers;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 
 namespace Playground.iOS.ViewControllers.Pages
@@ -18,11 +19,17 @@ namespace Playground.iOS.ViewControllers.Pages
     {
         public MainPageViewController(IntPtr handle) : base(handle) {  }
 
-        protected override UITabBarItem[] TabBarItems => 
-            new[] 
+        protected override UITabBarItem GetTabBarItem(RootFrameNavigationViewModel viewModel)
+        {
+            switch(ViewModel.TabViewModels.IndexOf(viewModel))
             {
-                new UITabBarItem(UITabBarSystemItem.Bookmarks, 0),
-                new UITabBarItem(UITabBarSystemItem.Bookmarks, 1)
-            };
+                case 0:
+                    return new UITabBarItem(UITabBarSystemItem.Bookmarks, 0);
+                case 1:
+                    return new UITabBarItem(UITabBarSystemItem.Contacts, 1);
+                default:
+                    throw new NotImplementedException();
+            }
+        }
     }
 }
