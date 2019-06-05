@@ -1,23 +1,32 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+using Halo.Core.ViewModels.Tab;
+using Playground.ViewModels.Pages.Temp;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 
 namespace Playground.ViewModels.Pages
 {
-    public class MainPageViewModel : ViewModelBase
+    public class MainPageViewModel : ToolbarViewModelBase
     {
-        private readonly IPageNavigationService _navigationService;
-
-        public MainPageViewModel(IPageNavigationService navigationService)
+        public MainPageViewModel(ITabNavigationService tabNavigationService) : base(tabNavigationService, 2)
         {
-            _navigationService = navigationService;
         }
 
-        public void NavigateToCollectionsSample()
+        public override Type GetViewModel(int position)
         {
-            _navigationService.NavigateToViewModel<CollectionPageViewModel>();
+            switch(position)
+            {
+                case 0:
+                    return typeof(RedViewModel);
+                case 1:
+                    return typeof(BlueViewModel);
+                default:
+                    throw new NotImplementedException();
+            }
         }
     }
 }

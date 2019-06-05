@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="SeQ-of-7k2">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--View Controller-->
+        <scene sceneID="qQG-Dw-Fct">
+            <objects>
+                <viewController id="SeQ-of-7k2" sceneMemberID="viewController" customClass="YellowViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" storyboardIdentifier="YellowViewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="sc6-xd-MdE"/>
+                        <viewControllerLayoutGuide type="bottom" id="so0-mw-eo6"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="WEk-iA-w7I">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2ay-ek-9R1">
+                                <rect key="frame" x="137" y="269" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="1" green="0.93664940998977408" blue="0.035299589510630058" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="2ay-ek-9R1" firstAttribute="centerY" secondItem="WEk-iA-w7I" secondAttribute="centerY" id="F9h-Sr-GDs"/>
+                            <constraint firstItem="2ay-ek-9R1" firstAttribute="centerX" secondItem="WEk-iA-w7I" secondAttribute="centerX" id="WNx-FJ-oCH"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="Button" destination="2ay-ek-9R1" id="name-outlet-2ay-ek-9R1"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="AhV-mQ-v2L" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-194" y="28"/>
+        </scene>
+    </scenes>
+</document>

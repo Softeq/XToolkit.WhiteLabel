@@ -72,6 +72,10 @@
     <Compile Include="Views\Pages\MainPageActivity.cs" />
     <Compile Include="Views\SplashActivity.cs" />
     <Compile Include="Views\Pages\StartPageActivity.cs" />
+    <Compile Include="Views\Pages\Temp\RedFragment.cs" />
+    <Compile Include="Views\Pages\Temp\BlueFragment.cs" />
+    <Compile Include="Views\Pages\Temp\GreenFragment.cs" />
+    <Compile Include="Views\Pages\Temp\YellowFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -79,9 +83,6 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\activity_main.xml">
-      <SubType>Designer</SubType>
-    </AndroidResource>
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\values\strings.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
@@ -105,6 +106,13 @@
     <AndroidResource Include="Resources\layout\activity_start.xml" />
     <AndroidResource Include="Resources\layout\activity_collection.xml" />
     <AndroidResource Include="Resources\drawable\background_splash.xml" />
+    <AndroidResource Include="Resources\menu\main_navigation_menu.xml" />
+    <AndroidResource Include="Resources\drawable\ic_chat.png" />
+    <AndroidResource Include="Resources\drawable\ic_settings.png" />
+    <AndroidResource Include="Resources\layout\fragment_red.axml" />
+    <AndroidResource Include="Resources\layout\fragment_yellow.axml" />
+    <AndroidResource Include="Resources\layout\fragment_green.axml" />
+    <AndroidResource Include="Resources\layout\fragment_blue.axml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
@@ -127,11 +135,17 @@
       <Project>{18D3FDC1-B0A1-401E-87F2-1C43034E610C}</Project>
       <Name>Softeq.XToolkit.Common.Droid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
+      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
+      <Name>Softeq.XToolkit.Bindings</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
     <Folder Include="Views\Pages\" />
     <Folder Include="Resources\drawable\" />
+    <Folder Include="Resources\menu\" />
+    <Folder Include="Views\Pages\Temp\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

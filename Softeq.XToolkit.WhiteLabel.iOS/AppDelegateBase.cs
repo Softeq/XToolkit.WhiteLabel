@@ -14,7 +14,9 @@ using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
@@ -85,6 +87,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             builder.Singleton<StoryboardNavigation, IPlatformNavigationService>()
                 .PreserveExistingDefaults();
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>()
+                .PreserveExistingDefaults();
+            builder.PerDependency<RootFrameNavigationViewModel>()
+                .PreserveExistingDefaults();
+            builder.Singleton<TabNavigationService, ITabNavigationService>()
                 .PreserveExistingDefaults();
         }
     }

@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -16,6 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>;
 
+        void NavigateToViewModel(Type viewModelType, bool clearBackStack = false);
         void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase;
         void NavigateToViewModel<T>(T t) where T : IViewModelBase;
         void Initialize(object navigation);
