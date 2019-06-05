@@ -19,13 +19,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             {
                 return;
             }
-            foreach (var tabViewModel in ViewModel.Dictionary)
+            foreach (var tabViewModel in ViewModel.TabViewModels)
             {
                 tabViewModel.InitializeNavigation(NavigationContainer);
             }
             base.OnCreate(savedInstanceState);
            
-            ViewModel.Dictionary.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
+            ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
         }
 
         protected void TabSelected(int index)
@@ -36,11 +36,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
             if(oldSelectedIndex == index)
             {
-                ViewModel.Dictionary.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
+                ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
             }
             else
             {
-                ViewModel.Dictionary.ElementAt(ViewModel.SelectedIndex).RestoreState();
+                ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).RestoreState();
             }
         }
 

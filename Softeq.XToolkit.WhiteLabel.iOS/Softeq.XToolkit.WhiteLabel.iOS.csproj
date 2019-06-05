@@ -101,14 +101,15 @@
     <Compile Include="AutoRegistrationAppDelegate.cs" />
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\RootFrameNavigationViewController.cs" />
+    <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{C10D58B5-A4E7-4607-BCD8-4D28191B2B2A}</Project>
+      <Project>{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{00BB8927-C9BC-4F4A-B4A1-1FEBAB0C74C9}</Project>
+      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -116,7 +117,7 @@
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{69B5CB62-EAA0-4441-A261-3E11FA9868A9}</Project>
+      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
@@ -124,7 +125,7 @@
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{7F58FADC-23EC-4E49-ACEE-9035F57B8BCA}</Project>
+      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>

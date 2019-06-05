@@ -25,11 +25,11 @@ namespace Halo.Core.ViewModels.Tab
 
             GoBackCommand = new RelayCommand(GoBack);
 
-            Dictionary = new List<RootFrameNavigationViewModel>();
+            TabViewModels = new List<RootFrameNavigationViewModel>();
            
             for(int i = 0; i < count; i++)
             {
-                Dictionary.Add(Dependencies.IocContainer.Resolve<RootFrameNavigationViewModel>());
+                TabViewModels.Add(Dependencies.IocContainer.Resolve<RootFrameNavigationViewModel>());
             }
         }
 
@@ -41,7 +41,7 @@ namespace Halo.Core.ViewModels.Tab
 
         public int SelectedIndex { get; set; }
 
-        public List<RootFrameNavigationViewModel> Dictionary { get; }
+        public List<RootFrameNavigationViewModel> TabViewModels { get; }
 
         public abstract Type GetViewModel(int position);
 
@@ -49,11 +49,11 @@ namespace Halo.Core.ViewModels.Tab
         {
             base.OnInitialize();
 
-            foreach (var rootViewModel in Dictionary)
+            foreach (var rootViewModel in TabViewModels)
             {
-                rootViewModel.Initialize(GetViewModel(Dictionary.IndexOf(rootViewModel)));
+                rootViewModel.Initialize(GetViewModel(TabViewModels.IndexOf(rootViewModel)));
             }
-            _tabNavigationService.SetSelectedViewModel(Dictionary[SelectedIndex]);
+            _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
         }
 
         private void SelectionChanged(int selectedViewModel)
@@ -64,7 +64,7 @@ namespace Halo.Core.ViewModels.Tab
             }
 
             SelectedIndex = selectedViewModel;
-            _tabNavigationService.SetSelectedViewModel(Dictionary[SelectedIndex]);
+            _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
         }
 
         private void GoBack()
