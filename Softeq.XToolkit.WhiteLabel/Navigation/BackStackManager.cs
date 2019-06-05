@@ -35,25 +35,29 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _backStack.Clear();
         }
 
-        public TViewModel GetExistingOrCreateViewModel<TViewModel>() where TViewModel : IViewModelBase
+        public TViewModel GetExistingOrCreateViewModel<TViewModel>()
+            where TViewModel : IViewModelBase
         {
             IViewModelBase viewModel;
 
-            if (_backStack.Count != 0)
+            if (_backStack.Count > 0)
             {
                 viewModel = _backStack.Peek();
 
-                if (viewModel.GetType() != typeof(TViewModel))
+                if (viewModel is TViewModel viewModelBase)
                 {
-                    throw new ArgumentException(
-                        $"Please use {nameof(PageNavigationService)} navigating, instead d of navigation via StartActivity()");
+                    return viewModelBase;
                 }
 
-                return (TViewModel) viewModel;
+                throw new ArgumentException(
+                    $"Couldn't find ViewModel for type: {typeof(TViewModel)}. " +
+                    $"Please use {nameof(PageNavigationService)} navigating, " +
+                    $"instead of navigation via StartActivity().");
             }
 
-            //Used to recreate viewmodel if processes or activity was killed
+            // Used to recreate ViewModel if processes or activity was killed
             viewModel = _iocContainer.Resolve<TViewModel>();
+
             _backStack.Push(viewModel);
 
             return (TViewModel) viewModel;

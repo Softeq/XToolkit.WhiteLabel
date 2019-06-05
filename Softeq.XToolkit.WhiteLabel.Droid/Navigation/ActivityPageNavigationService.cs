@@ -34,6 +34,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _isParamsSerializationEnabled = true;
         }
 
+        public void Initialize(object navigation) { }
+
+        public ActivityPageNavigationService DisableParameterSerialization()
+        {
+            _isParamsSerializationEnabled = false;
+
+            return this;
+        }
+
         public bool CanGoBack
         {
             get
@@ -58,18 +67,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             });
         }
 
-        public void Initialize(object navigation) { }
-
-        public ActivityPageNavigationService DisableParameterSerialization()
-        {
-            _isParamsSerializationEnabled = false;
-
-            return this;
-        }
-
-        public void NavigateToViewModel(
-            IViewModelBase viewModelBase,
-            bool clearBackStack,
+        public void NavigateToViewModel(IViewModelBase viewModelBase, bool clearBackStack,
             IReadOnlyList<NavigationParameterModel> parameters)
         {
             var type = _viewLocator.GetTargetType(viewModelBase.GetType(), ViewType.Activity);
