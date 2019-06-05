@@ -1,17 +1,14 @@
-﻿// Developed for PAWS-HALO by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.WhiteLabel;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
-namespace Halo.Core.ViewModels.Tab
+namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 {
     public abstract class ToolbarViewModelBase : ViewModelBase
     {
@@ -27,7 +24,7 @@ namespace Halo.Core.ViewModels.Tab
 
             TabViewModels = new List<RootFrameNavigationViewModel>();
            
-            for(int i = 0; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
                 TabViewModels.Add(Dependencies.IocContainer.Resolve<RootFrameNavigationViewModel>());
             }
@@ -43,7 +40,7 @@ namespace Halo.Core.ViewModels.Tab
 
         public List<RootFrameNavigationViewModel> TabViewModels { get; }
 
-        public abstract Type GetViewModel(int position);
+        protected abstract Type GetViewModel(int position);
 
         public override void OnInitialize()
         {
@@ -52,7 +49,7 @@ namespace Halo.Core.ViewModels.Tab
             foreach (var rootViewModel in TabViewModels)
             {
                 var index = TabViewModels.IndexOf(rootViewModel);
-                rootViewModel.SetViewModelTyupe(GetViewModel(index));
+                rootViewModel.SetViewModelType(GetViewModel(index));
             }
             _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
         }

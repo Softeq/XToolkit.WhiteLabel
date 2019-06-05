@@ -1,9 +1,8 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.Linq;
 using Android.OS;
-using Android.Support.V4.App;
-using Halo.Core.ViewModels.Tab;
-using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Views

@@ -3,13 +3,7 @@
 
 using System;
 using Playground.ViewModels.Pages;
-using Softeq.XToolkit.Common.iOS.Extensions;
-using Softeq.XToolkit.WhiteLabel;
-using Softeq.XToolkit.WhiteLabel.iOS;
-using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
-using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.ViewControllers;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 

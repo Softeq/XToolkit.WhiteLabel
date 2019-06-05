@@ -1,20 +1,12 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
 
-using Android.App;
-using Android.Content;
-using Android.OS;
-using Android.Runtime;
-using Android.Util;
+﻿using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Playground.ViewModels.Pages.Temp;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.Bindings;
-
 
 namespace Playground.Droid.Views.Pages.Temp
 {
