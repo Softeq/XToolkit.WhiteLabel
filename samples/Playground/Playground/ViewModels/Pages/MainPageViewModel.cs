@@ -2,21 +2,20 @@
 // http://www.softeq.com
 
 using System;
-using Halo.Core.ViewModels.Tab;
 using Playground.ViewModels.Pages.Temp;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Playground.ViewModels.Pages
 {
     public class MainPageViewModel : ToolbarViewModelBase
     {
-        public MainPageViewModel(ITabNavigationService tabNavigationService) : base(tabNavigationService, 2)
+        public MainPageViewModel(ITabNavigationService tabNavigationService) 
+            : base(tabNavigationService, 2)
         {
         }
 
-        public override Type GetViewModel(int position)
+        protected override Type GetViewModel(int position)
         {
             switch(position)
             {

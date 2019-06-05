@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿using System;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -8,7 +11,8 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
     {
         private Type _viewModelType;
 
-        public RootFrameNavigationViewModel(IFrameNavigationService frameNavigationService) : base(frameNavigationService)
+        public RootFrameNavigationViewModel(IFrameNavigationService frameNavigationService)
+            : base(frameNavigationService)
         {
         }
 
@@ -19,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             FrameNavigationService.NavigateToViewModel(_viewModelType, true);
         }
 
-        internal void SetViewModelTyupe(Type viewModel)
+        internal void SetViewModelType(Type viewModel)
         {
             _viewModelType = viewModel;
         }

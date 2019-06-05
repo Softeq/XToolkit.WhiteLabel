@@ -1,8 +1,11 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿using System;
 using Android.OS;
 using Android.Support.Design.Widget;
-using Halo.Core.ViewModels.Tab;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 {

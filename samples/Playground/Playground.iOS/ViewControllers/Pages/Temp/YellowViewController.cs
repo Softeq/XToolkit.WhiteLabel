@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using Foundation;
 using Playground.ViewModels.Pages.Temp;
 using Softeq.XToolkit.WhiteLabel.iOS;
