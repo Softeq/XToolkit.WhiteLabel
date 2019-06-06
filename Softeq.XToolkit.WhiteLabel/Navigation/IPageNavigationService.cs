@@ -1,9 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Collections.Generic;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
 
@@ -11,9 +8,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IPageNavigationService
     {
-        bool CanGoBack { get; }
-
         void Initialize(object navigation);
+
+        bool CanGoBack { get; }
 
         void GoBack();
 

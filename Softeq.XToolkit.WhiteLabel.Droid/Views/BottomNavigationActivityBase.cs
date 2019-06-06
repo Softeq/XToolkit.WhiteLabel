@@ -1,8 +1,11 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using Android.OS;
 using Android.Support.Design.Widget;
-using Halo.Core.ViewModels.Tab;
+using Android.Views;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 {
@@ -18,11 +21,29 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             SetContentView(Resource.Layout.activity_bottom_navigation);
 
             _bottomNavigationView = FindViewById<BottomNavigationView>(Resource.Id.activity_bottom_navigation_page_navigation_view);
-            _bottomNavigationView.InflateMenu(MenuId);
+            InflateMenu();
             _bottomNavigationView.NavigationItemSelected += BottomNavigationViewNavigationItemSelected;
         }
 
-        protected abstract int MenuId { get; }
+        protected virtual void InflateMenu()
+        {
+            int i = 0;
+
+            foreach(var tab in ViewModel.TabModels)
+            {
+                var iconId = GetImageResourceId(tab.ImageName);
+
+                _bottomNavigationView.Menu
+                    .Add(Menu.None, i++, Menu.None, tab.Title)
+                    .SetIcon(iconId);
+            }
+        }
+
+        protected virtual int GetImageResourceId(string key)
+        {
+            var iconIdentifier = string.Concat("ic_", key.ToLower());
+            return Resources.GetIdentifier(iconIdentifier, "drawable", PackageName);
+        }
 
         private void BottomNavigationViewNavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
         {

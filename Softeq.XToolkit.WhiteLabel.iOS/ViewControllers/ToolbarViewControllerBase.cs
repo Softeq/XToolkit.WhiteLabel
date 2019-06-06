@@ -1,6 +1,8 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿using System;
 using System.Linq;
-using Halo.Core.ViewModels.Tab;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
@@ -9,7 +11,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 {
-    public abstract class ToolbarViewControllerBase<TViewModel> : ViewControllerBase<TViewModel>
+    public class ToolbarViewControllerBase<TViewModel> : ViewControllerBase<TViewModel>
         where TViewModel : ToolbarViewModelBase
     {
         private UITabBarController _tabBarController;
@@ -24,7 +26,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             AddTabBarView();
         }
 
-        protected abstract UITabBarItem GetTabBarItem(RootFrameNavigationViewModel viewModel);
+        protected virtual UITabBarItem GetTabBarItem(RootFrameNavigationViewModel viewModel)
+        {
+            var image = GetImageFromKey(viewModel.Model.ImageName);
+            return new UITabBarItem(viewModel.Model.Title, image, image);
+        }
+
+        protected virtual UIImage GetImageFromKey(string key)
+        {
+            return UIImage.FromBundle(string.Concat("ic", key));
+        }
 
         private void AddTabBarView()
         {

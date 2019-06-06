@@ -1,59 +1,47 @@
-﻿// Developed for PAWS-HALO by Softeq Development Corporation
+// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
+using Autofac;
 using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.WhiteLabel;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
-namespace Halo.Core.ViewModels.Tab
+namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 {
     public abstract class ToolbarViewModelBase : ViewModelBase
     {
         private readonly ITabNavigationService _tabNavigationService;
 
-        public ToolbarViewModelBase(ITabNavigationService tabNavigationService, int count)
+        public ToolbarViewModelBase(ITabNavigationService tabNavigationService)
         {
             _tabNavigationService = tabNavigationService;
 
             SelectionChangedCommand = new RelayCommand<int>(SelectionChanged);
 
             GoBackCommand = new RelayCommand(GoBack);
-
-            TabViewModels = new List<RootFrameNavigationViewModel>();
-           
-            for(int i = 0; i < count; i++)
-            {
-                TabViewModels.Add(Dependencies.IocContainer.Resolve<RootFrameNavigationViewModel>());
-            }
         }
 
+        public IList<TabItem> TabModels { get; set; }
+
         public bool CanGoBack => _tabNavigationService.CanGoBack;
+
+        public IList<RootFrameNavigationViewModel> TabViewModels { get; private set; }
 
         public ICommand GoBackCommand { get; }
 
         public ICommand SelectionChangedCommand { get; }
 
-        public int SelectedIndex { get; set; }
-
-        public List<RootFrameNavigationViewModel> TabViewModels { get; }
-
-        public abstract Type GetViewModel(int position);
+        public int SelectedIndex { get; private set; }
 
         public override void OnInitialize()
         {
             base.OnInitialize();
-
-            foreach (var rootViewModel in TabViewModels)
-            {
-                var index = TabViewModels.IndexOf(rootViewModel);
-                rootViewModel.SetViewModelTyupe(GetViewModel(index));
-            }
+            TabViewModels = new List<RootFrameNavigationViewModel>(TabModels
+                .Select(x => Dependencies.IocContainer.Resolve<RootFrameNavigationViewModel>(new NamedParameter("model", x))));
             _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
         }
 

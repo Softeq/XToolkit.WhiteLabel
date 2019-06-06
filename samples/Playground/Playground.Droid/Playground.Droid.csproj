@@ -106,7 +106,6 @@
     <AndroidResource Include="Resources\layout\activity_start.xml" />
     <AndroidResource Include="Resources\layout\activity_collection.xml" />
     <AndroidResource Include="Resources\drawable\background_splash.xml" />
-    <AndroidResource Include="Resources\menu\main_navigation_menu.xml" />
     <AndroidResource Include="Resources\drawable\ic_chat.png" />
     <AndroidResource Include="Resources\drawable\ic_settings.png" />
     <AndroidResource Include="Resources\layout\fragment_red.axml" />
