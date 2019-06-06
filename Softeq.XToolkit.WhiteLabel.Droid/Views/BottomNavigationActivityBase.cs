@@ -28,9 +28,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected BottomNavigationView BottomNavigationView { get; private set; }
 
-        protected abstract ColorStateList BadgeBackgroundColor { get; }
+        protected virtual ColorStateList BadgeBackgroundColor { get; }
 
-        protected abstract ColorStateList BadgeTextColor { get; }
+        protected virtual ColorStateList BadgeTextColor { get; }
 
         protected virtual void InflateMenu()
         {
@@ -46,8 +46,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
                 var itemView = BottomNavigationView.FindViewById<BottomNavigationItemView>(i++);
                 var badgeView = new BadgeView(this);
-                badgeView.TextColor = BadgeTextColor;
-                badgeView.BackgroundColor = BadgeBackgroundColor;
+
+                if (BadgeTextColor != null)
+                {
+                    badgeView.TextColor = BadgeTextColor;
+                }
+
+                if (BadgeBackgroundColor != null)
+                {
+                    badgeView.BackgroundColor = BadgeBackgroundColor;
+                }
+
                 badgeView.SetViewModel(tabViewModel);
                 itemView.AddView(badgeView);
             }

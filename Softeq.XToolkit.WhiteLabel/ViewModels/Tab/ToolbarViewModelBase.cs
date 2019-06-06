@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
@@ -40,6 +41,12 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         public override void OnInitialize()
         {
             base.OnInitialize();
+
+            if(TabModels == null)
+            {
+                throw new Exception("You must init TabModels property");
+            }
+
             TabViewModels = new List<RootFrameNavigationViewModel>(TabModels
                 .Select(x => Dependencies.IocContainer.Resolve<RootFrameNavigationViewModel>(new NamedParameter("model", x))));
             _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
