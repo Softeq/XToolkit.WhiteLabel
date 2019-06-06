@@ -117,6 +117,12 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon60.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\icChat.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\icChat.imageset\icChat%402x.png" />
+    <ImageAsset Include="Assets.xcassets\icChat.imageset\icChat%403x.png" />
+    <ImageAsset Include="Assets.xcassets\icSettings.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\icSettings.imageset\icSettings%402x.png" />
+    <ImageAsset Include="Assets.xcassets\icSettings.imageset\icSettings%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />

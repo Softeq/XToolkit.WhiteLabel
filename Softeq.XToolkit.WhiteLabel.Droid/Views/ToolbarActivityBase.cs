@@ -18,12 +18,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             {
                 return;
             }
+
+            base.OnCreate(savedInstanceState);
+
             foreach (var tabViewModel in ViewModel.TabViewModels)
             {
                 tabViewModel.InitializeNavigation(NavigationContainer);
             }
-            base.OnCreate(savedInstanceState);
-           
             ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
         }
 
