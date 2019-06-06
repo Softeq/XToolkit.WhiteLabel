@@ -102,6 +102,7 @@
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\RootFrameNavigationViewController.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
+    <Compile Include="Controls\BindableTabBarItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">

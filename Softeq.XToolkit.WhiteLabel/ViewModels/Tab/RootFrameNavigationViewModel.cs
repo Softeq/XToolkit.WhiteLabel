@@ -10,17 +10,36 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 {
     public class RootFrameNavigationViewModel : RootFrameNavigationViewModelBase
     {
+        private readonly TabItem _model;
+
+        private string _badgeText;
+        private bool _isBadgeVisible;
+
         public RootFrameNavigationViewModel(IFrameNavigationService frameNavigationService, TabItem model)
             : base(frameNavigationService)
         {
-            Model = model;
+            _model = model;
         }
-       
-        public TabItem Model { get; set; }
+
+        public string BadgeText
+        {
+            get => _badgeText;
+            set => Set(ref _badgeText, value);
+        }
+
+        public bool IsBadgeVisible
+        {
+            get => _isBadgeVisible;
+            set => Set(ref _isBadgeVisible, value);
+        }
+
+        public string Title => _model.Title;
+
+        public string ImageKey => _model.ImageKey;
 
         public override void NavigateToFirstPage()
         {
-            FrameNavigationService.NavigateToViewModel(Model.RootViewModelType, true);
+            FrameNavigationService.NavigateToViewModel(_model.RootViewModelType, true);
         }
     }
 }

@@ -6,13 +6,13 @@ namespace Softeq.XToolkit.WhiteLabel.Model
         public TabItem(string title, string imageName, Type rootViewModelType)
         {
             Title = title;
-            ImageName = imageName;
+            ImageKey = imageName;
             RootViewModelType = rootViewModelType;
         }
 
         public string Title { get; }
 
-        public string ImageName { get; }
+        public string ImageKey { get; }
 
         public Type RootViewModelType { get; }
     }
