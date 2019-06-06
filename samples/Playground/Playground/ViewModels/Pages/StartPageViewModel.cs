@@ -19,7 +19,8 @@ namespace Playground.ViewModels.Pages
         {
             base.OnInitialize();
 
-            _pageNavigationService.For<MainPageViewModel>().Navigate(true);
+            _pageNavigationService.For<MainPageViewModel>()
+                .Navigate(true);
         }
     }
 }

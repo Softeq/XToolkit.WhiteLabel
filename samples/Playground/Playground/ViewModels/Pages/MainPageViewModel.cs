@@ -2,7 +2,9 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections.Generic;
 using Playground.ViewModels.Pages.Temp;
+using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
@@ -10,22 +12,13 @@ namespace Playground.ViewModels.Pages
 {
     public class MainPageViewModel : ToolbarViewModelBase
     {
-        public MainPageViewModel(ITabNavigationService tabNavigationService) 
-            : base(tabNavigationService, 2)
+        public MainPageViewModel(ITabNavigationService tabNavigationService) : base(tabNavigationService)
         {
-        }
-
-        protected override Type GetViewModel(int position)
-        {
-            switch(position)
+            TabModels = new List<TabItem>
             {
-                case 0:
-                    return typeof(RedViewModel);
-                case 1:
-                    return typeof(BlueViewModel);
-                default:
-                    throw new NotImplementedException();
-            }
+                new TabItem("Chats", "Chat", typeof(RedViewModel)),
+                new TabItem("Settings", "Settings", typeof(BlueViewModel))
+            };
         }
     }
 }

@@ -8,10 +8,12 @@ using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
+using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.WhiteLabel.iOS.Controls;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 {
-    public abstract class ToolbarViewControllerBase<TViewModel> : ViewControllerBase<TViewModel>
+    public class ToolbarViewControllerBase<TViewModel> : ViewControllerBase<TViewModel>
         where TViewModel : ToolbarViewModelBase
     {
         private UITabBarController _tabBarController;
@@ -26,7 +28,24 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             AddTabBarView();
         }
 
-        protected abstract UITabBarItem GetTabBarItem(RootFrameNavigationViewModel viewModel);
+        protected virtual UIColor BadgeColor { get; }
+
+        protected virtual UITabBarItem GetTabBarItem(RootFrameNavigationViewModel viewModel)
+        {
+            var image = GetImageFromKey(viewModel.ImageKey);
+            var tabBarItem = new BindableTabBarItem(viewModel.Title, image, image);
+            if(BadgeColor != null)
+            {
+                tabBarItem.BadgeColor = BadgeColor;
+            }
+            tabBarItem.SetViewModel(viewModel);
+            return tabBarItem;
+        }
+
+        protected virtual UIImage GetImageFromKey(string key)
+        {
+            return UIImage.FromBundle(string.Concat("ic", key));
+        }
 
         private void AddTabBarView()
         {
