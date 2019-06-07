@@ -12,7 +12,9 @@ namespace Playground.Droid.Views.Pages.Temp
 {
     public class BlueFragment : FragmentBase<BlueViewModel>
     {
-        private Button _button;
+        private Button _navigateButton;
+        private Button _incrementButton;
+        private TextView _incrementLabel;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -23,8 +25,23 @@ namespace Playground.Droid.Views.Pages.Temp
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            _button = view.FindViewById<Button>(Resource.Id.button1);
-            _button.SetCommand(ViewModel.NavigateCommand);
+            _navigateButton = view.FindViewById<Button>(Resource.Id.button1);
+            _navigateButton.SetCommand(ViewModel.NavigateCommand);
+
+            _incrementButton = view.FindViewById<Button>(Resource.Id.button2);
+            _incrementButton.SetCommand(ViewModel.IncrementCommand);
+            _incrementButton.Click += (sender, e) => _incrementLabel.Text = "changed";
+
+            _incrementLabel = view.FindViewById<TextView>(Resource.Id.textView1);
+        }
+
+        protected override void DoAttachBindings()
+        {
+            base.DoAttachBindings();
+            Bindings.Add(this.SetBinding(() => ViewModel.Count).WhenSourceChanges((() =>
+            {
+                _incrementButton.Text = ViewModel.Count.ToString();
+            })));
         }
     }
 }

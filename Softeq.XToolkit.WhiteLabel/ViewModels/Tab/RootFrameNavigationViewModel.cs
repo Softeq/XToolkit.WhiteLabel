@@ -39,7 +39,14 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 
         public override void NavigateToFirstPage()
         {
-            FrameNavigationService.NavigateToViewModel(_model.RootViewModelType, true);
+            if (FrameNavigationService.IsEmptyBackStack)
+            {
+                FrameNavigationService.NavigateToViewModel(_model.RootViewModelType, true);
+            }
+            else
+            {
+                FrameNavigationService.NavigatToFirstPage(); 
+            }
         }
     }
 }
