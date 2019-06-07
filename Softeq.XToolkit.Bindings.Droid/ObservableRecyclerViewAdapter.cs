@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Windows.Input;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Util;
@@ -12,6 +13,15 @@ using Softeq.XToolkit.Common.WeakSubscription;
 
 namespace Softeq.XToolkit.Bindings.Droid
 {
+    public interface IBindableViewHolder
+    {
+        event EventHandler Click;
+
+        void OnAttachedToWindow();
+        void OnDetachedFromWindow();
+        void OnViewRecycled();
+    }
+
     public class ObservableRecyclerViewAdapter<T> : RecyclerView.Adapter
     {
         private readonly Action<RecyclerView.ViewHolder, int, T> _bindViewHolderAction;
@@ -19,6 +29,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         private IList<T> _dataSource;
         private INotifyCollectionChanged _notifier;
         private IDisposable _subscription;
+        private ICommand _itemClick;
 
         public event EventHandler LastItemRequested;
         public event EventHandler DataReloaded;
@@ -53,6 +64,25 @@ namespace Softeq.XToolkit.Bindings.Droid
             }
         }
 
+        public ICommand ItemClick
+        {
+            get => _itemClick;
+            set
+            {
+                if (ReferenceEquals(_itemClick, value))
+                {
+                    return;
+                }
+
+                if (_itemClick != null && value != null)
+                {
+                    System.Diagnostics.Debug.WriteLine("Changing ItemClick may cause inconsistencies where some items still call the old command.");
+
+                    _itemClick = value;
+                }
+            }
+        }
+
         public bool ShouldNotifyByAction { get; set; }
 
         public override int ItemCount => _dataSource.Count;
@@ -75,8 +105,49 @@ namespace Softeq.XToolkit.Bindings.Droid
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            return _getHolderFunc?.Invoke(parent, viewType);
+            var viewHolder = (IBindableViewHolder) _getHolderFunc?.Invoke(parent, viewType);
+
+            viewHolder.SetCommand(nameof(viewHolder.Click), ItemClick);
+
+            return (RecyclerView.ViewHolder) viewHolder;// TODO!!
         }
+
+        #region IBindableViewHolder
+
+        public override void OnViewAttachedToWindow(Java.Lang.Object holder)
+        {
+            base.OnViewAttachedToWindow(holder);
+
+            if (holder is IBindableViewHolder bindableViewHolder)
+            {
+                bindableViewHolder.OnAttachedToWindow();
+            }
+        }
+
+        public override void OnViewDetachedFromWindow(Java.Lang.Object holder)
+        {
+            if (holder is IBindableViewHolder bindableViewHolder)
+            {
+                bindableViewHolder.OnDetachedFromWindow();
+            }
+
+            base.OnViewDetachedFromWindow(holder);
+        }
+
+        public override void OnViewRecycled(Java.Lang.Object holder)
+        {
+            if (holder is IBindableViewHolder bindableViewHolder)
+            {
+                bindableViewHolder.OnViewRecycled();
+            }
+        }
+
+        /// <summary>
+        /// By default, force recycling a view if it has animations
+        /// </summary>
+        public override bool OnFailedToRecycleView(Java.Lang.Object holder) => true;
+
+        #endregion
 
         protected override void Dispose(bool disposing)
         {
@@ -154,6 +225,26 @@ namespace Softeq.XToolkit.Bindings.Droid
                 Log.Warn(nameof(ObservableRecyclerViewAdapter<T>),
                         "Exception masked during Adapter RealNotifyDataSetChanged {0}. Are you trying to update your collection from a background task? See http://goo.gl/0nW0L6",
                         exception.ToString());
+            }
+        }
+
+        protected virtual void OnItemViewClick(object sender, EventArgs e)
+        {
+            var holder = (IBindableViewHolder) sender;
+
+            // TODO YP: add DataContext to the IBindableViewHolder
+            // set index as tag for ViewHolder
+            // get model from source by tag
+            var dataContext = DataSource[0];
+
+            ExecuteCommandOnItem(ItemClick, dataContext);
+        }
+
+        protected virtual void ExecuteCommandOnItem(ICommand command, object itemDataContext)
+        {
+            if (command != null && itemDataContext != null && command.CanExecute(itemDataContext))
+            {
+                command.Execute(itemDataContext);
             }
         }
     }
