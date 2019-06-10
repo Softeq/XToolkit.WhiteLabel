@@ -112,6 +112,9 @@
     <Compile Include="Views\BottomNavigationActivityBase.cs" />
     <Compile Include="Extensions\BottomNavigationViewExtension.cs" />
     <Compile Include="Controls\BadgeView.cs" />
+    <Compile Include="Controls\ColoredClickableSpan.cs" />
+    <Compile Include="Controls\NonConsumingTouchesToolbar.cs" />
+    <Compile Include="Controls\SwipeControlViewPager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
