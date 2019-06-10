@@ -37,6 +37,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public IViewModelBase CurrentViewModel => _backStack.Peek().ViewModel;
 
+        public bool IsEmptyBackStack => _backStack.Count == 0;
+
         public void GoBack()
         {
             Execute.BeginOnUIThread(() =>
@@ -112,6 +114,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             NavigateInternal(viewModel);
+        }
+
+        public void NavigatToFirstPage()
+        {
+            if(IsEmptyBackStack) { return; }
+
+            while(_backStack.Count > 1)
+            {
+                _backStack.Pop();
+            }
+
+            var firstViewModel = _backStack.Pop();
+
+            NavigateToExistingViewModel(firstViewModel.ViewModel);
         }
 
         public void NavigateToViewModel<T>(T viewModel) where T : IViewModelBase

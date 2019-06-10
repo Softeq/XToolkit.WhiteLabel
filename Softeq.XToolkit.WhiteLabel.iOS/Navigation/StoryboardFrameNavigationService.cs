@@ -22,6 +22,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             _iocContainer = iocContainer;
         }
 
+        public bool IsEmptyBackStack => !NavigationController.ViewControllers.Any();
+
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
 
         bool IFrameNavigationService.CanGoBack => CanGoBack;
@@ -96,6 +98,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         }
 
         void IFrameNavigationService.RestoreState()
+        {
+        }
+
+        void IFrameNavigationService.NavigatToFirstPage()
         {
         }
     }

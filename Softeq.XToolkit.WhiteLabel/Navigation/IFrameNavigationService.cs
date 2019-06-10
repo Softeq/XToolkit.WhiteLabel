@@ -13,6 +13,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         bool CanGoBack { get; }
         bool IsInitialized { get; }
         IViewModelBase CurrentViewModel { get; }
+        bool IsEmptyBackStack { get; }
 
         void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>;
@@ -27,5 +28,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters)
             where TViewModel : IViewModelBase;
+        void NavigatToFirstPage();
     }
 }
