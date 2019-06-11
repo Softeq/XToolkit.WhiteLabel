@@ -18,7 +18,12 @@ namespace Softeq.XToolkit.Common.Extensions
             }
         }
 
-        // https://stackoverflow.com/a/28373431/5416939
+        /// <summary>
+        /// Forms a string with initials for a given name string, can be used as text for avatar view for instance
+        /// <para>https://stackoverflow.com/a/28373431/5416939</para>
+        /// </summary>
+        /// <returns>The initials of the name.</returns>
+        /// <param name="fullName">Full name.</param>
         public static string GetInitialsForName(this string fullName)
         {
             string initials = string.Empty;
