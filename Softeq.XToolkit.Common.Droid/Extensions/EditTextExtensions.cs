@@ -11,6 +11,10 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
 {
     public static class EditTextExtensions
     {
+        /// <summary>
+        /// Allows to move cursor to the end of text in EditText when it gains focus
+        /// </summary>
+        /// <param name="editText">Edit text.</param>
         public static void KeepFocusAtTheEndOfField(this EditText editText)
         {
             editText.FocusChange += (sender, e) =>
@@ -19,6 +23,12 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
             };
         }
 
+        /// <summary>
+        /// Allows to apply limitations of length and/or input symbols to an EditText
+        /// </summary>
+        /// <param name="editText">Edit text.</param>
+        /// <param name="maxLength">Maximum length of text allowed. Ignored when 0 or negative</param>
+        /// <param name="forbiddenCharacters">Char array of characters not allowed in the input. Ignored when null</param>
         public static void SetMaxLengthWithForbiddenSymbols(this EditText editText, int maxLength = 0, char[] forbiddenCharacters = null)
         {
             var filters = new List<IInputFilter>();
