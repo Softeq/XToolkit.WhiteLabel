@@ -106,7 +106,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}</Project>
+      <Project>{797907F2-95D6-40E5-811E-3206CBF62213}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
@@ -118,7 +118,7 @@
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
+      <Project>{B6D39FB0-BD3C-477A-BDED-579D688D59DA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
@@ -126,7 +126,7 @@
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
+      <Project>{7DFADBE8-C2DE-4C1E-A72C-125B40B0A416}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>

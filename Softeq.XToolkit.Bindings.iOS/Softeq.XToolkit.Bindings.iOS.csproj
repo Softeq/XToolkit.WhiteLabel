@@ -67,11 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{00BB8927-C9BC-4F4A-B4A1-1FEBAB0C74C9}</Project>
+      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{69B5CB62-EAA0-4441-A261-3E11FA9868A9}</Project>
+      <Project>{B6D39FB0-BD3C-477A-BDED-579D688D59DA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
