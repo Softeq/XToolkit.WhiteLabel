@@ -7,10 +7,11 @@ using System.Reflection;
 using Android.App;
 using Android.Runtime;
 using Autofac;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid;
+using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
+using Softeq.XToolkit.WhiteLabel.Droid.Services;
 using Softeq.XToolkit.WhiteLabel.Extensions;
-using Softeq.XToolkit.WhiteLabel.Services.Logger;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Droid
 {
@@ -36,9 +37,9 @@ namespace Playground.Droid
             // core
             Bootstrapper.Configure(builder);
 
-            builder.Singleton<ConsoleLogManager, ILogManager>();
-            //builder.PerDependency<DefaultAlertBuilder, IAlertBuilder>();
-            //builder.PerDependency<DroidFragmentDialogService, IDialogsService>();
+            builder.Singleton<DroidFragmentDialogService, IDialogsService>();
+            builder.Singleton<DefaultAlertBuilder, IAlertBuilder>();
+
             //builder.Singleton<DroidInternalSettings, IInternalSettings>();
             //builder.Singleton<LauncherService, ILauncherService>();
         }

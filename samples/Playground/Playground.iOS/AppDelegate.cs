@@ -1,20 +1,21 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using Autofac;
 using Foundation;
 using UIKit;
 using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.WhiteLabel.Extensions;
-using Softeq.XToolkit.WhiteLabel.iOS;
-using Softeq.XToolkit.WhiteLabel.Services.Logger;
 using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.Services.Logger;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.iOS;
+using Softeq.XToolkit.WhiteLabel.iOS.Services;
 using Playground.ViewModels.Pages;
-using System;
-using System.Linq;
 
 namespace Playground.iOS
 {
@@ -68,8 +69,8 @@ namespace Playground.iOS
             // core
             Bootstrapper.Configure(builder);
 
-            builder.PerDependency<ConsoleLogManager, ILogManager>();
-            //builder.PerDependency<StoryboardDialogsService, IDialogsService>();
+            builder.PerDependency<StoryboardDialogsService, IDialogsService>();
+
             //builder.PerLifetimeScope<IosInternalSettings, IInternalSettings>();
         }
 

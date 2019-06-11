@@ -7,6 +7,7 @@ using Softeq.XToolkit.WhiteLabel;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Services;
+using Softeq.XToolkit.WhiteLabel.Services.Logger;
 
 namespace Playground
 {
@@ -16,6 +17,7 @@ namespace Playground
         {
             // common
             builder.Singleton<JsonSerializer, IJsonSerializer>();
+            builder.Singleton<ConsoleLogManager, ILogManager>();
 
             // navigation
             builder.Singleton<PageNavigationService, IPageNavigationService>();
