@@ -34,7 +34,7 @@ namespace Playground.Droid
         protected override void ConfigureIoc(ContainerBuilder builder)
         {
             // core
-            Bootstrapper.Configure(builder);
+            CustomBootstrapper.Configure(builder);
 
             builder.Singleton<ConsoleLogManager, ILogManager>();
             //builder.PerDependency<DefaultAlertBuilder, IAlertBuilder>();

@@ -8,19 +8,13 @@ using Autofac;
 using Foundation;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.iOS;
-using Softeq.XToolkit.WhiteLabel.Extensions;
-using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
-using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
-using Softeq.XToolkit.WhiteLabel.iOS.Services;
-using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Threading;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
-    public abstract class AppDelegateBase : UIApplicationDelegate, IAppDelegate
+    public abstract class AppDelegateBase : UIApplicationDelegate
     {
         public override UIWindow Window { get; set; }
 
@@ -34,10 +28,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             AssemblySourceCache.ExtractTypes = assembly =>
                 assembly.GetExportedTypes()
                     .Where(t => typeof(UIViewController).IsAssignableFrom(t));
-            AssemblySource.Instance.AddRange(SelectAssemblies());
+
+            var assemblies = SelectAssemblies();
+
+            AssemblySource.Instance.AddRange(assemblies);
 
             //init dependencies
-            StartScopeForIoc();
+            Bootstrapper.Init(assemblies);
 
             //init ui thread helper
             PlatformProvider.Current = new IosPlatformProvider();
@@ -45,64 +42,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             return true;
         }
 
-        public UIViewController GetRootViewFinder(UIViewController controller)
-        {
-            if (controller.PresentedViewController != null)
-            {
-                var presentedViewController = controller.PresentedViewController;
-                return GetRootViewFinder(presentedViewController);
-            }
-
-            switch (controller)
-            {
-                case UINavigationController navigationController:
-                    return GetRootViewFinder(navigationController.VisibleViewController);
-                case UITabBarController tabBarController:
-                    return GetRootViewFinder(tabBarController.SelectedViewController);
-            }
-
-            return controller;
-        }
-
-        protected abstract void ConfigureIoc(ContainerBuilder builder);
+        protected abstract IBootstrapper Bootstrapper { get; }
 
         protected abstract IList<Assembly> SelectAssemblies();
-
-        protected virtual void StartScopeForIoc()
-        {
-            var containerBuilder = new ContainerBuilder();
-            ConfigureIoc(containerBuilder);
-            RegisterServiceLocator(containerBuilder);
-            RegisterInternalServices(containerBuilder);
-
-            Dependencies.IocContainer.StartScope(containerBuilder);
-        }
-
-        protected virtual void RegisterServiceLocator(ContainerBuilder builder)
-        {
-            if (!Dependencies.IsInitialized)
-            {
-                var serviceLocator = new IocContainer();
-                Dependencies.Initialize(serviceLocator);
-            }
-            builder.Singleton<IIocContainer>(c => Dependencies.IocContainer)
-                .PreserveExistingDefaults();
-        }
-
-        protected void RegisterInternalServices(ContainerBuilder builder)
-        {
-            builder.Singleton<IAppDelegate>(c => this)
-                .PreserveExistingDefaults();
-            builder.Singleton<StoryboardViewLocator, IViewLocator>()
-                .PreserveExistingDefaults();
-            builder.Singleton<StoryboardNavigation, IPlatformNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<RootFrameNavigationViewModel>()
-                .PreserveExistingDefaults();
-            builder.Singleton<TabNavigationService, ITabNavigationService>()
-                .PreserveExistingDefaults();
-        }
     }
 }

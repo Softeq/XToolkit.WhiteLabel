@@ -9,7 +9,7 @@ using Softeq.XToolkit.WhiteLabel.Services;
 
 namespace Playground
 {
-    public static class Bootstrapper
+    public static class CustomBootstrapper
     {
         public static void Configure(ContainerBuilder builder)
         {

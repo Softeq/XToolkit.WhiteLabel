@@ -71,7 +71,7 @@
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
     <Compile Include="ImagePicker\SimpleImagePicker.cs" />
-    <Compile Include="Interfaces\IAppDelegate.cs" />
+    <Compile Include="Interfaces\IViewControllerProvider.cs" />
     <Compile Include="IosPlatformProvider.cs" />
     <Compile Include="IViewControllerComponent.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
@@ -98,11 +98,12 @@
     <Compile Include="ViewControllers\FullScreenImageViewController.designer.cs">
       <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="AutoRegistrationAppDelegate.cs" />
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\RootFrameNavigationViewController.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
     <Compile Include="Controls\BindableTabBarItem.cs" />
+    <Compile Include="IosBootstraper.cs" />
+    <Compile Include="Services\ViewControllerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
