@@ -80,9 +80,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         protected virtual void RegisterServiceLocator(ContainerBuilder builder)
         {
-            var serviceLocator = new IocContainer();
-            Dependencies.Initialize(serviceLocator);
-            builder.Singleton<IIocContainer>(c => serviceLocator);
+            if (!Dependencies.IsInitialized)
+            {
+                var serviceLocator = new IocContainer();
+                Dependencies.Initialize(serviceLocator);
+            }
+            builder.Singleton<IIocContainer>(c => Dependencies.IocContainer)
+                .PreserveExistingDefaults();
         }
 
         protected void RegisterInternalServices(ContainerBuilder builder)
