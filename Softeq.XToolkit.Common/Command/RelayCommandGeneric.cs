@@ -25,8 +25,9 @@ namespace Softeq.XToolkit.Common.Command
         private readonly WeakFunc<T, bool> _canExecute;
         private readonly WeakAction<T> _execute;
 
+
         /// <summary>
-        ///     Initializes a new instance of the RelayCommand class that
+        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Command.RelayCommand`1"/> class that
         ///     can always execute.
         /// </summary>
         /// <param name="execute">
@@ -40,7 +41,7 @@ namespace Softeq.XToolkit.Common.Command
         }
 
         /// <summary>
-        ///     Initializes a new instance of the RelayCommand class.
+        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Command.RelayCommand`1"/> class.
         /// </summary>
         /// <param name="execute">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
