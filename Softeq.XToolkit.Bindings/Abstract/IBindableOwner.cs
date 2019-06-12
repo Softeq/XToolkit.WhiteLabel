@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿namespace Softeq.XToolkit.Bindings.Abstract
 {
     public interface IBindableOwner : IBindable
