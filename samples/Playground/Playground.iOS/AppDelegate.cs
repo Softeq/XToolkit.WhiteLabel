@@ -23,6 +23,8 @@ namespace Playground.iOS
     [Register(nameof(AppDelegate))]
     public class AppDelegate : AutoRegistrationAppDelegate
     {
+        private UINavigationController _rootNavigationController;
+
         public override UIWindow Window { get; set; }
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
@@ -32,14 +34,14 @@ namespace Playground.iOS
             var _ = base.FinishedLaunching(application, launchOptions);
 
             // Init navigation
-            var rootNavigationController = new UINavigationController();
+            _rootNavigationController = new UINavigationController();
 
             var navigationService = Dependencies.IocContainer.Resolve<IPageNavigationService>();
-            navigationService.Initialize(rootNavigationController);
+            navigationService.Initialize(_rootNavigationController);
 
             Window = new UIWindow(UIScreen.MainScreen.Bounds)
             {
-                RootViewController = rootNavigationController
+                RootViewController = _rootNavigationController
             };
             Window.MakeKeyAndVisible();
 
