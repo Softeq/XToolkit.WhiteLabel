@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿using Autofac;
 using Softeq.XToolkit.WhiteLabel.iOS;
 
