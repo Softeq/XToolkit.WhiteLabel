@@ -50,5 +50,20 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             };
             view.Layer.Mask = maskLayer;
         }
+
+        public static void WithShadow(this UIView view, CGSize offset, UIColor color, double opacity, double radius,
+            UIBezierPath shadowPath = null)
+        {
+            view.Layer.MasksToBounds = false;
+            view.Layer.ShadowColor = color.CGColor;
+            view.Layer.ShadowOffset = offset;
+            view.Layer.ShadowOpacity = (float) opacity;
+            view.Layer.ShadowRadius = (float) radius;
+
+            if (shadowPath != null)
+            {
+                view.Layer.ShadowPath = shadowPath.CGPath;
+            }
+        }
     }
 }
