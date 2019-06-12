@@ -12,13 +12,9 @@ using Autofac;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
-using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
-using Softeq.XToolkit.WhiteLabel.Extensions;
-using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.Threading;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
@@ -45,53 +41,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                     .Where(t => typeof(FragmentActivity).IsAssignableFrom(t)
                                 || typeof(Android.Support.V4.App.Fragment).IsAssignableFrom(t)
                                 || typeof(Android.Support.V4.App.DialogFragment).IsAssignableFrom(t));
-            AssemblySource.Instance.AddRange(SelectAssemblies());
+            var assemblies = SelectAssemblies();
+            AssemblySource.Instance.AddRange(assemblies);
 
             //init dependencies
-            StartScopeForIoc();
+            Bootstrapper.Init(assemblies);
 
             //init ui thread helper
             PlatformProvider.Current = new DroidPlatformProvider();
         }
 
+        protected abstract IBootstrapper Bootstrapper { get; }
+
         protected abstract IList<Assembly> SelectAssemblies();
-
-        protected void RegisterInternalServices(ContainerBuilder builder)
-        {
-            builder.Singleton(c => CrossCurrentActivity.Current)
-                .PreserveExistingDefaults();
-            builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<FrameNavigationService, IFrameNavigationService>()
-                .PreserveExistingDefaults();
-            builder.Singleton<ViewLocator, IViewLocator>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<RootFrameNavigationViewModel>()
-                .PreserveExistingDefaults();
-            builder.Singleton<TabNavigationService, ITabNavigationService>()
-                .PreserveExistingDefaults();
-        }
-
-        protected virtual void StartScopeForIoc()
-        {
-            var containerBuilder = new ContainerBuilder();
-            ConfigureIoc(containerBuilder);
-            RegisterServiceLocator(containerBuilder);
-            RegisterInternalServices(containerBuilder);
-            Dependencies.IocContainer.StartScope(containerBuilder);
-        }
-
-        protected virtual void RegisterServiceLocator(ContainerBuilder builder)
-        {
-            if (!Dependencies.IsInitialized)
-            {
-                var serviceLocator = new IocContainer();
-                Dependencies.Initialize(serviceLocator);
-            }
-            builder.Singleton<IIocContainer>(c => Dependencies.IocContainer)
-                .PreserveExistingDefaults();
-        }
-
-        protected abstract void ConfigureIoc(ContainerBuilder builder);
     }
 }

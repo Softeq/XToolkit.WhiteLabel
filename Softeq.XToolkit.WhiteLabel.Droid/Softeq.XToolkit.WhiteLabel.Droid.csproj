@@ -104,7 +104,6 @@
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
     <Compile Include="Navigation\StartActivityAttribute.cs" />
-    <Compile Include="AutoRegistrationMainApplication.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
     <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Controls\DroidContextMenuComponent.cs" />
@@ -112,6 +111,7 @@
     <Compile Include="Views\BottomNavigationActivityBase.cs" />
     <Compile Include="Extensions\BottomNavigationViewExtension.cs" />
     <Compile Include="Controls\BadgeView.cs" />
+    <Compile Include="DroidBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
