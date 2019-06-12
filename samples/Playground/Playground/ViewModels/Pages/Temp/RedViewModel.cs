@@ -10,20 +10,32 @@ namespace Playground.ViewModels.Pages.Temp
 {
     public class RedViewModel : ViewModelBase
     {
-        private readonly IPageNavigationService _pageNavigationService;
+        private int _count;
 
-        public RedViewModel(IPageNavigationService pageNavigationService)
+        public RedViewModel()
         {
             NavigateCommand = new RelayCommand(HandleAction);
-            _pageNavigationService = pageNavigationService;
+            IncrementCommand = new RelayCommand(Increment);
         }
 
         public ICommand NavigateCommand { get; }
 
+        public ICommand IncrementCommand { get; }
+
+        public int Count
+        {
+            get => _count;
+            set => Set(ref _count, value);
+        }
+
         private void HandleAction()
         {
-            _pageNavigationService.For<CollectionPageViewModel>().Navigate();
-            //FrameNavigationService.For<CollectionPageViewModel>().Navigate();
+            FrameNavigationService.For<CollectionPageViewModel>().Navigate();
+        }
+
+        private void Increment()
+        {
+            Count++;
         }
     }
 }

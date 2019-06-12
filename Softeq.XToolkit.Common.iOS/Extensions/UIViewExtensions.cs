@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using CoreAnimation;
 using CoreGraphics;
 using UIKit;
 
@@ -37,6 +38,17 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         public static void AsCircle(this UIView view)
         {
             WithCornerRadius(view, view.Frame.Width / 2f);
+        }
+
+        public static void WithCornerRadius(this UIView view, UIRectCorner corners, float radius)
+        {
+            view.ClipsToBounds = true;
+            var path = UIBezierPath.FromRoundedRect(view.Bounds, corners, new CGSize(radius, radius));
+            var maskLayer = new CAShapeLayer
+            {
+                Path = path.CGPath
+            };
+            view.Layer.Mask = maskLayer;
         }
     }
 }
