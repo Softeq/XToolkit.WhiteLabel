@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Autofac;
@@ -17,11 +17,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             var containerBuilder = new ContainerBuilder();
             ConfigureIoc(containerBuilder);
+            RegisterServiceLocator(containerBuilder);
             RegisterInternalServices(containerBuilder);
 
-            var viewModelToViewControllerDictionary = new Dictionary<Type, Type>();
-
-            viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(containerBuilder);
+            var viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(containerBuilder);
 
             Dependencies.IocContainer.StartScope(containerBuilder);
 

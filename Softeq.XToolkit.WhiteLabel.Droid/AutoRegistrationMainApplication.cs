@@ -24,11 +24,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             var containerBuilder = new ContainerBuilder();
             ConfigureIoc(containerBuilder);
+            RegisterServiceLocator(containerBuilder);
             RegisterInternalServices(containerBuilder);
 
-            var viewModelToViewDictionary = new Dictionary<Type, Type>();
-
-            viewModelToViewDictionary = CreateAndRegisterMissedViewModels(containerBuilder);
+            var viewModelToViewDictionary = CreateAndRegisterMissedViewModels(containerBuilder);
 
             Dependencies.IocContainer.StartScope(containerBuilder);
 

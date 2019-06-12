@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -73,9 +72,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             var containerBuilder = new ContainerBuilder();
             ConfigureIoc(containerBuilder);
+            RegisterServiceLocator(containerBuilder);
             RegisterInternalServices(containerBuilder);
 
             Dependencies.IocContainer.StartScope(containerBuilder);
+        }
+
+        protected virtual void RegisterServiceLocator(ContainerBuilder builder)
+        {
+            var serviceLocator = new IocContainer();
+            Dependencies.Initialize(serviceLocator);
+            builder.Singleton<IIocContainer>(c => serviceLocator);
         }
 
         protected void RegisterInternalServices(ContainerBuilder builder)
