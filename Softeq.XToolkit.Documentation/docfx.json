@@ -4,7 +4,7 @@
       "src": [
         {
           "files": [
-            "Softeq.XToolkit.Bindings/Softeq.XToolkit.Bindings.csproj"
+            "Softeq.XToolkit.Common/Softeq.XToolkit.Common.csproj"
           ],
           "cwd": "..",
           "exclude": [
