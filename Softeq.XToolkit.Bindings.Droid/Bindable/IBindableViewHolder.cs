@@ -3,7 +3,7 @@ using Softeq.XToolkit.Bindings.Abstract;
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {
-    public interface IBindableViewHolder : IBindable
+    public interface IBindableViewHolder : IBindableOwner
     {
         event EventHandler ItemClicked;
 

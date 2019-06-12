@@ -41,9 +41,10 @@ namespace Playground.Droid.Views.Pages
 
             var adapter = new BindableRecyclerViewAdapter<ItemViewModel, MovieCollectionViewHolder>(
                 ViewModel.ItemModels,
-                Resource.Layout.item_movie);
-
-            adapter.ItemClick = ViewModel.SelectItemCommand;
+                Resource.Layout.item_movie)
+            {
+                ItemClick = ViewModel.SelectItemCommand
+            };
 
             _recyclerView.SetAdapter(adapter);
         }
@@ -60,15 +61,15 @@ namespace Playground.Droid.Views.Pages
             _name = view.FindViewById<TextView>(Resource.Id.item_movie_name);
         }
 
-        protected override void SetBindings()
+        public override void SetBindings()
         {
             _image.SetImageDrawable(null);
 
             ImageService.Instance
-                .LoadUrl(BindingContext.IconUrl)
+                .LoadUrl(ViewModel.IconUrl)
                 .Into(_image);
 
-            this.Bind(() => BindingContext.Title, () => _name.Text);
+            this.Bind(() => ViewModel.Title, () => _name.Text);
         }
     }
 }

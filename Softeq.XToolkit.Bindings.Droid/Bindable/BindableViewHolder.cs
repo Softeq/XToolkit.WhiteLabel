@@ -14,26 +14,16 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public event EventHandler ItemClicked;
 
-        public List<Binding> Bindings { get; } = new List<Binding>();
-
-        public object DataContext => BindingContext;
-
-        protected TViewModel BindingContext { get; private set; }
-
         protected BindableViewHolder(View itemView) : base(itemView)
         {
         }
 
-        internal void SetBindingContext(TViewModel viewModel)
-        {
-            BindingContext = viewModel;
+        protected TViewModel ViewModel => (TViewModel) DataContext;
 
-            Bindings.DetachAllAndClear();
+        public object DataContext { get; set; }
+        public List<Binding> Bindings { get; } = new List<Binding>();
 
-            SetBindings();
-        }
-
-        protected abstract void SetBindings();
+        public abstract void SetBindings();
 
         public virtual void OnAttachedToWindow()
         {
@@ -52,7 +42,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public virtual void OnViewRecycled()
         {
-            BindingContext = default(TViewModel);
+            DataContext = default(TViewModel);
 
             Bindings.DetachAllAndClear();
         }

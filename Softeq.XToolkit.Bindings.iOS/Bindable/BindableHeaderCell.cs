@@ -3,22 +3,23 @@
 
 using System;
 using System.Collections.Generic;
-using Softeq.XToolkit.Bindings.iOS.Bindable.Abstract;
+using Softeq.XToolkit.Bindings.Abstract;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableHeaderCell<T> : UITableViewHeaderFooterView, IBindable
+    public abstract class BindableHeaderCell<TViewModel> : UITableViewHeaderFooterView, IBindableOwner
     {
-        public T DataContext => (T) BindingContext;
-
         protected BindableHeaderCell(IntPtr handle) : base(handle)
         {
             Bindings = new List<Binding>();
         }
 
-        public object BindingContext { get; set; }
+        protected TViewModel ViewModel => (TViewModel) DataContext;
+
+        public object DataContext { get; set; }
         public List<Binding> Bindings { get; }
-        public Action Activator { get; set; }
+
+        public abstract void SetBindings();
     }
 }

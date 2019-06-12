@@ -5,6 +5,8 @@ using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
 using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable.Collection
 {
@@ -118,9 +120,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable.Collection
 
         private static void SetDataContext(RecyclerView.ViewHolder viewHolder, int viewType, TViewModel viewModel)
         {
-            if (viewHolder is BindableViewHolder<TViewModel> bindableViewHolder)
+            if (viewHolder is IBindableOwner bindableOwner)
             {
-                bindableViewHolder.SetBindingContext(viewModel);
+                bindableOwner.SetDataContext(viewModel);
             }
         }
     }

@@ -49,5 +49,14 @@ namespace Softeq.XToolkit.Bindings.Extensions
         {
             bindable.Bindings.Add(binding);
         }
+
+        public static void SetDataContext(this IBindableOwner owner, object dataContext)
+        {
+            owner.DataContext = dataContext;
+
+            owner.Bindings.DetachAllAndClear();
+
+            owner.SetBindings();
+        }
     }
 }

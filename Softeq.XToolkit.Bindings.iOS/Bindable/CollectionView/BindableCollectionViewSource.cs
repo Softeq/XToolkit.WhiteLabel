@@ -3,7 +3,8 @@
 
 using System;
 using Foundation;
-using Softeq.XToolkit.Bindings.iOS.Bindable.Abstract;
+using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
@@ -22,7 +23,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
         {
             var cell = GetCellDelegate.Invoke(collectionView, indexPath);
 
-            cell.SetDataContext(DataSource[indexPath.Row]);
+            if (cell is IBindableOwner bindableOwner)
+            {
+                bindableOwner.SetDataContext(DataSource[indexPath.Row]);
+            }
 
             return cell;
         }
