@@ -40,6 +40,12 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             WithCornerRadius(view, view.Frame.Width / 2f);
         }
 
+        /// <summary>
+        /// Use it in LayoutSubviews method
+        /// </summary>
+        /// <param name="view">View.</param>
+        /// <param name="corners">Corners.</param>
+        /// <param name="radius">Radius.</param>
         public static void WithCornerRadius(this UIView view, UIRectCorner corners, float radius)
         {
             view.ClipsToBounds = true;
