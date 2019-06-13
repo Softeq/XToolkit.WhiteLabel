@@ -21,6 +21,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Navigation\Tab\" />
+    <Folder Include="Bootstrapper\" />
   </ItemGroup>
   <ItemGroup>
     <None Remove="Navigation\Tab\ITabNavigationService.config" />
