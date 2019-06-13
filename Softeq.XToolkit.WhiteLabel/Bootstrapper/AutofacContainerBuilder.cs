@@ -72,11 +72,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 
         public IContainer Build()
         {
-            Autofac.IContainer autofacContainer = null;
-            Singleton(c => new AutofacContainer().Initialize(autofacContainer));
+            Singleton<AutofacContainer, IContainer>();
 
-            autofacContainer = _builder.Build();
+            var autofacContainer = _builder.Build();
             var container = autofacContainer.Resolve<IContainer>();
+            ((AutofacContainer) container).Initialize(autofacContainer);
 
             _buildActions.Apply(action => action?.Invoke(container));
             _buildActions.Clear();
