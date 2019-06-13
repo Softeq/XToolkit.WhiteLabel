@@ -59,11 +59,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
         {
             var cell = base.DequeueReusableCell(reuseIdentifier, indexPath);
 
-            if (cell is IBindableOwner bindableOwner)
-            {
-                bindableOwner.SetDataContext(_source.GetItemAt(indexPath.Row));
-            }
-
+            var bindableCell = (IBindable) cell;
+            bindableCell.SetDataContext(_source.GetItemAt(indexPath.Row));
+            
             return cell;
         }
 
@@ -72,11 +70,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
         {
             var cell = base.DequeueReusableSupplementaryView(kind, identifier, indexPath);
 
-            if (cell is IBindableOwner bindableOwner)
-            {
-                bindableOwner.SetDataContext(_source.GetItemAt(indexPath.Row));
-            }
-
+            var bindableCell = (IBindable) cell;
+            bindableCell.SetDataContext(_source.GetItemAt(indexPath.Row));
+            
             return cell;
         }
 

@@ -1,12 +1,21 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Collections.Generic;
-
 namespace Softeq.XToolkit.Bindings.Abstract
 {
-    public interface IBindable
+    /// <summary>
+    /// Contract for each Bindable View that provides a mechanism for control DataContext.
+    /// </summary>
+    public interface IBindable : IBindableOwner
     {
-        List<Binding> Bindings { get; }
+        /// <summary>
+        /// Data context for an element when it participates in data binding.
+        /// </summary>
+        object DataContext { get; set; } // TODO YP: public set only for support current projects
+
+        /// <summary>
+        /// Method where you must declare bindings.
+        /// </summary>
+        void SetBindings();
     }
 }

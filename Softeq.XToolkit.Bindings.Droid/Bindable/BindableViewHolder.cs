@@ -19,12 +19,13 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         protected BindableViewHolder(View itemView) : base(itemView)
         {
+            Bindings = new List<Binding>();
         }
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
         public object DataContext { get; set; }
-        public List<Binding> Bindings { get; } = new List<Binding>();
+        public List<Binding> Bindings { get; }
 
         public abstract void SetBindings();
 

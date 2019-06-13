@@ -10,6 +10,7 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
@@ -69,7 +70,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         }
     }
 
-    public abstract class ActivityBase<TViewModel> : ActivityBase
+    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindableOwner
         where TViewModel : ViewModelBase
     {
         private const string ShouldRestoreStateKey = "shouldRestore";
@@ -87,7 +88,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             });
         }
 
-        protected List<Binding> Bindings { get; }
+        public List<Binding> Bindings { get; }
 
         protected virtual TViewModel ViewModel
         {

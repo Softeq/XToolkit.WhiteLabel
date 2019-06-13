@@ -10,8 +10,6 @@ using Android.Support.V7.Widget;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
-using Softeq.XToolkit.Bindings.Droid.Bindable.Collection;
-
 using FFImageLoading;
 using FFImageLoading.Views;
 

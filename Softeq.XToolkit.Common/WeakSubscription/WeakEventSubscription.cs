@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Common.WeakSubscription
         {
             if (source == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(source));
             }
 
             if (sourceEventInfo == null)
@@ -154,7 +154,7 @@ namespace Softeq.XToolkit.Common.WeakSubscription
         {
             if (source == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(source));
             }
 
             if (sourceEventInfo == null)

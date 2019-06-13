@@ -1,17 +1,17 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
-using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Command;
 
-namespace Softeq.XToolkit.Bindings.Droid.Bindable.Collection
+namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {
     /// <summary>
     /// Bindable RecyclerViewAdapter
@@ -64,40 +64,36 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable.Collection
         {
             base.OnBindViewHolder(holder, position);
 
-            if (holder is IBindableViewHolder bindableViewHolder)
-            {
-                bindableViewHolder.ItemClicked -= OnItemViewClick;
-                bindableViewHolder.ItemClicked += OnItemViewClick;
-            }
+            var bindableViewHolder = (IBindableViewHolder) holder;
+            
+            bindableViewHolder.ItemClicked -= OnItemViewClick;
+            bindableViewHolder.ItemClicked += OnItemViewClick;
         }
 
         public override void OnViewAttachedToWindow(Java.Lang.Object holder)
         {
             base.OnViewAttachedToWindow(holder);
 
-            if (holder is IBindableViewHolder bindableViewHolder)
-            {
-                bindableViewHolder.OnAttachedToWindow();
-            }
+            var bindableViewHolder = (IBindableViewHolder) holder;
+            
+            bindableViewHolder.OnAttachedToWindow();
         }
 
         public override void OnViewDetachedFromWindow(Java.Lang.Object holder)
         {
-            if (holder is IBindableViewHolder bindableViewHolder)
-            {
-                bindableViewHolder.OnDetachedFromWindow();
-            }
+            var bindableViewHolder = (IBindableViewHolder) holder;
+            
+            bindableViewHolder.OnDetachedFromWindow();
 
             base.OnViewDetachedFromWindow(holder);
         }
 
         public override void OnViewRecycled(Java.Lang.Object holder)
         {
-            if (holder is IBindableViewHolder bindableViewHolder)
-            {
-                bindableViewHolder.ItemClicked -= OnItemViewClick;
-                bindableViewHolder.OnViewRecycled();
-            }
+            var bindableViewHolder = (IBindableViewHolder) holder;
+            
+            bindableViewHolder.ItemClicked -= OnItemViewClick;
+            bindableViewHolder.OnViewRecycled();
         }
 
         /// <summary>
@@ -107,10 +103,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable.Collection
 
         protected virtual void OnItemViewClick(object sender, EventArgs e)
         {
-            if (sender is IBindableViewHolder bindableViewHolder)
-            {
-                ExecuteCommandOnItem(ItemClick, bindableViewHolder.DataContext);
-            }
+            var bindableViewHolder = (IBindableViewHolder) sender;
+            
+            ExecuteCommandOnItem(ItemClick, bindableViewHolder.DataContext);
         }
 
         protected virtual void ExecuteCommandOnItem(ICommand command, object itemDataContext)
@@ -123,10 +118,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable.Collection
 
         private static void SetDataContext(RecyclerView.ViewHolder viewHolder, int viewType, TViewModel viewModel)
         {
-            if (viewHolder is IBindableOwner bindableOwner)
-            {
-                bindableOwner.SetDataContext(viewModel);
-            }
+            var bindable = (IBindable) viewHolder;
+            
+            bindable.SetDataContext(viewModel);
         }
     }
 }

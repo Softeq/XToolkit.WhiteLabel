@@ -23,10 +23,8 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
         {
             var cell = GetCellDelegate.Invoke(collectionView, indexPath);
 
-            if (cell is IBindableOwner bindableOwner)
-            {
-                bindableOwner.SetDataContext(DataSource[indexPath.Row]);
-            }
+            var bindableCell = (IBindable) cell;
+            bindableCell.SetDataContext(DataSource[indexPath.Row]);
 
             return cell;
         }

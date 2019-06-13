@@ -26,7 +26,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
     }
 
-    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase, IBindable where TViewModel : IViewModelBase
+    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase, IBindableOwner
+        where TViewModel : IViewModelBase
     {
         protected ViewControllerBase()
         {
@@ -37,8 +38,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         }
 
         public TViewModel ViewModel { get; private set; }
-
-        public object DataContext { get => ViewModel; set { } }
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 

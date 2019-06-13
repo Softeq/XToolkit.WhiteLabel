@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Bindings.Abstract;
@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
 {
     public static class BindableExtensions
     {
-        public static Binding Bind<T1, T2>(this IBindable obj,
+        public static Binding Bind<T1, T2>(this IBindableOwner obj,
             Expression<Func<T1>> sourcePropertyExpression,
             Expression<Func<T2>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.OneWay,
@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        public static Binding Bind<T1>(this IBindable obj, Expression<Func<T1>> sourcePropertyExpression,
+        public static Binding Bind<T1>(this IBindableOwner obj, Expression<Func<T1>> sourcePropertyExpression,
             Action<T1> action)
         {
             var binding = obj.SetBinding(sourcePropertyExpression).WhenSourceChanges(action);
@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        public static Binding Bind<T1>(this IBindable obj, Expression<Func<T1>> sourcePropertyExpression,
+        public static Binding Bind<T1>(this IBindableOwner obj, Expression<Func<T1>> sourcePropertyExpression,
             Func<T1, Task> whenSourceChanges)
         {
             var binding = obj.SetBinding(sourcePropertyExpression).WhenSourceChanges(whenSourceChanges);
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        public static Binding Bind<T1>(this IBindable obj, Expression<Func<T1>> sourcePropertyExpression,
+        public static Binding Bind<T1>(this IBindableOwner obj, Expression<Func<T1>> sourcePropertyExpression,
             Action<T1> action,
             BindingMode bindingMode)
         {
@@ -48,18 +48,18 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        private static void SetBindingTo(IBindable bindable, Binding binding)
+        private static void SetBindingTo(IBindableOwner bindableOwner, Binding binding)
         {
-            bindable.Bindings.Add(binding);
+            bindableOwner.Bindings.Add(binding);
         }
 
-        public static void SetDataContext(this IBindableOwner owner, object dataContext)
+        public static void SetDataContext(this IBindable self, object dataContext)
         {
-            owner.DataContext = dataContext;
+            self.DataContext = dataContext;
 
-            owner.Bindings.DetachAllAndClear();
+            self.Bindings.DetachAllAndClear();
 
-            owner.SetBindings();
+            self.SetBindings();
         }
     }
 }

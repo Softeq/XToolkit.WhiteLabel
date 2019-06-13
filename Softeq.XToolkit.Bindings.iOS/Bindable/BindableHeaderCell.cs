@@ -8,7 +8,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableHeaderCell<TViewModel> : UITableViewHeaderFooterView, IBindableOwner
+    public abstract class BindableHeaderCell<TViewModel> : UITableViewHeaderFooterView, IBindable
     {
         protected BindableHeaderCell(IntPtr handle) : base(handle)
         {

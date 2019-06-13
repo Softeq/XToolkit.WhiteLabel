@@ -1,12 +1,12 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using Softeq.XToolkit.Bindings.Abstract;
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {
-    public interface IBindableViewHolder : IBindableOwner
+    public interface IBindableViewHolder : IBindable
     {
         event EventHandler ItemClicked;
 
