@@ -7,7 +7,6 @@ using System.Linq;
 using System.Reflection;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
-using Autofac;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -22,7 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     public class DroidBootstrapper : BootstrapperBase
     {
-        protected override IContainer BuildContainer(ICustomContainerBuilder builder, IList<Assembly> assemblies)
+        protected override IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
         {
             var viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(builder, assemblies);
 
@@ -36,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             return base.BuildContainer(builder, assemblies);
         }
 
-        protected override void RegisterInternalServices(ICustomContainerBuilder builder)
+        protected override void RegisterInternalServices(IContainerBuilder builder)
         {
             builder.Singleton(c => CrossCurrentActivity.Current)
                 .PreserveExistingDefaults();
@@ -52,7 +51,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 .PreserveExistingDefaults();
         }
 
-        protected Dictionary<Type, Type> CreateAndRegisterMissedViewModels(ICustomContainerBuilder builder, IList<Assembly> assemblies)
+        protected Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder, IList<Assembly> assemblies)
         {
             var viewModelToViewTypes = new Dictionary<Type, Type>();
 
@@ -68,7 +67,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             return viewModelToViewTypes;
         }
 
-        protected override void ConfigureIoc(ICustomContainerBuilder builder)
+        protected override void ConfigureIoc(IContainerBuilder builder)
         {
         }
     }

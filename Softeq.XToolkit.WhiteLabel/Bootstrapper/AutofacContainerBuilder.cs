@@ -7,7 +7,6 @@ using Autofac;
 using Autofac.Builder;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper

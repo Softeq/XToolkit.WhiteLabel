@@ -11,7 +11,7 @@ namespace Playground
 {
     public static class CustomBootstrapper
     {
-        public static void Configure(ICustomContainerBuilder builder)
+        public static void Configure(IContainerBuilder builder)
         {
             // common
             builder.Singleton<JsonSerializer, IJsonSerializer>();

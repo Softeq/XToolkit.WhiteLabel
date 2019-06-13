@@ -9,7 +9,7 @@ namespace Playground.iOS
 {
     internal class Bootstrapper : IosBootstrapper
     {
-        protected override void ConfigureIoc(ICustomContainerBuilder builder)
+        protected override void ConfigureIoc(IContainerBuilder builder)
         {
             // core
             CustomBootstrapper.Configure(builder);

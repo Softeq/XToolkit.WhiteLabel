@@ -9,7 +9,7 @@ namespace Playground.Droid
 {
     internal class CustomDroidBootstrapper : DroidBootstrapper
     {
-        protected override void ConfigureIoc(ICustomContainerBuilder builder)
+        protected override void ConfigureIoc(IContainerBuilder builder)
         {
             // core
             CustomBootstrapper.Configure(builder);
