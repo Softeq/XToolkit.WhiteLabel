@@ -179,6 +179,7 @@
     <Compile Include="ViewControllers\Pages\Temp\BlueViewController.designer.cs">
       <DependentUpon>BlueViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomIosBootstraper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

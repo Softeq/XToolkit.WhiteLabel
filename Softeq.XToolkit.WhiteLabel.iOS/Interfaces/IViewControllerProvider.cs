@@ -5,8 +5,8 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Interfaces
 {
-    public interface IAppDelegate
+    public interface IViewControllerProvider
     {
-        UIViewController GetRootViewFinder(UIViewController controller);
+        UIViewController GetRootViewController(UIViewController controller);
     }
 }
