@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.Common
         /// <summary>
         /// Gets the target.
         /// </summary>
-        /// <value>Target object if the target was retrieved; otherwise, null.</value>
+        /// <value>Return target object if the target was retrieved; otherwise, null.</value>
         public T Target
         {
             get
