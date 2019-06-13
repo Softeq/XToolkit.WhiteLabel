@@ -42,13 +42,13 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         {
             base.OnInitialize();
 
-            if(TabModels == null)
+            if (TabModels == null)
             {
                 throw new Exception("You must init TabModels property");
             }
 
             TabViewModels = new List<RootFrameNavigationViewModel>(TabModels
-                .Select(x => Dependencies.IocContainer.Resolve<RootFrameNavigationViewModel>(new NamedParameter("model", x))));
+                .Select(x => Dependencies.Container.Resolve<RootFrameNavigationViewModel>().Initialize(x)));
             _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
         }
 
