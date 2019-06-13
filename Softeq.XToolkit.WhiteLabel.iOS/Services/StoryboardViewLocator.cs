@@ -16,9 +16,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         private Dictionary<Type, Type> _modelToControllerTypes;
         private readonly ILogger _logger;
-        private readonly IAppDelegate _appDelegate;
+        private readonly IViewControllerProvider _appDelegate;
 
-        public StoryboardViewLocator(ILogManager logManager, IAppDelegate appDelegate)
+        public StoryboardViewLocator(ILogManager logManager, IViewControllerProvider appDelegate)
         {
             _appDelegate = appDelegate;
             _logger = logManager.GetLogger<StoryboardViewLocator>();
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             return UIApplication.SharedApplication.Windows
                 .Where(window => window.RootViewController != null)
-                .Select(window => _appDelegate.GetRootViewFinder(window.RootViewController))
+                .Select(window => _appDelegate.GetRootViewController(window.RootViewController))
                 .FirstOrDefault();
         }
 
