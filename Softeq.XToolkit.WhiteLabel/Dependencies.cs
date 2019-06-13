@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Permissions;
@@ -15,22 +15,23 @@ namespace Softeq.XToolkit.WhiteLabel
     /// </summary>
     public static class Dependencies
     {
-        private static bool _isInitialized;
         private static IIocContainer _iocContainer;
+
+        public static bool IsInitialized { get; private set; }
 
         public static void Initialize(IIocContainer iocContainer)
         {
-            if (_isInitialized)
+            if (IsInitialized)
             {
                 throw new ArgumentException($"{nameof(Dependencies)} already initialized");
             }
 
             _iocContainer = iocContainer;
-            _isInitialized = true;
+            IsInitialized = true;
         }
 
         public static IIocContainer IocContainer => _iocContainer;
-        
+
         public static IPageNavigationService PageNavigationService => IocContainer.Resolve<IPageNavigationService>();
 
         public static IPermissionRequestHandler PermissionRequestHandler =>

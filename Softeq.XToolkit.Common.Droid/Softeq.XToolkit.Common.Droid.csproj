@@ -47,6 +47,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Helpers\LocaleHelper.cs" />
     <Compile Include="Extensions\TextViewExtensions.cs" />
+    <Compile Include="Extensions\EditTextExtensions.cs" />
+    <Compile Include="Extensions\StringExtensions.cs" />
+    <Compile Include="Extensions\IntentExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />

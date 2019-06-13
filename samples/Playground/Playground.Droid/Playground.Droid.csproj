@@ -76,6 +76,7 @@
     <Compile Include="Views\Pages\Temp\BlueFragment.cs" />
     <Compile Include="Views\Pages\Temp\GreenFragment.cs" />
     <Compile Include="Views\Pages\Temp\YellowFragment.cs" />
+    <Compile Include="CustomDroidBootstrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
