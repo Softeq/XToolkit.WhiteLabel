@@ -10,6 +10,11 @@ namespace Softeq.XToolkit.Common.Extensions
     {
         private const string LinkPattern = @"[a-z]+://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?";
 
+        /// <summary>
+        ///     Finds links in specified string.
+        /// </summary>
+        /// <returns>Strings that match the pattern xxx://xxxxxx.</returns>
+        /// <param name="self">Specified string.</param>
         public static IEnumerable<Capture> FindLinks(this string self)
         {
             foreach (Capture match in Regex.Matches(self, LinkPattern, RegexOptions.IgnoreCase))

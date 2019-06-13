@@ -9,11 +9,23 @@ namespace Softeq.XToolkit.Common.Extensions
 {
     public static class EnumerablesExtensions
     {
+        /// <summary>
+        ///     Returns empty IEnumerable if source is null
+        /// </summary>
+        /// <returns>Return IEnumerable if source is null otherwise return source</returns>
+        /// <param name="source">Source.</param>
+        /// <typeparam name="T">Item type</typeparam>
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source)
         {
             return source ?? Enumerable.Empty<T>();
         }
 
+        /// <summary>
+        ///     Apply specified action to each item of enumerable.
+        /// </summary>
+        /// <param name="enumerable">IEnumerable instance.</param>
+        /// <param name="action">Specified action.</param>
+        /// <typeparam name="T">Item type</typeparam>
         public static void Apply<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var item in enumerable)
@@ -51,6 +63,12 @@ namespace Softeq.XToolkit.Common.Extensions
             }
         }
 
+        /// <summary>
+        /// Adds the elements of the specified collection to the end of the <see cref="T:System.Collections.Generic.List`1"/>.
+        /// </summary>
+        /// <param name="items">Initial collection.</param>
+        /// <param name="range">The collection whose elements should be added to the end of the list.</param>
+        /// <typeparam name="T">The type of collection.</typeparam>
         public static void AddRange<T>(this IList<T> items, IList<T> range)
         {
             for (var i = 0; i < range.Count; i++)
