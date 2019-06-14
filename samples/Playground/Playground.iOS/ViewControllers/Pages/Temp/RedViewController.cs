@@ -18,8 +18,6 @@ namespace Playground.iOS.ViewControllers.Pages.Temp
         {
             base.ViewDidLoad();
             Button.SetCommand(ViewModel.NavigateCommand);
-
-            Console.WriteLine("App Started");
         }
     }
 }
