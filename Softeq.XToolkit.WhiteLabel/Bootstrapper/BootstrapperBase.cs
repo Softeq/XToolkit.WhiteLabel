@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
     {
         public void Init(IList<Assembly> assemblies)
         {
-            var containerBuilder = new AutofacContainerBuilder();
+            var containerBuilder = new DryIoCContainerBuilder();
             ConfigureIoc(containerBuilder);
             RegisterInternalServices(containerBuilder);
 

@@ -10,7 +10,7 @@ namespace Playground.iOS.ViewControllers.Pages.Temp
 {
     public partial class RedViewController : ViewControllerBase<RedViewModel>
     {
-        public RedViewController (IntPtr handle) : base (handle)
+        public RedViewController(IntPtr handle) : base(handle)
         {
         }
 
@@ -18,6 +18,8 @@ namespace Playground.iOS.ViewControllers.Pages.Temp
         {
             base.ViewDidLoad();
             Button.SetCommand(ViewModel.NavigateCommand);
+
+            Console.WriteLine("App Started");
         }
     }
 }
