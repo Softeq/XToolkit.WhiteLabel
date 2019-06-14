@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         void GoBack();
 
-        NavigateHelper<T> For<T>() where T : IViewModelBase;
+        PageNavigateHelper<T> For<T>() where T : IViewModelBase;
 
         void NavigateToViewModel<T>(bool clearBackStack = false)
             where T : IViewModelBase;

@@ -30,11 +30,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
-        public DialogNavigationHelper<T> For<T>() where T : IDialogViewModel
-        {
-            return new DialogNavigationHelper<T>(this);
-        }
-
         public async Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel

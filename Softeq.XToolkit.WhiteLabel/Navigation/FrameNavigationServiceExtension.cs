@@ -9,10 +9,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public static class FrameNavigationServiceExtension
     {
-        public static NavigateHelper<T> For<T>(this IFrameNavigationService frameNavigationService) 
+        public static FrameNavigationHelper<T> For<T>(this IFrameNavigationService frameNavigationService) 
             where T : IViewModelBase
         {
-            return new NavigateHelper<T>(frameNavigationService);
+            return new FrameNavigationHelper<T>(frameNavigationService);
         }
     }
 }

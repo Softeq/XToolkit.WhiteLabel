@@ -40,9 +40,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _pageNavigationService.GoBack();
         }
 
-        public NavigateHelper<T> For<T>() where T : IViewModelBase
+        public PageNavigateHelper<T> For<T>() where T : IViewModelBase
         {
-            return new NavigateHelper<T>(this);
+            return new PageNavigateHelper<T>(this);
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false)

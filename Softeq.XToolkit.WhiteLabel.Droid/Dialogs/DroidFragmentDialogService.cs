@@ -26,11 +26,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             _iocContainer = iocContainer;
         }
 
-        public DialogNavigationHelper<TViewModel> For<TViewModel>() where TViewModel : IDialogViewModel
-        {
-            return new DialogNavigationHelper<TViewModel>(this);
-        }
-
         public Task<bool> ShowDialogAsync(string title, string message, string okButtonText,
             string cancelButtonText = null, OpenDialogOptions openDialogOptions = null)
         {

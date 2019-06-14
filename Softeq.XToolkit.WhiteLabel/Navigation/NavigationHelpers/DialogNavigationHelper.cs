@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
 {
-    public class DialogNavigationHelper<TViewModel> : NavigationHelper<TViewModel>
+    public class DialogNavigationHelper<TViewModel> : NavigationHelperBase<TViewModel>
         where TViewModel : IDialogViewModel
     {
         private readonly IDialogsService _dialogsService;
@@ -27,11 +27,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
             return _dialogsService.ShowForViewModel<TViewModel>(Parameters);
         }
 
-        public new DialogNavigationHelper<TViewModel> WithParam<TValue>(
+        public DialogNavigationHelper<TViewModel> WithParam<TValue>(
             Expression<Func<TViewModel, TValue>> property,
             TValue value)
         {
-            base.WithParam(property, value);
+            ApplyParameter(property, value);
             return this;
         }
     }

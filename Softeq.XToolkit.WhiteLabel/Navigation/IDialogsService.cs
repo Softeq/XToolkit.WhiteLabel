@@ -16,8 +16,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             string cancelButtonText = null,
             OpenDialogOptions options = null);
 
-        DialogNavigationHelper<T> For<T>() where T : IDialogViewModel;
-
         Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel;

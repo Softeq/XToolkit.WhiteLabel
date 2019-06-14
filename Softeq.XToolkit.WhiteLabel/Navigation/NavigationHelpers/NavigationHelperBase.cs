@@ -10,26 +10,24 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
 {
-    public class NavigationHelper<TViewModel> where TViewModel : IViewModelBase
+    public class NavigationHelperBase<TViewModel> where TViewModel : IViewModelBase
     {
         public readonly List<NavigationParameterModel> Parameters;
 
-        public NavigationHelper()
+        public NavigationHelperBase()
         {
             Parameters = new List<NavigationParameterModel>();
         }
 
-        public NavigationHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property,
+        protected void ApplyParameter<TValue>(Expression<Func<TViewModel, TValue>> property,
             TValue value)
         {
-            var parameter = new NavigationParameterModel {Value = value};
+            var parameter = new NavigationParameterModel { Value = value };
 
             var propertyInfo = (PropertyInfo) property.GetMemberInfo();
             parameter.PropertyInfo = PropertyInfoModel.FromProperty(propertyInfo);
 
             Parameters.Add(parameter);
-
-            return this;
         }
     }
 }
