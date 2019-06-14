@@ -51,18 +51,18 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 
         public IConcreteRegistration Singleton<T1, T2>() where T1 : T2
         {
-            return new AutofacRegistration<T1>(_builder.RegisterType<T1>().As<T2>().InstancePerLifetimeScope().SingleInstance());
+            return new AutofacRegistration<T1>(_builder.RegisterType<T1>().As<T2>().SingleInstance());
         }
 
         public IConcreteRegistration Singleton<T1>()
         {
-            return new AutofacRegistration<T1>(_builder.RegisterType<T1>().InstancePerLifetimeScope().SingleInstance());
+            return new AutofacRegistration<T1>(_builder.RegisterType<T1>().SingleInstance());
         }
 
         public IConcreteRegistration Singleton<T1>(Func<IContainer, T1> func)
         {
             return new AutofacRegistration<T1>(_builder.Register(c => func.Invoke(c.Resolve<IContainer>()))
-                .InstancePerLifetimeScope().SingleInstance());
+                .SingleInstance());
         }
 
         public void RegisterBuildCallback(Action<IContainer> action)
