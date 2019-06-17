@@ -1,26 +1,27 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
-using Autofac;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
+using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     public class DroidBootstrapper : BootstrapperBase
     {
-        protected override void BuildContainer(ContainerBuilder builder, IList<Assembly> assemblies)
+        protected override IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
         {
             var viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(builder, assemblies);
 
@@ -29,28 +30,23 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 var viewLocator = x.Resolve<ViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
-            }).PreserveExistingDefaults();
+            }, IfRegistered.Keep);
 
-            base.BuildContainer(builder, assemblies);
+            return base.BuildContainer(builder, assemblies);
         }
 
-        protected override void RegisterInternalServices(ContainerBuilder builder)
+        protected override void RegisterInternalServices(IContainerBuilder builder)
         {
-            builder.Singleton(c => CrossCurrentActivity.Current)
-                .PreserveExistingDefaults();
-            builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<FrameNavigationService, IFrameNavigationService>()
-                .PreserveExistingDefaults();
-            builder.Singleton<ViewLocator>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<RootFrameNavigationViewModel>()
-                .PreserveExistingDefaults();
-            builder.Singleton<TabNavigationService, ITabNavigationService>()
-                .PreserveExistingDefaults();
+            builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
+            builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<FrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
+            builder.Singleton<ViewLocator>(IfRegistered.Keep);
+            builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
+            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
         }
 
-        protected Dictionary<Type, Type> CreateAndRegisterMissedViewModels(ContainerBuilder builder, IList<Assembly> assemblies)
+        private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder,
+            IEnumerable<Assembly> assemblies)
         {
             var viewModelToViewTypes = new Dictionary<Type, Type>();
 
@@ -60,13 +56,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
                 viewModelToViewTypes.Add(viewModelType, type);
 
-                builder.PerDependency(viewModelType).PreserveExistingDefaults();
+                builder.PerDependency(viewModelType, IfRegistered.Keep);
             }
 
             return viewModelToViewTypes;
         }
 
-        protected override void ConfigureIoc(ContainerBuilder builder)
+        protected override void ConfigureIoc(IContainerBuilder builder)
         {
         }
     }

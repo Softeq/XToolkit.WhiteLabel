@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 using NSubstitute;
-using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Xunit;
@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Whitelabel.Tests
             _platformNavService = Substitute.For<IPlatformNavigationService>();
             _backStackManager = Substitute.For<IBackStackManager>();
 
-            var serviceLocator = Substitute.For<IocContainer>();
+            var serviceLocator = Substitute.For<IContainer>();
             serviceLocator.Resolve<ViewModelStub>().Returns(_viewModelStub);
 
             _pageNavigationService =

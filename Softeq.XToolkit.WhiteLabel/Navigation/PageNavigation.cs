@@ -2,8 +2,10 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
@@ -11,12 +13,12 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
     {
         private readonly IPlatformNavigationService _pageNavigationService;
         private readonly IBackStackManager _backStackManager;
-        private readonly IIocContainer _iocContainer;
+        private readonly IContainer _iocContainer;
 
         public PageNavigationService(
             IPlatformNavigationService pageNavigationService,
             IBackStackManager backStackManager,
-            IIocContainer iocContainer)
+            IContainer iocContainer)
         {
             _pageNavigationService = pageNavigationService;
             _backStackManager = backStackManager;
@@ -40,9 +42,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _pageNavigationService.GoBack();
         }
 
-        public NavigateHelper<T> For<T>() where T : IViewModelBase
+        public PageFluentNavigator<T> For<T>() where T : IViewModelBase
         {
-            return new NavigateHelper<T>(this);
+            return new PageFluentNavigator<T>(this);
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false)

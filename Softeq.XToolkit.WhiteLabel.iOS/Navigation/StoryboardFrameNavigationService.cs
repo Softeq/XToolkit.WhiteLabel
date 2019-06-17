@@ -4,19 +4,21 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public class StoryboardFrameNavigationService : StoryboardNavigation, IFrameNavigationService
     {
-        private readonly IIocContainer _iocContainer;
+        private readonly IContainer _iocContainer;
 
-        public StoryboardFrameNavigationService(IViewLocator viewLocator, IIocContainer iocContainer) : base(
+        public StoryboardFrameNavigationService(IViewLocator viewLocator, IContainer iocContainer) : base(
             viewLocator)
         {
             _iocContainer = iocContainer;
