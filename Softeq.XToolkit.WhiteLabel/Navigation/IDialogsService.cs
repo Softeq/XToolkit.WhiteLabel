@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
@@ -15,8 +15,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             string okButtonText,
             string cancelButtonText = null,
             OpenDialogOptions options = null);
-
-        DialogNavigationHelper<T> For<T>() where T : IDialogViewModel;
 
         Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters = null)

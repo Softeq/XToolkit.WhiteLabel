@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
@@ -42,9 +42,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _pageNavigationService.GoBack();
         }
 
-        public NavigateHelper<T> For<T>() where T : IViewModelBase
+        public PageFluentNavigator<T> For<T>() where T : IViewModelBase
         {
-            return new NavigateHelper<T>(this);
+            return new PageFluentNavigator<T>(this);
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false)

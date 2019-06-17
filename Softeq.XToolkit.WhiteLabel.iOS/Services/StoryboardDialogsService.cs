@@ -10,7 +10,7 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
@@ -30,11 +30,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
             _logger = logManager.GetLogger<StoryboardDialogsService>();
-        }
-
-        public DialogNavigationHelper<T> For<T>() where T : IDialogViewModel
-        {
-            return new DialogNavigationHelper<T>(this);
         }
 
         public async Task<TResult> ShowForViewModel<TViewModel, TResult>(

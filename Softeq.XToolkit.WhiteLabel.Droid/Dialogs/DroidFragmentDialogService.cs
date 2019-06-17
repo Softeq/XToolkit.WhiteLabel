@@ -7,7 +7,7 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
@@ -25,11 +25,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             _viewLocator = viewLocator;
             _alertBuilder = alertBuilder;
             _iocContainer = iocContainer;
-        }
-
-        public DialogNavigationHelper<TViewModel> For<TViewModel>() where TViewModel : IDialogViewModel
-        {
-            return new DialogNavigationHelper<TViewModel>(this);
         }
 
         public Task<bool> ShowDialogAsync(string title, string message, string okButtonText,
