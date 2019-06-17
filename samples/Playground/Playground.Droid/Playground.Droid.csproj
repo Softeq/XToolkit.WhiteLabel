@@ -110,6 +110,7 @@
     <AndroidResource Include="Resources\layout\fragment_yellow.axml" />
     <AndroidResource Include="Resources\layout\fragment_green.axml" />
     <AndroidResource Include="Resources\layout\fragment_blue.axml" />
+    <AndroidResource Include="Resources\layout\item_movie.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
@@ -135,6 +136,10 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
       <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
+      <Project>{2B4A678B-63B4-49DB-99B1-BFE7793110C4}</Project>
+      <Name>Softeq.XToolkit.Bindings.Droid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

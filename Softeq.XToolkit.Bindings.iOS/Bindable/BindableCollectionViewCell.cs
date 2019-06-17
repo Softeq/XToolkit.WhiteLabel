@@ -3,14 +3,14 @@
 
 using System;
 using System.Collections.Generic;
-using UIKit;
 using Softeq.XToolkit.Bindings.Abstract;
+using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableTableViewCell<TViewModel> : UITableViewCell, IBindable
+    public abstract class BindableCollectionViewCell<TViewModel> : UICollectionViewCell, IBindable
     {
-        protected BindableTableViewCell(IntPtr handle) : base(handle)
+        protected BindableCollectionViewCell(IntPtr handle) : base(handle)
         {
             Bindings = new List<Binding>();
         }

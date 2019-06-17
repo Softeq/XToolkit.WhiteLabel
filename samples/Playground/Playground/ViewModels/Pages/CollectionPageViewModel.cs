@@ -1,17 +1,59 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Linq;
 using System.Collections.Generic;
+using System.Threading.Tasks;
+using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 using Playground.Models;
 
 namespace Playground.ViewModels.Pages
 {
     public class CollectionPageViewModel : ViewModelBase
     {
-        public CollectionPageViewModel()
+        private readonly IDialogsService _dialogsService;
+
+        public CollectionPageViewModel(IDialogsService dialogsService)
         {
-            Items = new List<ItemModel>
+            _dialogsService = dialogsService;
+
+            Items = GetMovies();
+            ItemModels.AddRange(GenerateItems());
+
+            SelectItemCommand = new AsyncCommand<ItemViewModel>(SelectItem);
+        }
+
+        public List<ItemModel> Items { get; }
+
+        public ObservableRangeCollection<ItemViewModel> ItemModels = new ObservableRangeCollection<ItemViewModel>();
+
+
+        public ICommand<ItemViewModel> SelectItemCommand { get; }
+
+        public override async void OnInitialize()
+        {
+            base.OnInitialize();
+
+            for (var i = 0; i < 50; i++)
+            {
+                ItemModels.Apply(x => x.Title += i);
+
+                await Task.Delay(1000);
+            }
+        }
+
+        private async Task SelectItem(ItemViewModel viewModel)
+        {
+            await _dialogsService.ShowDialogAsync("Selected", viewModel.Title, "OK");
+        }
+
+        public List<ItemModel> GetMovies()
+        {
+            return new List<ItemModel>
             {
                 new ItemModel("Doctor Strange 2","Plot unknown.","https://image.tmdb.org/t/p/w92/lTXMtlN9tMrdXalN5DUc1Hiz4Uc.jpg"),
                 new ItemModel("Gambit","Channing Tatum stars as Remy LeBeau, aka Gambit, the Cajun Mutant with a knack for cards.","https://image.tmdb.org/t/p/w92/bk8HLj657qGW4LNPBAGGunohoMb.jpg"),
@@ -27,6 +69,13 @@ namespace Playground.ViewModels.Pages
             };
         }
 
-        public List<ItemModel> Items { get; }
+        private IEnumerable<ItemViewModel> GenerateItems()
+        {
+            return Enumerable.Range(0, 100).Select(i => new ItemViewModel
+            {
+                Title = $"{i} #- Title",
+                IconUrl = $"https://picsum.photos/100/150?random={i}"
+            });
+        }
     }
 }

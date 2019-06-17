@@ -39,7 +39,7 @@ namespace Playground.iOS
             return true;
         }
 
-        protected override IBootstrapper Bootstrapper => new Bootstrapper();
+        protected override IBootstrapper Bootstrapper => new CustomIosBootstrapper();
 
         protected override IList<Assembly> SelectAssemblies()
         {

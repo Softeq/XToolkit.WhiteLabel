@@ -4,7 +4,8 @@
 using System;
 using CoreGraphics;
 using Foundation;
-using Softeq.XToolkit.Bindings.iOS.Bindable.Abstract;
+using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
@@ -57,7 +58,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
         public override UICollectionReusableView DequeueReusableCell(NSString reuseIdentifier, NSIndexPath indexPath)
         {
             var cell = base.DequeueReusableCell(reuseIdentifier, indexPath);
-            cell.SetDataContext(_source.GetItemAt(indexPath.Row));
+
+            var bindableCell = (IBindable) cell;
+            bindableCell.SetDataContext(_source.GetItemAt(indexPath.Row));
+            
             return cell;
         }
 
@@ -66,7 +70,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
         {
             var cell = base.DequeueReusableSupplementaryView(kind, identifier, indexPath);
 
-            cell.SetDataContext(_source.GetItemAt(indexPath.Row));
+            var bindableCell = (IBindable) cell;
+            bindableCell.SetDataContext(_source.GetItemAt(indexPath.Row));
+            
             return cell;
         }
 
