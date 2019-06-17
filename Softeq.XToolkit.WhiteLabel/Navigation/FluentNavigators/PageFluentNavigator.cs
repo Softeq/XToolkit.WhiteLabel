@@ -6,25 +6,25 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
+namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 {
-    public class PageNavigateHelper<TViewModel> : NavigationHelperBase<TViewModel> where TViewModel : IViewModelBase
+    public class PageFluentNavigator<TViewModel> : FluentNavigatorBase<TViewModel> where TViewModel : IViewModelBase
     {
         private readonly PageNavigationService _navigationService;
 
-        public PageNavigateHelper(PageNavigationService navigationService)
+        public PageFluentNavigator(PageNavigationService navigationService)
         {
             _navigationService = navigationService;
         }
 
-        public PageNavigateHelper<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property,
+        public PageFluentNavigator<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property,
             TValue value)
         {
             ApplyParameter(property, value);
             return this;
         }
 
-        public PageNavigateHelper<TViewModel> WithParams(IEnumerable<NavigationParameterModel> navigationHelperParameters)
+        public PageFluentNavigator<TViewModel> WithParams(IEnumerable<NavigationParameterModel> navigationHelperParameters)
         {
             Parameters.AddRange(navigationHelperParameters);
             return this;

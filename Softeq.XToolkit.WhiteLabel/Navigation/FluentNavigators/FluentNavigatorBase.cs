@@ -8,13 +8,13 @@ using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
+namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 {
-    public class NavigationHelperBase<TViewModel> where TViewModel : IViewModelBase
+    public class FluentNavigatorBase<TViewModel> where TViewModel : IViewModelBase
     {
         public readonly List<NavigationParameterModel> Parameters;
 
-        public NavigationHelperBase()
+        public FluentNavigatorBase()
         {
             Parameters = new List<NavigationParameterModel>();
         }

@@ -3,16 +3,16 @@
 
 ﻿using System;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public static class FrameNavigationServiceExtension
     {
-        public static FrameNavigationHelper<T> For<T>(this IFrameNavigationService frameNavigationService) 
+        public static FrameFluentNavigator<T> For<T>(this IFrameNavigationService frameNavigationService) 
             where T : IViewModelBase
         {
-            return new FrameNavigationHelper<T>(frameNavigationService);
+            return new FrameFluentNavigator<T>(frameNavigationService);
         }
     }
 }
