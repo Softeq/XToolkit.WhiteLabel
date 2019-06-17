@@ -79,6 +79,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                 case Permission.Storage:
                     return PluginPermission.Storage;
                 case Permission.LocationInUse:
+                case Permission.LocationAlways:
                     return PluginPermission.Location;
                 default:
                     throw new NotImplementedException(
