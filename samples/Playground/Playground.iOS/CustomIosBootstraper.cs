@@ -1,14 +1,14 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Autofac;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.iOS;
 
 namespace Playground.iOS
 {
     internal class Bootstrapper : IosBootstrapper
     {
-        protected override void ConfigureIoc(ContainerBuilder builder)
+        protected override void ConfigureIoc(IContainerBuilder builder)
         {
             // core
             CustomBootstrapper.Configure(builder);

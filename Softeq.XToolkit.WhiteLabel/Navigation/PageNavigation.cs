@@ -2,6 +2,8 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
@@ -11,12 +13,12 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
     {
         private readonly IPlatformNavigationService _pageNavigationService;
         private readonly IBackStackManager _backStackManager;
-        private readonly IIocContainer _iocContainer;
+        private readonly IContainer _iocContainer;
 
         public PageNavigationService(
             IPlatformNavigationService pageNavigationService,
             IBackStackManager backStackManager,
-            IIocContainer iocContainer)
+            IContainer iocContainer)
         {
             _pageNavigationService = pageNavigationService;
             _backStackManager = backStackManager;

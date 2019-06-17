@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
-using Autofac;
 using Foundation;
 using UIKit;
 using Softeq.XToolkit.WhiteLabel;
@@ -58,7 +57,7 @@ namespace Playground.iOS
 
         private void InitNavigation()
         {
-            var navigationService = Dependencies.IocContainer.Resolve<IPageNavigationService>();
+            var navigationService = Dependencies.Container.Resolve<IPageNavigationService>();
             navigationService.Initialize(Window.RootViewController);
 
             // Entry point

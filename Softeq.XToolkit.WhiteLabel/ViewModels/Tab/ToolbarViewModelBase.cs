@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using Autofac;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -42,13 +41,13 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         {
             base.OnInitialize();
 
-            if(TabModels == null)
+            if (TabModels == null)
             {
                 throw new Exception("You must init TabModels property");
             }
 
             TabViewModels = new List<RootFrameNavigationViewModel>(TabModels
-                .Select(x => Dependencies.IocContainer.Resolve<RootFrameNavigationViewModel>(new NamedParameter("model", x))));
+                .Select(x => Dependencies.Container.Resolve<RootFrameNavigationViewModel>().Initialize(x)));
             _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
         }
 

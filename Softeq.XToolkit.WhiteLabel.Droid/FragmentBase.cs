@@ -52,11 +52,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             Dispose();
         }
-        
+
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
-            var viewLocator = Dependencies.IocContainer.Resolve<ViewLocator>();
-            var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
+            var viewLocator = Dependencies.Container.Resolve<ViewLocator>();
+            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
             ChildFragmentManager
                 .BeginTransaction()
                 .Add(containerId, fragment)

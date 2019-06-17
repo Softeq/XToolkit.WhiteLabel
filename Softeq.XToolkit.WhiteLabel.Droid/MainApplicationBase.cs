@@ -8,7 +8,6 @@ using System.Reflection;
 using Android.App;
 using Android.Runtime;
 using Android.Support.V4.App;
-using Autofac;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;

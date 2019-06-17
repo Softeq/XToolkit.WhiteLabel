@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -10,15 +10,20 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 {
     public class RootFrameNavigationViewModel : RootFrameNavigationViewModelBase
     {
-        private readonly TabItem _model;
+        private TabItem _model;
 
         private string _badgeText;
         private bool _isBadgeVisible;
 
-        public RootFrameNavigationViewModel(IFrameNavigationService frameNavigationService, TabItem model)
+        public RootFrameNavigationViewModel(IFrameNavigationService frameNavigationService)
             : base(frameNavigationService)
         {
+        }
+
+        public RootFrameNavigationViewModel Initialize(TabItem model)
+        {
             _model = model;
+            return this;
         }
 
         public string BadgeText
@@ -45,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             }
             else
             {
-                FrameNavigationService.NavigatToFirstPage(); 
+                FrameNavigationService.NavigatToFirstPage();
             }
         }
     }

@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -18,12 +20,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         private readonly ILogger _logger;
         private readonly IViewLocator _viewLocator;
-        private readonly IIocContainer _iocContainer;
+        private readonly IContainer _iocContainer;
 
         public StoryboardDialogsService(
             IViewLocator viewLocator,
             ILogManager logManager,
-            IIocContainer iocContainer)
+            IContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;

@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -13,13 +14,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     public class DroidFragmentDialogService : IDialogsService
     {
         private readonly IAlertBuilder _alertBuilder;
-        private readonly IIocContainer _iocContainer;
+        private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
 
         public DroidFragmentDialogService(
             IViewLocator viewLocator,
             IAlertBuilder alertBuilder,
-            IIocContainer iocContainer)
+            IContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _alertBuilder = alertBuilder;
