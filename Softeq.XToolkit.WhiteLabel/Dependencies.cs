@@ -5,6 +5,8 @@ using System;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Permissions;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel
@@ -15,30 +17,28 @@ namespace Softeq.XToolkit.WhiteLabel
     /// </summary>
     public static class Dependencies
     {
-        private static IIocContainer _iocContainer;
-
         public static bool IsInitialized { get; private set; }
 
-        public static void Initialize(IIocContainer iocContainer)
+        public static void Initialize(IContainer iocContainer)
         {
             if (IsInitialized)
             {
                 throw new ArgumentException($"{nameof(Dependencies)} already initialized");
             }
 
-            _iocContainer = iocContainer;
+            Container = iocContainer;
             IsInitialized = true;
         }
 
-        public static IIocContainer IocContainer => _iocContainer;
+        public static IContainer Container { get; private set; }
 
-        public static IPageNavigationService PageNavigationService => IocContainer.Resolve<IPageNavigationService>();
+        public static IPageNavigationService PageNavigationService => Container.Resolve<IPageNavigationService>();
 
         public static IPermissionRequestHandler PermissionRequestHandler =>
-            IocContainer.Resolve<IPermissionRequestHandler>();
+            Container.Resolve<IPermissionRequestHandler>();
 
-        public static IJsonSerializer JsonSerializer => IocContainer.Resolve<IJsonSerializer>();
-        public static IFilesProvider InternalStorageProvider => IocContainer.Resolve<InternalStorageProvider>();
-        public static IPermissionsManager PermissionsManager => IocContainer.Resolve<IPermissionsManager>();
+        public static IJsonSerializer JsonSerializer => Container.Resolve<IJsonSerializer>();
+        public static IFilesProvider InternalStorageProvider => Container.Resolve<InternalStorageProvider>();
+        public static IPermissionsManager PermissionsManager => Container.Resolve<IPermissionsManager>();
     }
 }

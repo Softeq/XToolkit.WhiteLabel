@@ -57,7 +57,7 @@ namespace Playground.iOS
 
         private void InitNavigation()
         {
-            var navigationService = Dependencies.IocContainer.Resolve<IPageNavigationService>();
+            var navigationService = Dependencies.Container.Resolve<IPageNavigationService>();
             navigationService.Initialize(Window.RootViewController);
 
             // Entry point

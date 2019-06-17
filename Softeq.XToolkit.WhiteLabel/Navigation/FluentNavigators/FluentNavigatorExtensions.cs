@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
+namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 {
     public static class NavigationHelperExtensions
     {

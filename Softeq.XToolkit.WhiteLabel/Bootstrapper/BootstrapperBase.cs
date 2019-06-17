@@ -1,10 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Reflection;
-using Autofac;
-using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
@@ -12,38 +11,20 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
     {
         public void Init(IList<Assembly> assemblies)
         {
-            var containerBuilder = new ContainerBuilder();
+            var containerBuilder = new DryIoCContainerBuilder();
             ConfigureIoc(containerBuilder);
-            RegisterServiceLocator(containerBuilder);
             RegisterInternalServices(containerBuilder);
 
-            containerBuilder.RegisterBuildCallback(x => OnContainerReady());
-
-            BuildContainer(containerBuilder, assemblies);
+            Dependencies.Initialize(BuildContainer(containerBuilder, assemblies));
         }
 
-        protected virtual void OnContainerReady()
+        protected abstract void ConfigureIoc(IContainerBuilder builder);
+
+        protected virtual IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
         {
+            return builder.Build();
         }
 
-        protected abstract void ConfigureIoc(ContainerBuilder builder);
-
-        protected virtual void BuildContainer(ContainerBuilder builder, IList<Assembly> assemblies)
-        {
-            Dependencies.IocContainer.StartScope(builder);
-        }
-
-        protected abstract void RegisterInternalServices(ContainerBuilder builder);
-
-        private void RegisterServiceLocator(ContainerBuilder builder)
-        {
-            if (!Dependencies.IsInitialized)
-            {
-                var serviceLocator = new IocContainer();
-                Dependencies.Initialize(serviceLocator);
-            }
-            builder.Singleton<IIocContainer>(c => Dependencies.IocContainer)
-                .PreserveExistingDefaults();
-        }
+        protected abstract void RegisterInternalServices(IContainerBuilder builder);
     }
 }

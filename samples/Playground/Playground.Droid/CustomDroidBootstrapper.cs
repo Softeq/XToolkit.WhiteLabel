@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Autofac;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Services;
@@ -12,7 +12,7 @@ namespace Playground.Droid
 {
     internal class CustomDroidBootstrapper : DroidBootstrapper
     {
-        protected override void ConfigureIoc(ContainerBuilder builder)
+        protected override void ConfigureIoc(IContainerBuilder builder)
         {
             // core
             CustomBootstrapper.Configure(builder);
