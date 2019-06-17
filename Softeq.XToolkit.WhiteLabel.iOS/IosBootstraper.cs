@@ -29,25 +29,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
                 var viewLocator = x.Resolve<StoryboardViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
-            }).PreserveExistingDefaults();
+            }, IfRegistered.Keep);
 
             return base.BuildContainer(builder, assemblies);
         }
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
-            builder.Singleton<ViewControllerProvider, IViewControllerProvider>()
-                .PreserveExistingDefaults();
-            builder.Singleton<StoryboardViewLocator>()
-                .PreserveExistingDefaults();
-            builder.Singleton<StoryboardNavigation, IPlatformNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<RootFrameNavigationViewModel>()
-                .PreserveExistingDefaults();
-            builder.Singleton<TabNavigationService, ITabNavigationService>()
-                .PreserveExistingDefaults();
+            builder.Singleton<ViewControllerProvider, IViewControllerProvider>(IfRegistered.Keep);
+            builder.Singleton<StoryboardViewLocator>(IfRegistered.Keep);
+            builder.Singleton<StoryboardNavigation, IPlatformNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
+            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
         }
 
         private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder,
@@ -57,10 +51,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
             foreach (var type in assemblies.SelectMany(x => x.GetTypes().View(typeof(UIViewController))))
             {
-                var viewModelType = type.BaseType.GetGenericArguments()[0];
-                viewModelToViewControllerTypes.Add(viewModelType, type);
+                try
+                {
+                    var viewModelType = type.BaseType.GetGenericArguments()[0];
+                    viewModelToViewControllerTypes.Add(viewModelType, type);
 
-                builder.PerDependency(viewModelType).PreserveExistingDefaults();
+                    builder.PerDependency(viewModelType, IfRegistered.Keep);
+                }
+                catch (Exception ex)
+                {
+
+                }
             }
 
             return viewModelToViewControllerTypes;
