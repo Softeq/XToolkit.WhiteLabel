@@ -7,14 +7,14 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
 {
     public interface IContainerBuilder
     {
-        IConcreteRegistration PerDependency<T1, T2>() where T1 : T2;
-        IConcreteRegistration PerDependency<T1>();
-        IConcreteRegistration PerDependency<T1>(Func<IContainer, T1> func);
-        IConcreteRegistration PerDependency(Type type);
-        IConcreteRegistration PerDependency<T1>(Func<IContainer, object> func);
-        IConcreteRegistration Singleton<T1, T2>() where T1 : T2;
-        IConcreteRegistration Singleton<T1>();
-        IConcreteRegistration Singleton<T1>(Func<IContainer, T1> func);
+        void PerDependency<T1, T2>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation) where T1 : T2;
+        void PerDependency<T1>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
+        void PerDependency<T1>(Func<IContainer, T1> func, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
+        void PerDependency(Type type, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
+        void PerDependency<T1>(Func<IContainer, object> func, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
+        void Singleton<T1, T2>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation) where T1 : T2;
+        void Singleton<T1>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
+        void Singleton<T1>(Func<IContainer, T1> func, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
         void RegisterBuildCallback(Action<IContainer> action);
         IContainer Build();
     }

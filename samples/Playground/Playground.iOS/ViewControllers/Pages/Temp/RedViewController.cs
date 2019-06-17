@@ -10,7 +10,7 @@ namespace Playground.iOS.ViewControllers.Pages.Temp
 {
     public partial class RedViewController : ViewControllerBase<RedViewModel>
     {
-        public RedViewController (IntPtr handle) : base (handle)
+        public RedViewController(IntPtr handle) : base(handle)
         {
         }
 

@@ -30,28 +30,23 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 var viewLocator = x.Resolve<ViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
-            }).PreserveExistingDefaults();
+            }, IfRegistered.Keep);
 
             return base.BuildContainer(builder, assemblies);
         }
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
-            builder.Singleton(c => CrossCurrentActivity.Current)
-                .PreserveExistingDefaults();
-            builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<FrameNavigationService, IFrameNavigationService>()
-                .PreserveExistingDefaults();
-            builder.Singleton<ViewLocator>()
-                .PreserveExistingDefaults();
-            builder.PerDependency<RootFrameNavigationViewModel>()
-                .PreserveExistingDefaults();
-            builder.Singleton<TabNavigationService, ITabNavigationService>()
-                .PreserveExistingDefaults();
+            builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
+            builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<FrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
+            builder.Singleton<ViewLocator>(IfRegistered.Keep);
+            builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
+            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
         }
 
-        protected Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder, IList<Assembly> assemblies)
+        private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder,
+            IEnumerable<Assembly> assemblies)
         {
             var viewModelToViewTypes = new Dictionary<Type, Type>();
 
@@ -61,7 +56,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
                 viewModelToViewTypes.Add(viewModelType, type);
 
-                builder.PerDependency(viewModelType).PreserveExistingDefaults();
+                builder.PerDependency(viewModelType, IfRegistered.Keep);
             }
 
             return viewModelToViewTypes;
