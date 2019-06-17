@@ -15,7 +15,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
     public class ActionsSheetControl : IActionSheet
     {
         private readonly IViewLocator _viewLocator;
-        private string _actionHeader;
+        private string _actionHeaderTitle;
+        private string _actionHeaderMessage;
         private IList<CommandAction> _actions;
 
         public ActionsSheetControl(IViewLocator viewLocator)
@@ -26,9 +27,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
         public ICommand OpenCommand { get; }
 
-        public void SetHeader(string header)
+        public void SetHeaderTitle(string title)
         {
-            _actionHeader = header;
+            _actionHeaderTitle = title;
+        }
+
+        public void SetHeaderMessage(string message)
+        {
+            _actionHeaderMessage = message;
         }
 
         public void SetActions(IList<CommandAction> actions)
@@ -40,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
         private void Open()
         {
-            var controller = new SupportRotationAlertController(_actionHeader, null,
+            var controller = new SupportRotationAlertController(_actionHeaderTitle, _actionHeaderMessage,
                 UIAlertControllerStyle.ActionSheet);
 
             foreach (var action in _actions)
