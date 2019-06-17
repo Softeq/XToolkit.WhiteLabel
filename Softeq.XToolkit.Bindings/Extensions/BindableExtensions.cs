@@ -13,9 +13,30 @@ namespace Softeq.XToolkit.Bindings.Extensions
     {
         public static Binding Bind<T1, T2>(this IBindableOwner obj,
             Expression<Func<T1>> sourcePropertyExpression,
-            Expression<Func<T2>> targetPropertyExpression = null,
-            BindingMode mode = BindingMode.OneWay,
-            IConverter<T2, T1> converter = null)
+            Expression<Func<T2>> targetPropertyExpression,
+            BindingMode mode = BindingMode.Default)
+        {
+            var binding = obj.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
+            SetBindingTo(obj, binding);
+            return binding;
+        }
+
+        public static Binding Bind<T1, T2>(this IBindableOwner obj,
+            Expression<Func<T1>> sourcePropertyExpression,
+            Expression<Func<T2>> targetPropertyExpression,
+            IConverter<T2, T1> converter)
+        {
+            var binding = obj.SetBinding(sourcePropertyExpression, targetPropertyExpression)
+                .SetConverter(converter);
+            SetBindingTo(obj, binding);
+            return binding;
+        }
+
+        public static Binding Bind<T1, T2>(this IBindableOwner obj,
+            Expression<Func<T1>> sourcePropertyExpression,
+            Expression<Func<T2>> targetPropertyExpression,
+            BindingMode mode,
+            IConverter<T2, T1> converter)
         {
             var binding = obj.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
                 .SetConverter(converter);
@@ -27,14 +48,6 @@ namespace Softeq.XToolkit.Bindings.Extensions
             Action<T1> action)
         {
             var binding = obj.SetBinding(sourcePropertyExpression).WhenSourceChanges(action);
-            SetBindingTo(obj, binding);
-            return binding;
-        }
-
-        public static Binding Bind<T1>(this IBindableOwner obj, Expression<Func<T1>> sourcePropertyExpression,
-            Func<T1, Task> whenSourceChanges)
-        {
-            var binding = obj.SetBinding(sourcePropertyExpression).WhenSourceChanges(whenSourceChanges);
             SetBindingTo(obj, binding);
             return binding;
         }
