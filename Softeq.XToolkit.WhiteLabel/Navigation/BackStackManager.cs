@@ -3,16 +3,18 @@
 
 using System;
 using System.Collections.Generic;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class BackStackManager : IBackStackManager
     {
-        private readonly IIocContainer _iocContainer;
+        private readonly IContainer _iocContainer;
         private readonly Stack<IViewModelBase> _backStack;
 
-        public BackStackManager(IIocContainer iocContainer)
+        public BackStackManager(IContainer iocContainer)
         {
             _iocContainer = iocContainer;
             _backStack = new Stack<IViewModelBase>();
