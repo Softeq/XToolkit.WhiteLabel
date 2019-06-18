@@ -1,24 +1,24 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.Tab
 {
     public class TabNavigationService : ITabNavigationService
     {
-        private IFrameNavigationService _currentFrameNavigationService;
+        public IFrameNavigationService CurrentFrameNavigationService { get; private set; }
 
-        public bool CanGoBack => _currentFrameNavigationService.CanGoBack;
+        public bool CanGoBack => CurrentFrameNavigationService.CanGoBack;
 
         public void GoBack()
         {
-            _currentFrameNavigationService.GoBack();
+            CurrentFrameNavigationService.GoBack();
         }
 
         public void SetSelectedViewModel(ViewModelBase selectedViewModel)
         {
-            _currentFrameNavigationService = selectedViewModel.FrameNavigationService;
+            CurrentFrameNavigationService = selectedViewModel.FrameNavigationService;
         }
     }
 }
