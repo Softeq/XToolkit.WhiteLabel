@@ -17,10 +17,10 @@ namespace Playground.iOS.ViewControllers.Pages
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            Photos.SetCommand(ViewModel.RequestCalendarPermissionCommand, Permission.Photos);
-            Camera.SetCommand(ViewModel.RequestCalendarPermissionCommand, Permission.Camera);
-            LocationInUse.SetCommand(ViewModel.RequestCalendarPermissionCommand, Permission.LocationInUse);
-            LocationAlways.SetCommand(ViewModel.RequestCalendarPermissionCommand, Permission.LocationAlways);
+            Photos.SetCommand(ViewModel.RequestPhotosCommand);
+            Camera.SetCommand(ViewModel.RequestCameraCommand);
+            LocationInUse.SetCommand(ViewModel.RequestLocationInUseCommand);
+            LocationAlways.SetCommand(ViewModel.RequestLocationAlwaysCommand);
         }
 
         protected override void DoAttachBindings()

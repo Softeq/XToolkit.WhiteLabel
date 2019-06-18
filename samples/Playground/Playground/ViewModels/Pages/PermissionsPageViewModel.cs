@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Plugin.Permissions;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
@@ -16,6 +17,7 @@ namespace Playground.ViewModels.Pages
         public bool _photosGranted;
         public bool _cameraGranted;
         public bool _storageGranted;
+        public bool _locationGranted;
         public bool _locationInUseGranted;
         public bool _locationAlwaysGranted;
 
@@ -23,7 +25,17 @@ namespace Playground.ViewModels.Pages
         {
             _permissionsManager = permissionsManager;
 
-            RequestCalendarPermissionCommand = new AsyncCommand<Permission>(OnRequestPermission);
+            RequestCameraCommand = new AsyncCommand(OnRequestCameraPermission);
+
+            RequestStorageCommand = new AsyncCommand(OnRequestStoragePermission);
+
+            RequestLocationCommand = new AsyncCommand(OnRequestLocationPermission);
+
+            RequestPhotosCommand = new AsyncCommand(OnRequestPhotosPermission);
+
+            RequestLocationInUseCommand = new AsyncCommand(OnRequestLocationInUsePermission);
+
+            RequestLocationAlwaysCommand = new AsyncCommand(OnRequestLocationAlwaysPermission);
         }
 
         public bool PhotosGranted
@@ -66,6 +78,16 @@ namespace Playground.ViewModels.Pages
             }
         }
 
+        public bool LocationGranted
+        {
+            get => _locationGranted;
+            set
+            {
+                _locationGranted = value;
+                RaisePropertyChanged(nameof(LocationGranted));
+            }
+        }
+
         public bool LocationAlwaysGranted
         {
             get => _locationAlwaysGranted;
@@ -76,58 +98,79 @@ namespace Playground.ViewModels.Pages
             }
         }
 
-        public ICommand<Permission> RequestCalendarPermissionCommand;
+        public ICommand RequestPhotosCommand;
+
+        public ICommand RequestCameraCommand;
+
+        public ICommand RequestStorageCommand;
+
+        public ICommand RequestLocationCommand;
+
+        public ICommand RequestLocationInUseCommand;
+
+        public ICommand RequestLocationAlwaysCommand;
 
         public override void OnInitialize()
         {
             base.OnInitialize();
-            ReloadData();
+            ReloadData().SafeTaskWrapper();
         }
 
-        private async Task CheckPermission(Permission permission)
+        private async Task OnRequestPhotosPermission()
         {
-            var status = await _permissionsManager.CheckAsync(permission).ConfigureAwait(false);
-            UpdatePermissionStatus(permission, status);
+            await _permissionsManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
+            await ReloadData().ConfigureAwait(false);
         }
 
-        private async Task OnRequestPermission(Permission permission)
+        private async Task OnRequestLocationInUsePermission()
         {
-            var status = await _permissionsManager.CheckWithRequestAsync(permission).ConfigureAwait(false);
-            ReloadData();
+            await _permissionsManager.CheckWithRequestAsync<LocationWhenInUsePermission>().ConfigureAwait(false);
+            await ReloadData().ConfigureAwait(false);
         }
 
-        private void ReloadData()
+        private async Task OnRequestLocationAlwaysPermission()
         {
-            foreach (Permission item in Enum.GetValues(typeof(Permission)))
-            {
-                CheckPermission(item).SafeTaskWrapper();
-            }
+            await _permissionsManager.CheckWithRequestAsync<LocationAlwaysPermission>().ConfigureAwait(false);
+            await ReloadData().ConfigureAwait(false);
         }
 
-        private void UpdatePermissionStatus(Permission permission, PermissionStatus status)
+        private async Task OnRequestCameraPermission()
         {
-            Execute.OnUIThread(() =>
-            {
-                bool granted = status == PermissionStatus.Granted;
-                switch (permission)
-                {
-                    case Permission.Photos:
-                        PhotosGranted = granted;
-                        break;
-                    case Permission.Camera:
-                        CameraGranted = granted;
-                        break;
-                    case Permission.Storage:
-                        StorageGranted = granted;
-                        break;
-                    case Permission.LocationAlways:
-                        LocationAlwaysGranted = granted;
-                        break;
-                    case Permission.LocationInUse:
-                        LocationInUseGranted = granted;
-                        break;
-                }
-            });
+            await _permissionsManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
+            await ReloadData().ConfigureAwait(false);
+        }
+
+        private async Task OnRequestStoragePermission()
+        {
+            await _permissionsManager.CheckWithRequestAsync<StoragePermission>().ConfigureAwait(false);
+            await ReloadData().ConfigureAwait(false);
+        }
+
+        private async Task OnRequestLocationPermission()
+        {
+            await _permissionsManager.CheckWithRequestAsync<LocationPermission>().ConfigureAwait(false);
+            await ReloadData().ConfigureAwait(false);
+        }
+
+        private async Task ReloadData()
+        {
+            var photosStatus = await _permissionsManager.CheckAsync<PhotosPermission>().ConfigureAwait(false);
+            Execute.OnUIThread(() => PhotosGranted = photosStatus == PermissionStatus.Granted);
+
+            var cameraStatus = await _permissionsManager.CheckAsync<CameraPermission>().ConfigureAwait(false);
+            Execute.OnUIThread(() => CameraGranted = cameraStatus == PermissionStatus.Granted);
+
+            var storageStatus = await _permissionsManager.CheckAsync<StoragePermission>().ConfigureAwait(false);
+            Execute.OnUIThread(() => StorageGranted = storageStatus == PermissionStatus.Granted);
+
+            var locationStatus = await _permissionsManager.CheckAsync<LocationPermission>().ConfigureAwait(false);
+            Execute.OnUIThread(() => LocationGranted = locationStatus == PermissionStatus.Granted);
+
+            var locationInUseStatus = await _permissionsManager.CheckAsync<LocationWhenInUsePermission>().ConfigureAwait(false);            Execute.OnUIThread(() => LocationGranted = cameraStatus == PermissionStatus.Granted);
+            Execute.OnUIThread(() => LocationInUseGranted = locationInUseStatus == PermissionStatus.Granted);
+
+            var locationAlwaysStatus = await _permissionsManager.CheckAsync<LocationAlwaysPermission>().ConfigureAwait(false);
+            Execute.OnUIThread(() => LocationAlwaysGranted = locationAlwaysStatus == PermissionStatus.Granted);
         }
     }
 }

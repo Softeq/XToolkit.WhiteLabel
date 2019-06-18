@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FFImageLoading;
 using Foundation;
 using MobileCoreServices;
+using Plugin.Permissions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.Permissions;
@@ -98,7 +99,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         public async void OpenGalleryAsync()
         {
-            var status = await _permissionsManager.CheckWithRequestAsync(Permission.Photos);
+            var status = await _permissionsManager.CheckWithRequestAsync<PhotosPermission>();
             if (status != PermissionStatus.Granted)
             {
                 return;
@@ -115,7 +116,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         public async void OpenCameraAsync()
         {
-            var status = await _permissionsManager.CheckWithRequestAsync(Permission.Camera);
+            var status = await _permissionsManager.CheckWithRequestAsync<CameraPermission>();
             if (status != PermissionStatus.Granted)
             {
                 return;

@@ -2,12 +2,13 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
+using Plugin.Permissions;
 
 namespace Softeq.XToolkit.Permissions
 {
     public interface IPermissionsDialogService
     {
-        Task<bool> ConfirmPermissionAsync(Permission permission);
-        Task<bool> ConfirmOpenSettingsForPermissionAsync(Permission permission);
+        Task<bool> ConfirmPermissionAsync<T>() where T : BasePermission;
+        Task<bool> ConfirmOpenSettingsForPermissionAsync<T>() where T : BasePermission;
     }
 }

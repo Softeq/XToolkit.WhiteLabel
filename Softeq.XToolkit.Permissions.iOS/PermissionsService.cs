@@ -8,37 +8,34 @@ using Foundation;
 using UIKit;
 using UserNotifications;
 using Plugin.Permissions;
-using PluginPermission = Plugin.Permissions.Abstractions.Permission;
 using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
     public class PermissionsService : IPermissionsService
     {
-        public async Task<PermissionStatus> RequestPermissionsAsync(Permission permission)
+        public async Task<PermissionStatus> RequestPermissionsAsync<T>()
+            where T : BasePermission, new()
         {
-            if (permission == Permission.Notifications)
+            if (typeof(T) == typeof(NotificationsPermission))
             {
                 return await RequestNotificationPermissionAsync().ConfigureAwait(false);
             }
 
-            var pluginPermission = ToPluginPermission(permission);
-            var result = await CrossPermissions.Current.RequestPermissionsAsync(pluginPermission).ConfigureAwait(false);
-            
-            return result.TryGetValue(pluginPermission, out var permissionStatus)
-                ? ToPermissionStatus(permissionStatus)
-                : PermissionStatus.Unknown;
+            var result = await CrossPermissions.Current.RequestPermissionAsync<T>().ConfigureAwait(false);
+
+            return ToPermissionStatus(result);
         }
 
-        public async Task<PermissionStatus> CheckPermissionsAsync(Permission permission)
+        public async Task<PermissionStatus> CheckPermissionsAsync<T>()
+            where T : BasePermission, new()
         {
-            if (permission == Permission.Notifications)
+            if (typeof(T) == typeof(NotificationsPermission))
             {
                 return await CheckNotificationsPermissionAsync().ConfigureAwait(false);
             }
 
-            var pluginPermission = ToPluginPermission(permission);
-            var result = await CrossPermissions.Current.CheckPermissionStatusAsync(pluginPermission).ConfigureAwait(false);
+            var result = await CrossPermissions.Current.CheckPermissionStatusAsync<T>().ConfigureAwait(false);
             
             return ToPermissionStatus(result);
         }
@@ -98,26 +95,6 @@ namespace Softeq.XToolkit.Permissions.iOS
                 default:
                     throw new InvalidEnumArgumentException(nameof(permissionStatus),
                         (int)permissionStatus, permissionStatus.GetType());
-            }
-        }
-
-        private static PluginPermission ToPluginPermission(Permission permission)
-        {
-            switch (permission)
-            {
-                case Permission.Camera:
-                    return PluginPermission.Camera;
-                case Permission.Storage:
-                    return PluginPermission.Storage;
-                case Permission.Photos:
-                    return PluginPermission.Photos;
-                case Permission.LocationInUse:
-                    return PluginPermission.LocationWhenInUse;
-                case Permission.LocationAlways:
-                    return PluginPermission.LocationAlways;
-                default:
-                    throw new NotImplementedException(
-                        $"Permissions does not work with {permission} permissions. Please handle it separately");
             }
         }
     }

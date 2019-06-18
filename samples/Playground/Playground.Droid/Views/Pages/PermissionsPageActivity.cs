@@ -7,6 +7,7 @@ using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.Permissions;
+using Plugin.Permissions;
 
 namespace Playground.Droid.Views.Pages
 {
@@ -24,13 +25,13 @@ namespace Playground.Droid.Views.Pages
             SetContentView(Resource.Layout.activity_permissions);
 
             _cameraButton = FindViewById<Button>(Resource.Id.buttonCamera);
-            _cameraButton.SetCommand(ViewModel.RequestCalendarPermissionCommand, Permission.Camera);
+            _cameraButton.SetCommand(ViewModel.RequestCameraCommand);
 
             _storageButton = FindViewById<Button>(Resource.Id.buttonStorage);
-            _storageButton.SetCommand(ViewModel.RequestCalendarPermissionCommand, Permission.Storage);
+            _storageButton.SetCommand(ViewModel.RequestStorageCommand);
 
             _locationButton = FindViewById<Button>(Resource.Id.buttonLocationInUse);
-            _locationButton.SetCommand(ViewModel.RequestCalendarPermissionCommand, Permission.LocationAlways);
+            _locationButton.SetCommand(ViewModel.RequestLocationCommand);
         }
 
         protected override void DoAttachBindings()
@@ -44,9 +45,9 @@ namespace Playground.Droid.Views.Pages
             {
                 _storageButton.SetBackgroundColor(GetColor(ViewModel.StorageGranted));
             }));
-            Bindings.Add(this.SetBinding(() => ViewModel.LocationAlwaysGranted).WhenSourceChanges(() =>
+            Bindings.Add(this.SetBinding(() => ViewModel.LocationGranted).WhenSourceChanges(() =>
             {
-                _locationButton.SetBackgroundColor(GetColor(ViewModel.LocationAlwaysGranted));
+                _locationButton.SetBackgroundColor(GetColor(ViewModel.LocationGranted));
             }));
         }
 

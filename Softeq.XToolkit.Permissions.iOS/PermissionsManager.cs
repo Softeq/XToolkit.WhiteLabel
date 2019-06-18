@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
+using Plugin.Permissions;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
 
@@ -31,16 +32,18 @@ namespace Softeq.XToolkit.Permissions.iOS
             set => _internalSettings.AddOrUpdateValue(_isNotificationsPermissionRequestedKey, value);
         }
 
-        public Task<PermissionStatus> CheckWithRequestAsync(Permission permission)
+        public Task<PermissionStatus> CheckWithRequestAsync<T>()
+            where T : BasePermission, new()
         {
-            return permission == Permission.Notifications
+            return typeof(T) == typeof(NotificationsPermission)
                 ? NotificationsCheckWithRequestAsync()
-                : CommonCheckWithRequestAsync(permission);
+                : CommonCheckWithRequestAsync<T>();
         }
 
-        public Task<PermissionStatus> CheckAsync(Permission permission)
+        public Task<PermissionStatus> CheckAsync<T>()
+            where T : BasePermission, new()
         {
-            return _permissionsService.CheckPermissionsAsync(permission);
+            return _permissionsService.CheckPermissionsAsync<T>();
         }
 
         private void OpenSettings()
@@ -52,18 +55,18 @@ namespace Softeq.XToolkit.Permissions.iOS
         {
             if (!IsNotificationsPermissionRequested)
             {
-                var isConfirmed = await _permissionsDialogService.ConfirmPermissionAsync(Permission.Notifications).ConfigureAwait(false);
+                var isConfirmed = await _permissionsDialogService.ConfirmPermissionAsync<NotificationsPermission>().ConfigureAwait(false);
                 if (!isConfirmed)
                 {
                     return PermissionStatus.Denied;
                 }
             }
 
-            var permissionStatus = await _permissionsService.RequestPermissionsAsync(Permission.Notifications).ConfigureAwait(false);
+            var permissionStatus = await _permissionsService.RequestPermissionsAsync<NotificationsPermission>().ConfigureAwait(false);
             
             if (IsNotificationsPermissionRequested && permissionStatus != PermissionStatus.Granted)
             {
-                permissionStatus = await OpenSettingsWithConfirmationAsync(Permission.Notifications).ConfigureAwait(false);
+                permissionStatus = await OpenSettingsWithConfirmationAsync<NotificationsPermission>().ConfigureAwait(false);
             }
             
             IsNotificationsPermissionRequested = true;
@@ -71,9 +74,10 @@ namespace Softeq.XToolkit.Permissions.iOS
             return permissionStatus;
         }
 
-        private async Task<PermissionStatus> CommonCheckWithRequestAsync(Permission permission)
+        private async Task<PermissionStatus> CommonCheckWithRequestAsync<T>()
+            where T : BasePermission, new()
         {
-            var permissionStatus = await _permissionsService.CheckPermissionsAsync(permission).ConfigureAwait(false);
+            var permissionStatus = await _permissionsService.CheckPermissionsAsync<T>().ConfigureAwait(false);
             if (permissionStatus == PermissionStatus.Granted)
             {
                 return permissionStatus;
@@ -81,25 +85,26 @@ namespace Softeq.XToolkit.Permissions.iOS
 
             if (permissionStatus == PermissionStatus.Denied)
             {
-                await OpenSettingsWithConfirmationAsync(permission).ConfigureAwait(false);
+                await OpenSettingsWithConfirmationAsync<T>().ConfigureAwait(false);
             }
 
             if (permissionStatus == PermissionStatus.Unknown)
             {
-                var confirmationResult = await _permissionsDialogService.ConfirmPermissionAsync(permission).ConfigureAwait(false);
+                var confirmationResult = await _permissionsDialogService.ConfirmPermissionAsync<T>().ConfigureAwait(false);
                 if (confirmationResult)
                 {
-                    permissionStatus = await _permissionsService.RequestPermissionsAsync(permission).ConfigureAwait(false);
+                    permissionStatus = await _permissionsService.RequestPermissionsAsync<T>().ConfigureAwait(false);
                 }
             }
 
             return permissionStatus;
         }
 
-        private async Task<PermissionStatus> OpenSettingsWithConfirmationAsync(Permission permission)
+        private async Task<PermissionStatus> OpenSettingsWithConfirmationAsync<T>()
+            where T : BasePermission
         {
             var openSettingsConfirmed = await _permissionsDialogService
-                .ConfirmOpenSettingsForPermissionAsync(permission).ConfigureAwait(false);
+                .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);
             if (openSettingsConfirmed)
             {
                 OpenSettings();

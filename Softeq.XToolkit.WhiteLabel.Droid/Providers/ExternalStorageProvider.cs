@@ -4,6 +4,7 @@
 using System.IO;
 using System.Threading.Tasks;
 using Android.OS;
+using Plugin.Permissions;
 using Softeq.XToolkit.Common.Exceptions;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Interfaces;
@@ -77,7 +78,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
 
         private async Task CheckPermission()
         {
-            var status = await _permissionsManager.CheckWithRequestAsync(Permission.Storage).ConfigureAwait(false);
+            var status = await _permissionsManager.CheckWithRequestAsync<StoragePermission>().ConfigureAwait(false);
             if (status != PermissionStatus.Granted)
             {
                 throw new PermissionNotGrantedException();
