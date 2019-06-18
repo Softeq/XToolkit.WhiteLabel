@@ -68,6 +68,9 @@
     <Reference Include="Xamarin.iOS" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="Plugin.Permissions">
+      <HintPath>..\packages\Plugin.Permissions.3.0.0.12\lib\xamarinios10\Plugin.Permissions.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
@@ -134,10 +137,12 @@
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\YellowStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\GreenStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\BlueStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Pages\PermissionsPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -175,6 +180,11 @@
       <DependentUpon>BlueViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="CustomIosBootstraper.cs" />
+    <Compile Include="ViewControllers\Pages\PermissionsPageViewController.cs" />
+    <Compile Include="ViewControllers\Pages\PermissionsPageViewController.designer.cs">
+      <DependentUpon>PermissionsPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="LinkerPleaseInclude.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -204,6 +214,14 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
       <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions.iOS\Softeq.XToolkit.Permissions.iOS.csproj">
+      <Project>{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}</Project>
+      <Name>Softeq.XToolkit.Permissions.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
+      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
+      <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />

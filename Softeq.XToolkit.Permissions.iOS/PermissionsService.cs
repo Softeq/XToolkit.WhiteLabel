@@ -113,6 +113,8 @@ namespace Softeq.XToolkit.Permissions.iOS
                     return PluginPermission.Photos;
                 case Permission.LocationInUse:
                     return PluginPermission.LocationWhenInUse;
+                case Permission.LocationAlways:
+                    return PluginPermission.LocationAlways;
                 default:
                     throw new NotImplementedException(
                         $"Permissions does not work with {permission} permissions. Please handle it separately");

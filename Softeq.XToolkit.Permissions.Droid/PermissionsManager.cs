@@ -9,8 +9,6 @@ namespace Softeq.XToolkit.Permissions.Droid
 {
     public class PermissionsManager : IPermissionsManager
     {
-        private readonly string _isPermissionRequestedKey = $"{nameof(PermissionsManager)}_{nameof(IsPermissionRequested)}";
-        
         private readonly IPermissionsService _permissionsService;
         private readonly IPermissionsDialogService _permissionsDialogService;
         private readonly ISettings _internalSettings;
@@ -23,12 +21,6 @@ namespace Softeq.XToolkit.Permissions.Droid
             _permissionsDialogService = permissionsDialogService;
             _internalSettings = CrossSettings.Current;
         }
-        
-        private bool IsPermissionRequested
-        {
-            get => _internalSettings.GetValueOrDefault(_isPermissionRequestedKey, false);
-            set => _internalSettings.AddOrUpdateValue(_isPermissionRequestedKey, value);
-        }
 
         public Task<PermissionStatus> CheckWithRequestAsync(Permission permission)
         {
@@ -38,6 +30,21 @@ namespace Softeq.XToolkit.Permissions.Droid
         public Task<PermissionStatus> CheckAsync(Permission permission)
         {
             return _permissionsService.CheckPermissionsAsync(permission);
+        }
+
+        private bool IsPermissionRequested(Permission permission)
+        {
+            return _internalSettings.GetValueOrDefault(GetPermissionRequestedKey(permission), false);
+        }
+
+        private void SetPermissionRequested(Permission permission, bool value)
+        {
+            _internalSettings.AddOrUpdateValue(GetPermissionRequestedKey(permission), value);
+        }
+
+        private string GetPermissionRequestedKey(Permission permission)
+        {
+            return $"{nameof(PermissionsManager)}_IsPermissionRequested_{permission}";
         }
 
         private void OpenSettings()
@@ -53,7 +60,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                 return permissionStatus;
             }
 
-            if (permissionStatus == PermissionStatus.Denied && IsPermissionRequested)
+            if (permissionStatus == PermissionStatus.Denied && IsPermissionRequested(permission))
             {
                 await OpenSettingsWithConfirmationAsync(permission).ConfigureAwait(false);
                 return PermissionStatus.Denied;
@@ -63,8 +70,8 @@ namespace Softeq.XToolkit.Permissions.Droid
             if (confirmationResult)
             {
                 permissionStatus = await _permissionsService.RequestPermissionsAsync(permission).ConfigureAwait(false);
-                
-                IsPermissionRequested = true;
+
+                SetPermissionRequested(permission, true);
             }
 
             return permissionStatus;

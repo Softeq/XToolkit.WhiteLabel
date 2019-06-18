@@ -4,6 +4,7 @@
 using System;
 using Playground.ViewModels.Pages.Temp;
 using Softeq.XToolkit.WhiteLabel.iOS;
+using Softeq.XToolkit.Bindings;
 
 namespace Playground.iOS.ViewControllers.Pages.Temp
 {
@@ -11,6 +12,12 @@ namespace Playground.iOS.ViewControllers.Pages.Temp
     {
         public GreenViewController (IntPtr handle) : base (handle)
         {
+        }
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+            Button.SetCommand(ViewModel.IncrementCommand);
         }
     }
 }

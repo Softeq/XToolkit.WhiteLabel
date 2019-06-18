@@ -7,6 +7,8 @@ using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Services;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.Permissions;
+using Softeq.XToolkit.Permissions.Droid;
 
 namespace Playground.Droid
 {
@@ -19,7 +21,10 @@ namespace Playground.Droid
 
             builder.Singleton<DroidFragmentDialogService, IDialogsService>();
             builder.Singleton<DefaultAlertBuilder, IAlertBuilder>();
-            
+
+            builder.Singleton<PermissionsService, IPermissionsService>();
+            builder.Singleton<PermissionsManager, IPermissionsManager>();
+            builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
             //builder.Singleton<DroidInternalSettings, IInternalSettings>();
             //builder.Singleton<LauncherService, ILauncherService>();
         }

@@ -1,6 +1,8 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Softeq.XToolkit.Permissions;
+using Softeq.XToolkit.Permissions.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
@@ -16,8 +18,10 @@ namespace Playground.iOS
             CustomBootstrapper.Configure(builder);
 
             builder.PerDependency<StoryboardDialogsService, IDialogsService>();
-            
+
             //builder.PerLifetimeScope<IosInternalSettings, IInternalSettings>();
+            builder.Singleton<PermissionsService, IPermissionsService>();
+            builder.Singleton<PermissionsManager, IPermissionsManager>();
         }
     }
 }
