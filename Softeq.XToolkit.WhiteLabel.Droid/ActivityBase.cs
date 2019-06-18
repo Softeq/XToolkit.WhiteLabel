@@ -28,6 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected ActivityBase()
         {
             _pageNavigation = Dependencies.PageNavigationService;
+            ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
         public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
@@ -50,13 +51,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             Dependencies.PermissionRequestHandler?.Handle(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
