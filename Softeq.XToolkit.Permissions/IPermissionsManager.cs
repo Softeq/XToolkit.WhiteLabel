@@ -10,5 +10,6 @@ namespace Softeq.XToolkit.Permissions
     {
         Task<PermissionStatus> CheckWithRequestAsync<T>() where T : BasePermission, new();
         Task<PermissionStatus> CheckAsync<T>() where T : BasePermission, new();
+        void SetPermissionDialogService(IPermissionsDialogService permissionsDialogService);
     }
 }

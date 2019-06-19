@@ -18,8 +18,6 @@ namespace Playground
             builder.Singleton<JsonSerializer, IJsonSerializer>();
             builder.Singleton<ConsoleLogManager, ILogManager>();
 
-            builder.Singleton<PermissionsDialogService, IPermissionsDialogService>();
-
             // navigation
             builder.Singleton<PageNavigationService, IPageNavigationService>();
             builder.Singleton<BackStackManager, IBackStackManager>();

@@ -14,15 +14,14 @@ namespace Softeq.XToolkit.Permissions.iOS
             $"{nameof(PermissionsManager)}_{nameof(IsNotificationsPermissionRequested)}";
 
         private readonly IPermissionsService _permissionsService;
-        private readonly IPermissionsDialogService _permissionsDialogService;
         private readonly ISettings _internalSettings;
 
+        private IPermissionsDialogService _permissionsDialogService;
+
         public PermissionsManager(
-            IPermissionsService permissionsService,
-            IPermissionsDialogService permissionsDialogService)
+            IPermissionsService permissionsService)
         {
             _permissionsService = permissionsService;
-            _permissionsDialogService = permissionsDialogService;
             _internalSettings = CrossSettings.Current;
         }
 
@@ -44,6 +43,11 @@ namespace Softeq.XToolkit.Permissions.iOS
             where T : BasePermission, new()
         {
             return _permissionsService.CheckPermissionsAsync<T>();
+        }
+
+        public void SetPermissionDialogService(IPermissionsDialogService permissionsDialogService)
+        {
+            _permissionsDialogService = permissionsDialogService;
         }
 
         private void OpenSettings()
@@ -90,7 +94,8 @@ namespace Softeq.XToolkit.Permissions.iOS
 
             if (permissionStatus == PermissionStatus.Unknown)
             {
-                var confirmationResult = await _permissionsDialogService.ConfirmPermissionAsync<T>().ConfigureAwait(false);
+                var confirmationResult = _permissionsDialogService == null ||
+                    await _permissionsDialogService.ConfirmPermissionAsync<T>().ConfigureAwait(false);
                 if (confirmationResult)
                 {
                     permissionStatus = await _permissionsService.RequestPermissionsAsync<T>().ConfigureAwait(false);
@@ -103,7 +108,8 @@ namespace Softeq.XToolkit.Permissions.iOS
         private async Task<PermissionStatus> OpenSettingsWithConfirmationAsync<T>()
             where T : BasePermission
         {
-            var openSettingsConfirmed = await _permissionsDialogService
+            var openSettingsConfirmed = _permissionsDialogService == null ||
+                await _permissionsDialogService
                 .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);
             if (openSettingsConfirmed)
             {
