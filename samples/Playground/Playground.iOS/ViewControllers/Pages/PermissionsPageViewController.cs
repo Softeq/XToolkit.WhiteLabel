@@ -5,6 +5,8 @@ using System;
 using UIKit;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Permissions;
+using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Interfaces;
 
 namespace Playground.iOS.ViewControllers.Pages
 {
@@ -26,27 +28,25 @@ namespace Playground.iOS.ViewControllers.Pages
         protected override void DoAttachBindings()
         {
             base.DoAttachBindings();
-            Bindings.Add(this.SetBinding(() => ViewModel.PhotosGranted).WhenSourceChanges(() =>
-            {
-                Photos.BackgroundColor = GetColor(ViewModel.PhotosGranted);
-            }));
-            Bindings.Add(this.SetBinding(() => ViewModel.CameraGranted).WhenSourceChanges(() =>
-            {
-                Camera.BackgroundColor = GetColor(ViewModel.CameraGranted);
-            }));
-            Bindings.Add(this.SetBinding(() => ViewModel.LocationInUseGranted).WhenSourceChanges(() =>
-            {
-                LocationInUse.BackgroundColor = GetColor(ViewModel.LocationInUseGranted);
-            }));
-            Bindings.Add(this.SetBinding(() => ViewModel.LocationAlwaysGranted).WhenSourceChanges(() =>
-            {
-                LocationAlways.BackgroundColor = GetColor(ViewModel.LocationAlwaysGranted);
-            }));
+            var converter = new ColorConverter();
+
+            this.Bind(() => ViewModel.PhotosGranted, () => Photos.BackgroundColor, converter);
+            this.Bind(() => ViewModel.CameraGranted, () => Camera.BackgroundColor, converter);
+            this.Bind(() => ViewModel.LocationInUseGranted, () => LocationInUse.BackgroundColor, converter);
+            this.Bind(() => ViewModel.LocationAlwaysGranted, () => LocationAlways.BackgroundColor, converter);
         }
 
-        private UIColor GetColor(bool granted)
+        private class ColorConverter : IConverter<UIColor, bool>
         {
-            return granted ? UIColor.Green : UIColor.Red;
+            public UIColor ConvertValue(bool TIn, object parameter = null, string language = null)
+            {
+                return TIn ? UIColor.Green : UIColor.Red;
+            }
+
+            public bool ConvertValueBack(UIColor value, object parameter = null, string language = null)
+            {
+                return value == UIColor.Green;
+            }
         }
     }
 }

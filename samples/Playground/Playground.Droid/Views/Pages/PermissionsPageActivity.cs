@@ -8,6 +8,9 @@ using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.Permissions;
 using Plugin.Permissions;
+using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Bindings.Extensions;
+using Android.Graphics.Drawables;
 
 namespace Playground.Droid.Views.Pages
 {
@@ -37,23 +40,24 @@ namespace Playground.Droid.Views.Pages
         protected override void DoAttachBindings()
         {
             base.DoAttachBindings();
-            Bindings.Add(this.SetBinding(() => ViewModel.CameraGranted).WhenSourceChanges(() =>
-            {
-                _cameraButton.SetBackgroundColor(GetColor(ViewModel.CameraGranted));
-            }));
-            Bindings.Add(this.SetBinding(() => ViewModel.StorageGranted).WhenSourceChanges(() =>
-            {
-                _storageButton.SetBackgroundColor(GetColor(ViewModel.StorageGranted));
-            }));
-            Bindings.Add(this.SetBinding(() => ViewModel.LocationGranted).WhenSourceChanges(() =>
-            {
-                _locationButton.SetBackgroundColor(GetColor(ViewModel.LocationGranted));
-            }));
+            var converter = new ColorConverter();
+
+            this.Bind(() => ViewModel.CameraGranted, () => _cameraButton.Background, converter);
+            this.Bind(() => ViewModel.StorageGranted, () => _storageButton.Background, converter);
+            this.Bind(() => ViewModel.LocationGranted, () => _locationButton.Background, converter);
         }
 
-        private Color GetColor(bool granted)
+        private class ColorConverter : IConverter<Drawable, bool>
         {
-            return granted ? Color.Green : Color.Red;
+            public Drawable ConvertValue(bool TIn, object parameter = null, string language = null)
+            {
+                return new ColorDrawable(TIn ? Color.Green : Color.Red);
+            }
+
+            public bool ConvertValueBack(Drawable value, object parameter = null, string language = null)
+            {
+                return ((ColorDrawable)value).Color == Color.Green;
+            }
         }
     }
 }
