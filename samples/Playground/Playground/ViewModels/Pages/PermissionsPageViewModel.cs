@@ -41,61 +41,37 @@ namespace Playground.ViewModels.Pages
         public bool PhotosGranted
         {
             get => _photosGranted;
-            set
-            {
-                _photosGranted = value;
-                RaisePropertyChanged(nameof(PhotosGranted));
-            }
+            set => Set(ref _photosGranted, value);
         }
 
         public bool CameraGranted
         {
             get => _cameraGranted;
-            set
-            {
-                _cameraGranted = value;
-                RaisePropertyChanged(nameof(CameraGranted));
-            }
+            set => Set(ref _cameraGranted, value);
         }
 
         public bool StorageGranted
         {
             get => _storageGranted;
-            set
-            {
-                _storageGranted = value;
-                RaisePropertyChanged(nameof(StorageGranted));
-            }
+            set => Set(ref _storageGranted, value);
         }
 
         public bool LocationInUseGranted
         {
             get => _locationInUseGranted;
-            set
-            {
-                _locationInUseGranted = value;
-                RaisePropertyChanged(nameof(LocationInUseGranted));
-            }
+            set => Set(ref _locationInUseGranted, value);
         }
 
         public bool LocationGranted
         {
             get => _locationGranted;
-            set
-            {
-                _locationGranted = value;
-                RaisePropertyChanged(nameof(LocationGranted));
-            }
+            set => Set(ref _locationGranted, value);
         }
 
         public bool LocationAlwaysGranted
         {
             get => _locationAlwaysGranted;
-            set
-            {
-                _locationAlwaysGranted = value;
-                RaisePropertyChanged(nameof(LocationAlwaysGranted));
-            }
+            set => Set(ref _locationAlwaysGranted, value);
         }
 
         public ICommand RequestPhotosCommand;

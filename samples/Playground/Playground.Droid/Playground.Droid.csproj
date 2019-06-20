@@ -78,6 +78,7 @@
     <Compile Include="Views\Pages\Temp\YellowFragment.cs" />
     <Compile Include="CustomDroidBootstrapper.cs" />
     <Compile Include="Views\Pages\PermissionsPageActivity.cs" />
+    <Compile Include="LinkerPleaseInclude.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
