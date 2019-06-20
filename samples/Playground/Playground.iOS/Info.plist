@@ -42,5 +42,15 @@
 	<string>Assets.xcassets/AppIcon.appiconset</string>
 	<key>CFBundleName</key>
 	<string>Playground.iOS</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Allow camera pls</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Allow photo pls</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Allow location in use pls</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>Allow location always pls</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>PLIS</string>
 </dict>
 </plist>

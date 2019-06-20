@@ -67,7 +67,7 @@
           <Version>3.1.1</Version>
         </PackageReference>
         <PackageReference Include="Plugin.Permissions">
-          <Version>3.0.0.12</Version>
+          <Version>5.0.0-beta</Version>
         </PackageReference>
     </ItemGroup>
     <ItemGroup>

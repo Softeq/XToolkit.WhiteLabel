@@ -8,6 +8,7 @@ using Android.App;
 using Android.Runtime;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using System.Linq;
 
 namespace Playground.Droid
 {
@@ -25,9 +26,18 @@ namespace Playground.Droid
 
         protected override IBootstrapper Bootstrapper => new CustomDroidBootstrapper();
 
-        protected override IList<Assembly> SelectAssemblies() => new List<Assembly>
+        protected override IList<Assembly> SelectAssemblies()
         {
-            GetType().Assembly
-        };
+            return AppDomain.CurrentDomain.GetAssemblies()
+                .Where(assembly =>
+                    new[]
+                    {
+                        "Playground.Droid",
+                        "Softeq.XToolkit.Chat.Droid",
+                        "Softeq.XToolkit.WhiteLabel.Droid"
+                    }
+                    .Any(x => x.Equals(assembly.GetName().Name)))
+                .ToList();
+        }
     }
 }

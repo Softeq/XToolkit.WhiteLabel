@@ -6,6 +6,7 @@ using System.IO;
 using System.Threading.Tasks;
 using FFImageLoading;
 using FFImageLoading.Work;
+using Plugin.Permissions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -39,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public async void OpenGallery()
         {
-            var result = await _permissionsManager.CheckWithRequestAsync(Permission.Photos).ConfigureAwait(false);
+            var result = await _permissionsManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
             if (result != PermissionStatus.Granted)
             {
                 return;
@@ -51,13 +52,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public async void OpenCamera()
         {
-            var result = await _permissionsManager.CheckWithRequestAsync(Permission.Camera).ConfigureAwait(false);
+            var result = await _permissionsManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
             if (result != PermissionStatus.Granted)
             {
                 return;
             }
 
-            result = await _permissionsManager.CheckWithRequestAsync(Permission.Photos).ConfigureAwait(false);
+            result = await _permissionsManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
             if (result != PermissionStatus.Granted)
             {
                 return;

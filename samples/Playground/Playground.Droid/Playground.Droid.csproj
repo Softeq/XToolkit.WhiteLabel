@@ -60,6 +60,9 @@
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
       <Version>28.0.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.Permissions">
+      <Version>5.0.0-beta</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
@@ -74,6 +77,8 @@
     <Compile Include="Views\Pages\Temp\GreenFragment.cs" />
     <Compile Include="Views\Pages\Temp\YellowFragment.cs" />
     <Compile Include="CustomDroidBootstrapper.cs" />
+    <Compile Include="Views\Pages\PermissionsPageActivity.cs" />
+    <Compile Include="LinkerPleaseInclude.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -111,6 +116,7 @@
     <AndroidResource Include="Resources\layout\fragment_green.axml" />
     <AndroidResource Include="Resources\layout\fragment_blue.axml" />
     <AndroidResource Include="Resources\layout\item_movie.xml" />
+    <AndroidResource Include="Resources\layout\activity_permissions.axml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
@@ -140,6 +146,14 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
       <Project>{2B4A678B-63B4-49DB-99B1-BFE7793110C4}</Project>
       <Name>Softeq.XToolkit.Bindings.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
+      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
+      <Name>Softeq.XToolkit.Permissions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions.Droid\Softeq.XToolkit.Permissions.Droid.csproj">
+      <Project>{955A4101-4989-4764-9134-E621FC4D9C86}</Project>
+      <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
