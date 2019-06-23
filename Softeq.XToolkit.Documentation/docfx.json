@@ -62,7 +62,7 @@
     ],
     "dest": "_site",
     "template": [
-      "default"
+      "statictoc"
     ]
   }
 }
