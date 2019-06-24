@@ -17,6 +17,7 @@ namespace Playground.iOS.ViewControllers.Pages
         : ViewControllerBase<CollectionPageViewModel>
     {
         private UIColor _navBarColor;
+
         public CollectionPageViewController(IntPtr handle) : base(handle)
         {
         }
@@ -26,13 +27,25 @@ namespace Playground.iOS.ViewControllers.Pages
             base.ViewDidLoad();
 
             CollectionView.RegisterNibForCell(MovieCollectionViewCell.Nib, MovieCollectionViewCell.Key);
-            CollectionView.DataSource = new CustomCollectionViewSource(ViewModel.Items);
+            CollectionView.DataSource = new CustomCollectionViewSource(ViewModel.ItemModels);
         }
 
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
 
+            InitNavBar();
+        }
+
+        public override void ViewWillDisappear(bool animated)
+        {
+            NavigationController.NavigationBar.BarTintColor = _navBarColor;
+
+            base.ViewWillDisappear(animated);
+        }
+
+        private void InitNavBar()
+        {
             var navBar = NavigationController.NavigationBar;
 
             Title = "Movies";
@@ -48,25 +61,11 @@ namespace Playground.iOS.ViewControllers.Pages
             navBar.Translucent = false;
         }
 
-        public override void ViewWillDisappear(bool animated)
+        private class CustomCollectionViewSource : BindableCollectionViewSource<ItemViewModel>
         {
-            NavigationController.NavigationBar.BarTintColor = _navBarColor;
-            base.ViewWillDisappear(animated);
-        }
-
-        private class CustomCollectionViewSource : BindableCollectionViewSource<ItemModel>
-        {
-            private readonly List<ItemModel> _items;
-
-            public CustomCollectionViewSource(List<ItemModel> items)
+            public CustomCollectionViewSource(IList<ItemViewModel> items)
             {
-                _items = items;
-                DataSource = _items;
-            }
-
-            public override nint GetItemsCount(UICollectionView collectionView, nint section)
-            {
-                return _items.Count;
+                DataSource = items;
             }
 
             public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)

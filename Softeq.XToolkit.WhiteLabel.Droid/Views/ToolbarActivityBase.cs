@@ -14,17 +14,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            if (ViewModel.IsInitialized)
-            {
-                return;
-            }
-
             base.OnCreate(savedInstanceState);
 
             foreach (var tabViewModel in ViewModel.TabViewModels)
             {
                 tabViewModel.InitializeNavigation(NavigationContainer);
             }
+
             ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
         }
 

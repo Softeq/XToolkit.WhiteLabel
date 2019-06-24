@@ -10,14 +10,14 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         public TViewModel ResolveViewModel<TViewModel, TParam>(TParam param)
             where TViewModel : ObservableObject, IViewModelParameter<TParam>
         {
-            var viewModel = Dependencies.IocContainer.Resolve<TViewModel>();
+            var viewModel = Dependencies.Container.Resolve<TViewModel>();
             viewModel.Parameter = param;
             return viewModel;
         }
 
         public TViewModel ResolveViewModel<TViewModel>() where TViewModel : ObservableObject
         {
-            var viewModel = Dependencies.IocContainer.Resolve<TViewModel>();
+            var viewModel = Dependencies.Container.Resolve<TViewModel>();
             return viewModel;
         }
     }

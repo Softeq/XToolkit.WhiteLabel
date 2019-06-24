@@ -10,8 +10,9 @@ using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using System;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
@@ -20,11 +21,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private const string FrameNavigationServiceParameterName = "FrameNavigationService";
 
         private readonly IViewLocator _viewLocator;
-        private readonly IIocContainer _iocContainer;
+        private readonly IContainer _iocContainer;
         private int _containerId;
         private readonly Stack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
 
-        public FrameNavigationService(IViewLocator viewLocator, IIocContainer iocContainer)
+        public FrameNavigationService(IViewLocator viewLocator, IContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;

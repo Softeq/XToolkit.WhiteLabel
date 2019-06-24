@@ -10,7 +10,8 @@ namespace Softeq.XToolkit.WhiteLabel.Interfaces
     public interface IActionSheet
     {
         ICommand OpenCommand { get; }
-        void SetHeader(string header);
+        void SetHeaderTitle(string title);
+        void SetHeaderMessage(string message);
         void SetActions(IList<CommandAction> actions);
     }
 }

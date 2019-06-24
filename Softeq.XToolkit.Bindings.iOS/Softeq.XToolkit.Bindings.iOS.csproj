@@ -46,6 +46,7 @@
     <Compile Include="AppleBinding.cs" />
     <Compile Include="AppleBindingExtensions.cs" />
     <Compile Include="AppleBindingFactory.cs" />
+    <Compile Include="Bindable\BindableCollectionViewCell.cs" />
     <Compile Include="Gestures\BehaviourExtensions.cs" />
     <Compile Include="Gestures\SwipeGestureRecognizerBehaviour.cs" />
     <Compile Include="Gestures\TapGestureRecognizerBehaviour.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="Bindable\BindableTableViewCell.cs" />
     <Compile Include="Bindable\Abstract\BindableExtensions.cs" />
     <Compile Include="Bindable\Abstract\GestureRecognizerBinding.cs" />
-    <Compile Include="Bindable\Abstract\IBindable.cs" />
     <Compile Include="Bindable\CollectionView\BindableCollectionView.cs" />
     <Compile Include="Bindable\CollectionView\BindableCollectionViewSource.cs" />
     <Compile Include="Bindable\CollectionView\BindableUICollectionViewDelegateFlowLayout.cs" />
@@ -67,11 +67,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{00BB8927-C9BC-4F4A-B4A1-1FEBAB0C74C9}</Project>
+      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{69B5CB62-EAA0-4441-A261-3E11FA9868A9}</Project>
+      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>

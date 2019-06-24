@@ -8,6 +8,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.Tab
     public interface ITabNavigationService
     {
         bool CanGoBack { get; }
+        IFrameNavigationService CurrentFrameNavigationService { get; }
         void GoBack();
         void SetSelectedViewModel(ViewModelBase selectedViewModel);
     }

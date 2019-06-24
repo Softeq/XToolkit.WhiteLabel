@@ -26,6 +26,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             BottomNavigationView.NavigationItemSelected += BottomNavigationViewNavigationItemSelected;
         }
 
+        protected override int NavigationContainer => Resource.Id.activity_main_page_navigation_container;
+
         protected BottomNavigationView BottomNavigationView { get; private set; }
 
         protected virtual ColorStateList BadgeBackgroundColor { get; }

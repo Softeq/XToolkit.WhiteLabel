@@ -6,28 +6,23 @@ using System.ComponentModel;
 using System.Threading.Tasks;
 using Android.OS;
 using Plugin.Permissions;
-using PluginPermission = Plugin.Permissions.Abstractions.Permission;
 using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
     public class PermissionsService : IPermissionsService
     {
-        public async Task<PermissionStatus> RequestPermissionsAsync(Permission permission)
+        public async Task<PermissionStatus> RequestPermissionsAsync<T>()
+            where T : BasePermission, new()
         {
-            var pluginPermission = ToPluginPermission(permission);
-            var result = await CrossPermissions.Current.RequestPermissionsAsync(pluginPermission).ConfigureAwait(false);
-
-            return result.TryGetValue(pluginPermission, out var permissionStatus)
-                ? ToPermissionStatus(permissionStatus)
-                : PermissionStatus.Unknown;
+            var result = await CrossPermissions.Current.RequestPermissionAsync<T>().ConfigureAwait(false);
+            return ToPermissionStatus(result);
         }
 
-        public async Task<PermissionStatus> CheckPermissionsAsync(Permission permission)
+        public async Task<PermissionStatus> CheckPermissionsAsync<T>()
+            where T : BasePermission, new()
         {
-            var pluginPermission = ToPluginPermission(permission);
-            var result = await CrossPermissions.Current.CheckPermissionStatusAsync(pluginPermission).ConfigureAwait(false);
-
+            var result = await CrossPermissions.Current.CheckPermissionStatusAsync<T>().ConfigureAwait(false);
             return ToPermissionStatus(result);
         }
 
@@ -65,24 +60,6 @@ namespace Softeq.XToolkit.Permissions.Droid
                 default:
                     throw new InvalidEnumArgumentException(nameof(permissionStatus),
                         (int) permissionStatus, permissionStatus.GetType());
-            }
-        }
-
-        private static PluginPermission ToPluginPermission(Permission permission)
-        {
-            switch (permission)
-            {
-                case Permission.Camera:
-                    return PluginPermission.Camera;
-                case Permission.Photos:
-                    return PluginPermission.Storage;
-                case Permission.Storage:
-                    return PluginPermission.Storage;
-                case Permission.LocationInUse:
-                    return PluginPermission.Location;
-                default:
-                    throw new NotImplementedException(
-                        $"Permissions does not work with {permission} permissions. Please handle it separately");
             }
         }
     }

@@ -3,14 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq.Expressions;
-using System.Threading.Tasks;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
-using BindingExtensions = Softeq.XToolkit.Bindings.BindingExtensions;
+using Softeq.XToolkit.Bindings.Abstract;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
@@ -29,7 +26,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
     }
 
-    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase where TViewModel : IViewModelBase
+    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase, IBindableOwner
+        where TViewModel : IViewModelBase
     {
         protected ViewControllerBase()
         {
@@ -41,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public TViewModel ViewModel { get; private set; }
 
-        protected IList<Binding> Bindings { get; } = new List<Binding>();
+        public List<Binding> Bindings { get; } = new List<Binding>();
 
         public override void SetExistingViewModel(object viewModel)
         {
@@ -66,38 +64,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             base.ViewWillDisappear(animated);
             DetachBindings();
             ViewModel.OnDisappearing();
-        }
-
-        protected void Bind<T1, T2>(
-            Expression<Func<T1>> sourcePropertyExpression,
-            Expression<Func<T2>> targetPropertyExpression = null,
-            BindingMode mode = BindingMode.OneWay,
-            IConverter<T2, T1> converter = null)
-        {
-            Bindings.Add(BindingExtensions.Bind(this, sourcePropertyExpression, targetPropertyExpression, mode,
-                converter));
-        }
-
-        protected void Bind<T1, T2>(Expression<Func<T1>> sourcePropertyExpression,
-            Expression<Func<T2>> targetPropertyExpression, IConverter<T2, T1> converter)
-        {
-            Bind(sourcePropertyExpression, targetPropertyExpression, BindingMode.OneWay, converter);
-        }
-
-        protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Action whenSourceChanges)
-        {
-            Bindings.Add(BindingExtensions.Bind(this, sourcePropertyExpression, whenSourceChanges));
-        }
-
-        protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Func<T1, Task> whenSourceChanges)
-        {
-            Bindings.Add(BindingExtensions.Bind(this, sourcePropertyExpression, whenSourceChanges));
-        }
-
-        protected void Bind<T1>(Expression<Func<T1>> sourcePropertyExpression, Action<T1> action,
-            BindingMode bindingMode = BindingMode.OneWay)
-        {
-            Bindings.Add(BindingExtensions.Bind(this, sourcePropertyExpression, action, bindingMode));
         }
 
         protected virtual void DoAttachBindings()

@@ -5,6 +5,8 @@ using System;
 using System.Threading.Tasks;
 using CoreGraphics;
 using FFImageLoading;
+using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.Interfaces;
@@ -96,11 +98,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private async Task<bool> IsPermissionGranted()
         {
-            var permission = _options.ImagePickerOpenType == ImagePickerOpenTypes.Camera
-                ? Permission.Camera
-                : Permission.Photos;
-
-            return await _permissionManager.CheckWithRequestAsync(permission).ConfigureAwait(false) == PermissionStatus.Granted;
+            Permissions.PermissionStatus status;
+            if(_options.ImagePickerOpenType == ImagePickerOpenTypes.Camera)
+            {
+                status = await _permissionManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
+            }
+            else
+            {
+                status = await _permissionManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
+            }
+            return status == Permissions.PermissionStatus.Granted;
         }
 
         private void OnCanceled(object sender, EventArgs e)

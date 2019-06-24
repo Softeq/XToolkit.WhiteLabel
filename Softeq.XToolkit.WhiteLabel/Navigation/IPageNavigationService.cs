@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         void GoBack();
 
-        NavigateHelper<T> For<T>() where T : IViewModelBase;
+        PageFluentNavigator<T> For<T>() where T : IViewModelBase;
 
         void NavigateToViewModel<T>(bool clearBackStack = false)
             where T : IViewModelBase;

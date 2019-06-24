@@ -10,6 +10,7 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
@@ -27,6 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected ActivityBase()
         {
             _pageNavigation = Dependencies.PageNavigationService;
+            ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
         public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
@@ -51,17 +53,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            ViewComponents = new List<IViewComponent<ActivityBase>>();
-        }
-
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
-            var viewLocator = Dependencies.IocContainer.Resolve<IViewLocator>();
-            var fragment = (Fragment)viewLocator.GetView(viewModel, ViewType.Fragment);
+            var viewLocator = Dependencies.Container.Resolve<IViewLocator>();
+            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
             SupportFragmentManager
                 .BeginTransaction()
                 .Add(containerId, fragment)
@@ -69,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         }
     }
 
-    public abstract class ActivityBase<TViewModel> : ActivityBase
+    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindableOwner
         where TViewModel : ViewModelBase
     {
         private const string ShouldRestoreStateKey = "shouldRestore";
@@ -82,12 +77,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             _jsonSerializer = Dependencies.JsonSerializer;
             _viewModelLazy = new Lazy<TViewModel>(() =>
             {
-                var backStack = Dependencies.IocContainer.Resolve<IBackStackManager>();
+                var backStack = Dependencies.Container.Resolve<IBackStackManager>();
                 return backStack.GetExistingOrCreateViewModel<TViewModel>();
             });
         }
 
-        protected List<Binding> Bindings { get; }
+        public List<Binding> Bindings { get; }
 
         protected virtual TViewModel ViewModel
         {
@@ -196,7 +191,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                     return Enum.ToObject(property.PropertyType, value);
                 }
 
-                return ((JObject)value).ToObject(property.PropertyType);
+                return ((JObject) value).ToObject(property.PropertyType);
             }
 
             property.SetValue(ViewModel, GetValue(parameter.Value), null);
@@ -210,6 +205,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         private TViewModel _viewModel;
 
         protected override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel)Dependencies.IocContainer.Resolve<TInterface>());
+            _viewModel ?? (_viewModel = (TViewModel) Dependencies.Container.Resolve<TInterface>());
     }
 }

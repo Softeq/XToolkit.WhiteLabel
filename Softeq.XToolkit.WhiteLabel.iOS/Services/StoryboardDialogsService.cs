@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
@@ -18,21 +20,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         private readonly ILogger _logger;
         private readonly IViewLocator _viewLocator;
-        private readonly IIocContainer _iocContainer;
+        private readonly IContainer _iocContainer;
 
         public StoryboardDialogsService(
             IViewLocator viewLocator,
             ILogManager logManager,
-            IIocContainer iocContainer)
+            IContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
             _logger = logManager.GetLogger<StoryboardDialogsService>();
-        }
-
-        public DialogNavigationHelper<T> For<T>() where T : IDialogViewModel
-        {
-            return new DialogNavigationHelper<T>(this);
         }
 
         public async Task<TResult> ShowForViewModel<TViewModel, TResult>(

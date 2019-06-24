@@ -441,16 +441,14 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var type = PropertySource.Target.GetType();
             var ev = type.GetRuntimeEvent(eventName);
             if (ev == null)
             {
-                throw new ArgumentException(
-                    "Event not found: " + eventName,
-                    "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             EventHandler handler = HandleSourceEvent;
@@ -538,16 +536,14 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var type = PropertySource.Target.GetType();
             var ev = type.GetRuntimeEvent(eventName);
             if (ev == null)
             {
-                throw new ArgumentException(
-                    "Event not found: " + eventName,
-                    "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             EventHandler<TEventArgs> handler = HandleSourceEvent;
@@ -637,7 +633,7 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var type = PropertyTarget.Target.GetType();
@@ -645,9 +641,7 @@ namespace Softeq.XToolkit.Bindings
             var ev = type.GetRuntimeEvent(eventName);
             if (ev == null)
             {
-                throw new ArgumentException(
-                    "Event not found: " + eventName,
-                    "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             EventHandler handler = HandleTargetEvent;
@@ -743,7 +737,7 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var type = PropertyTarget.Target.GetType();
@@ -751,9 +745,7 @@ namespace Softeq.XToolkit.Bindings
             var ev = type.GetRuntimeEvent(eventName);
             if (ev == null)
             {
-                throw new ArgumentException(
-                    "Event not found: " + eventName,
-                    "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             EventHandler<TEventArgs> handler = HandleTargetEvent;
@@ -1252,14 +1244,14 @@ namespace Softeq.XToolkit.Bindings
 
             if (body == null)
             {
-                throw new ArgumentException("Invalid argument", "propertyExpression");
+                throw new ArgumentException("Invalid argument", nameof(propertyExpression));
             }
 
             var property = body.Member as PropertyInfo;
 
             if (property == null)
             {
-                throw new ArgumentException("Argument is not a property", "propertyExpression");
+                throw new ArgumentException("Argument is not a property", nameof(propertyExpression));
             }
 
             return property.Name;

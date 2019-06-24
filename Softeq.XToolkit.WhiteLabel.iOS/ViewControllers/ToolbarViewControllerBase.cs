@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             _tabBarController = UiTabBarControllerHelper.CreateForViewModels(
                 ViewModel.TabViewModels,
                 ViewModel.TabViewModels.Select(GetTabBarItem).ToArray(),
-                Dependencies.IocContainer.Resolve<IViewLocator>(),
+                Dependencies.Container.Resolve<IViewLocator>(),
                 TabBarControllerFactory);
 
             _tabBarController.AddAsChildWithConstraints(this);

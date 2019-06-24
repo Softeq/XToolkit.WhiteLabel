@@ -5,14 +5,14 @@ using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
+namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 {
-    public class DialogNavigationHelper<TViewModel> : NavigationHelper<TViewModel>
+    public class DialogFluentNavigator<TViewModel> : FluentNavigatorBase<TViewModel>
         where TViewModel : IDialogViewModel
     {
         private readonly IDialogsService _dialogsService;
 
-        public DialogNavigationHelper(IDialogsService dialogsService)
+        public DialogFluentNavigator(IDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
         }
@@ -27,11 +27,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.NavigationHelpers
             return _dialogsService.ShowForViewModel<TViewModel>(Parameters);
         }
 
-        public new DialogNavigationHelper<TViewModel> WithParam<TValue>(
+        public DialogFluentNavigator<TViewModel> WithParam<TValue>(
             Expression<Func<TViewModel, TValue>> property,
             TValue value)
         {
-            base.WithParam(property, value);
+            ApplyParameter(property, value);
             return this;
         }
     }

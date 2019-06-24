@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Oox-w9-UZv">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Permissions Page View Controller-->
+        <scene sceneID="uHw-KW-VLi">
+            <objects>
+                <viewController storyboardIdentifier="PermissionsPageViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Oox-w9-UZv" customClass="PermissionsPageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="70u-5o-sLc"/>
+                        <viewControllerLayoutGuide type="bottom" id="XCa-UP-OKx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="RBm-1V-cb9">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="0dN-eX-pWc">
+                                <rect key="frame" x="16" y="20" width="288" height="548"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ybe-xI-8r5">
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="137"/>
+                                        <state key="normal" title="PHOTOS"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwx-Sp-ddS">
+                                        <rect key="frame" x="0.0" y="137" width="288" height="137"/>
+                                        <state key="normal" title="CAMERA"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWH-x1-eY8">
+                                        <rect key="frame" x="0.0" y="274" width="288" height="137"/>
+                                        <state key="normal" title="LOCATIONINUSE"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tDV-tg-74J">
+                                        <rect key="frame" x="0.0" y="411" width="288" height="137"/>
+                                        <state key="normal" title="LOCATIONALWAYS"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="0dN-eX-pWc" firstAttribute="leading" secondItem="RBm-1V-cb9" secondAttribute="leadingMargin" id="2rQ-pc-NKW"/>
+                            <constraint firstItem="XCa-UP-OKx" firstAttribute="top" secondItem="0dN-eX-pWc" secondAttribute="bottom" id="St3-iP-nrn"/>
+                            <constraint firstItem="0dN-eX-pWc" firstAttribute="top" secondItem="70u-5o-sLc" secondAttribute="bottom" id="U0m-Qy-jJR"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="0dN-eX-pWc" secondAttribute="trailing" id="cCT-c7-5K9"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="Camera" destination="gwx-Sp-ddS" id="name-outlet-gwx-Sp-ddS"/>
+                        <outlet property="LocationAlways" destination="tDV-tg-74J" id="name-outlet-tDV-tg-74J"/>
+                        <outlet property="LocationInUse" destination="YWH-x1-eY8" id="name-outlet-YWH-x1-eY8"/>
+                        <outlet property="Photos" destination="Ybe-xI-8r5" id="name-outlet-Ybe-xI-8r5"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="cuT-Yg-H8v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="84" y="130"/>
+        </scene>
+    </scenes>
+</document>
