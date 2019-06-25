@@ -7,25 +7,28 @@ using System.Linq;
 
 namespace Softeq.XToolkit.Common.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+    /// </summary>
     public static class EnumerablesExtensions
     {
         /// <summary>
-        ///     Returns empty IEnumerable if source is null
+        /// Returns empty IEnumerable if source is null.
         /// </summary>
-        /// <returns>Return IEnumerable if source is null otherwise return source</returns>
+        /// <returns>Return IEnumerable if source is null otherwise return source.</returns>
         /// <param name="source">Source.</param>
-        /// <typeparam name="T">Item type</typeparam>
+        /// <typeparam name="T">Item type.</typeparam>
         public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source)
         {
             return source ?? Enumerable.Empty<T>();
         }
 
         /// <summary>
-        ///     Apply specified action to each item of enumerable.
+        /// Apply specified action to each item of enumerable.
         /// </summary>
         /// <param name="enumerable">IEnumerable instance.</param>
         /// <param name="action">Specified action.</param>
-        /// <typeparam name="T">Item type</typeparam>
+        /// <typeparam name="T">Item type.</typeparam>
         public static void Apply<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
             foreach (var item in enumerable)
@@ -34,6 +37,12 @@ namespace Softeq.XToolkit.Common.Extensions
             }
         }
 
+        /// <summary>
+        /// Splits an enumerable into chunks of a specified size.
+        /// </summary>
+        /// <param name="source">IEnumerable instance.</param>
+        /// <param name="size">Chunk size.</param>
+        /// <typeparam name="T">Item type.</typeparam>
         public static IEnumerable<T[]> Chunkify<T>(
             this IEnumerable<T> source, int size)
         {
