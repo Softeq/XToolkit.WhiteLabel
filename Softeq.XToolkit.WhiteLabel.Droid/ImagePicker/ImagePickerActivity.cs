@@ -2,18 +2,15 @@
 using System;
 using System.Globalization;
 using System.IO;
-using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
-using Android.Database;
 using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
 using Android.Support.V4.Content;
-using Android.Widget;
 using Plugin.CurrentActivity;
 using ImageOrientation = Android.Media.Orientation;
 
@@ -26,9 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
         public const int CameraMode = 1;
         public const int GalleryMode = 2;
 
-        private const string TempFolder = "Temp";
-        private const string FileScheme = "file";
-        private const string ContentScheme = "content";
+        private const string ImagesFolder = "Pictures";
 
         private Android.Net.Uri _fileUri;
         private Intent _pickIntent;
@@ -93,7 +88,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
         private void CaptureCamera()
         {
             _pickIntent = new Intent(MediaStore.ActionImageCapture);
-            _fileUri = GetOutputMediaFile(CrossCurrentActivity.Current.AppContext, TempFolder, null);
+            _fileUri = GetOutputMediaFile(CrossCurrentActivity.Current.AppContext, ImagesFolder, null);
 
             _pickIntent.PutExtra(MediaStore.ExtraOutput, _fileUri);
             StartActivityForResult(_pickIntent, CameraMode);
@@ -181,8 +176,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                 name = "IMG_" + timestamp + ".jpg";
             }
 
-            var mediaType = Android.OS.Environment.DirectoryPictures;
-            var directory = context.GetExternalFilesDir(mediaType);
+            var directory = context.CacheDir;
             using (var mediaStorageDir = new Java.IO.File(directory, subdir))
             {
                 if (!mediaStorageDir.Exists())
@@ -198,7 +192,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                     }
                 }
 
-                return Android.Net.Uri.FromFile(new Java.IO.File(GetUniquePath(mediaStorageDir.Path, name)));
+                return FileProvider.GetUriForFile(context, $"{context.PackageName}.fileprovider", new Java.IO.File(GetUniquePath(mediaStorageDir.Path, name)));
             }
         }
 
