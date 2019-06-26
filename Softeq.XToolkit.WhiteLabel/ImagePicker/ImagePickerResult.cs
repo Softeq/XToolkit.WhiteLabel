@@ -53,6 +53,26 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
         Jpg
     }
 
+    public abstract class ImagePickeResult
+    {
+        public object ImageObject { get; set; }
+
+        public string ImageCacheKey { get; set; }
+
+        public ImageExtension ImageExtension { get; set; }
+
+        public string Extension
+        {
+            get
+            {
+                var converter = new ImageExtensionToStringConverter();
+                return converter.ConvertValue(ImageExtension);
+            }
+        }
+
+        public abstract Task<Stream> GetStream();
+    }
+
     public class ImagePickerArgs
     {
         public string ImageCacheKey { get; set; }
@@ -70,7 +90,7 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
             }
         }
 
-        public static ImagePickerArgs Empty => new ImagePickerArgs 
+        public static ImagePickerArgs Empty => new ImagePickerArgs
         {
             ImageExtension = ImageExtension.Unknown,
             ImageStream = () => Task.FromResult(default(Stream))
