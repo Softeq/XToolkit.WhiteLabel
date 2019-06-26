@@ -59,8 +59,6 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
 
         public IDisposable ImageObject { get; set; }
 
-        public string ImageCacheKey { get; set; }
-
         public ImageExtension ImageExtension { get; set; }
 
         public string Extension
