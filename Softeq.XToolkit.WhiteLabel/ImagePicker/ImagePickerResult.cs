@@ -53,11 +53,11 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
         Jpg
     }
 
-    public abstract class ImagePickeResult
+    public abstract class ImagePickeResult : IDisposable
     {
         public float Quality { get; set; }
 
-        public object ImageObject { get; set; }
+        public IDisposable ImageObject { get; set; }
 
         public string ImageCacheKey { get; set; }
 
@@ -69,6 +69,25 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
             {
                 var converter = new ImageExtensionToStringConverter();
                 return converter.ConvertValue(ImageExtension);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        ~ImagePickeResult()
+        {
+            Dispose(false);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if(disposing)
+            {
+                ImageObject?.Dispose();
             }
         }
 
