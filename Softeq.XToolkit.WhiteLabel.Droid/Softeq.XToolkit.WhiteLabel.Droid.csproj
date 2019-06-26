@@ -96,7 +96,6 @@
     <Compile Include="Controls\NavigationBarView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />
-    <Compile Include="Navigation\RootFrameFragmentBase.cs" />
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
