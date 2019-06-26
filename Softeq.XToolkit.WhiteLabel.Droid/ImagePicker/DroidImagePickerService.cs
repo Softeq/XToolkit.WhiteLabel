@@ -8,20 +8,18 @@ using Softeq.XToolkit.WhiteLabel.ImagePicker;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 {
-    public class DroidImagePicker : IImagePicker
+    public class DroidImagePickerService : IImagePickerService
     {
         private readonly IPermissionsManager _permissionsManager;
-        private const string TAG_PIXEL_X_DIMENSION = "PixelXDimension";
-        private const string TAG_PIXEL_Y_DIMENSION = "PixelYDimension";
 
-        public DroidImagePicker(IPermissionsManager permissionsManager)
+        public DroidImagePickerService(IPermissionsManager permissionsManager)
         {
             _permissionsManager = permissionsManager;
         }
 
         private TaskCompletionSource<Bitmap> _taskCompletionSource;
 
-        public async Task<ImagePickeResult> PickPhotoAsync(float quality)
+        public async Task<ImagePickerResult> PickPhotoAsync(float quality)
         {
             var permissionStatus = await _permissionsManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
 
@@ -33,7 +31,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             return await GetImageAsync(ImagePickerActivity.GalleryMode, quality).ConfigureAwait(false);
         }
 
-        public async Task<ImagePickeResult> TakePhotoAsync(float quality)
+        public async Task<ImagePickerResult> TakePhotoAsync(float quality)
         {
             var permissionStatus = await _permissionsManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
 
@@ -45,7 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             return await GetImageAsync(ImagePickerActivity.CameraMode, quality).ConfigureAwait(false);
         }
 
-        private async Task<ImagePickeResult> GetImageAsync(int mode, float quality)
+        private async Task<ImagePickerResult> GetImageAsync(int mode, float quality)
         {
             var intent = new Intent(CrossCurrentActivity.Current.Activity, typeof(ImagePickerActivity));
 

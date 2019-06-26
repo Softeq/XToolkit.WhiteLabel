@@ -111,7 +111,7 @@
     <Compile Include="Controls\NonConsumingTouchesToolbar.cs" />
     <Compile Include="Controls\SwipeControlViewPager.cs" />
     <Compile Include="DroidBootstrapper.cs" />
-    <Compile Include="ImagePicker\DroidImagePicker.cs" />
+    <Compile Include="ImagePicker\DroidImagePickerService.cs" />
     <Compile Include="ImagePicker\ImagePickerActivity.cs" />
     <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
   </ItemGroup>

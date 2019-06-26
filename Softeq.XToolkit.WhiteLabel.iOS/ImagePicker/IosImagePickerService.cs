@@ -1,28 +1,27 @@
 ﻿using System;
 using System.Threading.Tasks;
 using MobileCoreServices;
-using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
-    public class IosImagePicker : IImagePicker
+    public class IosImagePickerService : IImagePickerService
     {
         private TaskCompletionSource<UIImage> _taskCompletionSource;
         private UIImagePickerController _pickerController;
 
-        public Task<ImagePickeResult> PickPhotoAsync(float quality)
+        public Task<ImagePickerResult> PickPhotoAsync(float quality)
         {
             return GetImageAsync(UIImagePickerControllerSourceType.PhotoLibrary, quality);
         }
 
-        public Task<ImagePickeResult> TakePhotoAsync(float quality)
+        public Task<ImagePickerResult> TakePhotoAsync(float quality)
         {
             return GetImageAsync(UIImagePickerControllerSourceType.Camera, quality);
         }
 
-        private async Task<ImagePickeResult> GetImageAsync(UIImagePickerControllerSourceType type, float quality)
+        private async Task<ImagePickerResult> GetImageAsync(UIImagePickerControllerSourceType type, float quality)
         {
             _pickerController = new UIImagePickerController
             {

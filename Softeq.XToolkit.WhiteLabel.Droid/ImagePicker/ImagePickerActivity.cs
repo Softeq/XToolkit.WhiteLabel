@@ -13,6 +13,7 @@ using Android.Runtime;
 using Android.Support.V4.Content;
 using Plugin.CurrentActivity;
 using ImageOrientation = Android.Media.Orientation;
+using Debug = System.Diagnostics.Debug;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 {
@@ -160,7 +161,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             }
             catch (Java.IO.FileNotFoundException fnfEx)
             {
-                System.Diagnostics.Debug.WriteLine("Unable to save picked file from disk " + fnfEx);
+                Debug.WriteLine("Unable to save picked file from disk " + fnfEx);
             }
 
             return stream;
@@ -173,7 +174,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             if (string.IsNullOrWhiteSpace(name))
             {
                 var timestamp = DateTime.Now.ToString("yyyyMMdd_HHmmss", CultureInfo.InvariantCulture);
-                name = "IMG_" + timestamp + ".jpg";
+                name = $"IMG_{timestamp}.jpg";
             }
 
             var directory = context.CacheDir;

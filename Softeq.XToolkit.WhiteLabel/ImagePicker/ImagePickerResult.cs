@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
         Jpg
     }
 
-    public abstract class ImagePickeResult : IDisposable
+    public abstract class ImagePickerResult : IDisposable
     {
         public float Quality { get; set; }
 
@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
             GC.SuppressFinalize(this);
         }
 
-        ~ImagePickeResult()
+        ~ImagePickerResult()
         {
             Dispose(false);
         }

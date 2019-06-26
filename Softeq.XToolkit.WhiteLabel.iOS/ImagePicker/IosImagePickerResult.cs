@@ -6,19 +6,19 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
-    public class IosImagePickerResult : ImagePickeResult
+    public class IosImagePickerResult : ImagePickerResult
     {
         public override Task<Stream> GetStream()
         {
-            if(ImageObject != null)
+            if (ImageObject is UIImage image)
             {
                 if(ImageExtension == ImageExtension.Jpg)
                 {
-                    return Task.FromResult(((UIImage) ImageObject).AsJPEG(Quality).AsStream());
+                    return Task.FromResult(image.AsJPEG(Quality).AsStream());
                 }
                 else if (ImageExtension == ImageExtension.Png)
                 {
-                    return Task.FromResult(((UIImage) ImageObject).AsPNG().AsStream());
+                    return Task.FromResult(image.AsPNG().AsStream());
                 }
             }
             return Task.FromResult(Stream.Null);
