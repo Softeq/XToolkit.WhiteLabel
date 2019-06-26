@@ -76,8 +76,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             if (uri != null)
             {
                 bitmap = MediaStore.Images.Media.GetBitmap(CrossCurrentActivity.Current.AppContext.ContentResolver, uri);
-                var filePath = GetFileForUriAsync(CrossCurrentActivity.Current.AppContext, uri).Result;
-                bitmap = FixRotation(bitmap, new ExifInterface(filePath)).Result;
+                using (var stream = GetContentSrream(CrossCurrentActivity.Current.AppContext, uri))
+                {
+                    bitmap = FixRotation(bitmap, new ExifInterface(stream)).Result;
+                }
             }
             OnImagePicked(bitmap);
         }
@@ -154,96 +156,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             }
         }
 
-        private async Task<string> GetFileForUriAsync(Context context, Android.Net.Uri uri)
+        private System.IO.Stream GetContentSrream(Context context, Android.Net.Uri uri)
         {
-            var tcs = new TaskCompletionSource<string>();
-
-            if (uri.Scheme == FileScheme)
-            {
-                tcs.SetResult(new Uri(uri.ToString()).LocalPath);
-            }
-            else if (uri.Scheme == ContentScheme)
-            {
-                var result = await GetContentPath(context, uri).ConfigureAwait(false);
-                tcs.SetResult(result);
-            }
-            else
-            {
-                tcs.SetResult(null);
-            }
-
-            return await tcs.Task.ConfigureAwait(false);
-        }
-
-        private Task<string> GetContentPath(Context context, Android.Net.Uri uri)
-        {
-            return Task.Factory.StartNew(() =>
-            {
-                ICursor cursor = null;
-                try
-                {
-                    cursor = context.ContentResolver.Query(uri, new[] { MediaStore.MediaColumns.Data }, null, null, null);
-                    if (cursor == null || !cursor.MoveToNext())
-                    {
-                        return null;
-                    }
-
-                    var column = cursor.GetColumnIndex(MediaStore.MediaColumns.Data);
-                    string contentPath = null;
-
-                    if (column != -1)
-                    {
-                        contentPath = cursor.GetString(column);
-                    }
-
-                    if (contentPath == null || !contentPath.StartsWith(FileScheme, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        string fileName = null;
-                        try
-                        {
-                            fileName = System.IO.Path.GetFileName(contentPath);
-                        }
-                        catch (Exception ex)
-                        {
-                            System.Diagnostics.Debug.WriteLine("Unable to get file path name, using new unique " + ex);
-                        }
-
-                        contentPath = CopyContentToFile(context, uri, fileName);
-                    }
-
-                    return contentPath;
-                }
-                finally
-                {
-                    cursor?.Close();
-                    cursor?.Dispose();
-                }
-            }, CancellationToken.None, TaskCreationOptions.None, TaskScheduler.Default);
-        }
-
-        private string CopyContentToFile(Context context, Android.Net.Uri uri, string fileName)
-        {
-            string contentPath = null;
-            var outputPath = GetOutputMediaFile(context, TempFolder, fileName);
-
+            var stream = System.IO.Stream.Null;
             try
             {
-                using (var input = context.ContentResolver.OpenInputStream(uri))
-                {
-                    using (var output = File.Create(outputPath.Path))
-                    {
-                        input.CopyTo(output);
-                    }
-                }
-
-                contentPath = outputPath.Path;
+                stream = context.ContentResolver.OpenInputStream(uri);
             }
             catch (Java.IO.FileNotFoundException fnfEx)
             {
                 System.Diagnostics.Debug.WriteLine("Unable to save picked file from disk " + fnfEx);
             }
 
-            return contentPath;
+            return stream;
         }
 
         private Android.Net.Uri GetOutputMediaFile(Context context, string subdir, string name)
