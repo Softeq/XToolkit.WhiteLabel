@@ -55,6 +55,8 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
 
     public abstract class ImagePickeResult
     {
+        public float Quality { get; set; }
+
         public object ImageObject { get; set; }
 
         public string ImageCacheKey { get; set; }

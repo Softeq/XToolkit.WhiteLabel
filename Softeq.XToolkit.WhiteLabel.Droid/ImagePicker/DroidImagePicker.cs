@@ -1,20 +1,18 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
-using Android.Provider;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
-using static Android.Graphics.Bitmap;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 {
     public class DroidImagePicker : IImagePicker
     {
         private readonly IPermissionsManager _permissionsManager;
+        private const string TAG_PIXEL_X_DIMENSION = "PixelXDimension";
+        private const string TAG_PIXEL_Y_DIMENSION = "PixelYDimension";
 
         public DroidImagePicker(IPermissionsManager permissionsManager)
         {
@@ -23,19 +21,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
         private TaskCompletionSource<Bitmap> _taskCompletionSource;
 
-        public async Task<ImagePickeResult> PickPhotoAsync()
+        public async Task<ImagePickeResult> PickPhotoAsync(float quality)
         {
             var permissionStatus = await _permissionsManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
 
-            if(permissionStatus != PermissionStatus.Granted)
+            if (permissionStatus != PermissionStatus.Granted)
             {
                 return null;
             }
 
-            return await GetImageAsync(ImagePickerActivity.GalleryMode).ConfigureAwait(false);
+            return await GetImageAsync(ImagePickerActivity.GalleryMode, quality).ConfigureAwait(false);
         }
 
-        public async Task<ImagePickeResult> TakePhotoAsync()
+        public async Task<ImagePickeResult> TakePhotoAsync(float quality)
         {
             var permissionStatus = await _permissionsManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
 
@@ -44,10 +42,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                 return null;
             }
 
-            return await GetImageAsync(ImagePickerActivity.CameraMode).ConfigureAwait(false);
+            return await GetImageAsync(ImagePickerActivity.CameraMode, quality).ConfigureAwait(false);
         }
 
-        private async Task<ImagePickeResult> GetImageAsync(int mode)
+        private async Task<ImagePickeResult> GetImageAsync(int mode, float quality)
         {
             var intent = new Intent(CrossCurrentActivity.Current.Activity, typeof(ImagePickerActivity));
 
@@ -63,6 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
             return new DroidImagePickerResult
             {
+                Quality = quality,
                 ImageObject = bitmap,
                 ImageExtension = ImageExtension.Jpg
             };

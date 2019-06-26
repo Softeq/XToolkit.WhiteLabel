@@ -5,8 +5,8 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
 {
     public interface IImagePicker
     {
-        Task<ImagePickeResult> PickPhotoAsync();
+        Task<ImagePickeResult> PickPhotoAsync(float quality = 1);
 
-        Task<ImagePickeResult> TakePhotoAsync();
+        Task<ImagePickeResult> TakePhotoAsync(float quality = 1);
     }
 }

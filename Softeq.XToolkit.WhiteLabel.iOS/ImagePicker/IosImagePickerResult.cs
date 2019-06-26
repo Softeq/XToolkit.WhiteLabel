@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             {
                 if(ImageExtension == ImageExtension.Jpg)
                 {
-                    return Task.FromResult(((UIImage) ImageObject).AsJPEG().AsStream());
+                    return Task.FromResult(((UIImage) ImageObject).AsJPEG(Quality).AsStream());
                 }
                 else if (ImageExtension == ImageExtension.Png)
                 {

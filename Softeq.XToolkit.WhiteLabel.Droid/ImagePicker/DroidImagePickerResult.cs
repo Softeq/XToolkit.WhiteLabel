@@ -16,11 +16,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             {
                 if(ImageExtension == ImageExtension.Jpg)
                 {
-                    ((Bitmap) ImageObject).Compress(CompressFormat.Jpeg, 100, memoryStream);
+                    ((Bitmap) ImageObject).Compress(CompressFormat.Jpeg, (int)(Quality * 100), memoryStream);
                 }
                 else if (ImageExtension == ImageExtension.Png)
                 {
-                    ((Bitmap) ImageObject).Compress(CompressFormat.Png, 100, memoryStream);
+                    ((Bitmap) ImageObject).Compress(CompressFormat.Png, (int) (Quality * 100), memoryStream);
                 }
             }
             return Task.FromResult(memoryStream);
