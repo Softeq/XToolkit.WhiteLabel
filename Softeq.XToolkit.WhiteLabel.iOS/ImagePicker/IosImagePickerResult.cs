@@ -21,8 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                     return Task.FromResult(((UIImage) ImageObject).AsPNG().AsStream());
                 }
             }
-            Stream stream = new MemoryStream();
-            return Task.FromResult(stream);
+            return Task.FromResult(Stream.Null);
         }
     }
 }
