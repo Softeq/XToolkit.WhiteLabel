@@ -55,6 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private void OnCanceled(object sender, EventArgs e)
         {
             _pickerController.Canceled -= OnCanceled;
+            _taskCompletionSource.SetResult(null);
             ReleaseImagePicker();
         }
 
