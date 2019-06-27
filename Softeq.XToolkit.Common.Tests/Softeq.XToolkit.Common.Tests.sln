@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Tests", "Softeq.XToolkit.Common.Tests.csproj", "{3A9C44AB-F030-4FEE-8F7D-1392B755EC39}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{223B7CF9-59BF-407A-A6E6-068E71C11E14}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,5 +15,9 @@ Global
 		{3A9C44AB-F030-4FEE-8F7D-1392B755EC39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3A9C44AB-F030-4FEE-8F7D-1392B755EC39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3A9C44AB-F030-4FEE-8F7D-1392B755EC39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{223B7CF9-59BF-407A-A6E6-068E71C11E14}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{223B7CF9-59BF-407A-A6E6-068E71C11E14}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{223B7CF9-59BF-407A-A6E6-068E71C11E14}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{223B7CF9-59BF-407A-A6E6-068E71C11E14}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
