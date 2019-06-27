@@ -22,6 +22,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         private readonly WeakReferenceEx<UITableView> _tableViewRef;
         private IDisposable _subscription;
         private readonly Func<nint, nint> _getRowInSectionCountFunc;
+        private readonly Func<NSIndexPath, nfloat> _getHeightForRowFunc;
 
         public ObservableGroupTableViewSource(
             UITableView tableView,
@@ -31,9 +32,11 @@ namespace Softeq.XToolkit.Bindings.iOS
             Func<UITableView, TKey, UIView> getHeaderViewFunc = null,
             Func<UITableView, TKey, UIView> getFooterViewFunc = null,
             Func<TKey, nfloat> getHeaderHeightFunc = null,
-            Func<TKey, nfloat> getFooterHeightFunc = null)
+            Func<TKey, nfloat> getFooterHeightFunc = null,
+            Func<NSIndexPath, nfloat> getHeightForRowFunc = null)
         {
             _getCellViewFunc = getCellViewFunc;
+            _getHeightForRowFunc = getHeightForRowFunc;
             _getRowInSectionCountFunc = getRowInSectionCountFunc;
             _getHeaderViewFunc = getHeaderViewFunc;
             _getFooterViewFunc = getFooterViewFunc;
@@ -150,6 +153,11 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
+            if (_getHeightForRowFunc != null)
+            {
+                return _getHeightForRowFunc(indexPath);
+            }
+
             return HeightForRow ?? 0;
         }
     }
