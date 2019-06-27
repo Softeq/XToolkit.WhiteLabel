@@ -26,8 +26,7 @@ namespace Softeq.XToolkit.Common
         {
             get
             {
-                T target;
-                return _weakReference.TryGetTarget(out target) ? target : null;
+                return _weakReference.TryGetTarget(out var target) ? target : null;
             }
         }
     }

@@ -5,48 +5,21 @@ using System;
 using Softeq.XToolkit.Tests.Core.Common.Helpers;
 using Softeq.XToolkit.Common;
 using Xunit;
+using Softeq.XToolkit.Common.Tests.Helpers;
+using NSubstitute;
 
 namespace Softeq.XToolkit.Tests.Core.Common.WeakTests
 {
     public class WeakActionTest
     {
-        private WeakAction _action;
-        private CommonTestClass _common;
-        private InternalTestClass _itemInternal;
-        private PublicTestClass _itemPublic;
-        private string _local;
-        private WeakReference _reference;
+        private readonly IMethodRunner _callCounter;
 
-        private void TestPublicNestedClassSetup(WeakActionTestCase weakActionTestCase, int? index = null)
+        public WeakActionTest()
         {
-            _itemPublic = index.HasValue
-                ? new PublicTestClass(index.Value)
-                : new PublicTestClass();
-
-            _reference = new WeakReference(_itemPublic);
-            _action = _itemPublic.GetAction(weakActionTestCase);
+            _callCounter = Substitute.For<IMethodRunner>();
         }
 
-        private void TestInternalNestedClassSetup(WeakActionTestCase weakActionTestCase, int? index = null)
-        {
-            _itemInternal = index.HasValue
-                ? new InternalTestClass(index.Value)
-                : new InternalTestClass();
-
-            _reference = new WeakReference(_itemInternal);
-            _action = _itemInternal.GetAction(weakActionTestCase);
-        }
-
-        private void TestCommonSetup()
-        {
-            _common = new CommonTestClass();
-            _reference = new WeakReference(_common);
-            _action = new WeakAction(_common, DoStuffStatic);
-        }
-
-        public static void DoStuffStatic()
-        {
-        }
+        public static void DoStuffStatic() { }
 
         public void DoStuff()
         {

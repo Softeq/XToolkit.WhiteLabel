@@ -1,66 +1,57 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Softeq.XToolkit.Common;
+using System;
+using Softeq.XToolkit.Tests.Core.Common.Helpers;
 
-namespace Softeq.XToolkit.Tests.Core.Common.Helpers
+namespace Softeq.XToolkit.Common.Tests.Helpers
 {
-    public class PublicTestClass
+    internal static class InternalStaticTestClass
     {
         public const string Expected = "Hello";
         public const string Public = "Public";
         public const string Internal = "Internal";
+        public const string InternalStatic = "InternalStatic";
         public const string Private = "Private";
         public const string PublicStatic = "PublicStatic";
-        public const string InternalStatic = "InternalStatic";
         public const string PrivateStatic = "PrivateStatic";
-        private readonly int _index; // Just here to force instance methods
 
-        public PublicTestClass()
+        public static string Result { get; private set; }
+
+        private static void DoStuffPrivatelyAndStatically()
         {
+            Result = Expected + PrivateStatic;
         }
 
-        public PublicTestClass(int index)
+        private static void DoStuffInternallyAndStatically()
         {
-            _index = index;
+            Result = Expected + InternalStatic;
         }
 
-        public string Result { get; private set; }
-
-        private void DoStuffPrivately()
+        public static void DoStuffPublicallyAndStatically()
         {
-            Result = Expected + Private + _index;
+            Result = Expected + PublicStatic;
         }
 
-        internal void DoStuffInternally()
+        private static string DoStuffPrivatelyAndStaticallyWithResult()
         {
-            Result = Expected + Internal + _index;
-        }
-
-        public void DoStuffPublically()
-        {
-            Result = Expected + Public + _index;
-        }
-
-        private string DoStuffPrivatelyWithResult()
-        {
-            Result = Expected + Private + _index;
+            Result = Expected + PrivateStatic;
             return Result;
         }
 
-        internal string DoStuffInternallyWithResult()
+        private static string DoStuffInternallyAndStaticallyWithResult()
         {
-            Result = Expected + Internal + _index;
+            Result = Expected + InternalStatic;
             return Result;
         }
 
-        public string DoStuffPublicallyWithResult()
+        public static string DoStuffPublicallyAndStaticallyWithResult()
         {
-            Result = Expected + Public + _index;
+            Result = Expected + PublicStatic;
             return Result;
         }
 
-        //public WeakAction GetAction(WeakActionTestCase testCase)
+        //public static WeakAction GetAction(WeakActionTestCase testCase)
         //{
         //    WeakAction action = null;
 

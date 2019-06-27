@@ -32,5 +32,22 @@ namespace Softeq.XToolkit.Tests.Core.Common.WeakTests
 
             Assert.Null(_reference.Target);
         }
+
+        [Fact]
+        public void Creation_Test()
+        {
+            var weak = CreateWeak();
+
+            Assert.True(weak.IsAlive);
+
+            GC.Collect();
+
+            Assert.False(weak.IsAlive);
+        }
+
+        private WeakReference CreateWeak()
+        {
+            return new WeakReference(new CommonTestClass());
+        }
     }
 }
