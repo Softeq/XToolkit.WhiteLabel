@@ -146,13 +146,17 @@
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\CollectionPageStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Pages\MainPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Pages\ToolbarPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\RedStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\YellowStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\GreenStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\BlueStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\PermissionsPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Pages\MainPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\MainPageGroupHeaderViewCell.xib" />
+    <InterfaceDefinition Include="Views\MainPageItemViewCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\Pages\DetailsPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -165,9 +169,9 @@
     <Compile Include="ViewControllers\Pages\CollectionPageViewController.designer.cs">
       <DependentUpon>CollectionPageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewControllers\Pages\MainPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\MainPageViewController.designer.cs">
-      <DependentUpon>MainPageViewController.cs</DependentUpon>
+    <Compile Include="ViewControllers\Pages\ToolbarPageViewController.cs" />
+    <Compile Include="ViewControllers\Pages\ToolbarPageViewController.designer.cs">
+      <DependentUpon>ToolbarPageViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\Pages\StartPageViewController.cs" />
     <Compile Include="ViewControllers\Pages\StartPageViewController.designer.cs">
@@ -200,6 +204,14 @@
     </Compile>
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="ViewControllers\Pages\MainPageViewController.cs" />
+    <Compile Include="ViewControllers\Pages\MainPageViewController.designer.cs" />
+    <Compile Include="Views\MainPageGroupHeaderViewCell.cs" />
+    <Compile Include="Views\MainPageGroupHeaderViewCell.designer.cs" />
+    <Compile Include="Views\MainPageItemViewCell.cs" />
+    <Compile Include="Views\MainPageItemViewCell.designer.cs" />
+    <Compile Include="ViewControllers\Pages\DetailsPageViewController.cs" />
+    <Compile Include="ViewControllers\Pages\DetailsPageViewController.designer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
