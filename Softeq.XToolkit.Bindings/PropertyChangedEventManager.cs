@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Extensions;
 
 namespace Softeq.XToolkit.Bindings
 {
@@ -182,6 +183,20 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         private void PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
+            if (string.IsNullOrEmpty(args.PropertyName))
+            {
+                _list.Values
+                    .ToList()
+                    .Apply(x => x.Where(
+                            i => i.InstanceReference != null
+                                 && i.InstanceReference.IsAlive
+                                 && i.InstanceReference.Target == sender
+                                 && i.Listener != null)
+                        .ToList()
+                        .Apply(y => y.Listener.ReceiveWeakEvent(GetType(), sender, args)));
+                return;
+            }
+
             if (!_list.ContainsKey(args.PropertyName))
             {
                 return;
