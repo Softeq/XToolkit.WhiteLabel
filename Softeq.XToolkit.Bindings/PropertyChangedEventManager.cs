@@ -186,7 +186,6 @@ namespace Softeq.XToolkit.Bindings
             if (string.IsNullOrEmpty(args.PropertyName))
             {
                 _list.Values
-                    .ToList()
                     .Apply(x => x.Where(
                             i => i.InstanceReference != null
                                  && i.InstanceReference.IsAlive
