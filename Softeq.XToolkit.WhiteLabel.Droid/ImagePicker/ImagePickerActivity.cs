@@ -74,7 +74,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                 bitmap = MediaStore.Images.Media.GetBitmap(CrossCurrentActivity.Current.AppContext.ContentResolver, uri);
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
                 {
-                    using (var stream = GetContentSrream(CrossCurrentActivity.Current.AppContext, uri))
+                    using (var stream = GetContentStream(CrossCurrentActivity.Current.AppContext, uri))
                     {
                         bitmap = FixRotation(bitmap, new ExifInterface(stream)).Result;
                     }
@@ -159,7 +159,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             }
         }
 
-        private System.IO.Stream GetContentSrream(Context context, Android.Net.Uri uri)
+        private System.IO.Stream GetContentStream(Context context, Android.Net.Uri uri)
         {
             var stream = System.IO.Stream.Null;
             try
