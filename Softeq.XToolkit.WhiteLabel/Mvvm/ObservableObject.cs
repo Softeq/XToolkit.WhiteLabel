@@ -9,6 +9,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Softeq.XToolkit.Bindings;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
@@ -112,7 +113,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         /// <summary>
         /// Notify all properties.
         /// </summary>
-        public virtual void Refresh() => NotifyProperty(string.Empty);
+        public virtual void Refresh() => NotifyProperty(PropertyChangedEventManager.RefreshConst);
 
         /// <summary>
         ///     Extracts the name of a property from an expression.

@@ -173,6 +173,8 @@ namespace Softeq.XToolkit.Bindings
             }
         }
 
+        public const string RefreshConst = "refresh";
+
         /// <summary>
         ///     The method that handles the <see cref="INotifyPropertyChanged.PropertyChanged" /> event.
         /// </summary>
@@ -183,7 +185,7 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         private void PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            if (string.IsNullOrEmpty(args.PropertyName))
+            if (args.PropertyName == RefreshConst)
             {
                 _list.Values
                     .Apply(x => x.Where(
