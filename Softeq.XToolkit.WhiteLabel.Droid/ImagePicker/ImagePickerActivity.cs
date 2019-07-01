@@ -28,6 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
         public const int GalleryMode = 2;
 
         private const string ImagesFolder = "Pictures";
+        private const string CameraFileUriKey = "CameraFileUri";
 
         private AUri _fileUri;
         private Intent _pickIntent;
@@ -37,6 +38,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            // Activity is recreated after having been stopped by the system
+            if (savedInstanceState != null && !savedInstanceState.IsEmpty)
+            {
+                if (savedInstanceState.GetParcelable(CameraFileUriKey) is AUri fileUri)
+                {
+                    _fileUri = fileUri;
+                }
+                return;
+            }
+
             try
             {
                 switch (Intent.GetIntExtra(ModeKey, default(int)))
@@ -59,10 +71,26 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             }
         }
 
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            if (_fileUri != null)
+            {
+                outState.PutParcelable(CameraFileUriKey, _fileUri);
+            }
+
+            base.OnSaveInstanceState(outState);
+        }
+
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             AUri uri = null;
             Bitmap bitmap = null;
+
+            if (resultCode != Result.Ok)
+            {
+                OnImagePicked(null);
+                return;
+            }
 
             switch (requestCode)
             {
@@ -76,7 +104,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
             if (uri != null)
             {
-                bitmap = GetBitmap(uri);
+                bitmap = MediaStore.Images.Media.GetBitmap(CrossCurrentActivity.Current.AppContext.ContentResolver, uri);
 
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
                 {
@@ -171,20 +199,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             originalImage.Dispose();
             GC.Collect();
             return rotatedImage;
-        }
-
-        private Bitmap GetBitmap(AUri uri)
-        {
-            Bitmap result = null;
-            try
-            {
-                result = MediaStore.Images.Media.GetBitmap(CrossCurrentActivity.Current.AppContext.ContentResolver, uri);
-            }
-            catch (Java.IO.FileNotFoundException ex)
-            {
-                Debug.WriteLine("Unable to get Bitmap file from disk " + ex);
-            }
-            return result;
         }
 
         private System.IO.Stream GetContentStream(Context context, AUri uri)
