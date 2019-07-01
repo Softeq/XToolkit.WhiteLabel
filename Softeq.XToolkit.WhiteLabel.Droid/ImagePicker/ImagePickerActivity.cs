@@ -17,7 +17,7 @@ using Debug = System.Diagnostics.Debug;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 {
-    [Activity(Label = "ImagePickerActivity")]
+    [Activity]
     internal class ImagePickerActivity : Activity
     {
         public const string ModeKey = "Mode";
@@ -71,7 +71,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             }
             if (uri != null)
             {
-                bitmap = MediaStore.Images.Media.GetBitmap(CrossCurrentActivity.Current.AppContext.ContentResolver, uri);
+                bitmap = GetBitmap(uri);
+
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
                 {
                     using (var stream = GetContentStream(CrossCurrentActivity.Current.AppContext, uri))
@@ -157,6 +158,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                 return 0;
 #endif
             }
+        }
+
+        private Bitmap GetBitmap(Android.Net.Uri uri)
+        {
+            Bitmap result = null;
+            try
+            {
+                result = MediaStore.Images.Media.GetBitmap(CrossCurrentActivity.Current.AppContext.ContentResolver, uri);
+            }
+            catch (Java.IO.FileNotFoundException fnfEx)
+            {
+                Debug.WriteLine("Unable to get Bitmap file from disk " + fnfEx);
+            }
+            return result;
         }
 
         private System.IO.Stream GetContentStream(Context context, Android.Net.Uri uri)
