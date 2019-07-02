@@ -2,14 +2,7 @@ resources:
 - repo: self
 trigger:
   branches:
-    exclude:
-      - release/*
-  paths:
-    exclude:
-      - README.md
-pr:
-  autoCancel: false
-  branches:
+    include: '*'
     exclude:
       - release/*
 
