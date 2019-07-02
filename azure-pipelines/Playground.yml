@@ -2,13 +2,16 @@ resources:
 - repo: self
 trigger:
   branches:
-    include:
-      - master
     exclude:
       - release/*
   paths:
     exclude:
       - README.md
+pr:
+  autoCancel: false
+  branches:
+    exclude:
+      - release/*
 
 variables:
   BuildConfiguration: 'Release'
