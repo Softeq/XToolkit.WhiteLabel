@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using UIKit;
 
@@ -12,18 +13,24 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             if (controller.PresentedViewController != null)
             {
-                var presentedViewController = controller.PresentedViewController;
-                return GetTopViewController(presentedViewController);
+                return GetTopViewController(controller.PresentedViewController);
             }
 
             switch (controller)
             {
                 case UINavigationController navigationController:
-                    return GetTopViewController(navigationController.VisibleViewController);
+                    return navigationController.VisibleViewController != null
+                        ? GetTopViewController(navigationController.VisibleViewController)
+                        : navigationController;
+
                 case UITabBarController tabBarController:
                     return GetTopViewController(tabBarController.SelectedViewController);
-                case UIViewController viewController when controller.ChildViewControllers.Length > 0:
-                    return GetTopViewController(viewController.ChildViewControllers[0]);
+
+                case UIViewController viewController
+                    when viewController.ChildViewControllers.Length > 0
+                        && viewController.ChildViewControllers[0]
+                            is UITabBarController tabBarController:
+                    return GetTopViewController(tabBarController);
             }
 
             return controller;
