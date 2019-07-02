@@ -2,7 +2,8 @@ resources:
 - repo: self
 trigger:
   branches:
-    include: '*'
+    include:
+      - '*'
     exclude:
       - release/*
 
