@@ -93,6 +93,20 @@ namespace Softeq.XToolkit.Common.Collections
             ItemsChanged?.Invoke(this, eventArgs);
         }
 
+        public void InsertGroup(int index, ObservableKeyGroup<TKey, TValue> group)
+        {
+            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Add);
+
+            Keys.Insert(index, group.Key);
+            Insert(index, group);
+
+            eventArgs.ModifiedSectionsIndexes.Add(Keys.IndexOf(group.Key));
+            eventArgs.ModifiedItemsIndexes.Add((Keys.IndexOf(group.Key),
+                Enumerable.Range(0, group.Count).ToList()));
+
+            ItemsChanged?.Invoke(this, eventArgs);
+        }
+
         public void AddGroups(IEnumerable<ObservableKeyGroup<TKey, TValue>> groups)
         {
             var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Add);
@@ -244,7 +258,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
             else
             {
-                eventArgs.ModifiedItemsIndexes.Add((Items.IndexOf(item), new List<int> {itemIndex}));
+                eventArgs.ModifiedItemsIndexes.Add((Items.IndexOf(item), new List<int> { itemIndex }));
             }
 
             ItemsChanged?.Invoke(this, eventArgs);
@@ -252,7 +266,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void RemoveAllFromGroups(TValue removeItem)
         {
-            RemoveAllFromGroups(new List<TValue> {removeItem});
+            RemoveAllFromGroups(new List<TValue> { removeItem });
         }
 
         public void RemoveAllFromGroups(IEnumerable<TValue> items)
