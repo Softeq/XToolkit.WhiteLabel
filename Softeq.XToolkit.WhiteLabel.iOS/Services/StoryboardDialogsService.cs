@@ -80,6 +80,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
         }
 
+        public Task<bool> ShowDialogAsync(OpenDialogOptions options)
+        {
+            return ShowDialogAsync(options.Title, options.Message, options.OkButtonText, options.CancelButtonText, options);
+        }
+
         public Task<bool> ShowDialogAsync(string title,
             string message,
             string okButtonText,
