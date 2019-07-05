@@ -1550,6 +1550,7 @@ namespace Softeq.XToolkit.Bindings
                 }
                 catch (Exception)
                 {
+                    //TODO fix nullables conversion
                     return default(TTarget);
                 }
             }
