@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
+using Softeq.XToolkit.WhiteLabel.iOS.ViewControllers;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -90,10 +90,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
             Execute.BeginOnUIThread(() =>
             {
-                var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+                UIAlertController alertController;
+                if (options?.TopLevel ?? false)
+                {
+                    alertController = new TopLevelAlertController(title, message);
+                }
+                else
+                {
+                    alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+                }
+                
                 var okActionStyle = options?.DialogType == DialogType.Destructive
                     ? UIAlertActionStyle.Destructive
                     : UIAlertActionStyle.Default;
+                
                 alertController.AddAction(UIAlertAction.Create(okButtonText, okActionStyle,
                     action => { dialogResult.TrySetResult(true); }));
 
@@ -103,8 +113,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                         action => { dialogResult.TrySetResult(false); }));
                 }
 
-                var viewController = _viewLocator.GetTopViewController();
-                viewController.PresentViewController(alertController, true, null);
+                if (alertController is TopLevelAlertController topLevelAlertController)
+                {
+                    topLevelAlertController.Show();
+                }
+                else
+                {
+                    var viewController = _viewLocator.GetTopViewController();
+                    viewController.PresentViewController(alertController, true, null);
+                }
             });
 
             return dialogResult.Task;
