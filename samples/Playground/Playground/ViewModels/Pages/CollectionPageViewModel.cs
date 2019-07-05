@@ -10,6 +10,7 @@ using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Playground.Models;
+using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Playground.ViewModels.Pages
 {
@@ -48,7 +49,12 @@ namespace Playground.ViewModels.Pages
 
         private async Task SelectItem(ItemViewModel viewModel)
         {
-            await _dialogsService.ShowDialogAsync("Selected", viewModel.Title, "OK");
+            await _dialogsService.ShowDialogAsync(new OpenDialogOptions
+            {
+                Title = "Selected",
+                Message = viewModel.Title,
+                TopLevel = true
+            });
         }
 
         public List<ItemModel> GetMovies()

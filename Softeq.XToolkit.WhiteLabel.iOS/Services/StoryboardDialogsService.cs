@@ -98,7 +98,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 UIAlertController alertController;
                 if (options?.TopLevel ?? false)
                 {
-                    alertController = new TopLevelAlertController(title, message);
+                    alertController = new TopLevelAlertController
+                    {
+                        Title = title,
+                        Message = message
+                    };
                 }
                 else
                 {

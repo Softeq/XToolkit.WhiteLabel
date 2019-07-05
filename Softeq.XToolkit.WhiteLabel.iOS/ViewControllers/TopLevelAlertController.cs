@@ -10,12 +10,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
     {
         private UIWindow _alertWindow;
 
-        public TopLevelAlertController(string title, string message)
-        {
-            Title = title;
-            Message = message;
-        }
-
         public override UIAlertControllerStyle PreferredStyle => UIAlertControllerStyle.Alert;
 
         public override void ViewDidDisappear(bool animated)
