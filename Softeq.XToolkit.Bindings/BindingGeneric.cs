@@ -1546,11 +1546,10 @@ namespace Softeq.XToolkit.Bindings
 
                 try
                 {
-                    return (TTarget) System.Convert.ChangeType(value, typeof(TTarget));
+                    return ConvertSafely<TSource, TTarget>(value);
                 }
                 catch (Exception)
                 {
-                    //TODO fix nullables conversion
                     return default(TTarget);
                 }
             }
@@ -1565,7 +1564,7 @@ namespace Softeq.XToolkit.Bindings
 
                 try
                 {
-                    return (TSource) System.Convert.ChangeType(value, typeof(TSource));
+                    return ConvertSafely<TTarget, TSource>(value);
                 }
                 catch (Exception)
                 {
@@ -1581,6 +1580,30 @@ namespace Softeq.XToolkit.Bindings
             public void SetConvertBack(Func<TTarget, TSource> convertBack)
             {
                 _convertBack = new WeakFunc<TTarget, TSource>(convertBack);
+            }
+
+            private TTo ConvertSafely<TFrom, TTo>(TFrom value)
+            {
+                try
+                {
+                    var notNullableFromType = Nullable.GetUnderlyingType(typeof(TFrom));
+                    object notNullableValue = value;
+                    if (notNullableFromType != null)
+                    {
+                        if (value == null)
+                        {
+                            return default(TTo);
+                        }
+                        notNullableValue = System.Convert.ChangeType(value, notNullableFromType);
+                    }
+
+                    var notNullableToType = Nullable.GetUnderlyingType(typeof(TTo)) ?? typeof(TTo);
+                    return (TTo) System.Convert.ChangeType(notNullableValue, notNullableToType);
+                }
+                catch (Exception)
+                {
+                    return default(TTo);
+                }
             }
         }
     }

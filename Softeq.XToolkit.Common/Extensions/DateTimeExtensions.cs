@@ -29,6 +29,12 @@ namespace Softeq.XToolkit.Common.Extensions
             return lastDay;
         }
 
+        public static DateTime WithKind(this DateTime date, DateTimeKind kind)
+        {
+            return new DateTime(date.Year, date.Month, date.Day, 
+                date.Hour, date.Minute, date.Second, date.Millisecond, kind);
+        }
+
         public static bool IsToday(this DateTime date)
         {
             return DateTime.Today == date.Date;
