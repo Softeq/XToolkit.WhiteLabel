@@ -19,13 +19,13 @@ namespace Softeq.XToolkit.PushNotifications
 
         public PushNotificationsServiceBase(IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser, ILogger logger)
+            IPushNotificationParser pushNotificationParser, ILogManager logManager)
         {
             RemotePushNotificationsService = remotePushNotificationsService;
             PushTokenStorageService = pushTokenStorageService;
             PushNotificationsHandler = pushNotificationsHandler;
             PushNotificationParser = pushNotificationParser;
-            Logger = logger;
+            Logger = logManager.GetLogger<PushNotificationsServiceBase>();
         }
 
         public abstract void Initialize(bool showForegroundNotificationsInSystem);

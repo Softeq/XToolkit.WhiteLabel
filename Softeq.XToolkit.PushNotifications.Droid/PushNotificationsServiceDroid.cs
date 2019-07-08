@@ -24,8 +24,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         public PushNotificationsServiceDroid(IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser, INotificationsSettingsProvider notificationsSettings, ILogger logger)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logger)
+            IPushNotificationParser pushNotificationParser, INotificationsSettingsProvider notificationsSettings, ILogManager logManager)
+            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
         {
             _appContext = Application.Context;
             _notificationsSettings = notificationsSettings;

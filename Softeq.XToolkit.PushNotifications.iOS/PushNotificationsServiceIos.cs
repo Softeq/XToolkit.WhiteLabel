@@ -19,8 +19,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         public PushNotificationsServiceIos(IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser, INotificationsPermissionsService permissionsService, ILogger logger)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logger)
+            IPushNotificationParser pushNotificationParser, INotificationsPermissionsService permissionsService, ILogManager logManager)
+            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
         {
             _permissionsService = permissionsService;
         }
