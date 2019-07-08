@@ -50,6 +50,7 @@
     <Compile Include="Extensions\EditTextExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
     <Compile Include="Extensions\IntentExtensions.cs" />
+    <Compile Include="Extensions\ViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helpers\" />
