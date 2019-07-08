@@ -80,12 +80,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
         }
 
-        public Task<bool> ShowDialogAsync(OpenDialogOptions options)
-        {
-            return ShowDialogAsync(options.Title, options.Message, options.OkButtonText, options.CancelButtonText, options);
-        }
-
-        public Task<bool> ShowDialogAsync(string title,
+        public Task<bool> ShowDialogAsync(
+            string title,
             string message,
             string okButtonText,
             string cancelButtonText = null,
@@ -95,19 +91,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
             Execute.BeginOnUIThread(() =>
             {
-                UIAlertController alertController;
-                if (options?.TopLevel ?? false)
+                var alertController = new TopLevelAlertController
                 {
-                    alertController = new TopLevelAlertController
-                    {
-                        Title = title,
-                        Message = message
-                    };
-                }
-                else
-                {
-                    alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-                }
+                    Title = title,
+                    Message = message
+                };
                 
                 var okActionStyle = options?.DialogType == DialogType.Destructive
                     ? UIAlertActionStyle.Destructive
@@ -122,15 +110,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                         action => { dialogResult.TrySetResult(false); }));
                 }
 
-                if (alertController is TopLevelAlertController topLevelAlertController)
-                {
-                    topLevelAlertController.Show();
-                }
-                else
-                {
-                    var viewController = _viewLocator.GetTopViewController();
-                    viewController.PresentViewController(alertController, true, null);
-                }
+                alertController.Show();
             });
 
             return dialogResult.Task;

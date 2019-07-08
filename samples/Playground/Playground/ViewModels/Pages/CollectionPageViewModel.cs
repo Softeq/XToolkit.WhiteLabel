@@ -49,12 +49,7 @@ namespace Playground.ViewModels.Pages
 
         private async Task SelectItem(ItemViewModel viewModel)
         {
-            await _dialogsService.ShowDialogAsync(new OpenDialogOptions
-            {
-                Title = "Selected",
-                Message = viewModel.Title,
-                TopLevel = true
-            });
+            await _dialogsService.ShowDialogAsync("Selected", viewModel.Title, "OK");
         }
 
         public List<ItemModel> GetMovies()
