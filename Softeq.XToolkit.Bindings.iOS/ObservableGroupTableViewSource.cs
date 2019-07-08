@@ -3,6 +3,9 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
+using System.Threading;
 using Foundation;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
@@ -148,7 +151,75 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         private void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
-            _tableViewRef.Target?.ReloadData();
+            Execute(() =>
+            {
+                if (e.Action != NotifyCollectionChangedAction.Add && e.Action != NotifyCollectionChangedAction.Remove)
+                {
+                    _tableViewRef.Target?.ReloadData();
+                    return;
+                }
+
+                _tableViewRef.Target?.BeginUpdates();
+
+                var modifiedSectionsIndexes = e.ModifiedSectionsIndexes.OrderBy(x => x);
+
+                foreach (var sectionIndex in modifiedSectionsIndexes)
+                {
+                    if (e.Action == NotifyCollectionChangedAction.Add)
+                    {
+                        PerformWithoutAnimation(() =>
+                        {
+                            _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex),
+                                UITableViewRowAnimation.None);
+                        });
+                    }
+                    else if (e.Action == NotifyCollectionChangedAction.Remove)
+                    {
+                        _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
+                    }
+                }
+
+                var modifiedIndexPaths = new List<NSIndexPath>();
+                foreach (var (section, modifiedIndexes) in e.ModifiedItemsIndexes)
+                {
+                    foreach (var insertedItemIndex in modifiedIndexes)
+                    {
+                        modifiedIndexPaths.Add(NSIndexPath.FromRowSection(insertedItemIndex, section));
+                    }
+                }
+
+                if (e.Action == NotifyCollectionChangedAction.Add)
+                {
+                    PerformWithoutAnimation(() =>
+                    {
+                        _tableViewRef.Target?.InsertRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
+                    });
+                }
+                else if (e.Action == NotifyCollectionChangedAction.Remove)
+                {
+                    _tableViewRef.Target?.DeleteRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
+                }
+
+                _tableViewRef.Target?.EndUpdates();
+            });
+        }
+
+        private static void Execute(Action action)
+        {
+            if (NSThread.IsMain)
+            {
+                action();
+            }
+            else
+            {
+                NSOperationQueue.MainQueue.AddOperation(action);
+                NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
+            }
+        }
+
+        private static void PerformWithoutAnimation(Action action)
+        {
+            UIView.PerformWithoutAnimation(action);
         }
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
