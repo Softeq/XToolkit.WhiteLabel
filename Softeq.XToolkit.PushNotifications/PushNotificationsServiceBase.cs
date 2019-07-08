@@ -1,9 +1,9 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Threading.Tasks;
-using Softeq.XToolkit.PushNotifications.Utils;
+using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.PushNotifications
 {
@@ -13,17 +13,19 @@ namespace Softeq.XToolkit.PushNotifications
         protected readonly IPushTokenStorageService PushTokenStorageService;
         protected readonly IPushNotificationsHandler PushNotificationsHandler;
         protected readonly IPushNotificationParser PushNotificationParser;
+        protected readonly ILogger Logger;
 
         protected string PushToken => PushTokenStorageService?.PushToken;
 
         public PushNotificationsServiceBase(IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser)
+            IPushNotificationParser pushNotificationParser, ILogger logger)
         {
             RemotePushNotificationsService = remotePushNotificationsService;
             PushTokenStorageService = pushTokenStorageService;
             PushNotificationsHandler = pushNotificationsHandler;
             PushNotificationParser = pushNotificationParser;
+            Logger = logger;
         }
 
         public abstract void Initialize(bool showForegroundNotificationsInSystem);
@@ -46,14 +48,14 @@ namespace Softeq.XToolkit.PushNotifications
                 token = SimplifyToken(token);
                 PushTokenStorageService.PushToken = token;
 
-                RegisterPushTokenOnServer().SafeTaskWrapper();  //TODO: fix
+                RegisterPushTokenOnServer().SafeTaskWrapper(Logger);
             }
         }
 
         public void OnFailedToRegisterForPushNotifications(string errorMessage)
         {
-            Console.WriteLine($"Push Notifications failed to register: {errorMessage}"); // TODO: add error handler/logger
-            UnregisterFromPushNotifications().SafeTaskWrapper();  //TODO: fix
+            Logger.Warn($"Push Notifications failed to register: {errorMessage}");
+            UnregisterFromPushNotifications().SafeTaskWrapper(Logger);
         }
 
         public async Task UnregisterFromPushNotifications(bool unregisterInSystem = false)

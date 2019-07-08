@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using Softeq.XToolkit.Common.Interfaces;
 using UIKit;
 using UserNotifications;
 
@@ -18,8 +19,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         public PushNotificationsServiceIos(IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser, INotificationsPermissionsService permissionsService)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser)
+            IPushNotificationParser pushNotificationParser, INotificationsPermissionsService permissionsService, ILogger logger)
+            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logger)
         {
             _permissionsService = permissionsService;
         }
@@ -28,7 +29,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         {
             if (_isInitialized)
             {
-                Console.WriteLine("PushNotificationsServiceIos: Already Initialized");
+                Logger.Debug("PushNotificationsServiceIos: Already Initialized");
                 return;
             }
 

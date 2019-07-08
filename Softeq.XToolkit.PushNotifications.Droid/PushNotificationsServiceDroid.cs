@@ -8,6 +8,7 @@ using Android.Content;
 using Firebase;
 using Firebase.Iid;
 using Firebase.Messaging;
+using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
@@ -23,8 +24,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         public PushNotificationsServiceDroid(IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser, INotificationsSettingsProvider notificationsSettings)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser)
+            IPushNotificationParser pushNotificationParser, INotificationsSettingsProvider notificationsSettings, ILogger logger)
+            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logger)
         {
             _appContext = Application.Context;
             _notificationsSettings = notificationsSettings;
@@ -34,7 +35,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         {
             if (_isInitialized)
             {
-                Console.WriteLine("PushNotificationsServiceDroid: Already Initialized");
+                Logger.Debug("PushNotificationsServiceDroid: Already Initialized");
                 return;
             }
 
@@ -75,7 +76,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine($"Firebase DeleteInstance failed: {e.Message}");
+                    Logger.Warn($"Firebase DeleteInstance failed: {e.Message}");
                 }
             });
         }

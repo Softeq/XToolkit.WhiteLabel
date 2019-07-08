@@ -62,8 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">
-      <Project>{11BC7FFF-88E1-4043-A404-7B4907757FB2}</Project>
+      <Project>{E0C9CDE2-4C35-410A-AE95-A7871BEE0180}</Project>
       <Name>Softeq.XToolkit.PushNotifications</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
