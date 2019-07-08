@@ -4,13 +4,13 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IDialogsService
     {
-        Task<bool> ShowDialogAsync(string title,
+        Task<bool> ShowDialogAsync(
+            string title,
             string message,
             string okButtonText,
             string cancelButtonText = null,
