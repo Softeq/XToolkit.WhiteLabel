@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Linq;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
@@ -22,18 +21,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 
         public void Show()
         {
-            var topWindow = UIApplication.SharedApplication.Windows.LastOrDefault(x => x.WindowLevel == UIWindowLevel.Normal);
-            if (topWindow == null)
-            {
-                return;
-            }
-                
             var rootViewController = new UIViewController();
             rootViewController.View.BackgroundColor = UIColor.Clear;
                 
             _alertWindow = new UIWindow(UIScreen.MainScreen.Bounds)
             {
-                TintColor = topWindow.TintColor,
                 WindowLevel = UIWindowLevel.Alert + 1,
                 RootViewController = rootViewController
             };
