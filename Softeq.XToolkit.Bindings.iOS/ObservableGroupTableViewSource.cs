@@ -23,11 +23,9 @@ namespace Softeq.XToolkit.Bindings.iOS
         private readonly Func<TKey, nfloat> _getHeaderHeightFunc;
         private readonly Func<UITableView, TKey, UIView> _getHeaderViewFunc;
         private readonly WeakReferenceEx<UITableView> _tableViewRef;
+        private IDisposable _subscription;
         private readonly Func<nint, nint> _getRowInSectionCountFunc;
         private readonly Func<NSIndexPath, nfloat> _getHeightForRowFunc;
-        private readonly Thread _mainThread;
-        
-        private IDisposable _subscription;
 
         public ObservableGroupTableViewSource(
             UITableView tableView,
@@ -51,7 +49,6 @@ namespace Softeq.XToolkit.Bindings.iOS
 
             DataSource = items;
             _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(DataSource, NotifierCollectionChanged);
-            _mainThread = Thread.CurrentThread;
         }
 
         public ObservableKeyGroupsCollection<TKey, TItem> DataSource { get; }
@@ -162,14 +159,18 @@ namespace Softeq.XToolkit.Bindings.iOS
                     return;
                 }
 
+                _tableViewRef.Target?.BeginUpdates();
+
                 var modifiedSectionsIndexes = e.ModifiedSectionsIndexes.OrderBy(x => x);
+
                 foreach (var sectionIndex in modifiedSectionsIndexes)
                 {
                     if (e.Action == NotifyCollectionChangedAction.Add)
                     {
                         PerformWithoutAnimation(() =>
                         {
-                            _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
+                            _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex),
+                                UITableViewRowAnimation.None);
                         });
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Remove)
@@ -198,12 +199,14 @@ namespace Softeq.XToolkit.Bindings.iOS
                 {
                     _tableViewRef.Target?.DeleteRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
                 }
+
+                _tableViewRef.Target?.EndUpdates();
             });
         }
 
-        private void Execute(Action action)
+        private static void Execute(Action action)
         {
-            if (Thread.CurrentThread == _mainThread)
+            if (NSThread.IsMain)
             {
                 action();
             }
@@ -213,8 +216,8 @@ namespace Softeq.XToolkit.Bindings.iOS
                 NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
             }
         }
-        
-        private void PerformWithoutAnimation(Action action)
+
+        private static void PerformWithoutAnimation(Action action)
         {
             UIView.PerformWithoutAnimation(action);
         }
