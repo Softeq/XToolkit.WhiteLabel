@@ -115,9 +115,9 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 Keys.Add(group.Key);
                 Add(group);
+
                 eventArgs.ModifiedSectionsIndexes.Add(Keys.IndexOf(group.Key));
-                eventArgs.ModifiedItemsIndexes.Add((Keys.IndexOf(group.Key),
-                    Enumerable.Range(0, group.Count).ToList()));
+                eventArgs.ModifiedItemsIndexes.Add((Keys.IndexOf(group.Key), Enumerable.Range(0, group.Count).ToList()));
             }
 
             ItemsChanged?.Invoke(this, eventArgs);
@@ -125,26 +125,57 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void ClearGroup(TKey key)
         {
+            var group = this.FirstOrDefault(x => x.Key.Equals(key));
+
+            if (group == null || !group.Any())
+            {
+                return;
+            }
+
             var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
             var sectionIndex = Keys.IndexOf(key);
             eventArgs.ModifiedItemsIndexes.Add((sectionIndex, Enumerable.Range(0, Items[sectionIndex].Count).ToList()));
 
-            this.FirstOrDefault(x => x.Key.Equals(key))?.Clear();
+            group.Clear();
 
             ItemsChanged?.Invoke(this, eventArgs);
         }
 
         public void RemoveGroup(ObservableKeyGroup<TKey, TValue> group)
         {
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
             var sectionIndex = Keys.IndexOf(group.Key);
+
+            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
             eventArgs.ModifiedSectionsIndexes.Add(sectionIndex);
             eventArgs.ModifiedItemsIndexes.Add((sectionIndex, Enumerable.Range(0, group.Count).ToList()));
 
-            Remove(group);
-            Keys.Remove(group.Key);
+            RemoveGroupInternal(group);
 
             ItemsChanged?.Invoke(this, eventArgs);
+        }
+
+        public void RemoveGroupRange(IEnumerable<TKey> toRemove)
+        {
+            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
+
+            foreach (var key in toRemove)
+            {
+                var sectionIndex = Keys.IndexOf(key);
+                eventArgs.ModifiedSectionsIndexes.Add(sectionIndex);
+
+                RemoveGroupInternal(Items.FirstOrDefault(x => x.Key.Equals(key)));
+            }
+
+            if (eventArgs.ModifiedSectionsIndexes.Any())
+            {
+                ItemsChanged?.Invoke(this, eventArgs);
+            }
+        }
+
+        private void RemoveGroupInternal(ObservableKeyGroup<TKey, TValue> group)
+        {
+            Remove(group);
+            Keys.Remove(group.Key);
         }
 
         public void AddRangeToGroupsSorted<T>(IEnumerable<T> items,
@@ -258,7 +289,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
             else
             {
-                eventArgs.ModifiedItemsIndexes.Add((Items.IndexOf(item), new List<int> { itemIndex }));
+                eventArgs.ModifiedItemsIndexes.Add((Items.IndexOf(item), new List<int> {itemIndex}));
             }
 
             ItemsChanged?.Invoke(this, eventArgs);
@@ -266,7 +297,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void RemoveAllFromGroups(TValue removeItem)
         {
-            RemoveAllFromGroups(new List<TValue> { removeItem });
+            RemoveAllFromGroups(new List<TValue> {removeItem});
         }
 
         public void RemoveAllFromGroups(IEnumerable<TValue> items)
