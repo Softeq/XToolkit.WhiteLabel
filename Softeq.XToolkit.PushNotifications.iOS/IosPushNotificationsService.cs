@@ -8,7 +8,7 @@ using UserNotifications;
 
 namespace Softeq.XToolkit.PushNotifications.iOS
 {
-    public class PushNotificationsServiceIos : PushNotificationsServiceBase
+    public class IosPushNotificationsService : PushNotificationsServiceBase
     {
         private readonly INotificationsPermissionsService _permissionsService;
 
@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         // UNAuthorizationOptions options
         // badges
 
-        public PushNotificationsServiceIos(IRemotePushNotificationsService remotePushNotificationsService,
+        public IosPushNotificationsService(IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
             IPushNotificationParser pushNotificationParser, INotificationsPermissionsService permissionsService, ILogManager logManager)
             : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)

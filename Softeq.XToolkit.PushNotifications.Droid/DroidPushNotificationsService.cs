@@ -12,7 +12,7 @@ using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
-    public class PushNotificationsServiceDroid : PushNotificationsServiceBase, IDisposable
+    public class DroidPushNotificationsService : PushNotificationsServiceBase, IDisposable
     {
         private readonly INotificationsSettingsProvider _notificationsSettings;
         private readonly Context _appContext;
@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         private bool _registrationRequired;
 
-        public PushNotificationsServiceDroid(IRemotePushNotificationsService remotePushNotificationsService,
+        public DroidPushNotificationsService(IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
             IPushNotificationParser pushNotificationParser, INotificationsSettingsProvider notificationsSettings, ILogManager logManager)
             : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
@@ -130,7 +130,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             GC.SuppressFinalize(this);
         }
 
-        ~PushNotificationsServiceDroid()
+        ~DroidPushNotificationsService()
         {
             Dispose(false);
         }

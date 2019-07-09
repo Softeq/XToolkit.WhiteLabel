@@ -7,7 +7,7 @@ using Firebase.Messaging;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
-    public class PushNotificationParserDroid : IPushNotificationParser
+    public class DroidPushNotificationParser : IPushNotificationParser
     {
         /// <summary>
         /// Custom key for title (stored inside RemoteMessage.Data). Can be customized.

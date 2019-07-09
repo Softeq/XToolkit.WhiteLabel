@@ -47,8 +47,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="INotificationsSettingsProvider.cs" />
     <Compile Include="NotificationsHelper.cs" />
-    <Compile Include="PushNotificationParserDroid.cs" />
-    <Compile Include="PushNotificationsServiceDroid.cs" />
+    <Compile Include="DroidPushNotificationParser.cs" />
+    <Compile Include="DroidPushNotificationsService.cs" />
     <Compile Include="PushNotificationStyles.cs" />
   </ItemGroup>
   <ItemGroup>

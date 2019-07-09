@@ -5,7 +5,7 @@ using Foundation;
 
 namespace Softeq.XToolkit.PushNotifications.iOS
 {
-    public class PushNotificationParserIos : IPushNotificationParser
+    public class IosPushNotificationParser : IPushNotificationParser
     {
         /// <summary>
         /// A root dictionary containing one or more additional Apple-defined keys instructing the system how to handle notification.
