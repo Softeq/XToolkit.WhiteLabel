@@ -31,31 +31,48 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             if (pushNotificationData is RemoteMessage)
             {
                 var remoteNotification = pushNotificationData as RemoteMessage;
-                var pushMessage = remoteNotification.GetNotification();
-                var pushData = remoteNotification.Data;
-
-                pushNotification.HandledBySystem = pushMessage != null;
-
-                pushNotification.Title = pushMessage == null ? GetStringFromDictionary(pushData, DataTitleKey) : pushMessage.Title;
-                pushNotification.Body = pushMessage == null ? GetStringFromDictionary(pushData, DataBodyKey) : pushMessage.Body;
-
-                pushNotification.IsSilent = string.IsNullOrEmpty(pushNotification.Body); // TODO: possibly other way to determine (?client-side)
-
-                pushNotification.Type = ParseNotificationTypeFromData(pushData);
-                pushNotification.AdditionalData = GetStringFromDictionary(pushData, DataKey);
+                pushNotification = ParseRemoteMessageNotification(remoteNotification);
             }
             else if (pushNotificationData is Bundle)
             {
                 var bundleNotification = pushNotificationData as Bundle;
-
-                pushNotification.Title = bundleNotification.GetString(DataTitleKey); // if stored inside Data
-                pushNotification.Body = bundleNotification.GetString(DataBodyKey); // if stored inside Data
-
-                pushNotification.IsSilent = false; // If we are here it means that the user tapped on a notification thus it is defenitely not silent
-
-                pushNotification.AdditionalData = bundleNotification.GetString(DataKey);
-                pushNotification.Type = ParseNotificationTypeFromBundle(bundleNotification);
+                pushNotification = ParseBundleNotification(bundleNotification);
             }
+
+            return pushNotification;
+        }
+
+        private PushNotificationModel ParseRemoteMessageNotification(RemoteMessage remoteNotification)
+        {
+            var pushNotification = new PushNotificationModel();
+
+            var pushMessage = remoteNotification.GetNotification();
+            var pushData = remoteNotification.Data;
+
+            pushNotification.HandledBySystem = pushMessage != null;
+
+            pushNotification.Title = pushMessage == null ? GetStringFromDictionary(pushData, DataTitleKey) : pushMessage.Title;
+            pushNotification.Body = pushMessage == null ? GetStringFromDictionary(pushData, DataBodyKey) : pushMessage.Body;
+
+            pushNotification.IsSilent = string.IsNullOrEmpty(pushNotification.Body); // TODO: possibly other way to determine (?client-side)
+
+            pushNotification.Type = ParseNotificationTypeFromData(pushData);
+            pushNotification.AdditionalData = GetStringFromDictionary(pushData, DataKey);
+
+            return pushNotification;
+        }
+
+        private PushNotificationModel ParseBundleNotification(Bundle bundleNotification)
+        {
+            var pushNotification = new PushNotificationModel();
+
+            pushNotification.Title = bundleNotification.GetString(DataTitleKey); // if stored inside Data
+            pushNotification.Body = bundleNotification.GetString(DataBodyKey); // if stored inside Data
+
+            pushNotification.IsSilent = false; // If we are here it means that the user tapped on a notification thus it is defenitely not silent
+
+            pushNotification.AdditionalData = bundleNotification.GetString(DataKey);
+            pushNotification.Type = ParseNotificationTypeFromBundle(bundleNotification);
 
             return pushNotification;
         }

@@ -32,8 +32,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         {
             if (_isInitialized)
             {
-                Logger.Debug($"{nameof(IosPushNotificationsService)}: Already Initialized");
-                return;
+                throw new ArgumentException($"{nameof(IosPushNotificationsService)}: Already Initialized");
             }
 
             _isInitialized = true;
@@ -46,7 +45,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             {
                 if (UIApplication.SharedApplication.IsRegisteredForRemoteNotifications)
                 {
-                    //RegisterPushTokenOnServer(); // TODO: check if needed (server registration failed previously)
+                    // TODO: we might want to register token on server if registration failed previously
                     return;
                 }
 

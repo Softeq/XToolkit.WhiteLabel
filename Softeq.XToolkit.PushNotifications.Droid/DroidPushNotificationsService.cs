@@ -39,8 +39,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         {
             if (_isInitialized)
             {
-                Logger.Debug($"{nameof(DroidPushNotificationsService)}: Already Initialized");
-                return;
+                throw new ArgumentException($"{nameof(DroidPushNotificationsService)}: Already Initialized");
             }
 
             _isInitialized = true;
