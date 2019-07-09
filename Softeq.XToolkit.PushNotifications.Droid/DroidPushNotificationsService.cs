@@ -8,6 +8,7 @@ using Android.Content;
 using Firebase;
 using Firebase.Iid;
 using Firebase.Messaging;
+using Java.IO;
 using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
@@ -74,10 +75,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             {
                 try
                 {
-                    FirebaseInstanceId.Instance.DeleteInstanceId(); //Throws exception if there's no Internet Connection
+                    FirebaseInstanceId.Instance.DeleteInstanceId(); //Throws Java.IOException if there's no Internet Connection
                     var token = FirebaseInstanceId.Instance.Token; // Value is null here. This call is needed to force new token generation
                 }
-                catch (Exception e)
+                catch (IOException e)
                 {
                     Logger.Warn($"Firebase DeleteInstance failed: {e.Message}");
                 }
