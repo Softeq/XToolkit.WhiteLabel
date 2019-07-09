@@ -22,9 +22,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         private bool _registrationRequired;
 
-        public DroidPushNotificationsService(IRemotePushNotificationsService remotePushNotificationsService,
-            IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser, INotificationsSettingsProvider notificationsSettings, ILogManager logManager)
+        public DroidPushNotificationsService(
+            IRemotePushNotificationsService remotePushNotificationsService,
+            IPushTokenStorageService pushTokenStorageService,
+            IPushNotificationsHandler pushNotificationsHandler,
+            IPushNotificationParser pushNotificationParser,
+            INotificationsSettingsProvider notificationsSettings,
+            ILogManager logManager)
             : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
         {
             _appContext = Application.Context;
@@ -35,7 +39,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         {
             if (_isInitialized)
             {
-                Logger.Debug("PushNotificationsServiceDroid: Already Initialized");
+                Logger.Debug($"{nameof(DroidPushNotificationsService)}: Already Initialized");
                 return;
             }
 
@@ -90,9 +94,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
-        public override PushNotificationModel OnMessageReceived(object pushNotification)
+        protected override PushNotificationModel OnMessageReceivedInternal(object pushNotification)
         {
-            var parsedNotification = base.OnMessageReceived(pushNotification);
+            var parsedNotification = base.OnMessageReceivedInternal(pushNotification);
             if (!parsedNotification.IsSilent)
             {
                 ShowNotification(pushNotification, parsedNotification);
