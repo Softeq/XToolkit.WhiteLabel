@@ -32,12 +32,9 @@ namespace Softeq.XToolkit.PushNotifications
         public abstract void RegisterForPushNotifications();
         protected abstract void UnregisterFromPushTokenInSystem();
 
-        protected abstract string SimplifyToken(string token); // Required for iOS
-        protected abstract void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification); // Required for Android
-
         public abstract void ClearAllNotifications();
 
-        public void OnRegisteredForPushNotificaions(string token)
+        public virtual void OnRegisteredForPushNotificaions(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
             {
@@ -45,7 +42,6 @@ namespace Softeq.XToolkit.PushNotifications
             }
             else
             {
-                token = SimplifyToken(token);
                 PushTokenStorageService.PushToken = token;
 
                 RegisterPushTokenOnServer().SafeTaskWrapper(Logger);
@@ -69,18 +65,20 @@ namespace Softeq.XToolkit.PushNotifications
             await UnregisterPushTokenOnServer(token);
         }
 
-        public void OnMessageReceived(object pushNotification)
+        public virtual PushNotificationModel OnMessageReceived(object pushNotification)
         {
             var parsedNotification = ParsePushNotification(pushNotification);
 
             if (parsedNotification.IsSilent)
             {
                 PushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
-                return;
+            }
+            else
+            {
+                PushNotificationsHandler.HandlePushNotificationReceived(parsedNotification);
             }
 
-            ShowNotification(pushNotification, parsedNotification);
-            PushNotificationsHandler.HandlePushNotificationReceived(parsedNotification);
+            return parsedNotification;
         }
 
         public void OnMessageTapped(object pushNotification)

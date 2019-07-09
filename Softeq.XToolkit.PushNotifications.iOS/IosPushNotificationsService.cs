@@ -68,9 +68,10 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests();
         }
 
-        protected override string SimplifyToken(string token)
+        public override void OnRegisteredForPushNotificaions(string token)
         {
-            return token.Trim('<').Trim('>').Replace(" ", string.Empty);
+            token = SimplifyToken(token);
+            base.OnRegisteredForPushNotificaions(token);
         }
 
         protected override void UnregisterFromPushTokenInSystem()
@@ -78,9 +79,9 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             UIApplication.SharedApplication.UnregisterForRemoteNotifications();
         }
 
-        protected override void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification)
+        private string SimplifyToken(string token)
         {
-            // Don't need anything here for iOS
+            return string.IsNullOrWhiteSpace(token) ? token : token.Trim('<').Trim('>').Replace(" ", string.Empty);
         }
     }
 

@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
             FirebaseApp.InitializeApp(_appContext);
             XFirebaseIIDService.OnTokenRefreshed += OnPushTokenRefreshed;
-            XFirebaseMessagingService.OnNotificationReceived += OnMessageReceived;
+            XFirebaseMessagingService.OnNotificationReceived += OnNotificationReceived;
         }
 
         public override void RegisterForPushNotifications()
@@ -90,12 +90,17 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
-        protected override string SimplifyToken(string token)
+        public override PushNotificationModel OnMessageReceived(object pushNotification)
         {
-            return token;
+            var parsedNotification = base.OnMessageReceived(pushNotification);
+            if (!parsedNotification.IsSilent)
+            {
+                ShowNotification(pushNotification, parsedNotification);
+            }
+            return parsedNotification;
         }
 
-        protected override void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification)
+        private void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification)
         {
             if (_showForegroundNotificationsInSystem || !parsedPushNotification.HandledBySystem)
             {
@@ -114,13 +119,18 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
+        private void OnNotificationReceived(object pushNotification)
+        {
+            OnMessageReceived(pushNotification);
+        }
+
         #region IDisposable
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
                 XFirebaseIIDService.OnTokenRefreshed -= OnPushTokenRefreshed;
-                XFirebaseMessagingService.OnNotificationReceived -= OnMessageReceived;
+                XFirebaseMessagingService.OnNotificationReceived -= OnNotificationReceived;
             }
         }
 
