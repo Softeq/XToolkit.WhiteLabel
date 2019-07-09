@@ -11,7 +11,6 @@ namespace Softeq.XToolkit.PushNotifications
         /// Callback which must be called when push notification message is received
         /// </summary>
         /// <param name="pushNotification">Push notification object</param>
-        /// <returns>Parsed notification model</returns>
         void OnMessageReceived(object pushNotification);
 
         /// <summary>
