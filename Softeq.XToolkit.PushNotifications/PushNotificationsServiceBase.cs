@@ -17,9 +17,12 @@ namespace Softeq.XToolkit.PushNotifications
 
         protected string PushToken => PushTokenStorageService?.PushToken;
 
-        public PushNotificationsServiceBase(IRemotePushNotificationsService remotePushNotificationsService,
-            IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser, ILogManager logManager)
+        public PushNotificationsServiceBase(
+            IRemotePushNotificationsService remotePushNotificationsService,
+            IPushTokenStorageService pushTokenStorageService,
+            IPushNotificationsHandler pushNotificationsHandler,
+            IPushNotificationParser pushNotificationParser,
+            ILogManager logManager)
         {
             RemotePushNotificationsService = remotePushNotificationsService;
             PushTokenStorageService = pushTokenStorageService;
@@ -65,20 +68,9 @@ namespace Softeq.XToolkit.PushNotifications
             await UnregisterPushTokenOnServer(token);
         }
 
-        public virtual PushNotificationModel OnMessageReceived(object pushNotification)
+        public void OnMessageReceived(object pushNotification)
         {
-            var parsedNotification = ParsePushNotification(pushNotification);
-
-            if (parsedNotification.IsSilent)
-            {
-                PushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
-            }
-            else
-            {
-                PushNotificationsHandler.HandlePushNotificationReceived(parsedNotification);
-            }
-
-            return parsedNotification;
+            OnMessageReceivedInternal(pushNotification);
         }
 
         public void OnMessageTapped(object pushNotification)
@@ -92,6 +84,22 @@ namespace Softeq.XToolkit.PushNotifications
             }
 
             PushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
+        }
+
+        protected virtual PushNotificationModel OnMessageReceivedInternal(object pushNotification)
+        {
+            var parsedNotification = ParsePushNotification(pushNotification);
+
+            if (parsedNotification.IsSilent)
+            {
+                PushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
+            }
+            else
+            {
+                PushNotificationsHandler.HandlePushNotificationReceived(parsedNotification);
+            }
+
+            return parsedNotification;
         }
 
         private PushNotificationModel ParsePushNotification(object pushNotification)

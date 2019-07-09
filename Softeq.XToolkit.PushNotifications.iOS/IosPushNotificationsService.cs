@@ -16,9 +16,13 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         // badges
 
-        public IosPushNotificationsService(IRemotePushNotificationsService remotePushNotificationsService,
-            IPushTokenStorageService pushTokenStorageService, IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationParser pushNotificationParser, INotificationsPermissionsService permissionsService, ILogManager logManager)
+        public IosPushNotificationsService(
+            IRemotePushNotificationsService remotePushNotificationsService,
+            IPushTokenStorageService pushTokenStorageService,
+            IPushNotificationsHandler pushNotificationsHandler,
+            IPushNotificationParser pushNotificationParser,
+            INotificationsPermissionsService permissionsService,
+            ILogManager logManager)
             : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
         {
             _permissionsService = permissionsService;
@@ -28,7 +32,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         {
             if (_isInitialized)
             {
-                Logger.Debug("PushNotificationsServiceIos: Already Initialized");
+                Logger.Debug($"{nameof(IosPushNotificationsService)}: Already Initialized");
                 return;
             }
 
