@@ -14,7 +14,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         private bool _isInitialized;
 
-        // UNAuthorizationOptions options
         // badges
 
         public IosPushNotificationsService(IRemotePushNotificationsService remotePushNotificationsService,
@@ -47,7 +46,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                     return;
                 }
 
-                //_permissionsService.SetRequiredOptions(); //var authOptions = UNAuthorizationOptions.Alert | UNAuthorizationOptions.Badge | UNAuthorizationOptions.Sound;
                 var permissionGranted = await _permissionsService.RequestNotificationsPermissions();
 
                 if (permissionGranted)

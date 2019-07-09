@@ -45,10 +45,10 @@ namespace Softeq.XToolkit.PushNotifications
         /// <summary>
         /// Unregisters application from push notifications
         /// </summary>
-        /// <param name="unregisterInSystem">If true application will be unregistered from push notifications inside os system.
+        /// <param name="unregisterInSystem">If true application will be unregistered from push notifications inside OS system.
         /// Default value is false as it is not very recommended to do by apple and firebase documentation, but it might be useful on logout.
         /// On Android unsubscribing in system will only work when there is Internet Connection</param>
-        /// <returns></returns>
+        /// <returns>Task</returns>
         Task UnregisterFromPushNotifications(bool unregisterInSystem = false);
 
         #endregion
@@ -61,6 +61,9 @@ namespace Softeq.XToolkit.PushNotifications
 
         #region Removing notifications
 
+        /// <summary>
+        /// Clears all notifications from notifications center
+        /// </summary>
         void ClearAllNotifications();
 
         #endregion
