@@ -43,23 +43,36 @@ namespace Softeq.XToolkit.PushNotifications
             }
             else
             {
-                PushTokenStorageService.IsTokenRegisteredInSystem = true;
-
-                if (PushTokenStorageService.PushToken != token || !PushTokenStorageService.IsTokenSavedOnServer)
-                {
-                    PushTokenStorageService.PushToken = token;
-
-                    RegisterPushTokenOnServer().SafeTaskWrapper(Logger);
-                }
+                OnRegisterSuccessInternal(token).SafeTaskWrapper(Logger);
             }
         }
 
         public void OnFailedToRegisterForPushNotifications(string errorMessage)
         {
+            Logger.Warn($"Push Notifications failed to register: {errorMessage}");
+            OnRegisterFailedInternal().SafeTaskWrapper(Logger);
+        }
+
+        private async Task OnRegisterSuccessInternal(string token)
+        {
+            PushTokenStorageService.IsTokenRegisteredInSystem = true;
+
+            if (PushTokenStorageService.PushToken != token || !PushTokenStorageService.IsTokenSavedOnServer)
+            {
+                PushTokenStorageService.PushToken = token;
+                await RegisterPushTokenOnServer();
+            }
+
+            PushNotificationsHandler.OnPushRegistrationCompleted(PushTokenStorageService.IsTokenRegisteredInSystem, PushTokenStorageService.IsTokenSavedOnServer);
+        }
+
+        private async Task OnRegisterFailedInternal()
+        {
             PushTokenStorageService.IsTokenRegisteredInSystem = false;
 
-            Logger.Warn($"Push Notifications failed to register: {errorMessage}");
-            UnregisterFromPushNotifications().SafeTaskWrapper(Logger);
+            await UnregisterFromPushNotifications();
+
+            PushNotificationsHandler.OnPushRegistrationCompleted(PushTokenStorageService.IsTokenRegisteredInSystem, PushTokenStorageService.IsTokenSavedOnServer);
         }
 
         public async Task<bool> UnregisterFromPushNotifications(bool unregisterInSystem = false)
