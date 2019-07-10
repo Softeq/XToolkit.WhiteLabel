@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.PushNotifications
         /// On Android is called internally
         /// </summary>
         /// <param name="token">Push notifications token</param>
-        void OnRegisteredForPushNotificaions(string token);
+        void OnRegisteredForPushNotifications(string token);
 
         /// <summary>
         /// Callback to notify the service that registration for push notifications failed.

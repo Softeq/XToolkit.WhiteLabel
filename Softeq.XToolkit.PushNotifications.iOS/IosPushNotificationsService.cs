@@ -69,10 +69,10 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests();
         }
 
-        public override void OnRegisteredForPushNotificaions(string token)
+        public override void OnRegisteredForPushNotifications(string token)
         {
             token = SimplifyToken(token);
-            base.OnRegisteredForPushNotificaions(token);
+            base.OnRegisteredForPushNotifications(token);
         }
 
         protected override void UnregisterFromPushTokenInSystem()
