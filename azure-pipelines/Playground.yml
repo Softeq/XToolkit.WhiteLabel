@@ -1,10 +1,29 @@
 resources:
 - repo: self
-queue:
-  name: Hosted macOS
-  demands: Xamarin.iOS
+trigger:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - release/*
 
 variables:
   BuildConfiguration: 'Release'
-steps:
-- script: 'msbuild samples/Playground/Playground.sln /t:Clean /t:Restore /p:Configuration="Release" /p:Platform="Any CPU"'
+  MONO_VERSION: 5_18_1
+  XCODE_VERSION: 10.2
+
+jobs:
+- job: macos_1014
+  pool:
+    name: Hosted macOS
+  steps:
+    # make sure to select the correct Xamarin and mono
+    - bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
+      displayName: Switch to the latest Xamarin SDK
+    - bash: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(XCODE_VERSION).app;sudo xcode-select --switch /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
+      displayName: Switch to the latest Xcode
+    # restore, build
+    - script: 'msbuild samples/Playground/Playground.sln /t:Clean /t:Restore /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
+      displayName: Build Playground Solution
+    - script: 'dotnet test Softeq.XToolkit.Common.Tests/Softeq.XToolkit.Common.Tests.csproj --configuration $(BuildConfiguration)'
+      displayName: Run XToolkit.Common.Tests

@@ -10,6 +10,7 @@ using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Playground.Models;
+using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Playground.ViewModels.Pages
 {

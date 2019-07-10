@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Softeq.XToolkit.Common.Interfaces;
@@ -14,13 +14,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
     public class StoryboardViewLocator : IViewLocator
     {
-        private Dictionary<Type, Type> _modelToControllerTypes;
         private readonly ILogger _logger;
-        private readonly IViewControllerProvider _appDelegate;
+        private readonly IViewControllerProvider _viewControllerProvider;
 
-        public StoryboardViewLocator(ILogManager logManager, IViewControllerProvider appDelegate)
+        private Dictionary<Type, Type> _modelToControllerTypes;
+
+        public StoryboardViewLocator(
+            ILogManager logManager,
+            IViewControllerProvider viewControllerProvider)
         {
-            _appDelegate = appDelegate;
+            _viewControllerProvider = viewControllerProvider;
             _logger = logManager.GetLogger<StoryboardViewLocator>();
             _modelToControllerTypes = new Dictionary<Type, Type>();
         }
@@ -39,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             return UIApplication.SharedApplication.Windows
                 .Where(window => window.RootViewController != null)
-                .Select(window => _appDelegate.GetRootViewController(window.RootViewController))
+                .Select(window => _viewControllerProvider.GetTopViewController(window.RootViewController))
                 .FirstOrDefault();
         }
 

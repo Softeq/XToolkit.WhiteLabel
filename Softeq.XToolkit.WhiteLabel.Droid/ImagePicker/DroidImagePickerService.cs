@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
@@ -12,12 +15,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
     {
         private readonly IPermissionsManager _permissionsManager;
 
+        private TaskCompletionSource<Bitmap> _taskCompletionSource;
+
         public DroidImagePickerService(IPermissionsManager permissionsManager)
         {
             _permissionsManager = permissionsManager;
         }
-
-        private TaskCompletionSource<Bitmap> _taskCompletionSource;
 
         public async Task<ImagePickerResult> PickPhotoAsync(float quality)
         {
