@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.PushNotifications
 {
-    public interface IPushNotificationsService : IPushNotificationsCallbacks
+    public interface IPushNotificationsService : IPushNotificationsReceiver
     {
         #region Initialization
         /// <summary>
@@ -48,14 +48,14 @@ namespace Softeq.XToolkit.PushNotifications
         /// <param name="unregisterInSystem">If true application will be unregistered from push notifications inside OS system.
         /// Default value is false as it is not very recommended to do by apple and firebase documentation, but it might be useful on logout.
         /// On Android unsubscribing in system will only work when there is Internet Connection</param>
-        /// <returns>Task</returns>
-        Task UnregisterFromPushNotifications(bool unregisterInSystem = false);
+        /// <returns>Task with true value if unregistration completed successfully on server and if was requested in system as well, false otherwise</returns>
+        Task<bool> UnregisterFromPushNotifications(bool unregisterInSystem = false);
 
         #endregion
 
         #region Receiving messages
 
-        // Receiving messages - inhereted from IPushNotificationsCallbacks
+        // Receiving messages - inhereted from IPushNotificationsReceiver
 
         #endregion
 

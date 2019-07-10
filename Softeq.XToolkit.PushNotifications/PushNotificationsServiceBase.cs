@@ -15,8 +15,6 @@ namespace Softeq.XToolkit.PushNotifications
         protected readonly IPushNotificationParser PushNotificationParser;
         protected readonly ILogger Logger;
 
-        protected string PushToken => PushTokenStorageService?.PushToken;
-
         public PushNotificationsServiceBase(
             IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService,
@@ -33,7 +31,7 @@ namespace Softeq.XToolkit.PushNotifications
 
         public abstract void Initialize(bool showForegroundNotificationsInSystem);
         public abstract void RegisterForPushNotifications();
-        protected abstract void UnregisterFromPushTokenInSystem();
+        protected abstract Task<bool> UnregisterFromPushTokenInSystem();
 
         public abstract void ClearAllNotifications();
 
@@ -45,27 +43,44 @@ namespace Softeq.XToolkit.PushNotifications
             }
             else
             {
-                PushTokenStorageService.PushToken = token;
+                PushTokenStorageService.IsTokenRegisteredInSystem = true;
 
-                RegisterPushTokenOnServer().SafeTaskWrapper(Logger);
+                if (PushTokenStorageService.PushToken != token || !PushTokenStorageService.IsTokenSavedOnServer)
+                {
+                    PushTokenStorageService.PushToken = token;
+
+                    RegisterPushTokenOnServer().SafeTaskWrapper(Logger);
+                }
             }
         }
 
         public void OnFailedToRegisterForPushNotifications(string errorMessage)
         {
+            PushTokenStorageService.IsTokenRegisteredInSystem = false;
+
             Logger.Warn($"Push Notifications failed to register: {errorMessage}");
             UnregisterFromPushNotifications().SafeTaskWrapper(Logger);
         }
 
-        public async Task UnregisterFromPushNotifications(bool unregisterInSystem = false)
+        public async Task<bool> UnregisterFromPushNotifications(bool unregisterInSystem = false)
         {
-            if (unregisterInSystem)
+            // Unregister in system if needed
+            if (PushTokenStorageService.IsTokenRegisteredInSystem && unregisterInSystem)
             {
-                UnregisterFromPushTokenInSystem();
+                var unregistered = await UnregisterFromPushTokenInSystem();
+                PushTokenStorageService.IsTokenRegisteredInSystem = !unregistered;
             }
-            var token = PushTokenStorageService.PushToken;
-            PushTokenStorageService.PushToken = string.Empty;
-            await UnregisterPushTokenOnServer(token);
+
+            // Try to unregister on server
+            await UnregisterPushTokenOnServer(PushTokenStorageService.PushToken);
+
+            // Clear token if it is unregistered both in system and on server
+            if (!PushTokenStorageService.IsTokenRegisteredInSystem && !PushTokenStorageService.IsTokenSavedOnServer)
+            {
+                PushTokenStorageService.PushToken = string.Empty;
+            }
+
+            return !PushTokenStorageService.IsTokenSavedOnServer && !(unregisterInSystem && PushTokenStorageService.IsTokenRegisteredInSystem);
         }
 
         public void OnMessageReceived(object pushNotification)
@@ -109,9 +124,10 @@ namespace Softeq.XToolkit.PushNotifications
 
         private async Task RegisterPushTokenOnServer()
         {
-            if (!string.IsNullOrEmpty(PushToken))
+            if (!string.IsNullOrEmpty(PushTokenStorageService.PushToken))
             {
-                await RemotePushNotificationsService.SendPushNotificationsToken(PushToken);
+                var savedOnServer = await RemotePushNotificationsService.SendPushNotificationsToken(PushTokenStorageService.PushToken);
+                PushTokenStorageService.IsTokenSavedOnServer = savedOnServer;
             }
         }
 
@@ -119,7 +135,11 @@ namespace Softeq.XToolkit.PushNotifications
         {
             if (!string.IsNullOrEmpty(token))
             {
-                await RemotePushNotificationsService.RemovePushNotificationsToken(token);
+                var removedFromServer = await RemotePushNotificationsService.RemovePushNotificationsToken(token);
+                if (removedFromServer) // if we failed to remove it is left as it was (saved or not)
+                {
+                    PushTokenStorageService.IsTokenSavedOnServer = false;
+                }
             }
         }
     }

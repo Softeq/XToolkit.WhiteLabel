@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
 using UIKit;
 using UserNotifications;
@@ -43,12 +44,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         {
             UIApplication.SharedApplication.InvokeOnMainThread(async () =>
             {
-                if (UIApplication.SharedApplication.IsRegisteredForRemoteNotifications)
-                {
-                    // TODO: we might want to register token on server if registration failed previously
-                    return;
-                }
-
                 var permissionGranted = await _permissionsService.RequestNotificationsPermissions();
 
                 if (permissionGranted)
@@ -75,9 +70,10 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             base.OnRegisteredForPushNotifications(token);
         }
 
-        protected override void UnregisterFromPushTokenInSystem()
+        protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
             UIApplication.SharedApplication.UnregisterForRemoteNotifications();
+            return Task.FromResult(true);
         }
 
         private string SimplifyToken(string token)
@@ -88,12 +84,12 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
     public class UserNotificationCenterDelegate : UNUserNotificationCenterDelegate
     {
-        private readonly IPushNotificationsCallbacks _pushNotificationsCallbacks;
+        private readonly IPushNotificationsReceiver _pushNotificationsReceiver;
         private readonly bool _showForegroundNotificationsInSystem;
 
-        public UserNotificationCenterDelegate(IPushNotificationsCallbacks pushNotificationsService, bool showForegroundNotificationsInSystem)
+        public UserNotificationCenterDelegate(IPushNotificationsReceiver pushNotificationsReceiver, bool showForegroundNotificationsInSystem)
         {
-            _pushNotificationsCallbacks = pushNotificationsService;
+            _pushNotificationsReceiver = pushNotificationsReceiver;
             _showForegroundNotificationsInSystem = showForegroundNotificationsInSystem;
         }
 
@@ -102,7 +98,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                                                      UNNotification notification,
                                                      Action<UNNotificationPresentationOptions> completionHandler)
         {
-            _pushNotificationsCallbacks.OnMessageReceived(notification.Request.Content.UserInfo);
+            _pushNotificationsReceiver.OnMessageReceived(notification.Request.Content.UserInfo);
             if (_showForegroundNotificationsInSystem)
             {
                 completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);
@@ -118,7 +114,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                                                             UNNotificationResponse response,
                                                             Action completionHandler)
         {
-            _pushNotificationsCallbacks.OnMessageTapped(response.Notification.Request.Content.UserInfo);
+            _pushNotificationsReceiver.OnMessageTapped(response.Notification.Request.Content.UserInfo);
             completionHandler.Invoke();
         }
     }
