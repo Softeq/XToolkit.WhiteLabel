@@ -8,22 +8,11 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 
-namespace Playground.iOS.Views
+namespace Playground.iOS.ViewControllers.Pages
 {
-    [Register ("MovieCollectionViewCell")]
-    partial class MovieCollectionViewCell
+    [Register ("DetailsPageViewController")]
+    partial class DetailsPageViewController
     {
-        [Outlet]
-        UIKit.UILabel Description { get; set; }
-
-
-        [Outlet]
-        UIKit.UIImageView Poster { get; set; }
-
-
-        [Outlet]
-        UIKit.UILabel Title { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
         }

@@ -205,13 +205,21 @@
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="ViewControllers\Pages\MainPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\MainPageViewController.designer.cs" />
+    <Compile Include="ViewControllers\Pages\MainPageViewController.designer.cs">
+      <DependentUpon>MainPageViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPageGroupHeaderViewCell.cs" />
-    <Compile Include="Views\MainPageGroupHeaderViewCell.designer.cs" />
+    <Compile Include="Views\MainPageGroupHeaderViewCell.designer.cs">
+      <DependentUpon>MainPageGroupHeaderViewCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainPageItemViewCell.cs" />
-    <Compile Include="Views\MainPageItemViewCell.designer.cs" />
+    <Compile Include="Views\MainPageItemViewCell.designer.cs">
+      <DependentUpon>MainPageItemViewCell.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewControllers\Pages\DetailsPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\DetailsPageViewController.designer.cs" />
+    <Compile Include="ViewControllers\Pages\DetailsPageViewController.designer.cs">
+      <DependentUpon>DetailsPageViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

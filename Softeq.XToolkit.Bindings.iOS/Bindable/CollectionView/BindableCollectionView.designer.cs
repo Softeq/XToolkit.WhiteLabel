@@ -8,22 +8,11 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 
-namespace Playground.iOS.Views
+namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
 {
-    [Register ("MovieCollectionViewCell")]
-    partial class MovieCollectionViewCell
+    [Register ("BindableCollectionView")]
+    partial class BindableCollectionView
     {
-        [Outlet]
-        UIKit.UILabel Description { get; set; }
-
-
-        [Outlet]
-        UIKit.UIImageView Poster { get; set; }
-
-
-        [Outlet]
-        UIKit.UILabel Title { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
         }

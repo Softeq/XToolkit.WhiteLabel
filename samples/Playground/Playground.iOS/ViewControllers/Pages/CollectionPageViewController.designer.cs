@@ -4,9 +4,10 @@
 // actions declared in your storyboard file.
 // Manual changes to this file will not be maintained.
 //
-
 using Foundation;
 using Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView;
+using System;
+using System.CodeDom.Compiler;
 
 namespace Playground.iOS.ViewControllers.Pages
 {
@@ -18,10 +19,6 @@ namespace Playground.iOS.ViewControllers.Pages
 
         void ReleaseDesignerOutlets ()
         {
-            if (CollectionView != null) {
-                CollectionView.Dispose ();
-                CollectionView = null;
-            }
         }
     }
 }
