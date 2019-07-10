@@ -5,7 +5,6 @@ using System;
 using System.Linq;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
-using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Controls;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
@@ -53,7 +52,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             _tabBarController = UiTabBarControllerHelper.CreateForViewModels(
                 ViewModel.TabViewModels,
                 ViewModel.TabViewModels.Select(GetTabBarItem).ToArray(),
-                Dependencies.Container.Resolve<IViewLocator>(),
                 TabBarControllerFactory);
 
             _tabBarController.AddAsChildWithConstraints(this);

@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using System.Threading;
 using Foundation;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
