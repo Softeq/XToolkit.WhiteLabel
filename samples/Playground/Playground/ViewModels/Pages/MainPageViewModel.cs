@@ -2,12 +2,11 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
-using System.Linq;
-using Playground.Models;
-using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Playground.Models;
 
 namespace Playground.ViewModels.Pages
 {
@@ -28,17 +27,12 @@ namespace Playground.ViewModels.Pages
         {
             base.OnInitialize();
 
-            if (Items.Any())
-            {
-                return;
-            }
-
             var actions = new List<(string Header, CommandAction Item)>
             {
                 ("Navigation",
                     new CommandAction
                     {
-                        Title = "Without parameter",
+                        Title = "Without parameters",
                         Command = new RelayCommand(() =>
                         {
                             _pageNavigationService
@@ -49,7 +43,7 @@ namespace Playground.ViewModels.Pages
                 ("Navigation",
                     new CommandAction
                     {
-                        Title = "With parameter",
+                        Title = "With parameters",
                         Command = new RelayCommand(() =>
                         {
                             _pageNavigationService
@@ -65,7 +59,7 @@ namespace Playground.ViewModels.Pages
                 ("Navigation",
                     new CommandAction
                     {
-                        Title = "Toolbar page",
+                        Title = "Bottom Tabs",
                         Command = new RelayCommand(() =>
                         {
                             _pageNavigationService
@@ -79,7 +73,9 @@ namespace Playground.ViewModels.Pages
                         Title = "Observable list",
                         Command = new RelayCommand(() =>
                         {
-                            //_pageNavigationService.NavigateToViewModel<CollectionViewModel>();
+                            _pageNavigationService
+                                .For<CollectionPageViewModel>()
+                                .Navigate();
                         })
                     }),
                 ("Collections",
@@ -91,15 +87,6 @@ namespace Playground.ViewModels.Pages
                             //_pageNavigationService.NavigateToViewModel<GrouppedCollectionViewModel>();
                         })
                     }),
-                ("Collections",
-                    new CommandAction
-                    {
-                        Title = "Observable Texture list",
-                        Command = new RelayCommand(() =>
-                        {
-                            //_pageNavigationService.NavigateToViewModel<TextureCollectionViewModel>();
-                        })
-                    }),
                 ("Controls",
                     new CommandAction
                     {
@@ -107,33 +94,6 @@ namespace Playground.ViewModels.Pages
                         Command = new RelayCommand(() =>
                         {
                             //_pageNavigationService.NavigateToViewModel<PhotoBrowserViewModel>();
-                        })
-                    }),
-                ("Components",
-                    new CommandAction
-                    {
-                        Title = "Stripe",
-                        Command = new RelayCommand(() =>
-                        {
-                            //_pageNavigationService.NavigateToViewModel<StripeViewModel>();
-                        })
-                    }),
-                ("Components",
-                    new CommandAction
-                    {
-                        Title = "Cached requests",
-                        Command = new RelayCommand(() =>
-                        {
-                            //_pageNavigationService.NavigateToViewModel<CachedRequestsViewModel>();
-                        })
-                    }),
-                ("Components",
-                    new CommandAction
-                    {
-                        Title = "Connectivity",
-                        Command = new RelayCommand(() =>
-                        {
-                            //_pageNavigationService.NavigateToViewModel<ConnectivityViewModel>();
                         })
                     }),
                 ("Components",
@@ -151,16 +111,9 @@ namespace Playground.ViewModels.Pages
                         Title = "Permissions",
                         Command = new RelayCommand(() =>
                         {
-                        //_pageNavigationService.NavigateToViewModel<PermissionsViewModel >();
-                        })
-                    }),
-                ("Components",
-                    new CommandAction
-                    {
-                        Title = "Image Picker with cropping",
-                        Command = new RelayCommand(() =>
-                        {
-                        //_pageNavigationService.NavigateToViewModel<ImagePickerViewModel >();
+                            _pageNavigationService
+                                .For<PermissionsPageViewModel>()
+                                .Navigate();
                         })
                     })
             };

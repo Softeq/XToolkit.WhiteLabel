@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Plugin.Permissions;
@@ -77,17 +76,17 @@ namespace Playground.ViewModels.Pages
             set => Set(ref _locationAlwaysGranted, value);
         }
 
-        public ICommand RequestPhotosCommand;
+        public ICommand RequestPhotosCommand { get; }
 
-        public ICommand RequestCameraCommand;
+        public ICommand RequestCameraCommand { get; }
 
-        public ICommand RequestStorageCommand;
+        public ICommand RequestStorageCommand { get; }
 
-        public ICommand RequestLocationCommand;
+        public ICommand RequestLocationCommand { get; }
 
-        public ICommand RequestLocationInUseCommand;
+        public ICommand RequestLocationInUseCommand { get; }
 
-        public ICommand RequestLocationAlwaysCommand;
+        public ICommand RequestLocationAlwaysCommand { get; }
 
         public override void OnInitialize()
         {
@@ -145,7 +144,7 @@ namespace Playground.ViewModels.Pages
             var locationStatus = await _permissionsManager.CheckAsync<LocationPermission>().ConfigureAwait(false);
             Execute.OnUIThread(() => LocationGranted = locationStatus == PermissionStatus.Granted);
 
-            var locationInUseStatus = await _permissionsManager.CheckAsync<LocationWhenInUsePermission>().ConfigureAwait(false);            Execute.OnUIThread(() => LocationGranted = cameraStatus == PermissionStatus.Granted);
+            var locationInUseStatus = await _permissionsManager.CheckAsync<LocationWhenInUsePermission>().ConfigureAwait(false);
             Execute.OnUIThread(() => LocationInUseGranted = locationInUseStatus == PermissionStatus.Granted);
 
             var locationAlwaysStatus = await _permissionsManager.CheckAsync<LocationAlwaysPermission>().ConfigureAwait(false);

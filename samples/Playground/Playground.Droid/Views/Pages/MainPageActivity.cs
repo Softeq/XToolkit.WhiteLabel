@@ -6,11 +6,11 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
-using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Bindings.Droid;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Playground.ViewModels.Pages;
 
 namespace Playground.Droid.Views.Pages
 {

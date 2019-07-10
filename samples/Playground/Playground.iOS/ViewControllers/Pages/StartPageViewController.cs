@@ -6,8 +6,7 @@ using Playground.ViewModels.Pages;
 
 namespace Playground.iOS.ViewControllers.Pages
 {
-    public partial class StartPageViewController
-        : ViewControllerBase<StartPageViewModel>
+    public class StartPageViewController : ViewControllerBase<StartPageViewModel>
     {
     }
 }

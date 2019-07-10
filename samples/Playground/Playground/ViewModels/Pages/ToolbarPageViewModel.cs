@@ -1,12 +1,11 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
-using Playground.ViewModels.Pages.Temp;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
+using Playground.ViewModels.Pages.Temp;
 
 namespace Playground.ViewModels.Pages
 {

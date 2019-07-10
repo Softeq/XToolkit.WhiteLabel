@@ -3,18 +3,19 @@
 
 using System;
 using Foundation;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
 using UIKit;
 
 namespace Playground.iOS.Views
 {
-    public partial class MainPageGroupHeaderViewCell : UITableViewHeaderFooterView
+    public partial class MainPageGroupHeaderViewCell : BindableHeaderCell<string>
     {
-        public static readonly NSString Key = new NSString("MainPageGroupHeaderViewCell");
+        public static readonly NSString Key = new NSString(nameof(MainPageGroupHeaderViewCell));
         public static readonly UINib Nib;
 
         static MainPageGroupHeaderViewCell()
         {
-            Nib = UINib.FromName("MainPageGroupHeaderViewCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(Key, NSBundle.MainBundle);
         }
 
         protected MainPageGroupHeaderViewCell(IntPtr handle) : base(handle)
@@ -22,9 +23,9 @@ namespace Playground.iOS.Views
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        internal void BindCell(string headerKey)
+        public override void SetBindings()
         {
-            NameLabel.Text = headerKey;
+            NameLabel.Text = ViewModel;
         }
     }
 }

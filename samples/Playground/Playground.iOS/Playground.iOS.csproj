@@ -174,9 +174,6 @@
       <DependentUpon>ToolbarPageViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\Pages\StartPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\StartPageViewController.designer.cs">
-      <DependentUpon>StartPageViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>

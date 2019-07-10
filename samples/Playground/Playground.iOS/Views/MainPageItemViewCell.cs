@@ -3,19 +3,20 @@
 
 using System;
 using Foundation;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
 
 namespace Playground.iOS.Views
 {
-    public partial class MainPageItemViewCell : UITableViewCell
+    public partial class MainPageItemViewCell : BindableTableViewCell<CommandAction>
     {
-        public static readonly NSString Key = new NSString("MainPageItemViewCell");
+        public static readonly NSString Key = new NSString(nameof(MainPageItemViewCell));
         public static readonly UINib Nib;
 
         static MainPageItemViewCell()
         {
-            Nib = UINib.FromName("MainPageItemViewCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(Key, NSBundle.MainBundle);
         }
 
         protected MainPageItemViewCell(IntPtr handle) : base(handle)
@@ -30,9 +31,9 @@ namespace Playground.iOS.Views
             SelectionStyle = UITableViewCellSelectionStyle.None;
         }
 
-        internal void BindCell(CommandAction viewModel)
+        public override void SetBindings()
         {
-            NameLabel.Text = viewModel.Title;
+            NameLabel.Text = ViewModel.Title;
         }
     }
 }

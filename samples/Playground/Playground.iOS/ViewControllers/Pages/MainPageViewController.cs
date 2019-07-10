@@ -2,11 +2,12 @@
 // http://www.softeq.com
 
 using System;
-using Playground.iOS.Views;
-using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Bindings.iOS;
+using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Playground.ViewModels.Pages;
+using Playground.iOS.Views;
 
 namespace Playground.iOS.ViewControllers.Pages
 {
@@ -20,36 +21,40 @@ namespace Playground.iOS.ViewControllers.Pages
         {
             base.ViewDidLoad();
 
-            Title = "Main Page";
+            InitTableView();
+        }
 
+        private void InitTableView()
+        {
             TableView.RegisterNibForCellReuse(MainPageItemViewCell.Nib, MainPageItemViewCell.Key);
             TableView.RegisterNibForHeaderFooterViewReuse(MainPageGroupHeaderViewCell.Nib,
                 MainPageGroupHeaderViewCell.Key);
 
-            TableView.Source = new ObservableGroupTableViewSource<string, CommandAction>(
+            var source = new ObservableGroupTableViewSource<string, CommandAction>(
                 TableView,
                 ViewModel.Items,
                 (tableView, item, dataSource, indexPath) =>
                 {
-                    var cell = (MainPageItemViewCell) tableView.DequeueReusableCell(MainPageItemViewCell.Key,
-                        indexPath);
-                    cell.BindCell(item);
-                    return cell;
+                    var cell = tableView.DequeueReusableCell(MainPageItemViewCell.Key, indexPath);
+                    var itemCell = (MainPageItemViewCell) cell;
+                    itemCell.SetDataContext(item);
+                    return itemCell;
                 },
                 getHeaderViewFunc: (tableView, headerKey) =>
                 {
-                    var header =
-                        (MainPageGroupHeaderViewCell) tableView.DequeueReusableHeaderFooterView(
-                            MainPageGroupHeaderViewCell.Key);
-                    header.BindCell(headerKey);
-                    return header;
+                    var cell = tableView.DequeueReusableHeaderFooterView(MainPageGroupHeaderViewCell.Key);
+                    var headerCell = (MainPageGroupHeaderViewCell) cell;
+                    headerCell.SetDataContext(headerKey);
+                    return headerCell;
                 })
             {
                 HeightForRow = 60f,
                 HeightForHeader = 100f
             };
-            (TableView.Source as ObservableGroupTableViewSource<string, CommandAction>).ItemSelected +=
-                (sender, args) => args.Value.Command.Execute(null);
+
+            source.ItemSelected += (sender, args) => args.Value.Command.Execute(null);
+
+            TableView.Source = source;
         }
     }
 }

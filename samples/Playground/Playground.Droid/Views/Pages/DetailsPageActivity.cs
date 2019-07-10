@@ -2,11 +2,9 @@
 // http://www.softeq.com
 
 using Android.App;
-using Android.Content;
 using Android.OS;
-using Android.Widget;
-using Playground.ViewModels.Pages;
 using Softeq.XToolkit.WhiteLabel.Droid;
+using Playground.ViewModels.Pages;
 
 namespace Playground.Droid.Views.Pages
 {

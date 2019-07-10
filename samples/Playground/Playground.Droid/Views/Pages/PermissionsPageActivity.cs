@@ -1,23 +1,20 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
 using Android.App;
 using Android.Graphics;
+using Android.Graphics.Drawables;
 using Android.OS;
 using Android.Widget;
-using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.Droid;
-using Softeq.XToolkit.Permissions;
-using Plugin.Permissions;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Bindings.Extensions;
-using Android.Graphics.Drawables;
+using Playground.ViewModels.Pages;
 
 namespace Playground.Droid.Views.Pages
 {
-    [Activity(Theme = "@style/AppTheme")]
+    [Activity]
     public class PermissionsPageActivity : ActivityBase<PermissionsPageViewModel>
     {
         private Button _cameraButton;
@@ -43,6 +40,7 @@ namespace Playground.Droid.Views.Pages
         protected override void DoAttachBindings()
         {
             base.DoAttachBindings();
+
             var converter = new ColorConverter();
 
             this.Bind(() => ViewModel.CameraGranted, () => _cameraButton.Background, converter);
@@ -59,7 +57,7 @@ namespace Playground.Droid.Views.Pages
 
             public bool ConvertValueBack(Drawable value, object parameter = null, string language = null)
             {
-                return ((ColorDrawable)value).Color == Color.Green;
+                return ((ColorDrawable) value).Color == Color.Green;
             }
         }
     }
