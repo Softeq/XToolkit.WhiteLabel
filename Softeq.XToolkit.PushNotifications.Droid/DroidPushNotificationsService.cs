@@ -64,25 +64,39 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             else
             {
                 _registrationRequired = false;
+
                 OnRegisteredForPushNotifications(token);
             }
         }
 
-        protected override void UnregisterFromPushTokenInSystem()
+        protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
+            var tcs = new TaskCompletionSource<bool>();
             // TODO: possibly use topics and UnsubscribeFromTopic instead
             Task.Run(() =>
             {
+                var result = false;
                 try
                 {
+                    // Must be called on background thread
                     FirebaseInstanceId.Instance.DeleteInstanceId(); //Throws Java.IOException if there's no Internet Connection
                     var token = FirebaseInstanceId.Instance.Token; // Value is null here. This call is needed to force new token generation
+                    result = true;
                 }
                 catch (IOException e)
                 {
                     Logger.Warn($"Firebase DeleteInstance failed: {e.Message}");
                 }
+                catch (Exception e)
+                {
+                    tcs.SetException(e);
+                }
+                finally
+                {
+                    tcs.TrySetResult(result);
+                }
             });
+            return tcs.Task;
         }
 
         public override void ClearAllNotifications()
