@@ -87,6 +87,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                 {
                     Logger.Warn($"Firebase DeleteInstance failed: {e.Message}");
                 }
+                catch (Exception e)
+                {
+                    tcs.SetException(e);
+                }
                 finally
                 {
                     tcs.TrySetResult(result);
