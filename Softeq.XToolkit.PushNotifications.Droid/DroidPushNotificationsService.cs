@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             else
             {
                 _registrationRequired = false;
-                OnRegisteredForPushNotificaions(token);
+                OnRegisteredForPushNotifications(token);
             }
         }
 
@@ -119,7 +119,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             if (_registrationRequired || (!string.IsNullOrEmpty(PushTokenStorageService.PushToken) && PushTokenStorageService.PushToken != token))
             {
                 _registrationRequired = false;
-                OnRegisteredForPushNotificaions(token);
+                OnRegisteredForPushNotifications(token);
             }
         }
 

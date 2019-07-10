@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.PushNotifications
 
         public abstract void ClearAllNotifications();
 
-        public virtual void OnRegisteredForPushNotificaions(string token)
+        public virtual void OnRegisteredForPushNotifications(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
             {
