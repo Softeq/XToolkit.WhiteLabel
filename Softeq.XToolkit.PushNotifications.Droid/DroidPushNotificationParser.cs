@@ -49,8 +49,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             var pushMessage = remoteNotification.GetNotification();
             var pushData = remoteNotification.Data;
 
-            pushNotification.HandledBySystem = pushMessage != null;
-
             pushNotification.Title = pushMessage == null ? GetStringFromDictionary(pushData, DataTitleKey) : pushMessage.Title;
             pushNotification.Body = pushMessage == null ? GetStringFromDictionary(pushData, DataBodyKey) : pushMessage.Body;
 

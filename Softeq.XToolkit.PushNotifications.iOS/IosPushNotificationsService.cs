@@ -98,7 +98,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                                                      UNNotification notification,
                                                      Action<UNNotificationPresentationOptions> completionHandler)
         {
-            _pushNotificationsReceiver.OnMessageReceived(notification.Request.Content.UserInfo);
+            _pushNotificationsReceiver.OnMessageReceived(notification.Request.Content.UserInfo, true);
             if (_showForegroundNotificationsInSystem)
             {
                 completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);

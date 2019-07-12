@@ -29,11 +29,5 @@ namespace Softeq.XToolkit.PushNotifications
         /// Notification type as string (custom data)
         /// </summary>
         public string Type { get; set; }
-
-        /// <summary>
-        /// Value to determine if this push notification is handled by the system, this will be true in most cases.
-        /// On Android will have false value if 'notification' part of the push is absent (push must be handled by the app fully in all cases, not only foreground)
-        /// </summary>
-        public bool HandledBySystem = true;
     }
 }

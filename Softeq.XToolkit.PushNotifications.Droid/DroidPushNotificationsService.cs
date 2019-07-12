@@ -4,10 +4,12 @@
 using System;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Arch.Lifecycle;
 using Android.Content;
 using Firebase;
 using Firebase.Iid;
 using Firebase.Messaging;
+using Java.Interop;
 using Java.IO;
 using Softeq.XToolkit.Common.Interfaces;
 
@@ -17,6 +19,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
     {
         private readonly INotificationsSettingsProvider _notificationsSettings;
         private readonly Context _appContext;
+        private readonly AppLifecycleObserver _lifecycleObserver;
 
         private bool _isInitialized;
         private bool _showForegroundNotificationsInSystem;
@@ -33,6 +36,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
         {
             _appContext = Application.Context;
+            _lifecycleObserver = new AppLifecycleObserver();
+            ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
             _notificationsSettings = notificationsSettings;
         }
 
@@ -108,19 +113,19 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
-        protected override PushNotificationModel OnMessageReceivedInternal(object pushNotification)
+        protected override PushNotificationModel OnMessageReceivedInternal(object pushNotification, bool inForeground)
         {
-            var parsedNotification = base.OnMessageReceivedInternal(pushNotification);
+            var parsedNotification = base.OnMessageReceivedInternal(pushNotification, inForeground);
             if (!parsedNotification.IsSilent)
             {
-                ShowNotification(pushNotification, parsedNotification);
+                ShowNotification(pushNotification, parsedNotification, inForeground);
             }
             return parsedNotification;
         }
 
-        private void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification)
+        private void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification, bool inForeground)
         {
-            if (_showForegroundNotificationsInSystem || !parsedPushNotification.HandledBySystem)
+            if (_showForegroundNotificationsInSystem || !inForeground)
             {
                 var notificationData = (pushNotification as RemoteMessage)?.Data;
                 NotificationsHelper.CreateNotification(_appContext, parsedPushNotification, notificationData, _notificationsSettings);
@@ -139,7 +144,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         private void OnNotificationReceived(object pushNotification)
         {
-            OnMessageReceived(pushNotification);
+            OnMessageReceived(pushNotification, _lifecycleObserver.IsForegrounded);
         }
 
         #region IDisposable
@@ -163,6 +168,25 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             Dispose(false);
         }
         #endregion
+    }
+
+    public class AppLifecycleObserver : Java.Lang.Object, ILifecycleObserver
+    {
+        public bool IsForegrounded { get; private set; } = false;
+
+        [Lifecycle.Event.OnStop]
+        [Export]
+        public void Stopped()
+        {
+            IsForegrounded = false;
+        }
+
+        [Lifecycle.Event.OnStart]
+        [Export]
+        public void Started()
+        {
+            IsForegrounded = true;
+        }
     }
 
     [Service]
