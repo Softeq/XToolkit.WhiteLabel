@@ -60,19 +60,7 @@
     <PackageReference Include="Xamarin.Firebase.Messaging">
       <Version>60.1142.1</Version>
     </PackageReference>
-    <PackageReference Include="Xamarin.Android.Arch.Lifecycle.Common">
-      <Version>1.1.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Arch.Core.Common">
-      <Version>1.1.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Arch.Lifecycle.Runtime">
-      <Version>1.1.1.1</Version>
-    </PackageReference>
     <PackageReference Include="Xamarin.Android.Arch.Lifecycle.Extensions">
-      <Version>1.1.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Arch.Core.Runtime">
       <Version>1.1.1.1</Version>
     </PackageReference>
   </ItemGroup>

@@ -35,10 +35,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             ILogManager logManager)
             : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
         {
+            _notificationsSettings = notificationsSettings;
             _appContext = Application.Context;
+
             _lifecycleObserver = new AppLifecycleObserver();
             ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
-            _notificationsSettings = notificationsSettings;
         }
 
         public override void Initialize(bool showForegroundNotificationsInSystem)
