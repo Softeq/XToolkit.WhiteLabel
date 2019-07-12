@@ -11,7 +11,7 @@ using Softeq.XToolkit.WhiteLabel;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Playground.ViewModels.Pages;
+using Playground.ViewModels;
 
 namespace Playground.iOS
 {

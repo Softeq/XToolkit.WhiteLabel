@@ -15,7 +15,7 @@ namespace Playground.Droid.Views.Pages
         {
             base.OnCreate(savedInstanceState);
 
-            SetContentView(Resource.Layout.start_page);
+            SetContentView(Resource.Layout.activity_details);
         }
     }
 }
