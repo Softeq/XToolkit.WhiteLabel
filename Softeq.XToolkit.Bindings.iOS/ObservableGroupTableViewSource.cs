@@ -166,11 +166,8 @@ namespace Softeq.XToolkit.Bindings.iOS
                 {
                     if (e.Action == NotifyCollectionChangedAction.Add)
                     {
-                        PerformWithoutAnimation(() =>
-                        {
-                            _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex),
-                                UITableViewRowAnimation.None);
-                        });
+                        _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex),
+                            UITableViewRowAnimation.None);
                     }
                     else if (e.Action == NotifyCollectionChangedAction.Remove)
                     {
@@ -181,18 +178,13 @@ namespace Softeq.XToolkit.Bindings.iOS
                 var modifiedIndexPaths = new List<NSIndexPath>();
                 foreach (var (section, modifiedIndexes) in e.ModifiedItemsIndexes)
                 {
-                    foreach (var insertedItemIndex in modifiedIndexes)
-                    {
-                        modifiedIndexPaths.Add(NSIndexPath.FromRowSection(insertedItemIndex, section));
-                    }
+                    modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
+                        NSIndexPath.FromRowSection(insertedItemIndex, section)));
                 }
 
                 if (e.Action == NotifyCollectionChangedAction.Add)
                 {
-                    PerformWithoutAnimation(() =>
-                    {
-                        _tableViewRef.Target?.InsertRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
-                    });
+                    _tableViewRef.Target?.InsertRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
                 }
                 else if (e.Action == NotifyCollectionChangedAction.Remove)
                 {
@@ -214,11 +206,6 @@ namespace Softeq.XToolkit.Bindings.iOS
                 NSOperationQueue.MainQueue.AddOperation(action);
                 NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
             }
-        }
-
-        private static void PerformWithoutAnimation(Action action)
-        {
-            UIView.PerformWithoutAnimation(action);
         }
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
