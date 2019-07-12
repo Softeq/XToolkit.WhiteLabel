@@ -52,7 +52,7 @@ namespace Playground.ViewModels
                         {
                             _pageNavigationService
                                 .For<DetailsPageViewModel>()
-                                .WithParam(x => x.Parameter, new Person
+                                .WithParam(x => x.Person, new Person
                                 {
                                     FirstName = "Ivan",
                                     LastName = "Ivanov"

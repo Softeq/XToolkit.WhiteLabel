@@ -11,28 +11,22 @@ namespace Playground.ViewModels.Pages
     {
         private readonly IDialogsService _dialogsService;
 
-        private Person _person;
-
         public DetailsPageViewModel(
             IDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
         }
 
-        public Person Parameter
-        {
-            get => null;
-            set => _person = value;
-        }
+        public Person Person { get; set; }
 
         public override void OnAppearing()
         {
             base.OnAppearing();
 
-            var title = _person == null ? string.Empty : $"{_person.FirstName} {_person.LastName}";
-            var message = _person == null ? "You navigated without parameter" : "You navigated with parameter:";
+            var title = Person?.FullName ?? string.Empty;
+            var message = Person == null ? "You navigated without parameter" : "You navigated with parameter:";
 
-            _dialogsService.ShowDialogAsync(title, message, "ok");
+            _dialogsService.ShowDialogAsync(title, message, "OK");
         }
     }
 }
