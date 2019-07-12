@@ -15,8 +15,8 @@ namespace Playground.ViewModels.Pages
         {
             TabModels = new List<TabItem>
             {
-                new TabItem("Chats", "Chat", typeof(RedViewModel)),
-                new TabItem("Settings", "Settings", typeof(BlueViewModel))
+                new TabItem("Red", "Chat", typeof(RedViewModel)),
+                new TabItem("Blue", "Settings", typeof(BlueViewModel))
             };
         }
     }

@@ -146,7 +146,6 @@
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\CollectionPageStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Pages\ToolbarPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\RedStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Pages\Temp\YellowStoryboard.storyboard" />
@@ -170,9 +169,6 @@
       <DependentUpon>CollectionPageViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\Pages\ToolbarPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\ToolbarPageViewController.designer.cs">
-      <DependentUpon>ToolbarPageViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="ViewControllers\Pages\StartPageViewController.cs" />
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
