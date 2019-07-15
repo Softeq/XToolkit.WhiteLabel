@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         string GetChannelIdForNotification(PushNotificationModel pushNotification);
 
         /// <summary>
-        /// Obtains styles for displaying the given push notification in system
+        /// Obtains styles for displaying the given push notification in system. Provide different ids for notifications if you do not want them to replace each other
         /// </summary>
         /// <param name="pushNotification"></param>
         /// <returns></returns>

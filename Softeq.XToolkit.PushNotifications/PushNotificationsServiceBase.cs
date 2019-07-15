@@ -96,9 +96,9 @@ namespace Softeq.XToolkit.PushNotifications
             return !PushTokenStorageService.IsTokenSavedOnServer && !(unregisterInSystem && PushTokenStorageService.IsTokenRegisteredInSystem);
         }
 
-        public void OnMessageReceived(object pushNotification)
+        public void OnMessageReceived(object pushNotification, bool inForeground)
         {
-            OnMessageReceivedInternal(pushNotification);
+            OnMessageReceivedInternal(pushNotification, inForeground);
         }
 
         public void OnMessageTapped(object pushNotification)
@@ -114,7 +114,7 @@ namespace Softeq.XToolkit.PushNotifications
             PushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
         }
 
-        protected virtual PushNotificationModel OnMessageReceivedInternal(object pushNotification)
+        protected virtual PushNotificationModel OnMessageReceivedInternal(object pushNotification, bool inForeground)
         {
             var parsedNotification = ParsePushNotification(pushNotification);
 
@@ -124,7 +124,7 @@ namespace Softeq.XToolkit.PushNotifications
             }
             else
             {
-                PushNotificationsHandler.HandlePushNotificationReceived(parsedNotification);
+                PushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, inForeground);
             }
 
             return parsedNotification;

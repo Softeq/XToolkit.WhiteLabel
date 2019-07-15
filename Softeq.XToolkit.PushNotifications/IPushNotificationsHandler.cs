@@ -18,7 +18,9 @@ namespace Softeq.XToolkit.PushNotifications
         /// (happens in foreground for iOS; in foreground for Android 'notification' messages; in all cases for Android 'data' messages)
         /// </summary>
         /// <param name="pushNotification">Push notification model</param>
-        void HandlePushNotificationReceived(PushNotificationModel pushNotification);
+        /// <param name="inForeground">Flag indicating if push notification was received in foreground,
+        /// can be false on Android for data push notifications - should be considered when handling notification</param>
+        void HandlePushNotificationReceived(PushNotificationModel pushNotification, bool inForeground);
 
         /// <summary>
         /// Handle the situation when the application was open after user tap on push notification
