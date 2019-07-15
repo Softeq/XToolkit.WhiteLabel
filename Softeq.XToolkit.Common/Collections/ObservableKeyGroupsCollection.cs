@@ -101,10 +101,16 @@ namespace Softeq.XToolkit.Common.Collections
             Insert(index, group);
 
             eventArgs.ModifiedSectionsIndexes.Add(Keys.IndexOf(group.Key));
-            eventArgs.ModifiedItemsIndexes.Add((Keys.IndexOf(group.Key),
-                Enumerable.Range(0, group.Count).ToList()));
 
-            ItemsChanged?.Invoke(this, eventArgs);
+            if (group.Count > 0)
+            {
+                eventArgs.ModifiedItemsIndexes.Add((Keys.IndexOf(group.Key), Enumerable.Range(0, group.Count).ToList()));
+            }
+
+            if (eventArgs.ModifiedItemsIndexes.Any() || eventArgs.ModifiedSectionsIndexes.Any())
+            {
+                ItemsChanged?.Invoke(this, eventArgs);
+            }
         }
 
         public void AddGroups(IEnumerable<ObservableKeyGroup<TKey, TValue>> groups)
