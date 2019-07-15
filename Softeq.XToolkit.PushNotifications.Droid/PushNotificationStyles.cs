@@ -13,18 +13,18 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <summary>
         /// Notification Id. Notifications with the same id will be replaced.
         /// </summary>
-        public int Id { get; set; }
+        public int Id { get; }
 
         /// <summary>
         /// If true, notification will be automatically removed when the user taps it
         /// </summary>
-        public bool AutoCancel { get; set; }
+        public bool AutoCancel { get; }
 
-        public Uri SoundUri { get; set; }
-        public NotificationPriority Priority { get; set; }
-        public NotificationCompat.Style Style { get; set; }
-        public int IconRes { get; set; }
-        public int IconArgbColor { get; set; }
+        public Uri SoundUri { get; }
+        public NotificationPriority Priority { get; }
+        public NotificationCompat.Style Style { get; }
+        public int IconRes { get; }
+        public int IconArgbColor { get; }
 
         public PushNotificationStyles(NotificationCompat.Style style)
         {

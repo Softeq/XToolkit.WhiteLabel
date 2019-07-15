@@ -40,36 +40,36 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// </summary>
         protected virtual string DataKey => "data";
 
-        public PushNotificationModel Parse(object pushNotificationData)
+        public virtual PushNotificationModel Parse(object pushNotificationData)
         {
             var dictionary = (NSDictionary) pushNotificationData;
             var pushNotification = new PushNotificationModel();
 
-            var aps = GetDictionaryByKey(dictionary, ApsKey);
+            var aps = dictionary.GetDictionaryByKey(ApsKey);
 
-            var alertObject = GetObjectByKey(aps, AlertKey);
+            var alertObject = aps.GetObjectByKey(AlertKey);
 
             string title = null;
             string body = null;
 
             if (alertObject is NSDictionary alertDictionary)
             {
-                title = GetStringByKey(alertDictionary, TitleKey);
-                body = GetStringByKey(alertDictionary, BodyKey);
+                title = alertDictionary.GetStringByKey(TitleKey);
+                body = alertDictionary.GetStringByKey(BodyKey);
             }
-            else if (alertObject is NSString)
+            else if (alertObject is NSString str)
             {
-                body = alertObject as NSString;
+                body = str;
             }
             pushNotification.Title = title;
             pushNotification.Body = body;
 
-            pushNotification.IsSilent = GetIntByKey(aps, ContentAvailableKey) == 1;
+            pushNotification.IsSilent = aps.GetIntByKey(ContentAvailableKey) == 1;
 
-            var additinalData = GetObjectByKey(dictionary, DataKey);
-            pushNotification.AdditionalData = additinalData;
+            var additionalData = dictionary.GetObjectByKey(DataKey);
+            pushNotification.AdditionalData = additionalData;
 
-            pushNotification.Type = ParseNotificationType(dictionary, aps, additinalData);
+            pushNotification.Type = ParseNotificationType(dictionary, aps, additionalData);
 
             return pushNotification;
         }
@@ -85,51 +85,5 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         {
             return string.Empty;
         }
-
-        /// <summary>
-        /// Obtains object by key from NSDictionary
-        /// </summary>
-        /// <param name="dict">NSDictionary object</param>
-        /// <param name="key">Key string</param>
-        /// <returns>Object stored under the specified key or null</returns>
-        protected NSObject GetObjectByKey(NSDictionary dict, string key)
-        {
-            var nsKey = new NSString(key);
-            if (dict != null && dict.ContainsKey(nsKey))
-            {
-                return dict.ObjectForKey(nsKey);
-            }
-            else
-            {
-                return null;
-            }
-        }
-
-        /// <summary>
-        /// Obtains NSDictionary by key from NSDictionary
-        /// </summary>
-        /// <param name="dict">NSDictionary object</param>
-        /// <param name="key">Key string</param>
-        /// <returns>NSDictionary stored under the specified key or null</returns>
-        protected NSDictionary GetDictionaryByKey(NSDictionary dict, string key)
-            => GetObjectByKey(dict, key) as NSDictionary;
-
-        /// <summary>
-        /// Obtains string by key from NSDictionary
-        /// </summary>
-        /// <param name="dict">NSDictionary object</param>
-        /// <param name="key">Key string</param>
-        /// <returns>String stored under the specified key or null</returns>
-        protected string GetStringByKey(NSDictionary dict, string key)
-            => GetObjectByKey(dict, key) as NSString;
-
-        /// <summary>
-        /// Obtains int by key from NSDictionary
-        /// </summary>
-        /// <param name="dict">NSDictionary object</param>
-        /// <param name="key">Key string</param>
-        /// <returns>Int stored under the specified key or null</returns>
-        protected int GetIntByKey(NSDictionary dict, string key)
-            => (GetObjectByKey(dict, key) as NSNumber)?.Int32Value ?? -1;
     }
 }

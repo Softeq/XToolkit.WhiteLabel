@@ -33,7 +33,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             IPushNotificationParser pushNotificationParser,
             INotificationsSettingsProvider notificationsSettings,
             ILogManager logManager)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
+            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
+                logManager)
         {
             _notificationsSettings = notificationsSettings;
             _appContext = Application.Context;
@@ -75,6 +76,15 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
+        public override void ClearAllNotifications()
+        {
+            if (_appContext != null)
+            {
+                var notificationManager = NotificationManager.FromContext(_appContext);
+                notificationManager.CancelAll();
+            }
+        }
+
         protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -103,15 +113,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                 }
             });
             return tcs.Task;
-        }
-
-        public override void ClearAllNotifications()
-        {
-            if (_appContext != null)
-            {
-                var notificationManager = NotificationManager.FromContext(_appContext);
-                notificationManager.CancelAll();
-            }
         }
 
         protected override PushNotificationModel OnMessageReceivedInternal(object pushNotification, bool inForeground)

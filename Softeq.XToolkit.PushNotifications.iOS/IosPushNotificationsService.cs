@@ -15,8 +15,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         private bool _isInitialized;
 
-        // badges
-
         public IosPushNotificationsService(
             IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService,
@@ -24,7 +22,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             IPushNotificationParser pushNotificationParser,
             INotificationsPermissionsService permissionsService,
             ILogManager logManager)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
+            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
+                logManager)
         {
             _permissionsService = permissionsService;
         }
@@ -35,8 +34,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             {
                 throw new ArgumentException($"{nameof(IosPushNotificationsService)}: Already Initialized");
             }
-
             _isInitialized = true;
+
             UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate(this, showForegroundNotificationsInSystem);
         }
 
@@ -66,56 +65,21 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         public override void OnRegisteredForPushNotifications(string token)
         {
-            token = SimplifyToken(token);
-            base.OnRegisteredForPushNotifications(token);
+            base.OnRegisteredForPushNotifications(SimplifyToken(token));
         }
 
         protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
-            UIApplication.SharedApplication.UnregisterForRemoteNotifications();
+            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            {
+                UIApplication.SharedApplication.UnregisterForRemoteNotifications();
+            });
             return Task.FromResult(true);
         }
 
         private string SimplifyToken(string token)
         {
             return string.IsNullOrWhiteSpace(token) ? token : token.Trim('<').Trim('>').Replace(" ", string.Empty);
-        }
-    }
-
-    public class UserNotificationCenterDelegate : UNUserNotificationCenterDelegate
-    {
-        private readonly IPushNotificationsReceiver _pushNotificationsReceiver;
-        private readonly bool _showForegroundNotificationsInSystem;
-
-        public UserNotificationCenterDelegate(IPushNotificationsReceiver pushNotificationsReceiver, bool showForegroundNotificationsInSystem)
-        {
-            _pushNotificationsReceiver = pushNotificationsReceiver;
-            _showForegroundNotificationsInSystem = showForegroundNotificationsInSystem;
-        }
-
-        // Handle Foreground Notifications
-        public override void WillPresentNotification(UNUserNotificationCenter center,
-                                                     UNNotification notification,
-                                                     Action<UNNotificationPresentationOptions> completionHandler)
-        {
-            _pushNotificationsReceiver.OnMessageReceived(notification.Request.Content.UserInfo, true);
-            if (_showForegroundNotificationsInSystem)
-            {
-                completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);
-            }
-            else
-            {
-                completionHandler(UNNotificationPresentationOptions.None);
-            }
-        }
-
-        // Called when notification is tapped
-        public override void DidReceiveNotificationResponse(UNUserNotificationCenter center,
-                                                            UNNotificationResponse response,
-                                                            Action completionHandler)
-        {
-            _pushNotificationsReceiver.OnMessageTapped(response.Notification.Request.Content.UserInfo);
-            completionHandler.Invoke();
         }
     }
 }
