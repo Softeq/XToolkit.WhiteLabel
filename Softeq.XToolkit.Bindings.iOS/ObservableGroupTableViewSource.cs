@@ -160,39 +160,62 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                 _tableViewRef.Target?.BeginUpdates();
 
-                var modifiedSectionsIndexes = e.ModifiedSectionsIndexes.OrderBy(x => x);
-
-                foreach (var sectionIndex in modifiedSectionsIndexes)
-                {
-                    if (e.Action == NotifyCollectionChangedAction.Add)
-                    {
-                        _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex),
-                            UITableViewRowAnimation.None);
-                    }
-                    else if (e.Action == NotifyCollectionChangedAction.Remove)
-                    {
-                        _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
-                    }
-                }
-
-                var modifiedIndexPaths = new List<NSIndexPath>();
-                foreach (var (section, modifiedIndexes) in e.ModifiedItemsIndexes)
-                {
-                    modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
-                        NSIndexPath.FromRowSection(insertedItemIndex, section)));
-                }
-
                 if (e.Action == NotifyCollectionChangedAction.Add)
                 {
-                    _tableViewRef.Target?.InsertRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
+                    HandleAdd(e);
                 }
                 else if (e.Action == NotifyCollectionChangedAction.Remove)
                 {
-                    _tableViewRef.Target?.DeleteRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
+                    HandleRemove(e);
                 }
 
                 _tableViewRef.Target?.EndUpdates();
             });
+        }
+
+        private void HandleAdd(NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            var modifiedSections = e.ModifiedSectionsIndexes;
+            var modifiedItemsIndexes = e.ModifiedItemsIndexes;
+
+            foreach (var sectionIndex in modifiedSections)
+            {
+                _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex),
+                    UITableViewRowAnimation.None);
+            }
+
+            var modifiedIndexPaths = new List<NSIndexPath>();
+
+            foreach (var (section, modifiedIndexes) in modifiedItemsIndexes)
+            {
+                modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
+                    NSIndexPath.FromRowSection(insertedItemIndex, section)));
+            }
+
+            _tableViewRef.Target?.InsertRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
+        }
+
+        private void HandleRemove(NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            var modifiedSections = e.ModifiedSectionsIndexes;
+            var modifiedItemsIndexes = e.ModifiedItemsIndexes;
+
+            var modifiedSectionsIndexes = modifiedSections.OrderBy(x => x);
+
+            foreach (var sectionIndex in modifiedSectionsIndexes)
+            {
+                _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
+            }
+
+            var modifiedIndexPaths = new List<NSIndexPath>();
+
+            foreach (var (section, modifiedIndexes) in modifiedItemsIndexes)
+            {
+                modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
+                    NSIndexPath.FromRowSection(insertedItemIndex, section)));
+            }
+
+            _tableViewRef.Target?.DeleteRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
         }
 
         private static void Execute(Action action)
