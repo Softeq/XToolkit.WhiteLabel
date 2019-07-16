@@ -23,8 +23,8 @@ namespace Softeq.XToolkit.Common.Command
         public bool CanExecute(object parameter)
         {
             var canExecute = _canExecute == null
-                   || (_canExecute.IsStatic || _canExecute.IsAlive)
-                   && _canExecute.Execute();
+                             || (_canExecute.IsStatic || _canExecute.IsAlive)
+                             && _canExecute.Execute();
             return !_isRunning && canExecute;
         }
 
@@ -98,6 +98,7 @@ namespace Softeq.XToolkit.Common.Command
             if (parameter is T typedParameter)
             {
                 Execute(typedParameter);
+                return;
             }
 
             throw new ArgumentException($"Async command wait parameter with type: {typeof(T)}", nameof(parameter));

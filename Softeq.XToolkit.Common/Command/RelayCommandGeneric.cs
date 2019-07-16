@@ -102,6 +102,7 @@ namespace Softeq.XToolkit.Common.Command
             if (parameter is T typedParameter)
             {
                 Execute(typedParameter);
+                return;
             }
 
             throw new ArgumentException($"Command wait parameter with type: {typeof(T)}", nameof(parameter));
