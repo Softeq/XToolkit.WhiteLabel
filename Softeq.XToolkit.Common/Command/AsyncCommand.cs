@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Common.Command
             return !_isRunning && canExecute;
         }
 
-        public async void Execute(object parameter)
+        public virtual async void Execute(object parameter)
         {
             if (!CanExecute(parameter))
             {
@@ -80,7 +80,27 @@ namespace Softeq.XToolkit.Common.Command
 
         protected override Func<Task> ExecuteAsync(object parameter)
         {
-            return () => _action((T)parameter);
+            return () => _action((T) parameter);
+        }
+
+        public bool CanExecute(T parameter)
+        {
+            return base.CanExecute(parameter);
+        }
+
+        public void Execute(T parameter)
+        {
+            base.Execute(parameter);
+        }
+
+        public override void Execute(object parameter)
+        {
+            if (parameter is T typedParameter)
+            {
+                Execute(typedParameter);
+            }
+
+            throw new ArgumentException($"Async command wait parameter with type: {typeof(T)}", nameof(parameter));
         }
     }
 }

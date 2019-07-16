@@ -26,20 +26,6 @@ namespace Softeq.XToolkit.Common.Command
         private readonly WeakAction<T> _execute;
 
         /// <summary>
-        ///     Initializes a new instance of the RelayCommand class that
-        ///     can always execute.
-        /// </summary>
-        /// <param name="execute">
-        ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
-        ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
-        /// </param>
-        /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action<T> execute)
-            : this(execute, null)
-        {
-        }
-
-        /// <summary>
         ///     Initializes a new instance of the RelayCommand class.
         /// </summary>
         /// <param name="execute">
@@ -51,11 +37,11 @@ namespace Softeq.XToolkit.Common.Command
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
         /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action<T> execute, Func<T, bool> canExecute)
+        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
         {
             if (execute == null)
             {
-                throw new ArgumentNullException("execute");
+                throw new ArgumentNullException(nameof(execute));
             }
 
             _execute = new WeakAction<T>(execute);
@@ -71,6 +57,7 @@ namespace Softeq.XToolkit.Common.Command
         /// </summary>
         public event EventHandler CanExecuteChanged;
 
+        /// <inheritdoc />
         /// <summary>
         ///     Defines the method that determines whether the command can execute in its current state.
         /// </summary>
@@ -86,23 +73,23 @@ namespace Softeq.XToolkit.Common.Command
                 return true;
             }
 
-            if (_canExecute.IsStatic || _canExecute.IsAlive)
+            if ((_canExecute.IsStatic || _canExecute.IsAlive) && _execute != null && _execute.IsStatic && _execute.IsAlive)
             {
-                if (parameter == null
-                    && typeof(T).GetTypeInfo().IsValueType)
+                if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
                 {
                     return _canExecute.Execute(default(T));
                 }
 
                 if (parameter == null || parameter is T)
                 {
-                    return _canExecute.Execute((T)parameter);
+                    return _canExecute.Execute((T) parameter);
                 }
             }
 
             return false;
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     Defines the method to be called when the command is invoked.
         /// </summary>
@@ -112,29 +99,19 @@ namespace Softeq.XToolkit.Common.Command
         /// </param>
         public virtual void Execute(object parameter)
         {
-            var val = parameter;
-
-            if (CanExecute(val)
-                && _execute != null
-                && (_execute.IsStatic || _execute.IsAlive))
+            if (parameter is T typedParameter)
             {
-                if (val == null)
-                {
-                    if (typeof(T).GetTypeInfo().IsValueType)
-                    {
-                        _execute.Execute(default(T));
-                    }
-                    else
-                    {
-                        // ReSharper disable ExpressionIsAlwaysNull
-                        _execute.Execute((T)val);
-                        // ReSharper restore ExpressionIsAlwaysNull
-                    }
-                }
-                else
-                {
-                    _execute.Execute((T)val);
-                }
+                Execute(typedParameter);
+            }
+
+            throw new ArgumentException($"Command wait parameter with type: {typeof(T)}", nameof(parameter));
+        }
+
+        public void Execute(T parameter)
+        {
+            if (CanExecute(parameter))
+            {
+                _execute.Execute(parameter);
             }
         }
 
@@ -153,6 +130,11 @@ namespace Softeq.XToolkit.Common.Command
         {
             var handler = CanExecuteChanged;
             handler?.Invoke(this, EventArgs.Empty);
+        }
+
+        public bool CanExecute(T parameter)
+        {
+            return CanExecute((object) parameter);
         }
     }
 }
