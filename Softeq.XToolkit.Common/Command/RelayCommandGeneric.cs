@@ -104,13 +104,12 @@ namespace Softeq.XToolkit.Common.Command
         /// </param>
         public virtual void Execute(object parameter)
         {
-            if (parameter is T typedParameter)
+            if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
             {
-                Execute(typedParameter);
-                return;
+                throw new ArgumentException($"Relay Command wait parameter with type: {typeof(T)}", nameof(parameter));
             }
 
-            throw new ArgumentException($"Command wait parameter with type: {typeof(T)}", nameof(parameter));
+            Execute((T) parameter);
         }
 
         public void Execute(T parameter)

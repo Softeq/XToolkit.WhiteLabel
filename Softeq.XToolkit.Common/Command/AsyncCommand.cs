@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -95,13 +96,12 @@ namespace Softeq.XToolkit.Common.Command
 
         public override void Execute(object parameter)
         {
-            if (parameter is T typedParameter)
+            if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
             {
-                Execute(typedParameter);
-                return;
+                throw new ArgumentException($"Async command wait parameter with type: {typeof(T)}", nameof(parameter));
             }
 
-            throw new ArgumentException($"Async command wait parameter with type: {typeof(T)}", nameof(parameter));
+            Execute((T) parameter);
         }
     }
 }
