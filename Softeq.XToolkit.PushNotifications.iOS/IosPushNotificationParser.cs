@@ -11,29 +11,29 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// A root dictionary containing one or more additional Apple-defined keys instructing the system how to handle notification.
         /// Don't add your own custom keys to the aps dictionary; APNs ignores custom keys. Instead, add your custom keys as peers of the aps dictionary
         /// </summary>
-        private const string ApsKey = "aps";
+        protected const string ApsKey = "aps";
 
         /// <summary>
         /// Flag inside aps. The information for displaying an alert. A dictionary is recommended.
         /// If you specify a string, the alert displays your string as the body text.
         /// </summary>
-        private const string AlertKey = "alert";
+        protected const string AlertKey = "alert";
 
         /// <summary>
         /// Flag inside alert. The title of the notification.
         /// </summary>
-        private const string TitleKey = "title";
+        protected const string TitleKey = "title";
 
         /// <summary>
         /// Flag inside alert. The content of the alert message.
         /// </summary>
-        private const string BodyKey = "body";
+        protected const string BodyKey = "body";
 
         /// <summary>
         /// Flag inside aps. The background notification flag. To perform a silent background update,
         /// specify the value 1 and don't include the alert, badge, or sound keys in your payload.
         /// </summary>
-        private const string ContentAvailableKey = "content-available";
+        protected const string ContentAvailableKey = "content-available";
 
         /// <summary>
         /// Custom key for addition data. Can be customized.
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
             pushNotification.IsSilent = aps.GetIntByKey(ContentAvailableKey) == 1;
 
-            var additionalData = dictionary.GetObjectByKey(DataKey);
+            var additionalData = dictionary.GetStringByKey(DataKey);
             pushNotification.AdditionalData = additionalData;
 
             pushNotification.Type = ParseNotificationType(dictionary, aps, additionalData);
@@ -81,7 +81,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// <param name="aps">Dictionary stored inside 'aps' tag</param>
         /// <param name="data">Custom data part of the notification</param>
         /// <returns></returns>
-        protected virtual string ParseNotificationType(NSDictionary pushNotification, NSDictionary aps, object data)
+        protected virtual string ParseNotificationType(NSDictionary pushNotification, NSDictionary aps, string data)
         {
             return string.Empty;
         }
