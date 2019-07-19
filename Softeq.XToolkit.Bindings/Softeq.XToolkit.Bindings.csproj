@@ -8,7 +8,4 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
   
-  <ItemGroup>
-    <Folder Include="Abstract\" />
-  </ItemGroup>
 </Project>
