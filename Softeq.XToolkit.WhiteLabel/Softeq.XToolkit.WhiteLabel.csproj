@@ -19,11 +19,5 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Navigation\Tab\" />
-    <Folder Include="Bootstrapper\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Remove="Navigation\Tab\ITabNavigationService.config" />
-  </ItemGroup>
+
 </Project>
