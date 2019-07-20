@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.PushNotifications
         /// Request removing token for push notifications from server
         /// </summary>
         /// <param name="pushNotificationsToken">Push notifications token</param>
-        /// <returns>Task with <see cref="PushNotificationsUnregisterResult"/> about unregistration status on server.</returns>
-        Task<PushNotificationsUnregisterResult> RemovePushNotificationsToken(string pushNotificationsToken);
+        /// <returns>Task with true result if token was removed successfully or false result otherwise</returns>
+        Task<bool> RemovePushNotificationsToken(string pushNotificationsToken);
     }
 }

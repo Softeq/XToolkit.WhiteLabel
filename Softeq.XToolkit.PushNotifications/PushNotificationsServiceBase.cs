@@ -50,24 +50,27 @@ namespace Softeq.XToolkit.PushNotifications
                 return PushNotificationsUnregisterResult.Success;
             }
 
-            // Try to unregister on server
-            var removedFromServerStatus = await RemotePushNotificationsService
+            // Unregister on server
+            var tokenRemovedFromServer = await RemotePushNotificationsService
                 .RemovePushNotificationsToken(token).ConfigureAwait(false);
-
-            if (removedFromServerStatus == PushNotificationsUnregisterResult.Success)
+            if (tokenRemovedFromServer)
             {
-                // if we failed to remove it is left as it was (saved or not)
                 PushTokenStorageService.IsTokenSavedOnServer = false;
             }
 
-            // Clear token if it is unregistered both in system and on server
-            if (!PushTokenStorageService.IsTokenRegisteredInSystem &&
-                !PushTokenStorageService.IsTokenSavedOnServer)
+            // Check on errors
+            if (PushTokenStorageService.IsTokenRegisteredInSystem ||
+                PushTokenStorageService.IsTokenSavedOnServer)
             {
-                PushTokenStorageService.PushToken = string.Empty;
+                return tokenRemovedFromServer
+                    ? PushNotificationsUnregisterResult.Failed
+                    : PushNotificationsUnregisterResult.ServerFailed;
             }
 
-            return removedFromServerStatus;
+            // Clear token if it is unregistered both in system and on server
+            PushTokenStorageService.PushToken = string.Empty;
+
+            return PushNotificationsUnregisterResult.Success;
         }
 
         public virtual void OnRegisteredForPushNotifications(string token)
