@@ -153,7 +153,6 @@ namespace Softeq.XToolkit.Common.Collections
 
             var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
             eventArgs.ModifiedSectionsIndexes.Add(sectionIndex);
-            eventArgs.ModifiedItemsIndexes.Add((sectionIndex, Enumerable.Range(0, group.Count).ToList()));
 
             RemoveGroupInternal(group);
 

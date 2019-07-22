@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 
@@ -23,12 +24,12 @@ namespace Softeq.XToolkit.Common.Command
         public bool CanExecute(object parameter)
         {
             var canExecute = _canExecute == null
-                   || (_canExecute.IsStatic || _canExecute.IsAlive)
-                   && _canExecute.Execute();
+                             || (_canExecute.IsStatic || _canExecute.IsAlive)
+                             && _canExecute.Execute();
             return !_isRunning && canExecute;
         }
 
-        public async void Execute(object parameter)
+        public virtual async void Execute(object parameter)
         {
             if (!CanExecute(parameter))
             {
@@ -80,7 +81,27 @@ namespace Softeq.XToolkit.Common.Command
 
         protected override Func<Task> ExecuteAsync(object parameter)
         {
-            return () => _action((T)parameter);
+            return () => _action((T) parameter);
+        }
+
+        public bool CanExecute(T parameter)
+        {
+            return base.CanExecute(parameter);
+        }
+
+        public void Execute(T parameter)
+        {
+            base.Execute(parameter);
+        }
+
+        public override void Execute(object parameter)
+        {
+            if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
+            {
+                throw new ArgumentException($"Async command wait parameter with type: {typeof(T)}", nameof(parameter));
+            }
+
+            Execute((T) parameter);
         }
     }
 }

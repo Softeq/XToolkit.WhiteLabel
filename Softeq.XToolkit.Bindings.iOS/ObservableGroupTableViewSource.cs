@@ -160,39 +160,55 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                 _tableViewRef.Target?.BeginUpdates();
 
-                var modifiedSectionsIndexes = e.ModifiedSectionsIndexes.OrderBy(x => x);
-
-                foreach (var sectionIndex in modifiedSectionsIndexes)
+                switch (e.Action)
                 {
-                    if (e.Action == NotifyCollectionChangedAction.Add)
-                    {
-                        _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex),
-                            UITableViewRowAnimation.None);
-                    }
-                    else if (e.Action == NotifyCollectionChangedAction.Remove)
-                    {
-                        _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
-                    }
-                }
-
-                var modifiedIndexPaths = new List<NSIndexPath>();
-                foreach (var (section, modifiedIndexes) in e.ModifiedItemsIndexes)
-                {
-                    modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
-                        NSIndexPath.FromRowSection(insertedItemIndex, section)));
-                }
-
-                if (e.Action == NotifyCollectionChangedAction.Add)
-                {
-                    _tableViewRef.Target?.InsertRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
-                }
-                else if (e.Action == NotifyCollectionChangedAction.Remove)
-                {
-                    _tableViewRef.Target?.DeleteRows(modifiedIndexPaths.ToArray(), UITableViewRowAnimation.None);
+                    case NotifyCollectionChangedAction.Add:
+                        HandleAdd(e);
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        HandleRemove(e);
+                        break;
                 }
 
                 _tableViewRef.Target?.EndUpdates();
             });
+        }
+
+        private void HandleAdd(NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            foreach (var sectionIndex in e.ModifiedSectionsIndexes)
+            {
+                _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
+            }
+
+            var rowsToInsert = CreateRowsChanges(e.ModifiedItemsIndexes);
+
+            _tableViewRef.Target?.InsertRows(rowsToInsert, UITableViewRowAnimation.None);
+        }
+
+        private void HandleRemove(NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            foreach (var sectionIndex in e.ModifiedSectionsIndexes)
+            {
+                _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
+            }
+
+            var rowsToRemove = CreateRowsChanges(e.ModifiedItemsIndexes);
+
+            _tableViewRef.Target?.DeleteRows(rowsToRemove, UITableViewRowAnimation.None);
+        }
+
+        private static NSIndexPath[] CreateRowsChanges(IEnumerable<(int Section, IList<int> ModifiedIndexes)> itemIndexes)
+        {
+            var modifiedIndexPaths = new List<NSIndexPath>();
+
+            foreach (var (section, modifiedIndexes) in itemIndexes)
+            {
+                modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
+                    NSIndexPath.FromRowSection(insertedItemIndex, section)));
+            }
+
+            return modifiedIndexPaths.ToArray();
         }
 
         private static void Execute(Action action)
