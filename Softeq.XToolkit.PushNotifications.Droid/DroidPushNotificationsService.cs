@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         {
             Task.Run(async () =>
             {
-                var token = await FirebaseInstanceId.Instance.GetInstanceId().GetTokenAsync();
+                var token = await GetTokenAsync();
                 if (token == null)
                 {
                     _registrationRequired = true;
@@ -155,6 +155,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             OnMessageReceived(pushNotification, _lifecycleObserver.IsForegrounded);
         }
 
+        private async Task<string> GetTokenAsync()
+        {
+            var result = await FirebaseInstanceId.Instance.GetInstanceId().AsAsync<IInstanceIdResult>();
+            return result.Token;
+        }
+
         #region IDisposable
         protected virtual void Dispose(bool disposing)
         {
@@ -216,15 +222,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 #pragma warning restore RECS0133 // Parameter name differs in base declaration
         {
             OnNotificationReceived?.Invoke(message);
-        }
-    }
-
-    internal static class GmsTasksExtensions
-    {
-        internal static async Task<string> GetTokenAsync(this Android.Gms.Tasks.Task getInstanceIdTask)
-        {
-            var result = await getInstanceIdTask.AsAsync<Java.Lang.Object>();
-            return result.Class.GetMethod("getToken").Invoke(result).ToString();
         }
     }
 }
