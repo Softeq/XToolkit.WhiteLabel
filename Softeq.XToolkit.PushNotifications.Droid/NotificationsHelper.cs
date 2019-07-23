@@ -38,8 +38,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
-        public static void CreateNotification(Context context, PushNotificationModel pushNotification,
-                                              IDictionary<string, string> notificationData, INotificationsSettingsProvider notificationsSettings)
+        public static void CreateNotification(
+            Context context,
+            PushNotificationModel pushNotification,
+            IDictionary<string, string> notificationData,
+            INotificationsSettingsProvider notificationsSettings)
         {
             if (context == null)
             {
@@ -58,14 +61,14 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             var styles = notificationsSettings.GetStylesForNotification(pushNotification);
 
             var notificationBuilder = new NotificationCompat.Builder(context, channelId)
-                                                            .SetContentTitle(title)
-                                                            .SetContentText(message)
-                                                            .SetAutoCancel(styles.AutoCancel)
-                                                            .SetSound(styles.SoundUri)
-                                                            .SetPriority((int) styles.Priority)
-                                                            .SetStyle(styles.Style)
-                                                            .SetSmallIcon(styles.IconRes)
-                                                            .SetColor(styles.IconArgbColor);
+                .SetContentTitle(title)
+                .SetContentText(message)
+                .SetAutoCancel(styles.AutoCancel)
+                .SetSound(styles.SoundUri)
+                .SetPriority((int) styles.Priority)
+                .SetStyle(styles.Style)
+                .SetSmallIcon(styles.IconRes)
+                .SetColor(styles.IconArgbColor);
 
             var startActivityType = notificationsSettings.GetStartActivityTypeFromPush(pushNotification);
             var intent = new Intent(context, startActivityType);
@@ -73,23 +76,22 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
             if (notificationData != null)
             {
-                foreach (var data in notificationData)
+                foreach (var (key, value) in notificationData)
                 {
-                    intent.PutExtra(data.Key, data.Value);
+                    intent.PutExtra(key, value);
                 }
             }
 
             var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             notificationBuilder.SetContentIntent(pendingIntent);
 
-            var notificationManager = NotificationManager.FromContext(context);
-            notificationManager.Notify(styles.Id, notificationBuilder.Build());
+            NotificationManager.FromContext(context).Notify(styles.Id, notificationBuilder.Build());
         }
 
         private static string GetApplicationName(Context context)
         {
             var applicationInfo = context.ApplicationInfo;
-            int stringId = applicationInfo.LabelRes;
+            var stringId = applicationInfo.LabelRes;
             return stringId == 0 ? applicationInfo.NonLocalizedLabel.ToString() : context.GetString(stringId);
         }
     }

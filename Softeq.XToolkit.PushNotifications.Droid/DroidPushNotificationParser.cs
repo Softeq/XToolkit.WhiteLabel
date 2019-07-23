@@ -67,7 +67,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             pushNotification.Title = bundleNotification.GetString(DataTitleKey); // if stored inside Data
             pushNotification.Body = bundleNotification.GetString(DataBodyKey); // if stored inside Data
 
-            pushNotification.IsSilent = false; // If we are here it means that the user tapped on a notification thus it is defenitely not silent
+            // If we are here it means that the user tapped on a notification thus it is definitely not silent
+            pushNotification.IsSilent = false;
 
             pushNotification.AdditionalData = bundleNotification.GetString(DataKey);
             pushNotification.Type = ParseNotificationTypeFromBundle(bundleNotification);
@@ -103,7 +104,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <returns>String stored under the specified key or null</returns>
         protected string GetStringFromDictionary(IDictionary<string, string> data, string key)
         {
-            return data == null ? null : (data.TryGetValue(key, out string value) ? value : null);
+            return data == null ? null : data.TryGetValue(key, out string value) ? value : null;
         }
     }
 }

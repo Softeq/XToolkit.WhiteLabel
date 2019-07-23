@@ -33,7 +33,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             IPushNotificationParser pushNotificationParser,
             INotificationsSettingsProvider notificationsSettings,
             ILogManager logManager)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser, logManager)
+            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
+                logManager)
         {
             _notificationsSettings = notificationsSettings;
             _appContext = Application.Context;
@@ -75,9 +76,19 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
+        public override void ClearAllNotifications()
+        {
+            if (_appContext != null)
+            {
+                var notificationManager = NotificationManager.FromContext(_appContext);
+                notificationManager.CancelAll();
+            }
+        }
+
         protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
             var tcs = new TaskCompletionSource<bool>();
+
             // TODO: possibly use topics and UnsubscribeFromTopic instead
             Task.Run(() =>
             {
@@ -85,8 +96,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                 try
                 {
                     // Must be called on background thread
-                    FirebaseInstanceId.Instance.DeleteInstanceId(); //Throws Java.IOException if there's no Internet Connection
-                    var token = FirebaseInstanceId.Instance.Token; // Value is null here. This call is needed to force new token generation
+                    FirebaseInstanceId.Instance.DeleteInstanceId(); // Throws Java.IOException if there's no Internet Connection
+                    var _ = FirebaseInstanceId.Instance.Token; // Value is null here. This call is needed to force new token generation
                     result = true;
                 }
                 catch (IOException e)
@@ -102,16 +113,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                     tcs.TrySetResult(result);
                 }
             });
-            return tcs.Task;
-        }
 
-        public override void ClearAllNotifications()
-        {
-            if (_appContext != null)
-            {
-                var notificationManager = NotificationManager.FromContext(_appContext);
-                notificationManager.CancelAll();
-            }
+            return tcs.Task;
         }
 
         protected override PushNotificationModel OnMessageReceivedInternal(object pushNotification, bool inForeground)

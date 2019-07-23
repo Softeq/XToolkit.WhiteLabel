@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.PushNotifications
         /// <summary>
         /// Additional data stored in notification (custom data)
         /// </summary>
-        public object AdditionalData { get; set; }
+        public string AdditionalData { get; set; }
 
         /// <summary>
         /// Notification type as string (custom data)
