@@ -88,6 +88,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
             var tcs = new TaskCompletionSource<bool>();
+
             // TODO: possibly use topics and UnsubscribeFromTopic instead
             Task.Run(() =>
             {
@@ -95,8 +96,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                 try
                 {
                     // Must be called on background thread
-                    FirebaseInstanceId.Instance.DeleteInstanceId(); //Throws Java.IOException if there's no Internet Connection
-                    var token = FirebaseInstanceId.Instance.Token; // Value is null here. This call is needed to force new token generation
+                    FirebaseInstanceId.Instance.DeleteInstanceId(); // Throws Java.IOException if there's no Internet Connection
+                    var _ = FirebaseInstanceId.Instance.Token; // Value is null here. This call is needed to force new token generation
                     result = true;
                 }
                 catch (IOException e)
@@ -112,6 +113,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                     tcs.TrySetResult(result);
                 }
             });
+
             return tcs.Task;
         }
 

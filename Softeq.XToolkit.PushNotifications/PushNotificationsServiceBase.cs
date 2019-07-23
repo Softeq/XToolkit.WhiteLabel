@@ -38,10 +38,14 @@ namespace Softeq.XToolkit.PushNotifications
         public async Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(bool unregisterInSystem = false)
         {
             // Unregister in system if needed
-            if (PushTokenStorageService.IsTokenRegisteredInSystem && unregisterInSystem)
+            if (unregisterInSystem && PushTokenStorageService.IsTokenRegisteredInSystem)
             {
-                var unregistered = await UnregisterFromPushTokenInSystem();
-                PushTokenStorageService.IsTokenRegisteredInSystem = !unregistered;
+                var tokenRemovedFromSystem = await UnregisterFromPushTokenInSystem();
+                if (!tokenRemovedFromSystem)
+                {
+                    return PushNotificationsUnregisterResult.Failed;
+                }
+                PushTokenStorageService.IsTokenRegisteredInSystem = false;
             }
 
             var token = PushTokenStorageService.PushToken;
@@ -53,21 +57,13 @@ namespace Softeq.XToolkit.PushNotifications
             // Unregister on server
             var tokenRemovedFromServer = await RemotePushNotificationsService
                 .RemovePushNotificationsToken(token).ConfigureAwait(false);
-            if (tokenRemovedFromServer)
+            if (!tokenRemovedFromServer)
             {
-                PushTokenStorageService.IsTokenSavedOnServer = false;
+                return PushNotificationsUnregisterResult.ServerFailed;
             }
+            PushTokenStorageService.IsTokenSavedOnServer = false;
 
-            // Check on errors
-            if (PushTokenStorageService.IsTokenRegisteredInSystem ||
-                PushTokenStorageService.IsTokenSavedOnServer)
-            {
-                return tokenRemovedFromServer
-                    ? PushNotificationsUnregisterResult.Failed
-                    : PushNotificationsUnregisterResult.ServerFailed;
-            }
-
-            // Clear token if it is unregistered both in system and on server
+            // Clear token if it is unregistered both in the system (optional) and on server
             PushTokenStorageService.PushToken = string.Empty;
 
             return PushNotificationsUnregisterResult.Success;
