@@ -6,8 +6,8 @@
     <title>Softeq.XToolkit.Common</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
-    <licenseUrl>https://github.com/Softeq/XToolkit.Common/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/Softeq/XToolkit.Common</projectUrl>
+    <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The most common components without dependencies that can be reused in any project.</description>
     <copyright>Copyright 2019 Softeq Development Corp.</copyright>

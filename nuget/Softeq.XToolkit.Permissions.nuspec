@@ -6,8 +6,8 @@
     <title>Softeq.XToolkit.Permissions</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
-    <licenseUrl>https://github.com/Softeq/XToolkit.Permissions/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/Softeq/XToolkit.Permissions</projectUrl>
+    <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Simple cross platform plugin to request and check permissions for Android and iOS.</description>
     <copyright>Copyright 2019 Softeq Development Corp.</copyright>

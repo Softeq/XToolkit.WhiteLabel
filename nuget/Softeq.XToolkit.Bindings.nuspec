@@ -6,8 +6,8 @@
     <title>Softeq.XToolkit.Bindings</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
-    <licenseUrl>https://github.com/Softeq/XToolkit.Bindings/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/Softeq/XToolkit.Bindings</projectUrl>
+    <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Bindings implementation based on INotifyPropertyChanged interface.</description>
     <copyright>Copyright 2019 Softeq Development Corp.</copyright>
