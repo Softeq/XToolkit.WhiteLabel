@@ -3,31 +3,35 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26430.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel", "Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj", "{797907F2-95D6-40E5-811E-3206CBF62213}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel", "..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj", "{797907F2-95D6-40E5-811E-3206CBF62213}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Droid", "Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj", "{7F44F0F6-8396-42D0-8A1B-DC40CE8C478C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Droid", "..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj", "{7F44F0F6-8396-42D0-8A1B-DC40CE8C478C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.iOS", "Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj", "{CC89DBC6-E68A-4C85-91C4-E276D3BC3C2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.iOS", "..\Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj", "{CC89DBC6-E68A-4C85-91C4-E276D3BC3C2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{B6D39FB0-BD3C-477A-BDED-579D688D59DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{B6D39FB0-BD3C-477A-BDED-579D688D59DA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid", "Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj", "{18D3FDC1-B0A1-401E-87F2-1C43034E610C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid", "..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj", "{18D3FDC1-B0A1-401E-87F2-1C43034E610C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions", "Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj", "{7DFADBE8-C2DE-4C1E-A72C-125B40B0A416}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions", "..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj", "{7DFADBE8-C2DE-4C1E-A72C-125B40B0A416}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings", "Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj", "{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings", "..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj", "{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Droid", "Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj", "{2B4A678B-63B4-49DB-99B1-BFE7793110C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Droid", "..\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj", "{2B4A678B-63B4-49DB-99B1-BFE7793110C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iOS", "Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj", "{2D399BA9-1878-43E2-AF05-6873EAE9151B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iOS", "..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj", "{2D399BA9-1878-43E2-AF05-6873EAE9151B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS", "Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj", "{6BCB2009-2E46-458C-BCAA-AFC27A631924}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS", "..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj", "{6BCB2009-2E46-458C-BCAA-AFC27A631924}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications", "Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj", "{11BC7FFF-88E1-4043-A404-7B4907757FB2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications", "..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj", "{11BC7FFF-88E1-4043-A404-7B4907757FB2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications.iOS", "Softeq.XToolkit.PushNotifications.iOS\Softeq.XToolkit.PushNotifications.iOS.csproj", "{0EAE7634-9497-4FB8-B62F-DDACF85985D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications.iOS", "..\Softeq.XToolkit.PushNotifications.iOS\Softeq.XToolkit.PushNotifications.iOS.csproj", "{0EAE7634-9497-4FB8-B62F-DDACF85985D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications.Droid", "Softeq.XToolkit.PushNotifications.Droid\Softeq.XToolkit.PushNotifications.Droid.csproj", "{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications.Droid", "..\Softeq.XToolkit.PushNotifications.Droid\Softeq.XToolkit.PushNotifications.Droid.csproj", "{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions.Droid", "..\Softeq.XToolkit.Permissions.Droid\Softeq.XToolkit.Permissions.Droid.csproj", "{955A4101-4989-4764-9134-E621FC4D9C86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions.iOS", "..\Softeq.XToolkit.Permissions.iOS\Softeq.XToolkit.Permissions.iOS.csproj", "{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -234,6 +238,34 @@ Global
 		{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}.Release.Stage|Any CPU.ActiveCfg = Debug|Any CPU
 		{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}.Release.Stage|Any CPU.Build.0 = Debug|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Release|iPhone.Build.0 = Release|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Release.Stage|Any CPU.ActiveCfg = Debug|Any CPU
+		{955A4101-4989-4764-9134-E621FC4D9C86}.Release.Stage|Any CPU.Build.0 = Debug|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Release|iPhone.Build.0 = Release|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Release.Stage|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}.Release.Stage|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

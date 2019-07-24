@@ -10,15 +10,13 @@ queue:
 
 variables:
   BuildConfiguration: 'Release'
+  ProjectName: 'Softeq.XToolkit.Permissions'
 steps:
-- script: 'msbuild Softeq.XToolkit.Permissions.sln /t:Clean /p:Configuration="Release" /p:Platform="Any CPU"'
-- script: 'nuget restore Softeq.XToolkit.Permissions.sln'
-- script: 'msbuild Softeq.XToolkit.Permissions.sln /t:Restore /p:Configuration="Release" /p:Platform="Any CPU"'
-- script: 'msbuild Softeq.XToolkit.Permissions.sln /p:Configuration="Release" /p:Platform="Any CPU"'
-- script: 'nuget pack Softeq.XToolkit.Permissions.nuspec'
+- script: 'msbuild nuget/$(ProjectName).sln -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
+- script: 'nuget pack nuget/$(ProjectName).nuspec'
 - task: CopyFiles@2
   inputs:
-    contents: 'Softeq.XToolkit.Permissions*.nupkg'
+    contents: '$(ProjectName)*.nupkg'
     targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:

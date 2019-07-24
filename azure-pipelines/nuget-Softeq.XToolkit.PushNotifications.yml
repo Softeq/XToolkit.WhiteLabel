@@ -10,7 +10,7 @@ queue:
 
 variables:
   BuildConfiguration: 'Release'
-  ProjectName: 'Softeq.XToolkit.WhiteLabel'
+  ProjectName: 'Softeq.XToolkit.PushNotifications'
 steps:
 - script: 'msbuild nuget/$(ProjectName).sln -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
 - script: 'nuget pack nuget/$(ProjectName).nuspec'
