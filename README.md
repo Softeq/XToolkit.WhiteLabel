@@ -8,6 +8,8 @@ Component | NuGet
 ----------|--------
 Common    | [![Softeq.XToolkit.Common](https://img.shields.io/nuget/v/Softeq.XToolkit.Common.svg)](https://www.nuget.org/packages/Softeq.XToolkit.Common)
 Bindings  | [![Softeq.XToolkit.Bindings](https://img.shields.io/nuget/v/Softeq.XToolkit.Bindings.svg)](https://www.nuget.org/packages/Softeq.XToolkit.Bindings)
+Permissions | [![Softeq.XToolkit.Permissions](https://img.shields.io/nuget/v/Softeq.XToolkit.Permissions.svg)](https://www.nuget.org/packages/Softeq.XToolkit.Permissions)
+PushNotifications | TODO
 WhiteLabel  | [![Softeq.XToolkit.WhiteLabel](https://img.shields.io/nuget/v/Softeq.XToolkit.WhiteLabel.svg)](https://www.nuget.org/packages/Softeq.XToolkit.WhiteLabel)
 
 ## Builds
@@ -17,6 +19,7 @@ Component | Status
 Common    | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.Common?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=28&branchName=master)
 Bindings  | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.Bindings?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=31&branchName=master)
 Permissions | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.Bindings?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=31&branchName=master)
+PushNotifications | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.PushNotifications?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=31&branchName=master)
 WhiteLabel | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.Whitelabel?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=30&branchName=master)
 Samples.Playground | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/Samples.Playground?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=39&branchName=master)
 
