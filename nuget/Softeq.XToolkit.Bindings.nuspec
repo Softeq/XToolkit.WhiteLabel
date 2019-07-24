@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/Softeq/XToolkit.Bindings</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Bindings implementation based on INotifyPropertyChanged interface.</description>
-    <copyright>Copyright 2018 Softeq Development Corp.</copyright>
-    <tags>Softeq XToolkit iOS Android Bindings</tags>
+    <copyright>Copyright 2019 Softeq Development Corp.</copyright>
+    <tags>Softeq XToolkit Xamarin iOS Android Bindings</tags>
     <releaseNotes></releaseNotes>
     <dependencies>
      <group targetFramework="netstandard2.0">
@@ -27,10 +27,13 @@
    </dependencies>
   </metadata>
   <files>
-    <file src="Softeq.XToolkit.Bindings/bin/Release/netstandard2.0/Softeq.XToolkit.Bindings.dll" target="lib\netstandard2.0" />
-    <file src="Softeq.XToolkit.Bindings/bin/Release/netstandard2.0/Softeq.XToolkit.Bindings.dll" target="lib\MonoAndroid10" />
-    <file src="Softeq.XToolkit.Bindings/bin/Release/netstandard2.0/Softeq.XToolkit.Bindings.dll" target="lib\Xamarin.iOS10" />
-    <file src="Softeq.XToolkit.Bindings.Droid/bin/Release/Softeq.XToolkit.Bindings.Droid.dll" target="lib\MonoAndroid10" />
-    <file src="Softeq.XToolkit.Bindings.iOS/bin/Release/Softeq.XToolkit.Bindings.iOS.dll" target="lib\Xamarin.iOS10" />
+    <!-- Core -->
+    <file src="../Softeq.XToolkit.Bindings/bin/Release/netstandard2.0/Softeq.XToolkit.Bindings.dll" target="lib\netstandard2.0" />
+    <!-- Droid -->
+    <file src="../Softeq.XToolkit.Bindings/bin/Release/netstandard2.0/Softeq.XToolkit.Bindings.dll" target="lib\MonoAndroid10" />
+    <file src="../Softeq.XToolkit.Bindings.Droid/bin/Release/Softeq.XToolkit.Bindings.Droid.dll" target="lib\MonoAndroid10" />
+    <!-- iOS -->
+    <file src="../Softeq.XToolkit.Bindings/bin/Release/netstandard2.0/Softeq.XToolkit.Bindings.dll" target="lib\Xamarin.iOS10" />
+    <file src="../Softeq.XToolkit.Bindings.iOS/bin/Release/Softeq.XToolkit.Bindings.iOS.dll" target="lib\Xamarin.iOS10" />
   </files>
 </package>

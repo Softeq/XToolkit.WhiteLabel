@@ -10,8 +10,8 @@
     <projectUrl>https://github.com/Softeq/XToolkit.Permissions</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Simple cross platform plugin to request and check permissions for Android and iOS.</description>
-    <copyright>Copyright 2018 Softeq Development Corp.</copyright>
-    <tags>Softeq XToolkit Permissions iOS Android</tags>
+    <copyright>Copyright 2019 Softeq Development Corp.</copyright>
+    <tags>Softeq XToolkit Xamarin Permissions iOS Android</tags>
     <releaseNotes/>
     <dependencies>
       <group targetFramework="netstandard2.0">
@@ -29,10 +29,13 @@
     </dependencies>
   </metadata>
   <files>
-    <file src="Softeq.XToolkit.Permissions/bin/Release/netstandard2.0/Softeq.XToolkit.Permissions.dll" target="lib\netstandard2.0"/>
-    <file src="Softeq.XToolkit.Permissions/bin/Release/netstandard2.0/Softeq.XToolkit.Permissions.dll" target="lib\MonoAndroid10"/>
-    <file src="Softeq.XToolkit.Permissions/bin/Release/netstandard2.0/Softeq.XToolkit.Permissions.dll" target="lib\Xamarin.iOS10"/>
-    <file src="Softeq.XToolkit.Permissions.Droid/bin/Release/Softeq.XToolkit.Permissions.Droid.dll" target="lib\MonoAndroid10"/>
-    <file src="Softeq.XToolkit.Permissions.iOS/bin/Release/Softeq.XToolkit.Permissions.iOS.dll" target="lib\Xamarin.iOS10"/>
+    <!-- Core -->
+    <file src="../Softeq.XToolkit.Permissions/bin/Release/netstandard2.0/Softeq.XToolkit.Permissions.dll" target="lib\netstandard2.0"/>
+    <!-- Droid -->
+    <file src="../Softeq.XToolkit.Permissions/bin/Release/netstandard2.0/Softeq.XToolkit.Permissions.dll" target="lib\MonoAndroid10"/>
+    <file src="../Softeq.XToolkit.Permissions.Droid/bin/Release/Softeq.XToolkit.Permissions.Droid.dll" target="lib\MonoAndroid10"/>
+    <!-- iOS -->
+    <file src="../Softeq.XToolkit.Permissions/bin/Release/netstandard2.0/Softeq.XToolkit.Permissions.dll" target="lib\Xamarin.iOS10"/>
+    <file src="../Softeq.XToolkit.Permissions.iOS/bin/Release/Softeq.XToolkit.Permissions.iOS.dll" target="lib\Xamarin.iOS10"/>
   </files>
 </package>
