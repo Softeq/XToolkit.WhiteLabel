@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Arch.Lifecycle;
 using Android.Content;
+using Android.Gms.Extensions;
 using Firebase;
 using Firebase.Iid;
 using Firebase.Messaging;
@@ -57,23 +58,26 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             NotificationsHelper.CreateNotificationChannels(_appContext, _notificationsSettings);
 
             FirebaseApp.InitializeApp(_appContext);
-            XFirebaseIIDService.OnTokenRefreshed += OnPushTokenRefreshed;
+            XFirebaseMessagingService.OnTokenRefreshed += OnPushTokenRefreshed;
             XFirebaseMessagingService.OnNotificationReceived += OnNotificationReceived;
         }
 
         public override void RegisterForPushNotifications()
         {
-            var token = FirebaseInstanceId.Instance.Token;
-            if (token == null)
+            Task.Run(async () =>
             {
-                _registrationRequired = true;
-            }
-            else
-            {
-                _registrationRequired = false;
+                var token = await GetTokenAsync();
+                if (token == null)
+                {
+                    _registrationRequired = true;
+                }
+                else
+                {
+                    _registrationRequired = false;
 
-                OnRegisteredForPushNotifications(token);
-            }
+                    OnRegisteredForPushNotifications(token);
+                }
+            });
         }
 
         public override void ClearAllNotifications()
@@ -97,7 +101,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                 {
                     // Must be called on background thread
                     FirebaseInstanceId.Instance.DeleteInstanceId(); // Throws Java.IOException if there's no Internet Connection
-                    var _ = FirebaseInstanceId.Instance.Token; // Value is null here. This call is needed to force new token generation
+
                     result = true;
                 }
                 catch (IOException e)
@@ -151,12 +155,18 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             OnMessageReceived(pushNotification, _lifecycleObserver.IsForegrounded);
         }
 
+        private async Task<string> GetTokenAsync()
+        {
+            var result = await FirebaseInstanceId.Instance.GetInstanceId().AsAsync<IInstanceIdResult>();
+            return result.Token;
+        }
+
         #region IDisposable
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                XFirebaseIIDService.OnTokenRefreshed -= OnPushTokenRefreshed;
+                XFirebaseMessagingService.OnTokenRefreshed -= OnPushTokenRefreshed;
                 XFirebaseMessagingService.OnNotificationReceived -= OnNotificationReceived;
             }
         }
@@ -194,25 +204,22 @@ namespace Softeq.XToolkit.PushNotifications.Droid
     }
 
     [Service]
-    [IntentFilter(new[] { "com.google.firebase.INSTANCE_ID_EVENT" })]
-    public class XFirebaseIIDService : FirebaseInstanceIdService
-    {
-        public static Action<string> OnTokenRefreshed; // TODO: replace with service resolution?
-
-        public override void OnTokenRefresh()
-        {
-            var refreshedToken = FirebaseInstanceId.Instance.Token;
-            OnTokenRefreshed?.Invoke(refreshedToken);
-        }
-    }
-
-    [Service]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class XFirebaseMessagingService : FirebaseMessagingService
     {
+        public static Action<string> OnTokenRefreshed;
         public static Action<RemoteMessage> OnNotificationReceived;
 
+#pragma warning disable RECS0133 // Parameter name differs in base declaration
+        public override void OnNewToken(string token)
+#pragma warning restore RECS0133 // Parameter name differs in base declaration
+        {
+            OnTokenRefreshed?.Invoke(token);
+        }
+
+#pragma warning disable RECS0133 // Parameter name differs in base declaration
         public override void OnMessageReceived(RemoteMessage message)
+#pragma warning restore RECS0133 // Parameter name differs in base declaration
         {
             OnNotificationReceived?.Invoke(message);
         }
