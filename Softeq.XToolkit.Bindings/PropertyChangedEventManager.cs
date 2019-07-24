@@ -7,6 +7,7 @@ using System.ComponentModel;
 using System.Linq;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.Bindings
 {

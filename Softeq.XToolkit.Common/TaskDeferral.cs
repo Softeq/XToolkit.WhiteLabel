@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.Common
 				return await tcs.Task;
 			}
 
-			var result = default(T);
+			T result;
 
 			try
 			{
