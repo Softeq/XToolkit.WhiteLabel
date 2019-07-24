@@ -12,7 +12,7 @@
     <description>XToolkit.WhiteLabel is a collection of "lego" components for fast create cross-platform mobile applications with Xamarin, based on XToolkit.</description>
     <copyright>Copyright 2019 Softeq Development Corp.</copyright>
     <tags>Softeq XToolkit Xamarin iOS Android</tags>
-    <releaseNotes></releaseNotes>
+    <releaseNotes/>
     <dependencies>
      <group targetFramework="netstandard2.0">
         <dependency id="DryIoc" version="4.0.5" />

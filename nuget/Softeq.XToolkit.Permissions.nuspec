@@ -15,15 +15,15 @@
     <releaseNotes/>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="Plugin.Permissions" version="3.0.0.12"/>
+        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
         <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
       </group>
       <group targetFramework="MonoAndroid10">
-        <dependency id="Plugin.Permissions" version="3.0.0.12"/>
+        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
         <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
       </group>
       <group targetFramework="Xamarin.iOS10">
-        <dependency id="Plugin.Permissions" version="3.0.0.12"/>
+        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
         <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
       </group>
     </dependencies>

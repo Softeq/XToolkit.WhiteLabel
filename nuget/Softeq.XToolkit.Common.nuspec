@@ -12,7 +12,7 @@
     <description>The most common components without dependencies that can be reused in any project.</description>
     <copyright>Copyright 2019 Softeq Development Corp.</copyright>
     <tags>Softeq XToolkit Xamarin iOS Android</tags>
-    <releaseNotes></releaseNotes>
+    <releaseNotes/>
   </metadata>
   <files>
     <!-- Core -->
