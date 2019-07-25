@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.Common
     /// <summary>
     /// Func&lt;Task&gt; wrapper
     /// </summary>
-	public class TaskReference
+    public class TaskReference
     {
         private readonly Func<Task> _func;
 

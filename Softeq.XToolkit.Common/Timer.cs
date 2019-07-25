@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Common
     /// <summary>
     /// Runs and wait task after a set interval 
     /// </summary>
-	public class Timer : ITimer, IDisposable
+    public class Timer : ITimer, IDisposable
     {
         private readonly int _interval;
         private TaskReference _taskReference;
