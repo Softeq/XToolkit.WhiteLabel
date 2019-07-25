@@ -9,9 +9,13 @@ namespace Softeq.XToolkit.Common.Helpers
     public static class TagsHelper
     {
         public const char TagStartSymbol = '#';
-        public const char SpaceSymbol = ' ';
         public const char Underscore = '_';
 
+        /// <summary>
+        /// Find tags in specified string.
+        /// </summary>
+        /// <returns>Array of finded tags.</returns>
+        /// <param name="input">A string containing tags.</param>
         public static string[] ExtractTags(string input)
         {
             var ranges = ExtractTagsRanges(input);
@@ -24,6 +28,11 @@ namespace Softeq.XToolkit.Common.Helpers
             return result.ToArray();
         }
 
+        /// <summary>
+        /// Find positions of tags in specified string.
+        /// </summary>
+        /// <returns>The tags positions.</returns>
+        /// <param name="input">A string containing tags.</param>
         public static TextRange[] ExtractTagsRanges(string input)
         {
             var result = new List<TextRange>();
@@ -42,7 +51,7 @@ namespace Softeq.XToolkit.Common.Helpers
             return result.ToArray();
         }
 
-        public static TextRange ExtractFirstTagRange(string input, int startIndex)
+        private static TextRange ExtractFirstTagRange(string input, int startIndex)
         {
             if (startIndex >= input.Length)
             {
@@ -70,7 +79,7 @@ namespace Softeq.XToolkit.Common.Helpers
             return new TextRange(tagSymbolIndex, length);
         }
 
-        public static bool IsSymbolValidForTag(char symbol)
+        private static bool IsSymbolValidForTag(char symbol)
         {
             return char.IsLetterOrDigit(symbol) || symbol == Underscore;
         }

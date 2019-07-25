@@ -7,7 +7,6 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
-using FFImageLoading.Views;
 using Playground.Models;
 using Playground.ViewModels.Collections;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
@@ -48,12 +47,12 @@ namespace Playground.Droid.Views.Collections
 
     public class MovieCollectionViewHolder : BindableViewHolder<ItemViewModel>
     {
-        private readonly ImageViewAsync _image;
+        private readonly ImageView _image;
         private readonly TextView _name;
 
         public MovieCollectionViewHolder(View view) : base(view)
         {
-            _image = view.FindViewById<ImageViewAsync>(Resource.Id.item_movie_image);
+            _image = view.FindViewById<ImageView>(Resource.Id.item_movie_image);
             _name = view.FindViewById<TextView>(Resource.Id.item_movie_name);
         }
 

@@ -15,8 +15,8 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <returns>The task with timeout.</returns>
         /// <param name="task">Task.</param>
-        /// <param name="timeout"></param>
-        /// <typeparam name="T">The 1st type parameter.</typeparam>
+        /// <param name="timeout">Timeout.</param>
+        /// <typeparam name="T">Task type.</typeparam>
         public static async Task<T> WithTimeout<T>(this Task<T> task, TimeSpan timeout)
         {
             var retTask = await Task.WhenAny(task, Task.Delay((int) timeout.TotalMilliseconds))

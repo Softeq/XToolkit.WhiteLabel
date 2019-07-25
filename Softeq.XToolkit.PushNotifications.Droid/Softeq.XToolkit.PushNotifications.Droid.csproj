@@ -66,11 +66,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">
-      <Project>{631F3402-3BF1-4213-A598-954FEFB8F61F}</Project>
+      <Project>{E0C9CDE2-4C35-410A-AE95-A7871BEE0180}</Project>
       <Name>Softeq.XToolkit.PushNotifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{5626D784-EB87-4BE3-8297-AC707451C3C6}</Project>
+      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>

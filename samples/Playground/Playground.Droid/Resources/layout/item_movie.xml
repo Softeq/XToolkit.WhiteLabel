@@ -5,7 +5,7 @@
     android:layout_height="60dp"
     android:orientation="horizontal">
 
-    <ffimageloading.views.ImageViewAsync
+    <ImageView
         android:id="@+id/item_movie_image"
         android:layout_width="50dp"
         android:layout_height="60dp"

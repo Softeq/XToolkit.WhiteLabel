@@ -294,7 +294,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
             else
             {
-                eventArgs.ModifiedItemsIndexes.Add((Items.IndexOf(item), new List<int> {itemIndex}));
+                eventArgs.ModifiedItemsIndexes.Add((Items.IndexOf(item), new List<int> { itemIndex }));
             }
 
             ItemsChanged?.Invoke(this, eventArgs);
@@ -302,7 +302,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void RemoveAllFromGroups(TValue removeItem)
         {
-            RemoveAllFromGroups(new List<TValue> {removeItem});
+            RemoveAllFromGroups(new List<TValue> { removeItem });
         }
 
         public void RemoveAllFromGroups(IEnumerable<TValue> items)
@@ -406,9 +406,10 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        /// Union for groups with items
+        /// Union for groups with items.
         /// </summary>
-        /// <param name="newCollection">Sorted group collection</param>
+        /// <param name="newCollection">Sorted group collection.</param>
+        /// <param name="itemComparer">Item comparer.</param>
         public void UnionSortedGroups(
             ObservableKeyGroupsCollection<TKey, TValue> newCollection,
             IEqualityComparer<TValue> itemComparer)
