@@ -1,15 +1,13 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
- using System;
+using System;
 using System.Linq;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
-using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
+using Softeq.XToolkit.WhiteLabel.iOS.Controls;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
-using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.WhiteLabel.iOS.Controls;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 {
@@ -30,11 +28,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 
         protected virtual UIColor BadgeColor { get; }
 
+        protected virtual Func<UITabBarController> TabBarControllerFactory { get; } = null;
+
         protected virtual UITabBarItem GetTabBarItem(RootFrameNavigationViewModel viewModel)
         {
             var image = GetImageFromKey(viewModel.ImageKey);
             var tabBarItem = new BindableTabBarItem(viewModel.Title, image, image);
-            if(BadgeColor != null)
+            if (BadgeColor != null)
             {
                 tabBarItem.BadgeColor = BadgeColor;
             }
@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             _tabBarController = UiTabBarControllerHelper.CreateForViewModels(
                 ViewModel.TabViewModels,
                 ViewModel.TabViewModels.Select(GetTabBarItem).ToArray(),
-                Dependencies.Container.Resolve<IViewLocator>());
+                TabBarControllerFactory);
 
             _tabBarController.AddAsChildWithConstraints(this);
         }

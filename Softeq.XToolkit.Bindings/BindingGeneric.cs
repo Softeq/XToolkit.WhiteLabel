@@ -441,16 +441,14 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var type = PropertySource.Target.GetType();
             var ev = type.GetRuntimeEvent(eventName);
             if (ev == null)
             {
-                throw new ArgumentException(
-                    "Event not found: " + eventName,
-                    "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             EventHandler handler = HandleSourceEvent;
@@ -538,16 +536,14 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var type = PropertySource.Target.GetType();
             var ev = type.GetRuntimeEvent(eventName);
             if (ev == null)
             {
-                throw new ArgumentException(
-                    "Event not found: " + eventName,
-                    "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             EventHandler<TEventArgs> handler = HandleSourceEvent;
@@ -637,7 +633,7 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var type = PropertyTarget.Target.GetType();
@@ -645,9 +641,7 @@ namespace Softeq.XToolkit.Bindings
             var ev = type.GetRuntimeEvent(eventName);
             if (ev == null)
             {
-                throw new ArgumentException(
-                    "Event not found: " + eventName,
-                    "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             EventHandler handler = HandleTargetEvent;
@@ -743,7 +737,7 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentNullException("eventName");
+                throw new ArgumentNullException(nameof(eventName));
             }
 
             var type = PropertyTarget.Target.GetType();
@@ -751,9 +745,7 @@ namespace Softeq.XToolkit.Bindings
             var ev = type.GetRuntimeEvent(eventName);
             if (ev == null)
             {
-                throw new ArgumentException(
-                    "Event not found: " + eventName,
-                    "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             EventHandler<TEventArgs> handler = HandleTargetEvent;
@@ -1252,14 +1244,14 @@ namespace Softeq.XToolkit.Bindings
 
             if (body == null)
             {
-                throw new ArgumentException("Invalid argument", "propertyExpression");
+                throw new ArgumentException("Invalid argument", nameof(propertyExpression));
             }
 
             var property = body.Member as PropertyInfo;
 
             if (property == null)
             {
-                throw new ArgumentException("Argument is not a property", "propertyExpression");
+                throw new ArgumentException("Argument is not a property", nameof(propertyExpression));
             }
 
             return property.Name;
@@ -1554,7 +1546,7 @@ namespace Softeq.XToolkit.Bindings
 
                 try
                 {
-                    return (TTarget) System.Convert.ChangeType(value, typeof(TTarget));
+                    return ConvertSafely<TSource, TTarget>(value);
                 }
                 catch (Exception)
                 {
@@ -1572,7 +1564,7 @@ namespace Softeq.XToolkit.Bindings
 
                 try
                 {
-                    return (TSource) System.Convert.ChangeType(value, typeof(TSource));
+                    return ConvertSafely<TTarget, TSource>(value);
                 }
                 catch (Exception)
                 {
@@ -1588,6 +1580,30 @@ namespace Softeq.XToolkit.Bindings
             public void SetConvertBack(Func<TTarget, TSource> convertBack)
             {
                 _convertBack = new WeakFunc<TTarget, TSource>(convertBack);
+            }
+
+            private TTo ConvertSafely<TFrom, TTo>(TFrom value)
+            {
+                try
+                {
+                    var notNullableFromType = Nullable.GetUnderlyingType(typeof(TFrom));
+                    object notNullableValue = value;
+                    if (notNullableFromType != null)
+                    {
+                        if (value == null)
+                        {
+                            return default(TTo);
+                        }
+                        notNullableValue = System.Convert.ChangeType(value, notNullableFromType);
+                    }
+
+                    var notNullableToType = Nullable.GetUnderlyingType(typeof(TTo)) ?? typeof(TTo);
+                    return (TTo) System.Convert.ChangeType(notNullableValue, notNullableToType);
+                }
+                catch (Exception)
+                {
+                    return default(TTo);
+                }
             }
         }
     }

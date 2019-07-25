@@ -6,11 +6,10 @@ using System.Runtime.CompilerServices;
 using Android.Content;
 using Android.OS;
 using Android.Util;
-using Android.Views;
 
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
-	public static class ContextExtensions
+    public static class ContextExtensions
     {
         private const string StatusBarHeight = "status_bar_height";
         private const string Dimen = "dimen";
@@ -62,32 +61,26 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
             }
         }
 
-        public static void RemoveFromParent(this View view)
-        {
-            ((ViewGroup) view?.Parent)?.RemoveView(view);
-        }
-
         public static int GetStatusBarHeight(Context context)
         {
-            var result = 0;
             var resourceId = context.Resources.GetIdentifier(StatusBarHeight, Dimen, Android);
             if (resourceId > 0)
             {
-                result = context.Resources.GetDimensionPixelSize(resourceId);
+                return context.Resources.GetDimensionPixelSize(resourceId);
             }
 
-            return result;
+            return 0;
         }
 
-		public static bool IsInPowerSavingMode(this Context context)
-		{
-			if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
-			{
-				var powerManager = (PowerManager)(context.GetSystemService(Context.PowerService));
-				return powerManager.IsPowerSaveMode;
-			}
+        public static bool IsInPowerSavingMode(this Context context)
+        {
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
+            {
+                var powerManager = (PowerManager) (context.GetSystemService(Context.PowerService));
+                return powerManager.IsPowerSaveMode;
+            }
 
-			return false;
-		}
+            return false;
+        }
     }
 }

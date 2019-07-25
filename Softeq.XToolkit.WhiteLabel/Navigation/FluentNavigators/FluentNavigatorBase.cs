@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             Parameters = new List<NavigationParameterModel>();
         }
 
-        protected void ApplyParameter<TValue>(Expression<Func<TViewModel, TValue>> property,
+        public FluentNavigatorBase<TViewModel> ApplyParameter<TValue>(Expression<Func<TViewModel, TValue>> property,
             TValue value)
         {
             var parameter = new NavigationParameterModel { Value = value };
@@ -28,6 +28,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             parameter.PropertyInfo = PropertyInfoModel.FromProperty(propertyInfo);
 
             Parameters.Add(parameter);
+
+            return this;
         }
     }
 }

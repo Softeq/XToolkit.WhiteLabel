@@ -44,7 +44,7 @@
       <Version>3.1.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
-      <Version>2.4.4.859</Version>
+      <Version>2.4.11.982</Version>
     </PackageReference>
     <PackageReference Include="Plugin.CurrentActivity">
       <Version>2.1.0.4</Version>
@@ -96,7 +96,6 @@
     <Compile Include="Controls\NavigationBarView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />
-    <Compile Include="Navigation\RootFrameFragmentBase.cs" />
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
@@ -112,10 +111,13 @@
     <Compile Include="Controls\NonConsumingTouchesToolbar.cs" />
     <Compile Include="Controls\SwipeControlViewPager.cs" />
     <Compile Include="DroidBootstrapper.cs" />
+    <Compile Include="ImagePicker\DroidImagePickerService.cs" />
+    <Compile Include="ImagePicker\ImagePickerActivity.cs" />
+    <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{797907F2-95D6-40E5-811E-3206CBF62213}</Project>
+      <Project>{051C065C-DF97-4406-BEAB-F2F91842275C}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
@@ -123,15 +125,15 @@
       <Name>Softeq.XToolkit.Common.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{7DFADBE8-C2DE-4C1E-A72C-125B40B0A416}</Project>
+      <Project>{E8FAA479-4003-4A66-B355-CA96A2D59DA0}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
+      <Project>{D5F562B4-D878-4B86-AB35-93BC43A253C5}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{B6D39FB0-BD3C-477A-BDED-579D688D59DA}</Project>
+      <Project>{5626D784-EB87-4BE3-8297-AC707451C3C6}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
@@ -145,6 +147,7 @@
     <Folder Include="Resources\values\" />
     <Folder Include="ViewComponents\" />
     <Folder Include="Views\" />
+    <Folder Include="ImagePicker\" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\control_navigation_bar.xml" />

@@ -6,12 +6,12 @@ using FFImageLoading;
 using Foundation;
 using UIKit;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
-using Softeq.XToolkit.Bindings.iOS.Bindable.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 using Playground.Models;
 
 namespace Playground.iOS.Views
 {
-    public partial class MovieCollectionViewCell : BindableCollectionViewCell<ItemModel>
+    public partial class MovieCollectionViewCell : BindableCollectionViewCell<ItemViewModel>
     {
         public static readonly NSString Key = new NSString(nameof(MovieCollectionViewCell));
         public static readonly UINib Nib;
@@ -23,12 +23,15 @@ namespace Playground.iOS.Views
 
         protected MovieCollectionViewCell(IntPtr handle) : base(handle)
         {
-            this.DelayBind(() =>
-            {
-                ImageService.Instance.LoadUrl(DataContext.IconUrl).Into(Poster);
-                Title.Text = DataContext.Title;
-                Description.Text = DataContext.Description;
-            });
+        }
+
+        public override void SetBindings()
+        {
+            Poster.Image = null;
+
+            ImageService.Instance.LoadUrl(ViewModel.IconUrl).Into(Poster);
+
+            this.Bind(() => ViewModel.Title, () => Title.Text);
         }
     }
 }

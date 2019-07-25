@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using CoreGraphics;
 using FFImageLoading;
+using Plugin.Permissions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.Interfaces;
@@ -65,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             Unsubscribe();
 
             var imageKey = _options.AllowEditing ? UIImagePickerController.EditedImage : UIImagePickerController.OriginalImage;
-            var image = ToUpImageOrientation((UIImage)e.Info[imageKey]);
+            var image = ToUpImageOrientation((UIImage) e.Info[imageKey]);
 
             var name = $"{Guid.NewGuid()}.png";
 
@@ -96,11 +97,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private async Task<bool> IsPermissionGranted()
         {
-            var permission = _options.ImagePickerOpenType == ImagePickerOpenTypes.Camera
-                ? Permission.Camera
-                : Permission.Photos;
-
-            return await _permissionManager.CheckWithRequestAsync(permission).ConfigureAwait(false) == PermissionStatus.Granted;
+            Permissions.PermissionStatus status;
+            if (_options.ImagePickerOpenType == ImagePickerOpenTypes.Camera)
+            {
+                status = await _permissionManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
+            }
+            else
+            {
+                status = await _permissionManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
+            }
+            return status == Permissions.PermissionStatus.Granted;
         }
 
         private void OnCanceled(object sender, EventArgs e)
@@ -155,7 +161,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 view = new UIView(rect);
             });
 
-            var radians = degree * (float)Math.PI / 180;
+            var radians = degree * (float) Math.PI / 180;
             var transformRotate = CGAffineTransform.MakeRotation(radians);
 
             var size = new CGSize();

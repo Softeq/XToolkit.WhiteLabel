@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using FFImageLoading;
 using Foundation;
 using MobileCoreServices;
+using Plugin.Permissions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.Permissions;
@@ -50,8 +51,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             get
             {
-                _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
-                    (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
+                _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
+                    (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
 
                 Func<(Task<Stream>, string)> func = () =>
                 {
@@ -98,7 +99,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         public async void OpenGalleryAsync()
         {
-            var status = await _permissionsManager.CheckWithRequestAsync(Permission.Photos);
+            var status = await _permissionsManager.CheckWithRequestAsync<PhotosPermission>();
             if (status != PermissionStatus.Granted)
             {
                 return;
@@ -115,7 +116,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         public async void OpenCameraAsync()
         {
-            var status = await _permissionsManager.CheckWithRequestAsync(Permission.Camera);
+            var status = await _permissionsManager.CheckWithRequestAsync<CameraPermission>();
             if (status != PermissionStatus.Granted)
             {
                 return;
@@ -145,8 +146,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 imageExtension = ImageExtension.Jpg;
             }
 
-            _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
-                (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
+            _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
+                (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
 
             var func = default(Func<Task<Stream>>);
 
@@ -169,7 +170,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             return new ImagePickerArgs
             {
                 ImageCacheKey = ViewModel.ImageCacheKey,
-                ImageStream = func,
                 ImageExtension = imageExtension
             };
         }
@@ -211,7 +211,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 IsBusy = true;
                 ReleaseImagePicker();
 
-                if(args.ImageUrl == null)
+                if (args.ImageUrl == null)
                 {
                     await SaveImage(Image, filePath);
                     ViewModel.ImageCacheKey = filePath;
@@ -225,7 +225,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         }
 
         private string GenerateFilePath()
-        { 
+        {
             return Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
                 Guid.NewGuid().ToString());

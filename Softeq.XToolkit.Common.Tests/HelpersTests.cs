@@ -4,7 +4,7 @@
 using Softeq.XToolkit.Common.Helpers;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class HelpersTests
     {
@@ -26,14 +26,6 @@ namespace Softeq.XToolkit.Tests.Core.Common
                 HashHelper.GetHashCode("0", "1", "2", "3", "4", "5", "6", "7", "8"));
             Assert.Equal(HashHelper.GetHashCode("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"),
                 HashHelper.GetHashCode("0", "1", "2", "3", "4", "5", "6", "7", "8", "9"));
-        }
-
-        [Fact]
-        public void StringsHelperTest()
-        {
-            Assert.Equal("One", StringsHelper.CapitalizeFirstLetter("one"));
-            Assert.Equal("TWO", StringsHelper.CapitalizeFirstLetter("tWO"));
-            Assert.Equal("Three", StringsHelper.CapitalizeFirstLetter("Three"));
         }
     }
 }

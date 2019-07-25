@@ -39,7 +39,7 @@
       <Version>3.1.1</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
-      <Version>2.4.3.840</Version>
+      <Version>2.4.11.982</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -101,6 +101,9 @@
     <Compile Include="Controls\BindableTabBarItem.cs" />
     <Compile Include="IosBootstraper.cs" />
     <Compile Include="Services\ViewControllerProvider.cs" />
+    <Compile Include="ImagePicker\IosImagePickerService.cs" />
+    <Compile Include="ImagePicker\IosImagePickerResult.cs" />
+    <Compile Include="ViewControllers\TopLevelAlertController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
@@ -108,7 +111,7 @@
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
+      <Project>{D5F562B4-D878-4B86-AB35-93BC43A253C5}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -124,7 +127,7 @@
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{7DFADBE8-C2DE-4C1E-A72C-125B40B0A416}</Project>
+      <Project>{E8FAA479-4003-4A66-B355-CA96A2D59DA0}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>

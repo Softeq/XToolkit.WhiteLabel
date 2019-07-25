@@ -1,7 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Text.RegularExpressions;
 
 namespace Softeq.XToolkit.Common.Extensions
@@ -54,6 +56,54 @@ namespace Softeq.XToolkit.Common.Extensions
             }
 
             return initials.ToUpperInvariant();
+        }
+        
+        /// <summary>
+        /// Returns a copy of this <see cref="T:System.String"></see> object
+        /// where first latter converted to uppercase.
+        /// </summary>
+        /// <param name="value">Input string.</param>
+        /// <returns>A copy of this <see cref="T:System.String"></see> object
+        /// where first latter converted to uppercase.</returns>
+        /// <exception cref="ArgumentException">The argument can't be null or empty.</exception>
+        public static string CapitalizeFirstLetter(this string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentException("The argument can't be null or empty.", nameof(value));
+            }
+            
+            var chars = value.ToCharArray();
+            chars[0] = char.ToUpper(chars[0]);
+            return new string(chars);
+        }
+        
+        /// <summary>
+        /// Remove empty lines from the input string.
+        /// </summary>
+        /// <param name="input">Input string.</param>
+        /// <returns></returns>
+        public static string RemoveEmptyLines(this string input)
+        {
+            return Regex.Replace(input, @"[\r\n]*^\s*$[\r\n]*", "", RegexOptions.Multiline);
+        }
+
+        /// <summary>
+        /// Try parse <see cref="T:System.String">text</see> to <see cref="T:System.Double">double</see> more easily
+        /// for CurrentCulture.
+        /// </summary>
+        /// <param name="text">Input string.</param>
+        /// <param name="result">Result.</param>
+        /// <returns>True when parsing was successful.</returns>
+        public static bool TryParseDouble(this string text, out double? result)
+        {
+            if (double.TryParse(text, NumberStyles.Number, CultureInfo.CurrentCulture, out var number))
+            {
+                result = number;
+                return true;
+            }
+            result = null;
+            return string.IsNullOrEmpty(text);
         }
     }
 }

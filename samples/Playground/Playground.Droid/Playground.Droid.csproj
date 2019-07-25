@@ -60,20 +60,27 @@
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
       <Version>28.0.0.1</Version>
     </PackageReference>
+    <PackageReference Include="Plugin.Permissions">
+      <Version>5.0.0-beta</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
-    <Compile Include="Views\Pages\CollectionPageActivity.cs" />
-    <Compile Include="Views\Pages\MainPageActivity.cs" />
     <Compile Include="Views\SplashActivity.cs" />
-    <Compile Include="Views\Pages\StartPageActivity.cs" />
-    <Compile Include="Views\Pages\Temp\RedFragment.cs" />
-    <Compile Include="Views\Pages\Temp\BlueFragment.cs" />
-    <Compile Include="Views\Pages\Temp\GreenFragment.cs" />
-    <Compile Include="Views\Pages\Temp\YellowFragment.cs" />
     <Compile Include="CustomDroidBootstrapper.cs" />
+    <Compile Include="LinkerPleaseInclude.cs" />
+    <Compile Include="Views\Pages\DetailsPageActivity.cs" />
+    <Compile Include="Views\BottomTabs\BottomTabsPageActivity.cs" />
+    <Compile Include="Views\BottomTabs\First\YellowActivity.cs" />
+    <Compile Include="Views\BottomTabs\Second\GreenFragment.cs" />
+    <Compile Include="Views\MainPageActivity.cs" />
+    <Compile Include="Views\StartPageActivity.cs" />
+    <Compile Include="Views\Components\PermissionsPageActivity.cs" />
+    <Compile Include="Views\Collections\CollectionPageActivity.cs" />
+    <Compile Include="Views\BottomTabs\First\RedFragment.cs" />
+    <Compile Include="Views\BottomTabs\Second\BlueFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -106,10 +113,16 @@
     <AndroidResource Include="Resources\drawable\background_splash.xml" />
     <AndroidResource Include="Resources\drawable\ic_chat.png" />
     <AndroidResource Include="Resources\drawable\ic_settings.png" />
-    <AndroidResource Include="Resources\layout\fragment_red.axml" />
-    <AndroidResource Include="Resources\layout\fragment_yellow.axml" />
-    <AndroidResource Include="Resources\layout\fragment_green.axml" />
-    <AndroidResource Include="Resources\layout\fragment_blue.axml" />
+    <AndroidResource Include="Resources\layout\fragment_red.xml" />
+    <AndroidResource Include="Resources\layout\activity_yellow.xml" />
+    <AndroidResource Include="Resources\layout\fragment_green.xml" />
+    <AndroidResource Include="Resources\layout\fragment_blue.xml" />
+    <AndroidResource Include="Resources\layout\item_movie.xml" />
+    <AndroidResource Include="Resources\layout\activity_permissions.xml" />
+    <AndroidResource Include="Resources\layout\activity_main.xml" />
+    <AndroidResource Include="Resources\layout\item_main.xml" />
+    <AndroidResource Include="Resources\layout\item_main_header.xml" />
+    <AndroidResource Include="Resources\layout\activity_details.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
@@ -136,13 +149,29 @@
       <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj">
+      <Project>{2B4A678B-63B4-49DB-99B1-BFE7793110C4}</Project>
+      <Name>Softeq.XToolkit.Bindings.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
+      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
+      <Name>Softeq.XToolkit.Permissions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions.Droid\Softeq.XToolkit.Permissions.Droid.csproj">
+      <Project>{955A4101-4989-4764-9134-E621FC4D9C86}</Project>
+      <Name>Softeq.XToolkit.Permissions.Droid</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\" />
     <Folder Include="Views\Pages\" />
     <Folder Include="Resources\drawable\" />
     <Folder Include="Resources\menu\" />
-    <Folder Include="Views\Pages\Temp\" />
+    <Folder Include="Views\BottomTabs\" />
+    <Folder Include="Views\BottomTabs\Second\" />
+    <Folder Include="Views\BottomTabs\First\" />
+    <Folder Include="Views\Components\" />
+    <Folder Include="Views\Collections\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

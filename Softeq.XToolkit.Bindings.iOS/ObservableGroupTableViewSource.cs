@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using Foundation;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
@@ -22,6 +24,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         private readonly WeakReferenceEx<UITableView> _tableViewRef;
         private IDisposable _subscription;
         private readonly Func<nint, nint> _getRowInSectionCountFunc;
+        private readonly Func<NSIndexPath, nfloat> _getHeightForRowFunc;
 
         public ObservableGroupTableViewSource(
             UITableView tableView,
@@ -31,9 +34,11 @@ namespace Softeq.XToolkit.Bindings.iOS
             Func<UITableView, TKey, UIView> getHeaderViewFunc = null,
             Func<UITableView, TKey, UIView> getFooterViewFunc = null,
             Func<TKey, nfloat> getHeaderHeightFunc = null,
-            Func<TKey, nfloat> getFooterHeightFunc = null)
+            Func<TKey, nfloat> getFooterHeightFunc = null,
+            Func<NSIndexPath, nfloat> getHeightForRowFunc = null)
         {
             _getCellViewFunc = getCellViewFunc;
+            _getHeightForRowFunc = getHeightForRowFunc;
             _getRowInSectionCountFunc = getRowInSectionCountFunc;
             _getHeaderViewFunc = getHeaderViewFunc;
             _getFooterViewFunc = getFooterViewFunc;
@@ -145,11 +150,87 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         private void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
-            _tableViewRef.Target?.ReloadData();
+            Execute(() =>
+            {
+                if (e.Action != NotifyCollectionChangedAction.Add && e.Action != NotifyCollectionChangedAction.Remove)
+                {
+                    _tableViewRef.Target?.ReloadData();
+                    return;
+                }
+
+                _tableViewRef.Target?.BeginUpdates();
+
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        HandleAdd(e);
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        HandleRemove(e);
+                        break;
+                }
+
+                _tableViewRef.Target?.EndUpdates();
+            });
+        }
+
+        private void HandleAdd(NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            foreach (var sectionIndex in e.ModifiedSectionsIndexes)
+            {
+                _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
+            }
+
+            var rowsToInsert = CreateRowsChanges(e.ModifiedItemsIndexes);
+
+            _tableViewRef.Target?.InsertRows(rowsToInsert, UITableViewRowAnimation.None);
+        }
+
+        private void HandleRemove(NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            foreach (var sectionIndex in e.ModifiedSectionsIndexes)
+            {
+                _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
+            }
+
+            var rowsToRemove = CreateRowsChanges(e.ModifiedItemsIndexes);
+
+            _tableViewRef.Target?.DeleteRows(rowsToRemove, UITableViewRowAnimation.None);
+        }
+
+        private static NSIndexPath[] CreateRowsChanges(IEnumerable<(int Section, IList<int> ModifiedIndexes)> itemIndexes)
+        {
+            var modifiedIndexPaths = new List<NSIndexPath>();
+
+            foreach (var (section, modifiedIndexes) in itemIndexes)
+            {
+                modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
+                    NSIndexPath.FromRowSection(insertedItemIndex, section)));
+            }
+
+            return modifiedIndexPaths.ToArray();
+        }
+
+        private static void Execute(Action action)
+        {
+            if (NSThread.IsMain)
+            {
+                action();
+            }
+            else
+            {
+                NSOperationQueue.MainQueue.AddOperation(action);
+                NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
+            }
         }
 
         public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
         {
+            if (_getHeightForRowFunc != null)
+            {
+                return _getHeightForRowFunc(indexPath);
+            }
+
             return HeightForRow ?? 0;
         }
     }

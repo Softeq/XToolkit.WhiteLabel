@@ -1,0 +1,35 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{24588814-B93D-4528-8917-9C2A3C4E85CA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid", "..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj", "{18D3FDC1-B0A1-401E-87F2-1C43034E610C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS", "..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj", "{6BCB2009-2E46-458C-BCAA-AFC27A631924}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Tests", "..\Softeq.XToolkit.Common.Tests\Softeq.XToolkit.Common.Tests.csproj", "{26F05529-67DF-42E8-A407-CA14FF8F1BFF}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{24588814-B93D-4528-8917-9C2A3C4E85CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24588814-B93D-4528-8917-9C2A3C4E85CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24588814-B93D-4528-8917-9C2A3C4E85CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24588814-B93D-4528-8917-9C2A3C4E85CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18D3FDC1-B0A1-401E-87F2-1C43034E610C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18D3FDC1-B0A1-401E-87F2-1C43034E610C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18D3FDC1-B0A1-401E-87F2-1C43034E610C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18D3FDC1-B0A1-401E-87F2-1C43034E610C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BCB2009-2E46-458C-BCAA-AFC27A631924}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BCB2009-2E46-458C-BCAA-AFC27A631924}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BCB2009-2E46-458C-BCAA-AFC27A631924}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BCB2009-2E46-458C-BCAA-AFC27A631924}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26F05529-67DF-42E8-A407-CA14FF8F1BFF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26F05529-67DF-42E8-A407-CA14FF8F1BFF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26F05529-67DF-42E8-A407-CA14FF8F1BFF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26F05529-67DF-42E8-A407-CA14FF8F1BFF}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

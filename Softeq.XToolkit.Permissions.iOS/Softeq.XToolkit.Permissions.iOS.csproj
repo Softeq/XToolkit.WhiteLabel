@@ -45,12 +45,6 @@
         <MtouchVerbosity>
         </MtouchVerbosity>
     </PropertyGroup>
-    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'ReleaseWithBLE|AnyCPU' ">
-        <OutputPath>bin\ReleaseWithBLE\</OutputPath>
-        <DefineConstants>RELEASE_WITH_BLE;</DefineConstants>
-        <Optimize>true</Optimize>
-        <DebugType>pdbonly</DebugType>
-    </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
         <Reference Include="System.Xml" />
@@ -67,7 +61,7 @@
           <Version>3.1.1</Version>
         </PackageReference>
         <PackageReference Include="Plugin.Permissions">
-          <Version>3.0.0.12</Version>
+          <Version>5.0.0-beta</Version>
         </PackageReference>
     </ItemGroup>
     <ItemGroup>

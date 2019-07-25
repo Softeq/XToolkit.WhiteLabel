@@ -10,6 +10,7 @@ using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
@@ -27,6 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected ActivityBase()
         {
             _pageNavigation = Dependencies.PageNavigationService;
+            ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
         public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
@@ -51,13 +53,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
-        {
-            base.OnCreate(savedInstanceState);
-
-            ViewComponents = new List<IViewComponent<ActivityBase>>();
-        }
-
         protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
         {
             var viewLocator = Dependencies.Container.Resolve<IViewLocator>();
@@ -69,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         }
     }
 
-    public abstract class ActivityBase<TViewModel> : ActivityBase
+    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindableOwner
         where TViewModel : ViewModelBase
     {
         private const string ShouldRestoreStateKey = "shouldRestore";
@@ -87,7 +82,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             });
         }
 
-        protected List<Binding> Bindings { get; }
+        public List<Binding> Bindings { get; }
 
         protected virtual TViewModel ViewModel
         {

@@ -26,20 +26,6 @@ namespace Playground.iOS.Views
 
         void ReleaseDesignerOutlets ()
         {
-            if (Description != null) {
-                Description.Dispose ();
-                Description = null;
-            }
-
-            if (Poster != null) {
-                Poster.Dispose ();
-                Poster = null;
-            }
-
-            if (Title != null) {
-                Title.Dispose ();
-                Title = null;
-            }
         }
     }
 }

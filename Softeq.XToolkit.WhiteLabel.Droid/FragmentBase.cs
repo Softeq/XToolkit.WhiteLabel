@@ -5,16 +5,17 @@ using System.Collections.Generic;
 using Android.OS;
 using Android.Support.V4.App;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
-    public class FragmentBase<TViewModel> : Fragment
+    public class FragmentBase<TViewModel> : Fragment, IBindableOwner
         where TViewModel : ViewModelBase
     {
-        protected IList<Binding> Bindings { get; } = new List<Binding>();
+        public List<Binding> Bindings { get; } = new List<Binding>();
 
         public TViewModel ViewModel { get; private set; }
 

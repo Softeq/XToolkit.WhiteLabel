@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.Generic;
 using System.Linq;
 using Android.Text;
 using Android.Widget;
@@ -9,6 +8,9 @@ using Java.Lang;
 
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
+    /// <summary>
+    /// Extensions related to <see cref="EditText" />
+    /// </summary>
     public static class EditTextExtensions
     {
         /// <summary>
@@ -24,32 +26,26 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         }
 
         /// <summary>
-        /// Allows to apply limitations of length and/or input symbols to an EditText
+        /// Allows applying multiple input filters to the EditText.
         /// </summary>
         /// <param name="editText">Edit text.</param>
-        /// <param name="maxLength">Maximum length of text allowed. Ignored when 0 or negative</param>
-        /// <param name="forbiddenCharacters">Char array of characters not allowed in the input. Ignored when null</param>
-        public static void SetMaxLengthWithForbiddenSymbols(this EditText editText, int maxLength = 0, char[] forbiddenCharacters = null)
+        /// <param name="filters">Array of filters.</param>
+        public static void SetFilters(this EditText editText, params IInputFilter[] filters)
         {
-            var filters = new List<IInputFilter>();
-
-            if (maxLength > 0)
-            {
-                filters.Add(new InputFilterLengthFilter(maxLength));
-            }
-
-            if (forbiddenCharacters != null)
-            {
-                filters.Add(new ForbiddenCharsInputFilter(forbiddenCharacters));
-            }
-
-            editText.SetFilters(filters.ToArray());
+            editText.SetFilters(filters);
         }
 
-        private class ForbiddenCharsInputFilter : Object, IInputFilter
+        /// <summary>
+        /// This filter will constrain edits not to make text contains forbidden symbols.
+        /// </summary>
+        public class ForbiddenCharsInputFilter : Object, IInputFilter
         {
             private readonly char[] _forbiddenCharacters;
 
+            /// <summary>
+            /// This filter will constrain edits not to make text contains forbidden symbols.
+            /// </summary>
+            /// <param name="forbiddenCharacters">Char array of characters not allowed in the input. Ignored when null</param>
             public ForbiddenCharsInputFilter(char[] forbiddenCharacters)
             {
                 _forbiddenCharacters = forbiddenCharacters;

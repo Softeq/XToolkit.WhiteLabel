@@ -46,6 +46,7 @@
     <Compile Include="AppleBinding.cs" />
     <Compile Include="AppleBindingExtensions.cs" />
     <Compile Include="AppleBindingFactory.cs" />
+    <Compile Include="Bindable\BindableCollectionViewCell.cs" />
     <Compile Include="Gestures\BehaviourExtensions.cs" />
     <Compile Include="Gestures\SwipeGestureRecognizerBehaviour.cs" />
     <Compile Include="Gestures\TapGestureRecognizerBehaviour.cs" />
@@ -59,7 +60,6 @@
     <Compile Include="Bindable\BindableTableViewCell.cs" />
     <Compile Include="Bindable\Abstract\BindableExtensions.cs" />
     <Compile Include="Bindable\Abstract\GestureRecognizerBinding.cs" />
-    <Compile Include="Bindable\Abstract\IBindable.cs" />
     <Compile Include="Bindable\CollectionView\BindableCollectionView.cs" />
     <Compile Include="Bindable\CollectionView\BindableCollectionViewSource.cs" />
     <Compile Include="Bindable\CollectionView\BindableUICollectionViewDelegateFlowLayout.cs" />
