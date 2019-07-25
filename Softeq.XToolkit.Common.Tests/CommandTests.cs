@@ -5,7 +5,7 @@ using System;
 using Softeq.XToolkit.Common.Command;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class CommandTests
     {

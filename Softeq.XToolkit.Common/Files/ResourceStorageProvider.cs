@@ -19,21 +19,41 @@ namespace Softeq.XToolkit.Common.Files
             _assembly = assembly;
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task ClearFolderAsync(string path)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="newPath"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task<string> CopyFileFromAsync(string path, string newPath)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task<bool> ExistsAsync(string path)
         {
             throw new NotImplementedException();
         }
 
+        /// <inheritdoc/>
         public Task<Stream> GetFileContentAsync(string fileName)
         {
             return Task.Run(() =>
@@ -58,16 +78,35 @@ namespace Softeq.XToolkit.Common.Files
              });
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task<Stream> OpenStreamForWriteAsync(string path)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="path"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task RemoveAsync(string path)
         {
             throw new NotImplementedException();
         }
 
+        /// <summary>
+        /// Not Implemented
+        /// </summary>
+        /// <param name="str"></param>
+        /// <param name="stream"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
         public Task<string> WriteStreamAsync(string str, Stream stream)
         {
             throw new NotImplementedException();

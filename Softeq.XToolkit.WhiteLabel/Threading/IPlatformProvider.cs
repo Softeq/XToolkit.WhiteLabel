@@ -34,20 +34,4 @@ namespace Softeq.XToolkit.WhiteLabel.Threading
         /// <param name="action">The action to execute.</param>
         void OnUIThread(Action action);
     }
-
-    public static class UiThreadExtensions
-    {
-        public static void ContinueOnUiThread(this Task task, Action action)
-        {
-            task.ContinueWith(t => action.BeginOnUIThread()).ConfigureAwait(false);
-        }
-
-        public static void ContinueOnUiThread<T>(this Task<T> task, Action<T> action)
-        {
-            task.ContinueWith(t => Execute.BeginOnUIThread(() => 
-            {
-                action(t.Result);
-            })).ConfigureAwait(false);
-        }
-    }
 }

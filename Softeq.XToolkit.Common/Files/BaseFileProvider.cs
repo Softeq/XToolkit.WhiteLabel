@@ -10,6 +10,7 @@ namespace Softeq.XToolkit.Common.Files
 {
     public class BaseFileProvider : IFilesProvider
     {
+        /// <inheritdoc/>
         public Task ClearFolderAsync(string path)
         {
             return Task.Run(async () =>
@@ -22,6 +23,7 @@ namespace Softeq.XToolkit.Common.Files
             });
         }
 
+        /// <inheritdoc/>
         public Task<Stream> OpenStreamForWriteAsync(string path)
         {
             return Task.Run(() =>
@@ -31,6 +33,7 @@ namespace Softeq.XToolkit.Common.Files
             });
         }
 
+        /// <inheritdoc/>
         public Task RemoveAsync(string path)
         {
             return Task.Run(() =>
@@ -42,6 +45,7 @@ namespace Softeq.XToolkit.Common.Files
             });
         }
 
+        /// <inheritdoc/>
         public Task<Stream> GetFileContentAsync(string path)
         {
             return Task.Run(() =>
@@ -51,6 +55,7 @@ namespace Softeq.XToolkit.Common.Files
             });
         }
 
+        /// <inheritdoc/>
         public Task<string> CopyFileFromAsync(string path, string newPath)
         {
             return Task.Run(() =>
@@ -66,6 +71,7 @@ namespace Softeq.XToolkit.Common.Files
             });
         }
 
+        /// <inheritdoc/>
         public async Task<string> WriteStreamAsync(string path, Stream stream)
         {
             using (var outputStream = await OpenStreamForWriteAsync(path))
@@ -79,6 +85,7 @@ namespace Softeq.XToolkit.Common.Files
             return path;
         }
 
+        /// <inheritdoc/>
         public Task<bool> ExistsAsync(string path)
         {
             return Task.Run(() => File.Exists(path));

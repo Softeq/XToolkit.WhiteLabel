@@ -1,13 +1,11 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
-namespace Softeq.XToolkit.Common.Exceptions
+using System;
+
+namespace Softeq.XToolkit.Permissions
 {
     public class PermissionNotGrantedException : Exception
-	{
-		public PermissionNotGrantedException()
-		{
-		}
-	}
+    {
+    }
 }

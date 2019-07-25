@@ -6,7 +6,7 @@ using Android.OS;
 using Android.Support.Design.Internal;
 using Android.Support.Design.Widget;
 using Android.Views;
-using Softeq.XToolkit.WhiteLabel.Controls.Views;
+using Softeq.XToolkit.WhiteLabel.Droid.Controls;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 

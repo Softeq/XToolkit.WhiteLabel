@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class ExtensionsTest
     {
