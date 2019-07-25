@@ -11,20 +11,26 @@ using Softeq.XToolkit.Common.EventArguments;
 
 namespace Softeq.XToolkit.Common.Collections
 {
+    /// <summary> 
+    /// Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed. 
+    /// </summary> 
+    /// <typeparam name="T">The element type of the collection</typeparam>
     public class ObservableRangeCollection<T> : ObservableCollection<T>
     {
         /// <summary>
-        ///     Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class.
+        /// Initializes a new instance of the
+        /// <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1"/> class.
         /// </summary>
         public ObservableRangeCollection()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class that contains
+        /// Initializes a new instance of the
+        /// <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1"/> class that contains
         ///     elements copied from the specified collection.
         /// </summary>
-        /// <param name="collection">collection: The collection from which the elements are copied.</param>
+        /// <param name="collection">The collection from which the elements are copied.</param>
         /// <exception cref="System.ArgumentNullException">The collection parameter cannot be null.</exception>
         public ObservableRangeCollection(IEnumerable<T> collection)
             : base(collection)
@@ -34,6 +40,8 @@ namespace Softeq.XToolkit.Common.Collections
         /// <summary>
         ///     Adds the elements of the specified collection to the end of the ObservableCollection(Of T).
         /// </summary>
+        /// <param name="collection">The collection from which the elements are copied.</param>
+        /// <param name="notificationMode">Action that will called after adding.</param>
         public void AddRange(IEnumerable<T> collection,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
@@ -78,6 +86,11 @@ namespace Softeq.XToolkit.Common.Collections
                 startIndex));
         }
 
+        /// <summary>
+        ///     Insert the elements of the specified collection at a given index of the ObservableCollection(Of T).
+        /// </summary>
+        /// <param name="collection">The collection from which the elements are copied.</param>
+        /// <param name="startIndex">The index in the array at which to insert items</param>
         public void InsertRange(IEnumerable<T> collection, int startIndex)
         {
             if (collection == null)
@@ -106,6 +119,12 @@ namespace Softeq.XToolkit.Common.Collections
                 startIndex));
         }
 
+        /// <summary>
+        ///     Insert the elements of the specified collection and sort the collection.
+        /// </summary>
+        /// <param name="collection">The collection from which the elements are copied.</param>
+        /// <param name="comparer">Method that compares <typeparamref name="T"/> objects</param>
+        /// <returns>Inserted items indexes</returns>
         public IList<int> InsertRangeSorted(IEnumerable<T> collection, Comparison<T> comparer)
         {
             if (collection == null)
@@ -140,6 +159,8 @@ namespace Softeq.XToolkit.Common.Collections
         ///     notificationMode = Remove, removed items starting index is not set because items are not guaranteed to be
         ///     consecutive.
         /// </summary>
+        /// <param name="collection">The collection of items to delete</param>
+        /// <param name="notificationMode">Action that will called after deletion.</param>
         public void RemoveRange(IEnumerable<T> collection,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Reset)
         {
@@ -190,6 +211,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <summary>
         ///     Clears the current collection and replaces it with the specified item.
         /// </summary>
+        /// <param name="item">Item that will added to collection</param>
         public void Replace(T item)
         {
             ReplaceRange(new[] {item});
@@ -198,6 +220,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <summary>
         ///     Clears the current collection and replaces it with the specified collection.
         /// </summary>
+        /// <param name="collection">The collection from which the elements are copied.</param>
         public void ReplaceRange(IEnumerable<T> collection)
         {
             if (collection == null)
