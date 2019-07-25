@@ -1,0 +1,13 @@
+apiRules:
+- exclude:
+    uidRegex: ^DryIoc$
+    type: Namespace
+- exclude:
+    uidRegex: ^DryIoc\.Messages$
+    type: Namespace
+- exclude:
+    uidRegex: ^FastExpressionCompiler\.LightExpression$
+    type: Namespace
+- exclude:
+    uidRegex: ^ImTools$
+    type: Namespace

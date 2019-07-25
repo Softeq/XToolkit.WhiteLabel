@@ -14,7 +14,8 @@
           ]
         }
       ],
-      "dest": "obj/api"
+      "dest": "obj/api",
+      "filter": "filter.yml"
     }
   ],
   "build": {
