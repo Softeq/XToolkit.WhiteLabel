@@ -8,9 +8,6 @@
 *.sln.docstates
 *.userprefs
 
-# Xamarin Studio
-Components/
-
 # Build results
 [Dd]ebug/
 [Dd]ebugPublic/
