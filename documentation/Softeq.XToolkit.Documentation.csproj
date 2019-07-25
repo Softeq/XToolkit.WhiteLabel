@@ -33,16 +33,17 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="docfx.json" />
     <None Include="toc.yml" />
     <None Include="index.md" />
-    <None Include="docfx.json" />
     <None Include="articles\toc.md" />
     <None Include="articles\intro.md" />
     <None Include="api\index.md" />
     <None Include="api\.gitignore" />
     <None Include=".gitignore" />
-    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="docfx.console" Version="2.43.2" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <Import Project="..\packages\docfx.console.2.42.4\build\docfx.console.targets" Condition="Exists('..\packages\docfx.console.2.42.4\build\docfx.console.targets')" />
 </Project>
