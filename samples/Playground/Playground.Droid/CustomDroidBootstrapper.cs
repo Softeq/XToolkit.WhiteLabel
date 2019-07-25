@@ -22,11 +22,10 @@ namespace Playground.Droid
             builder.Singleton<DroidFragmentDialogService, IDialogsService>();
             builder.Singleton<DefaultAlertBuilder, IAlertBuilder>();
 
+            // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
             builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
-            //builder.Singleton<DroidInternalSettings, IInternalSettings>();
-            //builder.Singleton<LauncherService, ILauncherService>();
         }
     }
 }

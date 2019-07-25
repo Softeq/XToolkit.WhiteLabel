@@ -19,7 +19,7 @@ namespace Playground.iOS
 
             builder.PerDependency<StoryboardDialogsService, IDialogsService>();
 
-            //builder.PerLifetimeScope<IosInternalSettings, IInternalSettings>();
+            // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
         }
