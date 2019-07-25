@@ -48,5 +48,12 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             child.View.AddAsSubviewWithParentSize(targetView ?? parent.View);
             child.DidMoveToParentViewController(parent);
         }
+
+        public static void RemoveFromParent(this UIViewController child, UIViewController parent)
+        {
+            child.WillMoveToParentViewController(parent);
+            child.View.RemoveFromSuperview();
+            child.RemoveFromParentViewController();
+        }
     }
 }
