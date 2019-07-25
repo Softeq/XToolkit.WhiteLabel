@@ -4,9 +4,9 @@
       "src": [
         {
           "files": [
-            "Softeq.XToolkit.Common/Softeq.XToolkit.Common.csproj"
+            "**/Softeq.XToolkit.*.csproj"
           ],
-          "cwd": "..",
+          "src": "..",
           "exclude": [
             "**/obj/**",
             "**/bin/**",
