@@ -17,8 +17,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>The key value. default(TValue) if this key is not in the dictionary.</returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            TValue result;
-            return dictionary.TryGetValue(key, out result) ? result : default(TValue);
+            return dictionary.TryGetValue(key, out var result) ? result : default;
         }
     }
 }

@@ -4,7 +4,7 @@
 namespace Softeq.XToolkit.Common.Interfaces
 {
     /// <summary>
-    /// Represents methods for converting one type to another and back
+    ///     Represents methods for converting one type to another and back
     /// </summary>
     /// <typeparam name="TOut">Initial type</typeparam>
     /// <typeparam name="TIn">Result type</typeparam>

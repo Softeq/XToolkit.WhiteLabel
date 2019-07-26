@@ -1,8 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Linq;
 using System.Collections.Generic;
 using System.Reflection;
 using Foundation;
@@ -10,7 +8,6 @@ using UIKit;
 using Softeq.XToolkit.WhiteLabel;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 using Playground.ViewModels;
 
 namespace Playground.iOS
@@ -41,23 +38,15 @@ namespace Playground.iOS
 
         protected override IBootstrapper Bootstrapper => new CustomIosBootstrapper();
 
-        protected override IList<Assembly> SelectAssemblies()
+        protected override IList<Assembly> SelectAssemblies() => new List<Assembly>
         {
-            return AppDomain.CurrentDomain.GetAssemblies()
-                .Where(assembly =>
-                    new[]
-                    {
-                        "Playground.iOS",
-                        "Softeq.XToolkit.Chat.iOS",
-                        "Softeq.XToolkit.WhiteLabel.iOS"
-                    }
-                    .Any(x => x.Equals(assembly.GetName().Name)))
-                .ToList();
-        }
+            GetType().Assembly,              // Playground.iOS
+            typeof(AppDelegateBase).Assembly // Softeq.XToolkit.WhiteLabel.iOS
+        };
 
         private void InitNavigation()
         {
-            var navigationService = Dependencies.Container.Resolve<IPageNavigationService>();
+            var navigationService = Dependencies.PageNavigationService;
             navigationService.Initialize(Window.RootViewController);
 
             // Entry point

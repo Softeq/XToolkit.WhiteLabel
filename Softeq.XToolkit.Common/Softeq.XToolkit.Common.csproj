@@ -4,5 +4,6 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<AssemblyName>Softeq.XToolkit.Common</AssemblyName>
 		<RootNamespace>Softeq.XToolkit.Common</RootNamespace>
+		<LangVersion>7.3</LangVersion>
 	</PropertyGroup>
 </Project>

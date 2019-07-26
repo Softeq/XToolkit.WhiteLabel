@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.Common
     public static class WeakReferenceEx
     {
         /// <summary>
-        /// Initializes a new instance of the WeakReferenceEx class, referencing the specified object.
+        ///     Initializes a new instance of the WeakReferenceEx class, referencing the specified object.
         /// </summary>
         /// <returns>New WeakReferenceEx object.</returns>
         /// <param name="target">The object to track.</param>
@@ -20,7 +20,8 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Represents a weak reference, which references an object while still allowing that object to be reclaimed by garbage collection.
+    ///     Represents a weak reference, which references an object while still allowing that object to be reclaimed by garbage
+    ///     collection.
     /// </summary>
     /// <typeparam name="T">Target type.</typeparam>
     public class WeakReferenceEx<T> where T : class
@@ -28,7 +29,7 @@ namespace Softeq.XToolkit.Common
         private readonly WeakReference<T> _weakReference;
 
         /// <summary>
-        /// Initializes a new instance of the WeakReferenceEx class, referencing the specified object.
+        ///     Initializes a new instance of the WeakReferenceEx class, referencing the specified object.
         /// </summary>
         /// <param name="obj">The object to track.</param>
         public WeakReferenceEx(T obj)
@@ -37,7 +38,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Gets the target.
+        ///     Gets the target.
         /// </summary>
         /// <value>Return target object if the target was retrieved; otherwise, null.</value>
         public T Target

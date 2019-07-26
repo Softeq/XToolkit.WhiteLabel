@@ -2,11 +2,10 @@
 // http://www.softeq.com
 
 using System;
-using Softeq.XToolkit.Tests.Core.Common.Helpers;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Tests.Helpers;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common.WeakTests
+namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
     public class WeakActionGenericTest
     {
@@ -44,11 +43,11 @@ namespace Softeq.XToolkit.Tests.Core.Common.WeakTests
             _action = new WeakAction<string>(_common, DoStuffStatic);
         }
 
-        public static void DoStuffStatic(string p)
+        private static void DoStuffStatic(string p)
         {
         }
 
-        public void DoStuff(string p)
+        private void DoStuff(string p)
         {
             _local = p;
         }

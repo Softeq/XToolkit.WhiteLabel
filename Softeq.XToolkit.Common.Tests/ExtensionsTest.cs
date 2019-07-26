@@ -3,7 +3,7 @@
 
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class ExtensionsTest
     {
@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Tests.Core.Common
         public void GetAssemblyNameTest()
         {
             var name = GetType().Assembly.GetName().Name;
-            Assert.Equal(name, "Softeq.XToolkit.Common.Tests");
+            Assert.Equal("Softeq.XToolkit.Common.Tests", name);
         }
 
         [Fact]

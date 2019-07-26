@@ -8,7 +8,8 @@ using Softeq.XToolkit.Common.EventArguments;
 
 namespace Softeq.XToolkit.Common.WeakSubscription
 {
-    public class NotifyCollectionChangedEventSubscription : WeakEventSubscription<INotifyCollectionChanged, NotifyCollectionChangedEventArgs>
+    public class NotifyCollectionChangedEventSubscription
+        : WeakEventSubscription<INotifyCollectionChanged, NotifyCollectionChangedEventArgs>
     {
         public NotifyCollectionChangedEventSubscription(
             INotifyCollectionChanged source,
@@ -22,8 +23,9 @@ namespace Softeq.XToolkit.Common.WeakSubscription
             return new NotifyCollectionChangedEventHandler(OnSourceEvent);
         }
     }
-    
-    public class NotifyCollectionKeyGroupChangedEventSubscription : WeakEventSubscription<INotifyGroupCollectionChanged, NotifyKeyGroupsCollectionChangedEventArgs>
+
+    public class NotifyCollectionKeyGroupChangedEventSubscription
+        : WeakEventSubscription<INotifyGroupCollectionChanged, NotifyKeyGroupsCollectionChangedEventArgs>
     {
         public NotifyCollectionKeyGroupChangedEventSubscription(
             INotifyGroupCollectionChanged source,

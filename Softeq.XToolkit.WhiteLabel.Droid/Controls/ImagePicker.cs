@@ -19,6 +19,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         Task<string> TakePhotoAsync();
     }
 
+    [Obsolete("Use IImagePickerService")]
     public class ImagePicker
     {
         private const string Png = ".png";

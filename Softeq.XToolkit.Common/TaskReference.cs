@@ -7,14 +7,14 @@ using System.Threading.Tasks;
 namespace Softeq.XToolkit.Common
 {
     /// <summary>
-    /// Func&lt;Task&gt; wrapper
+    ///     Func&lt;Task&gt; wrapper
     /// </summary>
     public class TaskReference
     {
         private readonly Func<Task> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public TaskReference(Func<Task> func)
@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         public async Task RunAsync()
@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, Task&gt; wrapper
+    ///     Func&lt;P1, Task&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     public class VoidTaskReference<P1>
@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, Task> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public VoidTaskReference(Func<P1, Task> func)
@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, P2, Task&gt; wrapper
+    ///     Func&lt;P1, P2, Task&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="P2">Second parameter type</typeparam>
@@ -70,7 +70,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, P2, Task> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public VoidTaskReference(Func<P1, P2, Task> func)
@@ -79,7 +79,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -91,7 +91,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, P2, P3, Task&gt; wrapper
+    ///     Func&lt;P1, P2, P3, Task&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="P2">Second parameter type</typeparam>
@@ -101,7 +101,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, P2, P3, Task> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public VoidTaskReference(Func<P1, P2, P3, Task> func)
@@ -110,7 +110,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -123,7 +123,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, P2, P3, P4, Task&gt; wrapper
+    ///     Func&lt;P1, P2, P3, P4, Task&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="P2">Second parameter type</typeparam>
@@ -134,7 +134,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, P2, P3, P4, Task> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public VoidTaskReference(Func<P1, P2, P3, P4, Task> func)
@@ -143,7 +143,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -157,7 +157,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, P2, P3, P4, P5, Task&gt; wrapper
+    ///     Func&lt;P1, P2, P3, P4, P5, Task&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="P2">Second parameter type</typeparam>
@@ -169,7 +169,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, P2, P3, P4, P5, Task> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public VoidTaskReference(Func<P1, P2, P3, P4, P5, Task> func)
@@ -178,7 +178,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -193,7 +193,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, Task&lt;T&gt;&gt; wrapper
+    ///     Func&lt;P1, Task&lt;T&gt;&gt; wrapper
     /// </summary>
     /// <typeparam name="T">The type of the result produced by this Task</typeparam>
     public class TaskReference<T>
@@ -201,7 +201,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<Task<T>> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public TaskReference(Func<Task<T>> func)
@@ -210,7 +210,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         public Task<T> RunAsync()
@@ -220,7 +220,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, Task&lt;T&gt;&gt; wrapper
+    ///     Func&lt;P1, Task&lt;T&gt;&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="T">The type of the result produced by this Task</typeparam>
@@ -229,7 +229,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, Task<T>> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public TaskReference(Func<P1, Task<T>> func)
@@ -238,7 +238,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -249,7 +249,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, P2, Task&lt;T&gt;&gt; wrapper
+    ///     Func&lt;P1, P2, Task&lt;T&gt;&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="P2">Second parameter type</typeparam>
@@ -259,7 +259,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, P2, Task<T>> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public TaskReference(Func<P1, P2, Task<T>> func)
@@ -268,7 +268,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -280,7 +280,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, P2, P3, Task&lt;T&gt;&gt; wrapper
+    ///     Func&lt;P1, P2, P3, Task&lt;T&gt;&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="P2">Second parameter type</typeparam>
@@ -291,7 +291,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, P2, P3, Task<T>> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public TaskReference(Func<P1, P2, P3, Task<T>> func)
@@ -300,7 +300,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -313,7 +313,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, P2, P3, P4, Task&lt;T&gt;&gt; wrapper
+    ///     Func&lt;P1, P2, P3, P4, Task&lt;T&gt;&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="P2">Second parameter type</typeparam>
@@ -325,7 +325,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, P2, P3, P4, Task<T>> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public TaskReference(Func<P1, P2, P3, P4, Task<T>> func)
@@ -334,7 +334,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>
@@ -348,7 +348,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    /// Func&lt;P1, P2, P3, P4, P5, Task&lt;T&gt;&gt; wrapper
+    ///     Func&lt;P1, P2, P3, P4, P5, Task&lt;T&gt;&gt; wrapper
     /// </summary>
     /// <typeparam name="P1">First parameter type</typeparam>
     /// <typeparam name="P2">Second parameter type</typeparam>
@@ -361,7 +361,7 @@ namespace Softeq.XToolkit.Common
         private readonly Func<P1, P2, P3, P4, P5, Task<T>> _func;
 
         /// <summary>
-        /// Create wrapper over specified function
+        ///     Create wrapper over specified function
         /// </summary>
         /// <param name="func">Wrapped function.</param>
         public TaskReference(Func<P1, P2, P3, P4, P5, Task<T>> func)
@@ -370,7 +370,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Execute wrapped function
+        ///     Execute wrapped function
         /// </summary>
         /// <returns>Task returned from wrapped function</returns>
         /// <param name="param1">First parameter</param>

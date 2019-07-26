@@ -281,7 +281,7 @@ namespace Softeq.XToolkit.Common
         /// </summary>
         public new void Execute()
         {
-            Execute(default(T));
+            Execute(default);
         }
 
         /// <summary>
@@ -307,10 +307,7 @@ namespace Softeq.XToolkit.Common
                 {
                     Method.Invoke(
                         actionTarget,
-                        new object[]
-                        {
-                            parameter
-                        });
+                        new object[] { parameter });
                 }
             }
         }

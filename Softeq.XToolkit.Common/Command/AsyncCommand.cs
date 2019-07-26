@@ -70,9 +70,9 @@ namespace Softeq.XToolkit.Common.Command
             }
         }
 
-        protected abstract Func<Task> ExecuteAsync(object parameter);
-
         public event EventHandler CanExecuteChanged;
+
+        protected abstract Func<Task> ExecuteAsync(object parameter);
     }
 
     public class AsyncCommand : AsyncCommandBase
@@ -80,7 +80,7 @@ namespace Softeq.XToolkit.Common.Command
         private readonly Func<Task> _action;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Command.AsyncCommand"/> class.
+        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Command.AsyncCommand" /> class.
         /// </summary>
         /// <param name="myAsyncFunction">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
@@ -108,7 +108,7 @@ namespace Softeq.XToolkit.Common.Command
         private readonly Func<T, Task> _action;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Command.AsyncCommand"/> class.
+        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Command.AsyncCommand" /> class.
         /// </summary>
         /// <param name="myAsyncFunction">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
@@ -122,11 +122,6 @@ namespace Softeq.XToolkit.Common.Command
         public AsyncCommand(Func<T, Task> myAsyncFunction, Func<bool> canExecute = null) : base(canExecute)
         {
             _action = myAsyncFunction;
-        }
-
-        protected override Func<Task> ExecuteAsync(object parameter)
-        {
-            return () => _action((T) parameter);
         }
 
         public bool CanExecute(T parameter)
@@ -147,6 +142,11 @@ namespace Softeq.XToolkit.Common.Command
             }
 
             Execute((T) parameter);
+        }
+
+        protected override Func<Task> ExecuteAsync(object parameter)
+        {
+            return () => _action((T) parameter);
         }
     }
 }

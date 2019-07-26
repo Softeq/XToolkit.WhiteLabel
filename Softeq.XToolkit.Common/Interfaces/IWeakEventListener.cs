@@ -3,7 +3,7 @@
 
 using System;
 
-namespace Softeq.XToolkit.Common
+namespace Softeq.XToolkit.Common.Interfaces
 {
     public interface IWeakEventListener
     {

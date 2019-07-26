@@ -79,8 +79,8 @@ namespace Softeq.XToolkit.Bindings
             object target,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return _bindingFactory.CreateBinding(
                 source,
@@ -130,8 +130,8 @@ namespace Softeq.XToolkit.Bindings
             this object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return _bindingFactory.CreateBinding<TSource, TSource>(
                 source,
@@ -193,8 +193,8 @@ namespace Softeq.XToolkit.Bindings
             Expression<Func<TSource>> sourcePropertyExpression,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return _bindingFactory.CreateBinding(
                 source,
@@ -253,8 +253,8 @@ namespace Softeq.XToolkit.Bindings
             object target,
             string targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return _bindingFactory.CreateBinding<TSource, TTarget>(
                 source,
@@ -307,8 +307,8 @@ namespace Softeq.XToolkit.Bindings
             string sourcePropertyName,
             string targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return _bindingFactory.CreateBinding<TSource, TTarget>(
                 source,
@@ -397,7 +397,7 @@ namespace Softeq.XToolkit.Bindings
 
             EventHandler<TEventArgs> handler = (s, args) =>
             {
-                var param = castedBinding == null ? default(T) : castedBinding.Value;
+                var param = castedBinding == null ? default : castedBinding.Value;
                 command.Execute(param);
             };
 
