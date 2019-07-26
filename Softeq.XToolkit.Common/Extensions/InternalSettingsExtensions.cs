@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         public static T GetJsonValueOrDefault<T>(this IInternalSettings internalSettings,
-            IJsonSerializer jsonSerializer, string key, T defaultValue = default(T))
+            IJsonSerializer jsonSerializer, string key, T defaultValue = default)
         {
             var json = internalSettings.GetValueOrDefault(key, default(string));
             return string.IsNullOrEmpty(json)
