@@ -9,6 +9,7 @@
         <RootNamespace>Softeq.XToolkit.Permissions.iOS</RootNamespace>
         <AssemblyName>Softeq.XToolkit.Permissions.iOS</AssemblyName>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+        <LangVersion>7.3</LangVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
