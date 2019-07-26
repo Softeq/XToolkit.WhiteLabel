@@ -43,11 +43,11 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             _action = new WeakAction(_common, DoStuffStatic);
         }
 
-        public static void DoStuffStatic()
+        private static void DoStuffStatic()
         {
         }
 
-        public void DoStuff()
+        private void DoStuff()
         {
             _local = DateTime.Now.ToString();
         }

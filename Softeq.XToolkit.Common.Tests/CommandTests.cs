@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.Common.Tests
             _genericCommand.RaiseCanExecuteChanged();
             _genericCommand.Execute(PatameterValue);
 
-            Assert.Equal(_callTestMethodCount, 12);
+            Assert.Equal(12, _callTestMethodCount);
         }
     }
 }

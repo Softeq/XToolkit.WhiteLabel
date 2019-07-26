@@ -43,11 +43,11 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             _action = new WeakAction<string>(_common, DoStuffStatic);
         }
 
-        public static void DoStuffStatic(string p)
+        private static void DoStuffStatic(string p)
         {
         }
 
-        public void DoStuff(string p)
+        private void DoStuff(string p)
         {
             _local = p;
         }
