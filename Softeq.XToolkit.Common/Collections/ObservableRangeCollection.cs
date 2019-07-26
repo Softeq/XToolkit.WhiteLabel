@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.Common.Collections
         ///     elements copied from the specified collection.
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <exception cref="System.ArgumentNullException">The collection parameter cannot be null.</exception>
+        /// <exception cref="ArgumentNullException">The collection parameter cannot be null.</exception>
         public ObservableRangeCollection(IEnumerable<T> collection)
             : base(collection)
         {
@@ -65,9 +65,9 @@ namespace Softeq.XToolkit.Common.Collections
                     Items.Add(i);
                 }
 
-                OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-                OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                OnPropertyChanged(EventArgsCache.CountPropertyChanged);
+                OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
+                OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
 
                 return;
             }
@@ -80,8 +80,8 @@ namespace Softeq.XToolkit.Common.Collections
                 Items.Add(i);
             }
 
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+            OnPropertyChanged(EventArgsCache.CountPropertyChanged);
+            OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems,
                 startIndex));
         }
@@ -113,8 +113,8 @@ namespace Softeq.XToolkit.Common.Collections
                 Items.Insert(indexToInsert++, i);
             }
 
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+            OnPropertyChanged(EventArgsCache.CountPropertyChanged);
+            OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems,
                 startIndex));
         }
@@ -148,8 +148,8 @@ namespace Softeq.XToolkit.Common.Collections
                 Items.Insert(i, item);
             }
 
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+            OnPropertyChanged(EventArgsCache.CountPropertyChanged);
+            OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
             OnCollectionChanged(new NotifyCollectionInsertEventArgs(insertedItemsIndexes));
             return insertedItemsIndexes;
         }
@@ -185,14 +185,14 @@ namespace Softeq.XToolkit.Common.Collections
                     Items.Remove(i);
                 }
 
-                OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+                OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
 
                 return;
             }
 
             var changedItems = collection is List<T> ? (List<T>) collection : new List<T>(collection);
             var index = Items.IndexOf(changedItems[0]);
-            
+
             for (var i = 0; i < changedItems.Count; i++)
             {
                 if (!Items.Remove(changedItems[i]))
@@ -202,8 +202,8 @@ namespace Softeq.XToolkit.Common.Collections
                 }
             }
 
-            OnPropertyChanged(new PropertyChangedEventArgs("Count"));
-            OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
+            OnPropertyChanged(EventArgsCache.CountPropertyChanged);
+            OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
             OnCollectionChanged(
                 new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, index));
         }
@@ -214,7 +214,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <param name="item">Item that will added to collection</param>
         public void Replace(T item)
         {
-            ReplaceRange(new[] {item});
+            ReplaceRange(new[] { item });
         }
 
         /// <summary>
@@ -231,5 +231,12 @@ namespace Softeq.XToolkit.Common.Collections
             Items.Clear();
             AddRange(collection, NotifyCollectionChangedAction.Reset);
         }
+    }
+
+    internal static class EventArgsCache
+    {
+        internal static readonly PropertyChangedEventArgs CountPropertyChanged = new PropertyChangedEventArgs("Count");
+        internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = new PropertyChangedEventArgs("Item[]");
+        internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
     }
 }
