@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        /// Not Implemented
+        ///     Not Implemented
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        /// Not Implemented
+        ///     Not Implemented
         /// </summary>
         /// <param name="path"></param>
         /// <param name="newPath"></param>
@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        /// Not Implemented
+        ///     Not Implemented
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -53,33 +53,34 @@ namespace Softeq.XToolkit.Common.Files
             throw new NotImplementedException();
         }
 
-        /// <inheritdoc/>
+        /// <inheritdoc />
         public Task<Stream> GetFileContentAsync(string fileName)
         {
             return Task.Run(() =>
-             {
-                 var resourceNames = _assembly.GetManifestResourceNames();
+            {
+                var resourceNames = _assembly.GetManifestResourceNames();
 
-                 var resourcePaths = resourceNames
-                     .Where(x => x.EndsWith(fileName, StringComparison.CurrentCultureIgnoreCase))
-                     .ToArray();
+                var resourcePaths = resourceNames
+                    .Where(x => x.EndsWith(fileName, StringComparison.CurrentCultureIgnoreCase))
+                    .ToArray();
 
-                 if (!resourcePaths.Any())
-                 {
-                     throw new Exception($"Resource ending with {fileName} not found.");
-                 }
-                 if (resourcePaths.Count() > 1)
-                 {
-                     throw new Exception(
-                         $"Multiple resources ending with {fileName} found: {Environment.NewLine}{string.Join(Environment.NewLine, resourcePaths)}");
-                 }
+                if (!resourcePaths.Any())
+                {
+                    throw new Exception($"Resource ending with {fileName} not found.");
+                }
 
-                 return _assembly.GetManifestResourceStream(resourcePaths.Single());
-             });
+                if (resourcePaths.Count() > 1)
+                {
+                    throw new Exception(
+                        $"Multiple resources ending with {fileName} found: {Environment.NewLine}{string.Join(Environment.NewLine, resourcePaths)}");
+                }
+
+                return _assembly.GetManifestResourceStream(resourcePaths.Single());
+            });
         }
 
         /// <summary>
-        /// Not Implemented
+        ///     Not Implemented
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -90,7 +91,7 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        /// Not Implemented
+        ///     Not Implemented
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -101,7 +102,7 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        /// Not Implemented
+        ///     Not Implemented
         /// </summary>
         /// <param name="str"></param>
         /// <param name="stream"></param>

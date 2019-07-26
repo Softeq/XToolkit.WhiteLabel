@@ -11,23 +11,24 @@ using Softeq.XToolkit.Common.EventArguments;
 
 namespace Softeq.XToolkit.Common.Collections
 {
-    /// <summary> 
-    /// Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed. 
-    /// </summary> 
+    /// <summary>
+    ///     Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is
+    ///     refreshed.
+    /// </summary>
     /// <typeparam name="T">The element type of the collection</typeparam>
     public class ObservableRangeCollection<T> : ObservableCollection<T>
     {
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1"/> class.
+        ///     Initializes a new instance of the
+        ///     <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1" /> class.
         /// </summary>
         public ObservableRangeCollection()
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the
-        /// <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1"/> class that contains
+        ///     Initializes a new instance of the
+        ///     <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1" /> class that contains
         ///     elements copied from the specified collection.
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
@@ -123,7 +124,7 @@ namespace Softeq.XToolkit.Common.Collections
         ///     Insert the elements of the specified collection and sort the collection.
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <param name="comparer">Method that compares <typeparamref name="T"/> objects</param>
+        /// <param name="comparer">Method that compares <typeparamref name="T" /> objects</param>
         /// <returns>Inserted items indexes</returns>
         public IList<int> InsertRangeSorted(IEnumerable<T> collection, Comparison<T> comparer)
         {
@@ -237,6 +238,8 @@ namespace Softeq.XToolkit.Common.Collections
     {
         internal static readonly PropertyChangedEventArgs CountPropertyChanged = new PropertyChangedEventArgs("Count");
         internal static readonly PropertyChangedEventArgs IndexerPropertyChanged = new PropertyChangedEventArgs("Item[]");
-        internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+
+        internal static readonly NotifyCollectionChangedEventArgs ResetCollectionChanged =
+            new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
     }
 }

@@ -33,6 +33,7 @@ namespace Softeq.XToolkit.Bindings
         private readonly SimpleConverter _converter = new SimpleConverter();
         private readonly List<IWeakEventListener> _listeners = new List<IWeakEventListener>();
         private readonly Expression<Func<TSource>> _sourcePropertyExpression;
+        private readonly Func<TSource> _sourcePropertyFunc;
         private readonly string _sourcePropertyName;
         private readonly Expression<Func<TTarget>> _targetPropertyExpression;
         private readonly string _targetPropertyName;
@@ -40,17 +41,16 @@ namespace Softeq.XToolkit.Bindings
         public readonly Dictionary<string, DelegateInfo> TargetHandlers = new Dictionary<string, DelegateInfo>();
         private bool _isFallbackValueActive;
         private WeakAction _onSourceUpdate;
+        private WeakAction<TSource> _onSourceUpdateWithParameter;
         private bool _resolveTopField;
         private bool _settingSourceToTarget;
         private bool _settingTargetToSource;
         private PropertyInfo _sourceProperty;
+        private WeakFunc<TSource, Task> _sourceUpdateFunctionWithParameter;
         private PropertyInfo _targetProperty;
+        private IConverter<TTarget, TSource> _valueConverter;
         protected WeakReference PropertySource;
         protected WeakReference PropertyTarget;
-        private IConverter<TTarget, TSource> _valueConverter;
-        private WeakAction<TSource> _onSourceUpdateWithParameter;
-        private readonly Func<TSource> _sourcePropertyFunc;
-        private WeakFunc<TSource, Task> _sourceUpdateFunctionWithParameter;
 
         /// <summary>
         ///     Initializes a new instance of the Binding class for which the source and target properties
@@ -89,8 +89,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             string targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             Mode = mode;
             FallbackValue = fallbackValue;
@@ -160,8 +160,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
             : this(
                 source,
                 sourcePropertyExpression,
@@ -181,8 +181,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             Mode = mode;
             FallbackValue = fallbackValue;
@@ -225,7 +225,7 @@ namespace Softeq.XToolkit.Bindings
                 if (PropertySource == null
                     || !PropertySource.IsAlive)
                 {
-                    return default(TTarget);
+                    return default;
                 }
 
                 var type = PropertySource.Target.GetType();
@@ -1261,7 +1261,7 @@ namespace Softeq.XToolkit.Bindings
         {
             if (_sourceProperty == null)
             {
-                return default(TTarget);
+                return default;
             }
 
             var sourceValue = (TSource) _sourceProperty.GetValue(PropertySource.Target, null);
@@ -1550,7 +1550,7 @@ namespace Softeq.XToolkit.Bindings
                 }
                 catch (Exception)
                 {
-                    return default(TTarget);
+                    return default;
                 }
             }
 
@@ -1568,7 +1568,7 @@ namespace Softeq.XToolkit.Bindings
                 }
                 catch (Exception)
                 {
-                    return default(TSource);
+                    return default;
                 }
             }
 
@@ -1592,8 +1592,9 @@ namespace Softeq.XToolkit.Bindings
                     {
                         if (value == null)
                         {
-                            return default(TTo);
+                            return default;
                         }
+
                         notNullableValue = System.Convert.ChangeType(value, notNullableFromType);
                     }
 
@@ -1602,7 +1603,7 @@ namespace Softeq.XToolkit.Bindings
                 }
                 catch (Exception)
                 {
-                    return default(TTo);
+                    return default;
                 }
             }
         }

@@ -12,11 +12,9 @@ namespace Softeq.XToolkit.Common.Collections
     public class ObservableKeyGroupsCollection<TKey, TValue> :
         ObservableRangeCollection<ObservableKeyGroup<TKey, TValue>>, INotifyGroupCollectionChanged
     {
-        private readonly Func<TValue, TKey> _defaultSelector;
         private readonly Comparison<TKey> _defaultKeyComparison;
+        private readonly Func<TValue, TKey> _defaultSelector;
         private readonly Comparison<TValue> _defaultValueComparison;
-
-        public event EventHandler<NotifyKeyGroupsCollectionChangedEventArgs> ItemsChanged;
 
         public ObservableKeyGroupsCollection(Func<TValue, TKey> selector = null,
             Comparison<TKey> keyComparison = null,
@@ -31,6 +29,8 @@ namespace Softeq.XToolkit.Common.Collections
         public ObservableRangeCollection<TKey> Keys { get; }
 
         public IEnumerable<TValue> Values => Items.SelectMany(x => x);
+
+        public event EventHandler<NotifyKeyGroupsCollectionChangedEventArgs> ItemsChanged;
 
         public void AddRangeToGroups<T>(IList<T> listItem, Func<T, TValue> itemSelector,
             Func<T, TKey> keySelector = null)
@@ -308,7 +308,7 @@ namespace Softeq.XToolkit.Common.Collections
         public void RemoveAllFromGroups(IEnumerable<TValue> items)
         {
             var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
-            for (int sectionIndex = Count - 1; sectionIndex >= 0; sectionIndex--)
+            for (var sectionIndex = Count - 1; sectionIndex >= 0; sectionIndex--)
             {
                 var section = Items[sectionIndex];
                 var indexesToRemove =
@@ -318,7 +318,7 @@ namespace Softeq.XToolkit.Common.Collections
                     continue;
                 }
 
-                for (int j = indexesToRemove.Count - 1; j >= 0; j--)
+                for (var j = indexesToRemove.Count - 1; j >= 0; j--)
                 {
                     section.RemoveAt(indexesToRemove[j]);
                 }
@@ -343,10 +343,10 @@ namespace Softeq.XToolkit.Common.Collections
             if (predicate != null)
             {
                 var section = this.FirstOrDefault(x => x.Any(predicate));
-                return section != null ? section.FirstOrDefault(predicate) : default(TValue);
+                return section != null ? section.FirstOrDefault(predicate) : default;
             }
 
-            return Count > 0 ? this.First(x => x.Count > 0).FirstOrDefault() : default(TValue);
+            return Count > 0 ? this.First(x => x.Count > 0).FirstOrDefault() : default;
         }
 
         private Func<TValue, TKey> GetSelector(Func<TValue, TKey> selector = null)
@@ -406,7 +406,7 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        /// Union for groups with items.
+        ///     Union for groups with items.
         /// </summary>
         /// <param name="newCollection">Sorted group collection.</param>
         /// <param name="itemComparer">Item comparer.</param>

@@ -19,7 +19,8 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object.
+        ///     Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent
+        ///     enumerated object.
         /// </summary>
         /// <returns>An object of type enumType whose value is represented by value.</returns>
         /// <param name="value">A string containing the name or value to convert..</param>
@@ -30,7 +31,8 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent enumerated object.
+        ///     Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent
+        ///     enumerated object.
         /// </summary>
         /// <returns>An object of type enumType whose value is represented by value.</returns>
         /// <param name="value">A string containing the name or value to convert..</param>
@@ -55,7 +57,7 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Returns <see cref="DescriptionAttribute"/> value of Enum.
+        ///     Returns <see cref="DescriptionAttribute" /> value of Enum.
         /// </summary>
         /// <param name="value">Enum.</param>
         /// <returns>String of description.</returns>
@@ -78,7 +80,7 @@ namespace Softeq.XToolkit.Common.Extensions
             {
                 return attr.Description;
             }
-            
+
             return null;
         }
     }

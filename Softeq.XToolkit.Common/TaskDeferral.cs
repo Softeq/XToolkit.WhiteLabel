@@ -10,8 +10,8 @@ namespace Softeq.XToolkit.Common
 {
     public class TaskDeferral<T>
     {
-        private readonly SemaphoreSlim _semaphoreSlim;
         private readonly ConcurrentQueue<TaskCompletionSource<T>> _queue;
+        private readonly SemaphoreSlim _semaphoreSlim;
 
         public TaskDeferral()
         {
@@ -43,12 +43,12 @@ namespace Softeq.XToolkit.Common
             }
             catch
             {
-                result = default(T);
+                result = default;
             }
 
             while (_queue.Count != 0)
             {
-                if (_queue.TryDequeue(out TaskCompletionSource<T> item))
+                if (_queue.TryDequeue(out var item))
                 {
                     item.SetResult(result);
                 }
