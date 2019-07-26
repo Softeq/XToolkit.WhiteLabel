@@ -7,12 +7,12 @@ using Android.Views;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Extensions
 {
-    public static class BottomNavigationViewExtension 
+    public static class BottomNavigationViewExtensions
     {
         public static int GetIndex(this BottomNavigationView bottomNavigationView, IMenuItem menuItem)
         {
             var menu = bottomNavigationView.Menu;
-            for(var i = 0; i < bottomNavigationView.Menu.Size(); i++)
+            for (var i = 0; i < bottomNavigationView.Menu.Size(); i++)
             {
                 var item = menu.GetItem(i);
                 if (ReferenceEquals(menuItem, item))
