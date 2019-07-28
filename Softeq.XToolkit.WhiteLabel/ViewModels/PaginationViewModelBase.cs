@@ -1,13 +1,13 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Linq;
-using System.Windows.Input;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Command;
+using System.Windows.Input;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.Models;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;

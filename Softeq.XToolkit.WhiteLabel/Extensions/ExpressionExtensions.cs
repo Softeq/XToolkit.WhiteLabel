@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
             var lambda = (LambdaExpression) expression;
 
             MemberExpression memberExpression;
-            
+
             if (lambda.Body is UnaryExpression unaryExpression)
             {
                 memberExpression = (MemberExpression) unaryExpression.Operand;

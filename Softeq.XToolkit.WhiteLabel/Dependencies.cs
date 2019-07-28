@@ -5,7 +5,6 @@ using System;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 

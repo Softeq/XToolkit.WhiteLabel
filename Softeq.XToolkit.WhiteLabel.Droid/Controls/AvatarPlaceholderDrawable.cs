@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
                     x,
                     y,
                     x + sizeInPixels.Width,
-                    y + sizeInPixels.Height); 
+                    y + sizeInPixels.Height);
 
                 SetAvatarTextValues();
             }

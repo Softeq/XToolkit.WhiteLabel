@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
         {
             int i = 0;
 
-            foreach(var tabViewModel in ViewModel.TabViewModels)
+            foreach (var tabViewModel in ViewModel.TabViewModels)
             {
                 var iconId = GetImageResourceId(tabViewModel.ImageKey);
 

@@ -5,8 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
 

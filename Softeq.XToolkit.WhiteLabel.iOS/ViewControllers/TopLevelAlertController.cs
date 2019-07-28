@@ -23,14 +23,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
         {
             var rootViewController = new UIViewController();
             rootViewController.View.BackgroundColor = UIColor.Clear;
-                
+
             _alertWindow = new UIWindow(UIScreen.MainScreen.Bounds)
             {
                 WindowLevel = UIWindowLevel.Alert + 1,
                 RootViewController = rootViewController
             };
             _alertWindow.MakeKeyAndVisible();
-                
+
             rootViewController.PresentViewController(this, true, null);
         }
     }

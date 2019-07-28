@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.IO;
+using System.IO;
 using System.Threading.Tasks;
 using Android.Graphics;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;

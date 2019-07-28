@@ -4,8 +4,8 @@
 using AVFoundation;
 using AVKit;
 using Foundation;
-using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services

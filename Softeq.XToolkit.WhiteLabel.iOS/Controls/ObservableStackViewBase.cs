@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
                 if (ArrangedSubviews.Length > i)
                 {
-                    view = (TView)ArrangedSubviews[i];
+                    view = (TView) ArrangedSubviews[i];
                     _refreshBindingAction?.Invoke(item, view);
                 }
                 else
@@ -99,7 +99,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         {
             if (index < ArrangedSubviews.Length)
             {
-                return (TView)ArrangedSubviews[index];
+                return (TView) ArrangedSubviews[index];
             }
 
             return null;

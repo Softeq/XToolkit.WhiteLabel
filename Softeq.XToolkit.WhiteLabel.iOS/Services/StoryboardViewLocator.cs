@@ -7,8 +7,8 @@ using System.Linq;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
-using UIKit;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {

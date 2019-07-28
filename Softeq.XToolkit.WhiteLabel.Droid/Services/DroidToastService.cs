@@ -122,7 +122,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             }
         }
     }
-    
+
     public class ToastModel
     {
         public string Label { get; set; }

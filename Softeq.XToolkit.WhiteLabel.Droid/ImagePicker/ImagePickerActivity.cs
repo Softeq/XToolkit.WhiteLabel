@@ -14,9 +14,9 @@ using Android.Provider;
 using Android.Runtime;
 using Android.Support.V4.Content;
 using Plugin.CurrentActivity;
-using ImageOrientation = Android.Media.Orientation;
-using Debug = System.Diagnostics.Debug;
 using AUri = Android.Net.Uri;
+using Debug = System.Diagnostics.Debug;
+using ImageOrientation = Android.Media.Orientation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 {

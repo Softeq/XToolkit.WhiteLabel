@@ -4,10 +4,10 @@
 using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
-using Softeq.XToolkit.Bindings.Abstract;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {

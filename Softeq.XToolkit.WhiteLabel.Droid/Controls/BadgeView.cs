@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Android;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
@@ -41,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public ColorStateList BackgroundColor
         {
-            get => ((GradientDrawable)_textView.Background).Color;
+            get => ((GradientDrawable) _textView.Background).Color;
             set => ((GradientDrawable) _textView.Background).SetColor(value);
         }
 

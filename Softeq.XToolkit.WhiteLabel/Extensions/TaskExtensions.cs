@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
         /// <typeparam name="T">Type of Task result.</typeparam>
         public static void ContinueOnUIThread<T>(this Task<T> task, Action<T> action)
         {
-            task.ContinueWith(t => Execute.BeginOnUIThread(() => 
+            task.ContinueWith(t => Execute.BeginOnUIThread(() =>
             {
                 action(t.Result);
             })).ConfigureAwait(false);

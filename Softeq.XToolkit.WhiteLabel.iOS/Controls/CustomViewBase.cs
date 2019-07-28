@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
             var left = view.LeftAnchor.ConstraintEqualTo(LeftAnchor);
             var top = view.TopAnchor.ConstraintEqualTo(TopAnchor);
             var bottom = view.BottomAnchor.ConstraintEqualTo(BottomAnchor);
-            NSLayoutConstraint.ActivateConstraints(new[] {right, left, top, bottom});
+            NSLayoutConstraint.ActivateConstraints(new[] { right, left, top, bottom });
         }
     }
 }

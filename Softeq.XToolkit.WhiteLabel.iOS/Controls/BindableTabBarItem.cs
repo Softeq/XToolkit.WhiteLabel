@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
