@@ -2,12 +2,12 @@
 // http://www.softeq.com
 
 using System;
-using Softeq.XToolkit.Bindings.iOS;
-using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.WhiteLabel.iOS;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Playground.iOS.Views;
 using Playground.ViewModels;
+using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Bindings.iOS;
+using Softeq.XToolkit.WhiteLabel.iOS;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.iOS.ViewControllers
 {
