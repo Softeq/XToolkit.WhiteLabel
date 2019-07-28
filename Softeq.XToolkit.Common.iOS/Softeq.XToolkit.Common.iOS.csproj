@@ -38,10 +38,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Controls\" />
-    <Folder Include="Helpers\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Extensions\UIImageExtensions.cs" />
     <Compile Include="Helpers\LocaleHelper.cs" />

@@ -139,16 +139,6 @@
     <ImageAsset Include="Assets.xcassets\icSettings.imageset\icSettings%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="ViewControllers\" />
-    <Folder Include="Views\" />
-    <Folder Include="ViewControllers\Components\" />
-    <Folder Include="ViewControllers\Collections\" />
-    <Folder Include="ViewControllers\BottomTabs\" />
-    <Folder Include="ViewControllers\BottomTabs\First\" />
-    <Folder Include="ViewControllers\BottomTabs\Second\" />
-  </ItemGroup>
-  <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
     <InterfaceDefinition Include="Views\MainPageGroupHeaderViewCell.xib" />

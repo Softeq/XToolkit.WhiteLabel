@@ -48,10 +48,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="ImagePicker\" />
-    <Folder Include="ViewControllers\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="AppDelegateBase.cs" />
     <Compile Include="Controls\CustomViewBase.cs" />
     <Compile Include="Controls\GradientView.cs" />

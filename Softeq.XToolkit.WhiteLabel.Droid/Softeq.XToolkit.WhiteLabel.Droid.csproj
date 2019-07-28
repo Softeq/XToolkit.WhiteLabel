@@ -139,14 +139,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\layout\" />
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\values\" />
-    <Folder Include="ViewComponents\" />
-    <Folder Include="Views\" />
-    <Folder Include="ImagePicker\" />
-  </ItemGroup>
-  <ItemGroup>
     <AndroidResource Include="Resources\layout\control_navigation_bar.xml" />
     <AndroidResource Include="Resources\drawable\core_nav_bar_background.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
