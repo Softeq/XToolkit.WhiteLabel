@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.WhiteLabel.ImagePicker
 {
+    [Obsolete("Use IImagePickerService")]
     public class ImagePickerArgs
     {
         public string ImageCacheKey { get; set; }

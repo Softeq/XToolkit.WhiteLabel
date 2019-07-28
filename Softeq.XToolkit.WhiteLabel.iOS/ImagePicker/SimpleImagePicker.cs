@@ -18,6 +18,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
+    [Obsolete("Use IImagePickerService")]
     public class SimpleImagePicker : ObservableObject
     {
         private readonly IPermissionsManager _permissionsManager;

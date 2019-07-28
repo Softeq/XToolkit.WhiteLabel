@@ -13,6 +13,7 @@ using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
+    [Obsolete("Use WhiteLabel.ImagePicker.IImagePickerService")]
     public interface IImagePickerService
     {
         Task<string> PickImageAsync();
