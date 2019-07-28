@@ -67,12 +67,12 @@ namespace Softeq.XToolkit.Permissions.iOS
             }
 
             var permissionStatus = await _permissionsService.RequestPermissionsAsync<NotificationsPermission>().ConfigureAwait(false);
-            
+
             if (IsNotificationsPermissionRequested && permissionStatus != PermissionStatus.Granted)
             {
                 permissionStatus = await OpenSettingsWithConfirmationAsync<NotificationsPermission>().ConfigureAwait(false);
             }
-            
+
             IsNotificationsPermissionRequested = true;
 
             return permissionStatus;
