@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         public async Task<bool> RequestNotificationsPermissions()
         {
-            var (isGranted, _) =  await UNUserNotificationCenter.Current.RequestAuthorizationAsync(RequiredAuthOptions);
+            var (isGranted, _) = await UNUserNotificationCenter.Current.RequestAuthorizationAsync(RequiredAuthOptions);
             return isGranted;
         }
     }
