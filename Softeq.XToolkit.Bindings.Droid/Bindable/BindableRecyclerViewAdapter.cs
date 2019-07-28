@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             base.OnBindViewHolder(holder, position);
 
             var bindableViewHolder = (IBindableViewHolder) holder;
-            
+
             bindableViewHolder.ItemClicked -= OnItemViewClick;
             bindableViewHolder.ItemClicked += OnItemViewClick;
         }
@@ -75,14 +75,14 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             base.OnViewAttachedToWindow(holder);
 
             var bindableViewHolder = (IBindableViewHolder) holder;
-            
+
             bindableViewHolder.OnAttachedToWindow();
         }
 
         public override void OnViewDetachedFromWindow(Java.Lang.Object holder)
         {
             var bindableViewHolder = (IBindableViewHolder) holder;
-            
+
             bindableViewHolder.OnDetachedFromWindow();
 
             base.OnViewDetachedFromWindow(holder);
@@ -91,7 +91,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         public override void OnViewRecycled(Java.Lang.Object holder)
         {
             var bindableViewHolder = (IBindableViewHolder) holder;
-            
+
             bindableViewHolder.ItemClicked -= OnItemViewClick;
             bindableViewHolder.OnViewRecycled();
         }
@@ -104,7 +104,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         protected virtual void OnItemViewClick(object sender, EventArgs e)
         {
             var bindableViewHolder = (IBindableViewHolder) sender;
-            
+
             ExecuteCommandOnItem(ItemClick, bindableViewHolder.DataContext);
         }
 
@@ -119,7 +119,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         private static void SetDataContext(RecyclerView.ViewHolder viewHolder, int viewType, TViewModel viewModel)
         {
             var bindable = (IBindable) viewHolder;
-            
+
             bindable.SetDataContext(viewModel);
         }
     }

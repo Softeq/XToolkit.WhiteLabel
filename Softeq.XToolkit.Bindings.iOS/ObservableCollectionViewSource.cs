@@ -160,7 +160,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// <returns>The created and initialised <see cref="UICollectionViewCell" />.</returns>
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (TCell)collectionView.DequeueReusableCell(NsReuseId, indexPath);
+            var cell = (TCell) collectionView.DequeueReusableCell(NsReuseId, indexPath);
 
             try
             {
@@ -298,7 +298,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                     "BindCell was called but no BindCellDelegate was found");
             }
 
-            BindCellDelegate((TCell)cell, (TItem)item, indexPath);
+            BindCellDelegate((TCell) cell, (TItem) item, indexPath);
         }
 
         /// <summary>

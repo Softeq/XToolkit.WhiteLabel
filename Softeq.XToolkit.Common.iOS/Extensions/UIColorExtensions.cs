@@ -50,14 +50,13 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         public static string ToHex(this UIColor color)
         {
             color.GetRGBA(out nfloat r, out nfloat g, out nfloat b, out nfloat a);
-            
 
             return $"#{ToHexPart(r)}{ToHexPart(g)}{ToHexPart(b)}";
         }
 
         private static string ToHexPart(nfloat value)
         {
-            return ((int)(value * 256)).ToString("X2");
+            return ((int) (value * 256)).ToString("X2");
         }
     }
 }

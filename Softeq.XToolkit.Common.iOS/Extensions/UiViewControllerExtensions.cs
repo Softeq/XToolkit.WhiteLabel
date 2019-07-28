@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             var top = view.TopAnchor.ConstraintEqualTo(parent.TopAnchor);
             var bottom = view.BottomAnchor.ConstraintEqualTo(parent.BottomAnchor);
 
-            NSLayoutConstraint.ActivateConstraints(new[] {right, left, top, bottom});
+            NSLayoutConstraint.ActivateConstraints(new[] { right, left, top, bottom });
         }
 
         public static void AddAsChildWithConstraints(this UIViewController child, UIViewController parent,

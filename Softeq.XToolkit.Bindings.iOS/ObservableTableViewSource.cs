@@ -395,7 +395,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
             else
             {
-                BindCellDelegate(cell, (TItem)item, indexPath);
+                BindCellDelegate(cell, (TItem) item, indexPath);
             }
         }
 

@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
     {
         public static bool Is24HourFormat
         {
-            get 
+            get
             {
                 var template = NSDateFormatter.GetDateFormatFromTemplate("j", 0, NSLocale.CurrentLocale);
                 return !template.Contains("a");

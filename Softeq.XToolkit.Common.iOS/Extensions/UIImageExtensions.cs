@@ -37,8 +37,8 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 return sourceImage;
             }
 
-            var width = (float)(maxResizeFactor * sourceSize.Width);
-            var height = (float)(maxResizeFactor * sourceSize.Height);
+            var width = (float) (maxResizeFactor * sourceSize.Width);
+            var height = (float) (maxResizeFactor * sourceSize.Height);
 
             UIGraphics.BeginImageContext(new SizeF(width, height));
             sourceImage.Draw(new RectangleF(0, 0, width, height));
@@ -78,7 +78,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 : new CGRect(0, 0, image.Size.Height, image.Size.Width);
             var view = new UIView(rect);
 
-            var radians = degree * (float)Math.PI / 180;
+            var radians = degree * (float) Math.PI / 180;
             var t = CGAffineTransform.MakeRotation(radians);
             view.Transform = t;
 

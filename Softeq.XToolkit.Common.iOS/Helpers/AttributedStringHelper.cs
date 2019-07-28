@@ -1,11 +1,11 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.Generic;
-using Softeq.XToolkit.Common.Extensions;
-using Foundation;
-using UIKit;
 using System;
+using System.Collections.Generic;
+using Foundation;
+using Softeq.XToolkit.Common.Extensions;
+using UIKit;
 
 namespace Softeq.XToolkit.Common.iOS.Helpers
 {
