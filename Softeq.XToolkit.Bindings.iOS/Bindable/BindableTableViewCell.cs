@@ -3,8 +3,8 @@
 
 using System;
 using System.Collections.Generic;
-using UIKit;
 using Softeq.XToolkit.Bindings.Abstract;
+using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {

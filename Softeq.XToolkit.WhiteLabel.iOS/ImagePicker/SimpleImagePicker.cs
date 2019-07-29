@@ -6,7 +6,6 @@ using System.Drawing;
 using System.IO;
 using System.Threading.Tasks;
 using FFImageLoading;
-using Foundation;
 using MobileCoreServices;
 using Plugin.Permissions;
 using Softeq.XToolkit.Common;
@@ -19,6 +18,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
+    [Obsolete("Use IImagePickerService")]
     public class SimpleImagePicker : ObservableObject
     {
         private readonly IPermissionsManager _permissionsManager;
@@ -51,8 +51,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             get
             {
-                _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
-                    (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
+                _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
+                    (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
 
                 Func<(Task<Stream>, string)> func = () =>
                 {
@@ -146,8 +146,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 imageExtension = ImageExtension.Jpg;
             }
 
-            _calculatedImageSize = new Size((int)(MaxImageWidth / UIScreen.MainScreen.Scale),
-                (int)(MaxImageHeight / UIScreen.MainScreen.Scale));
+            _calculatedImageSize = new Size((int) (MaxImageWidth / UIScreen.MainScreen.Scale),
+                (int) (MaxImageHeight / UIScreen.MainScreen.Scale));
 
             var func = default(Func<Task<Stream>>);
 

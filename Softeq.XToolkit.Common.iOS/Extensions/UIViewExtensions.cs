@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
     public static class UIViewExtensions
     {
         /// <summary>
-        /// UIView with the coloured border.
+        ///     UIView with the coloured border.
         /// </summary>
         /// <returns>UIView with border</returns>
         /// <param name="view">View.</param>
@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         }
 
         /// <summary>
-        /// Use it in LayoutSubviews method
+        ///     Use it in LayoutSubviews method
         /// </summary>
         /// <param name="view">View.</param>
         /// <param name="corners">Corners.</param>

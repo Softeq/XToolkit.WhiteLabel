@@ -10,11 +10,12 @@ using Android.Views;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
+using Object = Java.Lang.Object;
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {
     /// <summary>
-    /// Bindable RecyclerViewAdapter
+    ///     Bindable RecyclerViewAdapter
     /// </summary>
     /// <typeparam name="TViewModel">Item ViewModel</typeparam>
     /// <typeparam name="TViewHolder">Item ViewHolder</typeparam>
@@ -65,46 +66,49 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             base.OnBindViewHolder(holder, position);
 
             var bindableViewHolder = (IBindableViewHolder) holder;
-            
+
             bindableViewHolder.ItemClicked -= OnItemViewClick;
             bindableViewHolder.ItemClicked += OnItemViewClick;
         }
 
-        public override void OnViewAttachedToWindow(Java.Lang.Object holder)
+        public override void OnViewAttachedToWindow(Object holder)
         {
             base.OnViewAttachedToWindow(holder);
 
             var bindableViewHolder = (IBindableViewHolder) holder;
-            
+
             bindableViewHolder.OnAttachedToWindow();
         }
 
-        public override void OnViewDetachedFromWindow(Java.Lang.Object holder)
+        public override void OnViewDetachedFromWindow(Object holder)
         {
             var bindableViewHolder = (IBindableViewHolder) holder;
-            
+
             bindableViewHolder.OnDetachedFromWindow();
 
             base.OnViewDetachedFromWindow(holder);
         }
 
-        public override void OnViewRecycled(Java.Lang.Object holder)
+        public override void OnViewRecycled(Object holder)
         {
             var bindableViewHolder = (IBindableViewHolder) holder;
-            
+
             bindableViewHolder.ItemClicked -= OnItemViewClick;
             bindableViewHolder.OnViewRecycled();
         }
 
         /// <summary>
-        /// By default, force recycling a view if it has animations
+        ///     By default, force recycling a view if it has animations
         /// </summary>
-        public override bool OnFailedToRecycleView(Java.Lang.Object holder) => true;
+        public override bool OnFailedToRecycleView(Object holder)
+        {
+            return true;
+        }
 
         protected virtual void OnItemViewClick(object sender, EventArgs e)
         {
             var bindableViewHolder = (IBindableViewHolder) sender;
-            
+
             ExecuteCommandOnItem(ItemClick, bindableViewHolder.DataContext);
         }
 
@@ -119,7 +123,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         private static void SetDataContext(RecyclerView.ViewHolder viewHolder, int viewType, TViewModel viewModel)
         {
             var bindable = (IBindable) viewHolder;
-            
+
             bindable.SetDataContext(viewModel);
         }
     }

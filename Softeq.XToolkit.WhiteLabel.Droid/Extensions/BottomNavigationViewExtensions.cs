@@ -20,6 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Extensions
                     return i;
                 }
             }
+
             throw new Exception("MenuItem not found");
         }
     }

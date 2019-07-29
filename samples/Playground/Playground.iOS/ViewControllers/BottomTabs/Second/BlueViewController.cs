@@ -17,7 +17,7 @@ namespace Playground.iOS.ViewControllers.BottomTabs.Second
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            
+
             Button.SetCommand(ViewModel.NavigateCommand);
         }
     }

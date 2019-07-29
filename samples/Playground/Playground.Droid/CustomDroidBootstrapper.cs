@@ -1,14 +1,13 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Softeq.XToolkit.Permissions;
+using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Services;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.Permissions.Droid;
 
 namespace Playground.Droid
 {

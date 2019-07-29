@@ -17,7 +17,6 @@ using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Permission = Android.Content.PM.Permission;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
@@ -31,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
-        public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
+        public List<IViewComponent<ActivityBase>> ViewComponents { get; }
 
         public override void OnBackPressed()
         {
@@ -82,8 +81,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             });
         }
 
-        public List<Binding> Bindings { get; }
-
         protected virtual TViewModel ViewModel
         {
             get
@@ -92,9 +89,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 {
                     throw new Exception("Don't forget to detach last ViewModel bindings.");
                 }
+
                 return _viewModelLazy.Value;
             }
         }
+
+        public List<Binding> Bindings { get; }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

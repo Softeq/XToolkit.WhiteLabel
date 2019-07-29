@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             return NSDate.FromTimeIntervalSinceReferenceDate(
                 (date - reference).TotalSeconds);
         }
-        
+
         public static NSDate ToNSDateLocal(this DateTimeOffset dateTimeOffset)
         {
             var timeSpan = dateTimeOffset - new DateTimeOffset(2001, 1, 1, 0, 0, 0, DateTimeOffset.UtcNow.Offset);

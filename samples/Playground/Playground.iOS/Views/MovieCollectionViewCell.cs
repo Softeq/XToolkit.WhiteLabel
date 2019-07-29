@@ -4,10 +4,10 @@
 using System;
 using FFImageLoading;
 using Foundation;
-using UIKit;
-using Softeq.XToolkit.Bindings.iOS.Bindable;
-using Softeq.XToolkit.Bindings.Extensions;
 using Playground.Models;
+using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
+using UIKit;
 
 namespace Playground.iOS.Views
 {

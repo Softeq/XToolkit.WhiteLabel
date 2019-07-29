@@ -1,9 +1,9 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Playground.Models;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Playground.Models;
 
 namespace Playground.ViewModels.Pages
 {

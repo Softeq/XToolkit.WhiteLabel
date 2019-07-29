@@ -60,7 +60,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
                 }
                 catch (Exception ex)
                 {
-
                 }
             }
 

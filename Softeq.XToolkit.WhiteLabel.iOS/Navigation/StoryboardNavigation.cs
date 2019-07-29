@@ -48,6 +48,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             {
                 viewModel.FrameNavigationService = this as IFrameNavigationService;
             }
+
             Navigate(ViewLocator.GetView(viewModelBase), clearBackStack);
         }
 

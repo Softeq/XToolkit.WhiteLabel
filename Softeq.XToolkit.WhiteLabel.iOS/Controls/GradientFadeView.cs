@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         {
             var topColor = IsFromTopToBottom ? _mainColor.CGColor : _mainColor.ColorWithAlpha(0).CGColor;
             var bottomColor = !IsFromTopToBottom ? _mainColor.CGColor : _mainColor.ColorWithAlpha(0).CGColor;
-            GradientLayer.Colors = new[] {topColor, bottomColor};
+            GradientLayer.Colors = new[] { topColor, bottomColor };
         }
     }
 }

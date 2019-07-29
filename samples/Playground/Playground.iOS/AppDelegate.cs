@@ -4,11 +4,11 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Foundation;
-using UIKit;
-using Softeq.XToolkit.WhiteLabel;
-using Softeq.XToolkit.WhiteLabel.iOS;
-using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Playground.ViewModels;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.iOS;
+using UIKit;
 
 namespace Playground.iOS
 {

@@ -158,7 +158,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
                 {
                     foreach (var item in lists[messageType])
                     {
-                        var weakAction = (IExecuteWithObject)item.Action;
+                        var weakAction = (IExecuteWithObject) item.Action;
 
                         if (weakAction != null
                             && recipient == weakAction.Target)

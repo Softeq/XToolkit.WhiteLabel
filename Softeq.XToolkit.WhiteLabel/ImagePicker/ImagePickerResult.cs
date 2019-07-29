@@ -15,27 +15,27 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
     }
 
     /// <summary>
-    /// Image picker result.
+    ///     Image picker result.
     /// </summary>
     public abstract class ImagePickerResult : IDisposable
     {
         /// <summary>
-        /// Quality of image.
+        ///     Quality of image.
         /// </summary>
         public float Quality { get; set; }
 
         /// <summary>
-        /// Platform-specific object of the image.
+        ///     Platform-specific object of the image.
         /// </summary>
         public IDisposable ImageObject { get; set; }
 
         /// <summary>
-        /// Extension of image.
+        ///     Extension of image.
         /// </summary>
         public ImageExtension ImageExtension { get; set; }
 
         /// <summary>
-        /// File extension for image.
+        ///     File extension for image.
         /// </summary>
         public string Extension
         {
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
         }
 
         /// <summary>
-        /// Platform-specific a decode to managed stream.
+        ///     Platform-specific a decode to managed stream.
         /// </summary>
         /// <returns></returns>
         public abstract Task<Stream> GetStream();

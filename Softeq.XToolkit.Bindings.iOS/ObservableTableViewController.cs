@@ -520,7 +520,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             /// <param name="indexPath">The row's NSIndexPath.</param>
             public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
             {
-                var item = _controller._dataSource != null ? _controller._dataSource[indexPath.Row] : default(T2);
+                var item = _controller._dataSource != null ? _controller._dataSource[indexPath.Row] : default;
                 _controller.OnRowSelected(item, indexPath);
             }
 

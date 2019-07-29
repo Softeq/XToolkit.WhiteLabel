@@ -7,7 +7,6 @@ using Foundation;
 using Playground.iOS.Views;
 using Playground.Models;
 using Playground.ViewModels.Collections;
-using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;

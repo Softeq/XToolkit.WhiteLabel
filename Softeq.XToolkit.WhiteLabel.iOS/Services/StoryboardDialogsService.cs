@@ -96,11 +96,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                     Title = title,
                     Message = message
                 };
-                
+
                 var okActionStyle = options?.DialogType == DialogType.Destructive
                     ? UIAlertActionStyle.Destructive
                     : UIAlertActionStyle.Default;
-                
+
                 alertController.AddAction(UIAlertAction.Create(okButtonText, okActionStyle,
                     action => { dialogResult.TrySetResult(true); }));
 

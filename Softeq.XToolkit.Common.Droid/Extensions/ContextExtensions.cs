@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.Lollipop)
             {
-                var powerManager = (PowerManager) (context.GetSystemService(Context.PowerService));
+                var powerManager = (PowerManager) context.GetSystemService(Context.PowerService);
                 return powerManager.IsPowerSaveMode;
             }
 

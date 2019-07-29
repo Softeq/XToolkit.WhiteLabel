@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Interfaces
     public interface IViewControllerProvider
     {
         /// <summary>
-        /// Returns top ViewController except modals.
+        ///     Returns top ViewController except modals.
         /// </summary>
         /// <param name="controller">RootViewController.</param>
         /// <returns></returns>

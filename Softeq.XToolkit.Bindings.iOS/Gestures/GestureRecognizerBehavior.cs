@@ -19,7 +19,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
         protected void AddGestureRecognizer(UIView target, UIGestureRecognizer tap)
         {
             if (!target.UserInteractionEnabled)
+            {
                 target.UserInteractionEnabled = true;
+            }
 
             target.AddGestureRecognizer(tap);
         }

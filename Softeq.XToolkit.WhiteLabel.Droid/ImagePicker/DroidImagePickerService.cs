@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
 using Plugin.CurrentActivity;

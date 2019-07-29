@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections;
 using System.Collections.Specialized;
 using Android.Content;
 using Android.Runtime;
@@ -118,7 +119,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             AddItems(e.NewItems);
         }
 
-        protected void AddItems(System.Collections.IList models)
+        protected void AddItems(IList models)
         {
             foreach (TModel item in models)
             {

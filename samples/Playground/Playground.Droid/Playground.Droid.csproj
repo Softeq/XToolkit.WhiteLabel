@@ -163,23 +163,5 @@
       <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-    <Folder Include="Views\Pages\" />
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\menu\" />
-    <Folder Include="Views\BottomTabs\" />
-    <Folder Include="Views\BottomTabs\Second\" />
-    <Folder Include="Views\BottomTabs\First\" />
-    <Folder Include="Views\Components\" />
-    <Folder Include="Views\Collections\" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-    Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-  -->
 </Project>

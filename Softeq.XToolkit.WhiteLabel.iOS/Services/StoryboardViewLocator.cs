@@ -4,11 +4,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Foundation;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
-using UIKit;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
@@ -85,7 +86,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 Execute.OnUIThread(() =>
                 {
-                    if (Foundation.NSBundle.MainBundle.PathForResource(storyBoardName, "storyboardc") != null)
+                    if (NSBundle.MainBundle.PathForResource(storyBoardName, "storyboardc") != null)
                     {
                         var storyboard = UIStoryboard.FromName(storyBoardName, null);
                         newViewController = storyboard.InstantiateViewController(targetType.Name);

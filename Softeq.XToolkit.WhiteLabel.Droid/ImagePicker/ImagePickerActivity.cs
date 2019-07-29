@@ -3,7 +3,6 @@
 
 using System;
 using System.Globalization;
-using System.IO;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -13,10 +12,13 @@ using Android.OS;
 using Android.Provider;
 using Android.Runtime;
 using Android.Support.V4.Content;
+using Java.IO;
 using Plugin.CurrentActivity;
-using ImageOrientation = Android.Media.Orientation;
-using Debug = System.Diagnostics.Debug;
 using AUri = Android.Net.Uri;
+using Debug = System.Diagnostics.Debug;
+using ImageOrientation = Android.Media.Orientation;
+using IOException = System.IO.IOException;
+using Stream = System.IO.Stream;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 {
@@ -46,12 +48,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                 {
                     _fileUri = fileUri;
                 }
+
                 return;
             }
 
             try
             {
-                switch (Intent.GetIntExtra(ModeKey, default(int)))
+                switch (Intent.GetIntExtra(ModeKey, default))
                 {
                     case CameraMode:
                         CaptureCamera();
@@ -118,6 +121,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                     bitmap = FixRotation(bitmap, new ExifInterface(uri.ToString())).Result;
                 }
             }
+
             OnImagePicked(bitmap);
         }
 
@@ -166,7 +170,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
             try
             {
-                var orientation = (ImageOrientation) exif.GetAttributeInt(ExifInterface.TagOrientation, (int) ImageOrientation.Normal);
+                var orientation =
+                    (ImageOrientation) exif.GetAttributeInt(ExifInterface.TagOrientation, (int) ImageOrientation.Normal);
 
                 switch (orientation)
                 {
@@ -201,14 +206,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             return rotatedImage;
         }
 
-        private System.IO.Stream GetContentStream(Context context, AUri uri)
+        private Stream GetContentStream(Context context, AUri uri)
         {
-            var stream = System.IO.Stream.Null;
+            var stream = Stream.Null;
             try
             {
                 stream = context.ContentResolver.OpenInputStream(uri);
             }
-            catch (Java.IO.FileNotFoundException ex)
+            catch (FileNotFoundException ex)
             {
                 Debug.WriteLine("Unable to save picked file from disk " + ex);
             }
@@ -227,7 +232,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             }
 
             var directory = context.CacheDir;
-            using (var mediaStorageDir = new Java.IO.File(directory, subdir))
+            using (var mediaStorageDir = new File(directory, subdir))
             {
                 if (!mediaStorageDir.Exists())
                 {
@@ -236,14 +241,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                         throw new IOException("Couldn't create directory, have you added the WRITE_EXTERNAL_STORAGE permission?");
                     }
 
-                    using (var nomedia = new Java.IO.File(mediaStorageDir, ".nomedia"))
+                    using (var nomedia = new File(mediaStorageDir, ".nomedia"))
                     {
                         nomedia.CreateNewFile();
                     }
                 }
 
                 return FileProvider.GetUriForFile(context, $"{context.PackageName}.fileprovider",
-                    new Java.IO.File(GetUniquePath(mediaStorageDir.Path, name)));
+                    new File(GetUniquePath(mediaStorageDir.Path, name)));
             }
         }
 
@@ -259,7 +264,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
             var nname = name + ext;
             var i = 1;
-            while (File.Exists(System.IO.Path.Combine(folder, nname)))
+            while (System.IO.File.Exists(System.IO.Path.Combine(folder, nname)))
             {
                 nname = name + "_" + (i++) + ext;
             }
