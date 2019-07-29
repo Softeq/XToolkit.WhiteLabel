@@ -17,6 +17,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     {
         public override UIWindow Window { get; set; }
 
+        protected abstract IBootstrapper Bootstrapper { get; }
+
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             //init factory for bindings
@@ -40,8 +42,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
             return true;
         }
-
-        protected abstract IBootstrapper Bootstrapper { get; }
 
         protected abstract IList<Assembly> SelectAssemblies();
     }

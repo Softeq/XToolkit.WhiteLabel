@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected virtual void InflateMenu()
         {
-            int i = 0;
+            var i = 0;
 
             foreach (var tabViewModel in ViewModel.TabViewModels)
             {
@@ -70,7 +70,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             return Resources.GetIdentifier(iconIdentifier, "drawable", PackageName);
         }
 
-        private void BottomNavigationViewNavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
+        private void BottomNavigationViewNavigationItemSelected(object sender,
+            BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
             var index = BottomNavigationView.GetIndex(e.Item);
             TabSelected(index);

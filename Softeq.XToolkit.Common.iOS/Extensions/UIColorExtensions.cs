@@ -31,6 +31,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                     blue = Convert.ToInt32(string.Format("{0}{0}", colorString.Substring(2, 1)), 16) / 255f;
                     return UIColor.FromRGBA(red, green, blue, alpha);
                 }
+
                 case 6: // #RRGGBB
                 {
                     red = Convert.ToInt32(colorString.Substring(0, 2), 16) / 255f;
@@ -49,7 +50,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
 
         public static string ToHex(this UIColor color)
         {
-            color.GetRGBA(out nfloat r, out nfloat g, out nfloat b, out nfloat a);
+            color.GetRGBA(out var r, out var g, out var b, out var a);
 
             return $"#{ToHexPart(r)}{ToHexPart(g)}{ToHexPart(b)}";
         }

@@ -9,11 +9,11 @@ namespace Softeq.XToolkit.PushNotifications
 {
     public abstract class PushNotificationsServiceBase : IPushNotificationsService
     {
-        protected readonly IRemotePushNotificationsService RemotePushNotificationsService;
-        protected readonly IPushTokenStorageService PushTokenStorageService;
-        protected readonly IPushNotificationsHandler PushNotificationsHandler;
-        protected readonly IPushNotificationParser PushNotificationParser;
         protected readonly ILogger Logger;
+        protected readonly IPushNotificationParser PushNotificationParser;
+        protected readonly IPushNotificationsHandler PushNotificationsHandler;
+        protected readonly IPushTokenStorageService PushTokenStorageService;
+        protected readonly IRemotePushNotificationsService RemotePushNotificationsService;
 
         protected PushNotificationsServiceBase(
             IRemotePushNotificationsService remotePushNotificationsService,
@@ -45,6 +45,7 @@ namespace Softeq.XToolkit.PushNotifications
                 {
                     return PushNotificationsUnregisterResult.Failed;
                 }
+
                 PushTokenStorageService.IsTokenRegisteredInSystem = false;
             }
 
@@ -61,6 +62,7 @@ namespace Softeq.XToolkit.PushNotifications
             {
                 return PushNotificationsUnregisterResult.ServerFailed;
             }
+
             PushTokenStorageService.IsTokenSavedOnServer = false;
 
             // Clear token if it is unregistered both in the system (optional) and on server

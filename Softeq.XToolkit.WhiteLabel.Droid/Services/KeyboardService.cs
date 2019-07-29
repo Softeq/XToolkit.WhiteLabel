@@ -1,8 +1,10 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Android.Content;
 using Android.Views;
 using Android.Views.InputMethods;
+using Plugin.CurrentActivity;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
@@ -16,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             }
 
             view.RequestFocus();
-            var imm = (InputMethodManager) view.Context.GetSystemService(Android.Content.Context.InputMethodService);
+            var imm = (InputMethodManager) view.Context.GetSystemService(Context.InputMethodService);
             imm.ShowSoftInput(view, ShowFlags.Forced);
             imm.ToggleSoftInput(ShowFlags.Forced, HideSoftInputFlags.ImplicitOnly);
         }
@@ -28,13 +30,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
                 return;
             }
 
-            var imm = (InputMethodManager) view.Context.GetSystemService(Android.Content.Context.InputMethodService);
+            var imm = (InputMethodManager) view.Context.GetSystemService(Context.InputMethodService);
             imm.HideSoftInputFromWindow(view.WindowToken, HideSoftInputFlags.None);
         }
 
         public static void HideSoftKeyboard()
         {
-            HideSoftKeyboard(Plugin.CurrentActivity.CrossCurrentActivity.Current.Activity.FindViewById(Android.Resource.Id.Content));
+            HideSoftKeyboard(CrossCurrentActivity.Current.Activity.FindViewById(Android.Resource.Id.Content));
         }
     }
 }

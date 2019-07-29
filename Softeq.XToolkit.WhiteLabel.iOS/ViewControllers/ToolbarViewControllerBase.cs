@@ -38,6 +38,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             {
                 tabBarItem.BadgeColor = BadgeColor;
             }
+
             tabBarItem.SetViewModel(viewModel);
             return tabBarItem;
         }

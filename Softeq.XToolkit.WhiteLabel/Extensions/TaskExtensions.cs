@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
     public static class TaskExtensions
     {
         /// <summary>
-        /// Executes the action on the UI thread asynchronously.
+        ///     Executes the action on the UI thread asynchronously.
         /// </summary>
         /// <param name="task">Task.</param>
         /// <param name="action">The action to execute.</param>
@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
         }
 
         /// <summary>
-        /// Executes the action on the UI thread asynchronously.
+        ///     Executes the action on the UI thread asynchronously.
         /// </summary>
         /// <param name="task">Task.</param>
         /// <param name="action">The action to execute.</param>

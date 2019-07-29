@@ -6,12 +6,12 @@ using Android.Views;
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
     /// <summary>
-    /// Extensions related to <see cref="View" />
+    ///     Extensions related to <see cref="View" />
     /// </summary>
     public static class ViewExtensions
     {
         /// <summary>
-        /// Remove target view from parent.
+        ///     Remove target view from parent.
         /// </summary>
         /// <param name="view">Target view.</param>
         public static void RemoveFromParent(this View view)

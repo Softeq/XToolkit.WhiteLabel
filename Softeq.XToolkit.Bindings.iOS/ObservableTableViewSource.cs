@@ -35,18 +35,6 @@ namespace Softeq.XToolkit.Bindings.iOS
         private TItem _selectedItem;
         private UITableView _view;
 
-        public event EventHandler LastItemRequested;
-
-        /// <summary>
-        /// Called when item was selected
-        /// </summary>
-        public event EventHandler<GenericEventArgs<TItem>> ItemSelected;
-
-        /// <summary>
-        /// Called every time when user clicked by item (select/deselect)
-        /// </summary>
-        public event EventHandler<GenericEventArgs<TItem>> ItemTapped;
-
         /// <summary>
         ///     Constructs and initializes an instance of <see cref="ObservableTableViewSource{TItem}" />
         /// </summary>
@@ -75,8 +63,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         public Action<UITableViewCell, TItem, NSIndexPath> BindCellDelegate { get; set; }
 
         /// <summary>
-        /// A delegate to a method <see cref="CanEditRow" /> of <see cref="UITableViewSource" />.
-        /// This method determines whether a row can be edited in a UITableView.
+        ///     A delegate to a method <see cref="CanEditRow" /> of <see cref="UITableViewSource" />.
+        ///     This method determines whether a row can be edited in a UITableView.
         /// </summary>
         /// <value>The can edit cell delegate. </value>
         public Func<TItem, NSIndexPath, bool> CanEditCellDelegate { get; set; }
@@ -182,6 +170,18 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     Occurs when a property of this instance changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler LastItemRequested;
+
+        /// <summary>
+        ///     Called when item was selected
+        /// </summary>
+        public event EventHandler<GenericEventArgs<TItem>> ItemSelected;
+
+        /// <summary>
+        ///     Called every time when user clicked by item (select/deselect)
+        /// </summary>
+        public event EventHandler<GenericEventArgs<TItem>> ItemTapped;
 
         public void SelectItem(TItem item)
         {
@@ -342,8 +342,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// <param name="indexPath">The row's NSIndexPath.</param>
         public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
         {
-            var item = _dataSource != null ? _dataSource[indexPath.Row] : default(TItem);
-            SelectedItem = default(TItem);
+            var item = _dataSource != null ? _dataSource[indexPath.Row] : default;
+            SelectedItem = default;
             ItemTapped?.Invoke(this, new GenericEventArgs<TItem>(item));
         }
 
@@ -355,7 +355,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// <param name="indexPath">The row's NSIndexPath.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            var item = _dataSource != null ? _dataSource[indexPath.Row] : default(TItem);
+            var item = _dataSource != null ? _dataSource[indexPath.Row] : default;
             SelectedItem = item;
             ItemSelected?.Invoke(this, new GenericEventArgs<TItem>(item));
             ItemTapped?.Invoke(this, new GenericEventArgs<TItem>(item));
@@ -441,54 +441,56 @@ namespace Softeq.XToolkit.Bindings.iOS
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
+                    {
+                        var count = e.NewItems.Count;
+                        var paths = new NSIndexPath[count];
+
+                        for (var i = 0; i < count; i++)
                         {
-                            var count = e.NewItems.Count;
-                            var paths = new NSIndexPath[count];
-
-                            for (var i = 0; i < count; i++)
-                            {
-                                paths[i] = NSIndexPath.FromRowSection(e.NewStartingIndex + i, 0);
-                            }
-
-                            _view.InsertRows(paths, AddAnimation);
+                            paths[i] = NSIndexPath.FromRowSection(e.NewStartingIndex + i, 0);
                         }
+
+                        _view.InsertRows(paths, AddAnimation);
+                    }
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
+                    {
+                        var count = e.OldItems.Count;
+                        var paths = new NSIndexPath[count];
+
+                        for (var i = 0; i < count; i++)
                         {
-                            var count = e.OldItems.Count;
-                            var paths = new NSIndexPath[count];
+                            var index = NSIndexPath.FromRowSection(e.OldStartingIndex + i, 0);
+                            paths[i] = index;
 
-                            for (var i = 0; i < count; i++)
+                            var item = e.OldItems[i];
+
+                            if (Equals(SelectedItem, item))
                             {
-                                var index = NSIndexPath.FromRowSection(e.OldStartingIndex + i, 0);
-                                paths[i] = index;
-
-                                var item = e.OldItems[i];
-
-                                if (Equals(SelectedItem, item))
-                                {
-                                    SelectedItem = default(TItem);
-                                }
+                                SelectedItem = default;
                             }
-
-                            _view.DeleteRows(paths, DeleteAnimation);
                         }
+
+                        _view.DeleteRows(paths, DeleteAnimation);
+                    }
                         break;
                     case NotifyCollectionChangedAction.Move:
+                    {
+                        if (e.NewItems.Count != 1 || e.OldItems.Count != 1)
                         {
-                            if (e.NewItems.Count != 1 || e.OldItems.Count != 1)
-                            {
-                                _view.ReloadData();
-                                break;
-                            }
-                            if (e.NewStartingIndex != e.OldStartingIndex)
-                            {
-                                _view.MoveRow(NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
-                                              NSIndexPath.FromRowSection(e.NewStartingIndex, 0));
-                            }
+                            _view.ReloadData();
                             break;
                         }
+
+                        if (e.NewStartingIndex != e.OldStartingIndex)
+                        {
+                            _view.MoveRow(NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
+                                NSIndexPath.FromRowSection(e.NewStartingIndex, 0));
+                        }
+
+                        break;
+                    }
 
                     default:
                         _view.ReloadData();
@@ -510,7 +512,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        /// Cans the edit row.
+        ///     Cans the edit row.
         /// </summary>
         /// <returns><c>true</c>, if edit row was caned, <c>false</c> otherwise. Returns <c>true</c> by default.</returns>
         /// <param name="tableView">Table view.</param>

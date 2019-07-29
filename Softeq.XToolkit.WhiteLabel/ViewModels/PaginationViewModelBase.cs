@@ -17,9 +17,9 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
     public abstract class PaginationViewModelBase<TViewModel, TModel> : ObservableObject
     {
         private const int DefaultPageSize = 20;
+        private bool _canLoadMore;
 
         private int _currentPage = -1;
-        private bool _canLoadMore;
 
         protected PaginationViewModelBase()
         {
@@ -41,6 +41,12 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
         public ICommand LoadMoreCommand { get; }
 
         public ObservableRangeCollection<TViewModel> Items { get; } = new ObservableRangeCollection<TViewModel>();
+
+        protected virtual bool CanAlwaysLoadMore { get; } = false;
+
+        protected virtual int PageSize { get; } = DefaultPageSize;
+
+        protected virtual CancellationToken CancellationToken { get; } = CancellationToken.None;
 
         public void ResetItems()
         {
@@ -107,6 +113,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             {
                 return;
             }
+
             Task.Run(() => LoadNextPageAsync(CancellationToken));
         }
 
@@ -139,12 +146,6 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
 
             return viewModels;
         }
-
-        protected virtual bool CanAlwaysLoadMore { get; } = false;
-
-        protected virtual int PageSize { get; } = DefaultPageSize;
-
-        protected virtual CancellationToken CancellationToken { get; } = CancellationToken.None;
 
         protected abstract IList<TViewModel> MapItemsToViewModels(IList<TModel> models);
 

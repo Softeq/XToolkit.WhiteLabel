@@ -10,9 +10,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
             ContainerId = containerId;
         }
 
-        public string Key => nameof(ToastContainerComponent);
-
         public int ContainerId { get; }
+
+        public string Key => nameof(ToastContainerComponent);
 
         public void Attach(ActivityBase item)
         {

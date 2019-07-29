@@ -71,11 +71,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _containerId = (int) navigation;
         }
 
-        internal Fragment GetTopFragment()
-        {
-            return _backStack.FirstOrDefault().Fragment;
-        }
-
         //TODO: replace with For<>.WithParam implementation
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>
@@ -119,7 +114,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void NavigatToFirstPage()
         {
-            if (IsEmptyBackStack) { return; }
+            if (IsEmptyBackStack)
+            {
+                return;
+            }
 
             while (_backStack.Count > 1)
             {
@@ -159,6 +157,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void RestoreState()
         {
             ReplaceFragment(_backStack.Peek().Fragment);
+        }
+
+        internal Fragment GetTopFragment()
+        {
+            return _backStack.FirstOrDefault().Fragment;
         }
 
         private void NavigateToExistingViewModel(IViewModelBase viewModel)

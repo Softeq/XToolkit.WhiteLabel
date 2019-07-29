@@ -10,9 +10,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class PageNavigationService : IPageNavigationService
     {
-        private readonly IPlatformNavigationService _pageNavigationService;
         private readonly IBackStackManager _backStackManager;
         private readonly IContainer _iocContainer;
+        private readonly IPlatformNavigationService _pageNavigationService;
 
         public PageNavigationService(
             IPlatformNavigationService pageNavigationService,
@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false)
-           where T : IViewModelBase
+            where T : IViewModelBase
         {
             NavigateToViewModel<T>(clearBackStack, null);
         }

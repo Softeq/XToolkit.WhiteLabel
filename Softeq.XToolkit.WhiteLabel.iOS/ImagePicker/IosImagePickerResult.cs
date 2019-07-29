@@ -22,6 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                         return Task.FromResult(image.AsPNG().AsStream());
                 }
             }
+
             return Task.FromResult(Stream.Null);
         }
     }

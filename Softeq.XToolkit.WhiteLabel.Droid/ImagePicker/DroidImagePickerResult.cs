@@ -22,6 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
                 bitmap.Compress(compressFormat, (int) (Quality * 100), memoryStream);
             }
+
             return Task.FromResult(memoryStream);
         }
     }

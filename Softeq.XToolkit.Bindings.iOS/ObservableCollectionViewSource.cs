@@ -41,8 +41,6 @@ namespace Softeq.XToolkit.Bindings.iOS
         private TItem _selectedItem;
         private UICollectionView _view;
 
-        public event EventHandler<GenericEventArgs<TItem>> ItemClicked;
-
         /// <summary>
         ///     Creates and initializes a new instance of <see cref="ObservableCollectionViewSource{TItem, TCell}" />
         /// </summary>
@@ -150,6 +148,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        public event EventHandler<GenericEventArgs<TItem>> ItemClicked;
+
         /// <summary>
         ///     Overrides the <see cref="UICollectionViewSource.GetCell" /> method.
         ///     Creates and returns a cell for the UICollectionView. Where needed, this method will
@@ -206,6 +206,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             {
                 return 0;
             }
+
             return IsInfiniteScroll ? InfiniteItemsCount : _dataSource.Count;
         }
 
@@ -247,7 +248,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// <param name="indexPath">The NSIndexPath pointing to the element.</param>
         public override void ItemDeselected(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            SelectedItem = default(TItem);
+            SelectedItem = default;
         }
 
         /// <summary>
@@ -329,42 +330,43 @@ namespace Softeq.XToolkit.Bindings.iOS
                     _view.ReloadData();
                     return;
                 }
+
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
+                    {
+                        var count = e.NewItems.Count;
+                        var paths = new NSIndexPath[count];
+
+                        for (var i = 0; i < count; i++)
                         {
-                            var count = e.NewItems.Count;
-                            var paths = new NSIndexPath[count];
-
-                            for (var i = 0; i < count; i++)
-                            {
-                                paths[i] = NSIndexPath.FromRowSection(e.NewStartingIndex + i, 0);
-                            }
-
-                            _view.InsertItems(paths);
+                            paths[i] = NSIndexPath.FromRowSection(e.NewStartingIndex + i, 0);
                         }
+
+                        _view.InsertItems(paths);
+                    }
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
+                    {
+                        var count = e.OldItems.Count;
+                        var paths = new NSIndexPath[count];
+
+                        for (var i = 0; i < count; i++)
                         {
-                            var count = e.OldItems.Count;
-                            var paths = new NSIndexPath[count];
+                            var index = NSIndexPath.FromRowSection(e.OldStartingIndex + i, 0);
+                            paths[i] = index;
 
-                            for (var i = 0; i < count; i++)
+                            var item = e.OldItems[i];
+
+                            if (Equals(SelectedItem, item))
                             {
-                                var index = NSIndexPath.FromRowSection(e.OldStartingIndex + i, 0);
-                                paths[i] = index;
-
-                                var item = e.OldItems[i];
-
-                                if (Equals(SelectedItem, item))
-                                {
-                                    SelectedItem = default(TItem);
-                                }
+                                SelectedItem = default;
                             }
-
-                            _view.DeleteItems(paths);
                         }
+
+                        _view.DeleteItems(paths);
+                    }
                         break;
 
                     default:

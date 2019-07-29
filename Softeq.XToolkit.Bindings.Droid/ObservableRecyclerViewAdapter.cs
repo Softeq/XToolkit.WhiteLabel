@@ -20,9 +20,6 @@ namespace Softeq.XToolkit.Bindings.Droid
         private INotifyCollectionChanged _notifier;
         private IDisposable _subscription;
 
-        public event EventHandler LastItemRequested;
-        public event EventHandler DataReloaded;
-
         public ObservableRecyclerViewAdapter(
             IList<T> items,
             Func<ViewGroup, int, RecyclerView.ViewHolder> getHolderFunc,
@@ -56,6 +53,9 @@ namespace Softeq.XToolkit.Bindings.Droid
         public bool ShouldNotifyByAction { get; set; }
 
         public override int ItemCount => _dataSource.Count;
+
+        public event EventHandler LastItemRequested;
+        public event EventHandler DataReloaded;
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -133,10 +133,11 @@ namespace Softeq.XToolkit.Bindings.Droid
                         NotifyItemRangeInserted(e.NewStartingIndex, e.NewItems.Count);
                         break;
                     case NotifyCollectionChangedAction.Move:
-                        for (int i = 0; i < e.NewItems.Count; i++)
+                        for (var i = 0; i < e.NewItems.Count; i++)
                         {
                             NotifyItemMoved(e.OldStartingIndex + i, e.NewStartingIndex + i);
                         }
+
                         break;
                     case NotifyCollectionChangedAction.Replace:
                         NotifyItemRangeChanged(e.NewStartingIndex, e.NewItems.Count);
@@ -152,8 +153,8 @@ namespace Softeq.XToolkit.Bindings.Droid
             catch (Exception exception)
             {
                 Log.Warn(nameof(ObservableRecyclerViewAdapter<T>),
-                        "Exception masked during Adapter RealNotifyDataSetChanged {0}. Are you trying to update your collection from a background task? See http://goo.gl/0nW0L6",
-                        exception.ToString());
+                    "Exception masked during Adapter RealNotifyDataSetChanged {0}. Are you trying to update your collection from a background task? See http://goo.gl/0nW0L6",
+                    exception.ToString());
             }
         }
     }

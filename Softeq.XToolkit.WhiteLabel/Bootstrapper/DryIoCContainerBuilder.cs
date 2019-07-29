@@ -12,8 +12,8 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
     public class DryIoCContainerBuilder : IContainerBuilder
     {
-        private DryIoc.IContainer _container;
         private readonly List<Action<IContainer>> _buildActions;
+        private DryIoc.IContainer _container;
 
         public DryIoCContainerBuilder()
         {
@@ -129,8 +129,10 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         /// <summary>Replaces old registration with new one.</summary>
         Replace,
 
-        /// <summary>Adds the new implementation or null (Made.Of),
-        /// otherwise keeps the previous registration of the same implementation type.</summary>
+        /// <summary>
+        ///     Adds the new implementation or null (Made.Of),
+        ///     otherwise keeps the previous registration of the same implementation type.
+        /// </summary>
         AppendNewImplementation
     }
 

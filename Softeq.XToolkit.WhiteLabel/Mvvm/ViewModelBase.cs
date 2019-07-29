@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         public bool IsBusy
         {
             get => _isBusy;
-            set { Set(() => IsBusy, ref _isBusy, value); }
+            set => Set(ref _isBusy, value);
         }
 
         public bool IsInitialized { get; private set; }
@@ -85,8 +85,8 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
             Justification = "This cannot be an event")]
         public virtual void RaisePropertyChanged<T>(
             [CallerMemberName] string propertyName = null,
-            T oldValue = default(T),
-            T newValue = default(T))
+            T oldValue = default,
+            T newValue = default)
         {
             if (string.IsNullOrEmpty(propertyName))
             {
@@ -158,7 +158,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         /// <returns>True if the PropertyChanged event was raised, false otherwise.</returns>
         protected bool Set<T>(
             ref T field,
-            T newValue = default(T),
+            T newValue = default,
             bool broadcast = false,
             [CallerMemberName] string propertyName = null)
         {

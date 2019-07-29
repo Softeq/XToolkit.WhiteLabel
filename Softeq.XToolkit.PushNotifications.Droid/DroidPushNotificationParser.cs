@@ -10,17 +10,17 @@ namespace Softeq.XToolkit.PushNotifications.Droid
     public class DroidPushNotificationParser : IPushNotificationParser
     {
         /// <summary>
-        /// Custom key for title (stored inside RemoteMessage.Data). Can be customized.
+        ///     Custom key for title (stored inside RemoteMessage.Data). Can be customized.
         /// </summary>
         protected virtual string DataTitleKey => "title";
 
         /// <summary>
-        /// Custom key for addition body (stored inside RemoteMessage.Data). Can be customized.
+        ///     Custom key for addition body (stored inside RemoteMessage.Data). Can be customized.
         /// </summary>
         protected virtual string DataBodyKey => "body";
 
         /// <summary>
-        /// Custom key for addition data (stored inside RemoteMessage.Data). Can be customized.
+        ///     Custom key for addition data (stored inside RemoteMessage.Data). Can be customized.
         /// </summary>
         protected virtual string DataKey => "data";
 
@@ -77,7 +77,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         }
 
         /// <summary>
-        /// Obtains type string from push notification data (should be customized to provide app specific values)
+        ///     Obtains type string from push notification data (should be customized to provide app specific values)
         /// </summary>
         /// <param name="pushNotificationData">IDictionary which represents RemoteMessage.Data</param>
         /// <returns></returns>
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         }
 
         /// <summary>
-        /// Obtains type string from push notification data (should be customized to provide app specific values)
+        ///     Obtains type string from push notification data (should be customized to provide app specific values)
         /// </summary>
         /// <param name="pushNotificationBundle">Bundle which was obtained from extras when application was started from push notification</param>
         /// <returns></returns>
@@ -97,14 +97,14 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         }
 
         /// <summary>
-        /// Obtains string by key from IDictionary
+        ///     Obtains string by key from IDictionary
         /// </summary>
         /// <param name="data">IDictionary object</param>
         /// <param name="key">Key string</param>
         /// <returns>String stored under the specified key or null</returns>
         protected string GetStringFromDictionary(IDictionary<string, string> data, string key)
         {
-            return data == null ? null : data.TryGetValue(key, out string value) ? value : null;
+            return data == null ? null : data.TryGetValue(key, out var value) ? value : null;
         }
     }
 }

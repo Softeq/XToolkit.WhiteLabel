@@ -52,13 +52,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
 
             var loader = ImageService.Instance
                 .LoadUrl(url)
-                .DownSampleInDip((int) styles.Size.Width, (int) styles.Size.Height);
+                .DownSampleInDip(styles.Size.Width, styles.Size.Height);
 
             transform?.Invoke(loader);
 
             loader.IntoAsync(imageView);
         }
-
-
     }
 }

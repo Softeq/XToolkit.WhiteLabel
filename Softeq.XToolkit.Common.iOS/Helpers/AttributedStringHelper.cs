@@ -12,9 +12,10 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
     public static class AttributedStringHelper
     {
         /// <summary>
-        /// Returns new instance of the default paragraph style.
+        ///     Returns new instance of the default paragraph style.
         /// </summary>
-        public static NSMutableParagraphStyle NewParagraphStyle => NSParagraphStyle.Default.MutableCopy() as NSMutableParagraphStyle;
+        public static NSMutableParagraphStyle NewParagraphStyle =>
+            NSParagraphStyle.Default.MutableCopy() as NSMutableParagraphStyle;
 
         public static NSUrl ToNSUrl(this string link)
         {
@@ -53,7 +54,8 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
         public static NSMutableAttributedString Underline(this NSMutableAttributedString self,
             NSUnderlineStyle underlineStyle = NSUnderlineStyle.Single)
         {
-            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int) underlineStyle), new NSRange(0, self.Length));
+            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int) underlineStyle),
+                new NSRange(0, self.Length));
             return self;
         }
 
@@ -76,13 +78,13 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
         }
 
         /// <summary>
-        /// Set paragraph style of attributed string.
+        ///     Set paragraph style of attributed string.
         /// </summary>
         /// <param name="self">Attributed string.</param>
         /// <param name="style">Paragraph style. Use <see cref="NewParagraphStyle" /> for create custom style.</param>
         /// <returns></returns>
         public static NSMutableAttributedString ParagraphStyle(this NSMutableAttributedString self,
-           NSMutableParagraphStyle style)
+            NSMutableParagraphStyle style)
         {
             self.AddAttribute(UIStringAttributeKey.ParagraphStyle, style, new NSRange(0, self.Length));
             return self;

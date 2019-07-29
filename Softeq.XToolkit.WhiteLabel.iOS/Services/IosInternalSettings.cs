@@ -87,12 +87,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return AppSettings.GetValueOrDefault(key, defaultValue);
         }
 
-        public DateTime GetValueOrDefault(string key, DateTime defaultValue = default(DateTime))
+        public DateTime GetValueOrDefault(string key, DateTime defaultValue = default)
         {
             return AppSettings.GetValueOrDefault(key, defaultValue);
         }
 
-        public Guid GetValueOrDefault(string key, Guid defaultValue = default(Guid))
+        public Guid GetValueOrDefault(string key, Guid defaultValue = default)
         {
             return AppSettings.GetValueOrDefault(key, defaultValue);
         }

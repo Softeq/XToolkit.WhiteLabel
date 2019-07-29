@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.Permissions.iOS
             var notificationCenter = UNUserNotificationCenter.Current;
             var notificationSettings = await notificationCenter.GetNotificationSettingsAsync().ConfigureAwait(false);
             var notificationsSettingsEnabled = notificationSettings.SoundSetting == UNNotificationSetting.Enabled
-                && notificationSettings.AlertSetting == UNNotificationSetting.Enabled;
+                                               && notificationSettings.AlertSetting == UNNotificationSetting.Enabled;
             return notificationsSettingsEnabled
                 ? PermissionStatus.Granted
                 : PermissionStatus.Denied;

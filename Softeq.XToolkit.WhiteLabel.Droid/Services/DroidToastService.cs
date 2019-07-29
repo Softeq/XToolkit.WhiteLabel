@@ -19,9 +19,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
     public class DroidToastService
     {
-        private readonly ToastSettings _toastSettings;
         private readonly ILogger _logger;
         private readonly Queue<ToastModel> _queue;
+        private readonly ToastSettings _toastSettings;
 
         private bool _isBusy;
 
@@ -70,7 +70,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
                 if (activity is ActivityBase activityBase)
                 {
-                    toastContainerComponent = activityBase.ViewComponents.FirstOrDefault(x => x.Key == nameof(ToastContainerComponent)) as ToastContainerComponent;
+                    toastContainerComponent =
+                        activityBase.ViewComponents.FirstOrDefault(x => x.Key == nameof(ToastContainerComponent)) as
+                            ToastContainerComponent;
                 }
 
                 var view = toastContainerComponent == null

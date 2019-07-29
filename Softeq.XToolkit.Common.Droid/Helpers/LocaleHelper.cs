@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using Android.Content;
+using Android.Text.Format;
 
 namespace Softeq.XToolkit.Common.Droid.Helpers
 {
@@ -9,7 +10,7 @@ namespace Softeq.XToolkit.Common.Droid.Helpers
     {
         public static bool Is24HourFormat(Context context)
         {
-            return Android.Text.Format.DateFormat.Is24HourFormat(context);
+            return DateFormat.Is24HourFormat(context);
         }
     }
 }

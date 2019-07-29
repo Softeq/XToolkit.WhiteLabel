@@ -15,7 +15,6 @@ using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
-using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {

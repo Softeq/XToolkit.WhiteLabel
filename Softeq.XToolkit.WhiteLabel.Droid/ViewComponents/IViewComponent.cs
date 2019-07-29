@@ -8,6 +8,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
         string Key { get; }
 
         void Attach(T item);
-        void Detach(T item = default(T));
+        void Detach(T item = default);
     }
 }

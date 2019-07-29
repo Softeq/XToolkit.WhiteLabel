@@ -13,5 +13,5 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         public DialogViewModelComponent DialogComponent { get; }
-    };
+    }
 }
