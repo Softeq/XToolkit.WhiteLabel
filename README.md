@@ -1,5 +1,7 @@
 # XToolkit.WhiteLabel
 
+[![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/Samples.Playground?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=39&branchName=master)
+
 XToolkit.WhiteLabel is a modular, cross-platform MVVM framework from "lego" components for fast create powerful cross-platform mobile applications with Xamarin.
 
 ## Installation
