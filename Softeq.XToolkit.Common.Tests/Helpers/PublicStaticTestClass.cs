@@ -1,163 +1,61 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-
 namespace Softeq.XToolkit.Common.Tests.Helpers
 {
-    public static class PublicStaticTestClass
+    public class PublicStaticTestClass : IWeakActionProvider,
+        IGenericWeakActionProvider, IWeakFuncProvider, IGenericWeakFuncProvider
     {
-        public const string Expected = "Hello";
-        public const string Public = "Public";
-        public const string Internal = "Internal";
-        public const string Private = "Private";
-        public const string PublicStatic = "PublicStatic";
-        public const string InternalStatic = "InternalStatic";
-        public const string PrivateStatic = "PrivateStatic";
+        public static IMethodRunner CallCounter { get; set; }
 
-        public static string Result { get; private set; }
+        #region Static methods
+        private static void PrivateStaticAction() => CallCounter.RunPrivateAction();
 
-        private static void DoStuffPrivatelyAndStatically()
-        {
-            Result = Expected + PrivateStatic;
-        }
+        internal static void InternalStaticAction() => CallCounter.RunInternalAction();
 
-        public static void DoStuffPublicallyAndStatically()
-        {
-            Result = Expected + PublicStatic;
-        }
+        public static void PublicStaticAction() => CallCounter.RunPublicAction();
 
-        internal static void DoStuffInternallyAndStatically()
-        {
-            Result = Expected + InternalStatic;
-        }
+        private static void PrivateStaticAction<T>(T parameter) => CallCounter.RunPrivateAction(parameter);
 
-        private static string DoStuffPrivatelyAndStaticallyWithResult()
-        {
-            Result = Expected + PrivateStatic;
-            return Result;
-        }
+        internal static void InternalStaticAction<T>(T parameter) => CallCounter.RunInternalAction(parameter);
 
-        public static string DoStuffPublicallyAndStaticallyWithResult()
-        {
-            Result = Expected + PublicStatic;
-            return Result;
-        }
+        public static void PublicStaticAction<T>(T parameter) => CallCounter.RunPublicAction(parameter);
 
-        internal static string DoStuffInternallyAndStaticallyWithResult()
-        {
-            Result = Expected + InternalStatic;
-            return Result;
-        }
+        private static T PrivateStaticFunc<T>() => CallCounter.RunPrivateFunc<T>();
 
-        //public WeakAction GetAction(WeakActionTestCase testCase)
-        //{
-        //    WeakAction action = null;
+        internal static T InternalStaticFunc<T>() => CallCounter.RunInternalFunc<T>();
 
-        //    switch (testCase)
-        //    {
-        //        case WeakActionTestCase.PublicNamedMethod:
-        //            action = new WeakAction(
-        //                this,
-        //                DoStuffPublically);
-        //            break;
-        //        case WeakActionTestCase.InternalNamedMethod:
-        //            action = new WeakAction(
-        //                this,
-        //                DoStuffInternally);
-        //            break;
-        //        case WeakActionTestCase.PrivateNamedMethod:
-        //            action = new WeakAction(
-        //                this,
-        //                DoStuffPrivately);
-        //            break;
-        //        case WeakActionTestCase.PublicStaticMethod:
-        //            action = new WeakAction(
-        //                this,
-        //                DoStuffPublicallyAndStatically);
-        //            break;
-        //        case WeakActionTestCase.InternalStaticMethod:
-        //            action = new WeakAction(
-        //                this,
-        //                DoStuffInternallyAndStatically);
-        //            break;
-        //        case WeakActionTestCase.PrivateStaticMethod:
-        //            action = new WeakAction(
-        //                this,
-        //                DoStuffPrivatelyAndStatically);
-        //            break;
-        //        case WeakActionTestCase.AnonymousStaticMethod:
-        //            action = new WeakAction(
-        //                this,
-        //                () => Result = Expected);
-        //            break;
-        //        case WeakActionTestCase.AnonymousMethod:
-        //            action = new WeakAction(
-        //                this,
-        //                () => Result = Expected + _index);
-        //            break;
-        //    }
+        public static T PublicStaticFunc<T>() => CallCounter.RunPublicFunc<T>();
 
-        //    return action;
-        //}
+        private static TOut PrivateStaticFunc<TIn, TOut>(TIn parameter) => CallCounter.RunPrivateFunc<TIn, TOut>(parameter);
 
-        //public WeakFunc<string> GetFunc(WeakActionTestCase testCase)
-        //{
-        //    WeakFunc<string> func = null;
+        internal static TOut InternalStaticFunc<TIn, TOut>(TIn parameter) => CallCounter.RunInternalFunc<TIn, TOut>(parameter);
 
-        //    switch (testCase)
-        //    {
-        //        case WeakActionTestCase.PublicNamedMethod:
-        //            func = new WeakFunc<string>(
-        //                this,
-        //                DoStuffPublicallyWithResult);
-        //            break;
-        //        case WeakActionTestCase.InternalNamedMethod:
-        //            func = new WeakFunc<string>(
-        //                this,
-        //                DoStuffInternallyWithResult);
-        //            break;
-        //        case WeakActionTestCase.PrivateNamedMethod:
-        //            func = new WeakFunc<string>(
-        //                this,
-        //                DoStuffPrivatelyWithResult);
-        //            break;
-        //        case WeakActionTestCase.PublicStaticMethod:
-        //            func = new WeakFunc<string>(
-        //                this,
-        //                DoStuffPublicallyAndStaticallyWithResult);
-        //            break;
-        //        case WeakActionTestCase.InternalStaticMethod:
-        //            func = new WeakFunc<string>(
-        //                this,
-        //                DoStuffInternallyAndStaticallyWithResult);
-        //            break;
-        //        case WeakActionTestCase.PrivateStaticMethod:
-        //            func = new WeakFunc<string>(
-        //                this,
-        //                DoStuffPrivatelyAndStaticallyWithResult);
-        //            break;
-        //        case WeakActionTestCase.AnonymousStaticMethod:
-        //            func = new WeakFunc<string>(
-        //                this,
-        //                () =>
-        //                {
-        //                    Result = Expected;
-        //                    return Result;
-        //                });
-        //            break;
-        //        case WeakActionTestCase.AnonymousMethod:
-        //            func = new WeakFunc<string>(
-        //                this,
-        //                () =>
-        //                {
-        //                    Result = Expected + _index;
-        //                    return Result;
-        //                });
-        //            break;
-        //    }
+        public static TOut PublicStaticFunc<TIn, TOut>(TIn parameter) => CallCounter.RunPublicFunc<TIn, TOut>(parameter);
+        #endregion
 
-        //    return func;
-        //}
+        #region WeakDelegate providers
+#pragma warning disable RECS0002 // Convert anonymous method to method group
+        public WeakAction GetWeakAnonymousAction() => new WeakAction(() => CallCounter.RunAnanymousAction());
+#pragma warning restore RECS0002 // Convert anonymous method to method group
+        public WeakAction GetWeakPrivateAction() => new WeakAction(PrivateStaticAction);
+        public WeakAction GetWeakInternalAction() => new WeakAction(InternalStaticAction);
+        public WeakAction GetWeakPublicAction() => new WeakAction(PublicStaticAction);
+
+        public WeakAction<T> GetWeakAnonymousAction<T>() => new WeakAction<T>(x => CallCounter.RunAnanimousAction(x));
+        public WeakAction<T> GetWeakPrivateAction<T>() => new WeakAction<T>(PrivateStaticAction);
+        public WeakAction<T> GetWeakInternalAction<T>() => new WeakAction<T>(InternalStaticAction);
+        public WeakAction<T> GetWeakPublicAction<T>() => new WeakAction<T>(PublicStaticAction);
+
+        public WeakFunc<TOut> GetWeakAnonymousFunc<TOut>() => new WeakFunc<TOut>(() => CallCounter.RunAnanimousFunc<TOut>());
+        public WeakFunc<TOut> GetWeakPrivateFunc<TOut>() => new WeakFunc<TOut>(PrivateStaticFunc<TOut>);
+        public WeakFunc<TOut> GetWeakInternalFunc<TOut>() => new WeakFunc<TOut>(InternalStaticFunc<TOut>);
+        public WeakFunc<TOut> GetWeakPublicFunc<TOut>() => new WeakFunc<TOut>(PublicStaticFunc<TOut>);
+
+        public WeakFunc<TIn, TOut> GetWeakAnonymousFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(x => CallCounter.RunAnanimousFunc<TIn, TOut>(x));
+        public WeakFunc<TIn, TOut> GetWeakPrivateFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(PrivateStaticFunc<TIn, TOut>);
+        public WeakFunc<TIn, TOut> GetWeakInternalFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(InternalStaticFunc<TIn, TOut>);
+        public WeakFunc<TIn, TOut> GetWeakPublicFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(PublicStaticFunc<TIn, TOut>);
+        #endregion
     }
 }

@@ -13,9 +13,46 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             _callCounter = Substitute.For<IMethodRunner>();
         }
 
-        private InternalTestClass CreateInternalClass()
+        private InternalTestClass CreateInternalWeakDelegateProvider()
         {
             return new InternalTestClass(_callCounter);
+        }
+
+        private InternalGenericWeakDelegateProvider CreateInternalGenericWeakDelegateProvider()
+        {
+            return new InternalGenericWeakDelegateProvider(_callCounter);
+        }
+
+        private InternalStaticTestClass CreateInternalStaticWeakDelegateProvider()
+        {
+            InternalStaticTestClass.CallCounter = _callCounter;
+            return new InternalStaticTestClass();
+        }
+
+        private PublicTestClass CreatePublicWeakDelegateProvider()
+        {
+            return new PublicTestClass(_callCounter);
+        }
+
+        private PublicGenericWeakDelegateProvider CreatePublicGenericWeakDelegateProvider()
+        {
+            return new PublicGenericWeakDelegateProvider(_callCounter);
+        }
+
+        private PublicStaticTestClass CreatePublicStaticWeakDelegateProvider()
+        {
+            PublicStaticTestClass.CallCounter = _callCounter;
+            return new PublicStaticTestClass();
+        }
+
+        private NestedTestClass CreateNestedWeakDelegateProvider()
+        {
+            return new NestedTestClass(_callCounter);
+        }
+
+        private NestedGenericWeakDelegateProvider CreateNestedGenericWeakDelegateProvider()
+        {
+            return new NestedGenericWeakDelegateProvider(_callCounter);
         }
     }
 }

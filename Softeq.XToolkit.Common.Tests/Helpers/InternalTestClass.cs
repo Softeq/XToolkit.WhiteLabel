@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.Tests.Core.Common.Helpers
 
         #region WeakDelegate providers
 #pragma warning disable RECS0002 // Convert anonymous method to method group
-        public WeakAction GetWeakAnonymousAction() => new WeakAction(() => _callCounter.RunAnanimousAction());
+        public WeakAction GetWeakAnonymousAction() => new WeakAction(() => _callCounter.RunAnanymousAction());
 #pragma warning restore RECS0002 // Convert anonymous method to method group
         public WeakAction GetWeakPrivateAction() => new WeakAction(PrivateInstanceAction);
         public WeakAction GetWeakInternalAction() => new WeakAction(InternalInstanceAction);

@@ -1,437 +1,437 @@
-﻿// Developed by Softeq Development Corporation
-// http://www.softeq.com
+﻿//// Developed by Softeq Development Corporation
+//// http://www.softeq.com
 
-using System;
-using Softeq.XToolkit.Tests.Core.Common.Helpers;
-using Softeq.XToolkit.Common;
-using Xunit;
-using Softeq.XToolkit.Common.Tests.Helpers;
-using NSubstitute;
+//using System;
+//using Softeq.XToolkit.Tests.Core.Common.Helpers;
+//using Softeq.XToolkit.Common;
+//using Xunit;
+//using Softeq.XToolkit.Common.Tests.Helpers;
+//using NSubstitute;
 
-namespace Softeq.XToolkit.Tests.Core.Common.WeakTests
-{
-    public class WeakActionTest
-    {
-        private readonly IMethodRunner _callCounter;
+//namespace Softeq.XToolkit.Tests.Core.Common.WeakTests
+//{
+//    public class WeakActionTest
+//    {
+//        private readonly IMethodRunner _callCounter;
 
-        public WeakActionTest()
-        {
-            _callCounter = Substitute.For<IMethodRunner>();
-        }
+//        public WeakActionTest()
+//        {
+//            _callCounter = Substitute.For<IMethodRunner>();
+//        }
 
-        public static void DoStuffStatic() { }
+//        public static void DoStuffStatic() { }
 
-        public void DoStuff()
-        {
-            _local = DateTime.Now.ToString();
-        }
+//        public void DoStuff()
+//        {
+//            _local = DateTime.Now.ToString();
+//        }
 
-        private void Reset()
-        {
-            _itemPublic = null;
-            _itemInternal = null;
-            _reference = null;
-        }
+//        private void Reset()
+//        {
+//            _itemPublic = null;
+//            _itemInternal = null;
+//            _reference = null;
+//        }
 
-        [Fact]
-        public void TestInternalClassAnonymousMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestInternalClassAnonymousMethod()
+//        {
+//            Reset();
 
-            const int index = 99;
+//            const int index = 99;
 
-            TestInternalNestedClassSetup(WeakActionTestCase.AnonymousMethod, index);
+//            TestInternalNestedClassSetup(WeakActionTestCase.AnonymousMethod, index);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                InternalTestClass.Expected + index,
-                InternalTestClass.Result);
+//            Assert.Equal(
+//                InternalTestClass.Expected + index,
+//                InternalTestClass.Result);
 
-            _itemInternal = null;
-            GC.Collect();
+//            _itemInternal = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestInternalClassAnonymousStaticMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestInternalClassAnonymousStaticMethod()
+//        {
+//            Reset();
 
-            TestInternalNestedClassSetup(WeakActionTestCase.AnonymousStaticMethod);
+//            TestInternalNestedClassSetup(WeakActionTestCase.AnonymousStaticMethod);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                InternalTestClass.Expected,
-                InternalTestClass.Result);
+//            Assert.Equal(
+//                InternalTestClass.Expected,
+//                InternalTestClass.Result);
 
-            _itemInternal = null;
-            GC.Collect();
+//            _itemInternal = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestInternalClassInternalNamedMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestInternalClassInternalNamedMethod()
+//        {
+//            Reset();
 
-            const int index = 99;
+//            const int index = 99;
 
-            TestInternalNestedClassSetup(WeakActionTestCase.InternalNamedMethod, index);
+//            TestInternalNestedClassSetup(WeakActionTestCase.InternalNamedMethod, index);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                InternalTestClass.Expected + InternalTestClass.Internal + index,
-                InternalTestClass.Result);
+//            Assert.Equal(
+//                InternalTestClass.Expected + InternalTestClass.Internal + index,
+//                InternalTestClass.Result);
 
-            _itemInternal = null;
-            GC.Collect();
+//            _itemInternal = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestInternalClassInternalStaticMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestInternalClassInternalStaticMethod()
+//        {
+//            Reset();
 
-            TestInternalNestedClassSetup(WeakActionTestCase.InternalStaticMethod);
+//            TestInternalNestedClassSetup(WeakActionTestCase.InternalStaticMethod);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                InternalTestClass.Expected + InternalTestClass.InternalStatic,
-                InternalTestClass.Result);
+//            Assert.Equal(
+//                InternalTestClass.Expected + InternalTestClass.InternalStatic,
+//                InternalTestClass.Result);
 
-            _itemInternal = null;
-            GC.Collect();
+//            _itemInternal = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestInternalClassPrivateNamedMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestInternalClassPrivateNamedMethod()
+//        {
+//            Reset();
 
-            const int index = 99;
+//            const int index = 99;
 
-            TestInternalNestedClassSetup(WeakActionTestCase.PrivateNamedMethod, index);
+//            TestInternalNestedClassSetup(WeakActionTestCase.PrivateNamedMethod, index);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                InternalTestClass.Expected + InternalTestClass.Private + index,
-                InternalTestClass.Result);
+//            Assert.Equal(
+//                InternalTestClass.Expected + InternalTestClass.Private + index,
+//                InternalTestClass.Result);
 
-            _itemInternal = null;
-            GC.Collect();
+//            _itemInternal = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestInternalClassPrivateStaticMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestInternalClassPrivateStaticMethod()
+//        {
+//            Reset();
 
-            TestInternalNestedClassSetup(WeakActionTestCase.PrivateStaticMethod);
+//            TestInternalNestedClassSetup(WeakActionTestCase.PrivateStaticMethod);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                InternalTestClass.Expected + InternalTestClass.PrivateStatic,
-                InternalTestClass.Result);
+//            Assert.Equal(
+//                InternalTestClass.Expected + InternalTestClass.PrivateStatic,
+//                InternalTestClass.Result);
 
-            _itemInternal = null;
-            GC.Collect();
+//            _itemInternal = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestInternalClassPublicNamedMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestInternalClassPublicNamedMethod()
+//        {
+//            Reset();
 
-            const int index = 99;
+//            const int index = 99;
 
-            TestInternalNestedClassSetup(WeakActionTestCase.PublicNamedMethod, index);
+//            TestInternalNestedClassSetup(WeakActionTestCase.PublicNamedMethod, index);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                InternalTestClass.Expected + InternalTestClass.Public + index,
-                InternalTestClass.Result);
+//            Assert.Equal(
+//                InternalTestClass.Expected + InternalTestClass.Public + index,
+//                InternalTestClass.Result);
 
-            _itemInternal = null;
-            GC.Collect();
+//            _itemInternal = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestInternalClassPublicStaticMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestInternalClassPublicStaticMethod()
+//        {
+//            Reset();
 
-            TestInternalNestedClassSetup(WeakActionTestCase.PublicStaticMethod);
+//            TestInternalNestedClassSetup(WeakActionTestCase.PublicStaticMethod);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                InternalTestClass.Expected + InternalTestClass.PublicStatic,
-                InternalTestClass.Result);
+//            Assert.Equal(
+//                InternalTestClass.Expected + InternalTestClass.PublicStatic,
+//                InternalTestClass.Result);
 
-            _itemInternal = null;
-            GC.Collect();
+//            _itemInternal = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestNonStaticMethodWithNullTarget()
-        {
-            Reset();
-            var action = new WeakAction(null, DoStuff);
-            Assert.False(action.IsAlive);
-        }
+//        [Fact]
+//        public void TestNonStaticMethodWithNullTarget()
+//        {
+//            Reset();
+//            var action = new WeakAction(null, DoStuff);
+//            Assert.False(action.IsAlive);
+//        }
 
-        [Fact]
-        public void TestPublicClassAnonymousMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestPublicClassAnonymousMethod()
+//        {
+//            Reset();
 
-            const int index = 99;
+//            const int index = 99;
 
-            TestPublicNestedClassSetup(WeakActionTestCase.AnonymousMethod, index);
+//            TestPublicNestedClassSetup(WeakActionTestCase.AnonymousMethod, index);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                PublicTestClass.Expected + index,
-                PublicTestClass.Result);
+//            Assert.Equal(
+//                PublicTestClass.Expected + index,
+//                PublicTestClass.Result);
 
-            _itemPublic = null;
-            GC.Collect();
+//            _itemPublic = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestPublicClassAnonymousStaticMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestPublicClassAnonymousStaticMethod()
+//        {
+//            Reset();
 
-            TestPublicNestedClassSetup(WeakActionTestCase.AnonymousStaticMethod);
+//            TestPublicNestedClassSetup(WeakActionTestCase.AnonymousStaticMethod);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                PublicTestClass.Expected,
-                PublicTestClass.Result);
+//            Assert.Equal(
+//                PublicTestClass.Expected,
+//                PublicTestClass.Result);
 
-            _itemPublic = null;
-            GC.Collect();
+//            _itemPublic = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestPublicClassInternalNamedMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestPublicClassInternalNamedMethod()
+//        {
+//            Reset();
 
-            const int index = 99;
+//            const int index = 99;
 
-            TestPublicNestedClassSetup(WeakActionTestCase.InternalNamedMethod, index);
+//            TestPublicNestedClassSetup(WeakActionTestCase.InternalNamedMethod, index);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                PublicTestClass.Expected + PublicTestClass.Internal + index,
-                PublicTestClass.Result);
+//            Assert.Equal(
+//                PublicTestClass.Expected + PublicTestClass.Internal + index,
+//                PublicTestClass.Result);
 
-            _itemPublic = null;
-            GC.Collect();
+//            _itemPublic = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestPublicClassInternalStaticMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestPublicClassInternalStaticMethod()
+//        {
+//            Reset();
 
-            TestPublicNestedClassSetup(WeakActionTestCase.InternalStaticMethod);
+//            TestPublicNestedClassSetup(WeakActionTestCase.InternalStaticMethod);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                PublicTestClass.Expected + PublicTestClass.InternalStatic,
-                PublicTestClass.Result);
+//            Assert.Equal(
+//                PublicTestClass.Expected + PublicTestClass.InternalStatic,
+//                PublicTestClass.Result);
 
-            _itemPublic = null;
-            GC.Collect();
+//            _itemPublic = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestPublicClassPrivateNamedMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestPublicClassPrivateNamedMethod()
+//        {
+//            Reset();
 
-            const int index = 99;
+//            const int index = 99;
 
-            TestPublicNestedClassSetup(WeakActionTestCase.PrivateNamedMethod, index);
+//            TestPublicNestedClassSetup(WeakActionTestCase.PrivateNamedMethod, index);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                PublicTestClass.Expected + PublicTestClass.Private + index,
-                PublicTestClass.Result);
+//            Assert.Equal(
+//                PublicTestClass.Expected + PublicTestClass.Private + index,
+//                PublicTestClass.Result);
 
-            _itemPublic = null;
-            GC.Collect();
+//            _itemPublic = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestPublicClassPrivateStaticMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestPublicClassPrivateStaticMethod()
+//        {
+//            Reset();
 
-            TestPublicNestedClassSetup(WeakActionTestCase.PrivateStaticMethod);
+//            TestPublicNestedClassSetup(WeakActionTestCase.PrivateStaticMethod);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                PublicTestClass.Expected + PublicTestClass.PrivateStatic,
-                PublicTestClass.Result);
+//            Assert.Equal(
+//                PublicTestClass.Expected + PublicTestClass.PrivateStatic,
+//                PublicTestClass.Result);
 
-            _itemPublic = null;
-            GC.Collect();
+//            _itemPublic = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestPublicClassPublicNamedMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestPublicClassPublicNamedMethod()
+//        {
+//            Reset();
 
-            const int index = 99;
+//            const int index = 99;
 
-            TestPublicNestedClassSetup(WeakActionTestCase.PublicNamedMethod, index);
+//            TestPublicNestedClassSetup(WeakActionTestCase.PublicNamedMethod, index);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                PublicTestClass.Expected + PublicTestClass.Public + index,
-                PublicTestClass.Result);
+//            Assert.Equal(
+//                PublicTestClass.Expected + PublicTestClass.Public + index,
+//                PublicTestClass.Result);
 
-            _itemPublic = null;
-            GC.Collect();
+//            _itemPublic = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestPublicClassPublicStaticMethod()
-        {
-            Reset();
+//        [Fact]
+//        public void TestPublicClassPublicStaticMethod()
+//        {
+//            Reset();
 
-            TestPublicNestedClassSetup(WeakActionTestCase.PublicStaticMethod);
+//            TestPublicNestedClassSetup(WeakActionTestCase.PublicStaticMethod);
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _action.Execute();
+//            _action.Execute();
 
-            Assert.Equal(
-                PublicTestClass.Expected + PublicTestClass.PublicStatic,
-                PublicTestClass.Result);
+//            Assert.Equal(
+//                PublicTestClass.Expected + PublicTestClass.PublicStatic,
+//                PublicTestClass.Result);
 
-            _itemPublic = null;
-            GC.Collect();
+//            _itemPublic = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//        }
 
-        [Fact]
-        public void TestStaticMethodWithNonNullTarget()
-        {
-            Reset();
+//        [Fact]
+//        public void TestStaticMethodWithNonNullTarget()
+//        {
+//            Reset();
 
-            TestCommonSetup();
+//            TestCommonSetup();
 
-            Assert.True(_reference.IsAlive);
-            Assert.True(_action.IsAlive);
+//            Assert.True(_reference.IsAlive);
+//            Assert.True(_action.IsAlive);
 
-            _common = null;
-            GC.Collect();
+//            _common = null;
+//            GC.Collect();
 
-            Assert.False(_reference.IsAlive);
-            Assert.False(_action.IsAlive);
-        }
+//            Assert.False(_reference.IsAlive);
+//            Assert.False(_action.IsAlive);
+//        }
 
-        [Fact]
-        public void TestStaticMethodWithNullTarget()
-        {
-            Reset();
-            var action = new WeakAction(null, DoStuffStatic);
-            Assert.True(action.IsAlive);
-        }
-    }
-}
+//        [Fact]
+//        public void TestStaticMethodWithNullTarget()
+//        {
+//            Reset();
+//            var action = new WeakAction(null, DoStuffStatic);
+//            Assert.True(action.IsAlive);
+//        }
+//    }
+//}

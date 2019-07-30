@@ -2,7 +2,7 @@
 {
     public interface IMethodRunner
     {
-        void RunAnanimousAction();
+        void RunAnanymousAction();
         void RunAnanimousAction<T>(T parameter);
 
         void RunPublicAction();
