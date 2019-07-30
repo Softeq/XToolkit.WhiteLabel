@@ -151,6 +151,7 @@
     <InterfaceDefinition Include="ViewControllers\BottomTabs\First\RedStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\BottomTabs\First\YellowStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\BottomTabs\Second\GreenStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\EmptyPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -207,6 +208,10 @@
     <Compile Include="ViewControllers\BottomTabs\Second\GreenViewController.cs" />
     <Compile Include="ViewControllers\BottomTabs\Second\GreenViewController.designer.cs">
       <DependentUpon>GreenViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\EmptyPageViewController.cs" />
+    <Compile Include="ViewControllers\EmptyPageViewController.designer.cs">
+      <DependentUpon>EmptyPageViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

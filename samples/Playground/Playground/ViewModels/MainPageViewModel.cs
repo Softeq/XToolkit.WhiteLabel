@@ -1,7 +1,9 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using Playground.Models;
 using Playground.ViewModels.BottomTabs;
 using Playground.ViewModels.Collections;
@@ -24,8 +26,12 @@ namespace Playground.ViewModels
             _pageNavigationService = pageNavigationService;
         }
 
+        public string Title => "Main";
+
         public ObservableKeyGroupsCollection<string, CommandAction> Items { get; } =
             new ObservableKeyGroupsCollection<string, CommandAction>();
+
+        public ICommand GoToEmptyCommand { get; private set; }
 
         public override void OnInitialize()
         {
@@ -123,6 +129,15 @@ namespace Playground.ViewModels
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header);
+
+            GoToEmptyCommand = new RelayCommand(GoToEmpty);
+        }
+
+        private void GoToEmpty()
+        {
+            _pageNavigationService
+                .For<EmptyPageViewModel>()
+                .Navigate();
         }
     }
 }

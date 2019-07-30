@@ -7,7 +7,9 @@ using Playground.ViewModels;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS;
+using Softeq.XToolkit.WhiteLabel.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using UIKit;
 
 namespace Playground.iOS.ViewControllers
 {
@@ -21,7 +23,16 @@ namespace Playground.iOS.ViewControllers
         {
             base.ViewDidLoad();
 
+            InitNavigationBar();
             InitTableView();
+        }
+
+        private void InitNavigationBar()
+        {
+            var navigationItem = NavigationController.NavigationBar.TopItem;
+
+            navigationItem.Title = ViewModel.Title;
+            navigationItem.SetCommand(UIBarButtonSystemItem.Compose, ViewModel.GoToEmptyCommand, false);
         }
 
         private void InitTableView()
