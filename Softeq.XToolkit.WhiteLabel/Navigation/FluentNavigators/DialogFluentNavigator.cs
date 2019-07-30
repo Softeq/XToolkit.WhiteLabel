@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             _dialogsService = dialogsService;
         }
 
-        public Task<TResult> Navigate<TResult>()
+        public Task<IDialogResult<TResult>> Navigate<TResult>()
         {
             return _dialogsService.ShowForViewModel<TViewModel, TResult>(Parameters);
         }

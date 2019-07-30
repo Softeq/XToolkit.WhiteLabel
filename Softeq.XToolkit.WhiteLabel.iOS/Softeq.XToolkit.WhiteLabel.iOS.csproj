@@ -104,6 +104,7 @@
     <Compile Include="ImagePicker\IosImagePickerService.cs" />
     <Compile Include="ImagePicker\IosImagePickerResult.cs" />
     <Compile Include="ViewControllers\TopLevelAlertController.cs" />
+    <Compile Include="Services\DialogResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">

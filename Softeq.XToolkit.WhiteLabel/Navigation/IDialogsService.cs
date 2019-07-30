@@ -16,11 +16,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             string cancelButtonText = null,
             OpenDialogOptions options = null);
 
-        Task ShowForViewModel<TViewModel>(
+        Task<IDialogResult> ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel;
 
-        Task<TResult> ShowForViewModel<TViewModel, TResult>(
+        Task<IDialogResult<TResult>> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel;
     }
