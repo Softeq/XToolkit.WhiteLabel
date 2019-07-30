@@ -12,6 +12,7 @@ using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.WhiteLabel.Extensions;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
@@ -32,7 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
-        public async Task<IDialogResult<TResult>> ShowForViewModel<TViewModel, TResult>(
+        public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel
         {
@@ -56,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return dialogResult;
         }
 
-        public async Task<IDialogResult> ShowForViewModel<TViewModel>(
+        public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel
         {
@@ -74,6 +75,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
 
             return dialogResult;
+        }
+
+        public Task ShowForViewModel<TViewModel>(
+            IEnumerable<NavigationParameterModel> parameters)
+            where TViewModel : IDialogViewModel
+        {
+            return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDissmissed();
+        }
+
+        public Task<TResult> ShowForViewModel<TViewModel, TResult>(
+            IEnumerable<NavigationParameterModel> parameters)
+            where TViewModel : IDialogViewModel
+        {
+            return ShowForViewModelAsync<TViewModel, TResult>(parameters).ReturnWhenDissmissed();
         }
 
         public Task<bool> ShowDialogAsync(

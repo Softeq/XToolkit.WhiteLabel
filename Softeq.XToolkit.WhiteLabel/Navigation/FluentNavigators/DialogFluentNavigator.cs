@@ -4,6 +4,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
+using Softeq.XToolkit.WhiteLabel.Extensions;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 {
@@ -17,14 +18,28 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             _dialogsService = dialogsService;
         }
 
-        public Task<IDialogResult<TResult>> Navigate<TResult>()
+        public Task<IDialogResult<TResult>> NavigateWithResult<TResult>()
         {
-            return _dialogsService.ShowForViewModel<TViewModel, TResult>(Parameters);
+            return _dialogsService.ShowForViewModelAsync<TViewModel, TResult>(Parameters);
+        }
+
+        public Task<IDialogResult> NavigateWithResult()
+        {
+            return _dialogsService.ShowForViewModelAsync<TViewModel>(Parameters);
+        }
+
+        public Task<TResult> Navigate<TResult>()
+        {
+            return _dialogsService
+                .ShowForViewModelAsync<TViewModel, TResult>(Parameters)
+                .ReturnWhenDissmissed();
         }
 
         public Task Navigate()
         {
-            return _dialogsService.ShowForViewModel<TViewModel>(Parameters);
+            return _dialogsService
+                .ShowForViewModelAsync<TViewModel>(Parameters)
+                .WaitUntilDissmissed();
         }
 
         public DialogFluentNavigator<TViewModel> WithParam<TValue>(
