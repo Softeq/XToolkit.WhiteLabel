@@ -13,6 +13,7 @@
     <Folder Include="ViewModels\Components\" />
     <Folder Include="ViewModels\BottomTabs\First\" />
     <Folder Include="ViewModels\BottomTabs\Second\" />
+    <Folder Include="ViewModels\Dialogs\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
