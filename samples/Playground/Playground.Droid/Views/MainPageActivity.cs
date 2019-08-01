@@ -25,6 +25,8 @@ namespace Playground.Droid.Views
 
             SetContentView(Resource.Layout.activity_main);
 
+            Title = ViewModel.Title;
+
             _listView = FindViewById<ExpandableListView>(Resource.Id.main_page_list_view);
             _listView.SetAdapter(new ObservableGroupAdapter<string, CommandAction>(
                 ViewModel.Items,
@@ -50,6 +52,22 @@ namespace Playground.Droid.Views
 
                     return view;
                 }));
+        }
+
+        public override bool OnCreateOptionsMenu(IMenu menu)
+        {
+            MenuInflater.Inflate(Resource.Menu.main, menu);
+            return true;
+        }
+
+        public override bool OnOptionsItemSelected(IMenuItem item)
+        {
+            if (item.ItemId == Resource.Id.action_empty)
+            {
+                ViewModel.GoToEmptyCommand.Execute(null);
+                return true;
+            }
+            return base.OnOptionsItemSelected(item);
         }
 
         private class OnItemClickListener : Object, View.IOnClickListener
