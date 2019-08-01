@@ -14,21 +14,27 @@ namespace Playground.ViewModels.Dialogs
     {
         private readonly IDialogsService _dialogsService;
 
-        private Person _dialogUntilDismissResult;
         private string _alertResult;
+        private Person _dialogUntilDismissResult;
 
         public DialogsPageViewModel(
             IDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
 
-            OpenDialogUntilDismissCommand = new AsyncCommand(OpenDialogUntilDismiss);
             OpenAlertCommand = new AsyncCommand(OpenAlert);
+            OpenDialogUntilDismissCommand = new AsyncCommand(OpenDialogUntilDismiss);
         }
+
+        public ICommand OpenAlertCommand { get; }
 
         public ICommand OpenDialogUntilDismissCommand { get; }
 
-        public ICommand OpenAlertCommand { get; }
+        public string AlertResult
+        {
+            get => _alertResult;
+            set => Set(ref _alertResult, value);
+        }
 
         public Person DialogUntilDismissResult
         {
@@ -36,10 +42,11 @@ namespace Playground.ViewModels.Dialogs
             set => Set(ref _dialogUntilDismissResult, value);
         }
 
-        public string AlertResult
+        private async Task OpenAlert()
         {
-            get => _alertResult;
-            set => Set(ref _alertResult, value);
+            var result = await _dialogsService.ShowDialogAsync("~title", "~message", "~ok", "~cancel");
+
+            AlertResult = result.ToString();
         }
 
         private async Task OpenDialogUntilDismiss()
@@ -51,13 +58,6 @@ namespace Playground.ViewModels.Dialogs
                 .Navigate<Person>();
 
             DialogUntilDismissResult = result;
-        }
-
-        private async Task OpenAlert()
-        {
-            var result = await _dialogsService.ShowDialogAsync("~title", "~message", "~ok", "~cancel");
-
-            AlertResult = result.ToString();
         }
     }
 }

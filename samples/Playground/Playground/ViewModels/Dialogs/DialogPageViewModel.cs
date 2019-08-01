@@ -13,12 +13,12 @@ namespace Playground.ViewModels.Dialogs
         public DialogPageViewModel()
         {
             CloseCommand = new RelayCommand(Close);
-            SaveCommand = new RelayCommand(Save);
+            DoneCommand = new RelayCommand(Done);
         }
 
         public ICommand CloseCommand { get; }
 
-        public ICommand SaveCommand { get; }
+        public ICommand DoneCommand { get; }
 
         public string FirstName { get; set; }
 
@@ -29,7 +29,7 @@ namespace Playground.ViewModels.Dialogs
             DialogComponent.CloseCommand.Execute(null);
         }
 
-        private void Save()
+        private void Done()
         {
             var person = new Person
             {

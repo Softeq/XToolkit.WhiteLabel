@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Dialog Page View Controller-->
+        <scene sceneID="2Lh-tf-Qch">
+            <objects>
+                <viewController storyboardIdentifier="DialogPageViewController" id="jqh-xN-lRF" customClass="DialogPageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="gMd-6M-K0q"/>
+                        <viewControllerLayoutGuide type="bottom" id="rp3-A2-T4S"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D3o-6o-fVR">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coz-eT-TKA">
+                                <rect key="frame" x="60" y="244" width="39" height="30"/>
+                                <state key="normal" title="Close"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CeC-vT-mMu">
+                                <rect key="frame" x="317" y="244" width="37" height="30"/>
+                                <state key="normal" title="Done"/>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="CeC-vT-mMu" secondAttribute="trailing" constant="40" id="4aH-ly-x66"/>
+                            <constraint firstItem="coz-eT-TKA" firstAttribute="leading" secondItem="D3o-6o-fVR" secondAttribute="leadingMargin" constant="40" id="J1i-Hd-F9O"/>
+                            <constraint firstItem="CeC-vT-mMu" firstAttribute="top" secondItem="gMd-6M-K0q" secondAttribute="bottom" constant="200" id="aqZ-ym-dEA"/>
+                            <constraint firstItem="coz-eT-TKA" firstAttribute="top" secondItem="gMd-6M-K0q" secondAttribute="bottom" constant="200" id="orB-Iy-cEe"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="CloseButton" destination="coz-eT-TKA" id="MH2-G1-sYo"/>
+                        <outlet property="DoneButton" destination="CeC-vT-mMu" id="moB-z0-UQ9"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="u7y-2H-KU7" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="22" y="27"/>
+        </scene>
+    </scenes>
+</document>

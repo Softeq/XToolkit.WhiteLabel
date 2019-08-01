@@ -153,6 +153,7 @@
     <InterfaceDefinition Include="ViewControllers\BottomTabs\Second\GreenStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\EmptyPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Dialogs\DialogsPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Dialogs\DialogPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -217,6 +218,10 @@
     <Compile Include="ViewControllers\Dialogs\DialogsPageViewController.cs" />
     <Compile Include="ViewControllers\Dialogs\DialogsPageViewController.designer.cs">
       <DependentUpon>DialogsPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\DialogPageViewController.cs" />
+    <Compile Include="ViewControllers\Dialogs\DialogPageViewController.designer.cs">
+      <DependentUpon>DialogPageViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
