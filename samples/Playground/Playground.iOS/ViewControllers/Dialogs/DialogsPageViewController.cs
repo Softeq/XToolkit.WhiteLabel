@@ -31,7 +31,7 @@ namespace Playground.iOS.ViewControllers.Dialogs
             this.Bind(() => ViewModel.AlertResult, () => AlertResultLabel.Text);
             this.Bind(() => ViewModel.DialogUntilDismissResult, x =>
             {
-                DialogUntilDismissResultLabel.Text = x?.FullName ?? "";
+                DialogUntilDismissResultLabel.Text = x?.FullName ?? "null";
             });
         }
     }

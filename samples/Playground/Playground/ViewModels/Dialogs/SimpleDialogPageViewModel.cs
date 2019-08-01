@@ -8,9 +8,9 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.ViewModels.Dialogs
 {
-    public class DialogPageViewModel : DialogViewModelBase
+    public class SimpleDialogPageViewModel : DialogViewModelBase
     {
-        public DialogPageViewModel()
+        public SimpleDialogPageViewModel()
         {
             CloseCommand = new RelayCommand(Close);
             DoneCommand = new RelayCommand(Done);

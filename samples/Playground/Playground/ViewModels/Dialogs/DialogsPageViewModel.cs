@@ -14,7 +14,7 @@ namespace Playground.ViewModels.Dialogs
     {
         private readonly IDialogsService _dialogsService;
 
-        private string _alertResult;
+        private string _alertResult = "-";
         private Person _dialogUntilDismissResult;
 
         public DialogsPageViewModel(
@@ -52,7 +52,7 @@ namespace Playground.ViewModels.Dialogs
         private async Task OpenDialogUntilDismiss()
         {
             var result = await _dialogsService
-                .For<DialogPageViewModel>()
+                .For<SimpleDialogPageViewModel>()
                 .WithParam(x => x.FirstName, "First")
                 .WithParam(x => x.LastName, "Last")
                 .Navigate<Person>();

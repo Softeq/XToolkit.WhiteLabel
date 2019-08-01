@@ -8,9 +8,9 @@ using Softeq.XToolkit.WhiteLabel.iOS;
 
 namespace Playground.iOS.ViewControllers.Dialogs
 {
-    public partial class DialogPageViewController : ViewControllerBase<DialogPageViewModel>
+    public partial class SimpleDialogPageViewController : ViewControllerBase<SimpleDialogPageViewModel>
     {
-        public DialogPageViewController(IntPtr handle) : base(handle)
+        public SimpleDialogPageViewController(IntPtr handle) : base(handle)
         {
         }
 
