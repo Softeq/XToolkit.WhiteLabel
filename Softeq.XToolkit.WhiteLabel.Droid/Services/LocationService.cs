@@ -43,7 +43,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             private readonly WeakReferenceEx<LocationManager> _locationManagerRef;
             private TaskCompletionSource<LocationModel> _tcs;
 
-            public LocationListener(LocationManager locationManager, TaskCompletionSource<LocationModel> tcs)
+            public LocationListener(
+                LocationManager locationManager,
+                TaskCompletionSource<LocationModel> tcs)
             {
                 _locationManagerRef = WeakReferenceEx.Create(locationManager);
                 _tcs = tcs;
@@ -58,7 +60,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
                 _tcs.TrySetResult(location == null
                     ? null
-                    : new LocationModel {Latitude = location.Latitude, Longitude = location.Longitude});
+                    : new LocationModel
+                    {
+                        Latitude = location.Latitude,
+                        Longitude = location.Longitude
+                    });
                 _locationManagerRef.Target.RemoveUpdates(this);
                 _tcs = null;
             }

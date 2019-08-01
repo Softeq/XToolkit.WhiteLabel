@@ -6,7 +6,7 @@ using Android.OS;
 using Android.Support.Design.Internal;
 using Android.Support.Design.Widget;
 using Android.Views;
-using Softeq.XToolkit.WhiteLabel.Controls.Views;
+using Softeq.XToolkit.WhiteLabel.Droid.Controls;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
@@ -36,9 +36,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected virtual void InflateMenu()
         {
-            int i = 0;
+            var i = 0;
 
-            foreach(var tabViewModel in ViewModel.TabViewModels)
+            foreach (var tabViewModel in ViewModel.TabViewModels)
             {
                 var iconId = GetImageResourceId(tabViewModel.ImageKey);
 
@@ -70,7 +70,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             return Resources.GetIdentifier(iconIdentifier, "drawable", PackageName);
         }
 
-        private void BottomNavigationViewNavigationItemSelected(object sender, BottomNavigationView.NavigationItemSelectedEventArgs e)
+        private void BottomNavigationViewNavigationItemSelected(object sender,
+            BottomNavigationView.NavigationItemSelectedEventArgs e)
         {
             var index = BottomNavigationView.GetIndex(e.Item);
             TabSelected(index);

@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
@@ -14,5 +13,5 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         public DialogViewModelComponent DialogComponent { get; }
-    };
+    }
 }

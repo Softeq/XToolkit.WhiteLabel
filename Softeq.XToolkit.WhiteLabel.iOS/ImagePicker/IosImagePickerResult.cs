@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.IO;
+using System.IO;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using UIKit;
@@ -22,6 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                         return Task.FromResult(image.AsPNG().AsStream());
                 }
             }
+
             return Task.FromResult(Stream.Null);
         }
     }

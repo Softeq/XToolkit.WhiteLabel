@@ -1,8 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
-using System.Threading.Tasks;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 

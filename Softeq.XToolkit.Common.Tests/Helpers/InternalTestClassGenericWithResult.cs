@@ -1,9 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Softeq.XToolkit.Common;
-
-namespace Softeq.XToolkit.Tests.Core.Common.Helpers
+namespace Softeq.XToolkit.Common.Tests.Helpers
 {
     internal class InternalTestClassWithResult<T>
     {

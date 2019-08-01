@@ -15,15 +15,13 @@ namespace Softeq.XToolkit.Bindings.Droid
 {
     public class ObservableRecyclerGroupViewAdapter<TKey, TItem> : RecyclerView.Adapter
     {
-        private List<AdapterItem<TKey, TItem>> _plainItems;
-        private ObservableKeyGroupsCollection<TKey, TItem> _items;
-        private Func<ViewGroup, int, RecyclerView.ViewHolder> _getHolderFunc;
-        private Func<ViewGroup, int, RecyclerView.ViewHolder> _getHeaderHolderFunc;
-        private Action<RecyclerView.ViewHolder, int, TItem, bool> _bindViewHolderAction;
         private Action<RecyclerView.ViewHolder, int, TKey> _bindHeaderViewHolderAction;
+        private Action<RecyclerView.ViewHolder, int, TItem, bool> _bindViewHolderAction;
+        private Func<ViewGroup, int, RecyclerView.ViewHolder> _getHeaderHolderFunc;
+        private Func<ViewGroup, int, RecyclerView.ViewHolder> _getHolderFunc;
+        private ObservableKeyGroupsCollection<TKey, TItem> _items;
+        private List<AdapterItem<TKey, TItem>> _plainItems;
         private IDisposable _subscription;
-
-        public event EventHandler LastItemRequested;
 
         public ObservableRecyclerGroupViewAdapter(
             ObservableKeyGroupsCollection<TKey, TItem> items,
@@ -43,6 +41,8 @@ namespace Softeq.XToolkit.Bindings.Droid
         }
 
         public override int ItemCount => _plainItems.Count;
+
+        public event EventHandler LastItemRequested;
 
         public int GetHeaderPosition(TKey key, Func<TKey, TKey, bool> predicate)
         {
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         {
             return _plainItems[position].IsHeader ? 0 : 1;
         }
-        
+
         public TItem GetItem(int index)
         {
             return _plainItems[index].Item;

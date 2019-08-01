@@ -12,6 +12,7 @@
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -138,16 +139,6 @@
     <ImageAsset Include="Assets.xcassets\icSettings.imageset\icSettings%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="ViewControllers\" />
-    <Folder Include="Views\" />
-    <Folder Include="ViewControllers\Components\" />
-    <Folder Include="ViewControllers\Collections\" />
-    <Folder Include="ViewControllers\BottomTabs\" />
-    <Folder Include="ViewControllers\BottomTabs\First\" />
-    <Folder Include="ViewControllers\BottomTabs\Second\" />
-  </ItemGroup>
-  <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
     <InterfaceDefinition Include="Views\MainPageGroupHeaderViewCell.xib" />
@@ -160,6 +151,9 @@
     <InterfaceDefinition Include="ViewControllers\BottomTabs\First\RedStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\BottomTabs\First\YellowStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\BottomTabs\Second\GreenStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\EmptyPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Dialogs\DialogsPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Dialogs\SimpleDialogPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -216,6 +210,18 @@
     <Compile Include="ViewControllers\BottomTabs\Second\GreenViewController.cs" />
     <Compile Include="ViewControllers\BottomTabs\Second\GreenViewController.designer.cs">
       <DependentUpon>GreenViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\EmptyPageViewController.cs" />
+    <Compile Include="ViewControllers\EmptyPageViewController.designer.cs">
+      <DependentUpon>EmptyPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\DialogsPageViewController.cs" />
+    <Compile Include="ViewControllers\Dialogs\DialogsPageViewController.designer.cs">
+      <DependentUpon>DialogsPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\SimpleDialogPageViewController.cs" />
+    <Compile Include="ViewControllers\Dialogs\SimpleDialogPageViewController.designer.cs">
+      <DependentUpon>SimpleDialogPageViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

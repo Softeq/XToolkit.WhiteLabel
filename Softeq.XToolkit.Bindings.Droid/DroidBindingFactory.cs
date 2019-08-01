@@ -19,8 +19,8 @@ namespace Softeq.XToolkit.Bindings.Droid
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return new DroidBinding<TSource, TTarget>(
                 source,
@@ -39,8 +39,8 @@ namespace Softeq.XToolkit.Bindings.Droid
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return new DroidBinding<TSource, TTarget>(
                 source,
@@ -58,8 +58,8 @@ namespace Softeq.XToolkit.Bindings.Droid
             object target = null,
             string targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return new DroidBinding<TSource, TTarget>(
                 source,
@@ -115,7 +115,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             {
                 EventHandler<CompoundButton.CheckedChangeEventArgs> handler = (s, args) =>
                 {
-                    var param = castedBinding == null ? default(T) : castedBinding.Value;
+                    var param = castedBinding == null ? default : castedBinding.Value;
                     command.Execute(param);
                 };
 
@@ -125,7 +125,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             {
                 EventHandler handler = (s, args) =>
                 {
-                    var param = castedBinding == null ? default(T) : castedBinding.Value;
+                    var param = castedBinding == null ? default : castedBinding.Value;
                     command.Execute(param);
                 };
 

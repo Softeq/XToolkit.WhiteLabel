@@ -19,8 +19,8 @@ namespace Softeq.XToolkit.Bindings.iOS
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return new AppleBinding<TSource, TTarget>(
                 source,
@@ -39,8 +39,8 @@ namespace Softeq.XToolkit.Bindings.iOS
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return new AppleBinding<TSource, TTarget>(
                 source,
@@ -58,8 +58,8 @@ namespace Softeq.XToolkit.Bindings.iOS
             object target = null,
             string targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             return new AppleBinding<TSource, TTarget>(
                 source,
@@ -93,7 +93,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             // in iOS are using EventHandler, and not EventHandler<...>.
             EventHandler handler = (s, args) =>
             {
-                var param = castedBinding == null ? default(T) : castedBinding.Value;
+                var param = castedBinding == null ? default : castedBinding.Value;
                 command.Execute(param);
             };
             return handler;

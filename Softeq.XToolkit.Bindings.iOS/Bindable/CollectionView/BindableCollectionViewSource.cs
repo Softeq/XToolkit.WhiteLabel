@@ -19,6 +19,11 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
     {
         private Func<UICollectionView, NSIndexPath, UICollectionViewCell> GetCellDelegate { get; set; }
 
+        public object GetItemAt(int index)
+        {
+            return DataSource[index];
+        }
+
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = GetCellDelegate.Invoke(collectionView, indexPath);
@@ -27,11 +32,6 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
             bindableCell.SetDataContext(DataSource[indexPath.Row]);
 
             return cell;
-        }
-
-        public object GetItemAt(int index)
-        {
-            return DataSource[index];
         }
     }
 }

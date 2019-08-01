@@ -1,19 +1,19 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.IO;
 using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.WhiteLabel.ImagePicker
 {
+    [Obsolete("Use IImagePickerService")]
     public class ImagePickerArgs
     {
+        public Func<Task<Stream>> ImageStream;
         public string ImageCacheKey { get; set; }
 
         public ImageExtension ImageExtension { get; set; }
-
-        public Func<Task<Stream>> ImageStream;
 
         public string Extension
         {

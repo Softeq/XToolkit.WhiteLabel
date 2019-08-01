@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Common.Helpers
         public const char Underscore = '_';
 
         /// <summary>
-        /// Find tags in specified string.
+        ///     Find tags in specified string.
         /// </summary>
         /// <returns>Array of finded tags.</returns>
         /// <param name="input">A string containing tags.</param>
@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Find positions of tags in specified string.
+        ///     Find positions of tags in specified string.
         /// </summary>
         /// <returns>The tags positions.</returns>
         /// <param name="input">A string containing tags.</param>

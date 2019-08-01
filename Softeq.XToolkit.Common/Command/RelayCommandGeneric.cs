@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Command
 
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Command.RelayCommand`1"/> class.
+        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Command.RelayCommand`1" /> class.
         /// </summary>
         /// <param name="execute">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
@@ -83,7 +83,7 @@ namespace Softeq.XToolkit.Common.Command
             {
                 if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
                 {
-                    return _canExecute.Execute(default(T));
+                    return _canExecute.Execute(default);
                 }
 
                 if (parameter == null || parameter is T)
@@ -121,6 +121,11 @@ namespace Softeq.XToolkit.Common.Command
             }
         }
 
+        public bool CanExecute(T parameter)
+        {
+            return CanExecute((object) parameter);
+        }
+
         /// <summary>
         ///     Raises the <see cref="CanExecuteChanged" /> event.
         /// </summary>
@@ -136,11 +141,6 @@ namespace Softeq.XToolkit.Common.Command
         {
             var handler = CanExecuteChanged;
             handler?.Invoke(this, EventArgs.Empty);
-        }
-
-        public bool CanExecute(T parameter)
-        {
-            return CanExecute((object) parameter);
         }
     }
 }

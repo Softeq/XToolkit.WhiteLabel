@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using Android.Content;
 using Android.Support.V7.Widget;
@@ -28,6 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             {
                 popup.Menu.Add(0, commandAction.Key, order++, commandAction.Value.Title);
             }
+
             popup.MenuItemClick += Popup_MenuItemClick;
             return popup;
         }
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public void ExecuteCommand(int menuItemId, object parameter)
         {
-            if (_commandActions.TryGetValue(menuItemId, out CommandAction commandAction))
+            if (_commandActions.TryGetValue(menuItemId, out var commandAction))
             {
                 commandAction.Command.Execute(parameter);
             }

@@ -2,10 +2,12 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Windows.Input;
 using Playground.Models;
 using Playground.ViewModels.BottomTabs;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Components;
+using Playground.ViewModels.Dialogs;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Command;
@@ -24,16 +26,20 @@ namespace Playground.ViewModels
             _pageNavigationService = pageNavigationService;
         }
 
+        public string Title => "Main";
+
         public ObservableKeyGroupsCollection<string, CommandAction> Items { get; } =
             new ObservableKeyGroupsCollection<string, CommandAction>();
+
+        public ICommand GoToEmptyCommand { get; private set; }
 
         public override void OnInitialize()
         {
             base.OnInitialize();
 
-            var actions = new List<(string Header, CommandAction Item)>
+            var actions = new List<(Category Header, CommandAction Item)>
             {
-                ("Navigation",
+                (Category.Navigation,
                     new CommandAction
                     {
                         Title = "Without parameters",
@@ -44,7 +50,7 @@ namespace Playground.ViewModels
                                 .Navigate();
                         })
                     }),
-                ("Navigation",
+                (Category.Navigation,
                     new CommandAction
                     {
                         Title = "With parameters",
@@ -60,7 +66,7 @@ namespace Playground.ViewModels
                                 .Navigate();
                         })
                     }),
-                ("Navigation",
+                (Category.Navigation,
                     new CommandAction
                     {
                         Title = "Bottom Tabs",
@@ -71,7 +77,18 @@ namespace Playground.ViewModels
                                 .Navigate();
                         })
                     }),
-                ("Collections",
+                (Category.Navigation,
+                    new CommandAction
+                    {
+                        Title = "Dialogs",
+                        Command = new RelayCommand(() =>
+                        {
+                            _pageNavigationService
+                                .For<DialogsPageViewModel>()
+                                .Navigate();
+                        })
+                    }),
+                (Category.Collections,
                     new CommandAction
                     {
                         Title = "Observable list",
@@ -82,7 +99,7 @@ namespace Playground.ViewModels
                                 .Navigate();
                         })
                     }),
-                ("Collections",
+                (Category.Collections,
                     new CommandAction
                     {
                         Title = "Observable grouped list",
@@ -91,7 +108,7 @@ namespace Playground.ViewModels
                             //_pageNavigationService.NavigateToViewModel<GrouppedCollectionViewModel>();
                         })
                     }),
-                ("Controls",
+                (Category.Controls,
                     new CommandAction
                     {
                         Title = "Photo browser",
@@ -100,16 +117,16 @@ namespace Playground.ViewModels
                             //_pageNavigationService.NavigateToViewModel<PhotoBrowserViewModel>();
                         })
                     }),
-                ("Components",
+                (Category.Components,
                     new CommandAction
                     {
                         Title = "Files",
                         Command = new RelayCommand(() =>
                         {
-                        //_pageNavigationService.NavigateToViewModel<FilesViewModel>();
+                            //_pageNavigationService.NavigateToViewModel<FilesViewModel>();
                         })
                 }),
-                ("Components",
+                (Category.Components,
                     new CommandAction
                     {
                         Title = "Permissions",
@@ -122,7 +139,24 @@ namespace Playground.ViewModels
                     })
             };
 
-            Items.AddRangeToGroups(actions, x => x.Item, x => x.Header);
+            Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());
+
+            GoToEmptyCommand = new RelayCommand(GoToEmpty);
         }
+
+        private void GoToEmpty()
+        {
+            _pageNavigationService
+                .For<EmptyPageViewModel>()
+                .Navigate();
+        }
+    }
+
+    internal enum Category
+    {
+        Navigation,
+        Collections,
+        Controls,
+        Components
     }
 }

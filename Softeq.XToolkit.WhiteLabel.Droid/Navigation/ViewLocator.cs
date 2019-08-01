@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public Type GetTargetType(Type type, ViewType viewType)
         {
-            if(_modelToViewTypes.TryGetValue(type, out var typeOfView))
+            if (_modelToViewTypes.TryGetValue(type, out var typeOfView))
             {
                 return typeOfView;
             }

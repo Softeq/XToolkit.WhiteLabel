@@ -110,9 +110,12 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         /// <summary>
-        /// Notify all properties.
+        ///     Notify all properties.
         /// </summary>
-        public virtual void Refresh() => NotifyProperty(string.Empty);
+        public virtual void Refresh()
+        {
+            NotifyProperty(string.Empty);
+        }
 
         /// <summary>
         ///     Extracts the name of a property from an expression.

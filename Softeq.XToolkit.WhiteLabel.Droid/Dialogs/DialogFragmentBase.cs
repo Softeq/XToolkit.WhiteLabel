@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Support.V4.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
@@ -15,10 +16,10 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
-    public abstract class DialogFragmentBase<TViewModel> : DialogFragment
+    public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindableOwner
         where TViewModel : IDialogViewModel
     {
-        protected IList<Binding> Bindings { get; } = new List<Binding>();
+        public List<Binding> Bindings { get; } = new List<Binding>();
 
         public TViewModel ViewModel { get; private set; }
 

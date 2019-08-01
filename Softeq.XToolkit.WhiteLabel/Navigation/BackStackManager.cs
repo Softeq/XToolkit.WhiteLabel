@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
@@ -11,8 +10,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class BackStackManager : IBackStackManager
     {
-        private readonly IContainer _iocContainer;
         private readonly Stack<IViewModelBase> _backStack;
+        private readonly IContainer _iocContainer;
 
         public BackStackManager(IContainer iocContainer)
         {
@@ -54,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
                 throw new ArgumentException(
                     $"Couldn't find ViewModel for type: {typeof(TViewModel)}. " +
                     $"Please use {nameof(PageNavigationService)} navigating, " +
-                    $"instead of navigation via StartActivity().");
+                    "instead of navigation via StartActivity().");
             }
 
             // Used to recreate ViewModel if processes or activity was killed

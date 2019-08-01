@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -15,14 +15,14 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     {
         private IDisposable _itemViewClickSubscription;
 
-        public event EventHandler ItemClicked;
-
         protected BindableViewHolder(View itemView) : base(itemView)
         {
             Bindings = new List<Binding>();
         }
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
+
+        public event EventHandler ItemClicked;
 
         public object DataContext { get; set; }
         public List<Binding> Bindings { get; }

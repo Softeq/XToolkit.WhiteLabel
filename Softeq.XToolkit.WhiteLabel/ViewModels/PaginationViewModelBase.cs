@@ -1,13 +1,13 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Linq;
-using System.Windows.Input;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Command;
+using System.Windows.Input;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.Models;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -17,9 +17,9 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
     public abstract class PaginationViewModelBase<TViewModel, TModel> : ObservableObject
     {
         private const int DefaultPageSize = 20;
+        private bool _canLoadMore;
 
         private int _currentPage = -1;
-        private bool _canLoadMore;
 
         protected PaginationViewModelBase()
         {
@@ -41,6 +41,12 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
         public ICommand LoadMoreCommand { get; }
 
         public ObservableRangeCollection<TViewModel> Items { get; } = new ObservableRangeCollection<TViewModel>();
+
+        protected virtual bool CanAlwaysLoadMore { get; } = false;
+
+        protected virtual int PageSize { get; } = DefaultPageSize;
+
+        protected virtual CancellationToken CancellationToken { get; } = CancellationToken.None;
 
         public void ResetItems()
         {
@@ -107,6 +113,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             {
                 return;
             }
+
             Task.Run(() => LoadNextPageAsync(CancellationToken));
         }
 
@@ -139,12 +146,6 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
 
             return viewModels;
         }
-
-        protected virtual bool CanAlwaysLoadMore { get; } = false;
-
-        protected virtual int PageSize { get; } = DefaultPageSize;
-
-        protected virtual CancellationToken CancellationToken { get; } = CancellationToken.None;
 
         protected abstract IList<TViewModel> MapItemsToViewModels(IList<TModel> models);
 

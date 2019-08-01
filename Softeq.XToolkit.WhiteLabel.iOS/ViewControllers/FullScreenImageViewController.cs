@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 
             //TODO VPY: find better solution
             CloseButton.TintColor = ViewModel.FullScreenImageOptions.CloseButtonTintColor.UIColorFromHex();
-            CloseButton.SetImage(UIImage.FromBundle(ViewModel.FullScreenImageOptions.IosCloseButtonImageBoundleName), UIControlState.Normal);
+            CloseButton.SetImage(UIImage.FromBundle(ViewModel.FullScreenImageOptions.IosCloseButtonImageBundleName), UIControlState.Normal);
             CloseButton.SetCommand(ViewModel.DialogComponent.CloseCommand, true);
 
             LoadImage();

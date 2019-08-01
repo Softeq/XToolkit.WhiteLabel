@@ -11,10 +11,10 @@ namespace Softeq.XToolkit.Common.Collections
     public static class CollectionSorter
     {
         /// <summary>
-        /// Sort the specified collection in ascending order.
+        ///     Sort the specified collection in ascending order.
         /// </summary>
         /// <param name="collection">Collection to sort.</param>
-        /// <param name="comparison">Method that compares <typeparamref name="T"/> objects</param>
+        /// <param name="comparison">Method that compares <typeparamref name="T" /> objects</param>
         /// <typeparam name="T">The element type of the collection</typeparam>
         public static void Sort<T>(this ObservableCollection<T> collection, Comparison<T> comparison)
         {
@@ -27,11 +27,12 @@ namespace Softeq.XToolkit.Common.Collections
                 collection.Move(collection.IndexOf(sorted[i]), i);
             }
         }
+
         /// <summary>
-        /// Sort the specified collection in descending order.
+        ///     Sort the specified collection in descending order.
         /// </summary>
         /// <param name="collection">Collection to sort.</param>
-        /// <param name="comparison">Method that compares <typeparamref name="T"/> objects</param>
+        /// <param name="comparison">Method that compares <typeparamref name="T" /> objects</param>
         /// <typeparam name="T">The element type of the collection</typeparam>
         public static void DescendingSort<T>(this ObservableCollection<T> collection, Comparison<T> comparison)
         {
@@ -51,9 +52,9 @@ namespace Softeq.XToolkit.Common.Collections
         private readonly Comparison<T> _comparison;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Collections.Comparer`1"/> class.
+        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Collections.Comparer`1" /> class.
         /// </summary>
-        /// <param name="comparison">Method that compares <typeparamref name="T"/> objects</param>
+        /// <param name="comparison">Method that compares <typeparamref name="T" /> objects</param>
         public Comparer(Comparison<T> comparison)
         {
             _comparison = comparison;
@@ -74,9 +75,9 @@ namespace Softeq.XToolkit.Common.Collections
         private readonly Comparison<T> _comparison;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Collections.ReverseComparer`1"/> class.
+        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Collections.ReverseComparer`1" /> class.
         /// </summary>
-        /// <param name="comparison">Method that compares <typeparamref name="T"/> objects</param>
+        /// <param name="comparison">Method that compares <typeparamref name="T" /> objects</param>
         public ReverseComparer(Comparison<T> comparison)
         {
             _comparison = comparison;

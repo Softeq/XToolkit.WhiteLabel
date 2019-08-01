@@ -28,6 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters)
             where TViewModel : IViewModelBase;
+
         void NavigatToFirstPage();
     }
 }

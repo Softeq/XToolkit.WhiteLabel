@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Extensions
                 return task.Result;
             }
 
-            return default(T);
+            return default;
         }
 
         public static Task<T> SafeTaskWrapper<T>(this Task<T> task, ILogger logger = null)

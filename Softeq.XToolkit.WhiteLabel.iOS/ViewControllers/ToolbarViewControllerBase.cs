@@ -4,8 +4,8 @@
 using System;
 using System.Linq;
 using Softeq.XToolkit.Common.iOS.Extensions;
-using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
 using Softeq.XToolkit.WhiteLabel.iOS.Controls;
+using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 
@@ -38,6 +38,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             {
                 tabBarItem.BadgeColor = BadgeColor;
             }
+
             tabBarItem.SetViewModel(viewModel);
             return tabBarItem;
         }

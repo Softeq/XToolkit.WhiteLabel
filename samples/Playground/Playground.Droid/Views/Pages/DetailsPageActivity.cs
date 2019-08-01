@@ -3,8 +3,8 @@
 
 using Android.App;
 using Android.OS;
-using Softeq.XToolkit.WhiteLabel.Droid;
 using Playground.ViewModels.Pages;
+using Softeq.XToolkit.WhiteLabel.Droid;
 
 namespace Playground.Droid.Views.Pages
 {

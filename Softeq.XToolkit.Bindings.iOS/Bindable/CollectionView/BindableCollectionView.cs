@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
 
             var bindableCell = (IBindable) cell;
             bindableCell.SetDataContext(_source.GetItemAt(indexPath.Row));
-            
+
             return cell;
         }
 
@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
 
             var bindableCell = (IBindable) cell;
             bindableCell.SetDataContext(_source.GetItemAt(indexPath.Row));
-            
+
             return cell;
         }
 

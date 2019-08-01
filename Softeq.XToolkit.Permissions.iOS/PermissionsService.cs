@@ -2,12 +2,12 @@
 // http://www.softeq.com
 
 using System;
-using System.Threading.Tasks;
 using System.ComponentModel;
+using System.Threading.Tasks;
 using Foundation;
+using Plugin.Permissions;
 using UIKit;
 using UserNotifications;
-using Plugin.Permissions;
 using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.iOS
@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.Permissions.iOS
             }
 
             var result = await CrossPermissions.Current.CheckPermissionStatusAsync<T>().ConfigureAwait(false);
-            
+
             return ToPermissionStatus(result);
         }
 
@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.Permissions.iOS
         {
             RunInMainThread(() => { CrossPermissions.Current.OpenAppSettings(); });
         }
-        
+
         private static void RunInMainThread(Action action)
         {
             if (NSThread.IsMain)
@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.Permissions.iOS
             var notificationCenter = UNUserNotificationCenter.Current;
             var notificationSettings = await notificationCenter.GetNotificationSettingsAsync().ConfigureAwait(false);
             var notificationsSettingsEnabled = notificationSettings.SoundSetting == UNNotificationSetting.Enabled
-                && notificationSettings.AlertSetting == UNNotificationSetting.Enabled;
+                                               && notificationSettings.AlertSetting == UNNotificationSetting.Enabled;
             return notificationsSettingsEnabled
                 ? PermissionStatus.Granted
                 : PermissionStatus.Denied;
@@ -82,7 +82,7 @@ namespace Softeq.XToolkit.Permissions.iOS
         {
             switch (permissionStatus)
             {
-                case PluginPermissionStatus.Denied: 
+                case PluginPermissionStatus.Denied:
                     return PermissionStatus.Denied;
                 case PluginPermissionStatus.Disabled:
                     return PermissionStatus.Denied;
@@ -94,7 +94,7 @@ namespace Softeq.XToolkit.Permissions.iOS
                     return PermissionStatus.Unknown;
                 default:
                     throw new InvalidEnumArgumentException(nameof(permissionStatus),
-                        (int)permissionStatus, permissionStatus.GetType());
+                        (int) permissionStatus, permissionStatus.GetType());
             }
         }
     }

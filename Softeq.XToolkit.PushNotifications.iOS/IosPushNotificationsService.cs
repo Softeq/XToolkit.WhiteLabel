@@ -34,6 +34,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             {
                 throw new ArgumentException($"{nameof(IosPushNotificationsService)}: Already Initialized");
             }
+
             _isInitialized = true;
 
             UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate(this, showForegroundNotificationsInSystem);

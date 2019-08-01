@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.Common.Helpers
         private const int PrimeTwo = 23;
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>
@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>
@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>
@@ -135,7 +135,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>
@@ -171,7 +171,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>
@@ -203,7 +203,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>
@@ -232,7 +232,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>
@@ -258,7 +258,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>
@@ -281,7 +281,7 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Get hashcode from 10 objects.
+        ///     Get hashcode from 10 objects.
         /// </summary>
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Arg1.</param>

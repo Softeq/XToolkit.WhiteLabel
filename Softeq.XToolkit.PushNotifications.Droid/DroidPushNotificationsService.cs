@@ -13,19 +13,20 @@ using Firebase.Messaging;
 using Java.Interop;
 using Java.IO;
 using Softeq.XToolkit.Common.Interfaces;
+using Object = Java.Lang.Object;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
     public class DroidPushNotificationsService : PushNotificationsServiceBase, IDisposable
     {
-        private readonly INotificationsSettingsProvider _notificationsSettings;
         private readonly Context _appContext;
         private readonly AppLifecycleObserver _lifecycleObserver;
+        private readonly INotificationsSettingsProvider _notificationsSettings;
 
         private bool _isInitialized;
-        private bool _showForegroundNotificationsInSystem;
 
         private bool _registrationRequired;
+        private bool _showForegroundNotificationsInSystem;
 
         public DroidPushNotificationsService(
             IRemotePushNotificationsService remotePushNotificationsService,
@@ -128,6 +129,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             {
                 ShowNotification(pushNotification, parsedNotification, inForeground);
             }
+
             return parsedNotification;
         }
 
@@ -162,6 +164,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         }
 
         #region IDisposable
+
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -181,12 +184,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         {
             Dispose(false);
         }
+
         #endregion
     }
 
-    public class AppLifecycleObserver : Java.Lang.Object, ILifecycleObserver
+    public class AppLifecycleObserver : Object, ILifecycleObserver
     {
-        public bool IsForegrounded { get; private set; } = false;
+        public bool IsForegrounded { get; private set; }
 
         [Lifecycle.Event.OnStop]
         [Export]

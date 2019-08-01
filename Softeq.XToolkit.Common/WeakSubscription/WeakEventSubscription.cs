@@ -9,16 +9,15 @@ namespace Softeq.XToolkit.Common.WeakSubscription
     public class WeakEventSubscription<TSource, TEventArgs> : IDisposable
         where TSource : class
     {
-        private readonly WeakReference _targetReference;
-        private readonly WeakReference<TSource> _sourceReference;
-
         private readonly MethodInfo _eventHandlerMethodInfo;
-
-        private readonly EventInfo _sourceEventInfo;
 
         // we store a copy of our Delegate/EventHandler in order to prevent it being
         // garbage collected while the `client` still has ownership of this subscription
         private readonly Delegate _ourEventHandler;
+
+        private readonly EventInfo _sourceEventInfo;
+        private readonly WeakReference<TSource> _sourceReference;
+        private readonly WeakReference _targetReference;
 
         private bool _subscribed;
 
@@ -56,6 +55,12 @@ namespace Softeq.XToolkit.Common.WeakSubscription
             AddEventHandler();
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         protected virtual Delegate CreateEventHandler()
         {
             return new EventHandler<TEventArgs>(OnSourceEvent);
@@ -78,12 +83,6 @@ namespace Softeq.XToolkit.Common.WeakSubscription
             {
                 RemoveEventHandler();
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)
@@ -126,16 +125,15 @@ namespace Softeq.XToolkit.Common.WeakSubscription
     public class WeakEventSubscription<TSource> : IDisposable
         where TSource : class
     {
-        private readonly WeakReference _targetReference;
-        private readonly WeakReference<TSource> _sourceReference;
-
         private readonly MethodInfo _eventHandlerMethodInfo;
-
-        private readonly EventInfo _sourceEventInfo;
 
         // we store a copy of our Delegate/EventHandler in order to prevent it being
         // garbage collected while the `client` still has ownership of this subscription
         private readonly Delegate _ourEventHandler;
+
+        private readonly EventInfo _sourceEventInfo;
+        private readonly WeakReference<TSource> _sourceReference;
+        private readonly WeakReference _targetReference;
 
         private bool _subscribed;
 
@@ -173,6 +171,12 @@ namespace Softeq.XToolkit.Common.WeakSubscription
             AddEventHandler();
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         protected virtual Delegate CreateEventHandler()
         {
             return new EventHandler(OnSourceEvent);
@@ -195,12 +199,6 @@ namespace Softeq.XToolkit.Common.WeakSubscription
             {
                 RemoveEventHandler();
             }
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
         }
 
         protected virtual void Dispose(bool disposing)

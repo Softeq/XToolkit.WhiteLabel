@@ -8,12 +8,12 @@ using System.Linq;
 namespace Softeq.XToolkit.Common.Extensions
 {
     /// <summary>
-    /// Extension methods for <see cref="T:System.Collections.Generic.IEnumerable`1"/>
+    ///     Extension methods for <see cref="T:System.Collections.Generic.IEnumerable`1" />
     /// </summary>
     public static class EnumerablesExtensions
     {
         /// <summary>
-        /// Returns empty IEnumerable if source is null.
+        ///     Returns empty IEnumerable if source is null.
         /// </summary>
         /// <returns>Return IEnumerable if source is null otherwise return source.</returns>
         /// <param name="source">Source.</param>
@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        /// Apply specified action to each item of enumerable.
+        ///     Apply specified action to each item of enumerable.
         /// </summary>
         /// <param name="enumerable">IEnumerable instance.</param>
         /// <param name="action">Specified action.</param>
@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        /// Splits an enumerable into chunks of a specified size.
+        ///     Splits an enumerable into chunks of a specified size.
         /// </summary>
         /// <param name="source">IEnumerable instance.</param>
         /// <param name="size">Chunk size.</param>
@@ -73,7 +73,7 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        /// Adds the elements of the specified collection to the end of the <see cref="T:System.Collections.Generic.List`1"/>.
+        ///     Adds the elements of the specified collection to the end of the <see cref="T:System.Collections.Generic.List`1" />.
         /// </summary>
         /// <param name="items">Initial collection.</param>
         /// <param name="range">The collection whose elements should be added to the end of the list.</param>

@@ -159,7 +159,7 @@ namespace Softeq.XToolkit.Common
                 }
             }
 
-            return default(TResult);
+            return default;
         }
 
         /// <summary>
@@ -276,7 +276,7 @@ namespace Softeq.XToolkit.Common
         /// <returns>The result of the Func stored as reference.</returns>
         public new TResult Execute()
         {
-            return Execute(default(T));
+            return Execute(default);
         }
 
         /// <summary>
@@ -302,14 +302,11 @@ namespace Softeq.XToolkit.Common
                 {
                     return (TResult) Method.Invoke(
                         funcTarget,
-                        new object[]
-                        {
-                            parameter
-                        });
+                        new object[] { parameter });
                 }
             }
 
-            return default(TResult);
+            return default;
         }
 
         /// <summary>

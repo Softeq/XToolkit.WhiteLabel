@@ -13,10 +13,10 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
     public abstract class PaginationSearchViewModelBase<TViewModel, TModel>
         : PaginationViewModelBase<TViewModel, TModel>
     {
-        private CancellationTokenSource _lastSearchCancelSource = new CancellationTokenSource();
-        private string _searchQuery = string.Empty;
         private bool _hasContent;
         private bool _isBusy;
+        private CancellationTokenSource _lastSearchCancelSource = new CancellationTokenSource();
+        private string _searchQuery = string.Empty;
 
         protected PaginationSearchViewModelBase()
         {
@@ -85,7 +85,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
                 HandleException(ex);
             }
 
-            return default(PagingModel<TModel>);
+            return default;
         }
 
         protected override void ItemsWillLoad()

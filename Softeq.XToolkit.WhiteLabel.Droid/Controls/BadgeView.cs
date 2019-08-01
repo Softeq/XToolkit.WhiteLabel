@@ -1,26 +1,17 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
 using Android.Util;
-using Android.Views;
 using Android.Widget;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Droid.Converters;
-using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
-namespace Softeq.XToolkit.WhiteLabel.Controls.Views
+namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
     internal class BadgeView : FrameLayout
     {
@@ -49,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Controls.Views
 
         public ColorStateList BackgroundColor
         {
-            get => ((GradientDrawable)_textView.Background).Color;
+            get => ((GradientDrawable) _textView.Background).Color;
             set => ((GradientDrawable) _textView.Background).SetColor(value);
         }
 

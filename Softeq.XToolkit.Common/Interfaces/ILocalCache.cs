@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Common.Interfaces
         Task Add(string key, DateTimeOffset date, object json);
 
         Task<bool> Exists(string key);
-        
+
         Task<bool> IsExpired(string key);
 
         void Reset();

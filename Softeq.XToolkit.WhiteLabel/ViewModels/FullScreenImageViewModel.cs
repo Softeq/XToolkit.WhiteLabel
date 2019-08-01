@@ -7,7 +7,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
 {
     public class FullScreenImageOptions
     {
-        public string IosCloseButtonImageBoundleName { get; set; }
+        public string IosCloseButtonImageBundleName { get; set; }
         public int DroidCloseButtonImageResId { get; set; }
         public string CloseButtonTintColor { get; set; }
         public string ImageUrl { get; set; }

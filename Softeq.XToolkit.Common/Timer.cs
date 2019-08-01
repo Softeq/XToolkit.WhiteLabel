@@ -9,7 +9,7 @@ using Softeq.XToolkit.Common.Interfaces;
 namespace Softeq.XToolkit.Common
 {
     /// <summary>
-    /// Runs and wait task after a set interval 
+    ///     Runs and wait task after a set interval
     /// </summary>
     public class Timer : ITimer, IDisposable
     {
@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common
         private TaskReference _taskReference;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Timer"/> class with specified interval.
+        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Timer" /> class with specified interval.
         /// </summary>
         /// <param name="taskReference">Task to be executed at specified interval.</param>
         /// <param name="interval">Timer interval (ms).</param>
@@ -28,19 +28,15 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the <see cref="T:Softeq.XToolkit.Common.Timer"/> should run task.
+        ///     Releases all resource used by the <see cref="T:Softeq.XToolkit.Common.Timer" /> object.
         /// </summary>
-        /// <value><c>true</c> if Task should run; otherwise, <c>false</c>.</value>
-        public bool IsActive { get; private set; }
-
-        /// <summary>
-        /// Releases all resource used by the <see cref="T:Softeq.XToolkit.Common.Timer"/> object.
-        /// </summary>
-        /// <remarks>Call <see cref="Dispose"/> when you are finished using the <see cref="T:Softeq.XToolkit.Common.Timer"/>. The
-        /// <see cref="Dispose"/> method leaves the <see cref="T:Softeq.XToolkit.Common.Timer"/> in an unusable state.
-        /// After calling <see cref="Dispose"/>, you must release all references to the
-        /// <see cref="T:Softeq.XToolkit.Common.Timer"/> so the garbage collector can reclaim the memory that the
-        /// <see cref="T:Softeq.XToolkit.Common.Timer"/> was occupying.</remarks>
+        /// <remarks>
+        ///     Call <see cref="Dispose" /> when you are finished using the <see cref="T:Softeq.XToolkit.Common.Timer" />. The
+        ///     <see cref="Dispose" /> method leaves the <see cref="T:Softeq.XToolkit.Common.Timer" /> in an unusable state.
+        ///     After calling <see cref="Dispose" />, you must release all references to the
+        ///     <see cref="T:Softeq.XToolkit.Common.Timer" /> so the garbage collector can reclaim the memory that the
+        ///     <see cref="T:Softeq.XToolkit.Common.Timer" /> was occupying.
+        /// </remarks>
         public void Dispose()
         {
             Stop();
@@ -48,7 +44,13 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Starts runnung task by setting Enabled to true.
+        ///     Gets or sets a value indicating whether the <see cref="T:Softeq.XToolkit.Common.Timer" /> should run task.
+        /// </summary>
+        /// <value><c>true</c> if Task should run; otherwise, <c>false</c>.</value>
+        public bool IsActive { get; private set; }
+
+        /// <summary>
+        ///     Starts runnung task by setting Enabled to true.
         /// </summary>
         public void Start()
         {
@@ -62,7 +64,7 @@ namespace Softeq.XToolkit.Common
         }
 
         /// <summary>
-        /// Stops runnung task by setting Enabled to false.
+        ///     Stops runnung task by setting Enabled to false.
         /// </summary>
         public void Stop()
         {

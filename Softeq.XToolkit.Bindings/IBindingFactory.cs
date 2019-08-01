@@ -18,8 +18,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource));
+            TSource fallbackValue = default,
+            TSource targetNullValue = default);
 
         Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
@@ -27,8 +27,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource));
+            TSource fallbackValue = default,
+            TSource targetNullValue = default);
 
         Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
@@ -36,8 +36,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             string targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource));
+            TSource fallbackValue = default,
+            TSource targetNullValue = default);
 
         Delegate GetCommandHandler(EventInfo info,
             string eventName,

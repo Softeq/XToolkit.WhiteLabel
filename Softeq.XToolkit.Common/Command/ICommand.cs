@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace Softeq.XToolkit.Common.Command
 {
     /// <summary>
-    /// Defines a command.
+    ///     Defines a command.
     /// </summary>
     public interface ICommand<in T> : ICommand
     {

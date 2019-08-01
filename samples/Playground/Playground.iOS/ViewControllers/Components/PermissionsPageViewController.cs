@@ -13,7 +13,7 @@ namespace Playground.iOS.ViewControllers.Components
 {
     public partial class PermissionsPageViewController : ViewControllerBase<PermissionsPageViewModel>
     {
-        public PermissionsPageViewController (IntPtr handle) : base (handle)
+        public PermissionsPageViewController(IntPtr handle) : base(handle)
         {
         }
 

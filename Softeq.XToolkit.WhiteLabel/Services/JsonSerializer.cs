@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
             Formatting = Formatting.None,
             TypeNameHandling = TypeNameHandling.None,
             NullValueHandling = NullValueHandling.Ignore,
-            ContractResolver = new DefaultContractResolver {NamingStrategy = new CamelCaseNamingStrategy()},
+            ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateTimeZoneHandling = DateTimeZoneHandling.Utc
         };
@@ -30,10 +30,10 @@ namespace Softeq.XToolkit.WhiteLabel.Services
         {
             return JsonConvert.DeserializeObject<T>(value, _jsonSerializerSettings);
         }
-        
+
         public Task<T> DeserializeAsync<T>(Stream stream)
         {
-            return Task.Run(() => 
+            return Task.Run(() =>
             {
                 var serializer = Newtonsoft.Json.JsonSerializer.Create(_jsonSerializerSettings);
                 using (var streamReader = new StreamReader(stream))

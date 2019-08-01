@@ -9,7 +9,7 @@ namespace Playground.iOS.ViewControllers.BottomTabs.First
 {
     public partial class YellowViewController : ViewControllerBase<YellowViewModel>
     {
-        public YellowViewController (IntPtr handle) : base (handle)
+        public YellowViewController(IntPtr handle) : base(handle)
         {
         }
     }

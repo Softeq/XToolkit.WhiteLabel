@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
             ViewModel.SelectionChangedCommand?.Execute(index);
 
-            if(oldSelectedIndex == index)
+            if (oldSelectedIndex == index)
             {
                 ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
             }
@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         public override void OnBackPressed()
         {
-            if(ViewModel.CanGoBack)
+            if (ViewModel.CanGoBack)
             {
                 ViewModel.GoBackCommand.Execute(null);
             }

@@ -22,6 +22,7 @@
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -81,6 +82,9 @@
     <Compile Include="Views\Collections\CollectionPageActivity.cs" />
     <Compile Include="Views\BottomTabs\First\RedFragment.cs" />
     <Compile Include="Views\BottomTabs\Second\BlueFragment.cs" />
+    <Compile Include="Views\EmptyPageActivity.cs" />
+    <Compile Include="Views\Dialogs\DialogsPageActivity.cs" />
+    <Compile Include="Views\Dialogs\SimpleDialogPageFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -123,6 +127,10 @@
     <AndroidResource Include="Resources\layout\item_main.xml" />
     <AndroidResource Include="Resources\layout\item_main_header.xml" />
     <AndroidResource Include="Resources\layout\activity_details.xml" />
+    <AndroidResource Include="Resources\menu\main.xml" />
+    <AndroidResource Include="Resources\layout\activity_empty.xml" />
+    <AndroidResource Include="Resources\layout\activity_dialogs.xml" />
+    <AndroidResource Include="Resources\layout\dialog_simple_dialog.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
@@ -162,23 +170,5 @@
       <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-    <Folder Include="Views\Pages\" />
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\menu\" />
-    <Folder Include="Views\BottomTabs\" />
-    <Folder Include="Views\BottomTabs\Second\" />
-    <Folder Include="Views\BottomTabs\First\" />
-    <Folder Include="Views\Components\" />
-    <Folder Include="Views\Collections\" />
-  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-    Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-  -->
 </Project>

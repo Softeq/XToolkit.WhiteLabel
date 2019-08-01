@@ -9,7 +9,7 @@ using System.Linq;
 using Softeq.XToolkit.Common.Collections;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class CollectionsTests
     {

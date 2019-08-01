@@ -21,10 +21,10 @@ namespace Softeq.XToolkit.Bindings.iOS
         private readonly Func<UITableView, TKey, UIView> _getFooterViewFunc;
         private readonly Func<TKey, nfloat> _getHeaderHeightFunc;
         private readonly Func<UITableView, TKey, UIView> _getHeaderViewFunc;
+        private readonly Func<NSIndexPath, nfloat> _getHeightForRowFunc;
+        private readonly Func<nint, nint> _getRowInSectionCountFunc;
         private readonly WeakReferenceEx<UITableView> _tableViewRef;
         private IDisposable _subscription;
-        private readonly Func<nint, nint> _getRowInSectionCountFunc;
-        private readonly Func<NSIndexPath, nfloat> _getHeightForRowFunc;
 
         public ObservableGroupTableViewSource(
             UITableView tableView,
@@ -58,12 +58,12 @@ namespace Softeq.XToolkit.Bindings.iOS
         public nfloat? HeightForRow { get; set; }
 
         /// <summary>
-        /// Called when item was selected
+        ///     Called when item was selected
         /// </summary>
         public event EventHandler<GenericEventArgs<TItem>> ItemSelected;
 
         /// <summary>
-        /// Called every time when user clicked by item (select/deselect)
+        ///     Called every time when user clicked by item (select/deselect)
         /// </summary>
         public event EventHandler<GenericEventArgs<TItem>> ItemTapped;
 

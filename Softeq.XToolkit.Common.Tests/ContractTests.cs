@@ -6,7 +6,7 @@ using NSubstitute;
 using Softeq.XToolkit.Common.Interfaces;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class ContractTests
     {

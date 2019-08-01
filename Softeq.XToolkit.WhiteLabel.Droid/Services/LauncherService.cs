@@ -38,14 +38,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             CrossCurrentActivity.Current.Activity.StartActivity(intent);
         }
 
-        private void OpenSettings(string settings)
-        {
-            var intent = new Intent(settings);
-            intent.AddFlags(ActivityFlags.NewTask);
-
-            CrossCurrentActivity.Current.Activity.StartActivity(intent);
-        }
-
         public void OpenEmail(string email)
         {
             var intent = new Intent(Intent.ActionSendto);
@@ -64,6 +56,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             {
                 CrossCurrentActivity.Current.Activity.StartActivity(intent);
             }
+        }
+
+        private void OpenSettings(string settings)
+        {
+            var intent = new Intent(settings);
+            intent.AddFlags(ActivityFlags.NewTask);
+
+            CrossCurrentActivity.Current.Activity.StartActivity(intent);
         }
     }
 }

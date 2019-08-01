@@ -9,12 +9,12 @@ using Java.Lang;
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
     /// <summary>
-    /// Extensions related to <see cref="EditText" />
+    ///     Extensions related to <see cref="EditText" />
     /// </summary>
     public static class EditTextExtensions
     {
         /// <summary>
-        /// Allows to move cursor to the end of text in EditText when it gains focus
+        ///     Allows to move cursor to the end of text in EditText when it gains focus
         /// </summary>
         /// <param name="editText">Edit text.</param>
         public static void KeepFocusAtTheEndOfField(this EditText editText)
@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         }
 
         /// <summary>
-        /// Allows applying multiple input filters to the EditText.
+        ///     Allows applying multiple input filters to the EditText.
         /// </summary>
         /// <param name="editText">Edit text.</param>
         /// <param name="filters">Array of filters.</param>
@@ -36,14 +36,14 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         }
 
         /// <summary>
-        /// This filter will constrain edits not to make text contains forbidden symbols.
+        ///     This filter will constrain edits not to make text contains forbidden symbols.
         /// </summary>
         public class ForbiddenCharsInputFilter : Object, IInputFilter
         {
             private readonly char[] _forbiddenCharacters;
 
             /// <summary>
-            /// This filter will constrain edits not to make text contains forbidden symbols.
+            ///     This filter will constrain edits not to make text contains forbidden symbols.
             /// </summary>
             /// <param name="forbiddenCharacters">Char array of characters not allowed in the input. Ignored when null</param>
             public ForbiddenCharsInputFilter(char[] forbiddenCharacters)
@@ -61,6 +61,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
                         return new String(string.Empty);
                     }
                 }
+
                 return null;
             }
         }

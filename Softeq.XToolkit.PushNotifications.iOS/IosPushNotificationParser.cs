@@ -8,35 +8,36 @@ namespace Softeq.XToolkit.PushNotifications.iOS
     public class IosPushNotificationParser : IPushNotificationParser
     {
         /// <summary>
-        /// A root dictionary containing one or more additional Apple-defined keys instructing the system how to handle notification.
-        /// Don't add your own custom keys to the aps dictionary; APNs ignores custom keys. Instead, add your custom keys as peers of the aps dictionary
+        ///     A root dictionary containing one or more additional Apple-defined keys instructing the system how to handle notification.
+        ///     Don't add your own custom keys to the aps dictionary; APNs ignores custom keys. Instead, add your custom keys as peers of the
+        ///     aps dictionary
         /// </summary>
         protected const string ApsKey = "aps";
 
         /// <summary>
-        /// Flag inside aps. The information for displaying an alert. A dictionary is recommended.
-        /// If you specify a string, the alert displays your string as the body text.
+        ///     Flag inside aps. The information for displaying an alert. A dictionary is recommended.
+        ///     If you specify a string, the alert displays your string as the body text.
         /// </summary>
         protected const string AlertKey = "alert";
 
         /// <summary>
-        /// Flag inside alert. The title of the notification.
+        ///     Flag inside alert. The title of the notification.
         /// </summary>
         protected const string TitleKey = "title";
 
         /// <summary>
-        /// Flag inside alert. The content of the alert message.
+        ///     Flag inside alert. The content of the alert message.
         /// </summary>
         protected const string BodyKey = "body";
 
         /// <summary>
-        /// Flag inside aps. The background notification flag. To perform a silent background update,
-        /// specify the value 1 and don't include the alert, badge, or sound keys in your payload.
+        ///     Flag inside aps. The background notification flag. To perform a silent background update,
+        ///     specify the value 1 and don't include the alert, badge, or sound keys in your payload.
         /// </summary>
         protected const string ContentAvailableKey = "content-available";
 
         /// <summary>
-        /// Custom key for addition data. Can be customized.
+        ///     Custom key for addition data. Can be customized.
         /// </summary>
         protected virtual string DataKey => "data";
 
@@ -61,6 +62,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             {
                 body = str;
             }
+
             pushNotification.Title = title;
             pushNotification.Body = body;
 
@@ -75,7 +77,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         }
 
         /// <summary>
-        /// Obtains type string from push notification data (should be customized to provide app specific values)
+        ///     Obtains type string from push notification data (should be customized to provide app specific values)
         /// </summary>
         /// <param name="pushNotification">Initial push notification dictionary</param>
         /// <param name="aps">Dictionary stored inside 'aps' tag</param>

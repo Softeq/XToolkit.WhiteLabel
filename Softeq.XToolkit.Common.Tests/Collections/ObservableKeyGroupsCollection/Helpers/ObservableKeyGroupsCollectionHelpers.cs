@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.Common.Collections;
 
-namespace Softeq.XToolkit.Tests.Core.Common.Collections.ObservableKeyGroupsCollection.Helpers
+namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection.Helpers
 {
     public static class ObservableKeyGroupsCollectionHelpers
     {

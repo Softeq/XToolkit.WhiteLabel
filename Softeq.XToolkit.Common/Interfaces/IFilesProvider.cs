@@ -7,19 +7,19 @@ using System.Threading.Tasks;
 namespace Softeq.XToolkit.Common.Interfaces
 {
     /// <summary>
-    /// Represent methods for file operations.
+    ///     Represent methods for file operations.
     /// </summary>
     public interface IFilesProvider
     {
         /// <summary>
-        /// Get stream from file with specified path
+        ///     Get stream from file with specified path
         /// </summary>
         /// <param name="path">File path</param>
         /// <returns>Returns a Stream</returns>
         Task<Stream> GetFileContentAsync(string path);
 
         /// <summary>
-        /// Copy file asynchronously to new path
+        ///     Copy file asynchronously to new path
         /// </summary>
         /// <param name="path">Source file path</param>
         /// <param name="newPath">Destination file path</param>
@@ -27,35 +27,35 @@ namespace Softeq.XToolkit.Common.Interfaces
         Task<string> CopyFileFromAsync(string path, string newPath);
 
         /// <summary>
-        /// Delete all files from directory
+        ///     Delete all files from directory
         /// </summary>
         /// <param name="path">Path for directory</param>
         /// <returns></returns>
         Task ClearFolderAsync(string path);
 
         /// <summary>
-        /// Delete file if existed
+        ///     Delete file if existed
         /// </summary>
         /// <param name="path">File path</param>
         /// <returns></returns>
-		Task RemoveAsync(string path);
+        Task RemoveAsync(string path);
 
         /// <summary>
-        /// Opens an existing file or creates a new file for writing.
+        ///     Opens an existing file or creates a new file for writing.
         /// </summary>
         /// <param name="path">The file to be opened for writing.</param>
         /// <returns>An unshared Stream object on the specified path with Write access.</returns>
         Task<Stream> OpenStreamForWriteAsync(string path);
 
         /// <summary>
-        /// Check if file existed
+        ///     Check if file existed
         /// </summary>
         /// <param name="path">File path</param>
         /// <returns>true if file existed, overwise false</returns>
-		Task<bool> ExistsAsync(string path);
+        Task<bool> ExistsAsync(string path);
 
         /// <summary>
-        /// Opens an existing file or creates a new file for writing, and write bytes to file
+        ///     Opens an existing file or creates a new file for writing, and write bytes to file
         /// </summary>
         /// <param name="path">File path</param>
         /// <param name="stream">Bytes to write</param>

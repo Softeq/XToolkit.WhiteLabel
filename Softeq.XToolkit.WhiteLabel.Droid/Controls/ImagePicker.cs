@@ -13,18 +13,20 @@ using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
+    [Obsolete("Use WhiteLabel.ImagePicker.IImagePickerService")]
     public interface IImagePickerService
     {
         Task<string> PickImageAsync();
         Task<string> TakePhotoAsync();
     }
 
+    [Obsolete("Use IImagePickerService")]
     public class ImagePicker
     {
         private const string Png = ".png";
+        private readonly IImagePickerService _imagePickerService;
 
         private readonly IPermissionsManager _permissionsManager;
-        private readonly IImagePickerService _imagePickerService;
 
         public ImagePicker(
             IPermissionsManager permissionsManager,
@@ -75,7 +77,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             {
                 if (ViewModel.ImageCacheKey == null)
                 {
-                    return (Task.FromResult(default(Stream)), default(string));
+                    return (Task.FromResult(default(Stream)), default);
                 }
 
                 var imageExtension = GetImageExtension();
@@ -112,7 +114,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
                 case ImageExtension.Jpg:
                     return CreateJpegLoadTask;
                 default:
-                    return default(Func<Task<Stream>>);
+                    return default;
             }
         }
 
@@ -151,7 +153,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             {
                 LogError(ex);
             }
-            return default(Stream);
+
+            return default;
         }
 
         private async Task<Stream> CreatePngLoadTask()
@@ -164,7 +167,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             {
                 LogError(ex);
             }
-            return default(Stream);
+
+            return default;
         }
 
         private TaskParameter CreateLoadTask()

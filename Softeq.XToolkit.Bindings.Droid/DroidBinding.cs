@@ -13,22 +13,22 @@ namespace Softeq.XToolkit.Bindings.Droid
     {
         public DroidBinding(object source, string sourcePropertyName, object target = null,
             string targetPropertyName = null, BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource), TSource targetNullValue = default(TSource)) : base(source,
+            TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
             sourcePropertyName, target, targetPropertyName, mode, fallbackValue, targetNullValue)
         {
         }
 
         public DroidBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null, BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource), TSource targetNullValue = default(TSource)) : base(source,
+            TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
             sourcePropertyExpression, target, targetPropertyExpression, mode, fallbackValue, targetNullValue)
         {
         }
 
         public DroidBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
             object target = null, Expression<Func<TTarget>> targetPropertyExpression = null,
-            BindingMode mode = BindingMode.Default, TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource)) : base(source, sourcePropertyExpression, resolveTopField,
+            BindingMode mode = BindingMode.Default, TSource fallbackValue = default,
+            TSource targetNullValue = default) : base(source, sourcePropertyExpression, resolveTopField,
             target, targetPropertyExpression, mode, fallbackValue, targetNullValue)
         {
         }

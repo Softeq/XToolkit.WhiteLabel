@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         /// </summary>
         /// <param name="index">The index of the item that needs to be returned.</param>
         /// <returns>The item corresponding to the index in the DataSource</returns>
-        public override T this[int index] => _dataSource == null ? default(T) : _dataSource[index];
+        public override T this[int index] => _dataSource == null ? default : _dataSource[index];
 
         /// <summary>
         ///     Returns a unique ID for the item corresponding to the position parameter.

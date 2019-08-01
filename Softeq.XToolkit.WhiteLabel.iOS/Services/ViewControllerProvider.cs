@@ -22,8 +22,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
                 case UIViewController viewController
                     when viewController.ChildViewControllers.Length > 0
-                        && viewController.ChildViewControllers[0]
-                            is UITabBarController tabBarController:
+                         && viewController.ChildViewControllers[0]
+                             is UITabBarController tabBarController:
                     return GetTopViewController(tabBarController);
 
                 case UIViewController viewController

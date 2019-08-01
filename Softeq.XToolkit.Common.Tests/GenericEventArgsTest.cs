@@ -6,7 +6,7 @@ using NSubstitute;
 using Softeq.XToolkit.Common.EventArguments;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class GenericEventArgsTest
     {
