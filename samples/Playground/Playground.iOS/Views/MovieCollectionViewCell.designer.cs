@@ -10,13 +10,9 @@ using System.CodeDom.Compiler;
 
 namespace Playground.iOS.Views
 {
-    [Register ("MovieCollectionViewCell")]
+    [Register("MovieCollectionViewCell")]
     partial class MovieCollectionViewCell
     {
-        [Outlet]
-        UIKit.UILabel Description { get; set; }
-
-
         [Outlet]
         UIKit.UIImageView Poster { get; set; }
 
@@ -24,7 +20,7 @@ namespace Playground.iOS.Views
         [Outlet]
         UIKit.UILabel Title { get; set; }
 
-        void ReleaseDesignerOutlets ()
+        void ReleaseDesignerOutlets()
         {
         }
     }

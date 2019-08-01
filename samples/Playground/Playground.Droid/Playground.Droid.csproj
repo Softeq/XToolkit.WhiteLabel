@@ -83,6 +83,8 @@
     <Compile Include="Views\BottomTabs\First\RedFragment.cs" />
     <Compile Include="Views\BottomTabs\Second\BlueFragment.cs" />
     <Compile Include="Views\EmptyPageActivity.cs" />
+    <Compile Include="Views\Dialogs\DialogsPageActivity.cs" />
+    <Compile Include="Views\Dialogs\SimpleDialogPageFragment.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -127,6 +129,8 @@
     <AndroidResource Include="Resources\layout\activity_details.xml" />
     <AndroidResource Include="Resources\menu\main.xml" />
     <AndroidResource Include="Resources\layout\activity_empty.xml" />
+    <AndroidResource Include="Resources\layout\activity_dialogs.xml" />
+    <AndroidResource Include="Resources\layout\dialog_simple_dialog.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">

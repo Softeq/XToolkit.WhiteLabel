@@ -152,6 +152,8 @@
     <InterfaceDefinition Include="ViewControllers\BottomTabs\First\YellowStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\BottomTabs\Second\GreenStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\EmptyPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Dialogs\DialogsPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Dialogs\SimpleDialogPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -212,6 +214,14 @@
     <Compile Include="ViewControllers\EmptyPageViewController.cs" />
     <Compile Include="ViewControllers\EmptyPageViewController.designer.cs">
       <DependentUpon>EmptyPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\DialogsPageViewController.cs" />
+    <Compile Include="ViewControllers\Dialogs\DialogsPageViewController.designer.cs">
+      <DependentUpon>DialogsPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\SimpleDialogPageViewController.cs" />
+    <Compile Include="ViewControllers\Dialogs\SimpleDialogPageViewController.designer.cs">
+      <DependentUpon>SimpleDialogPageViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
