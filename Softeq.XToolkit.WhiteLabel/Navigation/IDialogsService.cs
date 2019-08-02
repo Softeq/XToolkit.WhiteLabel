@@ -17,12 +17,12 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             string cancelButtonText = null,
             OpenDialogOptions options = null);
 
-        [Obsolete("Deprecated. Please use ShowForViewModelAsync syntax instead")]
+        [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel;
 
-        [Obsolete("Deprecated. Please use ShowForViewModelAsync syntax instead")]
+        [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel;

@@ -8,14 +8,14 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
 {
     public static class DialogResultExtensions
     {
-        public static async Task<T> ReturnWhenDissmissed<T>(this Task<IDialogResult<T>> dialogTask)
+        public static async Task<T> WaitUntilDismissed<T>(this Task<IDialogResult<T>> dialogTask)
         {
             var dialogResult = await dialogTask;
             await dialogResult.WaitDismissAsync;
             return dialogResult.Value;
         }
 
-        public static async Task WaitUntilDissmissed(this Task<IDialogResult> dialogTask)
+        public static async Task WaitUntilDismissed(this Task<IDialogResult> dialogTask)
         {
             var dialogResult = await dialogTask;
             await dialogResult.WaitDismissAsync;

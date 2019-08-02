@@ -13,41 +13,67 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
     {
         private readonly IDialogsService _dialogsService;
 
+        private bool _awaitResult;
+
         public DialogFluentNavigator(IDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
         }
 
-        public Task<IDialogResult<TResult>> NavigateWithResult<TResult>()
+        /// <summary>
+        ///     Set value to the target ViewModel property.
+        /// </summary>
+        /// <typeparam name="TValue">Type of parameter value.</typeparam>
+        /// <param name="propertyExpression">Target property.</param>
+        /// <param name="value">Value for set.</param>
+        /// <returns></returns>
+        public DialogFluentNavigator<TViewModel> WithParam<TValue>(
+            Expression<Func<TViewModel, TValue>> propertyExpression,
+            TValue value)
         {
-            return _dialogsService.ShowForViewModelAsync<TViewModel, TResult>(Parameters);
+            ApplyParameter(propertyExpression, value);
+            return this;
         }
 
-        public Task<IDialogResult> NavigateWithResult()
+        /// <summary>
+        ///     Use when you need to get the result faster than dialog will be dismissed.
+        ///     Avoid using a queue of dialogs in this case.
+        /// </summary>
+        /// <returns></returns>
+        public DialogFluentNavigator<TViewModel> WithAwaitResult()
         {
-            return _dialogsService.ShowForViewModelAsync<TViewModel>(Parameters);
+            _awaitResult = true;
+            return this;
         }
 
-        public Task<TResult> Navigate<TResult>()
-        {
-            return _dialogsService
-                .ShowForViewModelAsync<TViewModel, TResult>(Parameters)
-                .ReturnWhenDissmissed();
-        }
-
+        /// <summary>
+        ///     Open dialog with awaiting until dialog will be dismissed.
+        /// </summary>
+        /// <returns></returns>
         public Task Navigate()
         {
             return _dialogsService
                 .ShowForViewModelAsync<TViewModel>(Parameters)
-                .WaitUntilDissmissed();
+                .WaitUntilDismissed();
         }
 
-        public DialogFluentNavigator<TViewModel> WithParam<TValue>(
-            Expression<Func<TViewModel, TValue>> property,
-            TValue value)
+        /// <summary>
+        ///     Open dialog with awaiting result until dialog will be dismissed.
+        ///     For awaiting result use method <see cref="WithAwaitResult"/>.
+        /// </summary>
+        /// <typeparam name="TResult">Type of dialog result.</typeparam>
+        /// <returns></returns>
+        public async Task<TResult> Navigate<TResult>()
         {
-            ApplyParameter(property, value);
-            return this;
+            var showDialogTask = _dialogsService.ShowForViewModelAsync<TViewModel, TResult>(Parameters);
+
+            if (_awaitResult)
+            {
+                var result = await showDialogTask;
+                return result.Value;
+            }
+
+            return await showDialogTask.WaitUntilDismissed();
         }
     }
 }

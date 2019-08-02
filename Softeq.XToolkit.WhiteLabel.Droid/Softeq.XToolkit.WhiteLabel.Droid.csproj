@@ -111,6 +111,7 @@
     <Compile Include="ImagePicker\DroidImagePickerService.cs" />
     <Compile Include="ImagePicker\ImagePickerActivity.cs" />
     <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
+    <Compile Include="Extensions\FragmentExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
