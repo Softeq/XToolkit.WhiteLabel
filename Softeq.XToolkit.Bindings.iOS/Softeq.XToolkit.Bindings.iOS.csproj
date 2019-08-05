@@ -62,6 +62,7 @@
     <Compile Include="Bindable\CollectionView\BindableCollectionViewSource.cs" />
     <Compile Include="Bindable\CollectionView\BindableUICollectionViewDelegateFlowLayout.cs" />
     <Compile Include="Gestures\PanGestureRecognizerBehaviour.cs" />
+    <Compile Include="Bindable\BindableGroupTableViewSource.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
