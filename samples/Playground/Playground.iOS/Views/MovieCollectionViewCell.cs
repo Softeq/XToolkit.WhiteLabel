@@ -13,17 +13,18 @@ namespace Playground.iOS.Views
 {
     public partial class MovieCollectionViewCell : BindableCollectionViewCell<ItemViewModel>
     {
+        #region init
+
         public static readonly NSString Key = new NSString(nameof(MovieCollectionViewCell));
         public static readonly UINib Nib;
 
-        static MovieCollectionViewCell()
-        {
-            Nib = UINib.FromName(Key, NSBundle.MainBundle);
-        }
+        static MovieCollectionViewCell() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
         protected MovieCollectionViewCell(IntPtr handle) : base(handle)
         {
         }
+
+        #endregion
 
         public override void SetBindings()
         {
