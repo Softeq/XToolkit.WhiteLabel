@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
-using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
 using UIKit;
 
@@ -18,18 +17,18 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
         object GetItemAt(int index);
     }
 
-    public class BindableCollectionViewSource<TViewModel, TCell> : ObservableCollectionViewSource<TViewModel, TCell>,
+    public class BindableCollectionViewSource<TItem, TCell> : ObservableCollectionViewSource<TItem, TCell>,
         IBindableCollectionViewSource
         where TCell : UICollectionViewCell, IBindable
     {
-        private ICommand<TViewModel> _itemClick;
+        private ICommand<TItem> _itemClick;
 
-        public BindableCollectionViewSource(IList<TViewModel> items)
+        public BindableCollectionViewSource(IList<TItem> items)
         {
             DataSource = items;
         }
 
-        public ICommand<TViewModel> ItemClick
+        public ICommand<TItem> ItemClick
         {
             get => _itemClick;
             set
@@ -60,7 +59,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
             var cell = (TCell) collectionView.DequeueReusableCell(typeof(TCell).Name, indexPath);
 
             var bindableCell = (IBindable) cell;
-            bindableCell.SetDataContext(DataSource[indexPath.Row]);
+            bindableCell.DoDetachBindings();
+            bindableCell.DataContext = DataSource[indexPath.Row];
+            bindableCell.DoAttachBindings();
 
             return cell;
         }

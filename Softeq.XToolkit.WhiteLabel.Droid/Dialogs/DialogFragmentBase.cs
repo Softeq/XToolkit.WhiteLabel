@@ -16,19 +16,16 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
-    public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindableOwner
+    public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable
         where TViewModel : IDialogViewModel
     {
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public TViewModel ViewModel { get; private set; }
+        public object DataContext { get; set; }
+
+        public TViewModel ViewModel => (TViewModel) DataContext;
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
-
-        public void SetExistingViewModel(TViewModel viewModel)
-        {
-            ViewModel = viewModel;
-        }
 
         public void Show()
         {
@@ -84,6 +81,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         protected virtual void DoDetachBindings()
         {
             Bindings.DetachAllAndClear();
+        }
+
+        void IBindingsLifecycle.DoAttachBindings()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void IBindingsLifecycle.DoDetachBindings()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

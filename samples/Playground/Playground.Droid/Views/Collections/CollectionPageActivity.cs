@@ -56,15 +56,22 @@ namespace Playground.Droid.Views.Collections
             _name = view.FindViewById<TextView>(Resource.Id.item_movie_name);
         }
 
-        public override void SetBindings()
+        public override void DoAttachBindings()
         {
-            _image.SetImageDrawable(null);
+            base.DoAttachBindings();
 
             ImageService.Instance
                 .LoadUrl(ViewModel.IconUrl)
                 .Into(_image);
 
             this.Bind(() => ViewModel.Title, () => _name.Text);
+        }
+
+        public override void DoDetachBindings()
+        {
+            base.DoDetachBindings();
+
+            _image.SetImageDrawable(null);
         }
     }
 }

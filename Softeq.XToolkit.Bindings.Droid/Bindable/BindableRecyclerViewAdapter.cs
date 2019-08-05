@@ -124,7 +124,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         {
             var bindable = (IBindable) viewHolder;
 
-            bindable.SetDataContext(viewModel);
+            bindable.DetachBindings();
+            bindable.DataContext = viewModel;
+            bindable.DoAttachBindings();
         }
     }
 }

@@ -10,6 +10,8 @@ namespace Playground.iOS.Views
 {
     public partial class MainPageGroupHeaderViewCell : BindableHeaderCell<string>
     {
+        #region init
+
         public static readonly NSString Key = new NSString(nameof(MainPageGroupHeaderViewCell));
         public static readonly UINib Nib;
 
@@ -23,8 +25,12 @@ namespace Playground.iOS.Views
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        public override void SetBindings()
+        #endregion
+
+        public override void DoAttachBindings()
         {
+            base.DoAttachBindings();
+
             NameLabel.Text = ViewModel;
         }
     }

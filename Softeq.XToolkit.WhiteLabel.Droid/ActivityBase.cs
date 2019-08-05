@@ -63,7 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         }
     }
 
-    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindableOwner
+    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindingsOwner
         where TViewModel : ViewModelBase
     {
         private const string ShouldRestoreStateKey = "shouldRestore";

@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
 {
     public static class BindableExtensions
     {
-        public static Binding Bind<T1, T2>(this IBindableOwner obj,
+        public static Binding Bind<T1, T2>(this IBindingsOwner obj,
             Expression<Func<T1>> sourcePropertyExpression,
             Expression<Func<T2>> targetPropertyExpression,
             BindingMode mode = BindingMode.Default)
@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        public static Binding Bind<T1, T2>(this IBindableOwner obj,
+        public static Binding Bind<T1, T2>(this IBindingsOwner obj,
             Expression<Func<T1>> sourcePropertyExpression,
             Expression<Func<T2>> targetPropertyExpression,
             IConverter<T2, T1> converter)
@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        public static Binding Bind<T1, T2>(this IBindableOwner obj,
+        public static Binding Bind<T1, T2>(this IBindingsOwner obj,
             Expression<Func<T1>> sourcePropertyExpression,
             Expression<Func<T2>> targetPropertyExpression,
             BindingMode mode,
@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        public static Binding Bind<T1>(this IBindableOwner obj, Expression<Func<T1>> sourcePropertyExpression,
+        public static Binding Bind<T1>(this IBindingsOwner obj, Expression<Func<T1>> sourcePropertyExpression,
             Action<T1> action)
         {
             var binding = obj.SetBinding(sourcePropertyExpression).WhenSourceChanges(action);
@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        public static Binding Bind<T1>(this IBindableOwner obj, Expression<Func<T1>> sourcePropertyExpression,
+        public static Binding Bind<T1>(this IBindingsOwner obj, Expression<Func<T1>> sourcePropertyExpression,
             Action<T1> action,
             BindingMode bindingMode)
         {
@@ -60,18 +60,16 @@ namespace Softeq.XToolkit.Bindings.Extensions
             return binding;
         }
 
-        private static void SetBindingTo(IBindableOwner bindableOwner, Binding binding)
+        private static void SetBindingTo(IBindingsOwner bindableOwner, Binding binding)
         {
             bindableOwner.Bindings.Add(binding);
         }
 
-        public static void SetDataContext(this IBindable self, object dataContext)
+        public static void DetachBindings(this IBindingsOwner bindableOwner)
         {
             self.DataContext = dataContext;
 
-            self.Bindings.DetachAllAndClear();
-
-            self.SetBindings();
+            bindableOwner.Bindings.DetachAllAndClear();
         }
     }
 }

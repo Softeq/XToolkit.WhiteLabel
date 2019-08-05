@@ -12,17 +12,14 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
-    public class FragmentBase<TViewModel> : Fragment, IBindableOwner
+    public class FragmentBase<TViewModel> : Fragment, IBindable
         where TViewModel : ViewModelBase
     {
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public TViewModel ViewModel { get; private set; }
+        public object DataContext { get; set; }
 
-        public void SetExistingViewModel(TViewModel viewModel)
-        {
-            ViewModel = viewModel;
-        }
+        public TViewModel ViewModel => (TViewModel) DataContext;
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -71,6 +68,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected virtual void DoDetachBindings()
         {
             Bindings.DetachAllAndClear();
+        }
+
+        void IBindingsLifecycle.DoAttachBindings()
+        {
+            throw new System.NotImplementedException();
+        }
+
+        void IBindingsLifecycle.DoDetachBindings()
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

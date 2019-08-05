@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
@@ -52,8 +53,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             var controllerType = GetTargetType(viewModel.GetType());
             var storyboardName = controllerType.Name.Replace("ViewController", "Storyboard");
             var viewController = TryCreateViewController(storyboardName, controllerType);
-            var method = viewController.GetType().GetMethod("SetExistingViewModel");
-            method?.Invoke(viewController, new[] { viewModel });
+            if (viewController is IBindable bindableViewController)
+            {
+                bindableViewController.DataContext = viewModel;
+            }
             return viewController;
         }
 

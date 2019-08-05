@@ -26,13 +26,20 @@ namespace Playground.iOS.Views
 
         #endregion
 
-        public override void SetBindings()
+        public override void DoAttachBindings()
         {
-            Poster.Image = null;
+            base.DoAttachBindings();
 
             ImageService.Instance.LoadUrl(ViewModel.IconUrl).Into(Poster);
 
             this.Bind(() => ViewModel.Title, () => Title.Text);
+        }
+
+        public override void DoDetachBindings()
+        {
+            base.DoDetachBindings();
+
+            Poster.Image = null;
         }
     }
 }

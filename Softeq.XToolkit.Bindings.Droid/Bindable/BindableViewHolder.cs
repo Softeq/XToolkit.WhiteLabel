@@ -27,13 +27,10 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         public object DataContext { get; set; }
         public List<Binding> Bindings { get; }
 
-        public abstract void SetBindings();
-
         public virtual void OnAttachedToWindow()
         {
             if (_itemViewClickSubscription == null)
             {
-                // TODO YP: add event to linker ignore 
                 _itemViewClickSubscription = new WeakEventSubscription<View>(ItemView, nameof(ItemView.Click), OnItemViewClick);
             }
         }
@@ -48,12 +45,21 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         {
             DataContext = default(TViewModel);
 
-            Bindings.DetachAllAndClear();
+            DoDetachBindings();
         }
 
         protected virtual void OnItemViewClick(object sender, EventArgs e)
         {
             ItemClicked?.Invoke(this, e);
+        }
+
+        public virtual void DoAttachBindings()
+        {
+        }
+
+        public virtual void DoDetachBindings()
+        {
+            this.DetachBindings();
         }
     }
 }

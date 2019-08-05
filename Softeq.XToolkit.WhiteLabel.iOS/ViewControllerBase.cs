@@ -13,8 +13,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 {
     public abstract class ViewControllerBase : UIViewController
     {
-        public abstract void SetExistingViewModel(object viewModel);
-
         protected ViewControllerBase()
         {
         }
@@ -26,7 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
     }
 
-    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase, IBindableOwner
+    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase, IBindable
         where TViewModel : IViewModelBase
     {
         protected ViewControllerBase()
@@ -37,14 +35,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
         }
 
-        public TViewModel ViewModel { get; private set; }
-
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public override void SetExistingViewModel(object viewModel)
-        {
-            ViewModel = (TViewModel) viewModel;
-        }
+        public object DataContext { get; set; }
+
+        protected TViewModel ViewModel => (TViewModel) DataContext;
 
         public override void ViewDidLoad()
         {
@@ -83,6 +78,18 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             Bindings.DetachAllAndClear();
             DoDetachBindings();
+        }
+
+        /// <inheritdoc />
+        void IBindingsLifecycle.DoAttachBindings()
+        {
+            // TODO YP: replace protected DoAttachBindings
+        }
+
+        /// <inheritdoc />
+        void IBindingsLifecycle.DoDetachBindings()
+        {
+            // TODO YP: replace protected DoDetachBindings
         }
     }
 }

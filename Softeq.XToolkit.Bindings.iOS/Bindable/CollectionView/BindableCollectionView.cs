@@ -5,7 +5,6 @@ using System;
 using CoreGraphics;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
-using Softeq.XToolkit.Bindings.Extensions;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
@@ -61,7 +60,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
             var cell = base.DequeueReusableCell(reuseIdentifier, indexPath);
 
             var bindableCell = (IBindable) cell;
-            bindableCell.SetDataContext(_source.GetItemAt(indexPath.Row));
+            bindableCell.DoDetachBindings();
+            bindableCell.DataContext = _source.GetItemAt(indexPath.Row);
+            bindableCell.DoAttachBindings();
 
             return cell;
         }
@@ -72,7 +73,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
             var cell = base.DequeueReusableSupplementaryView(kind, identifier, indexPath);
 
             var bindableCell = (IBindable) cell;
-            bindableCell.SetDataContext(_source.GetItemAt(indexPath.Row));
+            bindableCell.DoDetachBindings();
+            bindableCell.DataContext = _source.GetItemAt(indexPath.Row);
+            bindableCell.DoAttachBindings();
 
             return cell;
         }

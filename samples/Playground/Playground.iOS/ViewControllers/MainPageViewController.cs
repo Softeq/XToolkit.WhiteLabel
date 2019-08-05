@@ -4,8 +4,7 @@
 using System;
 using Playground.iOS.Views;
 using Playground.ViewModels;
-using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Bindings.iOS;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -41,23 +40,10 @@ namespace Playground.iOS.ViewControllers
             TableView.RegisterNibForHeaderFooterViewReuse(MainPageGroupHeaderViewCell.Nib,
                 MainPageGroupHeaderViewCell.Key);
 
-            var source = new ObservableGroupTableViewSource<string, CommandAction>(
+            var source = new BindableGroupTableViewSource<string, CommandAction,
+                MainPageGroupHeaderViewCell, MainPageItemViewCell>(
                 TableView,
-                ViewModel.Items,
-                (tableView, item, dataSource, indexPath) =>
-                {
-                    var cell = tableView.DequeueReusableCell(MainPageItemViewCell.Key, indexPath);
-                    var itemCell = (MainPageItemViewCell) cell;
-                    itemCell.SetDataContext(item);
-                    return itemCell;
-                },
-                getHeaderViewFunc: (tableView, headerKey) =>
-                {
-                    var cell = tableView.DequeueReusableHeaderFooterView(MainPageGroupHeaderViewCell.Key);
-                    var headerCell = (MainPageGroupHeaderViewCell) cell;
-                    headerCell.SetDataContext(headerKey);
-                    return headerCell;
-                })
+                ViewModel.Items)
             {
                 HeightForRow = 60f,
                 HeightForHeader = 100f

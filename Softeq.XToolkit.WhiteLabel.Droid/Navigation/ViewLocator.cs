@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Reflection;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
@@ -49,8 +50,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             var targetType = GetTargetType(viewModel.GetType(), viewType);
             var inst = Activator.CreateInstance(targetType);
-            var method = inst.GetType().GetMethod("SetExistingViewModel");
-            method.Invoke(inst, new[] { viewModel });
+            if (inst is IBindable bindable)
+            {
+                bindable.DataContext = viewModel;
+            }
             return inst;
         }
 

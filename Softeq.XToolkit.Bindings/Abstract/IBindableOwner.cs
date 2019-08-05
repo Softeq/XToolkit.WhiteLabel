@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.Bindings.Abstract
     /// <summary>
     ///     Common contract for everyone who wants to use bindings.
     /// </summary>
-    public interface IBindableOwner
+    public interface IBindingsOwner
     {
         /// <summary>
         ///     List where keeping bindings.
