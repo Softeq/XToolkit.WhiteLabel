@@ -62,12 +62,22 @@ namespace Softeq.XToolkit.Bindings.Extensions
 
         private static void SetBindingTo(IBindingsOwner bindableOwner, Binding binding)
         {
+            if (bindableOwner.Bindings == null)
+            {
+                throw new ArgumentNullException(
+                    $"{bindableOwner.GetType()}.{nameof(bindableOwner.Bindings)}",
+                    "List of Bindings can't be null. Please declare on the top level.");
+            }
+
             bindableOwner.Bindings.Add(binding);
         }
 
         public static void DetachBindings(this IBindingsOwner bindableOwner)
         {
-            self.DataContext = dataContext;
+            if (bindableOwner.Bindings == null)
+            {
+                return;
+            }
 
             bindableOwner.Bindings.DetachAllAndClear();
         }
