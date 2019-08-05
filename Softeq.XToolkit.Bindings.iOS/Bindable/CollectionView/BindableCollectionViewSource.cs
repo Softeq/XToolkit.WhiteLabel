@@ -9,6 +9,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
 {
+    [Obsolete("Will be removed after removing BindableCollectionView.")]
     public interface IBindableCollectionViewSource
     {
         object GetItemAt(int index);
@@ -19,6 +20,8 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
     {
         private Func<UICollectionView, NSIndexPath, UICollectionViewCell> GetCellDelegate { get; set; }
 
+
+        [Obsolete]
         public object GetItemAt(int index)
         {
             return DataSource[index];

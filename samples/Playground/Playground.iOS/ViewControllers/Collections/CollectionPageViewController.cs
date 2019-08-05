@@ -60,18 +60,6 @@ namespace Playground.iOS.ViewControllers.Collections
             navBar.BarTintColor = UIColor.FromRGB(28, 28, 28);
             navBar.Translucent = false;
         }
-
-        private class CustomCollectionViewSource : BindableCollectionViewSource<ItemViewModel>
-        {
-            public CustomCollectionViewSource(IList<ItemViewModel> items)
-            {
-                DataSource = items;
-            }
-
-            public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
-            {
-                return (UICollectionViewCell) collectionView.DequeueReusableCell(MovieCollectionViewCell.Key, indexPath);
-            }
         }
     }
 }

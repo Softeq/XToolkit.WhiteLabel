@@ -10,6 +10,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
 {
+    [Obsolete("Use UICollectionView and BindableCollectionViewSource instead.")]
     [Register(nameof(BindableCollectionView))]
     public class BindableCollectionView : UICollectionView
     {
