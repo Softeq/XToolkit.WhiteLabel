@@ -27,9 +27,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
 
-        void IBindable.SetDataContext(object context)
+        void IBindable.SetDataContext(object dataContext)
         {
-            DataContext = context;
+            DataContext = dataContext;
         }
         
         public void Show()

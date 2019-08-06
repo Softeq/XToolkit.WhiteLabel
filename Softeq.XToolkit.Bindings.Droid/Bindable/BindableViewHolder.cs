@@ -28,9 +28,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
-        void IBindable.SetDataContext(object context)
+        void IBindable.SetDataContext(object dataContext)
         {
-            DataContext = context;
+            DataContext = dataContext;
         }
 
         public virtual void OnAttachedToWindow()

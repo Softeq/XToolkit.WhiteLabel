@@ -21,9 +21,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
-        void IBindable.SetDataContext(object context)
+        void IBindable.SetDataContext(object dataContext)
         {
-            DataContext = context;
+            DataContext = dataContext;
         }
 
         public override void OnCreate(Bundle savedInstanceState)

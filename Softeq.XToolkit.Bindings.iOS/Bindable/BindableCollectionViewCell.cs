@@ -21,9 +21,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         protected TItem ViewModel => (TItem) DataContext;
 
-        void IBindable.SetDataContext(object context)
+        void IBindable.SetDataContext(object dataContext)
         {
-            DataContext = context;
+            DataContext = dataContext;
         }
         
         /// <inheritdoc />
