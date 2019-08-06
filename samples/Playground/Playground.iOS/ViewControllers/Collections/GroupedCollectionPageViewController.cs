@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Foundation;
 using Playground.iOS.Views.Collections;
 using Playground.Models;
@@ -25,6 +26,8 @@ namespace Playground.iOS.ViewControllers.Collections
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            CollectionView.RegisterClassForSupplementaryView(typeof(GroupedFooterView), UICollectionElementKindSection.Footer, nameof(GroupedFooterView));
 
             CollectionView.RegisterNibForSupplementaryView(GroupedHeaderView.Nib, UICollectionElementKindSection.Header, GroupedHeaderView.Key);
             CollectionView.RegisterNibForCell(PhotoViewCell.Nib, PhotoViewCell.Key);
@@ -55,16 +58,19 @@ namespace Playground.iOS.ViewControllers.Collections
             {
                 if (elementKind == UICollectionElementKindSectionKey.Header)
                 {
+                    var header = collectionView.DequeueReusableSupplementaryView(elementKind, typeof(THeader).Name, indexPath);
 
+                    return header;
                 }
                 else if (elementKind == UICollectionElementKindSectionKey.Footer)
                 {
 
                 }
 
-                var header = collectionView.DequeueReusableSupplementaryView(elementKind, typeof(THeader).Name, indexPath);
+                // TODO YP: temp
+                var footer = collectionView.DequeueReusableSupplementaryView(elementKind, typeof(GroupedFooterView).Name, indexPath);
 
-                return header;
+                return footer;
             }
         }
     }

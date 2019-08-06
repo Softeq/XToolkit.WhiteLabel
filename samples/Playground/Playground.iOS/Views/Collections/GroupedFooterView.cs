@@ -4,6 +4,7 @@
 using System;
 using Foundation;
 using Playground.iOS.ViewControllers.Collections;
+using UIKit;
 
 namespace Playground.iOS.Views.Collections
 {
@@ -12,13 +13,8 @@ namespace Playground.iOS.Views.Collections
     {
         public GroupedFooterView(IntPtr handle) : base(handle)
         {
-        }
 
-        public override void AwakeFromNib()
-        {
-            base.AwakeFromNib();
-
-
+            BackgroundColor = UIColor.Blue;
         }
 
         public override void DoAttachBindings()

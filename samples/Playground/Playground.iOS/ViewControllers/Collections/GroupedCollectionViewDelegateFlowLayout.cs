@@ -39,5 +39,10 @@ namespace Playground.iOS.ViewControllers.Collections
         {
             return new CGSize(width: collectionView.Frame.Width, height: 40);
         }
+
+        public override CGSize GetReferenceSizeForFooter(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
+        {
+            return new CGSize(width: collectionView.Frame.Width, height: 50);
+        }
     }
 }
