@@ -8,16 +8,13 @@ using Foundation;
 using System;
 using System.CodeDom.Compiler;
 
-namespace Playground.iOS.ViewControllers.Dialogs
+namespace Playground.iOS.ViewControllers.Collections
 {
-    [Register ("SimpleDialogPageViewController")]
-    partial class SimpleDialogPageViewController
+    [Register ("GroupedCollectionPageViewController")]
+    partial class GroupedCollectionPageViewController
     {
         [Outlet]
-        UIKit.UIButton CloseButton { get; set; }
-
-        [Outlet]
-        UIKit.UIButton DoneButton { get; set; }
+        UIKit.UICollectionView CollectionView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {

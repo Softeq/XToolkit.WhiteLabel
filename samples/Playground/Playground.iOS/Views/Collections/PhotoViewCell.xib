@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="cZE-iV-UFb" customClass="PhotoViewCell">
+            <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2cy-ex-2JQ">
+                        <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="WRA-PT-Zhx">
+                                <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
+                            </imageView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VOj-Em-MRK">
+                                <rect key="frame" x="0.0" y="70" width="100" height="30"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="~Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZBL-WU-gzE">
+                                        <rect key="frame" x="10" y="6" width="80" height="18"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" red="0.77384440099999996" green="0.31993272569999998" blue="0.4352756076" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstItem="ZBL-WU-gzE" firstAttribute="leading" secondItem="VOj-Em-MRK" secondAttribute="leading" constant="10" id="LKe-yS-ccL"/>
+                                    <constraint firstItem="ZBL-WU-gzE" firstAttribute="centerY" secondItem="VOj-Em-MRK" secondAttribute="centerY" id="NQI-ZB-rvT"/>
+                                    <constraint firstAttribute="height" constant="30" id="Wgo-Fo-gYx"/>
+                                    <constraint firstAttribute="trailing" secondItem="ZBL-WU-gzE" secondAttribute="trailing" constant="10" id="kAo-ct-NuE"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="VOj-Em-MRK" firstAttribute="leading" secondItem="2cy-ex-2JQ" secondAttribute="leading" id="0KQ-34-mka"/>
+                            <constraint firstAttribute="bottom" secondItem="VOj-Em-MRK" secondAttribute="bottom" id="B5p-Y3-q1M"/>
+                            <constraint firstAttribute="trailing" secondItem="WRA-PT-Zhx" secondAttribute="trailing" id="Ptv-Fm-F9e"/>
+                            <constraint firstItem="WRA-PT-Zhx" firstAttribute="leading" secondItem="2cy-ex-2JQ" secondAttribute="leading" id="acL-HW-XPD"/>
+                            <constraint firstAttribute="bottom" secondItem="WRA-PT-Zhx" secondAttribute="bottom" id="ijU-5f-tRN"/>
+                            <constraint firstAttribute="trailing" secondItem="VOj-Em-MRK" secondAttribute="trailing" id="ozB-Sf-aCZ"/>
+                            <constraint firstItem="WRA-PT-Zhx" firstAttribute="top" secondItem="2cy-ex-2JQ" secondAttribute="top" id="wVR-bo-cgT"/>
+                        </constraints>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="2cy-ex-2JQ" secondAttribute="trailing" id="Dkt-Ud-mac"/>
+                <constraint firstAttribute="bottom" secondItem="2cy-ex-2JQ" secondAttribute="bottom" id="HjS-f9-QkI"/>
+                <constraint firstItem="2cy-ex-2JQ" firstAttribute="leading" secondItem="cZE-iV-UFb" secondAttribute="leading" id="abC-5a-EhR"/>
+                <constraint firstItem="2cy-ex-2JQ" firstAttribute="top" secondItem="cZE-iV-UFb" secondAttribute="top" id="oWR-oL-JB0"/>
+            </constraints>
+            <size key="customSize" width="100" height="100"/>
+            <connections>
+                <outlet property="NameLabel" destination="ZBL-WU-gzE" id="mXs-Zg-nNM"/>
+                <outlet property="PhotoImage" destination="WRA-PT-Zhx" id="4zF-uz-01a"/>
+            </connections>
+            <point key="canvasLocation" x="60.869565217391312" y="68.303571428571431"/>
+        </collectionViewCell>
+    </objects>
+</document>
