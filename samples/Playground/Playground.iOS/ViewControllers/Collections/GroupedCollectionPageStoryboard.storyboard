@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--123-->
+        <!--Grouped Collection Page View Controller-->
         <scene sceneID="ZsM-r8-ALM">
             <objects>
-                <viewController storyboardIdentifier="GroupedCollectionPageViewController" title="123" id="jwe-91-B8l" customClass="GroupedCollectionPageViewController" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GroupedCollectionPageViewController" id="jwe-91-B8l" customClass="GroupedCollectionPageViewController" sceneMemberID="viewController">
                     <layoutGuides>
                         <viewControllerLayoutGuide type="top" id="ZJg-LX-5MA"/>
                         <viewControllerLayoutGuide type="bottom" id="VfP-Th-SzX"/>

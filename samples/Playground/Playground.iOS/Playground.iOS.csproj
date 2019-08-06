@@ -156,6 +156,7 @@
     <InterfaceDefinition Include="ViewControllers\Dialogs\SimpleDialogPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Collections\GroupedCollectionPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\Collections\PhotoViewCell.xib" />
+    <InterfaceDefinition Include="Views\Collections\GroupedHeaderView.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -234,6 +235,11 @@
       <DependentUpon>PhotoViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\Collections\GroupedCollectionViewDelegateFlowLayout.cs" />
+    <Compile Include="Views\Collections\GroupedHeaderView.cs" />
+    <Compile Include="Views\Collections\GroupedHeaderView.designer.cs">
+      <DependentUpon>GroupedHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Collections\GroupedFooterView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

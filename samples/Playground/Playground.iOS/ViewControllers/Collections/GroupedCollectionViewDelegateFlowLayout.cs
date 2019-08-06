@@ -33,5 +33,11 @@ namespace Playground.iOS.ViewControllers.Collections
         {
             return _sectionInsets.Left;
         }
+
+
+        public override CGSize GetReferenceSizeForHeader(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
+        {
+            return new CGSize(width: collectionView.Frame.Width, height: 40);
+        }
     }
 }
