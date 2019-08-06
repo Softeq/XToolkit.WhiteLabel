@@ -122,11 +122,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         private static void SetDataContext(RecyclerView.ViewHolder viewHolder, int viewType, TViewModel viewModel)
         {
-            var bindable = (IBindable) viewHolder;
+            var bindable = (IBindableView) viewHolder;
 
-            bindable.DetachBindings();
-            bindable.DataContext = viewModel;
-            bindable.DoAttachBindings();
+            bindable.ReloadDataContext(viewModel);
         }
     }
 }

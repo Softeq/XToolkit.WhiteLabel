@@ -4,48 +4,45 @@
 using System;
 using System.Collections.Generic;
 using Foundation;
+using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public class BindableGroupTableViewSource<TKey, TItem, TGroupCell, TItemCell> : ObservableGroupTableViewSource<TKey, TItem>
+    public class BindableGroupTableViewSource<TKey, TItem, TGroupCell, TItemCell>
+        : ObservableGroupTableViewSource<TKey, TItem>
         where TGroupCell : BindableHeaderCell<TKey>
         where TItemCell : BindableTableViewCell<TItem>
     {
         public BindableGroupTableViewSource(
             UITableView tableView,
-            ObservableKeyGroupsCollection<TKey, TItem> items,
-            Func<nint, nint> getRowInSectionCountFunc = null,
-            Func<UITableView, TKey, UIView> getFooterViewFunc = null,
-            Func<TKey, nfloat> getHeaderHeightFunc = null,
-            Func<TKey, nfloat> getFooterHeightFunc = null,
-            Func<NSIndexPath, nfloat> getHeightForRowFunc = null)
-            : base(tableView, items, GetCellViewFunc, getRowInSectionCountFunc, GetHeaderViewFunc,
-                  getFooterViewFunc, getHeaderHeightFunc, getFooterHeightFunc, getHeightForRowFunc)
+            ObservableKeyGroupsCollection<TKey, TItem> items)
+            : base(tableView, items, null)
         {
         }
 
-        private static UITableViewCell GetCellViewFunc(UITableView tableView, TItem item, IList<TItem> dataSource, NSIndexPath indexPath)
+        protected override UITableViewCell GetItemCell(
+            UITableView tableView,
+            TItem item,
+            IList<TItem> items,
+            NSIndexPath indexPath)
         {
-            var cell = tableView.DequeueReusableCell(typeof(TItemCell).Name, indexPath);
-            var itemCell = (TItemCell) cell;
+            var itemCell = tableView.DequeueReusableCell(typeof(TItemCell).Name, indexPath);
+            var bindableView = (IBindableView) itemCell;
 
-            itemCell.DoDetachBindings();
-            itemCell.DataContext = item;
-            itemCell.DoAttachBindings();
+            bindableView.ReloadDataContext(item);
 
             return itemCell;
         }
 
-        private static UIView GetHeaderViewFunc(UITableView tableView, TKey headerKey)
+        public override UIView GetViewForHeader(UITableView tableView, nint section)
         {
-            var cell = tableView.DequeueReusableHeaderFooterView(typeof(TGroupCell).Name);
-            var headerCell = (TGroupCell) cell;
+            var headerCell = tableView.DequeueReusableHeaderFooterView(typeof(TGroupCell).Name);
+            var bindableView = (IBindableView) headerCell;
 
-            headerCell.DoDetachBindings();
-            headerCell.DataContext = headerKey;
-            headerCell.DoAttachBindings();
+            bindableView.ReloadDataContext(GetKeyBySection(section));
 
             return headerCell;
         }

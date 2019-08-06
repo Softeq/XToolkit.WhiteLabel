@@ -10,54 +10,243 @@ namespace Softeq.XToolkit.Bindings.Extensions
 {
     public static class BindableExtensions
     {
-        public static Binding Bind<T1, T2>(this IBindingsOwner obj,
-            Expression<Func<T1>> sourcePropertyExpression,
-            Expression<Func<T2>> targetPropertyExpression,
+        /// <summary>
+        ///     Sets a data binding between two properties of the same object. If the source implements INotifyPropertyChanged,
+        ///     has observable properties and the BindingMode is OneWay or TwoWay, the target property will be notified of changes
+        ///     to the source property. If the target implements INotifyPropertyChanged, has observable properties and
+        ///     the BindingMode is TwoWay, the source will also be notified of changes to the target's properties.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TTarget">
+        ///     The type of the target property that is being databound. If the source type
+        ///     is not the same as the target type, an automatic conversion will be attempted. However only
+        ///     simple types can be converted. For more complex conversions, use the
+        ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
+        ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
+        /// </typeparam>
+        /// <param name="source">
+        ///     The source of the binding. If this object implements INotifyPropertyChanged and the
+        ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
+        /// </param>
+        /// <param name="sourcePropertyExpression">
+        ///     An expression pointing to the source property. It can be
+        ///     a simple expression "() => [source].MyProperty" or a composed expression "() =>
+        ///     [source].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="targetPropertyExpression">
+        ///     An expression pointing to the target property. It can be
+        ///     a simple expression "() => [target].MyProperty" or a composed expression "() =>
+        ///     [target].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="mode">
+        ///     The mode of the binding. OneTime means that the target property will be set once (when the binding is
+        ///     created) but that subsequent changes will be ignored. OneWay means that the target property will be set, and
+        ///     if the PropertyChanged event is raised by the source, the target property will be updated. TwoWay means that the
+        ///     source property will also be updated if the target raises the PropertyChanged event.
+        ///     Default means OneWay if only the source implements INPC, and TwoWay if both the source and the target implement INPC.
+        /// </param>
+        /// <returns>The new Binding instance.</returns>
+        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            Expression<Func<TTarget>> targetPropertyExpression,
             BindingMode mode = BindingMode.Default)
         {
-            var binding = obj.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
-            SetBindingTo(obj, binding);
+            var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
+            SetBindingTo(source, binding);
             return binding;
         }
 
-        public static Binding Bind<T1, T2>(this IBindingsOwner obj,
-            Expression<Func<T1>> sourcePropertyExpression,
-            Expression<Func<T2>> targetPropertyExpression,
-            IConverter<T2, T1> converter)
+        /// <summary>
+        ///     Sets a data binding between two properties of the same object. If the source implements INotifyPropertyChanged,
+        ///     has observable properties and the BindingMode is OneWay or TwoWay, the target property will be notified of changes
+        ///     to the source property. If the target implements INotifyPropertyChanged, has observable properties and
+        ///     the BindingMode is TwoWay, the source will also be notified of changes to the target's properties.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TTarget">
+        ///     The type of the target property that is being databound. If the source type
+        ///     is not the same as the target type, an automatic conversion will be attempted. However only
+        ///     simple types can be converted. For more complex conversions, use the
+        ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
+        ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
+        /// </typeparam>
+        /// <param name="source">
+        ///     The source of the binding. If this object implements INotifyPropertyChanged and the
+        ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
+        /// </param>
+        /// <param name="sourcePropertyExpression">
+        ///     An expression pointing to the source property. It can be
+        ///     a simple expression "() => [source].MyProperty" or a composed expression "() =>
+        ///     [source].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="targetPropertyExpression">
+        ///     An expression pointing to the target property. It can be
+        ///     a simple expression "() => [target].MyProperty" or a composed expression "() =>
+        ///     [target].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="converter">
+        ///     The instance of the converter.
+        /// </param>
+        /// <returns>The new Binding instance.</returns>
+        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            Expression<Func<TTarget>> targetPropertyExpression,
+            IConverter<TTarget, TSource> converter)
         {
-            var binding = obj.SetBinding(sourcePropertyExpression, targetPropertyExpression)
+            var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression)
                 .SetConverter(converter);
-            SetBindingTo(obj, binding);
+            SetBindingTo(source, binding);
             return binding;
         }
 
-        public static Binding Bind<T1, T2>(this IBindingsOwner obj,
-            Expression<Func<T1>> sourcePropertyExpression,
-            Expression<Func<T2>> targetPropertyExpression,
+        /// <summary>
+        ///     Sets a data binding between two properties of the same object. If the source implements INotifyPropertyChanged,
+        ///     has observable properties and the BindingMode is OneWay or TwoWay, the target property will be notified of changes
+        ///     to the source property. If the target implements INotifyPropertyChanged, has observable properties and
+        ///     the BindingMode is TwoWay, the source will also be notified of changes to the target's properties.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TTarget">
+        ///     The type of the target property that is being databound. If the source type
+        ///     is not the same as the target type, an automatic conversion will be attempted. However only
+        ///     simple types can be converted. For more complex conversions, use the
+        ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
+        ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
+        /// </typeparam>
+        /// <param name="source">
+        ///     The source of the binding. If this object implements INotifyPropertyChanged and the
+        ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
+        /// </param>
+        /// <param name="sourcePropertyExpression">
+        ///     An expression pointing to the source property. It can be
+        ///     a simple expression "() => [source].MyProperty" or a composed expression "() =>
+        ///     [source].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="targetPropertyExpression">
+        ///     An expression pointing to the target property. It can be
+        ///     a simple expression "() => [target].MyProperty" or a composed expression "() =>
+        ///     [target].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="mode">
+        ///     The mode of the binding. OneTime means that the target property will be set once (when the binding is
+        ///     created) but that subsequent changes will be ignored. OneWay means that the target property will be set, and
+        ///     if the PropertyChanged event is raised by the source, the target property will be updated. TwoWay means that the
+        ///     source property will also be updated if the target raises the PropertyChanged event. Default means OneWay if only
+        ///     the source implements INPC, and TwoWay if both the source and the target implement INPC.
+        /// </param>
+        /// <param name="converter">
+        ///     The instance of the converter.
+        /// </param>
+        /// <returns>The new Binding instance.</returns>
+        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            Expression<Func<TTarget>> targetPropertyExpression,
             BindingMode mode,
-            IConverter<T2, T1> converter)
+            IConverter<TTarget, TSource> converter)
         {
-            var binding = obj.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
+            var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
                 .SetConverter(converter);
-            SetBindingTo(obj, binding);
+            SetBindingTo(source, binding);
             return binding;
         }
 
-        public static Binding Bind<T1>(this IBindingsOwner obj, Expression<Func<T1>> sourcePropertyExpression,
-            Action<T1> action)
+        /// <summary>
+        ///     Creates a <see cref="Binding{TSource, TSource}" /> with a source property but without a target.
+        ///     This type of bindings is useful for the <see cref="SetCommand{T}(object, string, RelayCommand{T}, Binding)" />,
+        ///     <see cref="SetCommand{T}(object, RelayCommand{T}, Binding)" />,
+        ///     <see cref="SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)" />
+        ///     and <see cref="SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)" /> methods, to use as
+        ///     CommandParameter binding.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the bound property.</typeparam>
+        /// <param name="source">
+        ///     The source of the binding. If this object implements INotifyPropertyChanged and the
+        ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
+        /// </param>
+        /// <param name="sourcePropertyExpression">
+        ///     An expression pointing to the source property. It can be
+        ///     a simple expression "() => [source].MyProperty" or a composed expression "() =>
+        ///     [source].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="action">
+        ///     The action that will be executed when the binding changes.
+        ///     IMPORTANT: Note that closures are not supported at the moment
+        ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
+        /// </param>
+        /// <returns>The created binding instance.</returns>
+        public static Binding Bind<TSource>(this IBindingsOwner source,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            Action<TSource> action)
         {
-            var binding = obj.SetBinding(sourcePropertyExpression).WhenSourceChanges(action);
-            SetBindingTo(obj, binding);
+            var binding = source.SetBinding(sourcePropertyExpression).WhenSourceChanges(action);
+            SetBindingTo(source, binding);
             return binding;
         }
 
-        public static Binding Bind<T1>(this IBindingsOwner obj, Expression<Func<T1>> sourcePropertyExpression,
-            Action<T1> action,
-            BindingMode bindingMode)
+        /// <summary>
+        ///     Creates a <see cref="Binding{TSource, TSource}" /> with a source property but without a target.
+        ///     This type of bindings is useful for the <see cref="SetCommand{T}(object, string, RelayCommand{T}, Binding)" />,
+        ///     <see cref="SetCommand{T}(object, RelayCommand{T}, Binding)" />,
+        ///     <see cref="SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)" />
+        ///     and <see cref="SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)" /> methods, to use as CommandParameter
+        ///     binding.
+        /// </summary>
+        /// <typeparam name="TSource">The type of the bound property.</typeparam>
+        /// <param name="source">
+        ///     The source of the binding. If this object implements INotifyPropertyChanged and the
+        ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
+        /// </param>
+        /// <param name="sourcePropertyExpression">
+        ///     An expression pointing to the source property. It can be
+        ///     a simple expression "() => [source].MyProperty" or a composed expression "() =>
+        ///     [source].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="action">
+        ///     The action that will be executed when the binding changes.
+        ///     IMPORTANT: Note that closures are not supported at the moment
+        ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
+        /// </param>
+        /// <param name="mode">
+        ///     The mode of the binding. OneTime means that the target property will be set once (when the binding is
+        ///     created) but that subsequent changes will be ignored. OneWay means that the target property will be set, and
+        ///     if the PropertyChanged event is raised by the source, the target property will be updated. TwoWay means that the
+        ///     source property will also be updated if the target raises the PropertyChanged event. Default means OneWay if only
+        ///     the source implements INPC, and TwoWay if both the source and the target implement INPC.
+        /// </param>
+        /// <returns>The created binding instance.</returns>
+        public static Binding Bind<TSource>(this IBindingsOwner source,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            Action<TSource> action,
+            BindingMode mode)
         {
-            var binding = obj.SetBinding(sourcePropertyExpression, bindingMode).WhenSourceChanges(action);
-            SetBindingTo(obj, binding);
+            var binding = source.SetBinding(sourcePropertyExpression, mode).WhenSourceChanges(action);
+            SetBindingTo(source, binding);
             return binding;
+        }
+
+        /// <summary>
+        ///     Detach all bindings of the source.
+        /// </summary>
+        /// <param name="source">
+        ///     The source of the bindings.
+        /// </param>
+        public static void DetachBindings(this IBindingsOwner source)
+        {
+            source.Bindings?.DetachAllAndClear();
+        }
+
+        /// <summary>
+        ///     Set DataContext with reloads existing bindings.
+        /// </summary>
+        /// <param name="self">Bindable View.</param>
+        /// <param name="dataContext">DataContext.</param>
+        public static void ReloadDataContext(this IBindableView self, object dataContext)
+        {
+            self.DoDetachBindings();
+
+            self.SetDataContext(dataContext);
+
+            self.DoAttachBindings();
         }
 
         private static void SetBindingTo(IBindingsOwner bindableOwner, Binding binding)
@@ -70,16 +259,6 @@ namespace Softeq.XToolkit.Bindings.Extensions
             }
 
             bindableOwner.Bindings.Add(binding);
-        }
-
-        public static void DetachBindings(this IBindingsOwner bindableOwner)
-        {
-            if (bindableOwner.Bindings == null)
-            {
-                return;
-            }
-
-            bindableOwner.Bindings.DetachAllAndClear();
         }
     }
 }

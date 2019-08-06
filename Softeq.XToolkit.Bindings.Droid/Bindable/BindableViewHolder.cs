@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.WeakSubscription;
 
@@ -17,15 +18,20 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         protected BindableViewHolder(View itemView) : base(itemView)
         {
-            Bindings = new List<Binding>();
         }
 
+        public event EventHandler ItemClicked;
+        
+        public List<Binding> Bindings { get; } = new List<Binding>();
+        
+        public object DataContext { get; private set; }
+        
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
-        public event EventHandler ItemClicked;
-
-        public object DataContext { get; set; }
-        public List<Binding> Bindings { get; }
+        void IBindable.SetDataContext(object context)
+        {
+            DataContext = context;
+        }
 
         public virtual void OnAttachedToWindow()
         {

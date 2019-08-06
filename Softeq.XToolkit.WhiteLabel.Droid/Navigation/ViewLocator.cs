@@ -49,12 +49,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public object GetView(IViewModelBase viewModel, ViewType viewType)
         {
             var targetType = GetTargetType(viewModel.GetType(), viewType);
-            var inst = Activator.CreateInstance(targetType);
-            if (inst is IBindable bindable)
+            var view = Activator.CreateInstance(targetType);
+            
+            if (view is IBindable bindable)
             {
-                bindable.DataContext = viewModel;
+                bindable.SetDataContext(viewModel);
             }
-            return inst;
+            
+            return view;
         }
 
         private Type GetTargetType(string viewModelTypeName, ViewType viewType)
@@ -62,15 +64,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             var targetTypeName = viewModelTypeName.Replace(".ViewModels.", ".Droid.Views.");
             targetTypeName = targetTypeName.Replace("ViewModel", viewType.ToString());
 
-            var targeType = Type.GetType(targetTypeName)
-                            ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+            var targetType = Type.GetType(targetTypeName)
+                             ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
 
-            if (targeType == null)
+            if (targetType == null)
             {
                 throw new DllNotFoundException($"Can't find target type: {targetTypeName}");
             }
 
-            return targeType;
+            return targetType;
         }
 
         #region inject parameter

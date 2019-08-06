@@ -14,16 +14,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         : UINavigationController, IBindable
         where TViewModel : RootFrameNavigationViewModelBase
     {
-        protected RootFrameNavigationControllerBase()
-        {
-            Bindings = new List<Binding>();
-        }
+        public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public List<Binding> Bindings { get; }
-
-        public object DataContext { get; set; }
+        public object DataContext { get; private set; }
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
+
+        void IBindable.SetDataContext(object context)
+        {
+            DataContext = context;
+        }
 
         public override void ViewDidLoad()
         {
@@ -55,13 +55,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             ViewModel.OnDisappearing();
         }
 
-        /// <inheritdoc />
-        public virtual void DoAttachBindings()
+        protected virtual void DoAttachBindings()
         {
         }
 
-        /// <inheritdoc />
-        public virtual void DoDetachBindings()
+        protected virtual void DoDetachBindings()
         {
             this.DetachBindings();
         }

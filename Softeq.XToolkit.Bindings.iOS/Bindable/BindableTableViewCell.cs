@@ -9,7 +9,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableTableViewCell<TItem> : UITableViewCell, IBindable
+    public abstract class BindableTableViewCell<TItem> : UITableViewCell, IBindableView
     {
         protected BindableTableViewCell(IntPtr handle) : base(handle)
         {
@@ -17,9 +17,14 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public object DataContext { get; set; }
+        public object DataContext { get; private set; }
 
         protected TItem ViewModel => (TItem) DataContext;
+
+        void IBindable.SetDataContext(object context)
+        {
+            DataContext = context;
+        }
 
         /// <inheritdoc />
         public virtual void DoAttachBindings()

@@ -5,7 +5,7 @@ using System;
 using Playground.iOS.Views;
 using Playground.Models;
 using Playground.ViewModels.Collections;
-using Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.WhiteLabel.iOS;
 
 namespace Playground.iOS.ViewControllers.Collections

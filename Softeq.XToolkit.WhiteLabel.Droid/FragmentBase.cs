@@ -17,9 +17,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     {
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public object DataContext { get; set; }
+        public object DataContext { get; private set; }
 
-        public TViewModel ViewModel => (TViewModel) DataContext;
+        protected TViewModel ViewModel => (TViewModel) DataContext;
+
+        void IBindable.SetDataContext(object context)
+        {
+            DataContext = context;
+        }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -67,17 +72,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void DoDetachBindings()
         {
-            Bindings.DetachAllAndClear();
-        }
-
-        void IBindingsLifecycle.DoAttachBindings()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        void IBindingsLifecycle.DoDetachBindings()
-        {
-            throw new System.NotImplementedException();
+            this.DetachBindings();
         }
     }
 }

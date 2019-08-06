@@ -78,7 +78,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                 LastItemRequested?.Invoke(this, EventArgs.Empty);
             }
 
-            return _getCellViewFunc.Invoke(tableView, item, DataSource[indexPath.Section], indexPath);
+            return GetItemCell(tableView, item, DataSource[indexPath.Section], indexPath);
         }
 
         public override UIView GetViewForHeader(UITableView tableView, nint section)
@@ -121,6 +121,16 @@ namespace Softeq.XToolkit.Bindings.iOS
             return HeightForFooter ?? 0;
         }
 
+        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
+        {
+            if (_getHeightForRowFunc != null)
+            {
+                return _getHeightForRowFunc(indexPath);
+            }
+
+            return HeightForRow ?? 0;
+        }
+
         public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
         {
             var item = GetItemByIndex(indexPath);
@@ -138,17 +148,22 @@ namespace Softeq.XToolkit.Bindings.iOS
             ItemTapped?.Invoke(this, args);
         }
 
-        private TItem GetItemByIndex(NSIndexPath indexPath)
+        protected virtual UITableViewCell GetItemCell(UITableView tableView, TItem item, IList<TItem> items, NSIndexPath indexPath)
+        {
+            return _getCellViewFunc?.Invoke(tableView, item, items, indexPath);
+        }
+
+        protected TItem GetItemByIndex(NSIndexPath indexPath)
         {
             return DataSource[indexPath.Section][indexPath.Row];
         }
 
-        private TKey GetKeyBySection(nint section)
+        protected TKey GetKeyBySection(nint section)
         {
             return DataSource[(int) section].Key;
         }
 
-        private void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        protected void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
             Execute(() =>
             {
@@ -211,7 +226,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             return modifiedIndexPaths.ToArray();
         }
 
-        private static void Execute(Action action)
+        protected static void Execute(Action action)
         {
             if (NSThread.IsMain)
             {
@@ -222,16 +237,6 @@ namespace Softeq.XToolkit.Bindings.iOS
                 NSOperationQueue.MainQueue.AddOperation(action);
                 NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
             }
-        }
-
-        public override nfloat GetHeightForRow(UITableView tableView, NSIndexPath indexPath)
-        {
-            if (_getHeightForRowFunc != null)
-            {
-                return _getHeightForRowFunc(indexPath);
-            }
-
-            return HeightForRow ?? 0;
         }
     }
 }

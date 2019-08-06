@@ -6,31 +6,25 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
 using UIKit;
 
-namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
+namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    [Obsolete("Will be removed after removing BindableCollectionView.")]
-    public interface IBindableCollectionViewSource
-    {
-        object GetItemAt(int index);
-    }
-
-    public class BindableCollectionViewSource<TItem, TCell> : ObservableCollectionViewSource<TItem, TCell>,
-        IBindableCollectionViewSource
-        where TCell : UICollectionViewCell, IBindable
+    public class BindableCollectionViewSource<TItem, TCell>
+        : ObservableCollectionViewSource<TItem, TCell>
+        where TCell : UICollectionViewCell, IBindableView
     {
         private ICommand<TItem> _itemClick;
 
-        public BindableCollectionViewSource(IList<TItem> items)
+        public BindableCollectionViewSource(IList<TItem> dataSource)
         {
-            DataSource = items;
+            DataSource = dataSource;
         }
 
         public ICommand<TItem> ItemClick
         {
-            get => _itemClick;
             set
             {
                 if (ReferenceEquals(_itemClick, value))
@@ -47,21 +41,13 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
             }
         }
 
-        [Obsolete]
-        public object GetItemAt(int index)
-        {
-            return DataSource[index];
-        }
-
         /// <inheritdoc />
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = (TCell) collectionView.DequeueReusableCell(typeof(TCell).Name, indexPath);
-
-            var bindableCell = (IBindable) cell;
-            bindableCell.DoDetachBindings();
-            bindableCell.DataContext = DataSource[indexPath.Row];
-            bindableCell.DoAttachBindings();
+            var bindableCell = (IBindableView) cell;
+            
+            bindableCell.ReloadDataContext(DataSource[indexPath.Row]);
 
             return cell;
         }

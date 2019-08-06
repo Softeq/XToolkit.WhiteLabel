@@ -152,7 +152,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void DoDetachBindings()
         {
-            Bindings.DetachAllAndClear();
+            this.DetachBindings();
         }
 
         private void RestoreIfNeeded(Bundle outState)

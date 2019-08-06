@@ -4,7 +4,7 @@
 using Foundation;
 using UIKit;
 
-namespace Softeq.XToolkit.Bindings.iOS.Bindable.CollectionView
+namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public class BindableUICollectionViewDelegateFlowLayout : UICollectionViewDelegateFlowLayout
     {

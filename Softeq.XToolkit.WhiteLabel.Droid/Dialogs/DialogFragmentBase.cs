@@ -21,12 +21,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     {
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public object DataContext { get; set; }
+        public object DataContext { get; private set; }
 
-        public TViewModel ViewModel => (TViewModel) DataContext;
+        protected TViewModel ViewModel => (TViewModel) DataContext;
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
 
+        void IBindable.SetDataContext(object context)
+        {
+            DataContext = context;
+        }
+        
         public void Show()
         {
             SetStyle(StyleNoFrame, ThemeId);
@@ -80,17 +85,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         protected virtual void DoDetachBindings()
         {
-            Bindings.DetachAllAndClear();
-        }
-
-        void IBindingsLifecycle.DoAttachBindings()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        void IBindingsLifecycle.DoDetachBindings()
-        {
-            throw new System.NotImplementedException();
+            this.DetachBindings();
         }
     }
 }

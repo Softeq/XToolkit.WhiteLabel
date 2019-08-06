@@ -37,9 +37,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public object DataContext { get; set; }
+        public object DataContext { get; private set; }
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
+
+        void IBindable.SetDataContext(object context)
+        {
+            DataContext = context;
+        }
 
         public override void ViewDidLoad()
         {
@@ -76,20 +81,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         private void DetachBindings()
         {
-            Bindings.DetachAllAndClear();
+            BindableExtensions.DetachBindings(this);
             DoDetachBindings();
-        }
-
-        /// <inheritdoc />
-        void IBindingsLifecycle.DoAttachBindings()
-        {
-            // TODO YP: replace protected DoAttachBindings
-        }
-
-        /// <inheritdoc />
-        void IBindingsLifecycle.DoDetachBindings()
-        {
-            // TODO YP: replace protected DoDetachBindings
         }
     }
 }

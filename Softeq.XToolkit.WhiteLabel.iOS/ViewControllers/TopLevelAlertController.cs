@@ -5,7 +5,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 {
-    internal class TopLevelAlertController : UIAlertController
+    public class TopLevelAlertController : UIAlertController
     {
         private UIWindow _alertWindow;
 
