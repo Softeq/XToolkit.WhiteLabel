@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using Foundation;
@@ -14,7 +13,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public class BindableCollectionViewSource<TItem, TCell>
         : ObservableCollectionViewSource<TItem, TCell>
-        where TCell : UICollectionViewCell, IBindableView
+        where TCell : BindableCollectionViewCell<TItem>
     {
         private ICommand<TItem> _itemClick;
 
@@ -46,7 +45,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             var cell = (TCell) collectionView.DequeueReusableCell(typeof(TCell).Name, indexPath);
             var bindableCell = (IBindableView) cell;
-            
+
             bindableCell.ReloadDataContext(DataSource[indexPath.Row]);
 
             return cell;
