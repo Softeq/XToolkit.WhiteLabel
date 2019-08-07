@@ -163,6 +163,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 try
                 {
+                    viewController.ModalViewController.View.EndEditing(true);
                     viewController.DismissViewController(true, () => tcs.TrySetResult(true));
                 }
                 catch (Exception ex)
