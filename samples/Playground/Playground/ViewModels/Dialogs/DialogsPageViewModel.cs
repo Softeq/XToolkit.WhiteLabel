@@ -3,8 +3,11 @@
 
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Playground.Converters;
 using Playground.Models;
 using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -13,22 +16,34 @@ namespace Playground.ViewModels.Dialogs
     public class DialogsPageViewModel : ViewModelBase
     {
         private readonly IDialogsService _dialogsService;
+        private readonly ILogger _logger;
 
         private string _alertResult = "-";
         private Person _dialogUntilDismissResult;
+        private Person _dialogUntilResult;
 
         public DialogsPageViewModel(
-            IDialogsService dialogsService)
+            IDialogsService dialogsService,
+            ILogManager logManager)
         {
             _dialogsService = dialogsService;
+            _logger = logManager.GetLogger<DialogsPageViewModel>();
+
+            PersonConverter = new PersonToStringConverter();
 
             OpenAlertCommand = new AsyncCommand(OpenAlert);
-            OpenDialogUntilDismissCommand = new AsyncCommand(OpenDialogUntilDismiss);
+            OpenDialogUntilDismissCommand = new RelayCommand(OpenDialogUntilDismiss);
+            OpenDialogUntilResultCommand = new AsyncCommand(OpenDialogUntilResult);
+            OpenTwoDialogsCommand = new AsyncCommand(OpenTwoDialogs);
         }
 
         public ICommand OpenAlertCommand { get; }
 
         public ICommand OpenDialogUntilDismissCommand { get; }
+
+        public ICommand OpenDialogUntilResultCommand { get; }
+
+        public ICommand OpenTwoDialogsCommand { get; }
 
         public string AlertResult
         {
@@ -42,6 +57,14 @@ namespace Playground.ViewModels.Dialogs
             set => Set(ref _dialogUntilDismissResult, value);
         }
 
+        public Person DialogUntilResult
+        {
+            get => _dialogUntilResult;
+            set => Set(ref _dialogUntilResult, value);
+        }
+
+        public PersonToStringConverter PersonConverter { get; }
+
         private async Task OpenAlert()
         {
             var result = await _dialogsService.ShowDialogAsync("~title", "~message", "~ok", "~cancel");
@@ -49,15 +72,57 @@ namespace Playground.ViewModels.Dialogs
             AlertResult = result.ToString();
         }
 
-        private async Task OpenDialogUntilDismiss()
+        private void OpenDialogUntilDismiss()
+        {
+            // simulate open from another thread
+
+            Task.Run(() =>
+            {
+                _dialogsService
+                    .For<SimpleDialogPageViewModel>()
+                    .WithParam(x => x.FirstName, "First")
+                    .WithParam(x => x.LastName, "Last")
+                    .Navigate<Person>()
+                    .ContinueOnUIThread(result =>
+                    {
+                        DialogUntilDismissResult = result;
+                    });
+            });
+        }
+
+        private async Task OpenDialogUntilResult()
         {
             var result = await _dialogsService
                 .For<SimpleDialogPageViewModel>()
                 .WithParam(x => x.FirstName, "First")
                 .WithParam(x => x.LastName, "Last")
+                .WithAwaitResult() // wait until result
                 .Navigate<Person>();
 
-            DialogUntilDismissResult = result;
+            DialogUntilResult = result;
         }
+
+        private async Task OpenTwoDialogs()
+        {
+            // simulate queue of dialogs
+
+            var result1 = await _dialogsService
+                .For<SimpleDialogPageViewModel>()
+                .WithParam(x => x.FirstName, "First1")
+                .WithParam(x => x.LastName, "Last1")
+                .Navigate<Person>();
+
+            _logger.Debug($"Dialog1 result: {PersonConverter.ConvertValue(result1)}");
+
+            var result2 = await _dialogsService
+               .For<SimpleDialogPageViewModel>()
+               .WithParam(x => x.FirstName, $"{result1?.FirstName}2")
+               .WithParam(x => x.LastName, $"{result1?.LastName}2")
+               .Navigate<Person>();
+
+            _logger.Debug($"Dialog2 result: {PersonConverter.ConvertValue(result2)}");
+        }
+
+        // TODO YP: add sample with custom dialog UI
     }
 }

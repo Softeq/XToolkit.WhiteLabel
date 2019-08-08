@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.App;
 using Android.Support.V7.App;
 using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Bindings;
@@ -50,16 +49,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             Dependencies.PermissionRequestHandler?.Handle(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-
-        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
-        {
-            var viewLocator = Dependencies.Container.Resolve<IViewLocator>();
-            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
-            SupportFragmentManager
-                .BeginTransaction()
-                .Add(containerId, fragment)
-                .Commit();
         }
     }
 
