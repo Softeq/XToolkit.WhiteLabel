@@ -10,8 +10,6 @@ using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
@@ -24,18 +22,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public TViewModel ViewModel { get; private set; }
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
-
-        public void SetExistingViewModel(TViewModel viewModel)
-        {
-            ViewModel = viewModel;
-        }
-
-        public void Show()
-        {
-            SetStyle(StyleNoFrame, ThemeId);
-            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
-            Show(baseActivity.SupportFragmentManager, null);
-        }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -64,17 +50,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public override void OnDismiss(IDialogInterface dialog)
         {
             base.OnDismiss(dialog);
+
             ViewModel.DialogComponent.CloseCommand.Execute(null);
         }
 
-        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
+        public void SetExistingViewModel(TViewModel viewModel)
         {
-            var viewLocator = Dependencies.Container.Resolve<IViewLocator>();
-            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
-            ChildFragmentManager
-                .BeginTransaction()
-                .Add(containerId, fragment)
-                .Commit();
+            ViewModel = viewModel;
+        }
+
+        public void Show()
+        {
+            SetStyle(StyleNoFrame, ThemeId);
+            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
+            Show(baseActivity.SupportFragmentManager, null);
         }
 
         protected virtual void DoAttachBindings()

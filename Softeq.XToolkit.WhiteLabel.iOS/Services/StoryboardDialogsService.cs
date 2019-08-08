@@ -33,64 +33,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
-        public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
-            where TViewModel : IDialogViewModel
-        {
-            IDialogResult<TResult> dialogResult = null;
-
-            try
-            {
-                var (viewController, resultObject) = await ShowViewModelForResultAsync<TViewModel>(parameters);
-
-                var result = resultObject is TResult convertedResult
-                    ? convertedResult
-                    : default(TResult);
-
-                dialogResult = new DialogResult<TResult>(result, DismissViewController(viewController));
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-            }
-
-            return dialogResult;
-        }
-
-        public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
-            where TViewModel : IDialogViewModel
-        {
-            IDialogResult dialogResult = null;
-
-            try
-            {
-                var (viewController, result) = await ShowViewModelForResultAsync<TViewModel>(parameters);
-
-                dialogResult = new DialogResult(DismissViewController(viewController));
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-            }
-
-            return dialogResult;
-        }
-
-        public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IDialogViewModel
-        {
-            return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDissmissed();
-        }
-
-        public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IDialogViewModel
-        {
-            return ShowForViewModelAsync<TViewModel, TResult>(parameters).ReturnWhenDissmissed();
-        }
-
         public Task<bool> ShowDialogAsync(
             string title,
             string message,
@@ -127,36 +69,88 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return dialogResult.Task;
         }
 
+        public Task ShowForViewModel<TViewModel>(
+            IEnumerable<NavigationParameterModel> parameters)
+            where TViewModel : IDialogViewModel
+        {
+            return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
+        }
+
+        public Task<TResult> ShowForViewModel<TViewModel, TResult>(
+            IEnumerable<NavigationParameterModel> parameters)
+            where TViewModel : IDialogViewModel
+        {
+            return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
+        }
+
+        public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
+           IEnumerable<NavigationParameterModel> parameters = null)
+           where TViewModel : IDialogViewModel
+        {
+            try
+            {
+                var (viewController, result) = await ShowViewModelForResultAsync<TViewModel>(parameters);
+
+                return new DialogResult(DismissViewControllerAsync(viewController));
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+            }
+            return null;
+        }
+
+        public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
+           IEnumerable<NavigationParameterModel> parameters = null)
+           where TViewModel : IDialogViewModel
+        {
+            try
+            {
+                var (viewController, resultObject) = await ShowViewModelForResultAsync<TViewModel>(parameters);
+
+                var result = resultObject is TResult convertedResult
+                    ? convertedResult
+                    : default;
+
+                return new DialogResult<TResult>(result, DismissViewControllerAsync(viewController));
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+            }
+            return null;
+        }
+
         private async Task<(UIViewController, object)> ShowViewModelForResultAsync<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters)
             where TViewModel : IDialogViewModel
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
-            var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
+            var viewController = await PresentModalViewControllerAsync(viewModel).ConfigureAwait(false);
             var dialogResult = await viewModel.DialogComponent.Task;
 
             return (viewController, dialogResult);
         }
 
-        private Task<UIViewController> PresentModalViewController(object viewModel)
+        private Task<UIViewController> PresentModalViewControllerAsync(object viewModel)
         {
-            var source = new TaskCompletionSource<UIViewController>();
+            var tcs = new TaskCompletionSource<UIViewController>();
 
             Execute.BeginOnUIThread(() =>
             {
-                var controller = _viewLocator.GetView(viewModel);
-                controller.ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
-                var viewController = _viewLocator.GetTopViewController();
-                viewController.View.EndEditing(true);
-                viewController.PresentViewController(controller, true, null);
-                source.TrySetResult(viewController);
+                var targetViewController = _viewLocator.GetView(viewModel);
+                targetViewController.ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
+                var topViewController = _viewLocator.GetTopViewController();
+                topViewController.View.EndEditing(true);
+                topViewController.PresentViewController(targetViewController, true, null);
+                tcs.TrySetResult(targetViewController);
             });
 
-            return source.Task;
+            return tcs.Task;
         }
 
-        private TaskCompletionSource<bool> DismissViewController(UIViewController viewController)
+        private Task<bool> DismissViewControllerAsync(UIViewController viewController)
         {
             var tcs = new TaskCompletionSource<bool>();
             Execute.BeginOnUIThread(() =>
@@ -172,7 +166,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                     tcs.TrySetResult(false);
                 }
             });
-            return tcs;
+            return tcs.Task;
         }
     }
 }

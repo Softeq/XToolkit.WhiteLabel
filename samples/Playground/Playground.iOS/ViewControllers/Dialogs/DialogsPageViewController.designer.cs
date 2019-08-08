@@ -19,21 +19,35 @@ namespace Playground.iOS.ViewControllers.Dialogs
 		UIKit.UILabel DialogUntilDismissResultLabel { get; set; }
 
 		[Outlet]
+		UIKit.UIButton OpenTwoDialogsButton { get; set; }
+
+		[Outlet]
 		UIKit.UIButton ShowAlertButton { get; set; }
 
 		[Outlet]
 		UIKit.UIButton ShowDialogUntilDismissButton { get; set; }
+
+		[Outlet]
+		UIKit.UIButton ShowDialogUntilResultButton { get; set; }
+
+		[Outlet]
+		UIKit.UILabel ShowDialogUntilResultLabel { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (ShowAlertButton != null) {
-				ShowAlertButton.Dispose ();
-				ShowAlertButton = null;
-			}
-
 			if (AlertResultLabel != null) {
 				AlertResultLabel.Dispose ();
 				AlertResultLabel = null;
+			}
+
+			if (DialogUntilDismissResultLabel != null) {
+				DialogUntilDismissResultLabel.Dispose ();
+				DialogUntilDismissResultLabel = null;
+			}
+
+			if (ShowAlertButton != null) {
+				ShowAlertButton.Dispose ();
+				ShowAlertButton = null;
 			}
 
 			if (ShowDialogUntilDismissButton != null) {
@@ -41,9 +55,19 @@ namespace Playground.iOS.ViewControllers.Dialogs
 				ShowDialogUntilDismissButton = null;
 			}
 
-			if (DialogUntilDismissResultLabel != null) {
-				DialogUntilDismissResultLabel.Dispose ();
-				DialogUntilDismissResultLabel = null;
+			if (ShowDialogUntilResultButton != null) {
+				ShowDialogUntilResultButton.Dispose ();
+				ShowDialogUntilResultButton = null;
+			}
+
+			if (ShowDialogUntilResultLabel != null) {
+				ShowDialogUntilResultLabel.Dispose ();
+				ShowDialogUntilResultLabel = null;
+			}
+
+			if (OpenTwoDialogsButton != null) {
+				OpenTwoDialogsButton.Dispose ();
+				OpenTwoDialogsButton = null;
 			}
 		}
 	}

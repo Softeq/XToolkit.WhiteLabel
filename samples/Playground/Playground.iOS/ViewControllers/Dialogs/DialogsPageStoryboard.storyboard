@@ -41,14 +41,34 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFx-vF-jYP">
+                                <rect key="frame" x="118" y="272" width="178" height="30"/>
+                                <state key="normal" title="Show Dialog - Until Result"/>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wyf-xA-eIW">
+                                <rect key="frame" x="186" y="310" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNs-jM-7fJ">
+                                <rect key="frame" x="145" y="371" width="124" height="30"/>
+                                <state key="normal" title="Open Two Dialogs"/>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="so1-cY-Jua" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="Hp8-UQ-ElP"/>
                             <constraint firstItem="Nkm-J1-2QI" firstAttribute="top" secondItem="eHG-NU-tdS" secondAttribute="bottom" constant="8" id="IHl-r8-oVR"/>
+                            <constraint firstItem="iFx-vF-jYP" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="IWq-Wd-UYB"/>
                             <constraint firstItem="eHG-NU-tdS" firstAttribute="top" secondItem="bWY-St-6ms" secondAttribute="bottom" constant="30" id="K1K-VS-WRT"/>
                             <constraint firstItem="eHG-NU-tdS" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="NDb-rk-4xd"/>
                             <constraint firstItem="gjE-B8-4p1" firstAttribute="top" secondItem="so1-cY-Jua" secondAttribute="bottom" constant="8" id="THy-JA-vqh"/>
+                            <constraint firstItem="fNs-jM-7fJ" firstAttribute="top" secondItem="Wyf-xA-eIW" secondAttribute="bottom" constant="40" id="TJ2-lf-ACF"/>
+                            <constraint firstItem="fNs-jM-7fJ" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="XmM-mJ-z3E"/>
+                            <constraint firstItem="Wyf-xA-eIW" firstAttribute="top" secondItem="iFx-vF-jYP" secondAttribute="bottom" constant="8" id="kUv-VI-YC7"/>
+                            <constraint firstItem="Wyf-xA-eIW" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="m69-Ry-bUh"/>
+                            <constraint firstItem="iFx-vF-jYP" firstAttribute="top" secondItem="gjE-B8-4p1" secondAttribute="bottom" constant="40" id="nBG-2Y-Fcr"/>
                             <constraint firstItem="so1-cY-Jua" firstAttribute="top" secondItem="Nkm-J1-2QI" secondAttribute="bottom" constant="40" id="oAl-ey-i3H"/>
                             <constraint firstItem="Nkm-J1-2QI" firstAttribute="centerX" secondItem="eHG-NU-tdS" secondAttribute="centerX" id="r0q-5f-f9r"/>
                             <constraint firstItem="gjE-B8-4p1" firstAttribute="centerX" secondItem="so1-cY-Jua" secondAttribute="centerX" id="xo8-lC-Xh6"/>
@@ -57,8 +77,11 @@
                     <connections>
                         <outlet property="AlertResultLabel" destination="Nkm-J1-2QI" id="TWq-Rh-l5p"/>
                         <outlet property="DialogUntilDismissResultLabel" destination="gjE-B8-4p1" id="sPx-y4-wWz"/>
+                        <outlet property="OpenTwoDialogsButton" destination="fNs-jM-7fJ" id="mdx-Sd-NYd"/>
                         <outlet property="ShowAlertButton" destination="eHG-NU-tdS" id="1nZ-SR-UKV"/>
                         <outlet property="ShowDialogUntilDismissButton" destination="so1-cY-Jua" id="WnY-OG-cfE"/>
+                        <outlet property="ShowDialogUntilResultButton" destination="iFx-vF-jYP" id="poJ-Zr-zCR"/>
+                        <outlet property="ShowDialogUntilResultLabel" destination="Wyf-xA-eIW" id="udp-Fu-jT0"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gzV-wq-8rw" userLabel="First Responder" sceneMemberID="firstResponder"/>
