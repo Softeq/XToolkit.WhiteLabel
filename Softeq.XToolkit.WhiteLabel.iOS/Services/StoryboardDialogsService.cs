@@ -137,19 +137,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             var tcs = new TaskCompletionSource<bool>();
             Execute.BeginOnUIThread(() =>
-            {
-                try
-                {
-                    viewController.View.EndEditing(true);
-                    viewController.DismissViewController(true, () => tcs.TrySetResult(true));
-                }
-                catch (Exception ex)
-                {
-                    _logger.Error(ex);
-                    tcs.TrySetResult(false);
-                }
-            });
-            return tcs.Task;
+                viewController.DismissViewController(true, () => { tcs.TrySetResult(true); }));
+            await tcs.Task;
         }
     }
 }
