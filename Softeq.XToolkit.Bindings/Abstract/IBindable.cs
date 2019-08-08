@@ -15,11 +15,4 @@ namespace Softeq.XToolkit.Bindings.Abstract
 
         void SetDataContext(object dataContext);
     }
-
-    /// <summary>
-    ///     A contract for each Bindable View that can control bindings lifecycle.
-    /// </summary>
-    public interface IBindableView : IBindable, IBindingsLifecycle
-    {
-    }
 }

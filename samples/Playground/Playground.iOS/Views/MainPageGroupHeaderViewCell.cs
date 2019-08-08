@@ -15,10 +15,7 @@ namespace Playground.iOS.Views
         public static readonly NSString Key = new NSString(nameof(MainPageGroupHeaderViewCell));
         public static readonly UINib Nib;
 
-        static MainPageGroupHeaderViewCell()
-        {
-            Nib = UINib.FromName(Key, NSBundle.MainBundle);
-        }
+        static MainPageGroupHeaderViewCell() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
         protected MainPageGroupHeaderViewCell(IntPtr handle) : base(handle)
         {
