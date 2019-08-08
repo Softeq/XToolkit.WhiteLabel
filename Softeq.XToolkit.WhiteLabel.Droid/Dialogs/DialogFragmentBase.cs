@@ -14,14 +14,21 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
-    public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindableOwner
+    public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable
         where TViewModel : IDialogViewModel
     {
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public TViewModel ViewModel { get; private set; }
+        public object DataContext { get; private set; }
+
+        protected TViewModel ViewModel => (TViewModel) DataContext;
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
+
+        void IBindable.SetDataContext(object dataContext)
+        {
+            DataContext = dataContext;
+        }
 
         public override void OnCreate(Bundle savedInstanceState)
         {
@@ -54,11 +61,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             ViewModel.DialogComponent.CloseCommand.Execute(null);
         }
 
-        public void SetExistingViewModel(TViewModel viewModel)
-        {
-            ViewModel = viewModel;
-        }
-
         public void Show()
         {
             SetStyle(StyleNoFrame, ThemeId);
@@ -72,7 +74,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         protected virtual void DoDetachBindings()
         {
-            Bindings.DetachAllAndClear();
+            this.DetachBindings();
         }
     }
 }

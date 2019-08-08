@@ -63,7 +63,7 @@
             </constraints>
             <size key="customSize" width="352" height="92"/>
             <connections>
-                <outlet property="Description" destination="4he-dH-fsD" id="HAs-BO-SxH"/>
+                <outlet property="DescriptionLabel" destination="4he-dH-fsD" id="Gru-a9-2YG"/>
                 <outlet property="Poster" destination="4NJ-l0-wVK" id="XtR-1N-FUH"/>
                 <outlet property="Title" destination="orG-bc-jPc" id="2kE-mM-Njm"/>
             </connections>

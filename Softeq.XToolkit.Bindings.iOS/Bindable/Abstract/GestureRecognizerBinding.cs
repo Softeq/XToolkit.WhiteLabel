@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.Windows.Input;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
@@ -16,25 +15,24 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
             _behaviour = behaviour;
         }
 
-        public void ChangeTarget(ICommand command)
-        {
-            _behaviour.Command = command;
-        }
-
+        /// <inheritdoc />
         public override void Detach()
         {
             _behaviour.Command = null;
             _behaviour = null;
         }
 
+        /// <inheritdoc />
         public override void ForceUpdateValueFromSourceToTarget()
         {
         }
 
+        /// <inheritdoc />
         public override void ForceUpdateValueFromTargetToSource()
         {
         }
 
+        /// <inheritdoc />
         public override event EventHandler ValueChanged;
     }
 }

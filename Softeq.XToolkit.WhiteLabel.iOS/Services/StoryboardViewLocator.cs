@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
@@ -52,16 +53,18 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             var controllerType = GetTargetType(viewModel.GetType());
             var storyboardName = controllerType.Name.Replace("ViewController", "Storyboard");
             var viewController = TryCreateViewController(storyboardName, controllerType);
-            var method = viewController.GetType().GetMethod("SetExistingViewModel");
-            method?.Invoke(viewController, new[] { viewModel });
+            
+            if (viewController is IBindable bindableViewController)
+            {
+                bindableViewController.SetDataContext(viewModel);
+            }
+            
             return viewController;
         }
 
         private Type GetTargetType(Type type)
         {
-            Type targetType;
-
-            if (_modelToControllerTypes.TryGetValue(type, out targetType))
+            if (_modelToControllerTypes.TryGetValue(type, out var targetType))
             {
                 return targetType;
             }
@@ -69,7 +72,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             var targetTypeName = type.FullName.Replace(".ViewModels.", ".iOS.ViewControllers.");
             targetTypeName = targetTypeName.Replace("ViewModel", "ViewController");
             targetType = Type.GetType(targetTypeName)
-                ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+                         ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+            
             if (targetType == null)
             {
                 throw new Exception($"Can't find target type: {targetTypeName}");

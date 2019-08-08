@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         }
     }
 
-    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindableOwner
+    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindingsOwner
         where TViewModel : ViewModelBase
     {
         private const string ShouldRestoreStateKey = "shouldRestore";
@@ -141,7 +141,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void DoDetachBindings()
         {
-            Bindings.DetachAllAndClear();
+            this.DetachBindings();
         }
 
         private void RestoreIfNeeded(Bundle outState)

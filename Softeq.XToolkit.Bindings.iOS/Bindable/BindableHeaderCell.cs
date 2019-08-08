@@ -4,22 +4,37 @@
 using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableHeaderCell<TViewModel> : UITableViewHeaderFooterView, IBindable
+    public abstract class BindableHeaderCell<TItem> : UITableViewHeaderFooterView, IBindableView
     {
         protected BindableHeaderCell(IntPtr handle) : base(handle)
         {
-            Bindings = new List<Binding>();
         }
 
-        protected TViewModel ViewModel => (TViewModel) DataContext;
+        public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public object DataContext { get; set; }
-        public List<Binding> Bindings { get; }
+        public object DataContext { get; private set; }
 
-        public abstract void SetBindings();
+        protected TItem ViewModel => (TItem) DataContext;
+
+        void IBindable.SetDataContext(object dataContext)
+        {
+            DataContext = dataContext;
+        }
+
+        /// <inheritdoc />
+        public virtual void DoAttachBindings()
+        {
+        }
+
+        /// <inheritdoc />
+        public virtual void DoDetachBindings()
+        {
+            this.DetachBindings();
+        }
     }
 }

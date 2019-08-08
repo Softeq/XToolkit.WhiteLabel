@@ -4,18 +4,15 @@
 namespace Softeq.XToolkit.Bindings.Abstract
 {
     /// <summary>
-    ///     Contract for each Bindable View that provides a mechanism for control DataContext.
+    ///     A contract for each Bindable object that contains DataContext and set of bindings.
     /// </summary>
-    public interface IBindable : IBindableOwner
+    public interface IBindable : IBindingsOwner
     {
         /// <summary>
         ///     Data context for an element when it participates in data binding.
         /// </summary>
-        object DataContext { get; set; } // TODO YP: public set only for support current projects
+        object DataContext { get; }
 
-        /// <summary>
-        ///     Method where you must declare bindings.
-        /// </summary>
-        void SetBindings();
+        void SetDataContext(object dataContext);
     }
 }
