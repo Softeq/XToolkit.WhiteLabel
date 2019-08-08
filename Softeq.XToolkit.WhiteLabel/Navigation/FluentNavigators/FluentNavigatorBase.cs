@@ -19,12 +19,20 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             Parameters = new List<NavigationParameterModel>();
         }
 
-        public FluentNavigatorBase<TViewModel> ApplyParameter<TValue>(Expression<Func<TViewModel, TValue>> property,
+        /// <summary>
+        ///     Set value to the target ViewModel property.
+        /// </summary>
+        /// <typeparam name="TValue">Type of parameter value.</typeparam>
+        /// <param name="propertyExpression">Target property.</param>
+        /// <param name="value">Value for set.</param>
+        /// <returns></returns>
+        public FluentNavigatorBase<TViewModel> ApplyParameter<TValue>(
+            Expression<Func<TViewModel, TValue>> propertyExpression,
             TValue value)
         {
             var parameter = new NavigationParameterModel { Value = value };
 
-            var propertyInfo = (PropertyInfo) property.GetMemberInfo();
+            var propertyInfo = (PropertyInfo) propertyExpression.GetMemberInfo();
             parameter.PropertyInfo = PropertyInfoModel.FromProperty(propertyInfo);
 
             Parameters.Add(parameter);

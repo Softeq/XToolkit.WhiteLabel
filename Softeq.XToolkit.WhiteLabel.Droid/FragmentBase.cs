@@ -7,7 +7,6 @@ using Android.Support.V4.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
@@ -52,16 +51,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.OnDestroy();
 
             Dispose();
-        }
-
-        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
-        {
-            var viewLocator = Dependencies.Container.Resolve<ViewLocator>();
-            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
-            ChildFragmentManager
-                .BeginTransaction()
-                .Add(containerId, fragment)
-                .Commit();
         }
 
         protected virtual void DoAttachBindings()

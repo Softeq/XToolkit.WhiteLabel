@@ -14,6 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         public DialogViewModelComponent()
         {
             _withResultCompletionSource = new TaskCompletionSource<object>();
+
             CloseCommand = new RelayCommand<object>(Close);
         }
 

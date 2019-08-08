@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
+using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -27,48 +28,71 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             _iocContainer = iocContainer;
         }
 
-        public Task<bool> ShowDialogAsync(string title, string message, string okButtonText,
-            string cancelButtonText = null, OpenDialogOptions openDialogOptions = null)
+        public Task<bool> ShowDialogAsync(
+            string title,
+            string message,
+            string okButtonText,
+            string cancelButtonText = null,
+            OpenDialogOptions openDialogOptions = null)
         {
             return _alertBuilder.ShowAlertAsync(title, message, okButtonText, cancelButtonText);
         }
 
-        public async Task<TResult> ShowForViewModel<TViewModel, TResult>(
+        public Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel
         {
-            var result = default(TResult);
-            var viewModel = _iocContainer.Resolve<TViewModel>();
-            viewModel.ApplyParameters(parameters);
-
-            ShowImpl(viewModel);
-
-            var resultObject = await viewModel.DialogComponent.Task;
-
-            if (resultObject is TResult tResult)
-            {
-                result = tResult;
-            }
-
-            return result;
+            return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
-        public async Task ShowForViewModel<TViewModel>(
+        public Task ShowForViewModel<TViewModel>(
+            IEnumerable<NavigationParameterModel> parameters = null)
+            where TViewModel : IDialogViewModel
+        {
+            return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
+        }
+
+        public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
+            IEnumerable<NavigationParameterModel> parameters = null)
+            where TViewModel : IDialogViewModel
+        {
+            var viewModel = CreateViewModel<TViewModel>(parameters);
+
+            await ShowDialogAsync(viewModel);
+
+            return new DialogResult(Task.FromResult(true));
+        }
+
+        public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
+            IEnumerable<NavigationParameterModel> parameters = null)
+            where TViewModel : IDialogViewModel
+        {
+            var viewModel = CreateViewModel<TViewModel>(parameters);
+
+            var resultObject = await ShowDialogAsync(viewModel).ConfigureAwait(false);
+
+            var result = resultObject is TResult convertedResult
+                ? convertedResult
+                : default;
+
+            return new DialogResult<TResult>(result, Task.FromResult(true));
+        }
+
+        private TViewModel CreateViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
-
-            ShowImpl(viewModel);
-
-            await viewModel.DialogComponent.Task;
+            return viewModel;
         }
 
-        private void ShowImpl<TViewModel>(TViewModel viewModel) where TViewModel : IDialogViewModel
+        private Task<object> ShowDialogAsync<TViewModel>(TViewModel viewModel)
+            where TViewModel : IDialogViewModel
         {
-            var fragmentBase = (DialogFragmentBase<TViewModel>) _viewLocator.GetView(viewModel, ViewType.DialogFragment);
-            fragmentBase.Show();
+            var dialogFragment = (DialogFragmentBase<TViewModel>) _viewLocator.GetView(viewModel, ViewType.DialogFragment);
+            dialogFragment.Show();
+            return viewModel.DialogComponent.Task;
         }
     }
 }
