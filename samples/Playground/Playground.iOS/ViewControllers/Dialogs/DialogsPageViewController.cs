@@ -20,8 +20,9 @@ namespace Playground.iOS.ViewControllers.Dialogs
             base.ViewDidLoad();
 
             ShowAlertButton.SetCommand(ViewModel.OpenAlertCommand);
-
             ShowDialogUntilDismissButton.SetCommand(ViewModel.OpenDialogUntilDismissCommand);
+            ShowDialogUntilResultButton.SetCommand(ViewModel.OpenDialogUntilResultCommand);
+            OpenTwoDialogsButton.SetCommand(ViewModel.OpenTwoDialogsCommand);
         }
 
         protected override void DoAttachBindings()
@@ -29,10 +30,8 @@ namespace Playground.iOS.ViewControllers.Dialogs
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.AlertResult, () => AlertResultLabel.Text);
-            this.Bind(() => ViewModel.DialogUntilDismissResult, x =>
-            {
-                DialogUntilDismissResultLabel.Text = x?.FullName ?? "null";
-            });
+            this.Bind(() => ViewModel.DialogUntilDismissResult, () => DialogUntilDismissResultLabel.Text, ViewModel.PersonConverter);
+            this.Bind(() => ViewModel.DialogUntilResult, () => ShowDialogUntilResultLabel.Text, ViewModel.PersonConverter);
         }
     }
 }
