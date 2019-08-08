@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public class BindableCollectionViewSource<TItem, TCell>
         : ObservableCollectionViewSource<TItem, TCell>
-        where TCell : BindableCollectionViewCell<TItem>
+        where TCell : UICollectionViewCell, IBindableView
     {
         private ICommand<TItem> _itemClick;
 

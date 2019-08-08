@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public object DataContext { get; private set; }
 
-        protected TViewModel ViewModel => (TViewModel) DataContext;
+        public TViewModel ViewModel => (TViewModel) DataContext;
 
         void IBindable.SetDataContext(object dataContext)
         {
