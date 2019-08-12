@@ -13,21 +13,32 @@ namespace Playground.iOS.Views.Collections
 	partial class PhotoViewCell
 	{
 		[Outlet]
+		UIKit.UIButton AddToCartButton { get; set; }
+
+		[Outlet]
 		UIKit.UILabel NameLabel { get; set; }
 
 		[Outlet]
 		UIKit.UIImageView PhotoImage { get; set; }
+
+		[Action ("AddToCartAction:")]
+		partial void AddToCartAction (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (NameLabel != null) {
+				NameLabel.Dispose ();
+				NameLabel = null;
+			}
+
 			if (PhotoImage != null) {
 				PhotoImage.Dispose ();
 				PhotoImage = null;
 			}
 
-			if (NameLabel != null) {
-				NameLabel.Dispose ();
-				NameLabel = null;
+			if (AddToCartButton != null) {
+				AddToCartButton.Dispose ();
+				AddToCartButton = null;
 			}
 		}
 	}

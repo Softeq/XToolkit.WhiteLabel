@@ -4,14 +4,14 @@
 using System;
 using FFImageLoading;
 using Foundation;
-using Playground.Models;
+using Playground.ViewModels.Collections;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using UIKit;
 
 namespace Playground.iOS.Views.Collections
 {
-    public partial class PhotoViewCell : BindableCollectionViewCell<ItemViewModel>
+    public partial class PhotoViewCell : BindableCollectionViewCell<ProductItemViewModel>
     {
         #region init
 
@@ -31,7 +31,7 @@ namespace Playground.iOS.Views.Collections
         {
             base.DoAttachBindings();
 
-            ImageService.Instance.LoadUrl(ViewModel.IconUrl).Into(PhotoImage);
+            ImageService.Instance.LoadUrl(ViewModel.PhotoUrl).Into(PhotoImage);
 
             this.Bind(() => ViewModel.Title, () => NameLabel.Text);
         }
@@ -41,6 +41,11 @@ namespace Playground.iOS.Views.Collections
             base.DoDetachBindings();
 
             PhotoImage.Image = null;
+        }
+
+        partial void AddToCartAction(NSObject sender)
+        {
+            ViewModel.AddToCartCommand.Execute(null);
         }
     }
 }

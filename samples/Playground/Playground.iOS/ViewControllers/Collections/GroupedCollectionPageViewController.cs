@@ -32,7 +32,7 @@ namespace Playground.iOS.ViewControllers.Collections
             CollectionView.RegisterNibForSupplementaryView(GroupedHeaderView.Nib, UICollectionElementKindSection.Header, GroupedHeaderView.Key);
             CollectionView.RegisterNibForCell(PhotoViewCell.Nib, PhotoViewCell.Key);
             CollectionView.Delegate = new GroupedCollectionViewDelegateFlowLayout();
-            CollectionView.DataSource = new BindableGroupedCollectionViewSource<ItemViewModel, PhotoViewCell, string, GroupedHeaderView>(ViewModel.ItemModels);
+            CollectionView.DataSource = new BindableGroupedCollectionViewSource<ProductItemViewModel, PhotoViewCell, string, GroupedHeaderView>(ViewModel.Products);
 
             // pin headers
             ((UICollectionViewFlowLayout) CollectionView.CollectionViewLayout).SectionHeadersPinToVisibleBounds = true;
@@ -41,6 +41,8 @@ namespace Playground.iOS.ViewControllers.Collections
         protected override void DoAttachBindings()
         {
             base.DoAttachBindings();
+
+            this.Bind(() => ViewModel.Title, () => Title);
         }
 
         internal class BindableGroupedCollectionViewSource<TItem, TCell, TGroup, THeader>

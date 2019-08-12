@@ -42,15 +42,23 @@
                                     <constraint firstAttribute="trailing" secondItem="ZBL-WU-gzE" secondAttribute="trailing" constant="10" id="kAo-ct-NuE"/>
                                 </constraints>
                             </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Hp2-yR-OnR">
+                                <rect key="frame" x="70" y="8" width="22" height="22"/>
+                                <connections>
+                                    <action selector="AddToCartAction:" destination="cZE-iV-UFb" eventType="touchUpInside" id="T1P-a4-SD6"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="VOj-Em-MRK" firstAttribute="leading" secondItem="2cy-ex-2JQ" secondAttribute="leading" id="0KQ-34-mka"/>
                             <constraint firstAttribute="bottom" secondItem="VOj-Em-MRK" secondAttribute="bottom" id="B5p-Y3-q1M"/>
                             <constraint firstAttribute="trailing" secondItem="WRA-PT-Zhx" secondAttribute="trailing" id="Ptv-Fm-F9e"/>
+                            <constraint firstItem="Hp2-yR-OnR" firstAttribute="top" secondItem="2cy-ex-2JQ" secondAttribute="top" constant="8" id="a3c-0q-2YN"/>
                             <constraint firstItem="WRA-PT-Zhx" firstAttribute="leading" secondItem="2cy-ex-2JQ" secondAttribute="leading" id="acL-HW-XPD"/>
                             <constraint firstAttribute="bottom" secondItem="WRA-PT-Zhx" secondAttribute="bottom" id="ijU-5f-tRN"/>
                             <constraint firstAttribute="trailing" secondItem="VOj-Em-MRK" secondAttribute="trailing" id="ozB-Sf-aCZ"/>
+                            <constraint firstAttribute="trailing" secondItem="Hp2-yR-OnR" secondAttribute="trailing" constant="8" id="rvv-MZ-SrE"/>
                             <constraint firstItem="WRA-PT-Zhx" firstAttribute="top" secondItem="2cy-ex-2JQ" secondAttribute="top" id="wVR-bo-cgT"/>
                         </constraints>
                     </view>
@@ -64,6 +72,7 @@
             </constraints>
             <size key="customSize" width="100" height="100"/>
             <connections>
+                <outlet property="AddToCartButton" destination="Hp2-yR-OnR" id="dqF-Dm-ELQ"/>
                 <outlet property="NameLabel" destination="ZBL-WU-gzE" id="mXs-Zg-nNM"/>
                 <outlet property="PhotoImage" destination="WRA-PT-Zhx" id="4zF-uz-01a"/>
             </connections>
