@@ -2,8 +2,10 @@
 // http://www.softeq.com
 
 using System;
+using CoreGraphics;
 using Foundation;
-using Playground.iOS.ViewControllers.Collections;
+using Softeq.XToolkit.Bindings.iOS;
+using Softeq.XToolkit.Common.iOS.Extensions;
 using UIKit;
 
 namespace Playground.iOS.Views.Collections
@@ -11,16 +13,23 @@ namespace Playground.iOS.Views.Collections
     [Register(nameof(GroupedFooterView))]
     public class GroupedFooterView : BindableUICollectionReusableView<string>
     {
+        private readonly UILabel _label;
+
         public GroupedFooterView(IntPtr handle) : base(handle)
         {
+            BackgroundColor = "#60d5c9".UIColorFromHex();
 
-            BackgroundColor = UIColor.Blue;
+            _label = new UILabel(new CGRect(0, 0, 300, 20));
+            _label.TextColor = UIColor.DarkGray;
+
+            AddSubview(_label);
         }
 
         public override void DoAttachBindings()
         {
             base.DoAttachBindings();
 
+            _label.Text = ViewModel;
         }
     }
 }

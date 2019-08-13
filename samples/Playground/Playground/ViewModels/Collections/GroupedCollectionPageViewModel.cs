@@ -2,129 +2,60 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Input;
-using Softeq.XToolkit.Common;
-using Softeq.XToolkit.Common.Collections;
+using Playground.Services;
+using Playground.ViewModels.Collections.Products;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Collections
 {
     public class GroupedCollectionPageViewModel : ViewModelBase
     {
-        public GroupedCollectionPageViewModel()
+        private readonly IDialogsService _dialogsService;
+        private readonly IDataService _dataService;
+        private readonly ICommand<ProductViewModel> _addToCartCommand;
+        private readonly ICommand<ProductHeaderViewModel> _groupInfoCommand;
+
+        public GroupedCollectionPageViewModel(
+            IDialogsService dialogsService)
         {
-            Products = new ObservableRangeCollection<ProductItemViewModel>();
-            Bag = new ObservableRangeCollection<ProductModel>();
+            _dataService = new DataService();
+            _addToCartCommand = new RelayCommand<ProductViewModel>(AddToCart, CanToAdd);
+            _groupInfoCommand = new RelayCommand<ProductHeaderViewModel>(GroupInfo);
+
+            ProductListViewModel = new ProductListViewModel(_dataService, _addToCartCommand, _groupInfoCommand);
+            ProductBagViewModel = new ProductBagViewModel();
+            _dialogsService = dialogsService;
         }
 
-        public ObservableRangeCollection<ProductItemViewModel> Products { get; }
+        public ICommand<ProductViewModel> AddToCartCommand { get; }
 
-        public ObservableRangeCollection<ProductModel> Bag { get; }
+        public ProductListViewModel ProductListViewModel { get; }
 
-        public string Title => $"Cart: {Bag.Count}";
+        public ProductBagViewModel ProductBagViewModel { get; }
 
         public override async void OnInitialize()
         {
             base.OnInitialize();
 
-            await LoadDataAsync();
+            await ProductListViewModel.LoadDataAsync();
         }
 
-        private async Task LoadDataAsync()
+        private void AddToCart(ProductViewModel product)
         {
-            await Task.Delay(2000);
-
-            var productModels = GenerateProducts(100);
-
-            var productViewModels = productModels.Select(product => new ProductItemViewModel(product)
-            {
-                AddToCartCommand = new ContextableCommand<ProductModel>(AddToCart, product)
-            });
-
-            Products.AddRange(productViewModels);
+            ProductBagViewModel.AddItem(product);
+            ProductListViewModel.RemoveItem(product);
         }
 
-        private IEnumerable<ProductModel> GenerateProducts(int count)
+        private bool CanToAdd(ProductViewModel product)
         {
-            return Enumerable.Range(0, count).Select(i => new ProductModel
-            {
-                Title = $"{i} #- Title",
-                PhotoUrl = $"https://picsum.photos/100/150?random={i}",
-                Price = 0
-            });
+            return product.Count > 0;
         }
 
-        private void AddToCart(ProductModel product)
+        private async void GroupInfo(ProductHeaderViewModel groupHeader)
         {
-            Bag.Add(product);
-            RaisePropertyChanged(() => Title);
-
-            var productViewModel = Products.First(x => x.Title == product.Title);
-            Products.Remove(productViewModel);
+            await _dialogsService.ShowDialogAsync("Info", $"{groupHeader.Category}th section.", "OK");
         }
-    }
-
-    // TODO YP: temporary
-    public class ContextableCommand<T> : ICommand
-    {
-        private readonly WeakAction<T> _command;
-        private readonly T _dataContext;
-
-        public event EventHandler CanExecuteChanged;
-
-        public ContextableCommand(Action<T> execute, T dataContext)
-        {
-            _command = new WeakAction<T>(execute);
-            _dataContext = dataContext;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return true;
-        }
-
-        public void Execute(object parameter)
-        {
-            if (_command.IsStatic || _command.IsAlive)
-            {
-                _command.Execute(_dataContext);
-            }
-        }
-    }
-
-    public class ProductItemViewModel : ObservableObject
-    {
-        private string _title;
-        private string _photoUrl;
-
-        public ProductItemViewModel(ProductModel product)
-        {
-            _title = product.Title;
-            _photoUrl = product.PhotoUrl;
-        }
-
-        public string Title
-        {
-            get => _title;
-            set => Set(ref _title, value);
-        }
-
-        public string PhotoUrl
-        {
-            get => _photoUrl;
-            set => Set(ref _photoUrl, value);
-        }
-
-        public ICommand AddToCartCommand { get; set; }
-    }
-
-    public class ProductModel
-    {
-        public string Title { get; set; }
-        public string PhotoUrl { get; set; }
-        public double Price { get; set; }
     }
 }

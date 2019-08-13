@@ -16,6 +16,9 @@ namespace Playground.iOS.Views.Collections
 		UIKit.UIButton AddToCartButton { get; set; }
 
 		[Outlet]
+		UIKit.UITextField CountField { get; set; }
+
+		[Outlet]
 		UIKit.UILabel NameLabel { get; set; }
 
 		[Outlet]
@@ -39,6 +42,11 @@ namespace Playground.iOS.Views.Collections
 			if (AddToCartButton != null) {
 				AddToCartButton.Dispose ();
 				AddToCartButton = null;
+			}
+
+			if (CountField != null) {
+				CountField.Dispose ();
+				CountField = null;
 			}
 		}
 	}

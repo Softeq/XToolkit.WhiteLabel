@@ -4,14 +4,15 @@
 using System;
 using FFImageLoading;
 using Foundation;
-using Playground.ViewModels.Collections;
+using Playground.ViewModels.Collections.Products;
+using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using UIKit;
 
 namespace Playground.iOS.Views.Collections
 {
-    public partial class PhotoViewCell : BindableCollectionViewCell<ProductItemViewModel>
+    public partial class PhotoViewCell : BindableCollectionViewCell<ProductViewModel>
     {
         #region init
 
@@ -34,6 +35,7 @@ namespace Playground.iOS.Views.Collections
             ImageService.Instance.LoadUrl(ViewModel.PhotoUrl).Into(PhotoImage);
 
             this.Bind(() => ViewModel.Title, () => NameLabel.Text);
+            this.Bind(() => ViewModel.Count, () => CountField.Text, BindingMode.TwoWay);
         }
 
         public override void DoDetachBindings()
@@ -41,11 +43,17 @@ namespace Playground.iOS.Views.Collections
             base.DoDetachBindings();
 
             PhotoImage.Image = null;
+            CountField.Text = string.Empty;
         }
 
         partial void AddToCartAction(NSObject sender)
         {
-            ViewModel.AddToCartCommand.Execute(null);
+            var command = ViewModel.AddToCartCommand;
+
+            if (command.CanExecute(ViewModel))
+            {
+                command.Execute(ViewModel);
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ namespace Playground.iOS.ViewControllers.Collections
     {
         private readonly int _itemsPerRow = 3;
 
-        private UIEdgeInsets _sectionInsets = new UIEdgeInsets(top: 50, left: 20, bottom: 50, right: 20);
+        private UIEdgeInsets _sectionInsets = new UIEdgeInsets(top: 20, left: 20, bottom: 20, right: 20);
 
         public override CGSize GetSizeForItem(UICollectionView collectionView, UICollectionViewLayout layout, NSIndexPath indexPath)
         {
@@ -34,15 +34,16 @@ namespace Playground.iOS.ViewControllers.Collections
             return _sectionInsets.Left;
         }
 
-
+        // Enable Header
         public override CGSize GetReferenceSizeForHeader(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
         {
             return new CGSize(width: collectionView.Frame.Width, height: 40);
         }
 
+        // Enable Footer
         public override CGSize GetReferenceSizeForFooter(UICollectionView collectionView, UICollectionViewLayout layout, nint section)
         {
-            return new CGSize(width: collectionView.Frame.Width, height: 50);
+            return new CGSize(width: collectionView.Frame.Width, height: 20);
         }
     }
 }

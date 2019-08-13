@@ -2,16 +2,14 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using Foundation;
 using Playground.iOS.Views.Collections;
-using Playground.Models;
 using Playground.ViewModels.Collections;
-using Softeq.XToolkit.Bindings;
+using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
+using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;
 
@@ -27,81 +25,65 @@ namespace Playground.iOS.ViewControllers.Collections
         {
             base.ViewDidLoad();
 
-            CollectionView.RegisterClassForSupplementaryView(typeof(GroupedFooterView), UICollectionElementKindSection.Footer, nameof(GroupedFooterView));
-
-            CollectionView.RegisterNibForSupplementaryView(GroupedHeaderView.Nib, UICollectionElementKindSection.Header, GroupedHeaderView.Key);
-            CollectionView.RegisterNibForCell(PhotoViewCell.Nib, PhotoViewCell.Key);
-            CollectionView.Delegate = new GroupedCollectionViewDelegateFlowLayout();
-            CollectionView.DataSource = new BindableGroupedCollectionViewSource<ProductItemViewModel, PhotoViewCell, string, GroupedHeaderView>(ViewModel.Products);
-
-            // pin headers
-            ((UICollectionViewFlowLayout) CollectionView.CollectionViewLayout).SectionHeadersPinToVisibleBounds = true;
+            InitCollectionView();
         }
 
         protected override void DoAttachBindings()
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.Title, () => Title);
+            this.Bind(() => ViewModel.ProductBagViewModel.Status, () => Title);
         }
 
-        internal class BindableGroupedCollectionViewSource<TItem, TCell, TGroup, THeader>
-            : BindableCollectionViewSource<TItem, TCell>
-            where TCell : BindableCollectionViewCell<TItem>
-            where THeader : BindableUICollectionReusableView<TGroup>
+        private void InitCollectionView()
         {
-            public BindableGroupedCollectionViewSource(IList<TItem> dataSource) : base(dataSource)
+            // setup CollectionView
+            CollectionView.KeyboardDismissMode = UIScrollViewKeyboardDismissMode.OnDrag;
+
+            // pin headers
+            ((UICollectionViewFlowLayout) CollectionView.CollectionViewLayout).SectionHeadersPinToVisibleBounds = true;
+
+            // register footer view
+            CollectionView.RegisterClassForSupplementaryView(typeof(GroupedFooterView), UICollectionElementKindSection.Footer, nameof(GroupedFooterView));
+
+            // register header cell
+            CollectionView.RegisterNibForSupplementaryView(GroupedHeaderView.Nib, UICollectionElementKindSection.Header, GroupedHeaderView.Key);
+
+            // register item cell
+            CollectionView.RegisterNibForCell(PhotoViewCell.Nib, PhotoViewCell.Key);
+
+            // set custom delegate
+            CollectionView.Delegate = new GroupedCollectionViewDelegateFlowLayout();
+
+            // set custom data source
+            CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products);
+        }
+
+        internal class ProductsDataSource : BindableGroupedCollectionViewSource<
+            ProductViewModel,       // item data type
+            PhotoViewCell,          // item cell type
+            ProductHeaderViewModel, // header data type
+            GroupedHeaderView>      // header view type
+        {
+            public ProductsDataSource(
+                ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> items)
+                : base(items)
             {
             }
 
-            /// <inheritdoc />
-            public override UICollectionReusableView GetViewForSupplementaryElement(
-                UICollectionView collectionView, NSString elementKind, NSIndexPath indexPath)
+            // for disable footer, see Delegate.GetReferenceSizeForFooter implementation
+            protected override UICollectionReusableView GetFooterView(UICollectionView collectionView, NSIndexPath indexPath)
             {
-                if (elementKind == UICollectionElementKindSectionKey.Header)
-                {
-                    var header = collectionView.DequeueReusableSupplementaryView(elementKind, typeof(THeader).Name, indexPath);
+                var footer = collectionView.DequeueReusableSupplementaryView(
+                    UICollectionElementKindSectionKey.Footer,
+                    typeof(GroupedFooterView).Name,
+                    indexPath);
 
-                    return header;
-                }
-                else if (elementKind == UICollectionElementKindSectionKey.Footer)
-                {
-
-                }
-
-                // TODO YP: temp
-                var footer = collectionView.DequeueReusableSupplementaryView(elementKind, typeof(GroupedFooterView).Name, indexPath);
+                var bindableFooter = (IBindableView) footer;
+                bindableFooter.ReloadDataContext($"Custom DataContext for section: {indexPath.Section}");
 
                 return footer;
             }
-        }
-    }
-
-
-    public class BindableUICollectionReusableView<T> : UICollectionReusableView, IBindableView
-    {
-        public BindableUICollectionReusableView(IntPtr handle) : base(handle)
-        {
-        }
-
-        public List<Binding> Bindings { get; } = new List<Binding>();
-
-        public object DataContext { get; private set; }
-
-        protected T ViewModel => (T) DataContext;
-
-        public virtual void DoAttachBindings()
-        {
-        }
-
-        public virtual void DoDetachBindings()
-        {
-            this.DetachBindings();
-        }
-
-        void IBindable.SetDataContext(object dataContext)
-        {
-            DataContext = dataContext;
         }
     }
 }
