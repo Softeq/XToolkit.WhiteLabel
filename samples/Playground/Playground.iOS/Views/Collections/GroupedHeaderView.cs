@@ -5,7 +5,7 @@ using System;
 using CoreGraphics;
 using Foundation;
 using Playground.ViewModels.Collections.Products;
-using Softeq.XToolkit.Bindings.iOS;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using UIKit;
 
@@ -25,6 +25,11 @@ namespace Playground.iOS.Views.Collections
             // Note: this .ctor should not contain any initialization logic.
         }
 
+        ~GroupedHeaderView()
+        {
+            Console.WriteLine($"Finalized: {nameof(GroupedHeaderView)}");
+        }
+
         #endregion
 
         public override void AwakeFromNib()
@@ -34,7 +39,7 @@ namespace Playground.iOS.Views.Collections
             ContainerView
                 .WithBorder(1, UIColor.Gray.CGColor)
                 .WithCornerRadius(10)
-                .WithShadow(CGSize.Empty, UIColor.Gray, 0.2, 10);
+                .WithShadow(new CGSize(0, 5), UIColor.Red, 0.3, 10);
         }
 
         public override void DoAttachBindings()
@@ -44,11 +49,13 @@ namespace Playground.iOS.Views.Collections
             TitleLabel.Text = $"{ViewModel.Category}th";
         }
 
-        partial void InfoButtonAction(NSObject sender)
+        partial void InfoButtonAction(NSObject _)
         {
-            if (ViewModel.InfoCommand.CanExecute(ViewModel))
+            var command = ViewModel.InfoCommand;
+
+            if (command.CanExecute(ViewModel))
             {
-                ViewModel.InfoCommand.Execute(ViewModel);
+                command.Execute(ViewModel);
             }
         }
     }

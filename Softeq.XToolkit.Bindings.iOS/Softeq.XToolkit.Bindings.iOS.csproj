@@ -56,14 +56,14 @@
     <Compile Include="ObservableTableViewSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Gestures\GestureRecognizerBehavior.cs" />
-    <Compile Include="Bindable\BindableHeaderCell.cs" />
+    <Compile Include="Bindable\BindableTableViewHeaderFooterView.cs" />
     <Compile Include="Bindable\BindableTableViewCell.cs" />
     <Compile Include="Bindable\Abstract\BindableExtensions.cs" />
     <Compile Include="Bindable\Abstract\GestureRecognizerBinding.cs" />
     <Compile Include="Gestures\PanGestureRecognizerBehaviour.cs" />
     <Compile Include="Bindable\BindableGroupTableViewSource.cs" />
-    <Compile Include="Bindable\BindableGroupedCollectionViewSource.cs" />
-    <Compile Include="BindableUICollectionReusableView.cs" />
+    <Compile Include="Bindable\BindableGroupCollectionViewSource.cs" />
+    <Compile Include="Bindable\BindableUICollectionReusableView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">

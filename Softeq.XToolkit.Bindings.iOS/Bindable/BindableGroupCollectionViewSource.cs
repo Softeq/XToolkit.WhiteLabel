@@ -2,34 +2,53 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.Linq;
+using System.Diagnostics;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.EventArguments;
 using Softeq.XToolkit.Common.WeakSubscription;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public class BindableGroupedCollectionViewSource<TItem, TCell, TKey, THeaderView> : UICollectionViewSource
+    public class BindableGroupCollectionViewSource<TItem, TCell, TKey, THeaderView> : UICollectionViewSource
+        where TItem : class
         where TCell : BindableCollectionViewCell<TItem>
         where THeaderView : BindableUICollectionReusableView<TKey>
     {
         private IDisposable _subscription;
         private WeakReferenceEx<UICollectionView> _collectionViewRef;
+        private ICommand<TItem> _itemClick;
 
-        public BindableGroupedCollectionViewSource(ObservableKeyGroupsCollection<TKey, TItem> items)
+        public BindableGroupCollectionViewSource(ObservableKeyGroupsCollection<TKey, TItem> items)
         {
             DataSource = items;
             _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(DataSource, NotifierCollectionChanged);
         }
 
         public ObservableKeyGroupsCollection<TKey, TItem> DataSource { get; }
+
+        public ICommand<TItem> ItemClick
+        {
+            set
+            {
+                if (ReferenceEquals(_itemClick, value))
+                {
+                    return;
+                }
+
+                if (_itemClick != null && value != null)
+                {
+                    Debug.WriteLine("Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                }
+
+                _itemClick = value;
+            }
+        }
 
         /// <inheritdoc />
         public override nint NumberOfSections(UICollectionView collectionView)
@@ -54,7 +73,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
             var cell = (TCell) collectionView.DequeueReusableCell(typeof(TCell).Name, indexPath);
             var bindableCell = (IBindableView) cell;
 
-            bindableCell.ReloadDataContext(DataSource[indexPath.Section][indexPath.Row]);
+            bindableCell.ReloadDataContext(GetItemByIntexPath(indexPath));
 
             return cell;
         }
@@ -74,6 +93,17 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
             }
 
             return GetCustomSupplementaryView(collectionView, elementKind, indexPath);
+        }
+
+        /// <inheritdoc />
+        public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
+        {
+            _itemClick?.Execute(GetItemByIntexPath(indexPath));
+        }
+
+        /// <inheritdoc />
+        public override void ItemDeselected(UICollectionView collectionView, NSIndexPath indexPath)
+        {
         }
 
         /// <summary>
@@ -128,28 +158,16 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
             throw new NotImplementedException();
         }
 
-        protected void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        protected virtual TItem GetItemByIntexPath(NSIndexPath indexPath)
+        {
+            return DataSource[indexPath.Section][indexPath.Row];
+        }
+
+        protected virtual void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
             Execute(() =>
             {
-                if (e.Action != NotifyCollectionChangedAction.Add && e.Action != NotifyCollectionChangedAction.Remove)
-                {
-                    _collectionViewRef.Target?.ReloadData();
-                    return;
-                }
-
                 _collectionViewRef.Target?.ReloadData();
-
-                // TODO YP:
-                //switch (e.Action)
-                //{
-                //    case NotifyCollectionChangedAction.Add:
-                //        HandleAdd(e);
-                //        break;
-                //    case NotifyCollectionChangedAction.Remove:
-                //        HandleRemove(e);
-                //        break;
-                //}
             });
         }
 
@@ -164,43 +182,6 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
                 NSOperationQueue.MainQueue.AddOperation(action);
                 NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
             }
-        }
-
-        private void HandleAdd(NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            foreach (var sectionIndex in e.ModifiedSectionsIndexes)
-            {
-                _collectionViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex));
-            }
-
-            var rowsToInsert = CreateRowsChanges(e.ModifiedItemsIndexes);
-
-            _collectionViewRef.Target?.InsertItems(rowsToInsert);
-        }
-
-        private void HandleRemove(NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            foreach (var sectionIndex in e.ModifiedSectionsIndexes)
-            {
-                _collectionViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex));
-            }
-
-            var rowsToRemove = CreateRowsChanges(e.ModifiedItemsIndexes);
-
-            _collectionViewRef.Target?.DeleteItems(rowsToRemove);
-        }
-
-        private static NSIndexPath[] CreateRowsChanges(IEnumerable<(int Section, IList<int> ModifiedIndexes)> itemIndexes)
-        {
-            var modifiedIndexPaths = new List<NSIndexPath>();
-
-            foreach (var (section, modifiedIndexes) in itemIndexes)
-            {
-                modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
-                    NSIndexPath.FromRowSection(insertedItemIndex, section)));
-            }
-
-            return modifiedIndexPaths.ToArray();
         }
     }
 }

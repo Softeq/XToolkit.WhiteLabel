@@ -11,32 +11,32 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableTableViewCell<TItem> : UITableViewCell, IBindableView
+    public abstract class BindableTableViewHeaderFooterView<TItem> : UITableViewHeaderFooterView, IBindableView
     {
-        protected BindableTableViewCell()
+        protected BindableTableViewHeaderFooterView()
         {
             Initialize();
         }
 
-        protected BindableTableViewCell(NSCoder coder)
+        protected BindableTableViewHeaderFooterView(NSCoder coder)
             : base(coder)
         {
             Initialize();
         }
 
-        protected BindableTableViewCell(CGRect frame)
+        protected BindableTableViewHeaderFooterView(CGRect frame)
             : base(frame)
         {
             Initialize();
         }
 
-        protected BindableTableViewCell(NSObjectFlag t)
+        protected BindableTableViewHeaderFooterView(NSObjectFlag t)
             : base(t)
         {
             Initialize();
         }
 
-        protected internal BindableTableViewCell(IntPtr handle)
+        protected internal BindableTableViewHeaderFooterView(IntPtr handle)
             : base(handle)
         {
             Initialize();

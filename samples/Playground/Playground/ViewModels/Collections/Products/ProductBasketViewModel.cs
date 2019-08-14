@@ -7,11 +7,11 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.ViewModels.Collections.Products
 {
-    public class ProductBagViewModel : ObservableObject
+    public class ProductBasketViewModel : ObservableObject
     {
         private readonly IList<ProductViewModel> _products;
 
-        public ProductBagViewModel()
+        public ProductBasketViewModel()
         {
             _products = new List<ProductViewModel>();
         }

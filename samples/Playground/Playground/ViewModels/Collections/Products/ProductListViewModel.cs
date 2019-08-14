@@ -11,25 +11,33 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.ViewModels.Collections.Products
 {
-    public class ProductListViewModel : ViewModelBase
+    public class ProductListViewModel : ObservableObject
     {
         private readonly IDataService _dataService;
-        private readonly ICommand<ProductViewModel> _addToCartCommand;
-        private readonly ICommand<ProductHeaderViewModel> _groupInfoCommand;
+        private readonly ICommand<ProductViewModel> _addCommand;
+        private readonly ICommand<ProductHeaderViewModel> _infoCommand;
+
+        private bool _isBusy;
 
         public ProductListViewModel(
             IDataService dataService,
-            ICommand<ProductViewModel> addToCartCommand,
-            ICommand<ProductHeaderViewModel> groupInfoCommand)
+            ICommand<ProductViewModel> addCommand,
+            ICommand<ProductHeaderViewModel> infoCommand)
         {
             _dataService = dataService;
-            _addToCartCommand = addToCartCommand;
-            _groupInfoCommand = groupInfoCommand;
+            _addCommand = addCommand;
+            _infoCommand = infoCommand;
 
             Products = new ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel>();
         }
 
         public ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> Products { get; }
+
+        public bool IsBusy
+        {
+            get => _isBusy;
+            set => Set(ref _isBusy, value);
+        }
 
         public async Task LoadDataAsync()
         {
@@ -39,7 +47,7 @@ namespace Playground.ViewModels.Collections.Products
 
             products.Apply(product =>
             {
-                product.AddToCartCommand = _addToCartCommand;
+                product.AddToBasketCommand = _addCommand;
             });
 
             Products.AddRangeToGroups(products, ToGroup);
@@ -57,7 +65,7 @@ namespace Playground.ViewModels.Collections.Products
             return new ProductHeaderViewModel
             {
                 Category = product.Title.First().ToString(),
-                InfoCommand = _groupInfoCommand
+                InfoCommand = _infoCommand
             };
         }
     }

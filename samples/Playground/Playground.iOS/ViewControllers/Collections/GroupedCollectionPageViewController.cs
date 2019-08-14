@@ -21,6 +21,11 @@ namespace Playground.iOS.ViewControllers.Collections
         {
         }
 
+        ~GroupedCollectionPageViewController()
+        {
+            Console.WriteLine($"Finalized: {nameof(GroupedCollectionPageViewController)}");
+        }
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -32,7 +37,7 @@ namespace Playground.iOS.ViewControllers.Collections
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.ProductBagViewModel.Status, () => Title);
+            this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
         }
 
         private void InitCollectionView()
@@ -44,24 +49,34 @@ namespace Playground.iOS.ViewControllers.Collections
             ((UICollectionViewFlowLayout) CollectionView.CollectionViewLayout).SectionHeadersPinToVisibleBounds = true;
 
             // register footer view
-            CollectionView.RegisterClassForSupplementaryView(typeof(GroupedFooterView), UICollectionElementKindSection.Footer, nameof(GroupedFooterView));
+            CollectionView.RegisterClassForSupplementaryView(
+                typeof(GroupedFooterView),
+                UICollectionElementKindSection.Footer,
+                nameof(GroupedFooterView));
 
             // register header cell
-            CollectionView.RegisterNibForSupplementaryView(GroupedHeaderView.Nib, UICollectionElementKindSection.Header, GroupedHeaderView.Key);
+            CollectionView.RegisterNibForSupplementaryView(
+                GroupedHeaderView.Nib,
+                UICollectionElementKindSection.Header,
+                GroupedHeaderView.Key);
 
             // register item cell
-            CollectionView.RegisterNibForCell(PhotoViewCell.Nib, PhotoViewCell.Key);
+            CollectionView.RegisterNibForCell(ProductViewCell.Nib, ProductViewCell.Key);
 
             // set custom delegate
-            CollectionView.Delegate = new GroupedCollectionViewDelegateFlowLayout();
+            CollectionView.Delegate = new GroupedCollectionViewDelegateFlowLayout(columnsCount: 3);
 
             // set custom data source
-            CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products);
+            CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products)
+            {
+                // main way for handle click by item
+                ItemClick = ViewModel.AddToCartCommand
+            };
         }
 
-        internal class ProductsDataSource : BindableGroupedCollectionViewSource<
+        private class ProductsDataSource : BindableGroupCollectionViewSource<
             ProductViewModel,       // item data type
-            PhotoViewCell,          // item cell type
+            ProductViewCell,        // item cell type
             ProductHeaderViewModel, // header data type
             GroupedHeaderView>      // header view type
         {

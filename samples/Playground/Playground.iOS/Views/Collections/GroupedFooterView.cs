@@ -4,7 +4,7 @@
 using System;
 using CoreGraphics;
 using Foundation;
-using Softeq.XToolkit.Bindings.iOS;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using UIKit;
 
@@ -23,6 +23,11 @@ namespace Playground.iOS.Views.Collections
             _label.TextColor = UIColor.DarkGray;
 
             AddSubview(_label);
+        }
+
+        ~GroupedFooterView()
+        {
+            Console.WriteLine($"Finalized: {nameof(GroupedFooterView)}");
         }
 
         public override void DoAttachBindings()

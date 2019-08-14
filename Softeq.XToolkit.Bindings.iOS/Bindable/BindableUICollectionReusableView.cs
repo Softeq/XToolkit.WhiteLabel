@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -11,32 +11,32 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableTableViewCell<TItem> : UITableViewCell, IBindableView
+    public class BindableUICollectionReusableView<T> : UICollectionReusableView, IBindableView
     {
-        protected BindableTableViewCell()
+        public BindableUICollectionReusableView()
         {
             Initialize();
         }
 
-        protected BindableTableViewCell(NSCoder coder)
+        public BindableUICollectionReusableView(NSCoder coder)
             : base(coder)
         {
             Initialize();
         }
 
-        protected BindableTableViewCell(CGRect frame)
+        public BindableUICollectionReusableView(CGRect frame)
             : base(frame)
         {
             Initialize();
         }
 
-        protected BindableTableViewCell(NSObjectFlag t)
+        protected BindableUICollectionReusableView(NSObjectFlag t)
             : base(t)
         {
             Initialize();
         }
 
-        protected internal BindableTableViewCell(IntPtr handle)
+        protected BindableUICollectionReusableView(IntPtr handle)
             : base(handle)
         {
             Initialize();
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         public object DataContext { get; private set; }
 
-        protected TItem ViewModel => (TItem) DataContext;
+        protected T ViewModel => (T) DataContext;
 
         void IBindable.SetDataContext(object dataContext)
         {
@@ -64,12 +64,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
         }
 
-        /// <inheritdoc />
         public virtual void DoAttachBindings()
         {
         }
 
-        /// <inheritdoc />
         public virtual void DoDetachBindings()
         {
             this.DetachBindings();

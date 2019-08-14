@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using System.Threading.Tasks;
 using Playground.Services;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Common.Command;
@@ -13,27 +13,24 @@ namespace Playground.ViewModels.Collections
     public class GroupedCollectionPageViewModel : ViewModelBase
     {
         private readonly IDialogsService _dialogsService;
-        private readonly IDataService _dataService;
-        private readonly ICommand<ProductViewModel> _addToCartCommand;
         private readonly ICommand<ProductHeaderViewModel> _groupInfoCommand;
 
         public GroupedCollectionPageViewModel(
-            IDialogsService dialogsService)
+            IDialogsService dialogsService,
+            IDataService dataService)
         {
-            _dataService = new DataService();
-            _addToCartCommand = new RelayCommand<ProductViewModel>(AddToCart, CanToAdd);
-            _groupInfoCommand = new RelayCommand<ProductHeaderViewModel>(GroupInfo);
-
-            ProductListViewModel = new ProductListViewModel(_dataService, _addToCartCommand, _groupInfoCommand);
-            ProductBagViewModel = new ProductBagViewModel();
             _dialogsService = dialogsService;
+            _groupInfoCommand = new AsyncCommand<ProductHeaderViewModel>(GroupInfo);
+            AddToCartCommand = new RelayCommand<ProductViewModel>(AddToBasket, CanAddToBasket);
+            ProductListViewModel = new ProductListViewModel(dataService, AddToCartCommand, _groupInfoCommand);
+            ProductBasketViewModel = new ProductBasketViewModel();
         }
 
         public ICommand<ProductViewModel> AddToCartCommand { get; }
 
         public ProductListViewModel ProductListViewModel { get; }
 
-        public ProductBagViewModel ProductBagViewModel { get; }
+        public ProductBasketViewModel ProductBasketViewModel { get; }
 
         public override async void OnInitialize()
         {
@@ -42,18 +39,19 @@ namespace Playground.ViewModels.Collections
             await ProductListViewModel.LoadDataAsync();
         }
 
-        private void AddToCart(ProductViewModel product)
+        private void AddToBasket(ProductViewModel product)
         {
-            ProductBagViewModel.AddItem(product);
+            ProductBasketViewModel.AddItem(product);
             ProductListViewModel.RemoveItem(product);
         }
 
-        private bool CanToAdd(ProductViewModel product)
+        private bool CanAddToBasket(ProductViewModel product)
         {
-            return product.Count > 0;
+            return true;
+            //return product.Count > 0;
         }
 
-        private async void GroupInfo(ProductHeaderViewModel groupHeader)
+        private async Task GroupInfo(ProductHeaderViewModel groupHeader)
         {
             await _dialogsService.ShowDialogAsync("Info", $"{groupHeader.Category}th section.", "OK");
         }

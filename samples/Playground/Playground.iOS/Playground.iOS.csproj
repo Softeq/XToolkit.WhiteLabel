@@ -155,7 +155,7 @@
     <InterfaceDefinition Include="ViewControllers\Dialogs\DialogsPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Dialogs\SimpleDialogPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Collections\GroupedCollectionPageStoryboard.storyboard" />
-    <InterfaceDefinition Include="Views\Collections\PhotoViewCell.xib" />
+    <InterfaceDefinition Include="Views\Collections\ProductViewCell.xib" />
     <InterfaceDefinition Include="Views\Collections\GroupedHeaderView.xib" />
   </ItemGroup>
   <ItemGroup>
@@ -230,9 +230,9 @@
     <Compile Include="ViewControllers\Collections\GroupedCollectionPageViewController.designer.cs">
       <DependentUpon>GroupedCollectionPageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Views\Collections\PhotoViewCell.cs" />
-    <Compile Include="Views\Collections\PhotoViewCell.designer.cs">
-      <DependentUpon>PhotoViewCell.cs</DependentUpon>
+    <Compile Include="Views\Collections\ProductViewCell.cs" />
+    <Compile Include="Views\Collections\ProductViewCell.designer.cs">
+      <DependentUpon>ProductViewCell.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\Collections\GroupedCollectionViewDelegateFlowLayout.cs" />
     <Compile Include="Views\Collections\GroupedHeaderView.cs" />

@@ -20,6 +20,6 @@ namespace Playground.ViewModels.Collections.Products
             set => Set(ref _count, value);
         }
 
-        public ICommand<ProductViewModel> AddToCartCommand { get; set; }
+        public ICommand<ProductViewModel> AddToBasketCommand { get; set; }
     }
 }

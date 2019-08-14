@@ -13,7 +13,7 @@ namespace Playground.Services
     {
         public async Task<IList<ProductViewModel>> GetProducts(int count)
         {
-            await Task.Delay(2000);
+            await Task.Delay(1000);
 
             var productModels = GenerateProducts(count);
             return productModels.Select(Map).ToList();

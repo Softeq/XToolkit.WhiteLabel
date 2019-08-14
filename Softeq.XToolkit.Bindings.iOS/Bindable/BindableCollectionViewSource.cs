@@ -11,8 +11,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public class BindableCollectionViewSource<TItem, TCell>
-        : ObservableCollectionViewSource<TItem, TCell>
+    public class BindableCollectionViewSource<TItem, TCell> : ObservableCollectionViewSource<TItem, TCell>
         where TCell : UICollectionViewCell, IBindableView
     {
         private ICommand<TItem> _itemClick;
