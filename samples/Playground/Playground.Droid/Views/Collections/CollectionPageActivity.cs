@@ -26,7 +26,7 @@ namespace Playground.Droid.Views.Collections
 
             SetContentView(Resource.Layout.activity_collection);
 
-            _recyclerView = FindViewById<RecyclerView>(Resource.Id.activity_collection_recycler_view);
+            _recyclerView = FindViewById<RecyclerView>(Resource.Id.activity_collection_lst);
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView

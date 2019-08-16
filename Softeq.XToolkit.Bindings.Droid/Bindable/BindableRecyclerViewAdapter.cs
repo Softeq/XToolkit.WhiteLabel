@@ -7,7 +7,6 @@ using System.Windows.Input;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
-using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
 using Object = Java.Lang.Object;
@@ -30,7 +29,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         public BindableRecyclerViewAdapter(
             IList<TViewModel> items,
             int itemLayoutId)
-            : base(items, null, SetDataContext)
+            : base(items, null, null)
         {
             _itemLayoutId = itemLayoutId;
         }
@@ -63,12 +62,14 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            base.OnBindViewHolder(holder, position);
-
             var bindableViewHolder = (IBindableViewHolder) holder;
+
+            bindableViewHolder.ReloadDataContext(DataSource[position]);
 
             bindableViewHolder.ItemClicked -= OnItemViewClick;
             bindableViewHolder.ItemClicked += OnItemViewClick;
+
+            CheckIfLastItemRequested(position);
         }
 
         public override void OnViewAttachedToWindow(Object holder)
@@ -118,13 +119,6 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             {
                 command.Execute(itemDataContext);
             }
-        }
-
-        private static void SetDataContext(RecyclerView.ViewHolder viewHolder, int viewType, TViewModel viewModel)
-        {
-            var bindable = (IBindableView) viewHolder;
-
-            bindable.ReloadDataContext(viewModel);
         }
     }
 }

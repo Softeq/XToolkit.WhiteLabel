@@ -67,15 +67,20 @@ namespace Softeq.XToolkit.Bindings.Droid
             var item = DataSource[position];
             _bindViewHolderAction.Invoke(holder, position, item);
 
-            if (position > 0 && position == DataSource.Count - 1)
-            {
-                LastItemRequested?.Invoke(this, EventArgs.Empty);
-            }
+            CheckIfLastItemRequested(position);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             return _getHolderFunc?.Invoke(parent, viewType);
+        }
+
+        protected virtual void CheckIfLastItemRequested(int position)
+        {
+            if (position > 0 && position == DataSource.Count - 1)
+            {
+                LastItemRequested?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         protected override void Dispose(bool disposing)
