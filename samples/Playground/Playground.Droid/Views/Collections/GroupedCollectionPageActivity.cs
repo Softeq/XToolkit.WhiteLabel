@@ -48,4 +48,116 @@ namespace Playground.Droid.Views.Collections
             //_recyclerView.SetAdapter(adapter);
         }
     }
+
+    public class BindableGroupRecyclerViewAdapter<TItem, TKey, TItemHolder, THeaderHolder> : RecyclerView.Adapter
+    {
+        protected const int DefaultViewType = 0;
+
+        private readonly ObservableKeyGroupsCollection<TKey, TItem> _dataSource;
+        private readonly int _itemLayoutId;
+        private readonly int _headerLayoutId;
+
+        private IDisposable _subscription;
+
+        public BindableGroupRecyclerViewAdapter(
+            ObservableKeyGroupsCollection<TKey, TItem> items,
+            int itemLayoutId,
+            int headerLayoutId = -1)
+        {
+            _dataSource = items;
+            _itemLayoutId = itemLayoutId;
+            _headerLayoutId = headerLayoutId;
+            _subscription = new NotifyCollectionChangedEventSubscription(_dataSource, NotifierCollectionChanged);
+        }
+
+        public override int ItemCount => _dataSource.Keys.Count + _dataSource.Values.Count();
+
+        //public abstract int GetSectionsCount();
+
+        //public abstract int GetSectionItemsCount(int section);
+
+
+        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            var itemType = (ItemType) viewType;
+
+            switch (itemType)
+            {
+                case ItemType.Header:
+                    return OnCreateHeaderViewHolder(parent);
+
+                case ItemType.SectionHeader:
+                    return OnCreateSectionHeaderViewHolder(parent, itemType);
+
+                case ItemType.Item:
+                    var viewHolder = OnCreateItemViewHolder(parent, itemType);
+                    //viewHolder.ItemView.NotNull().ClickWeakSubscribe(ItemView_Click);
+                    return viewHolder;
+
+                case ItemType.SectionFooter:
+                    return OnCreateSectionFooterViewHolder(parent, itemType);
+
+                case ItemType.Footer:
+                    return OnCreateFooterViewHolder(parent);
+
+                default:
+                    throw new ArgumentException($"Unable to create a view holder for \"{viewType}\" view type.", nameof(viewType));
+            }
+        }
+
+        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        {
+            var bindableViewHolder = (IBindableView) holder;
+
+            var data = new object();
+
+            bindableViewHolder.ReloadDataContext(data);
+
+            // TODO: 
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateHeaderViewHolder(ViewGroup parent)
+        {
+            // TODO:
+            return null;
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateSectionHeaderViewHolder(ViewGroup parent, ItemType itemType)
+        {
+            // TODO:
+            return null;
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateItemViewHolder(ViewGroup parent, ItemType itemType)
+        {
+            // TODO:
+            return null;
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateSectionFooterViewHolder(ViewGroup parent, ItemType itemType)
+        {
+            // TODO:
+            return null;
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateFooterViewHolder(ViewGroup parent)
+        {
+            // TODO:
+            return null;
+        }
+
+        private void NotifierCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            // TODO:
+        }
+    }
+
+    public enum ItemType
+    {
+        Header = 1,
+        SectionHeader = 2,
+        Item = 3,
+        SectionFooter = 4,
+        Footer = 5
+    }
 }
