@@ -149,7 +149,7 @@ namespace Playground.ViewModels
         {
             base.OnAppearing();
 
-            DebugUtils.ForceCGCollect();
+            //DebugUtils.ForceCGCollect();
         }
 
         private void GoToEmpty()

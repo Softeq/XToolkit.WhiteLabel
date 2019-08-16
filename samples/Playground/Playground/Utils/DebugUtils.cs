@@ -9,7 +9,7 @@ namespace Playground.Utils
     {
         internal static void ForceCGCollect()
         {
-            Console.WriteLine("=== The highest generation is {0}", GC.MaxGeneration);
+            Console.WriteLine($"=== The highest generation is {GC.MaxGeneration}");
 
             GC.Collect(0, GCCollectionMode.Forced, false);
             GC.WaitForPendingFinalizers();
@@ -19,7 +19,7 @@ namespace Playground.Utils
             GC.WaitForPendingFinalizers();
             GC.Collect(2);
 
-            Console.WriteLine("=== Total Memory: " + GC.GetTotalMemory(true).ToString("N0"));
+            Console.WriteLine($"=== Total managed memory: {GC.GetTotalMemory(true).ToString("N0")} bytes.");
         }
     }
 }

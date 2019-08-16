@@ -51,12 +51,7 @@ namespace Playground.iOS.Views.Collections
 
         partial void InfoButtonAction(NSObject _)
         {
-            var command = ViewModel.InfoCommand;
-
-            if (command.CanExecute(ViewModel))
-            {
-                command.Execute(ViewModel);
-            }
+            ViewModel.InfoCommand?.Execute(ViewModel);
         }
     }
 }

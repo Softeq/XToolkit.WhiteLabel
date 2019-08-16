@@ -85,6 +85,7 @@
     <Compile Include="Views\EmptyPageActivity.cs" />
     <Compile Include="Views\Dialogs\DialogsPageActivity.cs" />
     <Compile Include="Views\Dialogs\SimpleDialogPageFragment.cs" />
+    <Compile Include="Views\Collections\GroupedCollectionPageActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

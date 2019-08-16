@@ -3,6 +3,7 @@
 
 using System;
 using Foundation;
+using Playground.Converters;
 using Playground.iOS.Views.Collections;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
@@ -38,6 +39,8 @@ namespace Playground.iOS.ViewControllers.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
+            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => ActivityIndicatorView.Hidden,
+                new InverseBooleanConverter());
         }
 
         private void InitCollectionView()

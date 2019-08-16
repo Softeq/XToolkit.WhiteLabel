@@ -41,13 +41,6 @@ namespace Softeq.XToolkit.Common
         ///     Gets the target.
         /// </summary>
         /// <value>Return target object if the target was retrieved; otherwise, null.</value>
-        public T Target
-        {
-            get
-            {
-                T target;
-                return _weakReference.TryGetTarget(out target) ? target : null;
-            }
-        }
+        public T Target => _weakReference.TryGetTarget(out var target) ? target : null;
     }
 }
