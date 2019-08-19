@@ -1,0 +1,280 @@
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
+using System.Collections.Generic;
+using Android.Support.V7.Widget;
+using Android.Util;
+using Android.Views;
+using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.WeakSubscription;
+
+namespace Softeq.XToolkit.Bindings.Droid.Bindable
+{
+    public class BindableGroupRecyclerViewAdapter<TKey, TItem, TItemHolder> : RecyclerView.Adapter
+        where TItemHolder : BindableViewHolder<TItem>
+    {
+        private readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
+        private readonly ObservableKeyGroupsCollection<TKey, TItem> _dataSource;
+
+        private IDisposable _subscription;
+        private ICommand<TItem> _itemClick;
+
+        public BindableGroupRecyclerViewAdapter(
+            ObservableKeyGroupsCollection<TKey, TItem> items)
+        {
+            _dataSource = items;
+            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(_dataSource, NotifierCollectionChanged);
+
+            ReloadMapping();
+        }
+
+        public ICommand<TItem> ItemClick
+        {
+            get => _itemClick;
+            set
+            {
+                if (ReferenceEquals(_itemClick, value))
+                {
+                    return;
+                }
+
+                if (_itemClick != null && value != null)
+                {
+                    Log.Warn(nameof(BindableGroupRecyclerViewAdapter<TKey, TItem, TItemHolder>),
+                        "Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                }
+
+                _itemClick = value;
+            }
+        }
+
+        public Type HeaderViewHolder { get; set; }
+
+        public Type HeaderSectionViewHolder { get; set; }
+
+        public Type FooterSectionViewHolder { get; set; }
+
+        public Type FooterViewHolder { get; set; }
+
+        public override int ItemCount => _flatMapping.Count;
+
+        public override int GetItemViewType(int position)
+        {
+            return (int) _flatMapping[position].Type;
+        }
+
+        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            var itemType = (ItemType) viewType;
+
+            switch (itemType)
+            {
+                case ItemType.Header:
+                    return OnCreateHeaderViewHolder(parent);
+
+                case ItemType.SectionHeader:
+                    return OnCreateSectionHeaderViewHolder(parent, itemType);
+
+                case ItemType.Item:
+                    return OnCreateItemViewHolder(parent, itemType);
+
+                case ItemType.SectionFooter:
+                    return OnCreateSectionFooterViewHolder(parent, itemType);
+
+                case ItemType.Footer:
+                    return OnCreateFooterViewHolder(parent);
+
+                default:
+                    throw new ArgumentException($"Unable to create a view holder for \"{viewType}\" view type.", nameof(viewType));
+            }
+        }
+
+        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
+        {
+            var bindableViewHolder = (IBindableViewHolder) holder;
+            var flatItem = _flatMapping[position];
+
+            object dataContext = null;
+
+            switch (flatItem.Type)
+            {
+                case ItemType.SectionHeader:
+                case ItemType.SectionFooter:
+                    dataContext = _dataSource[flatItem.SectionIndex].Key;
+                    break;
+                case ItemType.Item:
+                    dataContext = _dataSource[flatItem.SectionIndex][flatItem.ItemIndex];
+                    break;
+                case ItemType.Header:
+                case ItemType.Footer:
+                default:
+                    // TODO YP: ignore
+                    break;
+            }
+
+            if (dataContext == null)
+            {
+                return;
+            }
+
+            bindableViewHolder.ReloadDataContext(dataContext);
+
+            bindableViewHolder.ItemClicked -= OnItemViewClick;
+            bindableViewHolder.ItemClicked += OnItemViewClick;
+        }
+
+        public override void OnViewAttachedToWindow(Java.Lang.Object holder)
+        {
+            base.OnViewAttachedToWindow(holder);
+
+            if (holder is IBindableViewHolder bindableViewHolder)
+            {
+                bindableViewHolder.OnAttachedToWindow();
+            }
+        }
+
+        public override void OnViewDetachedFromWindow(Java.Lang.Object holder)
+        {
+            if (holder is IBindableViewHolder bindableViewHolder)
+            {
+                bindableViewHolder.OnDetachedFromWindow();
+            }
+
+            base.OnViewDetachedFromWindow(holder);
+        }
+
+        public override void OnViewRecycled(Java.Lang.Object holder)
+        {
+            if (holder is IBindableViewHolder bindableViewHolder)
+            {
+                bindableViewHolder.ItemClicked -= OnItemViewClick;
+                bindableViewHolder.OnViewRecycled();
+            }
+
+            base.OnViewRecycled(holder);
+        }
+
+        /// <summary>
+        ///     By default, force recycling a view if it has animations
+        /// </summary>
+        public override bool OnFailedToRecycleView(Java.Lang.Object holder)
+        {
+            return true;
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateHeaderViewHolder(ViewGroup parent)
+        {
+            return CreateViewHolder(parent, HeaderViewHolder);
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateSectionHeaderViewHolder(ViewGroup parent, ItemType itemType)
+        {
+            return CreateViewHolder(parent, HeaderSectionViewHolder);
+        }
+
+        protected virtual TItemHolder OnCreateItemViewHolder(ViewGroup parent, ItemType itemType)
+        {
+            return (TItemHolder) CreateViewHolder(parent, typeof(TItemHolder));
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateSectionFooterViewHolder(ViewGroup parent, ItemType itemType)
+        {
+            return CreateViewHolder(parent, FooterSectionViewHolder);
+        }
+
+        protected virtual RecyclerView.ViewHolder OnCreateFooterViewHolder(ViewGroup parent)
+        {
+            return CreateViewHolder(parent, FooterViewHolder);
+        }
+
+        protected virtual RecyclerView.ViewHolder CreateViewHolder(ViewGroup parent, Type viewHolderType)
+        {
+            var view = GetLayoutForViewHolder(parent, viewHolderType);
+            return (RecyclerView.ViewHolder) Activator.CreateInstance(viewHolderType, view);
+        }
+
+        protected virtual View GetLayoutForViewHolder(ViewGroup parent, Type viewHolderType)
+        {
+            if (viewHolderType == null)
+            {
+                throw new ArgumentNullException(nameof(viewHolderType), "Check ViewHolder declarations.");
+            }
+
+            if (Attribute.GetCustomAttribute(viewHolderType, typeof(BindableViewHolderLayoutAttribute))
+                is BindableViewHolderLayoutAttribute attr)
+            {
+                return LayoutInflater.From(parent.Context).Inflate(attr.LayoutId, parent, false);
+            }
+
+            return GetCustomLayoutForViewHolder(parent, viewHolderType);
+        }
+
+        protected virtual View GetCustomLayoutForViewHolder(ViewGroup parent, Type viewHolderType)
+        {
+            throw new NotImplementedException(
+                "Tried to use custom inflating of ViewHolder layout, please implement this method. " +
+                $"Or use {nameof(BindableViewHolderLayoutAttribute)} for auto-inflating ViewHolder layout.");
+        }
+
+        protected virtual void OnItemViewClick(object sender, EventArgs e)
+        {
+            var bindableViewHolder = (IBindableViewHolder) sender;
+
+            ExecuteCommandOnItem(ItemClick, bindableViewHolder.DataContext);
+        }
+
+        protected virtual void ExecuteCommandOnItem(ICommand<TItem> command, object itemDataContext)
+        {
+            if (command != null && itemDataContext != null && command.CanExecute(itemDataContext))
+            {
+                command.Execute(itemDataContext);
+            }
+        }
+
+        private void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            ReloadMapping();
+
+            NotifyDataSetChanged();
+        }
+
+        private void ReloadMapping()
+        {
+            _flatMapping.Clear();
+
+            if (HeaderViewHolder != null)
+            {
+                _flatMapping.Add(FlatItem.CreateForHeader());
+            }
+
+            for (int sectionIndex = 0; sectionIndex < _dataSource.Count; sectionIndex++)
+            {
+                if (HeaderSectionViewHolder != null)
+                {
+                    _flatMapping.Add(FlatItem.CreateForSectionHeader(sectionIndex));
+                }
+
+                var sectionItemsCount = _dataSource[sectionIndex].Count;
+
+                for (int itemIndex = 0; itemIndex < sectionItemsCount; itemIndex++)
+                {
+                    _flatMapping.Add(FlatItem.CreateForItem(sectionIndex, itemIndex));
+                }
+
+                if (FooterSectionViewHolder != null)
+                {
+                    _flatMapping.Add(FlatItem.CreateForSectionFooter(sectionIndex));
+                }
+            }
+
+            if (FooterViewHolder != null)
+            {
+                _flatMapping.Add(FlatItem.CreateForFooter());
+            }
+        }
+    }
+}

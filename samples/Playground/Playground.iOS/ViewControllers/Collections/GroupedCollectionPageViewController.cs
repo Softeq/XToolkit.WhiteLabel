@@ -78,10 +78,10 @@ namespace Playground.iOS.ViewControllers.Collections
         }
 
         private class ProductsDataSource : BindableGroupCollectionViewSource<
-            ProductViewModel,       // item data type
-            ProductViewCell,        // item cell type
             ProductHeaderViewModel, // header data type
-            GroupedHeaderView>      // header view type
+            ProductViewModel,       // item data type
+            GroupedHeaderView,      // header view type
+            ProductViewCell>        // item cell type
         {
             public ProductsDataSource(
                 ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> items)

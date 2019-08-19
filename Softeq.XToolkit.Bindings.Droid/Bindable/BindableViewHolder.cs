@@ -21,11 +21,11 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         }
 
         public event EventHandler ItemClicked;
-        
+
         public List<Binding> Bindings { get; } = new List<Binding>();
-        
+
         public object DataContext { get; private set; }
-        
+
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
         void IBindable.SetDataContext(object dataContext)
