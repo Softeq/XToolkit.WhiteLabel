@@ -87,6 +87,7 @@
     <Compile Include="Views\Dialogs\SimpleDialogPageFragment.cs" />
     <Compile Include="Views\Collections\GroupedCollectionPageActivity.cs" />
     <Compile Include="Views\Collections\ProductViewHolder.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />

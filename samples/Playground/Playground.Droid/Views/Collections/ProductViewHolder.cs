@@ -5,6 +5,7 @@ using Android.Views;
 using Android.Widget;
 using FFImageLoading;
 using Playground.ViewModels.Collections.Products;
+using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
 
@@ -16,12 +17,14 @@ namespace Playground.Droid.Views.Collections
         private readonly ImageView _image;
         private readonly TextView _title;
         private readonly ImageButton _addToCartButton;
+        private readonly EditText _count;
 
         public ProductViewHolder(View view) : base(view)
         {
             _image = view.FindViewById<ImageView>(Resource.Id.item_product_photo_img);
             _title = view.FindViewById<TextView>(Resource.Id.item_product_title_lbl);
             _addToCartButton = view.FindViewById<ImageButton>(Resource.Id.item_product_add_cart_btn);
+            _count = view.FindViewById<EditText>(Resource.Id.item_product_count_txt);
         }
 
         public override void DoAttachBindings()
@@ -33,6 +36,7 @@ namespace Playground.Droid.Views.Collections
                 .Into(_image);
 
             this.Bind(() => ViewModel.Title, () => _title.Text);
+            this.Bind(() => ViewModel.Count, () => _count.Text, BindingMode.TwoWay);
 
             _addToCartButton.Click += AddToCartButton_Click;
         }
@@ -42,6 +46,8 @@ namespace Playground.Droid.Views.Collections
             base.DoDetachBindings();
 
             _image.SetImageDrawable(null);
+            _count.Text = "";
+
             _addToCartButton.Click -= AddToCartButton_Click;
         }
 
@@ -99,6 +105,19 @@ namespace Playground.Droid.Views.Collections
             base.DoAttachBindings();
 
             _textView.Text = $"{ViewModel.Category}th footer.";
+        }
+    }
+
+    [BindableViewHolderLayout(Resource.Layout.fragment_green)]
+    public class ProductsListHeaderViewHolder : BindableViewHolder<object>
+    {
+        public ProductsListHeaderViewHolder(View itemView) : base(itemView)
+        {
+        }
+
+        public override void DoAttachBindings()
+        {
+            base.DoAttachBindings();
         }
     }
 }

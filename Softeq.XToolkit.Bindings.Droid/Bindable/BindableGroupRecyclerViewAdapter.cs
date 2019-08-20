@@ -17,10 +17,12 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     public class BindableGroupRecyclerViewAdapter<TKey, TItem, TItemHolder> : RecyclerView.Adapter
         where TItemHolder : BindableViewHolder<TItem>
     {
+        private const string Tag = nameof(BindableGroupRecyclerViewAdapter<TKey, TItem, TItemHolder>);
+
         private readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
         private readonly ObservableKeyGroupsCollection<TKey, TItem> _dataSource;
+        private readonly IDisposable _subscription;
 
-        private IDisposable _subscription;
         private ICommand<TItem> _itemClick;
 
         public BindableGroupRecyclerViewAdapter(
@@ -44,8 +46,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
                 if (_itemClick != null && value != null)
                 {
-                    Log.Warn(nameof(BindableGroupRecyclerViewAdapter<TKey, TItem, TItemHolder>),
-                        "Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                    Log.Warn(Tag, "Changing ItemClick may cause inconsistencies where some items still call the old command.");
                 }
 
                 _itemClick = value;
@@ -97,34 +98,15 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         {
             var bindableViewHolder = (IBindableViewHolder) holder;
             var flatItem = _flatMapping[position];
-
-            object dataContext = null;
-
-            switch (flatItem.Type)
-            {
-                case ItemType.SectionHeader:
-                case ItemType.SectionFooter:
-                    dataContext = _dataSource[flatItem.SectionIndex].Key;
-                    break;
-                case ItemType.Item:
-                    dataContext = _dataSource[flatItem.SectionIndex][flatItem.ItemIndex];
-                    break;
-                case ItemType.Header:
-                case ItemType.Footer:
-                default:
-                    // TODO YP: ignore
-                    break;
-            }
-
-            if (dataContext == null)
-            {
-                return;
-            }
+            var dataContext = GetDataContext(flatItem.Type, flatItem.SectionIndex, flatItem.ItemIndex);
 
             bindableViewHolder.ReloadDataContext(dataContext);
 
-            bindableViewHolder.ItemClicked -= OnItemViewClick;
-            bindableViewHolder.ItemClicked += OnItemViewClick;
+            if (flatItem.Type == ItemType.Item)
+            {
+                bindableViewHolder.ItemClicked -= OnItemViewClick;
+                bindableViewHolder.ItemClicked += OnItemViewClick;
+            }
         }
 
         public override void OnViewAttachedToWindow(Java.Lang.Object holder)
@@ -164,6 +146,22 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         public override bool OnFailedToRecycleView(Java.Lang.Object holder)
         {
             return true;
+        }
+
+        protected virtual object GetDataContext(ItemType type, int sectionIndex, int itemIndex)
+        {
+            switch (type)
+            {
+                case ItemType.SectionHeader:
+                case ItemType.SectionFooter:
+                    return _dataSource[sectionIndex].Key;
+
+                case ItemType.Item:
+                    return _dataSource[sectionIndex][itemIndex];
+
+                default:
+                    return null;
+            }
         }
 
         protected virtual RecyclerView.ViewHolder OnCreateHeaderViewHolder(ViewGroup parent)
