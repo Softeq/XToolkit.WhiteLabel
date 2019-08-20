@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
@@ -46,8 +45,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
                 if (_itemClick != null && value != null)
                 {
-                    Log.Warn(nameof(BindableRecyclerViewAdapter<TViewModel, TViewHolder>),
-                        "Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                    throw new ArgumentException(
+                        "Changing ItemClick may cause inconsistencies where some items still call the old command.",
+                        nameof(ItemClick));
                 }
 
                 _itemClick = value;

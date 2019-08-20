@@ -102,7 +102,7 @@ namespace Playground.Droid.Views.Collections
         {
         }
 
-        // custom inflating for ViewHolders without BindableViewHolderLayout attribute
+        // Optional: custom inflating for ViewHolders without BindableViewHolderLayout attribute
         protected override View GetCustomLayoutForViewHolder(ViewGroup parent, Type viewHolderType)
         {
             var textView = new TextView(parent.Context);

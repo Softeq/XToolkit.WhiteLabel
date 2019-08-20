@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
@@ -17,8 +16,6 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     public class BindableGroupRecyclerViewAdapter<TKey, TItem, TItemHolder> : RecyclerView.Adapter
         where TItemHolder : BindableViewHolder<TItem>
     {
-        private const string Tag = nameof(BindableGroupRecyclerViewAdapter<TKey, TItem, TItemHolder>);
-
         private readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
         private readonly ObservableKeyGroupsCollection<TKey, TItem> _dataSource;
         private readonly IDisposable _subscription;
@@ -46,7 +43,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
                 if (_itemClick != null && value != null)
                 {
-                    Log.Warn(Tag, "Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                    throw new ArgumentException(
+                        "Changing ItemClick may cause inconsistencies where some items still call the old command.",
+                        nameof(ItemClick));
                 }
 
                 _itemClick = value;
