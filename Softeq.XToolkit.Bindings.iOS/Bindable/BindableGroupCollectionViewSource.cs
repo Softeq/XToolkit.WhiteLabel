@@ -15,10 +15,10 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public class BindableGroupCollectionViewSource<TItem, TCell, TKey, THeaderView> : UICollectionViewSource
+    public class BindableGroupCollectionViewSource<TKey, TItem, THeaderView, TItemCell> : UICollectionViewSource
         where TItem : class
-        where TCell : BindableCollectionViewCell<TItem>
         where THeaderView : BindableUICollectionReusableView<TKey>
+        where TItemCell : BindableCollectionViewCell<TItem>
     {
         private IDisposable _subscription;
         private WeakReferenceEx<UICollectionView> _collectionViewRef;
@@ -70,7 +70,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         /// <inheritdoc />
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (TCell) collectionView.DequeueReusableCell(typeof(TCell).Name, indexPath);
+            var cell = (TItemCell) collectionView.DequeueReusableCell(typeof(TItemCell).Name, indexPath);
             var bindableCell = (IBindableView) cell;
 
             bindableCell.ReloadDataContext(GetItemByIntexPath(indexPath));

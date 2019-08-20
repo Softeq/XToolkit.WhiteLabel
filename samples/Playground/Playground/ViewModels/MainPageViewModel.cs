@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Playground.Models;
-using Playground.Utils;
 using Playground.ViewModels.BottomTabs;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Components;
@@ -143,13 +142,6 @@ namespace Playground.ViewModels
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());
 
             GoToEmptyCommand = new RelayCommand(GoToEmpty);
-        }
-
-        public override void OnAppearing()
-        {
-            base.OnAppearing();
-
-            //DebugUtils.ForceCGCollect();
         }
 
         private void GoToEmpty()
