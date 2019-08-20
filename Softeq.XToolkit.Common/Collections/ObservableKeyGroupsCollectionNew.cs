@@ -16,13 +16,13 @@ namespace Softeq.XToolkit.Common.Collections
     public sealed class ObservableKeyGroupsCollectionNew<TKey, TValue> : IObservableKeyGroupCollection<TKey, TValue>,
         INotifyKeyGroupCollectionChanged<TKey, TValue>
     {
-        private readonly IDictionary<TKey, ICollection<TValue>> _items;
+        private readonly IList<KeyValuePair<TKey, ICollection<TValue>>> _items;
 
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> ItemsChanged;
 
         public ObservableKeyGroupsCollectionNew()
         {
-            _items = new Dictionary<TKey, ICollection<TValue>>();
+            _items = new List<KeyValuePair<TKey, ICollection<TValue>>>();
         }
 
         #region IObservableKeyGroupCollection
@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             foreach (var item in items)
             {
-                _items.Add(item.Key, item.Value);
+                _items.Add(item);
             }
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
@@ -62,9 +62,11 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, ICollection<TValue>>> items)
         {
+            int i = index;
+
             foreach (var item in items)
             {
-                _items.Add(item.Key, item.Value);
+                _items.Insert(i++, item);
             }
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
@@ -82,11 +84,12 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void RemoveGroups(IEnumerable<TKey> keys)
         {
-            var indexes = keys.ToDictionary(x => x, x => _items.Keys.ToList().IndexOf(x));
+            var indexes = keys.ToDictionary(x => x, x => _items.Select(y => y.Key).ToList().IndexOf(x));
 
-            foreach (var item in keys)
+            foreach (var key in keys)
             {
-                _items.Remove(item);
+                var toRemove = _items.First(x => x.Key.Equals(key));
+                _items.Remove(toRemove);
             }
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
@@ -149,8 +152,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void ClearGroup(TKey key)
         {
-            _items[key].Clear()
-                ;
+            _items.First(x => x.Key.Equals(key)).Value.Clear();
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 null,
@@ -213,7 +215,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         public IEnumerator<KeyValuePair<TKey, ICollection<TValue>>> GetEnumerator()
         {
-            return GetEnumerator();
+            return _items.GetEnumerator();
         }
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -255,7 +257,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             foreach (var key in itemsToAdd.Keys)
             {
-                if (!_items.Keys.Contains(key))
+                if (!_items.Any(x => x.Key.Equals(key)))
                 {
                     keysToAdd.Add(key);
                     AddGroups(new Collection<KeyValuePair<TKey, ICollection<TValue>>>
@@ -265,7 +267,7 @@ namespace Softeq.XToolkit.Common.Collections
                 }
                 else
                 {
-                    _items[key].AddRange(itemsToAdd[key]);
+                    _items.First(x => x.Key.Equals(key)).Value.AddRange(itemsToAdd[key]);
                 }
             }
 

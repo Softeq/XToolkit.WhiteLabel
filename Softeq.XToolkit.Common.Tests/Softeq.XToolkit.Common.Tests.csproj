@@ -15,6 +15,7 @@
   <ItemGroup>
     <Folder Include="Helpers\" />
     <Folder Include="WeakTests\" />
+    <Folder Include="Collections\ObservableKeyGroupsCollectionNew\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
