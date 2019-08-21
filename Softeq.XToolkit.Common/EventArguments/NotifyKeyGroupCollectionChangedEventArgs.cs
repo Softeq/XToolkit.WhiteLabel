@@ -9,19 +9,19 @@ namespace Softeq.XToolkit.Common.EventArguments
 {
     public class NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> : NotifyGroupCollectionChangedArgs<TKey>
     {
-        public IReadOnlyList<KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>> GroupEvents { get; private set; }
+        public IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)> GroupEvents { get; private set; }
 
         public static NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> Create(
             NotifyCollectionChangedAction? action,
-            IDictionary<IReadOnlyList<TKey>, int> newItems,
-            IDictionary<IReadOnlyList<TKey>, int> oldItems,
-            IReadOnlyList<KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>> groupEvents)
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> newItems,
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> oldItems,
+            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)> groupEvents)
         {
             return new NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>
             {
                 Action = action,
-                NewItems = newItems,
-                OldItems = oldItems,
+                NewItemRanges = newItems,
+                OldItemRanges = oldItems,
                 GroupEvents = groupEvents
             };
         }
@@ -31,20 +31,20 @@ namespace Softeq.XToolkit.Common.EventArguments
     {
         public NotifyCollectionChangedAction? Action { get; protected set; }
 
-        public IDictionary<IReadOnlyList<T>, int> NewItems { get; protected set; }
+        public IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> NewItemRanges { get; protected set; }
 
-        public IDictionary<IReadOnlyList<T>, int> OldItems { get; protected set; }
+        public IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> OldItemRanges { get; protected set; }
 
         public static NotifyGroupCollectionChangedArgs<T> Create(
             NotifyCollectionChangedAction action,
-            IDictionary<IReadOnlyList<T>, int> newItems,
-            IDictionary<IReadOnlyList<T>, int> oldItems)
+            IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> newItems,
+            IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> oldItems)
         {
             return new NotifyGroupCollectionChangedArgs<T>
             {
                 Action = action,
-                NewItems = newItems,
-                OldItems = oldItems
+                NewItemRanges = newItems,
+                OldItemRanges = oldItems
             };
         }
     }

@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Common.Collections
         {
             var index = 0;
 
-            var toRemove = new Dictionary<IReadOnlyList<TKey>, int> { [_items.Select(x => x.Key).ToList()] = index };
+            var toRemove = new Collection<(int, IReadOnlyList<TKey>)> { (index, _items.Select(x => x.Key).ToList()) };
 
             _items.Clear();
 
@@ -49,13 +49,16 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 NotifyCollectionChangedAction.Replace,
-                new Dictionary<IReadOnlyList<TKey>, int> { [items.Select(x => x.Key).ToList()] = index },
+                new Collection<(int, IReadOnlyList<TKey>)>
+                {
+                    (index, items.Select(x => x.Key).ToList())
+                },
                 toRemove,
-                items.Select(x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(items.ToList().IndexOf(x),
+                items.Select(x => (items.ToList().IndexOf(x),
                     NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
-                    new Dictionary<IReadOnlyList<TValue>, int>
+                    new Collection<(int, IReadOnlyList<TValue>)>
                     {
-                        [x.Value.ToList()] = 0
+                        (0, x.Value.ToList())
                     },
                     default))).ToList()));
         }
@@ -71,14 +74,11 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 NotifyCollectionChangedAction.Add,
-                new Dictionary<IReadOnlyList<TKey>, int> { [items.Select(x => x.Key).ToList()] = index },
+                new Collection<(int, IReadOnlyList<TKey>)> { (index, items.Select(x => x.Key).ToList()) },
                 default,
-                items.Select(x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(_items.ToList().IndexOf(x),
+                items.Select(x => (_items.ToList().IndexOf(x),
                     NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
-                    new Dictionary<IReadOnlyList<TValue>, int>
-                    {
-                        [x.Value.ToList()] = 0
-                    },
+                    new Collection<(int, IReadOnlyList<TValue>)> { (0, x.Value.ToList()) },
                     default))).ToList()));
         }
 
@@ -101,11 +101,13 @@ namespace Softeq.XToolkit.Common.Collections
                 DecrementIndex();
             }
 
+            var oldItemsRange = indexes.GroupBy(x => x.Value)
+                    .Select(x => (x.Key, (IReadOnlyList<TKey>)x.Select(y => y.Key).ToList())).ToList();
+
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 NotifyCollectionChangedAction.Remove,
                 default,
-                indexes.GroupBy(x => x.Value)
-                    .ToDictionary(x => (IReadOnlyList<TKey>) x.Select(y => y.Key).ToList(), x => x.Key),
+                oldItemsRange,
                 default));
 
             bool IsIndexesGrouped()
@@ -153,12 +155,12 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 NotifyCollectionChangedAction.Add,
-                new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
+                new Collection<(int, IReadOnlyList<TKey>)> { (index, result.keysToAdd) },
                 default,
                 result.itemsToAdd.Select(
-                    x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(_items.IndexOf(_items.First(y => y.Key.Equals(x.ItemKey))), NotifyGroupCollectionChangedArgs<TValue>.Create(
+                    x => (_items.IndexOf(_items.First(y => y.Key.Equals(x.ItemKey))), NotifyGroupCollectionChangedArgs<TValue>.Create(
                         NotifyCollectionChangedAction.Add,
-                        new Dictionary<IReadOnlyList<TValue>, int> { [x.ItemValue.ToList()] = x.Index },
+                        new Collection<(int, IReadOnlyList<TValue>)> { (x.Index, x.ItemValue.ToList()) },
                         default
                 ))).ToList()));
         }
@@ -167,7 +169,7 @@ namespace Softeq.XToolkit.Common.Collections
         {
             var index = 0;
 
-            var toRemove = new Dictionary<IReadOnlyList<TKey>, int> { [_items.Select(x => x.Key).ToList()] = index };
+            var toRemove = new Collection<(int, IReadOnlyList<TKey>)> { (index, _items.Select(x => x.Key).ToList()) };
 
             _items.Clear();
 
@@ -175,12 +177,12 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 NotifyCollectionChangedAction.Replace,
-                new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
+                new Collection<(int, IReadOnlyList<TKey>)> { (index, result.keysToAdd) },
                 toRemove,
                 result.itemsToAdd.Select(
-                    x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(_items.IndexOf(_items.First(y => y.Key.Equals(x.ItemKey))), NotifyGroupCollectionChangedArgs<TValue>.Create(
+                    x => (_items.IndexOf(_items.First(y => y.Key.Equals(x.ItemKey))), NotifyGroupCollectionChangedArgs<TValue>.Create(
                         NotifyCollectionChangedAction.Add,
-                        new Dictionary<IReadOnlyList<TValue>, int> { [x.ItemValue.ToList()] = x.Index },
+                        new Collection<(int, IReadOnlyList<TValue>)> { (x.Index, x.ItemValue.ToList()) },
                         default
                 ))).ToList()));
         }
@@ -195,9 +197,9 @@ namespace Softeq.XToolkit.Common.Collections
                 null,
                 null,
                 null,
-                new Collection<KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>>
+                new Collection<(int, NotifyGroupCollectionChangedArgs<TValue>)>
                 {
-                    new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(_items.IndexOf(item),
+                    (_items.IndexOf(item),
                         NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Reset, null, null))
                 }));
         }
