@@ -23,7 +23,5 @@ namespace Softeq.XToolkit.Common.Interfaces
         void AddItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector);
 
         void ReplaceAllItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector);
-
-        void RemoveItems(IEnumerable<TValue> values);
     }
 }

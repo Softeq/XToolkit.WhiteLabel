@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.Common.Collections
                 NotifyCollectionChangedAction.Replace,
                 new Dictionary<IReadOnlyList<TKey>, int> { [items.Select(x => x.Key).ToList()] = index },
                 toRemove,
-                items.Select(x => new KeyValuePair<TKey, NotifyGroupCollectionChangedArgs<TValue>>(x.Key,
+                items.Select(x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(items.ToList().IndexOf(x),
                     NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
                     new Dictionary<IReadOnlyList<TValue>, int>
                     {
@@ -73,7 +73,7 @@ namespace Softeq.XToolkit.Common.Collections
                 NotifyCollectionChangedAction.Add,
                 new Dictionary<IReadOnlyList<TKey>, int> { [items.Select(x => x.Key).ToList()] = index },
                 default,
-                items.Select(x => new KeyValuePair<TKey, NotifyGroupCollectionChangedArgs<TValue>>(x.Key,
+                items.Select(x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(_items.ToList().IndexOf(x),
                     NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
                     new Dictionary<IReadOnlyList<TValue>, int>
                     {
@@ -84,19 +84,54 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void RemoveGroups(IEnumerable<TKey> keys)
         {
-            var indexes = keys.ToDictionary(x => x, x => _items.Select(y => y.Key).ToList().IndexOf(x));
+            var indexes = new List<KeyValuePair<TKey, int>>();
 
-            foreach (var key in keys)
+            for(int i = 0; i < _items.Count; i++)
             {
-                var toRemove = _items.First(x => x.Key.Equals(key));
-                _items.Remove(toRemove);
+                if(keys.Any(x => x.Equals(_items[i].Key)))
+                {
+                    indexes.Add(new KeyValuePair<TKey, int>(_items[i].Key, i));
+                }
+            }
+
+            indexes = indexes.OrderBy(x => x.Value).ToList();
+
+            while(!IsIndexesGrouped())
+            {
+                DecrementIndex();
             }
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 NotifyCollectionChangedAction.Remove,
                 default,
-                keys.ToDictionary(x => (IReadOnlyList<TKey>) (new Collection<TKey> { x }), x => indexes[x]),
+                indexes.GroupBy(x => x.Value)
+                    .ToDictionary(x => (IReadOnlyList<TKey>) x.Select(y => y.Key).ToList(), x => x.Key),
                 default));
+
+            bool IsIndexesGrouped()
+            {
+                for (var i = 0; i < indexes.Count - 1; i++)
+                {
+                    if (indexes[i].Value == indexes[i + 1].Value - 1)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            void DecrementIndex()
+            {
+                for (int i = indexes.Count - 1; i > 0; i--)
+                {
+                    if (indexes[i].Value - 1 == indexes[i - 1].Value)
+                    {
+                        indexes[i] = new KeyValuePair<TKey, int>(indexes[i].Key, indexes[i].Value - 1);
+                        return;
+                    }
+                }
+            }
         }
 
         public void ClearGroups()
@@ -121,7 +156,7 @@ namespace Softeq.XToolkit.Common.Collections
                 new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
                 default,
                 result.itemsToAdd.Select(
-                    x => new KeyValuePair<TKey, NotifyGroupCollectionChangedArgs<TValue>>(x.Key, NotifyGroupCollectionChangedArgs<TValue>.Create(
+                    x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(result.itemsToAdd.ToList().IndexOf(x), NotifyGroupCollectionChangedArgs<TValue>.Create(
                         NotifyCollectionChangedAction.Add,
                         new Dictionary<IReadOnlyList<TValue>, int> { [x.Value.ToList()] = result.indexes[x.Key] },
                         default
@@ -143,7 +178,7 @@ namespace Softeq.XToolkit.Common.Collections
                 new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
                 toRemove,
                 result.itemsToAdd.Select(
-                    x => new KeyValuePair<TKey, NotifyGroupCollectionChangedArgs<TValue>>(x.Key, NotifyGroupCollectionChangedArgs<TValue>.Create(
+                    x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(result.itemsToAdd.ToList().IndexOf(x), NotifyGroupCollectionChangedArgs<TValue>.Create(
                         NotifyCollectionChangedAction.Add,
                         new Dictionary<IReadOnlyList<TValue>, int> { [x.Value.ToList()] = result.indexes[x.Key] },
                         default
@@ -152,29 +187,19 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void ClearGroup(TKey key)
         {
-            _items.First(x => x.Key.Equals(key)).Value.Clear();
+            var item = _items.First(x => x.Key.Equals(key));
+
+            item.Value.Clear();
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 null,
                 null,
                 null,
-                new Collection<KeyValuePair<TKey, NotifyGroupCollectionChangedArgs<TValue>>>
+                new Collection<KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>>
                 {
-                    new KeyValuePair<TKey, NotifyGroupCollectionChangedArgs<TValue>>(key,
+                    new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(_items.IndexOf(item),
                         NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Reset, null, null))
                 }));
-        }
-
-        public void RemoveItems(IEnumerable<TValue> values)
-        {
-            foreach(var val in values)
-            {
-                var item = _items.FirstOrDefault(x => x.Value.Contains(val));
-                if(!item.Equals(default))
-                {
-                    item.Value.Remove(val);
-                }
-            }
         }
 
         #endregion

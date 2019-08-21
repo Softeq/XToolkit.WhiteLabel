@@ -9,13 +9,13 @@ namespace Softeq.XToolkit.Common.EventArguments
 {
     public class NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> : NotifyGroupCollectionChangedArgs<TKey>
     {
-        public IReadOnlyList<KeyValuePair<TKey, NotifyGroupCollectionChangedArgs<TValue>>> GroupEvents { get; private set; }
+        public IReadOnlyList<KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>> GroupEvents { get; private set; }
 
         public static NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> Create(
             NotifyCollectionChangedAction? action,
             IDictionary<IReadOnlyList<TKey>, int> newItems,
             IDictionary<IReadOnlyList<TKey>, int> oldItems,
-            IReadOnlyList<KeyValuePair<TKey, NotifyGroupCollectionChangedArgs<TValue>>> groupEvents)
+            IReadOnlyList<KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>> groupEvents)
         {
             return new NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>
             {
