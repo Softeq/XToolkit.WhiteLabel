@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.Common.EventArguments
 
         public IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> NewItemRanges { get; protected set; }
 
-        public IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> OldItemRanges { get; protected set; }
+        public IReadOnlyList<(int Index, IReadOnlyList<T> OldItems)> OldItemRanges { get; protected set; }
 
         public static NotifyGroupCollectionChangedArgs<T> Create(
             NotifyCollectionChangedAction action,

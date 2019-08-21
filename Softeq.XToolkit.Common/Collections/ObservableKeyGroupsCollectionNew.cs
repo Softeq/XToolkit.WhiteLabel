@@ -86,9 +86,9 @@ namespace Softeq.XToolkit.Common.Collections
         {
             var indexes = new List<KeyValuePair<TKey, int>>();
 
-            for(int i = 0; i < _items.Count; i++)
+            for (int i = 0; i < _items.Count; i++)
             {
-                if(keys.Any(x => x.Equals(_items[i].Key)))
+                if (keys.Any(x => x.Equals(_items[i].Key)))
                 {
                     indexes.Add(new KeyValuePair<TKey, int>(_items[i].Key, i));
                 }
@@ -96,13 +96,13 @@ namespace Softeq.XToolkit.Common.Collections
 
             indexes = indexes.OrderBy(x => x.Value).ToList();
 
-            while(!IsIndexesGrouped())
+            while (!IsIndexesGrouped())
             {
                 DecrementIndex();
             }
 
             var oldItemsRange = indexes.GroupBy(x => x.Value)
-                    .Select(x => (x.Key, (IReadOnlyList<TKey>)x.Select(y => y.Key).ToList())).ToList();
+                    .Select(x => (x.Key, (IReadOnlyList<TKey>) x.Select(y => y.Key).ToList())).ToList();
 
             OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 NotifyCollectionChangedAction.Remove,
@@ -185,6 +185,93 @@ namespace Softeq.XToolkit.Common.Collections
                         new Collection<(int, IReadOnlyList<TValue>)> { (x.Index, x.ItemValue.ToList()) },
                         default
                 ))).ToList()));
+        }
+
+        public void RemoveItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
+        {
+            var groupedIndexes = new Dictionary<int, IList<(int ValIndex, IReadOnlyList<TValue> Vals)>>();
+            var groupsInfos = new List<(int GroupIndex, List<KeyValuePair<TValue, int>> Items)>();
+
+            foreach (var item in items)
+            {
+                var key = keySelector(item);
+                var val = valueSelector(item);
+                var groupIndex = _items.IndexOf(_items.First(x => x.Key.Equals(key)));
+                var valIndex = _items.ElementAt(groupIndex)
+                    .Value.ToList().IndexOf(val);
+
+                if (!groupsInfos.Any(x => x.GroupIndex == groupIndex))
+                {
+                    groupsInfos.Add((groupIndex, new List<KeyValuePair<TValue, int>> { }));
+                }
+
+                groupsInfos.First(x => x.GroupIndex == groupIndex)
+                    .Items.Add(new KeyValuePair<TValue, int>(val, valIndex));
+            }
+
+            for (int i = 0; i < groupsInfos.Count; i++)
+            {
+                groupsInfos[i] = (groupsInfos[i].GroupIndex, groupsInfos[i].Items.OrderBy(x => x.Value).ToList());
+            }
+
+            foreach (var groupInfo in groupsInfos)
+            {
+                while (!IsIndexesGrouped(groupInfo.Items))
+                {
+                    DecrementIndex(groupInfo.Items);
+                }
+
+                if (!groupedIndexes.ContainsKey(groupInfo.GroupIndex))
+                {
+                    groupedIndexes.Add(groupInfo.GroupIndex, new List<(int, IReadOnlyList<TValue>)> { });
+                }
+
+                var oldItemsRange = groupInfo.Items.GroupBy(x => x.Value)
+                        .Select(x => (x.Key, (IReadOnlyList<TValue>) x.Select(y => y.Key).ToList())).ToList();
+
+                groupedIndexes[groupInfo.GroupIndex].AddRange(oldItemsRange);
+            }
+
+            foreach (var groupInfo in groupsInfos)
+            {
+                foreach (var item in groupInfo.Items)
+                {
+                    _items[groupInfo.GroupIndex].Value.Remove(item.Key);
+                }
+            }
+
+            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+                default,
+                default,
+                default,
+                groupedIndexes.Select(x => (x.Key, NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Remove,
+                    default,
+                    (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value))).ToList()));
+
+            bool IsIndexesGrouped(List<KeyValuePair<TValue, int>> indexList)
+            {
+                for (var i = 0; i < indexList.Count - 1; i++)
+                {
+                    if (indexList[i].Value == indexList[i + 1].Value - 1)
+                    {
+                        return false;
+                    }
+                }
+
+                return true;
+            }
+
+            void DecrementIndex(List<KeyValuePair<TValue, int>> indexList)
+            {
+                for (int i = indexList.Count - 1; i > 0; i--)
+                {
+                    if (indexList[i].Value - 1 == indexList[i - 1].Value)
+                    {
+                        indexList[i] = new KeyValuePair<TValue, int>(indexList[i].Key, indexList[i].Value - 1);
+                        return;
+                    }
+                }
+            }
         }
 
         public void ClearGroup(TKey key)
@@ -277,7 +364,7 @@ namespace Softeq.XToolkit.Common.Collections
                 {
                     int index = 0;
 
-                    if(_items.Any(x => x.Key.Equals(key)))
+                    if (_items.Any(x => x.Key.Equals(key)))
                     {
                         index = _items.First(x => x.Key.Equals(key)).Value.Count;
                     }
