@@ -156,33 +156,33 @@ namespace Softeq.XToolkit.Common.Collections
                 new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
                 default,
                 result.itemsToAdd.Select(
-                    x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(result.itemsToAdd.ToList().IndexOf(x), NotifyGroupCollectionChangedArgs<TValue>.Create(
+                    x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(_items.IndexOf(_items.First(y => y.Key.Equals(x.ItemKey))), NotifyGroupCollectionChangedArgs<TValue>.Create(
                         NotifyCollectionChangedAction.Add,
-                        new Dictionary<IReadOnlyList<TValue>, int> { [x.Value.ToList()] = result.indexes[x.Key] },
+                        new Dictionary<IReadOnlyList<TValue>, int> { [x.ItemValue.ToList()] = x.Index },
                         default
                 ))).ToList()));
         }
 
         public void ReplaceAllItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
         {
-            var index = 0;
+            //var index = 0;
 
-            var toRemove = new Dictionary<IReadOnlyList<TKey>, int> { [_items.Select(x => x.Key).ToList()] = index };
+            //var toRemove = new Dictionary<IReadOnlyList<TKey>, int> { [_items.Select(x => x.Key).ToList()] = index };
 
-            _items.Clear();
+            //_items.Clear();
 
-            var result = AddItemsWithoutNotify(items, keySelector, valueSelector);
+            //var result = AddItemsWithoutNotify(items, keySelector, valueSelector);
 
-            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
-                NotifyCollectionChangedAction.Replace,
-                new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
-                toRemove,
-                result.itemsToAdd.Select(
-                    x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(result.itemsToAdd.ToList().IndexOf(x), NotifyGroupCollectionChangedArgs<TValue>.Create(
-                        NotifyCollectionChangedAction.Add,
-                        new Dictionary<IReadOnlyList<TValue>, int> { [x.Value.ToList()] = result.indexes[x.Key] },
-                        default
-                ))).ToList()));
+            //OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+            //    NotifyCollectionChangedAction.Replace,
+            //    new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
+            //    toRemove,
+            //    result.itemsToAdd.Select(
+            //        x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(result.itemsToAdd.ToList().IndexOf(x), NotifyGroupCollectionChangedArgs<TValue>.Create(
+            //            NotifyCollectionChangedAction.Add,
+            //            new Dictionary<IReadOnlyList<TValue>, int> { [x.Value.ToList()] = result.indexes[x.Key] },
+            //            default
+            //    ))).ToList()));
         }
 
         public void ClearGroup(TKey key)
@@ -255,48 +255,50 @@ namespace Softeq.XToolkit.Common.Collections
             ItemsChanged?.Invoke(this, args);
         }
 
-        private (
-            IReadOnlyDictionary<TKey, int> indexes,
-            IReadOnlyList<TKey> keysToAdd,
-            IReadOnlyDictionary<TKey, IList<TValue>> itemsToAdd) AddItemsWithoutNotify<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
+        private (IReadOnlyList<TKey> keysToAdd,
+            IReadOnlyList<(TKey ItemKey, ICollection<TValue> ItemValue, int Index)> itemsToAdd) AddItemsWithoutNotify<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
         {
             var keysToAdd = new Collection<TKey>();
 
-            var indexes = new Dictionary<TKey, int>();
-            var itemsToAdd = new Dictionary<TKey, IList<TValue>>();
+            var itemsToAdd = new List<(TKey ItemKey, ICollection<TValue> ItemValue, int Index)>();
 
             foreach (var item in items)
             {
                 var key = keySelector(item);
                 var value = valueSelector(item);
 
-                if (itemsToAdd.Keys.Contains(key))
+                if (itemsToAdd.Any(x => x.ItemKey.Equals(key)))
                 {
-                    itemsToAdd[key].Add(value);
+                    itemsToAdd.First(x => x.ItemKey.Equals(key)).ItemValue.Add(value);
                 }
                 else
                 {
-                    itemsToAdd.Add(key, new Collection<TValue> { value });
-                }
-            }
+                    int index = 0;
 
-            foreach (var key in itemsToAdd.Keys)
-            {
-                if (!_items.Any(x => x.Key.Equals(key)))
-                {
-                    keysToAdd.Add(key);
-                    AddGroups(new Collection<KeyValuePair<TKey, ICollection<TValue>>>
+                    if(_items.Any(x => x.Key.Equals(key)))
                     {
-                        new KeyValuePair<TKey, ICollection<TValue>>(key, itemsToAdd[key])
-                    });
-                }
-                else
-                {
-                    _items.First(x => x.Key.Equals(key)).Value.AddRange(itemsToAdd[key]);
+                        index = _items.First(x => x.Key.Equals(key)).Value.Count;
+                    }
+
+                    itemsToAdd.Add((key, new Collection<TValue> { value }, index));
                 }
             }
 
-            return (indexes, keysToAdd, itemsToAdd);
+            foreach (var item in itemsToAdd)
+            {
+                if (!_items.Any(x => x.Key.Equals(item.ItemKey)))
+                {
+                    keysToAdd.Add(item.ItemKey);
+                    _items.Add(new KeyValuePair<TKey, ICollection<TValue>>(item.ItemKey, item.ItemValue));
+                }
+                else
+                {
+                    _items.First(x => x.Key.Equals(item.ItemKey)).Value.AddRange(
+                        itemsToAdd.First(x => x.ItemKey.Equals(item.ItemKey)).ItemValue);
+                }
+            }
+
+            return (keysToAdd, itemsToAdd);
         }
     }
 }
