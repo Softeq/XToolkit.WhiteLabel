@@ -165,24 +165,24 @@ namespace Softeq.XToolkit.Common.Collections
 
         public void ReplaceAllItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
         {
-            //var index = 0;
+            var index = 0;
 
-            //var toRemove = new Dictionary<IReadOnlyList<TKey>, int> { [_items.Select(x => x.Key).ToList()] = index };
+            var toRemove = new Dictionary<IReadOnlyList<TKey>, int> { [_items.Select(x => x.Key).ToList()] = index };
 
-            //_items.Clear();
+            _items.Clear();
 
-            //var result = AddItemsWithoutNotify(items, keySelector, valueSelector);
+            var result = AddItemsWithoutNotify(items, keySelector, valueSelector);
 
-            //OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
-            //    NotifyCollectionChangedAction.Replace,
-            //    new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
-            //    toRemove,
-            //    result.itemsToAdd.Select(
-            //        x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(result.itemsToAdd.ToList().IndexOf(x), NotifyGroupCollectionChangedArgs<TValue>.Create(
-            //            NotifyCollectionChangedAction.Add,
-            //            new Dictionary<IReadOnlyList<TValue>, int> { [x.Value.ToList()] = result.indexes[x.Key] },
-            //            default
-            //    ))).ToList()));
+            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+                NotifyCollectionChangedAction.Replace,
+                new Dictionary<IReadOnlyList<TKey>, int> { [result.keysToAdd] = index },
+                toRemove,
+                result.itemsToAdd.Select(
+                    x => new KeyValuePair<int, NotifyGroupCollectionChangedArgs<TValue>>(_items.IndexOf(_items.First(y => y.Key.Equals(x.ItemKey))), NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        NotifyCollectionChangedAction.Add,
+                        new Dictionary<IReadOnlyList<TValue>, int> { [x.ItemValue.ToList()] = x.Index },
+                        default
+                ))).ToList()));
         }
 
         public void ClearGroup(TKey key)
