@@ -13,7 +13,7 @@ using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.Common.Collections
 {
-    public sealed class ObservableKeyGroupsCollectionNew<TKey, TValue> : IObservableKeyGroupCollection<TKey, TValue>,
+    public sealed class ObservableKeyGroupsCollectionNew<TKey, TValue> : IObservableKeyGroupsCollection<TKey, TValue>,
         INotifyKeyGroupCollectionChanged<TKey, TValue>
     {
         private readonly IList<KeyValuePair<TKey, ICollection<TValue>>> _items;

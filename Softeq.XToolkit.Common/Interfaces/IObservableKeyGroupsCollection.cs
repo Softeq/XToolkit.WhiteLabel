@@ -6,7 +6,7 @@ using System.Collections.Generic;
 
 namespace Softeq.XToolkit.Common.Interfaces
 {
-    public interface IObservableKeyGroupCollection<TKey, TValue> : IEnumerable<KeyValuePair<TKey, ICollection<TValue>>>
+    public interface IObservableKeyGroupsCollection<TKey, TValue> : IEnumerable<KeyValuePair<TKey, ICollection<TValue>>>
     {
         void AddGroups(IEnumerable<KeyValuePair<TKey, ICollection<TValue>>> items);
 
