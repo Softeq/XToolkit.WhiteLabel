@@ -112,7 +112,18 @@ namespace Softeq.XToolkit.Common.Collections
         public void InsertItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector,
             Func<T, TValue> valueSelector, Func<T, int> valueIndexSelector)
         {
+            var result = AddItemsWithoutNotify(items, keySelector, valueSelector, valueIndexSelector);
 
+            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+                default,
+                default,
+                default,
+                result.Select(
+                    x => (_items.IndexOf(_items.First(y => y.Key.Equals(x.Key))), NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        NotifyCollectionChangedAction.Add,
+                        new Collection<(int, IReadOnlyList<TValue>)>(x.Item2.ToList()),
+                        default
+                ))).ToList()));
         }
 
         public void RemoveItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
