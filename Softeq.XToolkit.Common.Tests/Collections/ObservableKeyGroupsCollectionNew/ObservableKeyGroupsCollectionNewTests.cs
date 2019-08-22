@@ -76,38 +76,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Fact]
-        public void ReplaceGroupsTest()
-        {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
-            var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
-
-            groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
-            {
-                new KeyValuePair<string, ICollection<string>>("newKey0", new Collection<string> { }),
-            });
-            groupCollection.ItemsChanged += (sender, args) =>
-            {
-                listOfFiredActions.Add(args);
-            };
-
-            RunAddGroupsTests(groupCollection.ReplaceGroups, listOfFiredActions);
-
-            //TODO Add oldItems check
-
-            Assert.True(listOfFiredActions[0].Action == NotifyCollectionChangedAction.Replace);
-
-            Assert.True(listOfFiredActions[0].NewItemRanges[0].Index == 0);
-
-            Assert.True(listOfFiredActions[0].GroupEvents[0].GroupIndex == 0);
-            Assert.True(listOfFiredActions[0].GroupEvents[1].GroupIndex == 1);
-            Assert.True(listOfFiredActions[0].GroupEvents[2].GroupIndex == 2);
-
-            Assert.Equal(groupCollection.Count(), 3);
-
-            Assert.Equal(groupCollection.ElementAt(0).Key, "newKey1");
-        }
-
-        [Fact]
         public void RemoveGroupsTest()
         {
             var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
@@ -233,56 +201,49 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 listOfFiredActions.Add(args);
             };
 
-            RunAddItemsTest((items) => groupCollection.AddItems(items, (item) => item.Item1, (item) => item.Item2), listOfFiredActions);
+            groupCollection.AddItems(new Collection<(string, string)>
+                {
+                    ("newKey0", "newKey0value0"),
+                    ("newKey1", "newKey1value3"),
+                    ("newKey1", "newKey1value4")
+                }, (item) => item.Item1, (item) => item.Item2);
 
-            Assert.Equal(listOfFiredActions[0].Action, NotifyCollectionChangedAction.Add);
+            Assert.True(listOfFiredActions.Count == 1);
 
-            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems.Count, 1);
+            Assert.Equal(listOfFiredActions[0].Action, null);
 
-            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems.ElementAt(0), "newKey2");
+            Assert.Null(listOfFiredActions[0].NewItemRanges);
 
-            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].Index, 2);
+            Assert.Null(listOfFiredActions[0].OldItemRanges);
 
-            Assert.Equal(listOfFiredActions[0].OldItemRanges, null);
+            Assert.NotNull(listOfFiredActions[0].GroupEvents);
+
+            Assert.Equal(listOfFiredActions[0].GroupEvents.Count, 2);
 
             Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].Index, 0);
             Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].Index, 2);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].Index, 0);
-        }
 
-        [Fact]
-        public void ReplaceAllItemsTest()
-        {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
-            var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].GroupIndex, 0);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].GroupIndex, 1);
 
-            groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
-            {
-                new KeyValuePair<string, ICollection<string>>("newKey0", new Collection<string> { }),
-                new KeyValuePair<string, ICollection<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2"}),
-            });
-            groupCollection.ItemsChanged += (sender, args) =>
-            {
-                listOfFiredActions.Add(args);
-            };
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.Action, NotifyCollectionChangedAction.Add);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.Action, NotifyCollectionChangedAction.Add);
 
-            RunAddItemsTest((items) => groupCollection.ReplaceAllItems(items, (item) => item.Item1, (item) => item.Item2), listOfFiredActions);
+            Assert.NotNull(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges);
+            Assert.NotNull(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges);
 
-            Assert.Equal(listOfFiredActions[0].Action, NotifyCollectionChangedAction.Replace);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges.Count, 1);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges.Count, 1);
 
-            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems.Count, 3);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].NewItems.Count, 1);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems.Count, 2);
 
-            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems.ElementAt(0), "newKey0");
-            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems.ElementAt(1), "newKey1");
-            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems.ElementAt(2), "newKey2");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].NewItems[0], "newKey0value0");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems[0], "newKey1value3");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems[1], "newKey1value4");
 
-            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].Index, 0);
-
-            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].Index, 0);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].Index, 0);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].Index, 0);
-
-            //TODO ADD OLD ITEMS CHECK  
+            Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges);
+            Assert.Null(listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges);
         }
 
         [Fact]
@@ -400,58 +361,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.True(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems[2] == "newKey3value3");
 
             Assert.True(listOfFiredActions[0].GroupEvents.All(x => x.Arg.OldItemRanges == null));
-        }
-
-        private void RunAddItemsTest(Action<Collection<(string, string)>> action,
-            IList<NotifyKeyGroupCollectionChangedEventArgs<string, string>> listOfFiredActions)
-        {
-            action.Invoke(
-                new Collection<(string, string)>
-                {
-                    ("newKey0", "newKey0value0"),
-                    ("newKey1", "newKey1value3"),
-                    ("newKey1", "newKey1value4"),
-                    ("newKey2", "newKey2value0")
-                });
-
-            Assert.True(listOfFiredActions.Count == 1);
-
-            Assert.NotNull(listOfFiredActions[0].NewItemRanges);
-
-            Assert.Equal(listOfFiredActions[0].NewItemRanges.Count, 1);
-
-            Assert.NotNull(listOfFiredActions[0].GroupEvents);
-
-            Assert.Equal(listOfFiredActions[0].GroupEvents.Count, 3);
-
-            Assert.Equal(listOfFiredActions[0].GroupEvents[0].GroupIndex, 0);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[1].GroupIndex, 1);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[2].GroupIndex, 2);
-
-            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.Action, NotifyCollectionChangedAction.Add);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.Action, NotifyCollectionChangedAction.Add);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.Action, NotifyCollectionChangedAction.Add);
-
-            Assert.NotNull(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges);
-            Assert.NotNull(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges);
-            Assert.NotNull(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges);
-
-            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges.Count, 1);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges.Count, 1);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges.Count, 1);
-
-            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].NewItems.Count, 1);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems.Count, 2);
-            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems.Count, 1);
-
-            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].NewItems[0], "newKey0value0");
-            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems[0], "newKey1value3");
-            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems[1], "newKey1value4");
-            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems[0], "newKey2value0");
-
-            Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges);
-            Assert.Null(listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges);
-            Assert.Null(listOfFiredActions[0].GroupEvents[2].Arg.OldItemRanges);
         }
     }
 }
