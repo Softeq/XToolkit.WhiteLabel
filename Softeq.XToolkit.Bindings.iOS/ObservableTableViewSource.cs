@@ -164,7 +164,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
         }
 
-        private NSString NsReuseId => _reuseId ?? _defaultReuseId;
+        protected NSString NsReuseId => _reuseId ?? _defaultReuseId;
 
         /// <summary>
         ///     Occurs when a property of this instance changes.
@@ -221,6 +221,11 @@ namespace Softeq.XToolkit.Bindings.iOS
                 _view = view;
             }
 
+            return GetItemCell(view, indexPath);
+        }
+
+        protected virtual UITableViewCell GetItemCell(UITableView view, NSIndexPath indexPath)
+        {
             var cell = view.DequeueReusableCell(NsReuseId) ?? CreateCell(NsReuseId);
 
             try
