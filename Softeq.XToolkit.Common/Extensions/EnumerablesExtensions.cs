@@ -80,9 +80,9 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <typeparam name="T">The type of collection.</typeparam>
         public static void AddRange<T>(this IList<T> items, IList<T> range)
         {
-            foreach (var item in range)
+            for (var i = 0; i < range.Count; i++)
             {
-                items.Add(item);
+                items.Add(range[i]);
             }
         }
 
