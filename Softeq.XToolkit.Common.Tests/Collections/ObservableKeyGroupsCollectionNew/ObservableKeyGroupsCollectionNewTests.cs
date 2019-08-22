@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [Fact]
         public void AddGroupsTest()
         {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
             var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
 
             groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
@@ -28,15 +28,15 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             RunAddGroupsTests(groupCollection.AddGroups, listOfFiredActions);
 
-            Assert.True(listOfFiredActions[0].Action == NotifyCollectionChangedAction.Add);
+            Assert.Equal(listOfFiredActions[0].Action, NotifyCollectionChangedAction.Add);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges[0].Index == 1);
+            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].Index, 1);
 
-            Assert.True(listOfFiredActions[0].OldItemRanges == null);
+            Assert.Null(listOfFiredActions[0].OldItemRanges);
 
-            Assert.True(listOfFiredActions[0].GroupEvents[0].GroupIndex == 1);
-            Assert.True(listOfFiredActions[0].GroupEvents[1].GroupIndex == 2);
-            Assert.True(listOfFiredActions[0].GroupEvents[2].GroupIndex == 3);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].GroupIndex, 1);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].GroupIndex, 2);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[2].GroupIndex, 3);
 
             Assert.Equal(groupCollection.Count(), 4);
 
@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [Fact]
         public void InsertGroupsTest()
         {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
             var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
 
             groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
@@ -60,15 +60,15 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             RunAddGroupsTests((groups) => groupCollection.InsertGroups(0, groups), listOfFiredActions);
 
-            Assert.True(listOfFiredActions[0].Action == NotifyCollectionChangedAction.Add);
+            Assert.Equal(listOfFiredActions[0].Action, NotifyCollectionChangedAction.Add);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges[0].Index == 0);
+            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].Index, 0);
 
-            Assert.True(listOfFiredActions[0].OldItemRanges == null);
+            Assert.Null(listOfFiredActions[0].OldItemRanges);
 
-            Assert.True(listOfFiredActions[0].GroupEvents[0].GroupIndex == 0);
-            Assert.True(listOfFiredActions[0].GroupEvents[1].GroupIndex == 1);
-            Assert.True(listOfFiredActions[0].GroupEvents[2].GroupIndex == 2);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].GroupIndex, 0);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].GroupIndex, 1);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[2].GroupIndex, 2);
 
             Assert.Equal(groupCollection.Count(), 4);
 
@@ -78,7 +78,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [Fact]
         public void RemoveGroupsTest()
         {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
             var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
 
             groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
@@ -97,11 +97,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             Assert.Equal(listOfFiredActions.Count, 1);
 
-            Assert.True(listOfFiredActions[0].Action == NotifyCollectionChangedAction.Remove);
+            Assert.Equal(listOfFiredActions[0].Action, NotifyCollectionChangedAction.Remove);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges == null);
+            Assert.Null(listOfFiredActions[0].NewItemRanges);
 
-            Assert.True(listOfFiredActions[0].OldItemRanges != null);
+            Assert.NotNull(listOfFiredActions[0].OldItemRanges);
 
             Assert.Equal(listOfFiredActions[0].OldItemRanges.Count, 2);
 
@@ -120,7 +120,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [Fact]
         public void ClearAllTest()
         {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
             var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
 
             groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
@@ -139,15 +139,15 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             Assert.Equal(listOfFiredActions.Count, 1);
 
-            Assert.True(listOfFiredActions[0].Action == NotifyCollectionChangedAction.Reset);
+            Assert.Equal(listOfFiredActions[0].Action, NotifyCollectionChangedAction.Reset);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges == null);
+            Assert.Null(listOfFiredActions[0].NewItemRanges);
         }
 
         [Fact]
         public void ClearGroupTest()
         {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
             var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
 
             groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
@@ -166,13 +166,13 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             Assert.Equal(listOfFiredActions.Count, 1);
 
-            Assert.True(listOfFiredActions[0].Action == null);
+            Assert.Null(listOfFiredActions[0].Action);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges == null);
+            Assert.Null(listOfFiredActions[0].NewItemRanges);
 
-            Assert.True(listOfFiredActions[0].OldItemRanges == null);
+            Assert.Null(listOfFiredActions[0].OldItemRanges);
 
-            Assert.True(listOfFiredActions[0].GroupEvents != null);
+            Assert.NotNull(listOfFiredActions[0].GroupEvents);
 
             Assert.Equal(listOfFiredActions[0].GroupEvents.Count, 1);
 
@@ -180,15 +180,15 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.Action, NotifyCollectionChangedAction.Reset);
 
-            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges, null);
+            Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges);
 
-            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges, null);
+            Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges);
         }
 
         [Fact]
         public void AddItemsTest()
         {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
             var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
 
             groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
@@ -208,7 +208,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                     ("newKey1", "newKey1value4")
                 }, (item) => item.Item1, (item) => item.Item2);
 
-            Assert.True(listOfFiredActions.Count == 1);
+            Assert.Equal(listOfFiredActions.Count, 1);
 
             Assert.Equal(listOfFiredActions[0].Action, null);
 
@@ -249,7 +249,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [Fact]
         public void InsertItemsTest()
         {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
             var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
 
             groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
@@ -274,9 +274,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 (item) => item.Item2,
                 (item) => item.Item3);
 
-            Assert.True(listOfFiredActions.Count == 1);
+            Assert.Equal(listOfFiredActions.Count, 1);
 
-            Assert.Equal(listOfFiredActions[0].Action, null);
+            Assert.Null(listOfFiredActions[0].Action);
 
             Assert.Null(listOfFiredActions[0].NewItemRanges);
 
@@ -321,13 +321,13 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [Fact]
         public void RemoveItemsTest()
         {
-            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>();
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
             var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
 
             groupCollection.AddGroups(new Collection<KeyValuePair<string, ICollection<string>>>
             {
                 new KeyValuePair<string, ICollection<string>>("newKey0", new Collection<string> { }),
-                new KeyValuePair<string, ICollection<string>>("newKey1", new Collection<string> { "newKey1value1" }),
+                new KeyValuePair<string, ICollection<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2" }),
                 new KeyValuePair<string, ICollection<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2"}),
                 new KeyValuePair<string, ICollection<string>>("newKey3", new Collection<string> { "newKey3value1", "newKey3value2", "newKey3value3", "newKey3value4" }),
             });
@@ -346,9 +346,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 (item) => item.Item1,
                 (item) => item.Item2);
 
-            Assert.True(listOfFiredActions.Count == 1);
+            Assert.Equal(listOfFiredActions.Count, 1);
 
-            Assert.Equal(listOfFiredActions[0].Action, null);
+            Assert.Null(listOfFiredActions[0].Action);
 
             Assert.Null(listOfFiredActions[0].NewItemRanges);
 
@@ -397,21 +397,21 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 new KeyValuePair<string, ICollection<string>>("newKey3", new Collection<string> { "newKey3value1", "newKey3value2", "newKey3value3" }),
             });
 
-            Assert.True(listOfFiredActions.Count == 1);
+            Assert.Equal(listOfFiredActions.Count, 1);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges != null);
+            Assert.NotNull(listOfFiredActions[0].NewItemRanges);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges.Count == 1);
+            Assert.Equal(listOfFiredActions[0].NewItemRanges.Count, 1);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges[0].NewItems.Count == 3);
+            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems.Count, 3);
 
-            Assert.True(listOfFiredActions[0].NewItemRanges[0].NewItems[0] == "newKey1");
-            Assert.True(listOfFiredActions[0].NewItemRanges[0].NewItems[1] == "newKey2");
-            Assert.True(listOfFiredActions[0].NewItemRanges[0].NewItems[2] == "newKey3");
+            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems[0], "newKey1");
+            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems[1], "newKey2");
+            Assert.Equal(listOfFiredActions[0].NewItemRanges[0].NewItems[2], "newKey3");
 
-            Assert.True(listOfFiredActions[0].GroupEvents != null);
+            Assert.NotNull(listOfFiredActions[0].GroupEvents);
 
-            Assert.True(listOfFiredActions[0].GroupEvents.Count == 3);
+            Assert.Equal(listOfFiredActions[0].GroupEvents.Count, 3);
 
             Assert.True(listOfFiredActions[0].GroupEvents.All(x => x.Arg.Action == NotifyCollectionChangedAction.Add));
 
@@ -419,18 +419,18 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             Assert.True(listOfFiredActions[0].GroupEvents.All(x => x.Arg.NewItemRanges[0].Index == 0));
 
-            Assert.True(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].NewItems.Count == 1);
-            Assert.True(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems.Count == 2);
-            Assert.True(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems.Count == 3);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].NewItems.Count, 1);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems.Count, 2);
+            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems.Count, 3);
 
-            Assert.True(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].NewItems[0] == "newKey1value1");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges[0].NewItems[0], "newKey1value1");
 
-            Assert.True(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems[0] == "newKey2value1");
-            Assert.True(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems[1] == "newKey2value2");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems[0], "newKey2value1");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges[0].NewItems[1], "newKey2value2");
 
-            Assert.True(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems[0] == "newKey3value1");
-            Assert.True(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems[1] == "newKey3value2");
-            Assert.True(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems[2] == "newKey3value3");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems[0], "newKey3value1");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems[1], "newKey3value2");
+            Assert.Equal(listOfFiredActions[0].GroupEvents[2].Arg.NewItemRanges[0].NewItems[2], "newKey3value3");
 
             Assert.True(listOfFiredActions[0].GroupEvents.All(x => x.Arg.OldItemRanges == null));
         }
