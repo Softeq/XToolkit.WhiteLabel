@@ -7,11 +7,11 @@ using System.Collections.Generic;
 namespace Softeq.XToolkit.Common.Interfaces
 {
     public interface IObservableKeyGroupsCollection<TKey, TValue>
-        : IEnumerable<KeyValuePair<TKey, ICollection<TValue>>>
+        : IEnumerable<KeyValuePair<TKey, IList<TValue>>>
     {
-        void AddGroups(IEnumerable<KeyValuePair<TKey, ICollection<TValue>>> items);
+        void AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
 
-        void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, ICollection<TValue>>> items);
+        void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
 
         void RemoveGroups(IEnumerable<TKey> items);
 

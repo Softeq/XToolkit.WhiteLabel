@@ -78,11 +78,21 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="items">Initial collection.</param>
         /// <param name="range">The collection whose elements should be added to the end of the list.</param>
         /// <typeparam name="T">The type of collection.</typeparam>
-        public static void AddRange<T>(this ICollection<T> items, ICollection<T> range)
+        public static void AddRange<T>(this IList<T> items, IList<T> range)
         {
             foreach (var item in range)
             {
                 items.Add(item);
+            }
+        }
+
+        public static void InsertRange<T>(this IList<T> items, int index, IList<T> range)
+        {
+            int i = index;
+            foreach (var item in range)
+            {
+                items.Insert(i, item);
+                i++;
             }
         }
     }
