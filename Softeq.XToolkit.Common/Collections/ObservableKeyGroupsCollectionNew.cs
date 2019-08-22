@@ -67,14 +67,14 @@ namespace Softeq.XToolkit.Common.Collections
                 _items.Insert(i++, item);
             }
 
-            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+            OnChanged(
                 NotifyCollectionChangedAction.Add,
                 new Collection<(int, IReadOnlyList<TKey>)> { (index, toInsert.Select(x => x.Key).ToList()) },
                 default,
                 toInsert.Select(x => (_items.ToList().IndexOf(x),
                     NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
                     new Collection<(int, IReadOnlyList<TValue>)> { (0, x.Value.ToList()) },
-                    default))).ToList()));
+                    default))).ToList());
         }
 
         public void RemoveGroups(IEnumerable<TKey> keys)
@@ -91,22 +91,22 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
-            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+            OnChanged(
                 NotifyCollectionChangedAction.Remove,
                 default,
                 oldItemsRange,
-                default));
+                default);
         }
 
         public void ClearGroups()
         {
             _items.Clear();
 
-            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+            OnChanged(
                 NotifyCollectionChangedAction.Reset,
                 default,
                 default,
-                default));
+                default);
         }
 
         public void ClearGroup(TKey key)
@@ -126,15 +126,15 @@ namespace Softeq.XToolkit.Common.Collections
 
                 item.Value.Clear();
 
-                OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
-                    null,
-                    null,
-                    null,
+                OnChanged(
+                    default,
+                    default,
+                    default,
                     new Collection<(int, NotifyGroupCollectionChangedArgs<TValue>)>
                     {
                     (_items.IndexOf(item),
                         NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Reset, null, null))
-                    }));
+                    });
             }
         }
 
@@ -152,7 +152,7 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
-            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+            OnChanged(
                 default,
                 default,
                 default,
@@ -161,7 +161,7 @@ namespace Softeq.XToolkit.Common.Collections
                         NotifyCollectionChangedAction.Add,
                         new Collection<(int, IReadOnlyList<TValue>)>(x.Item2.ToList()),
                         default
-                ))).ToList()));
+                ))).ToList());
         }
 
         public void InsertItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector,
@@ -179,7 +179,7 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
-            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+            OnChanged(
                 default,
                 default,
                 default,
@@ -188,7 +188,7 @@ namespace Softeq.XToolkit.Common.Collections
                         NotifyCollectionChangedAction.Add,
                         new Collection<(int, IReadOnlyList<TValue>)>(x.Item2.ToList()),
                         default
-                ))).ToList()));
+                ))).ToList());
         }
 
         public void RemoveItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
@@ -202,7 +202,7 @@ namespace Softeq.XToolkit.Common.Collections
             var groupsInfos = new List<(int GroupIndex, List<KeyValuePair<TValue, int>> Items)>();
             IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> groupsToRemove = null;
 
-            if(items.Count() == 0)
+            if (items.Count() == 0)
             {
                 return;
             }
@@ -272,13 +272,13 @@ namespace Softeq.XToolkit.Common.Collections
                     .Select(x => x.Key));
             }
 
-            OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
-                groupsToRemove?.Count > 0 ? NotifyCollectionChangedAction.Remove : (NotifyCollectionChangedAction?)null,
+            OnChanged(
+                groupsToRemove?.Count > 0 ? NotifyCollectionChangedAction.Remove : (NotifyCollectionChangedAction?) null,
                 default,
                 groupsToRemove?.Count > 0 ? groupsToRemove : null,
                 groupedIndexes.Select(x => (x.Key, NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Remove,
                     default,
-                    (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value))).ToList()));
+                    (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value))).ToList());
         }
 
         #endregion
@@ -297,9 +297,17 @@ namespace Softeq.XToolkit.Common.Collections
 
         #endregion
 
-        private void OnChanged(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
+        private void OnChanged(
+            NotifyCollectionChangedAction? action,
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> newItems,
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> oldItems,
+            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)> groupEvents)
         {
-            ItemsChanged?.Invoke(this, args);
+            ItemsChanged?.Invoke(this, NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+                action,
+                newItems,
+                oldItems,
+                groupEvents));
         }
 
         private IEnumerable<(TKey Key, IEnumerable<(int Index, IReadOnlyList<TValue> Values)>)>
@@ -354,9 +362,9 @@ namespace Softeq.XToolkit.Common.Collections
                 groupedItemsToAdd.Add((item.Key, t));
             }
 
-            foreach(var gr in groupedItemsToAdd)
+            foreach (var gr in groupedItemsToAdd)
             {
-                foreach(var val in gr.Ranges)
+                foreach (var val in gr.Ranges)
                 {
                     _items.First(x => x.Key.Equals(gr.Key))
                         .Value.InsertRange(val.Index, val.Values.ToList());
@@ -390,7 +398,7 @@ namespace Softeq.XToolkit.Common.Collections
                 DecrementIndex(indexes);
             }
 
-            foreach(var key in keys)
+            foreach (var key in keys)
             {
                 _items.Remove(_items.First(x => x.Key.Equals(key)));
             }
