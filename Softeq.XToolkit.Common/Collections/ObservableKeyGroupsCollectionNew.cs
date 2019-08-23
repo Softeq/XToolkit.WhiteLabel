@@ -53,14 +53,14 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
-            int i = index;
-
             var toInsert = items.Where(x => _withoutEmptyGroups ? x.Value.Count > 0 : true);
 
             if (toInsert.Count() == 0)
             {
                 return;
             }
+
+            int i = index;
 
             foreach (var item in toInsert)
             {
@@ -114,28 +114,28 @@ namespace Softeq.XToolkit.Common.Collections
             if (_withoutEmptyGroups)
             {
                 RemoveGroups(new Collection<TKey> { key });
+                return;
             }
-            else
+
+            if (!_items.Any(x => x.Key.Equals(key)))
             {
-                if (!_items.Any(x => x.Key.Equals(key)))
+                throw new KeyNotFoundException();
+            }
+
+            var item = _items.FirstOrDefault(x => x.Key.Equals(key));
+
+            item.Value.Clear();
+
+            OnChanged(
+                default,
+                default,
+                default,
+                new Collection<(int, NotifyGroupCollectionChangedArgs<TValue>)>
                 {
-                    throw new KeyNotFoundException();
-                }
-
-                var item = _items.FirstOrDefault(x => x.Key.Equals(key));
-
-                item.Value.Clear();
-
-                OnChanged(
-                    default,
-                    default,
-                    default,
-                    new Collection<(int, NotifyGroupCollectionChangedArgs<TValue>)>
-                    {
                     (_items.IndexOf(item),
                         NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Reset, null, null))
-                    });
-            }
+                });
+
         }
 
         public void AddItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
@@ -198,14 +198,14 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
-            var groupedIndexes = new Dictionary<int, IList<(int ValIndex, IReadOnlyList<TValue> Vals)>>();
-            var groupsInfos = new List<(int GroupIndex, List<KeyValuePair<TValue, int>> Items)>();
-            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> groupsToRemove = null;
-
             if (items.Count() == 0)
             {
                 return;
             }
+
+            var rangesToRemove = new Dictionary<int, IList<(int ValIndex, IReadOnlyList<TValue> Vals)>>();
+            var groupsInfos = new List<(int GroupIndex, List<KeyValuePair<TValue, int>> Items)>();
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> groupsToRemove = null;
 
             foreach (var item in items)
             {
@@ -217,7 +217,6 @@ namespace Softeq.XToolkit.Common.Collections
 
                 var groupIndex = _items.IndexOf(_items.First(x => x.Key.Equals(key)));
                 var val = valueSelector(item);
-
                 var valIndex = _items.ElementAt(groupIndex)
                     .Value.ToList().IndexOf(val);
 
@@ -235,27 +234,13 @@ namespace Softeq.XToolkit.Common.Collections
                     .Items.Add(new KeyValuePair<TValue, int>(val, valIndex));
             }
 
-            for (int i = 0; i < groupsInfos.Count; i++)
+            foreach(var groupInfo in groupsInfos)
             {
-                groupsInfos[i] = (groupsInfos[i].GroupIndex, groupsInfos[i].Items.OrderBy(x => x.Value).ToList());
-            }
-
-            foreach (var groupInfo in groupsInfos)
-            {
-                while (!IsIndexesGrouped(groupInfo.Items))
+                if (!rangesToRemove.ContainsKey(groupInfo.GroupIndex))
                 {
-                    DecrementIndex(groupInfo.Items);
+                    rangesToRemove.Add(groupInfo.GroupIndex, new List<(int, IReadOnlyList<TValue>)> { });
                 }
-
-                if (!groupedIndexes.ContainsKey(groupInfo.GroupIndex))
-                {
-                    groupedIndexes.Add(groupInfo.GroupIndex, new List<(int, IReadOnlyList<TValue>)> { });
-                }
-
-                var oldItemsRange = groupInfo.Items.GroupBy(x => x.Value)
-                        .Select(x => (x.Key, (IReadOnlyList<TValue>) x.Select(y => y.Key).ToList())).ToList();
-
-                groupedIndexes[groupInfo.GroupIndex].AddRange(oldItemsRange);
+                rangesToRemove[groupInfo.GroupIndex].AddRange(GroupByIndex(groupInfo.Items).ToList());
             }
 
             foreach (var groupInfo in groupsInfos)
@@ -276,7 +261,7 @@ namespace Softeq.XToolkit.Common.Collections
                 groupsToRemove?.Count > 0 ? NotifyCollectionChangedAction.Remove : (NotifyCollectionChangedAction?) null,
                 default,
                 groupsToRemove?.Count > 0 ? groupsToRemove : null,
-                groupedIndexes.Select(x => (x.Key, NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Remove,
+                rangesToRemove.Select(x => (x.Key, NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Remove,
                     default,
                     (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value))).ToList());
         }
@@ -349,17 +334,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             foreach (var item in itemsToAdd)
             {
-                while (!IsIndexesGrouped(item.Values))
-                {
-                    DecrementIndex(item.Values);
-                }
-            }
-
-            foreach (var item in itemsToAdd)
-            {
-                var t = item.Values.GroupBy(x => x.Value).Select(x => (x.Key, (IReadOnlyList<TValue>)
-                    x.Select(y => y.Key).ToList()));
-                groupedItemsToAdd.Add((item.Key, t));
+                groupedItemsToAdd.Add((item.Key, GroupByIndex(item.Values)));
             }
 
             foreach (var gr in groupedItemsToAdd)
@@ -391,20 +366,25 @@ namespace Softeq.XToolkit.Common.Collections
                 }
             }
 
-            indexes = indexes.OrderBy(x => x.Value).ToList();
-
-            while (!IsIndexesGrouped(indexes))
-            {
-                DecrementIndex(indexes);
-            }
-
             foreach (var key in keys)
             {
                 _items.Remove(_items.First(x => x.Key.Equals(key)));
             }
 
-            return indexes.GroupBy(x => x.Value)
-                    .Select(x => (x.Key, (IReadOnlyList<TKey>) x.Select(y => y.Key).ToList())).ToList();
+            return GroupByIndex(indexes);
+        }
+
+        private IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> GroupByIndex<T>(IList<KeyValuePair<T, int>> items)
+        {
+            var sortedItems = items.OrderBy(x => x.Value).ToList();
+
+            while (!IsIndexesGrouped(sortedItems))
+            {
+                DecrementIndex(sortedItems);
+            }
+
+            return sortedItems.GroupBy(x => x.Value)
+                    .Select(x => (x.Key, (IReadOnlyList<T>) x.Select(y => y.Key).ToList())).ToList();
         }
 
         private bool IsIndexesGrouped<T>(IList<KeyValuePair<T, int>> indexList)
