@@ -65,6 +65,7 @@
     <Compile Include="Bindable\BindableGroupTableViewSource.cs" />
     <Compile Include="Bindable\BindableGroupCollectionViewSource.cs" />
     <Compile Include="Bindable\BindableUICollectionReusableView.cs" />
+    <Compile Include="Extensions\NSThreadExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">

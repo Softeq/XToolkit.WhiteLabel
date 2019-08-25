@@ -1,8 +1,8 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -32,7 +32,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
                 if (_itemClick != null && value != null)
                 {
-                    Debug.WriteLine("Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                    throw new ArgumentException(
+                        "Changing ItemClick may cause inconsistencies where some items still call the old command.",
+                        nameof(ItemClick));
                 }
 
                 _itemClick = value;

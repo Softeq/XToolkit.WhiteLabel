@@ -2,10 +2,10 @@
 // http://www.softeq.com
 
 using System;
-using System.Diagnostics;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Command;
@@ -20,7 +20,8 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         where THeaderView : BindableUICollectionReusableView<TKey>
         where TItemCell : BindableCollectionViewCell<TItem>
     {
-        private IDisposable _subscription;
+        private readonly IDisposable _subscription;
+
         private WeakReferenceEx<UICollectionView> _collectionViewRef;
         private ICommand<TItem> _itemClick;
 
@@ -43,7 +44,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
                 if (_itemClick != null && value != null)
                 {
-                    Debug.WriteLine("Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                    throw new ArgumentException(
+                        "Changing ItemClick may cause inconsistencies where some items still call the old command.",
+                        nameof(ItemClick));
                 }
 
                 _itemClick = value;
@@ -165,23 +168,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         protected virtual void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
-            Execute(() =>
+            NSThreadExtensions.ExecuteOnMainThread(() =>
             {
                 _collectionViewRef.Target?.ReloadData();
             });
-        }
-
-        protected static void Execute(Action action)
-        {
-            if (NSThread.IsMain)
-            {
-                action();
-            }
-            else
-            {
-                NSOperationQueue.MainQueue.AddOperation(action);
-                NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
-            }
         }
     }
 }

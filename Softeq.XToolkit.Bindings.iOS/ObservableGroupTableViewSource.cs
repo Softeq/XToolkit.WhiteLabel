@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Foundation;
+using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.EventArguments;
@@ -165,7 +166,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         protected void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
-            Execute(() =>
+            NSThreadExtensions.ExecuteOnMainThread(() =>
             {
                 if (e.Action != NotifyCollectionChangedAction.Add && e.Action != NotifyCollectionChangedAction.Remove)
                 {
@@ -224,19 +225,6 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
 
             return modifiedIndexPaths.ToArray();
-        }
-
-        protected static void Execute(Action action)
-        {
-            if (NSThread.IsMain)
-            {
-                action();
-            }
-            else
-            {
-                NSOperationQueue.MainQueue.AddOperation(action);
-                NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
-            }
         }
     }
 }

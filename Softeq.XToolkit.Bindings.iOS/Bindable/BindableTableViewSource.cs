@@ -13,22 +13,26 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         : ObservableTableViewSource<TItem>
         where TItemCell : BindableTableViewCell<TItem>
     {
-        public BindableTableViewSource(IList<TItem> items) : base(items)
+        public BindableTableViewSource(IList<TItem> dataSource) : base(dataSource)
         {
+            if (string.IsNullOrEmpty(ReuseId) || ReuseId == DefaultReuseId)
+            {
+                ReuseId = typeof(TItemCell).Name;
+            }
         }
 
+        /// <inheritdoc />
         protected override UITableViewCell GetItemCell(UITableView view, NSIndexPath indexPath)
         {
-            var cellReuseId = string.IsNullOrEmpty(NsReuseId) ? nameof(TItemCell) : NsReuseId;
+            var itemCell = view.DequeueReusableCell(NsReuseId, indexPath) ?? CreateCell(NsReuseId);
+            var dataContext = GetItem(indexPath);
 
-            var itemCell = view.DequeueReusableCell(cellReuseId, indexPath) ?? CreateCell(NsReuseId);
-
-            var item = DataSource[indexPath.Row];
-            BindCell(itemCell, item, indexPath);
+            BindCell(itemCell, dataContext, indexPath);
 
             return itemCell;
         }
 
+        /// <inheritdoc />
         protected override void BindCell(UITableViewCell cell, object item, NSIndexPath indexPath)
         {
             var bindableView = (IBindableView) cell;
