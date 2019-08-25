@@ -14,6 +14,30 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 {
     public class ObservableKeyGroupsCollectionNewTests
     {
+        [Theory]
+        //[InlineData(0, 0, -1, -1)]
+        [InlineData(1, 1, 1, 1)]
+        [InlineData(5, 5, 1, 1)]
+        [InlineData(87, 9, 11, 1)]
+        [InlineData(1000, 9, 112, 111)]
+        public void SimpleAddGroupsTest(int itemsCount, int groupsCount, int firstGroupSize, int lastGroupSize)
+        {
+            var rawItems = Enumerable.Range(1, itemsCount);
+    
+            var groups = rawItems
+                .GroupBy(item => item.ToString().Substring(0, 1))
+                .Select(group => new KeyValuePair<string, IList<int>>(group.Key, group.ToList()));
+    
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, int>(false);
+            groupCollection.AddGroups(groups);
+
+            var count = groupCollection.Count();
+            
+            Assert.Equal(groupsCount, count);
+            Assert.Equal(firstGroupSize, count > 0 ? groupCollection.First().Value.Count : -1);
+            Assert.Equal(lastGroupSize, count > 0 ? groupCollection.Last().Value.Count : -1);
+        }
+        
         [Fact]
         public void AddGroupsTest()
         {
