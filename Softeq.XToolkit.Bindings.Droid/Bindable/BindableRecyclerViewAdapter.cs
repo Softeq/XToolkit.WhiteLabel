@@ -21,16 +21,11 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         : ObservableRecyclerViewAdapter<TViewModel>
         where TViewHolder : BindableViewHolder<TViewModel>
     {
-        private readonly int _itemLayoutId;
-
         private ICommand<TViewModel> _itemClick;
 
-        public BindableRecyclerViewAdapter(
-            IList<TViewModel> items,
-            int itemLayoutId)
+        public BindableRecyclerViewAdapter(IList<TViewModel> items)
             : base(items, null, null)
         {
-            _itemLayoutId = itemLayoutId;
         }
 
         public ICommand<TViewModel> ItemClick
@@ -56,8 +51,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var cell = LayoutInflater.From(parent.Context).Inflate(_itemLayoutId, parent, false);
-            return (RecyclerView.ViewHolder) Activator.CreateInstance(typeof(TViewHolder), cell);
+            var viewHolderType = typeof(TViewHolder);
+            var view = GetLayoutForViewHolder(parent, viewHolderType);
+            return (RecyclerView.ViewHolder) Activator.CreateInstance(viewHolderType, view);
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
@@ -119,6 +115,29 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             {
                 command.Execute(itemDataContext);
             }
+        }
+
+        protected virtual View GetLayoutForViewHolder(ViewGroup parent, Type viewHolderType)
+        {
+            if (viewHolderType == null)
+            {
+                throw new ArgumentNullException(nameof(viewHolderType), "Check ViewHolder declarations.");
+            }
+
+            if (Attribute.GetCustomAttribute(viewHolderType, typeof(BindableViewHolderLayoutAttribute))
+                is BindableViewHolderLayoutAttribute attr)
+            {
+                return LayoutInflater.From(parent.Context).Inflate(attr.LayoutId, parent, false);
+            }
+
+            return GetCustomLayoutForViewHolder(parent, viewHolderType);
+        }
+
+        protected virtual View GetCustomLayoutForViewHolder(ViewGroup parent, Type viewHolderType)
+        {
+            throw new NotImplementedException(
+                "Tried to use custom inflating of ViewHolder layout, please implement this method. " +
+                $"Or use {nameof(BindableViewHolderLayoutAttribute)} for auto-inflating ViewHolder layout.");
         }
     }
 }
