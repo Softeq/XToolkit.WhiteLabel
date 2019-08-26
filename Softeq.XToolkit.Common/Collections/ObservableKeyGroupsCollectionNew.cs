@@ -29,6 +29,18 @@ namespace Softeq.XToolkit.Common.Collections
 
         #region IObservableKeyGroupCollection
 
+        public void AddGroups(IEnumerable<TKey> keys)
+        {
+            if (keys == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var index = _items.Count;
+
+            InsertGroups(index, keys);
+        }
+
         public void AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
             if (items == null)
@@ -41,16 +53,32 @@ namespace Softeq.XToolkit.Common.Collections
             InsertGroups(index, items);
         }
 
+        public void InsertGroups(int index, IEnumerable<TKey> keys)
+        {
+            if (keys == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            InsertGroups(index, keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { })));
+        }
+
         public void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
+            if (items.Count() == 0)
+            {
+                return;
+            }
+
+            if (items == null
+                || items.Any(x => x.Value == null))
+            {
+                throw new ArgumentNullException();
+            }
+
             if (index > _items.Count + items.Count() - 1)
             {
                 throw new ArgumentOutOfRangeException();
-            }
-
-            if (items == null)
-            {
-                throw new ArgumentNullException();
             }
 
             var toInsert = items.Where(x => _withoutEmptyGroups ? x.Value.Count > 0 : true);

@@ -9,7 +9,11 @@ namespace Softeq.XToolkit.Common.Interfaces
     public interface IObservableKeyGroupsCollection<TKey, TValue>
         : IEnumerable<KeyValuePair<TKey, IList<TValue>>>
     {
+        void AddGroups(IEnumerable<TKey> keys);
+
         void AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
+
+        void InsertGroups(int index, IEnumerable<TKey> keys);
 
         void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
 
