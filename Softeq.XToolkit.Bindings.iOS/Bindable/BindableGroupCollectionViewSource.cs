@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
             var cell = (TItemCell) collectionView.DequeueReusableCell(typeof(TItemCell).Name, indexPath);
             var bindableCell = (IBindableView) cell;
 
-            bindableCell.ReloadDataContext(GetItemByIntexPath(indexPath));
+            bindableCell.ReloadDataContext(GetItemByIndexPath(indexPath));
 
             return cell;
         }
@@ -101,7 +101,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         /// <inheritdoc />
         public override void ItemSelected(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            _itemClick?.Execute(GetItemByIntexPath(indexPath));
+            _itemClick?.Execute(GetItemByIndexPath(indexPath));
         }
 
         /// <inheritdoc />
@@ -161,7 +161,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
             throw new NotImplementedException();
         }
 
-        protected virtual TItem GetItemByIntexPath(NSIndexPath indexPath)
+        protected virtual TItem GetItemByIndexPath(NSIndexPath indexPath)
         {
             return DataSource[indexPath.Section][indexPath.Row];
         }
@@ -170,6 +170,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             NSThreadExtensions.ExecuteOnMainThread(() =>
             {
+                // TODO YP: improve handling without reload
                 _collectionViewRef.Target?.ReloadData();
             });
         }

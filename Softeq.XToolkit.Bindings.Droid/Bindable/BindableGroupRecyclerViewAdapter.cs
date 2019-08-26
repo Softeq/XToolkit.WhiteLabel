@@ -236,6 +236,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         {
             ReloadMapping();
 
+            // TODO YP: improve handling without reload
             NotifyDataSetChanged();
         }
 
