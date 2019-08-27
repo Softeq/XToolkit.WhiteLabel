@@ -193,6 +193,14 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
+            int index = _items.Count;
+
+            var keysToAdd = InsertGroupsWithoutNotify(index, items
+                .Select(x => keySelector.Invoke(x))
+                .Where(x => _items.All(y => !y.Key.Equals(x)))
+                .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { }))
+                .ToList())?.Select(x => x.Key).ToList();
+
             var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
 
             if (result.Count() == 0)
@@ -201,15 +209,15 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             OnChanged(
-                default,
-                default,
+                keysToAdd == null ? default(NotifyCollectionChangedAction?) : NotifyCollectionChangedAction.Add,
+                keysToAdd == null ? default : new Collection<(int, IReadOnlyList<TKey>)> { (index, keysToAdd) },
                 default,
                 result.Select(
                     x => (_items.IndexOf(_items.First(y => y.Key.Equals(x.Key))), NotifyGroupCollectionChangedArgs<TValue>.Create(
                         NotifyCollectionChangedAction.Add,
-                        new Collection<(int, IReadOnlyList<TValue>)>(x.Item2.ToList()),
+                        new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
                         default
-                ))).ToList());
+                ))).ToList()); ; ;
         }
 
         public void InsertItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector,
@@ -234,7 +242,7 @@ namespace Softeq.XToolkit.Common.Collections
                 result.Select(
                     x => (_items.IndexOf(_items.First(y => y.Key.Equals(x.Key))), NotifyGroupCollectionChangedArgs<TValue>.Create(
                         NotifyCollectionChangedAction.Add,
-                        new Collection<(int, IReadOnlyList<TValue>)>(x.Item2.ToList()),
+                        new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
                         default
                 ))).ToList());
         }
@@ -378,7 +386,7 @@ namespace Softeq.XToolkit.Common.Collections
             return toInsert;
         }
 
-        private IEnumerable<(TKey Key, IEnumerable<(int Index, IReadOnlyList<TValue> Values)>)>
+        private IEnumerable<(TKey Key, IEnumerable<(int Index, IReadOnlyList<TValue> Values)> ValuesGroups)>
             InsertItemsWithoutNotify<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector, Func<T, int> indexSelector)
         {
             var groupedItemsToAdd = new List<(TKey Key, IEnumerable<(int Index, IReadOnlyList<TValue> Values)> Ranges)>();
