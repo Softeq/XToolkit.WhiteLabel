@@ -197,6 +197,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             var keysToAdd = InsertGroupsWithoutNotify(index, items
                 .Select(x => keySelector.Invoke(x))
+                .Distinct()
                 .Where(x => _items.All(y => !y.Key.Equals(x)))
                 .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { }))
                 .ToList())?.Select(x => x.Key).ToList();
@@ -217,7 +218,7 @@ namespace Softeq.XToolkit.Common.Collections
                         NotifyCollectionChangedAction.Add,
                         new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
                         default
-                ))).ToList()); ; ;
+                ))).ToList());
         }
 
         public void InsertItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector,
@@ -239,6 +240,45 @@ namespace Softeq.XToolkit.Common.Collections
                 default,
                 default,
                 default,
+                result.Select(
+                    x => (_items.IndexOf(_items.First(y => y.Key.Equals(x.Key))), NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        NotifyCollectionChangedAction.Add,
+                        new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
+                        default
+                ))).ToList());
+        }
+
+        public void ReplaceItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
+        {
+            if (items == null || keySelector == null || valueSelector == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var toRemove = _items.Select(x => x.Key).ToList();
+
+            _items.Clear();
+
+            int index = 0;
+
+            var keysToAdd = InsertGroupsWithoutNotify(index, items
+                .Select(x => keySelector.Invoke(x))
+                .Distinct()
+                .Where(x => _items.All(y => !y.Key.Equals(x)))
+                .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { }))
+                .ToList())?.Select(x => x.Key).ToList();
+
+            var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
+
+            if (result.Count() == 0)
+            {
+                return;
+            }
+
+            OnChanged(
+                NotifyCollectionChangedAction.Replace,
+                new Collection<(int, IReadOnlyList<TKey>)> { (index, keysToAdd) },
+                new Collection<(int, IReadOnlyList<TKey>)> { (index, toRemove) },
                 result.Select(
                     x => (_items.IndexOf(_items.First(y => y.Key.Equals(x.Key))), NotifyGroupCollectionChangedArgs<TValue>.Create(
                         NotifyCollectionChangedAction.Add,
