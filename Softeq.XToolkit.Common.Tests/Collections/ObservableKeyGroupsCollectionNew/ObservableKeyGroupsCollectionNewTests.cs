@@ -120,6 +120,38 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Fact]
+        public void ReplaceGroupsTest()
+        {
+            var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
+            var listOfFiredActions = new List<NotifyKeyGroupCollectionChangedEventArgs<string, string>>();
+
+            groupCollection.AddGroups(new Collection<KeyValuePair<string, IList<string>>>
+            {
+                new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { }),
+            });
+            groupCollection.ItemsChanged += (sender, args) =>
+            {
+                listOfFiredActions.Add(args);
+            };
+
+            RunAddGroupsTests(groupCollection.ReplaceGroups, listOfFiredActions);
+
+            Assert.Equal(NotifyCollectionChangedAction.Replace, listOfFiredActions[0].Action);
+
+            Assert.Equal(0, listOfFiredActions[0].NewItemRanges[0].Index);
+
+            Assert.NotNull(listOfFiredActions[0].OldItemRanges);
+
+            Assert.Equal(0, listOfFiredActions[0].GroupEvents[0].GroupIndex);
+            Assert.Equal(1, listOfFiredActions[0].GroupEvents[1].GroupIndex);
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents[2].GroupIndex);
+
+            Assert.Equal(3, groupCollection.Count());
+
+            Assert.Equal("newKey1", groupCollection.ElementAt(0).Key);
+        }
+
+        [Fact]
         public void ClearAllTest()
         {
             var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);

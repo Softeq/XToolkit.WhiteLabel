@@ -17,6 +17,10 @@ namespace Softeq.XToolkit.Common.Interfaces
 
         void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
 
+        void ReplaceGroups(IEnumerable<TKey> keys);
+
+        void ReplaceGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
+
         void RemoveGroups(IEnumerable<TKey> items);
 
         void ClearGroups();
