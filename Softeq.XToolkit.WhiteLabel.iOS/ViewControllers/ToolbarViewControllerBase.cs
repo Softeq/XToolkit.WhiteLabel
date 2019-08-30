@@ -26,6 +26,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             AddTabBarView();
         }
 
+        protected UITabBar TabBar => _tabBarController.TabBar;
+
         protected virtual UIColor BadgeColor { get; }
 
         protected virtual Func<UITabBarController> TabBarControllerFactory { get; } = null;
