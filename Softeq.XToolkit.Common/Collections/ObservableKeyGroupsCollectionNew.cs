@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> ItemsChanged;
 
-        public ObservableKeyGroupsCollectionNew(bool withoutEmptyGroups)
+        public ObservableKeyGroupsCollectionNew(bool withoutEmptyGroups = true)
         {
             _withoutEmptyGroups = withoutEmptyGroups;
             _items = new List<KeyValuePair<TKey, IList<TValue>>>();
