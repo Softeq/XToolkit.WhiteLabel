@@ -78,10 +78,12 @@ namespace Softeq.XToolkit.Common.Collections
                 NotifyCollectionChangedAction.Add,
                 new Collection<(int, IReadOnlyList<TKey>)> { (index, insertedGroups.Select(x => x.Key).ToList()) },
                 default,
-                insertedGroups.Select(x => (_items.ToList().IndexOf(x),
-                    NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
-                    new Collection<(int, IReadOnlyList<TValue>)> { (0, x.Value.ToList()) },
-                    default))).ToList());
+                insertedGroups
+                    .Where(x => x.Value.Count > 0)
+                    .Select(x => (_items.ToList().IndexOf(x),
+                        NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
+                        new Collection<(int, IReadOnlyList<TValue>)> { (0, x.Value.ToList()) },
+                        default))).ToList());
         }
 
         public void ReplaceGroups(IEnumerable<TKey> keys)
@@ -119,10 +121,12 @@ namespace Softeq.XToolkit.Common.Collections
                 NotifyCollectionChangedAction.Replace,
                 new Collection<(int, IReadOnlyList<TKey>)> { (index, insertedGroups.Select(x => x.Key).ToList()) },
                 new Collection<(int, IReadOnlyList<TKey>)> { (index, toRemove) },
-                insertedGroups.Select(x => (_items.ToList().IndexOf(x),
-                    NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
-                    new Collection<(int, IReadOnlyList<TValue>)> { (0, x.Value.ToList()) },
-                    default))).ToList());
+                insertedGroups
+                    .Where(x => x.Value.Count > 0)
+                    .Select(x => (_items.ToList().IndexOf(x),
+                        NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
+                        new Collection<(int, IReadOnlyList<TValue>)> { (0, x.Value.ToList()) },
+                        default))).ToList());
         }
 
         public void RemoveGroups(IEnumerable<TKey> keys)
