@@ -185,6 +185,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Equal(1, listOfFiredActions[0].OldItemRanges[0].OldItems.Count);
 
             Assert.Equal("newKey1", listOfFiredActions[0].OldItemRanges[0].OldItems[0]);
+
+            Assert.Equal(3, groupCollection.Count());
+            Assert.Equal(1, groupCollection.ElementAt(2).Value.Count);
         }
 
         #endregion
