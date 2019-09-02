@@ -501,7 +501,7 @@ namespace Softeq.XToolkit.Common.Collections
                 }
             }
 
-            foreach (var key in keys)
+            foreach (var key in keys.ToList())
             {
                 _items.Remove(_items.First(x => x.Key.Equals(key)));
             }
