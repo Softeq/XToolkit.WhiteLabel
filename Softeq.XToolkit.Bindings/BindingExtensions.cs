@@ -95,10 +95,10 @@ namespace Softeq.XToolkit.Bindings
 
         /// <summary>
         ///     Creates a <see cref="Binding{TSource, TSource}" /> with a source property but without a target.
-        ///     This type of bindings is useful for the <see cref="SetCommand{T}(object, string, RelayCommand{T}, Binding)" />,
-        ///     <see cref="SetCommand{T}(object, RelayCommand{T}, Binding)" />,
-        ///     <see cref="SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)" />
-        ///     and <see cref="SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)" /> methods, to use as CommandParameter
+        ///     This type of bindings is useful for the <see cref="T:SetCommand{T}(object, string, RelayCommand{T}, Binding)" />,
+        ///     <see cref="T:SetCommand{T}(object, RelayCommand{T}, Binding)" />,
+        ///     <see cref="T:SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)" />
+        ///     and <see cref="T:SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)" /> methods, to use as CommandParameter
         ///     binding.
         /// </summary>
         /// <param name="source">
@@ -650,14 +650,14 @@ namespace Softeq.XToolkit.Bindings
 
             if (string.IsNullOrEmpty(eventName))
             {
-                throw new ArgumentException("Event not found", "eventName");
+                throw new ArgumentException("Event not found", nameof(eventName));
             }
 
             var info = type.GetRuntimeEvent(eventName);
 
             if (info == null)
             {
-                throw new ArgumentException("Event not found: " + eventName, "eventName");
+                throw new ArgumentException("Event not found: " + eventName, nameof(eventName));
             }
 
             return info;
