@@ -19,6 +19,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         public BindableCollectionViewSource(IList<TItem> dataSource)
         {
             DataSource = dataSource;
+            ReuseId = typeof(TCell).Name;
         }
 
         public ICommand<TItem> ItemClick
@@ -44,7 +45,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         /// <inheritdoc />
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (TCell) collectionView.DequeueReusableCell(typeof(TCell).Name, indexPath);
+            var cell = (TCell) collectionView.DequeueReusableCell(NsReuseId, indexPath);
             var bindableCell = (IBindableView) cell;
 
             bindableCell.ReloadDataContext(DataSource[indexPath.Row]);

@@ -98,20 +98,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             NotifyCollectionChangedOnMainThread(e);
         }
 
-        private void NotifyCollectionChangedOnMainThread(NotifyCollectionChangedEventArgs e)
-        {
-            if (Looper.MainLooper == Looper.MyLooper())
-            {
-                NotifyAdapterSource(e);
-            }
-            else
-            {
-                var h = new Handler(Looper.MainLooper);
-                h.Post(() => NotifyAdapterSource(e));
-            }
-        }
-
-        private void NotifyAdapterSource(NotifyCollectionChangedEventArgs e)
+        protected virtual void NotifyAdapterSource(NotifyCollectionChangedEventArgs e)
         {
             if (ShouldNotifyByAction)
             {
@@ -128,7 +115,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             }
         }
 
-        private void NotifyCollectionChangedByAction(NotifyCollectionChangedEventArgs e)
+        protected virtual void NotifyCollectionChangedByAction(NotifyCollectionChangedEventArgs e)
         {
             try
             {
@@ -160,6 +147,19 @@ namespace Softeq.XToolkit.Bindings.Droid
                 Log.Warn(nameof(ObservableRecyclerViewAdapter<T>),
                     "Exception masked during Adapter RealNotifyDataSetChanged {0}. Are you trying to update your collection from a background task? See http://goo.gl/0nW0L6",
                     exception.ToString());
+            }
+        }
+
+        private void NotifyCollectionChangedOnMainThread(NotifyCollectionChangedEventArgs e)
+        {
+            if (Looper.MainLooper == Looper.MyLooper())
+            {
+                NotifyAdapterSource(e);
+            }
+            else
+            {
+                var h = new Handler(Looper.MainLooper);
+                h.Post(() => NotifyAdapterSource(e));
             }
         }
     }

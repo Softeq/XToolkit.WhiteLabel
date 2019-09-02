@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -26,7 +27,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             ObservableKeyGroupsCollection<TKey, TItem> items)
         {
             _dataSource = items;
-            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(_dataSource, NotifierCollectionChanged);
+            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(_dataSource, NotifyCollectionChanged);
 
             ReloadMapping();
         }
@@ -232,12 +233,30 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            // TODO YP: improve handling without reload
+            NotifyDataSetChanged();
+        }
+
+        private void NotifyCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
             ReloadMapping();
 
-            // TODO YP: improve handling without reload
-            NotifyDataSetChanged();
+            NotifyCollectionChangedOnMainThread(e);
+        }
+
+        private void NotifyCollectionChangedOnMainThread(NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            if (Looper.MainLooper == Looper.MyLooper())
+            {
+                NotifyCollectionChangedByAction(e);
+            }
+            else
+            {
+                var h = new Handler(Looper.MainLooper);
+                h.Post(() => NotifyCollectionChangedByAction(e));
+            }
         }
 
         private void ReloadMapping()

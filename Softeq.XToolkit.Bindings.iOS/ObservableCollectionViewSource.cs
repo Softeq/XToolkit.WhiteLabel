@@ -139,7 +139,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
         }
 
-        private NSString NsReuseId => _reuseId ?? new NSString(DefaultReuseId);
+        protected NSString NsReuseId => _reuseId ?? new NSString(DefaultReuseId);
 
         /// <summary>
         ///     Occurs when a property of this instance changes.
