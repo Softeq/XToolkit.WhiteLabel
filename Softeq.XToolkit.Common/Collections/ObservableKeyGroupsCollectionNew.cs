@@ -68,7 +68,7 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
-            var insertedGroups = InsertGroupsWithoutNotify(index, items);
+            var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
             if(insertedGroups == null)
             {
                 return;
@@ -109,7 +109,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             int index = 0;
 
-            var insertedGroups = InsertGroupsWithoutNotify(index, items);
+            var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
             if (insertedGroups == null)
             {
                 return;
@@ -199,8 +199,8 @@ namespace Softeq.XToolkit.Common.Collections
                 .Select(x => keySelector.Invoke(x))
                 .Distinct()
                 .Where(x => _items.All(y => !y.Key.Equals(x)))
-                .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { }))
-                .ToList())?.Select(x => x.Key).ToList();
+                .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { })), false)
+                ?.Select(x => x.Key).ToList();
 
             var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
 
@@ -265,8 +265,8 @@ namespace Softeq.XToolkit.Common.Collections
                 .Select(x => keySelector.Invoke(x))
                 .Distinct()
                 .Where(x => _items.All(y => !y.Key.Equals(x)))
-                .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { }))
-                .ToList())?.Select(x => x.Key).ToList();
+                .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { })), false)
+                ?.Select(x => x.Key).ToList();
 
             var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
 
@@ -392,7 +392,7 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         private IEnumerable<KeyValuePair<TKey, IList<TValue>>> InsertGroupsWithoutNotify
-            (int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
+            (int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items, bool withoutEmptryGroups)
         {
             if (items.Count() == 0)
             {
@@ -409,9 +409,9 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentOutOfRangeException();
             }
 
-            var toInsert = items.Where(x => _withoutEmptyGroups ? x.Value.Count > 0 : true);
+            var toInsert = items.Where(x => withoutEmptryGroups ? x.Value.Count > 0 : true).ToList();
 
-            if (toInsert.Count() == 0)
+            if (toInsert.Count == 0)
             {
                 return null;
             }
