@@ -56,7 +56,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         where TViewModel : ViewModelBase
     {
         private const string ShouldRestoreStateKey = "shouldRestore";
+
         private readonly IJsonSerializer _jsonSerializer;
+
         private Lazy<TViewModel> _viewModelLazy;
 
         protected ActivityBase()
@@ -90,10 +92,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.OnCreate(null);
 
             RequestedOrientation = ScreenOrientation.Portrait;
-#if DEBUG
-            var vmPolicy = new StrictMode.VmPolicy.Builder();
-            StrictMode.SetVmPolicy(vmPolicy.DetectActivityLeaks().PenaltyLog().Build());
-#endif
+
             RestoreIfNeeded(savedInstanceState);
 
             ViewModel.OnInitialize();
@@ -115,12 +114,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ViewModel.OnDisappearing();
         }
 
-        protected override void OnSaveInstanceState(Bundle outState)
-        {
-            outState.PutInt(ShouldRestoreStateKey, 0);
-            base.OnSaveInstanceState(outState);
-        }
-
         protected override void OnDestroy()
         {
             if (IsFinishing)
@@ -133,6 +126,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 base.OnDestroy();
             }
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            outState.PutInt(ShouldRestoreStateKey, 0);
+            base.OnSaveInstanceState(outState);
         }
 
         protected virtual void DoAttachBindings()
