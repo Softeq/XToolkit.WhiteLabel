@@ -52,8 +52,63 @@ namespace Softeq.XToolkit.Bindings.Extensions
             BindingMode mode = BindingMode.Default)
         {
             var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
+
             SetBindingTo(source, binding);
+
             return binding;
+        }
+
+        /// <summary>
+        ///     Sets a data binding between two properties of the same object. If the source implements INotifyPropertyChanged,
+        ///     has observable properties and the BindingMode is OneWay or TwoWay, the target property will be notified of changes
+        ///     to the source property. If the target implements INotifyPropertyChanged, has observable properties and
+        ///     the BindingMode is TwoWay, the source will also be notified of changes to the target's properties.
+        ///
+        ///     The method provides the ability for advanced configuration of internal
+        ///     <see cref="Binding{TSource, TTarget}" /> object.
+        /// </summary>
+        /// <typeparam name="TSource"></typeparam>
+        /// <typeparam name="TTarget"></typeparam>
+        /// <param name="source">
+        ///     The source of the binding. If this object implements INotifyPropertyChanged and the
+        ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
+        /// </param>
+        /// <param name="sourcePropertyExpression">
+        ///     An expression pointing to the source property. It can be
+        ///     a simple expression "() => [source].MyProperty" or a composed expression "() =>
+        ///     [source].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="targetPropertyExpression">
+        ///     An expression pointing to the target property. It can be
+        ///     a simple expression "() => [target].MyProperty" or a composed expression "() =>
+        ///     [target].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="mode">
+        ///     The mode of the binding. OneTime means that the target property will be set once (when the binding is
+        ///     created) but that subsequent changes will be ignored. OneWay means that the target property will be set, and
+        ///     if the PropertyChanged event is raised by the source, the target property will be updated. TwoWay means that the
+        ///     source property will also be updated if the target raises the PropertyChanged event.
+        ///     Default means OneWay if only the source implements INPC, and TwoWay if both the source and the target implement INPC.
+        /// </param>
+        /// <param name="configure">
+        ///     Callback for advanced configuration of internal <see cref="Binding{TSource, TTarget}" /> object.
+        ///     Example of using:
+        ///     "binding => binding.ObserveTargetEvent[UISearchBarTextChangedEventArgs](nameof(SearchBar.TextChanged))"
+        /// </param>
+        /// <returns>The new Binding instance.</returns>
+        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            Expression<Func<TTarget>> targetPropertyExpression,
+            BindingMode mode,
+            Func<Binding<TSource, TTarget>, Binding> configure)
+        {
+            var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
+
+            var resultBinding = configure(binding);
+
+            SetBindingTo(source, resultBinding);
+
+            return resultBinding;
         }
 
         /// <summary>
@@ -93,9 +148,12 @@ namespace Softeq.XToolkit.Bindings.Extensions
             Expression<Func<TTarget>> targetPropertyExpression,
             IConverter<TTarget, TSource> converter)
         {
-            var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression)
+            var binding = source
+                .SetBinding(sourcePropertyExpression, targetPropertyExpression)
                 .SetConverter(converter);
+
             SetBindingTo(source, binding);
+
             return binding;
         }
 
@@ -144,9 +202,12 @@ namespace Softeq.XToolkit.Bindings.Extensions
             BindingMode mode,
             IConverter<TTarget, TSource> converter)
         {
-            var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
+            var binding = source
+                .SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
                 .SetConverter(converter);
+
             SetBindingTo(source, binding);
+
             return binding;
         }
 
@@ -179,7 +240,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
             Action<TSource> action)
         {
             var binding = source.SetBinding(sourcePropertyExpression).WhenSourceChanges(action);
+
             SetBindingTo(source, binding);
+
             return binding;
         }
 
@@ -220,7 +283,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
             BindingMode mode)
         {
             var binding = source.SetBinding(sourcePropertyExpression, mode).WhenSourceChanges(action);
+
             SetBindingTo(source, binding);
+
             return binding;
         }
 
