@@ -160,8 +160,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             }
 
             var parametersObject = Intent.GetStringExtra(Constants.ParametersKey);
-            var parameters =
-                _jsonSerializer.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
+            var parameters = _jsonSerializer.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
 
             foreach (var parameter in parameters)
             {
@@ -171,6 +170,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             Intent.RemoveExtra(ShouldRestoreStateKey);
         }
 
+        // TODO YP: export to another place
         private void SetValueToProperty(NavigationParameterModel parameter)
         {
             var property = parameter.PropertyInfo.ToProperty();
