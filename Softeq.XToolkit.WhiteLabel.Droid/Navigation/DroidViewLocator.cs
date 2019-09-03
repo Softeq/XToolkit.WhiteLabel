@@ -11,11 +11,11 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
-    public class ViewLocator : IViewLocator
+    public class DroidViewLocator : IViewLocator
     {
         private Dictionary<Type, Type> _modelToViewTypes;
 
-        public ViewLocator()
+        public DroidViewLocator()
         {
             _modelToViewTypes = new Dictionary<Type, Type>();
         }
@@ -50,12 +50,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             var targetType = GetTargetType(viewModel.GetType(), viewType);
             var view = Activator.CreateInstance(targetType);
-            
+
             if (view is IBindable bindable)
             {
                 bindable.SetDataContext(viewModel);
             }
-            
+
             return view;
         }
 

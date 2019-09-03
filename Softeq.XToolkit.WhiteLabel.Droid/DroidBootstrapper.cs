@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             builder.Singleton<IViewLocator>(x =>
             {
-                var viewLocator = x.Resolve<ViewLocator>();
+                var viewLocator = x.Resolve<DroidViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
             }, IfRegistered.Keep);
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
             builder.PerDependency<FrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-            builder.Singleton<ViewLocator>(IfRegistered.Keep);
+            builder.Singleton<DroidViewLocator>(IfRegistered.Keep);
             builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
             builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
         }
