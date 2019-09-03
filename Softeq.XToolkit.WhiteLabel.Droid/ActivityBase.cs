@@ -95,7 +95,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             RestoreIfNeeded(savedInstanceState);
 
-            ViewModel.OnInitialize();
+            if (!ViewModel.IsInitialized)
+            {
+                ViewModel.OnInitialize();
+            }
         }
 
         protected override void OnResume()
