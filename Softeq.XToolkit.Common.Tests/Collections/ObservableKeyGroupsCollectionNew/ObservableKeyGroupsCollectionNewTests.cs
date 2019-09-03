@@ -187,7 +187,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Equal("newKey1", listOfFiredActions[0].OldItemRanges[0].OldItems[0]);
 
             Assert.Equal(3, groupCollection.Count());
-            Assert.Equal(1, groupCollection.ElementAt(2).Value.Count);
+            Assert.Equal(1, groupCollection.ElementAt(2).Count());
         }
 
         #endregion
@@ -357,8 +357,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             Assert.Null(listOfFiredActions[0].OldItemRanges);
 
-            Assert.Equal(0, groupCollection.ElementAt(1).Value.Count);
-            Assert.Equal(1, groupCollection.ElementAt(3).Value.Count);
+            Assert.Equal(0, groupCollection.ElementAt(1).Count());
+            Assert.Equal(1, groupCollection.ElementAt(3).Count());
         }
 
         [Fact]
@@ -390,7 +390,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges);
 
-            Assert.Equal(0, groupCollection.ElementAt(1).Value.Count);
+            Assert.Equal(0, groupCollection.ElementAt(1).Count());
         }
 
         [Fact]
@@ -532,7 +532,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges);
             Assert.Null(listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges);
 
-            Assert.Equal(2, groupCollection.ElementAt(0).Value.Count);
+            Assert.Equal(2, groupCollection.ElementAt(0).Count());
         }
 
         public void AddItemsTest2(bool withoutEmptyGroups)
@@ -611,7 +611,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Null(listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges);
             Assert.Null(listOfFiredActions[0].GroupEvents[2].Arg.OldItemRanges);
 
-            Assert.Equal(2, groupCollection.ElementAt(0).Value.Count);
+            Assert.Equal(2, groupCollection.ElementAt(0).Count());
         }
 
         public void InsertItemsTest(bool withoutEmptyGroups)
@@ -753,8 +753,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges);
             Assert.Null(listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges);
 
-            Assert.Equal(1, groupCollection.ElementAt(0).Value.Count);
-            Assert.Equal(2, groupCollection.ElementAt(1).Value.Count);
+            Assert.Equal(1, groupCollection.ElementAt(0).Count());
+            Assert.Equal(2, groupCollection.ElementAt(1).Count());
         }
 
         public List<NotifyKeyGroupCollectionChangedEventArgs<string, string>> RemoveItemsTest(ObservableKeyGroupsCollectionNew<string, string> groupCollection)

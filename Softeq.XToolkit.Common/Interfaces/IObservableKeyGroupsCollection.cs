@@ -3,11 +3,12 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Softeq.XToolkit.Common.Interfaces
 {
     public interface IObservableKeyGroupsCollection<TKey, TValue>
-        : IEnumerable<KeyValuePair<TKey, IList<TValue>>>
+        : IEnumerable<IGrouping<TKey, TValue>>
     {
         void AddGroups(IEnumerable<TKey> keys);
 

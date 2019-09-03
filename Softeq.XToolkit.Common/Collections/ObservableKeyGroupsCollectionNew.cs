@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Collections
     public sealed class ObservableKeyGroupsCollectionNew<TKey, TValue> : IObservableKeyGroupsCollection<TKey, TValue>,
         INotifyKeyGroupCollectionChanged<TKey, TValue>
     {
-        private readonly IList<KeyValuePair<TKey, IList<TValue>>> _items;
+        private readonly IList<Group> _items;
         private readonly bool _withoutEmptyGroups;
 
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> ItemsChanged;
@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.Common.Collections
         public ObservableKeyGroupsCollectionNew(bool withoutEmptyGroups = true)
         {
             _withoutEmptyGroups = withoutEmptyGroups;
-            _items = new List<KeyValuePair<TKey, IList<TValue>>>();
+            _items = new List<Group>();
         }
 
         #region IObservableKeyGroupCollection
@@ -79,10 +79,10 @@ namespace Softeq.XToolkit.Common.Collections
                 new Collection<(int, IReadOnlyList<TKey>)> { (index, insertedGroups.Select(x => x.Key).ToList()) },
                 default,
                 insertedGroups
-                    .Where(x => x.Value.Count > 0)
+                    .Where(x => x.Count > 0)
                     .Select(x => (_items.ToList().IndexOf(x),
                         NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
-                        new Collection<(int, IReadOnlyList<TValue>)> { (0, x.Value.ToList()) },
+                        new Collection<(int, IReadOnlyList<TValue>)> { (0, x) },
                         default))).ToList());
         }
 
@@ -122,10 +122,10 @@ namespace Softeq.XToolkit.Common.Collections
                 new Collection<(int, IReadOnlyList<TKey>)> { (index, insertedGroups.Select(x => x.Key).ToList()) },
                 new Collection<(int, IReadOnlyList<TKey>)> { (index, toRemove) },
                 insertedGroups
-                    .Where(x => x.Value.Count > 0)
+                    .Where(x => x.Count > 0)
                     .Select(x => (_items.ToList().IndexOf(x),
                         NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Add,
-                        new Collection<(int, IReadOnlyList<TValue>)> { (0, x.Value.ToList()) },
+                        new Collection<(int, IReadOnlyList<TValue>)> { (0, x) },
                         default))).ToList());
         }
 
@@ -176,7 +176,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             var item = _items.FirstOrDefault(x => x.Key.Equals(key));
 
-            item.Value.Clear();
+            item.Clear();
 
             OnChanged(
                 default,
@@ -317,10 +317,9 @@ namespace Softeq.XToolkit.Common.Collections
 
                 var groupIndex = _items.IndexOf(_items.First(x => x.Key.Equals(key)));
                 var val = valueSelector(item);
-                var valIndex = _items.ElementAt(groupIndex)
-                    .Value.ToList().IndexOf(val);
+                var valIndex = _items.ElementAt(groupIndex).IndexOf(val);
 
-                if (!_items.ElementAt(groupIndex).Value.Any(x => x.Equals(val)))
+                if (!_items.ElementAt(groupIndex).Any(x => x.Equals(val)))
                 {
                     throw new KeyNotFoundException();
                 }
@@ -347,13 +346,13 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 foreach (var item in groupInfo.Items)
                 {
-                    _items[groupInfo.GroupIndex].Value.Remove(item.Key);
+                    _items[groupInfo.GroupIndex].Remove(item.Key);
                 }
             }
 
             if (_withoutEmptyGroups)
             {
-                groupsToRemove = RemoveGroupsWithoutNotify(_items.Where(x => x.Value.Count == 0)
+                groupsToRemove = RemoveGroupsWithoutNotify(_items.Where(x => x.Count == 0)
                     .Select(x => x.Key));
             }
 
@@ -370,7 +369,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         #region IEnumerable
 
-        public IEnumerator<KeyValuePair<TKey, IList<TValue>>> GetEnumerator()
+        public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator()
         {
             return _items.GetEnumerator();
         }
@@ -395,7 +394,7 @@ namespace Softeq.XToolkit.Common.Collections
                 groupEvents));
         }
 
-        private IEnumerable<KeyValuePair<TKey, IList<TValue>>> InsertGroupsWithoutNotify
+        private IEnumerable<Group> InsertGroupsWithoutNotify
             (int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items, bool withoutEmptryGroups)
         {
             if (items.Count() == 0)
@@ -413,7 +412,7 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentOutOfRangeException();
             }
 
-            var toInsert = items.Where(x => withoutEmptryGroups ? x.Value.Count > 0 : true).ToList();
+            var toInsert = items.Where(x => withoutEmptryGroups ? x.Value.Count > 0 : true).Select(x => new Group(x)).ToList();
 
             if (toInsert.Count == 0)
             {
@@ -452,7 +451,7 @@ namespace Softeq.XToolkit.Common.Collections
 
                 if (indexSelector == null)
                 {
-                    index = _items.First(x => x.Key.Equals(key)).Value.Count;
+                    index = _items.First(x => x.Key.Equals(key)).Count;
                 }
                 else
                 {
@@ -477,7 +476,7 @@ namespace Softeq.XToolkit.Common.Collections
                 foreach (var val in gr.Ranges)
                 {
                     _items.First(x => x.Key.Equals(gr.Key))
-                        .Value.InsertRange(val.Index, val.Values.ToList());
+                        .InsertRange(val.Index, val.Values.ToList());
                 }
             }
 
@@ -545,6 +544,17 @@ namespace Softeq.XToolkit.Common.Collections
                     return;
                 }
             }
+        }
+
+        private class Group : List<TValue>, IGrouping<TKey, TValue>
+        {
+            public Group(KeyValuePair<TKey, IList<TValue>> keyValuePair)
+            {
+                Key = keyValuePair.Key;
+                AddRange(keyValuePair.Value);
+            }
+
+            public TKey Key { get; }
         }
     }
 }
