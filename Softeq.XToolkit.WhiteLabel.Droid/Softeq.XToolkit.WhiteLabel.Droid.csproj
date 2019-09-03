@@ -74,7 +74,7 @@
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="MainApplicationBase.cs" />
     <Compile Include="Navigation\Constants.cs" />
-    <Compile Include="Navigation\ViewLocator.cs" />
+    <Compile Include="Navigation\DroidViewLocator.cs" />
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\DroidPlatformProvider.cs" />
