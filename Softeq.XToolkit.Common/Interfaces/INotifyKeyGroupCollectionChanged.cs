@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Specialized;
 using Softeq.XToolkit.Common.EventArguments;
 
 namespace Softeq.XToolkit.Common.Interfaces
