@@ -73,7 +73,7 @@
     <Compile Include="Extensions\ImageViewExtensions.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="MainApplicationBase.cs" />
-    <Compile Include="Navigation\Constants.cs" />
+    <Compile Include="Navigation\BundleService.cs" />
     <Compile Include="Navigation\DroidViewLocator.cs" />
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -7,11 +7,10 @@ using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
 using Android.Support.V7.App;
-using Newtonsoft.Json.Linq;
+using Android.Util;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -55,22 +54,22 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     public abstract class ActivityBase<TViewModel> : ActivityBase, IBindingsOwner
         where TViewModel : ViewModelBase
     {
-        private const string ShouldRestoreStateKey = "shouldRestore";
-
-        private readonly IJsonSerializer _jsonSerializer;
-
         private Lazy<TViewModel> _viewModelLazy;
+        private readonly IBundleService _bundleService;
 
         protected ActivityBase()
         {
             Bindings = new List<Binding>();
-            _jsonSerializer = Dependencies.JsonSerializer;
+
             _viewModelLazy = new Lazy<TViewModel>(() =>
             {
                 var backStack = Dependencies.Container.Resolve<IBackStackManager>();
                 return backStack.GetExistingOrCreateViewModel<TViewModel>();
             });
+            _bundleService = Dependencies.Container.Resolve<IBundleService>();
         }
+
+        public List<Binding> Bindings { get; }
 
         protected virtual TViewModel ViewModel
         {
@@ -78,22 +77,22 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 if (Handle == IntPtr.Zero)
                 {
-                    throw new Exception("Don't forget to detach last ViewModel bindings.");
+                    throw new InvalidOperationException("Don't forget to detach last ViewModel bindings.");
                 }
 
                 return _viewModelLazy.Value;
             }
         }
 
-        public List<Binding> Bindings { get; }
+        protected virtual ScreenOrientation DefaultScreenOrientation { get; } = ScreenOrientation.Portrait;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(null);
+            base.OnCreate(savedInstanceState);
 
-            RequestedOrientation = ScreenOrientation.Portrait;
+            RequestedOrientation = DefaultScreenOrientation;
 
-            RestoreIfNeeded(savedInstanceState);
+            _bundleService.TryToRestoreParams(ViewModel, Intent, savedInstanceState);
 
             if (!ViewModel.IsInitialized)
             {
@@ -122,18 +121,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             if (IsFinishing)
             {
                 _viewModelLazy = null;
-                base.OnDestroy();
-                Dispose();
             }
-            else
-            {
-                base.OnDestroy();
-            }
+            base.OnDestroy();
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
         {
-            outState.PutInt(ShouldRestoreStateKey, 0);
+            _bundleService.SaveInstanceState(outState);
+
             base.OnSaveInstanceState(outState);
         }
 
@@ -144,48 +139,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected virtual void DoDetachBindings()
         {
             this.DetachBindings();
-        }
-
-        private void RestoreIfNeeded(Bundle outState)
-        {
-            /* We skip restore if:
-                1) viewmodel was alive
-                2) activity never been destroyed
-                3) we don't have data to restore
-            */
-            if (ViewModel.IsInitialized || outState == null || !outState.ContainsKey(ShouldRestoreStateKey) ||
-                !Intent.HasExtra(Constants.ParametersKey))
-            {
-                return;
-            }
-
-            var parametersObject = Intent.GetStringExtra(Constants.ParametersKey);
-            var parameters = _jsonSerializer.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
-
-            foreach (var parameter in parameters)
-            {
-                SetValueToProperty(parameter);
-            }
-
-            Intent.RemoveExtra(ShouldRestoreStateKey);
-        }
-
-        // TODO YP: export to another place
-        private void SetValueToProperty(NavigationParameterModel parameter)
-        {
-            var property = parameter.PropertyInfo.ToProperty();
-
-            object GetValue(object value)
-            {
-                if (property.PropertyType.IsEnum)
-                {
-                    return Enum.ToObject(property.PropertyType, value);
-                }
-
-                return ((JObject) value).ToObject(property.PropertyType);
-            }
-
-            property.SetValue(ViewModel, GetValue(parameter.Value), null);
         }
     }
 
