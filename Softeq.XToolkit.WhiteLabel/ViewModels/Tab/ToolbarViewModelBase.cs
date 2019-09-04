@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
@@ -15,19 +16,22 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
     public abstract class ToolbarViewModelBase : ViewModelBase
     {
         private readonly ITabNavigationService _tabNavigationService;
+        private readonly IContainer _container;
 
-        public ToolbarViewModelBase(ITabNavigationService tabNavigationService)
+        protected ToolbarViewModelBase(
+            ITabNavigationService tabNavigationService,
+            IContainer container)
         {
             _tabNavigationService = tabNavigationService;
+            _container = container;
 
             SelectionChangedCommand = new RelayCommand<int>(SelectionChanged);
-
             GoBackCommand = new RelayCommand(GoBack);
         }
 
-        public IList<TabItem> TabModels { get; set; }
-
         public bool CanGoBack => _tabNavigationService.CanGoBack;
+
+        public IList<TabItem> TabModels { get; protected set; }
 
         public IList<RootFrameNavigationViewModel> TabViewModels { get; private set; }
 
@@ -46,25 +50,42 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
                 throw new Exception("You must init TabModels property");
             }
 
-            TabViewModels = new List<RootFrameNavigationViewModel>(TabModels
-                .Select(x => Dependencies.Container.Resolve<RootFrameNavigationViewModel>().Initialize(x)));
-            _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
+            TabViewModels = TabModels
+                .Select(CreateRootViewModel)
+                .ToList();
+
+            var selectedViewModel = TabViewModels[SelectedIndex];
+
+            _tabNavigationService.SetSelectedViewModel(selectedViewModel);
         }
 
-        private void SelectionChanged(int selectedViewModel)
+        // TODO YP: review to rework via bindings
+        private void SelectionChanged(int selectedIndex)
         {
-            if (Equals(SelectedIndex, selectedViewModel))
+            if (Equals(SelectedIndex, selectedIndex))
             {
                 return;
             }
 
-            SelectedIndex = selectedViewModel;
-            _tabNavigationService.SetSelectedViewModel(TabViewModels[SelectedIndex]);
+            SelectedIndex = selectedIndex;
+
+            var selectedViewModel = TabViewModels[SelectedIndex];
+
+            _tabNavigationService.SetSelectedViewModel(selectedViewModel);
         }
 
         private void GoBack()
         {
             _tabNavigationService.GoBack();
+        }
+
+        private RootFrameNavigationViewModel CreateRootViewModel(TabItem tabModel)
+        {
+            var viewModel = _container.Resolve<RootFrameNavigationViewModel>();
+
+            viewModel.Initialize(tabModel);
+
+            return viewModel;
         }
     }
 }
