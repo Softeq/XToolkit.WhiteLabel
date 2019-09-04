@@ -4,6 +4,7 @@
 using Android.OS;
 using Android.Views;
 using Android.Widget;
+using Playground.Converters;
 using Playground.ViewModels.BottomTabs.Second;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -36,7 +37,7 @@ namespace Playground.Droid.Views.BottomTabs.Second
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.Count, () => _incrementButton.Text);
+            this.Bind(() => ViewModel.Count, () => _incrementButton.Text, IntToStringConverter.Instance);
         }
     }
 }

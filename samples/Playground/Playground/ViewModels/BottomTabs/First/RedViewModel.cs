@@ -18,7 +18,7 @@ namespace Playground.ViewModels.BottomTabs.First
         {
             _pageNavigationService = pageNavigationService;
 
-            NavigateCommand = new RelayCommand(HandleAction);
+            NavigateCommand = new RelayCommand(Navigate);
             IncrementCommand = new RelayCommand(Increment);
         }
 
@@ -29,10 +29,10 @@ namespace Playground.ViewModels.BottomTabs.First
         public int Count
         {
             get => _count;
-            set => Set(ref _count, value);
+            private set => Set(ref _count, value);
         }
 
-        private void HandleAction()
+        private void Navigate()
         {
             _pageNavigationService.For<YellowViewModel>().Navigate();
         }

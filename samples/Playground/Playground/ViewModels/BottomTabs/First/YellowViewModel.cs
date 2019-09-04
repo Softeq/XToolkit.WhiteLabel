@@ -21,7 +21,7 @@ namespace Playground.ViewModels.BottomTabs.First
         public int Count
         {
             get => _count;
-            set => Set(ref _count, value);
+            private set => Set(ref _count, value);
         }
 
         private void Increment()
