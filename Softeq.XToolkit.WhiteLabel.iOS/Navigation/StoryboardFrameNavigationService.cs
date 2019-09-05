@@ -15,12 +15,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public class StoryboardFrameNavigationService : StoryboardNavigation, IFrameNavigationService
     {
-        private readonly IContainer _iocContainer;
+        private readonly IContainer _container;
 
-        public StoryboardFrameNavigationService(IViewLocator viewLocator, IContainer iocContainer) : base(
-            viewLocator)
+        public StoryboardFrameNavigationService(
+            IViewLocator viewLocator,
+            IContainer iocContainer)
+            : base(viewLocator)
         {
-            _iocContainer = iocContainer;
+            _container = iocContainer;
         }
 
         public bool IsEmptyBackStack => !NavigationController.ViewControllers.Any();
@@ -33,25 +35,25 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            var viewModel = _iocContainer.Resolve<T>();
+            var viewModel = _container.Resolve<T>();
             NavigateToViewModel(viewModel, clearBackStack, null);
         }
 
         public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false)
         {
-            if (!viewModelType.GetInterfaces().Any(x => x.Equals(typeof(IViewModelBase))))
+            if (!typeof(IViewModelBase).IsAssignableFrom(viewModelType))
             {
-                throw new Exception("Class must implement IViewModelBase");
+                throw new ArgumentException("Class must implement IViewModelBase");
             }
 
-            var viewModel = _iocContainer.Resolve(viewModelType);
-            NavigateToViewModel(viewModel as ViewModelBase, clearBackStack, null);
+            var viewModel = (IViewModelBase) _container.Resolve(viewModelType);
+            NavigateToViewModel(viewModel, clearBackStack, null);
         }
 
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
-            var viewModel = _iocContainer.Resolve<T>();
+            var viewModel = _container.Resolve<T>();
             viewModel.Parameter = parameter;
             NavigateToViewModel(viewModel, false, null);
         }
@@ -59,7 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         public void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> parameters)
             where TViewModel : IViewModelBase
         {
-            var viewModel = _iocContainer.Resolve<TViewModel>();
+            var viewModel = _container.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
             NavigateToViewModel(viewModel, false, null);
         }

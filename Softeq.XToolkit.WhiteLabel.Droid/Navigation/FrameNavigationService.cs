@@ -21,14 +21,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private const string FrameNavigationServiceParameterName = "FrameNavigationService";
 
         private readonly IViewLocator _viewLocator;
-        private readonly IContainer _iocContainer;
-        private int _containerId;
+        private readonly IContainer _container;
         private readonly Stack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
+
+        private int _containerId;
 
         public FrameNavigationService(IViewLocator viewLocator, IContainer iocContainer)
         {
             _viewLocator = viewLocator;
-            _iocContainer = iocContainer;
+            _container = iocContainer;
             _backStack = new Stack<(IViewModelBase viewModelBase, Fragment fragment)>();
         }
 
@@ -71,11 +72,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _containerId = (int) navigation;
         }
 
-        //TODO: replace with For<>.WithParam implementation
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
-            var viewModel = _iocContainer.Resolve<T>();
+            var viewModel = _container.Resolve<T>();
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
             viewModel.Parameter = parameter;
             NavigateInternal(viewModel);
@@ -83,7 +83,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
-            var viewModel = _iocContainer.Resolve<T>();
+            var viewModel = _container.Resolve<T>();
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
 
             if (clearBackStack)
@@ -96,12 +96,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false)
         {
-            if (!viewModelType.GetInterfaces().Any(x => x.Equals(typeof(IViewModelBase))))
+            if (!typeof(IViewModelBase).IsAssignableFrom(viewModelType))
             {
-                throw new Exception("Class must implement IViewModelBase");
+                throw new ArgumentException("Class must implement IViewModelBase");
             }
 
-            var viewModel = (IViewModelBase) _iocContainer.Resolve(viewModelType);
+            var viewModel = (IViewModelBase) _container.Resolve(viewModelType);
             _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
 
             if (clearBackStack)
@@ -149,7 +149,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters)
             where TViewModel : IViewModelBase
         {
-            var viewModel = _iocContainer.Resolve<TViewModel>();
+            var viewModel = _container.Resolve<TViewModel>();
             viewModel.ApplyParameters(navigationParameters);
             NavigateToViewModel(viewModel);
         }
