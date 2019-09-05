@@ -13,6 +13,12 @@ using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.Common.Collections
 {
+    /// <summary>
+    ///     Represents groups of items that provides notifications when groups or it's items get added, removed, or when the whole list is
+    ///     refreshed.
+    /// </summary>
+    /// <typeparam name="TKey">The group type of the collection</typeparam>
+    /// <typeparam name="TValue">The item type of the collection</typeparam>
     public sealed class ObservableKeyGroupsCollectionNew<TKey, TValue>
         : IObservableKeyGroupsCollection<TKey, TValue>,
             INotifyKeyGroupCollectionChanged<TKey, TValue>,
@@ -25,6 +31,10 @@ namespace Softeq.XToolkit.Common.Collections
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+        /// <summary>
+        ///   Initializes a new instance of the class.
+        /// </summary>
+        /// <param name="withoutEmptyGroups">If true empty groups will be removed</param>
         public ObservableKeyGroupsCollectionNew(bool withoutEmptyGroups = true)
         {
             _withoutEmptyGroups = withoutEmptyGroups;
@@ -33,6 +43,10 @@ namespace Softeq.XToolkit.Common.Collections
 
         #region IObservableKeyGroupCollection
 
+        /// <summary>
+        /// Add groups with specified keys and empty items.
+        /// </summary>
+        /// <param name="keys">List of group keys to add</param>
         public void AddGroups(IEnumerable<TKey> keys)
         {
             if (keys == null)
@@ -43,6 +57,10 @@ namespace Softeq.XToolkit.Common.Collections
             AddGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { })));
         }
 
+        /// <summary>
+        /// Add groups with specified keys and items.
+        /// </summary>
+        /// <param name="items">List of group keys and items to add</param>
         public void AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
             if (items == null)
@@ -55,6 +73,11 @@ namespace Softeq.XToolkit.Common.Collections
             InsertGroups(index, items);
         }
 
+        /// <summary>
+        /// Insert groups with specified keys and empty items at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index at which item should be inserted.</param>
+        /// <param name="keys">Group keys to insert</param>
         public void InsertGroups(int index, IEnumerable<TKey> keys)
         {
             if (keys == null)
@@ -65,6 +88,11 @@ namespace Softeq.XToolkit.Common.Collections
             InsertGroups(index, keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { })));
         }
 
+        /// <summary>
+        /// Insert groups with specified keys and items at the specified index.
+        /// </summary>
+        /// <param name="index">The zero-based index at which item should be inserted.</param>
+        /// <param name="items">List of group keys and items to add</param>
         public void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
             if (items == null)
@@ -85,6 +113,10 @@ namespace Softeq.XToolkit.Common.Collections
                 default);
         }
 
+        /// <summary>
+        ///  Clear collection and add groups with specified keys and empty items.
+        /// </summary>
+        /// <param name="keys">List of group keys to add</param>
         public void ReplaceGroups(IEnumerable<TKey> keys)
         {
             if (keys == null)
@@ -97,6 +129,10 @@ namespace Softeq.XToolkit.Common.Collections
             ReplaceGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue> { })));
         }
 
+        /// <summary>
+        ///  Clear collection and add groups with specified keys and items.
+        /// </summary>
+        /// <param name="items">List of group keys and items to add</param>
         public void ReplaceGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
             if (items == null)
@@ -123,6 +159,10 @@ namespace Softeq.XToolkit.Common.Collections
                 default);
         }
 
+        /// <summary>
+        /// Remove groups from collection
+        /// </summary>
+        /// <param name="keys">Group keys to remove</param>
         public void RemoveGroups(IEnumerable<TKey> keys)
         {
             if (keys == null)
@@ -144,6 +184,9 @@ namespace Softeq.XToolkit.Common.Collections
                 default);
         }
 
+        /// <summary>
+        /// Clear collection
+        /// </summary>
         public void ClearGroups()
         {
             _items.Clear();
@@ -155,6 +198,10 @@ namespace Softeq.XToolkit.Common.Collections
                 default);
         }
 
+        /// <summary>
+        /// Clear group with specified key.
+        /// </summary>
+        /// <param name="key">Group keys</param>
         public void ClearGroup(TKey key)
         {
             if (_withoutEmptyGroups)
@@ -187,6 +234,13 @@ namespace Softeq.XToolkit.Common.Collections
 
         }
 
+        /// <summary>
+        /// Add items to collectios at specified group, add group when group key is not exists
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="items">List of objects</param>
+        /// <param name="keySelector">Function returning a key from the object</param>
+        /// <param name="valueSelector">>Function returning an item from the object</param>
         public void AddItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
         {
             if (items == null || keySelector == null || valueSelector == null)
@@ -227,6 +281,14 @@ namespace Softeq.XToolkit.Common.Collections
                 groupEvents);
         }
 
+        /// <summary>
+        /// Insert items to collectios at specified group
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="items">List of objects</param>
+        /// <param name="keySelector">Function returning a key from the object</param>
+        /// <param name="valueSelector">>Function returning an item from the object</param>
+        /// <param name="valueIndexSelector">Function returning an index at which item should be inserted.</param>
         public void InsertItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector,
             Func<T, TValue> valueSelector, Func<T, int> valueIndexSelector)
         {
@@ -257,6 +319,13 @@ namespace Softeq.XToolkit.Common.Collections
                 groupEvents);
         }
 
+        /// <summary>
+        /// Clear collection and add items to collectios at specified group, add group when group key is not exists
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="items">List of objects</param>
+        /// <param name="keySelector">Function returning a key from the object</param>
+        /// <param name="valueSelector">>Function returning an item from the object</param>
         public void ReplaceItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
         {
             if (items == null || keySelector == null || valueSelector == null)
@@ -301,6 +370,13 @@ namespace Softeq.XToolkit.Common.Collections
                 groupEvents);
         }
 
+        /// <summary>
+        /// Remove items to collectios frmom specified group
+        /// </summary>
+        /// <typeparam name="T">Object type</typeparam>
+        /// <param name="items">List of objects</param>
+        /// <param name="keySelector">Function returning a key from the object</param>
+        /// <param name="valueSelector">>Function returning an item from the object</param>
         public void RemoveItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
         {
             if (items == null || keySelector == null || valueSelector == null)
@@ -366,11 +442,11 @@ namespace Softeq.XToolkit.Common.Collections
                     .Select(x => x.Key));
             }
 
-            var keysToRmoeve = groupsToRemove?
+            var keysToRemove = groupsToRemove?
                 .SelectMany(x => x.NewItems).ToList();
 
             var groupEvents = rangesToRemove
-                .Where(x => keysToRmoeve == null ? true : keysToRmoeve.All(y => !y.Equals(x.Key)))
+                .Where(x => keysToRemove == null ? true : keysToRemove.All(y => !y.Equals(x.Key)))
                 .Select(x => (x.Key, NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Remove,
                  default,
                  (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value))).ToList();
@@ -388,11 +464,19 @@ namespace Softeq.XToolkit.Common.Collections
 
         #region IEnumerable
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
         public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator()
         {
             return _items.GetEnumerator();
         }
 
+        /// <summary>
+        /// Returns an enumerator that iterates through a collection.
+        /// </summary>
+        /// <returns>An IEnumerator object that can be used to iterate through the collection.</returns>
         IEnumerator IEnumerable.GetEnumerator()
         {
             return _items.GetEnumerator();
