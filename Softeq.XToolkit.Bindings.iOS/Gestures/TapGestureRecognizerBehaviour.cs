@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
 
         protected override void HandleGesture(UITapGestureRecognizer gesture)
         {
-            FireCommand();
+            FireCommand(gesture);
         }
     }
 }

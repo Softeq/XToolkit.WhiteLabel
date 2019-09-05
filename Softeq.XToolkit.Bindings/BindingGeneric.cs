@@ -1032,9 +1032,7 @@ namespace Softeq.XToolkit.Bindings
                 && PropertyTarget.IsAlive
                 && PropertyTarget.Target != null)
             {
-                var inpc2 = PropertyTarget.Target as INotifyPropertyChanged;
-
-                if (inpc2 != null)
+                if (PropertyTarget.Target is INotifyPropertyChanged inpc2)
                 {
                     var listener = new PropertyChangedEventListener(
                         this,

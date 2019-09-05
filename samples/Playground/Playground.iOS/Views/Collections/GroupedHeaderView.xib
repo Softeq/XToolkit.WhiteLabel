@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1" customClass="GroupedHeaderView">
+            <rect key="frame" x="0.0" y="0.0" width="300" height="40"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WfX-Ff-H7W">
+                    <rect key="frame" x="50" y="5" width="200" height="30"/>
+                    <subviews>
+                        <label userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FvR-yc-ZFe">
+                            <rect key="frame" x="79" y="4.5" width="42" height="21"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <button contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="infoDark" showsTouchWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nEc-SP-tmO">
+                            <rect key="frame" x="170" y="4" width="22" height="22"/>
+                            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                            <connections>
+                                <action selector="InfoButtonAction:" destination="1" eventType="touchUpInside" id="QWb-wx-2DJ"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                    <constraints>
+                        <constraint firstItem="nEc-SP-tmO" firstAttribute="centerY" secondItem="WfX-Ff-H7W" secondAttribute="centerY" id="2N3-8M-57d"/>
+                        <constraint firstItem="FvR-yc-ZFe" firstAttribute="centerY" secondItem="WfX-Ff-H7W" secondAttribute="centerY" id="EcI-vq-Dfj"/>
+                        <constraint firstAttribute="trailing" secondItem="nEc-SP-tmO" secondAttribute="trailing" constant="8" id="GZP-U8-obS"/>
+                        <constraint firstAttribute="height" constant="30" id="SkX-8r-PcP"/>
+                        <constraint firstItem="FvR-yc-ZFe" firstAttribute="centerX" secondItem="WfX-Ff-H7W" secondAttribute="centerX" id="UAe-Gd-4zN"/>
+                        <constraint firstAttribute="width" constant="200" id="lSt-2A-MSr"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <constraints>
+                <constraint firstItem="WfX-Ff-H7W" firstAttribute="centerY" secondItem="1" secondAttribute="centerY" id="KVC-MW-s5O"/>
+                <constraint firstItem="WfX-Ff-H7W" firstAttribute="centerX" secondItem="1" secondAttribute="centerX" id="w4Y-m8-8IF"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="ContainerView" destination="WfX-Ff-H7W" id="O6v-mp-BxI"/>
+                <outlet property="InfoButton" destination="nEc-SP-tmO" id="O4I-BL-xnx"/>
+                <outlet property="TitleLabel" destination="FvR-yc-ZFe" id="2j2-h3-to9"/>
+            </connections>
+            <point key="canvasLocation" x="-18.840579710144929" y="-78.348214285714278"/>
+        </view>
+    </objects>
+</document>

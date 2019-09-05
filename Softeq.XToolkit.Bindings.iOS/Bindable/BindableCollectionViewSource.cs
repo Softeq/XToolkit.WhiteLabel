@@ -1,8 +1,8 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -11,8 +11,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public class BindableCollectionViewSource<TItem, TCell>
-        : ObservableCollectionViewSource<TItem, TCell>
+    public class BindableCollectionViewSource<TItem, TCell> : ObservableCollectionViewSource<TItem, TCell>
         where TCell : UICollectionViewCell, IBindableView
     {
         private ICommand<TItem> _itemClick;
@@ -20,6 +19,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         public BindableCollectionViewSource(IList<TItem> dataSource)
         {
             DataSource = dataSource;
+            ReuseId = typeof(TCell).Name;
         }
 
         public ICommand<TItem> ItemClick
@@ -33,7 +33,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
                 if (_itemClick != null && value != null)
                 {
-                    Debug.WriteLine("Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                    throw new ArgumentException(
+                        "Changing ItemClick may cause inconsistencies where some items still call the old command.",
+                        nameof(ItemClick));
                 }
 
                 _itemClick = value;
@@ -43,7 +45,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         /// <inheritdoc />
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (TCell) collectionView.DequeueReusableCell(typeof(TCell).Name, indexPath);
+            var cell = (TCell) collectionView.DequeueReusableCell(NsReuseId, indexPath);
             var bindableCell = (IBindableView) cell;
 
             bindableCell.ReloadDataContext(DataSource[indexPath.Row]);

@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public class BindableGroupTableViewSource<TKey, TItem, TGroupCell, TItemCell>
         : ObservableGroupTableViewSource<TKey, TItem>
-        where TGroupCell : BindableHeaderCell<TKey>
+        where TGroupCell : BindableTableViewHeaderFooterView<TKey>
         where TItemCell : BindableTableViewCell<TItem>
     {
         public BindableGroupTableViewSource(

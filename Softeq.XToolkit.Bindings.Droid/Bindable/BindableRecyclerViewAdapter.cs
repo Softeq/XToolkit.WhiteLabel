@@ -5,9 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Input;
 using Android.Support.V7.Widget;
-using Android.Util;
 using Android.Views;
-using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Command;
 using Object = Java.Lang.Object;
@@ -23,16 +21,11 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         : ObservableRecyclerViewAdapter<TViewModel>
         where TViewHolder : BindableViewHolder<TViewModel>
     {
-        private readonly int _itemLayoutId;
-
         private ICommand<TViewModel> _itemClick;
 
-        public BindableRecyclerViewAdapter(
-            IList<TViewModel> items,
-            int itemLayoutId)
-            : base(items, null, SetDataContext)
+        public BindableRecyclerViewAdapter(IList<TViewModel> items)
+            : base(items, null, null)
         {
-            _itemLayoutId = itemLayoutId;
         }
 
         public ICommand<TViewModel> ItemClick
@@ -47,8 +40,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
                 if (_itemClick != null && value != null)
                 {
-                    Log.Warn(nameof(BindableRecyclerViewAdapter<TViewModel, TViewHolder>),
-                        "Changing ItemClick may cause inconsistencies where some items still call the old command.");
+                    throw new ArgumentException(
+                        "Changing ItemClick may cause inconsistencies where some items still call the old command.",
+                        nameof(ItemClick));
                 }
 
                 _itemClick = value;
@@ -57,18 +51,21 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var cell = LayoutInflater.From(parent.Context).Inflate(_itemLayoutId, parent, false);
-            return (RecyclerView.ViewHolder) Activator.CreateInstance(typeof(TViewHolder), cell);
+            var viewHolderType = typeof(TViewHolder);
+            var view = GetLayoutForViewHolder(parent, viewHolderType);
+            return (RecyclerView.ViewHolder) Activator.CreateInstance(viewHolderType, view);
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            base.OnBindViewHolder(holder, position);
-
             var bindableViewHolder = (IBindableViewHolder) holder;
+
+            bindableViewHolder.ReloadDataContext(DataSource[position]);
 
             bindableViewHolder.ItemClicked -= OnItemViewClick;
             bindableViewHolder.ItemClicked += OnItemViewClick;
+
+            CheckIfLastItemRequested(position);
         }
 
         public override void OnViewAttachedToWindow(Object holder)
@@ -120,11 +117,27 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private static void SetDataContext(RecyclerView.ViewHolder viewHolder, int viewType, TViewModel viewModel)
+        protected virtual View GetLayoutForViewHolder(ViewGroup parent, Type viewHolderType)
         {
-            var bindable = (IBindableView) viewHolder;
+            if (viewHolderType == null)
+            {
+                throw new ArgumentNullException(nameof(viewHolderType), "Check ViewHolder declarations.");
+            }
 
-            bindable.ReloadDataContext(viewModel);
+            if (Attribute.GetCustomAttribute(viewHolderType, typeof(BindableViewHolderLayoutAttribute))
+                is BindableViewHolderLayoutAttribute attr)
+            {
+                return LayoutInflater.From(parent.Context).Inflate(attr.LayoutId, parent, false);
+            }
+
+            return GetCustomLayoutForViewHolder(parent, viewHolderType);
+        }
+
+        protected virtual View GetCustomLayoutForViewHolder(ViewGroup parent, Type viewHolderType)
+        {
+            throw new NotImplementedException(
+                "Tried to use custom inflating of ViewHolder layout, please implement this method. " +
+                $"Or use {nameof(BindableViewHolderLayoutAttribute)} for auto-inflating ViewHolder layout.");
         }
     }
 }

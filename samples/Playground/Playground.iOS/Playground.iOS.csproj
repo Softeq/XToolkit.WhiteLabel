@@ -154,6 +154,9 @@
     <InterfaceDefinition Include="ViewControllers\EmptyPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Dialogs\DialogsPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Dialogs\SimpleDialogPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Collections\GroupedCollectionPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\Collections\ProductViewCell.xib" />
+    <InterfaceDefinition Include="Views\Collections\GroupedHeaderView.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -223,6 +226,20 @@
     <Compile Include="ViewControllers\Dialogs\SimpleDialogPageViewController.designer.cs">
       <DependentUpon>SimpleDialogPageViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\Collections\GroupedCollectionPageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\GroupedCollectionPageViewController.designer.cs">
+      <DependentUpon>GroupedCollectionPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Collections\ProductViewCell.cs" />
+    <Compile Include="Views\Collections\ProductViewCell.designer.cs">
+      <DependentUpon>ProductViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Collections\GroupedCollectionViewDelegateFlowLayout.cs" />
+    <Compile Include="Views\Collections\GroupedHeaderView.cs" />
+    <Compile Include="Views\Collections\GroupedHeaderView.designer.cs">
+      <DependentUpon>GroupedHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Collections\GroupedFooterView.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

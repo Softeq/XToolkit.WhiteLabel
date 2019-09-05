@@ -85,6 +85,10 @@
     <Compile Include="Views\EmptyPageActivity.cs" />
     <Compile Include="Views\Dialogs\DialogsPageActivity.cs" />
     <Compile Include="Views\Dialogs\SimpleDialogPageFragment.cs" />
+    <Compile Include="Views\Collections\GroupedCollectionPageActivity.cs" />
+    <Compile Include="Views\Collections\ProductViewHolder.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Views\Collections\MovieCollectionViewHolder.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -131,6 +135,9 @@
     <AndroidResource Include="Resources\layout\activity_empty.xml" />
     <AndroidResource Include="Resources\layout\activity_dialogs.xml" />
     <AndroidResource Include="Resources\layout\dialog_simple_dialog.xml" />
+    <AndroidResource Include="Resources\layout\activity_group_collection.xml" />
+    <AndroidResource Include="Resources\layout\item_product.xml" />
+    <AndroidResource Include="Resources\layout\item_product_header.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
