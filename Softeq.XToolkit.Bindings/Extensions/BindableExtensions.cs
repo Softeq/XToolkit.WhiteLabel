@@ -251,8 +251,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     This type of bindings is useful for the <see cref="T:SetCommand{T}(object, string, RelayCommand{T}, Binding)" />,
         ///     <see cref="T:SetCommand{T}(object, RelayCommand{T}, Binding)" />,
         ///     <see cref="T:SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)" />
-        ///     and <see cref="T:SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)" /> methods, to use as CommandParameter
-        ///     binding.
+        ///     and <see cref="T:SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)" /> methods,
+        ///     to use as CommandParameter binding.
         /// </summary>
         /// <typeparam name="TSource">The type of the bound property.</typeparam>
         /// <param name="source">

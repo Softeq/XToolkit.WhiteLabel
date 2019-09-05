@@ -37,7 +37,15 @@ namespace Playground.iOS.ViewControllers
         private void InitTableView()
         {
             TableView.RegisterNibForCellReuse(MainPageItemViewCell.Nib, MainPageItemViewCell.Key);
-            TableView.RegisterNibForHeaderFooterViewReuse(MainPageGroupHeaderViewCell.Nib,
+
+            // Use simple table
+
+            //var source = new BindableTableViewSource<CommandAction, MainPageItemViewCell>(
+            //    ViewModel.Items.Values.ToList());
+
+            // Use group table
+            TableView.RegisterNibForHeaderFooterViewReuse(
+                MainPageGroupHeaderViewCell.Nib,
                 MainPageGroupHeaderViewCell.Key);
 
             var source = new BindableGroupTableViewSource<string, CommandAction,
@@ -46,7 +54,7 @@ namespace Playground.iOS.ViewControllers
                 ViewModel.Items)
             {
                 HeightForRow = 60f,
-                HeightForHeader = 100f
+                HeightForHeader = 100f,
             };
 
             source.ItemSelected += (sender, args) => args.Value.Command.Execute(null);

@@ -15,6 +15,9 @@
     <Folder Include="ViewModels\BottomTabs\Second\" />
     <Folder Include="ViewModels\Dialogs\" />
     <Folder Include="Converters\" />
+    <Folder Include="ViewModels\Collections\Products\" />
+    <Folder Include="Services\" />
+    <Folder Include="Utils\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />

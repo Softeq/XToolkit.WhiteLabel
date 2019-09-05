@@ -14,8 +14,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
     public class ToolbarViewControllerBase<TViewModel> : ViewControllerBase<TViewModel>
         where TViewModel : ToolbarViewModelBase
     {
-        private UITabBarController _tabBarController;
-
         protected ToolbarViewControllerBase(IntPtr handle) : base(handle) { }
 
         protected ToolbarViewControllerBase() { }
@@ -25,6 +23,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             base.ViewDidLoad();
             AddTabBarView();
         }
+
+        protected UITabBarController TabController { get; private set; }
 
         protected virtual UIColor BadgeColor { get; }
 
@@ -50,12 +50,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 
         private void AddTabBarView()
         {
-            _tabBarController = UiTabBarControllerHelper.CreateForViewModels(
+            TabController = UiTabBarControllerHelper.CreateForViewModels(
                 ViewModel.TabViewModels,
                 ViewModel.TabViewModels.Select(GetTabBarItem).ToArray(),
                 TabBarControllerFactory);
 
-            _tabBarController.AddAsChildWithConstraints(this);
+            TabController.AddAsChildWithConstraints(this);
         }
     }
 }

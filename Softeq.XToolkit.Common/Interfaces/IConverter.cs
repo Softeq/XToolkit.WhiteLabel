@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Common.Interfaces
     /// <typeparam name="TIn">Result type</typeparam>
     public interface IConverter<TOut, TIn>
     {
-        TOut ConvertValue(TIn TIn, object parameter = null, string language = null);
+        TOut ConvertValue(TIn value, object parameter = null, string language = null);
         TIn ConvertValueBack(TOut value, object parameter = null, string language = null);
     }
 }

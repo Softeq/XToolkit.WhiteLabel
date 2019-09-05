@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
 using Foundation;
+using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Common.EventArguments;
 using UIKit;
 
@@ -32,8 +32,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         public const int InfiniteItemsCount = 100000;
 
-        private readonly NSString _defaultReuseId = new NSString("C");
-        private readonly Thread _mainThread;
+        protected const string DefaultReuseId = "C";
 
         private IList<TItem> _dataSource;
         private INotifyCollectionChanged _notifier;
@@ -46,7 +45,6 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         public ObservableCollectionViewSource()
         {
-            _mainThread = Thread.CurrentThread;
         }
 
         /// <summary>
@@ -141,7 +139,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
         }
 
-        private NSString NsReuseId => _reuseId ?? _defaultReuseId;
+        protected NSString NsReuseId => _reuseId ?? new NSString(DefaultReuseId);
 
         /// <summary>
         ///     Occurs when a property of this instance changes.
@@ -331,7 +329,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                 return;
             }
 
-            Action act = () =>
+            NSThreadExtensions.ExecuteOnMainThread(() =>
             {
                 if (IsInfiniteScroll)
                 {
@@ -381,19 +379,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                         _view.ReloadData();
                         break;
                 }
-            };
-
-            var isMainThread = Thread.CurrentThread == _mainThread;
-
-            if (isMainThread)
-            {
-                act();
-            }
-            else
-            {
-                NSOperationQueue.MainQueue.AddOperation(act);
-                NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
-            }
+            });
         }
 
         private void SetView(UICollectionView collectionView)

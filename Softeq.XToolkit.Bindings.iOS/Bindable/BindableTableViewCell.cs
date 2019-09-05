@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using CoreGraphics;
+using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using UIKit;
@@ -11,11 +13,43 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public abstract class BindableTableViewCell<TItem> : UITableViewCell, IBindableView
     {
-        protected BindableTableViewCell(IntPtr handle) : base(handle)
+        protected BindableTableViewCell()
         {
+            Initialize();
         }
 
-        public List<Binding> Bindings { get; } = new List<Binding>();
+        protected BindableTableViewCell(NSCoder coder)
+            : base(coder)
+        {
+            Initialize();
+        }
+
+        protected BindableTableViewCell(CGRect frame)
+            : base(frame)
+        {
+            Initialize();
+        }
+
+        protected BindableTableViewCell(NSObjectFlag t)
+            : base(t)
+        {
+            Initialize();
+        }
+
+        protected internal BindableTableViewCell(IntPtr handle)
+            : base(handle)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            Bindings = new List<Binding>();
+
+            OnInitialize();
+        }
+
+        public List<Binding> Bindings { get; private set; }
 
         public object DataContext { get; private set; }
 
@@ -24,6 +58,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         void IBindable.SetDataContext(object dataContext)
         {
             DataContext = dataContext;
+        }
+
+        protected virtual void OnInitialize()
+        {
         }
 
         /// <inheritdoc />

@@ -63,6 +63,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bindable\IBindableViewHolder.cs" />
     <Compile Include="Bindable\BindableViewHolder.cs" />
+    <Compile Include="Bindable\BindableGroupRecyclerViewAdapter.cs" />
+    <Compile Include="Bindable\BindableViewHolderLayoutAttribute.cs" />
+    <Compile Include="Bindable\ItemType.cs" />
+    <Compile Include="Bindable\FlatItem.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">

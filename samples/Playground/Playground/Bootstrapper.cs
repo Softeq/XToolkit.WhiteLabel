@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Playground.Services;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -20,6 +21,9 @@ namespace Playground
             // navigation
             builder.Singleton<PageNavigationService, IPageNavigationService>();
             builder.Singleton<BackStackManager, IBackStackManager>();
+
+            // playgroud
+            builder.Singleton<DataService, IDataService>();
         }
     }
 }
