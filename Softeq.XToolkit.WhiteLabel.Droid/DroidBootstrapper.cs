@@ -37,12 +37,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
             builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
-            builder.Singleton<BundleService, IBundleService>();
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<FrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
+            builder.Singleton<BundleService, IBundleService>(IfRegistered.Keep);
             builder.Singleton<DroidViewLocator>(IfRegistered.Keep);
-            builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
             builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
+
+            builder.PerDependency<FrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
         }
 
         private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(

@@ -20,9 +20,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             where T : IViewModelBase, IViewModelParameter<TParameter>;
 
         [Obsolete("Use .For<T> method instead.")]
-        void NavigateToViewModel(Type viewModelType, bool clearBackStack = false);
-
-        [Obsolete("Use .For<T> method instead.")]
         void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase;
 
         [Obsolete("Use .For<T> method instead.")]
@@ -33,7 +30,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         void GoBack();
         void GoBack<T>() where T : IViewModelBase;
 
-        [Obsolete("Use .For<T> method instead.")]
+        void NavigateToViewModel(Type viewModelType, bool clearBackStack = false);
+
         void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters)
             where TViewModel : IViewModelBase;
 

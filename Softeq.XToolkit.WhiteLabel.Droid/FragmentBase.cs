@@ -29,6 +29,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            if (ViewModel == null)
+            {
+                // TODO YP: restore ViewModel
+                DataContext = Dependencies.Container.Resolve<TViewModel>();
+            }
+
             ViewModel.OnInitialize();
         }
 

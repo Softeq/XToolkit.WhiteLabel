@@ -21,14 +21,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private const string FrameNavigationServiceParameterName = "FrameNavigationService";
 
         private readonly IViewLocator _viewLocator;
+        private readonly ICurrentActivity _currentActivity;
         private readonly IContainer _container;
         private readonly Stack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
 
         private int _containerId;
 
-        public FrameNavigationService(IViewLocator viewLocator, IContainer iocContainer)
+        public FrameNavigationService(
+            IViewLocator viewLocator,
+            ICurrentActivity currentActivity,
+            IContainer iocContainer)
         {
             _viewLocator = viewLocator;
+            _currentActivity = currentActivity;
             _container = iocContainer;
             _backStack = new Stack<(IViewModelBase viewModelBase, Fragment fragment)>();
         }
@@ -159,9 +164,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             ReplaceFragment(_backStack.Peek().Fragment);
         }
 
-        internal Fragment GetTopFragment()
+        protected virtual FragmentTransaction PrepareTransaction(FragmentTransaction fragmentTransaction)
         {
-            return _backStack.FirstOrDefault().Fragment;
+            return fragmentTransaction;
         }
 
         private void NavigateToExistingViewModel(IViewModelBase viewModel)
@@ -180,13 +185,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private void ReplaceFragment(Fragment fragment)
         {
-            var activity = (AppCompatActivity) CrossCurrentActivity.Current.Activity;
+            var activity = (AppCompatActivity) _currentActivity.Activity;
             var manager = activity.SupportFragmentManager;
 
-            manager.BeginTransaction()
-                .Replace(_containerId, fragment)
-                .AddToBackStack(null)
-                .Commit();
+            var transaction = manager.BeginTransaction()
+                .Replace(_containerId, fragment);
+
+            PrepareTransaction(transaction).Commit();
         }
 
         private bool Contains(IViewModelBase viewModelBase)
