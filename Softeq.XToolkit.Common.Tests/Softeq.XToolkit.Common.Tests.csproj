@@ -13,10 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Helpers\" />
-    <Folder Include="WeakTests\" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
 </Project>
