@@ -44,9 +44,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel> parameters)
         {
-            if (viewModelBase is ViewModelBase viewModel)
+            if (viewModelBase is IFrameViewModel frameViewModel)
             {
-                viewModel.FrameNavigationService = this as IFrameNavigationService;
+                frameViewModel.FrameNavigationService = this as IFrameNavigationService;
             }
 
             Navigate(ViewLocator.GetView(viewModelBase), clearBackStack);

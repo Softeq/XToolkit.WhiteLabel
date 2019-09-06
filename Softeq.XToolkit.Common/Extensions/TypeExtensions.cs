@@ -23,12 +23,7 @@ namespace Softeq.XToolkit.Common.Extensions
 
             var property = viewModelType.GetPropertyCaseInsensitive(propertyName);
 
-            if (property == null)
-            {
-                return;
-            }
-
-            property.SetValue(obj, property.PropertyType.CoerceValue(value));
+            property?.SetValue(obj, property.PropertyType.CoerceValue(value));
         }
 
         /// <summary>
