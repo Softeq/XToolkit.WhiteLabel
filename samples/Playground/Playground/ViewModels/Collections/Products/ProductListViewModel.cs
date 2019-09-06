@@ -74,6 +74,7 @@ namespace Playground.ViewModels.Collections.Products
                 lastId + 1 : (int)Math.Pow(10, (int) Math.Floor(Math.Log10(lastId * 10)));
 
             var newItem = _dataService.GetProduct(newId);
+            newItem.AddToBasketCommand = _addCommand;
 
             Products.AddItems(new List<ProductViewModel> { newItem }, ToGroup, x => x);
         }

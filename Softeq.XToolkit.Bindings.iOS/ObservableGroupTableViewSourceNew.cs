@@ -187,6 +187,9 @@ namespace Softeq.XToolkit.Bindings.iOS
                             case NotifyCollectionChangedAction.Add:
                                 HandleItemsAdd(groupEvent.GroupIndex, groupEvent.Arg);
                                 break;
+                            case NotifyCollectionChangedAction.Remove:
+                                HandleItemsRemove(groupEvent.GroupIndex, groupEvent.Arg);
+                                break;
                         }
                     }
                 }
@@ -222,6 +225,17 @@ namespace Softeq.XToolkit.Bindings.iOS
                     .Select(x => NSIndexPath.FromRowSection(x, groupIndex))
                     .ToArray();
                 _tableViewRef.Target?.InsertRows(indexPaths, UITableViewRowAnimation.Automatic);
+            }
+        }
+
+        private void HandleItemsRemove(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        {
+            foreach (var range in args.OldItemRanges)
+            {
+                var indexPaths = Enumerable.Range(range.Index, range.OldItems.Count)
+                    .Select(x => NSIndexPath.FromRowSection(x, groupIndex))
+                    .ToArray();
+                _tableViewRef.Target?.DeleteRows(indexPaths, UITableViewRowAnimation.Automatic);
             }
         }
     }
