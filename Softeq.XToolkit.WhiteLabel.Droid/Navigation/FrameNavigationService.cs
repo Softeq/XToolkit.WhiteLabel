@@ -18,8 +18,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class FrameNavigationService : IFrameNavigationService
     {
-        private const string FrameNavigationServiceParameterName = "FrameNavigationService";
-
         private readonly IViewLocator _viewLocator;
         private readonly ICurrentActivity _currentActivity;
         private readonly IContainer _container;
@@ -81,7 +79,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
             var viewModel = _container.Resolve<T>();
-            _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
+
+            if (viewModel is IFrameViewModel frameViewModel)
+            {
+                frameViewModel.FrameNavigationService = this;
+            }
+
             viewModel.Parameter = parameter;
             NavigateInternal(viewModel);
         }
@@ -89,7 +92,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = _container.Resolve<T>();
-            _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
+
+            if (viewModel is IFrameViewModel frameViewModel)
+            {
+                frameViewModel.FrameNavigationService = this;
+            }
 
             if (clearBackStack)
             {
@@ -107,7 +114,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             var viewModel = (IViewModelBase) _container.Resolve(viewModelType);
-            _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
+
+            if (viewModel is IFrameViewModel frameViewModel)
+            {
+                frameViewModel.FrameNavigationService = this;
+            }
 
             if (clearBackStack)
             {
@@ -171,7 +182,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private void NavigateToExistingViewModel(IViewModelBase viewModel)
         {
-            _viewLocator.TryInjectParameters(viewModel, this, FrameNavigationServiceParameterName);
+            if (viewModel is IFrameViewModel frameViewModel)
+            {
+                frameViewModel.FrameNavigationService = this;
+            }
+
             NavigateInternal(viewModel);
         }
 

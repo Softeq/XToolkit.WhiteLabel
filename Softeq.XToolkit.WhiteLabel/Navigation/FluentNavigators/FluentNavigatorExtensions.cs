@@ -7,9 +7,9 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 {
-    internal static class FluentNavigatorExtensions
+    public static class FluentNavigatorExtensions
     {
-        internal static void ApplyParameters(this IViewModelBase viewmodel,
+        public static void ApplyParameters(this IViewModelBase viewmodel,
             IEnumerable<NavigationParameterModel> parameters)
         {
             parameters?.Apply(p => p.PropertyInfo.ToProperty().SetValue(viewmodel, p.Value));

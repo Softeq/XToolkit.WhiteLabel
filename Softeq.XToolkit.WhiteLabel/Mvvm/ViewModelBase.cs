@@ -12,10 +12,15 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         void OnDisappearing();
     }
 
+    public interface IFrameViewModel
+    {
+        IFrameNavigationService FrameNavigationService { get; set; }
+    }
+
     /// <summary>
     ///     A base class for the ViewModel classes in the MVVM pattern.
     /// </summary>
-    public abstract class ViewModelBase : ObservableObject, IViewModelBase
+    public abstract class ViewModelBase : ObservableObject, IViewModelBase, IFrameViewModel
     {
         private bool _isBusy;
 

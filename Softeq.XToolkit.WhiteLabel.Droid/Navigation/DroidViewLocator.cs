@@ -3,9 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Reflection;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
@@ -74,92 +71,5 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             return targetType;
         }
-
-        #region inject parameter
-
-        public void TryInjectParameters(object viewModel, object parameter, string parameterName)
-        {
-            var viewModelType = viewModel.GetType();
-
-            var property = GetPropertyCaseInsensitive(viewModelType, parameterName);
-
-            if (property == null)
-            {
-                return;
-            }
-
-            property.SetValue(viewModel, CoerceValue(property.PropertyType, parameter));
-        }
-
-        private PropertyInfo GetPropertyCaseInsensitive(Type type, string propertyName)
-        {
-            var typeInfo = type.GetTypeInfo();
-            var typeList = new List<Type> { type };
-
-            if (typeInfo.IsInterface)
-            {
-                typeList.AddRange(typeInfo.ImplementedInterfaces);
-            }
-
-            return typeList
-                .Select(interfaceType => interfaceType.GetRuntimeProperty(propertyName))
-                .FirstOrDefault(property => property != null);
-        }
-
-        private object CoerceValue(Type destinationType, object providedValue)
-        {
-            if (providedValue == null)
-            {
-                return GetDefaultValue(destinationType);
-            }
-
-            var providedType = providedValue.GetType();
-            if (destinationType.IsAssignableFrom(providedType))
-            {
-                return providedValue;
-            }
-
-            try
-            {
-                if (destinationType.GetTypeInfo().IsEnum)
-                {
-                    if (providedValue is string stringValue)
-                    {
-                        return Enum.Parse(destinationType, stringValue, true);
-                    }
-
-                    return Enum.ToObject(destinationType, providedValue);
-                }
-
-                if (typeof(Guid).IsAssignableFrom(destinationType))
-                {
-                    if (providedValue is string stringValue)
-                    {
-                        return new Guid(stringValue);
-                    }
-                }
-            }
-            catch
-            {
-                return GetDefaultValue(destinationType);
-            }
-
-            try
-            {
-                return Convert.ChangeType(providedValue, destinationType, CultureInfo.CurrentCulture);
-            }
-            catch
-            {
-                return GetDefaultValue(destinationType);
-            }
-        }
-
-        private object GetDefaultValue(Type type)
-        {
-            var typeInfo = type.GetTypeInfo();
-            return typeInfo.IsClass || typeInfo.IsInterface ? null : Activator.CreateInstance(type);
-        }
-
-        #endregion
     }
 }
