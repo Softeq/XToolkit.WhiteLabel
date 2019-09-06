@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using CoreGraphics;
+using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using UIKit;
@@ -10,12 +12,45 @@ using UIKit;
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public abstract class BindableCollectionViewCell<TItem> : UICollectionViewCell, IBindableView
+        where TItem : class
     {
-        protected BindableCollectionViewCell(IntPtr handle) : base(handle)
+        protected BindableCollectionViewCell()
         {
+            Initialize();
         }
 
-        public List<Binding> Bindings { get; } = new List<Binding>();
+        protected BindableCollectionViewCell(NSCoder coder)
+            : base(coder)
+        {
+            Initialize();
+        }
+
+        protected BindableCollectionViewCell(CGRect frame)
+            : base(frame)
+        {
+            Initialize();
+        }
+
+        protected BindableCollectionViewCell(NSObjectFlag t)
+            : base(t)
+        {
+            Initialize();
+        }
+
+        protected internal BindableCollectionViewCell(IntPtr handle)
+            : base(handle)
+        {
+            Initialize();
+        }
+
+        private void Initialize()
+        {
+            Bindings = new List<Binding>();
+
+            OnInitialize();
+        }
+
+        public List<Binding> Bindings { get; private set; }
 
         public object DataContext { get; private set; }
 
@@ -25,7 +60,11 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             DataContext = dataContext;
         }
-        
+
+        protected virtual void OnInitialize()
+        {
+        }
+
         /// <inheritdoc />
         public virtual void DoAttachBindings()
         {

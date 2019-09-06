@@ -105,7 +105,7 @@ namespace Playground.ViewModels
                         Title = "Observable grouped list",
                         Command = new RelayCommand(() =>
                         {
-                            //_pageNavigationService.NavigateToViewModel<GrouppedCollectionViewModel>();
+                            _pageNavigationService.NavigateToViewModel<GroupedCollectionPageViewModel>();
                         })
                     }),
                 (Category.Controls,

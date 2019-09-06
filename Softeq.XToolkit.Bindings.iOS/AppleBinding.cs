@@ -76,27 +76,24 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         protected override Binding<TSource, TTarget> CheckControlSource()
         {
-            var textBox = PropertySource.Target as UITextView;
-            if (textBox != null)
+            if (PropertySource.Target is UITextView textBox)
             {
-                var binding = ObserveSourceEvent("Changed");
-                binding.SourceHandlers["Changed"].IsDefault = true;
+                var binding = ObserveSourceEvent(nameof(textBox.Changed));
+                binding.SourceHandlers[nameof(textBox.Changed)].IsDefault = true;
                 return binding;
             }
 
-            var textField = PropertySource.Target as UITextField;
-            if (textField != null)
+            if (PropertySource.Target is UITextField textField)
             {
-                var binding = ObserveSourceEvent("EditingChanged");
-                binding.SourceHandlers["EditingChanged"].IsDefault = true;
+                var binding = ObserveSourceEvent(nameof(textField.EditingChanged));
+                binding.SourceHandlers[nameof(textField.EditingChanged)].IsDefault = true;
                 return binding;
             }
 
-            var checkbox = PropertySource.Target as UISwitch;
-            if (checkbox != null)
+            if (PropertySource.Target is UISwitch checkbox)
             {
-                var binding = ObserveSourceEvent("ValueChanged");
-                binding.SourceHandlers["ValueChanged"].IsDefault = true;
+                var binding = ObserveSourceEvent(nameof(checkbox.ValueChanged));
+                binding.SourceHandlers[nameof(checkbox.ValueChanged)].IsDefault = true;
                 return binding;
             }
 
@@ -110,27 +107,24 @@ namespace Softeq.XToolkit.Bindings.iOS
                 return this;
             }
 
-            var textBox = PropertyTarget.Target as UITextView;
-            if (textBox != null)
+            if (PropertyTarget.Target is UITextView textBox)
             {
-                var binding = ObserveTargetEvent("Changed");
-                binding.TargetHandlers["Changed"].IsDefault = true;
+                var binding = ObserveTargetEvent(nameof(textBox.Changed));
+                binding.TargetHandlers[nameof(textBox.Changed)].IsDefault = true;
                 return binding;
             }
 
-            var textField = PropertyTarget.Target as UITextField;
-            if (textField != null)
+            if (PropertyTarget.Target is UITextField textField)
             {
-                var binding = ObserveTargetEvent("EditingChanged");
-                binding.TargetHandlers["EditingChanged"].IsDefault = true;
+                var binding = ObserveTargetEvent(nameof(textField.EditingChanged));
+                binding.TargetHandlers[nameof(textField.EditingChanged)].IsDefault = true;
                 return binding;
             }
 
-            var checkbox = PropertyTarget.Target as UISwitch;
-            if (checkbox != null)
+            if (PropertyTarget.Target is UISwitch checkbox)
             {
-                var binding = ObserveTargetEvent("ValueChanged");
-                binding.TargetHandlers["ValueChanged"].IsDefault = true;
+                var binding = ObserveTargetEvent(nameof(checkbox.ValueChanged));
+                binding.TargetHandlers[nameof(checkbox.ValueChanged)].IsDefault = true;
                 return binding;
             }
 

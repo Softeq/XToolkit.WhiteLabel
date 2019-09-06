@@ -8,7 +8,7 @@ using UIKit;
 
 namespace Playground.iOS.Views
 {
-    public partial class MainPageGroupHeaderViewCell : BindableHeaderCell<string>
+    public partial class MainPageGroupHeaderViewCell : BindableTableViewHeaderFooterView<string>
     {
         #region init
 

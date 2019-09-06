@@ -37,6 +37,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     specific features in addition to the built-in features of ObservableCollectionViewSource.
         /// </param>
         /// <returns>The new instance of ObservableCollectionViewSource.</returns>
+        [Obsolete("Use BindableCollectionViewSource instead.")]
         public static ObservableCollectionViewSource<TItem, TCell> GetCollectionViewSource<TItem, TCell>(
             this IList<TItem> list,
             Action<TCell, TItem, NSIndexPath> bindCellDelegate,
@@ -87,6 +88,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     specific features in addition to the built-in features of ObservableCollectionViewSource.
         /// </param>
         /// <returns>The new instance of ObservableCollectionViewSource.</returns>
+        [Obsolete("Use BindableCollectionViewSource instead.")]
         public static ObservableCollectionViewSource<TItem, TCell> GetCollectionViewSource<TItem, TCell>(
             this ObservableCollection<TItem> list,
             Action<TCell, TItem, NSIndexPath> bindCellDelegate,
@@ -199,6 +201,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     specific features in addition to the built-in features of ObservableTableViewSource.
         /// </param>
         /// <returns>The new instance of ObservableTableViewSource.</returns>
+        [Obsolete("Use BindableTableViewSource instead.")]
         public static ObservableTableViewSource<TItem> GetTableViewSource<TItem>(
             this IList<TItem> list,
             Action<UITableViewCell, TItem, NSIndexPath> bindCellDelegate,
@@ -240,6 +243,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     specific features in addition to the built-in features of ObservableTableViewSource.
         /// </param>
         /// <returns>The new instance of ObservableTableViewSource.</returns>
+        [Obsolete("Use BindableTableViewSource instead.")]
         public static ObservableTableViewSource<TItem> GetTableViewSource<TItem>(
             this ObservableCollection<TItem> list,
             Action<UITableViewCell, TItem, NSIndexPath> bindCellDelegate,
@@ -287,6 +291,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     specific features in addition to the built-in features of ObservableTableViewSource.
         /// </param>
         /// <returns>The new instance of ObservableTableViewSource.</returns>
+        [Obsolete("Use BindableTableViewSource instead.")]
         public static ObservableTableViewSource<TItem> GetTableViewSource<TItem>(
             this IList<TItem> list,
             Func<NSString, UITableViewCell> createCellDelegate,
@@ -337,6 +342,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     specific features in addition to the built-in features of ObservableTableViewSource.
         /// </param>
         /// <returns>The new instance of ObservableTableViewSource.</returns>
+        [Obsolete("Use BindableTableViewSource instead.")]
         public static ObservableTableViewSource<TItem> GetTableViewSource<TItem>(
             this ObservableCollection<TItem> list,
             Func<NSString, UITableViewCell> createCellDelegate,

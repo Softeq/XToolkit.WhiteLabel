@@ -372,7 +372,7 @@ namespace Softeq.XToolkit.Bindings
 
         /// <summary>
         ///     Sets a generic RelayCommand to an object and actuates the command when a specific event is raised. This method
-        ///     should be used when the event uses an EventHandler&lt;TEventArgs&gt;.
+        ///     should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the RelayCommand.</typeparam>
         /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
@@ -380,7 +380,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="command">The command that must be added to the element.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="commandParameterBinding">
-        ///     A <see cref="Binding&lt;TSource, TTarget&gt;">Binding</see> instance subscribed to
+        ///     A <see cref="Binding{TSource, TTarget}">Binding</see> instance subscribed to
         ///     the CommandParameter that will passed to the RelayCommand. Depending on the Binding, the CommandParameter
         ///     will be observed and changes will be passed to the command, for example to update the CanExecute.
         /// </param>
@@ -464,7 +464,7 @@ namespace Softeq.XToolkit.Bindings
 
         /// <summary>
         ///     Sets a non-generic RelayCommand to an object and actuates the command when a specific event is raised. This method
-        ///     should be used when the event uses an EventHandler&lt;TEventArgs&gt;.
+        ///     should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
         /// </summary>
         /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
         /// <param name="element">The element to which the command is added.</param>
@@ -542,7 +542,7 @@ namespace Softeq.XToolkit.Bindings
 
         /// <summary>
         ///     Sets a generic RelayCommand to an object and actuates the command when a specific event is raised. This method
-        ///     should be used when the event uses an EventHandler&lt;TEventArgs&gt;.
+        ///     should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the RelayCommand.</typeparam>
         /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>

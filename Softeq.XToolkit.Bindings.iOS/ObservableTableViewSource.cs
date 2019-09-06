@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
 using Foundation;
+using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Common.EventArguments;
 using UIKit;
 
@@ -26,8 +26,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         public const string SelectedItemPropertyName = "SelectedItem";
 
-        private readonly NSString _defaultReuseId = new NSString("C");
-        private readonly Thread _mainThread;
+        protected const string DefaultReuseId = "C";
 
         private IList<TItem> _dataSource;
         private INotifyCollectionChanged _notifier;
@@ -40,7 +39,6 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         public ObservableTableViewSource()
         {
-            _mainThread = Thread.CurrentThread;
             AddAnimation = UITableViewRowAnimation.Automatic;
             DeleteAnimation = UITableViewRowAnimation.Automatic;
         }
@@ -164,14 +162,22 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
         }
 
-        private NSString NsReuseId => _reuseId ?? _defaultReuseId;
+        protected NSString NsReuseId => _reuseId ?? new NSString(DefaultReuseId);
 
         /// <summary>
         ///     Occurs when a property of this instance changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
+        /// <summary>
+        ///     Occurs when the last item gets requested in the list.
+        /// </summary>
         public event EventHandler LastItemRequested;
+
+        /// <summary>
+        ///     Occurs when a new item gets selected in the list.
+        /// </summary>
+        public event EventHandler SelectionChanged;
 
         /// <summary>
         ///     Called when item was selected
@@ -206,10 +212,10 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     Creates and returns a cell for the UITableView. Where needed, this method will
         ///     optimize the reuse of cells for a better performance.
         /// </summary>
-        /// <param name="view">The UITableView associated to this source.</param>
+        /// <param name="tableView">The UITableView associated to this source.</param>
         /// <param name="indexPath">The NSIndexPath pointing to the item for which the cell must be returned.</param>
         /// <returns>The created and initialised <see cref="UITableViewCell" />.</returns>
-        public override UITableViewCell GetCell(UITableView view, NSIndexPath indexPath)
+        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             if (indexPath.Row + 1 == _dataSource.Count)
             {
@@ -218,9 +224,14 @@ namespace Softeq.XToolkit.Bindings.iOS
 
             if (_view == null)
             {
-                _view = view;
+                _view = tableView;
             }
 
+            return GetItemCell(tableView, indexPath);
+        }
+
+        protected virtual UITableViewCell GetItemCell(UITableView view, NSIndexPath indexPath)
+        {
             var cell = view.DequeueReusableCell(NsReuseId) ?? CreateCell(NsReuseId);
 
             try
@@ -282,7 +293,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         /// <param name="indexPath">The NSIndexPath pointing to the desired item.</param>
         /// <returns>The item selected by the NSIndexPath passed as parameter.</returns>
-        public TItem GetItem(NSIndexPath indexPath)
+        protected virtual TItem GetItem(NSIndexPath indexPath)
         {
             return _dataSource[indexPath.Row];
         }
@@ -365,15 +376,15 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     Overrides the <see cref="UITableViewSource.RowsInSection" /> method
         ///     and returns the number of rows in the associated data source.
         /// </summary>
-        /// <param name="tableView">The active TableView.</param>
+        /// <param name="tableview">The active TableView.</param>
         /// <param name="section">The active section.</param>
         /// <returns>The number of rows in the data source.</returns>
         /// <remarks>In the current implementation, only one section is supported.</remarks>
-        public override nint RowsInSection(UITableView tableView, nint section)
+        public override nint RowsInSection(UITableView tableview, nint section)
         {
             if (_view == null)
             {
-                _view = tableView;
+                _view = tableview;
             }
 
             return _dataSource == null ? 0 : _dataSource.Count;
@@ -436,79 +447,67 @@ namespace Softeq.XToolkit.Bindings.iOS
                 return;
             }
 
-            Action act = () =>
+            NSThreadExtensions.ExecuteOnMainThread(() =>
             {
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                    {
-                        var count = e.NewItems.Count;
-                        var paths = new NSIndexPath[count];
-
-                        for (var i = 0; i < count; i++)
                         {
-                            paths[i] = NSIndexPath.FromRowSection(e.NewStartingIndex + i, 0);
-                        }
+                            var count = e.NewItems.Count;
+                            var paths = new NSIndexPath[count];
 
-                        _view.InsertRows(paths, AddAnimation);
-                    }
+                            for (var i = 0; i < count; i++)
+                            {
+                                paths[i] = NSIndexPath.FromRowSection(e.NewStartingIndex + i, 0);
+                            }
+
+                            _view.InsertRows(paths, AddAnimation);
+                        }
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                    {
-                        var count = e.OldItems.Count;
-                        var paths = new NSIndexPath[count];
-
-                        for (var i = 0; i < count; i++)
                         {
-                            var index = NSIndexPath.FromRowSection(e.OldStartingIndex + i, 0);
-                            paths[i] = index;
+                            var count = e.OldItems.Count;
+                            var paths = new NSIndexPath[count];
 
-                            var item = e.OldItems[i];
-
-                            if (Equals(SelectedItem, item))
+                            for (var i = 0; i < count; i++)
                             {
-                                SelectedItem = default;
-                            }
-                        }
+                                var index = NSIndexPath.FromRowSection(e.OldStartingIndex + i, 0);
+                                paths[i] = index;
 
-                        _view.DeleteRows(paths, DeleteAnimation);
-                    }
+                                var item = e.OldItems[i];
+
+                                if (Equals(SelectedItem, item))
+                                {
+                                    SelectedItem = default;
+                                }
+                            }
+
+                            _view.DeleteRows(paths, DeleteAnimation);
+                        }
                         break;
                     case NotifyCollectionChangedAction.Move:
-                    {
-                        if (e.NewItems.Count != 1 || e.OldItems.Count != 1)
                         {
-                            _view.ReloadData();
+                            if (e.NewItems.Count != 1 || e.OldItems.Count != 1)
+                            {
+                                _view.ReloadData();
+                                break;
+                            }
+
+                            if (e.NewStartingIndex != e.OldStartingIndex)
+                            {
+                                _view.MoveRow(NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
+                                    NSIndexPath.FromRowSection(e.NewStartingIndex, 0));
+                            }
+
                             break;
                         }
-
-                        if (e.NewStartingIndex != e.OldStartingIndex)
-                        {
-                            _view.MoveRow(NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
-                                NSIndexPath.FromRowSection(e.NewStartingIndex, 0));
-                        }
-
-                        break;
-                    }
 
                     default:
                         _view.ReloadData();
                         break;
                 }
-            };
-
-            var isMainThread = Thread.CurrentThread == _mainThread;
-
-            if (isMainThread)
-            {
-                act();
-            }
-            else
-            {
-                NSOperationQueue.MainQueue.AddOperation(act);
-                NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
-            }
+            });
         }
 
         /// <summary>
@@ -539,9 +538,5 @@ namespace Softeq.XToolkit.Bindings.iOS
             SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        /// <summary>
-        ///     Occurs when a new item gets selected in the list.
-        /// </summary>
-        public event EventHandler SelectionChanged;
     }
 }
