@@ -70,11 +70,11 @@ namespace Playground.iOS.ViewControllers.Collections
             CollectionView.Delegate = new GroupedCollectionViewDelegateFlowLayout(columnsCount: 3);
 
             // set custom data source
-            CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products)
-            {
-                // main way for handle click by item
-                ItemClick = ViewModel.AddToCartCommand
-            };
+            //CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products)
+            //{
+            //    // main way for handle click by item
+            //    ItemClick = ViewModel.AddToCartCommand
+            //};
         }
 
         private class ProductsDataSource : BindableGroupCollectionViewSource<

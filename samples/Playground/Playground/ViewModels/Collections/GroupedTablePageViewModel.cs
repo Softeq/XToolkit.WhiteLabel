@@ -1,6 +1,4 @@
-﻿// Developed by Softeq Development Corporation
-// http://www.softeq.com
-
+﻿using System;
 using System.Threading.Tasks;
 using Playground.Services;
 using Playground.ViewModels.Collections.Products;
@@ -10,19 +8,21 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Collections
 {
-    public class GroupedCollectionPageViewModel : ViewModelBase
+    public class GroupedTablePageViewModel : ViewModelBase
     {
         private readonly IDialogsService _dialogsService;
         private readonly ICommand<ProductHeaderViewModel> _groupInfoCommand;
+        private readonly ICommand<ProductHeaderViewModel> _generateItemCommand;
 
-        public GroupedCollectionPageViewModel(
+        public GroupedTablePageViewModel(
             IDialogsService dialogsService,
             IDataService dataService)
         {
             _dialogsService = dialogsService;
+            _generateItemCommand = new AsyncCommand<ProductHeaderViewModel>(GenerateItem);
             _groupInfoCommand = new AsyncCommand<ProductHeaderViewModel>(GroupInfo);
             AddToCartCommand = new RelayCommand<ProductViewModel>(AddToBasket, CanAddToBasket);
-            ProductListViewModel = new ProductListViewModel(dataService, null, AddToCartCommand, _groupInfoCommand);
+            ProductListViewModel = new ProductListViewModel(dataService, _generateItemCommand, AddToCartCommand, _groupInfoCommand);
             ProductBasketViewModel = new ProductBasketViewModel();
         }
 
@@ -54,6 +54,11 @@ namespace Playground.ViewModels.Collections
         private async Task GroupInfo(ProductHeaderViewModel groupHeader)
         {
             await _dialogsService.ShowDialogAsync("Info", $"{groupHeader.Category}th section.", "OK");
+        }
+
+        private Task GenerateItem(ProductHeaderViewModel groupHeader)
+        {
+            return ProductListViewModel.GenerateItem(groupHeader);
         }
     }
 }

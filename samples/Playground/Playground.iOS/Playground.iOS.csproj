@@ -157,6 +157,9 @@
     <InterfaceDefinition Include="ViewControllers\Collections\GroupedCollectionPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\Collections\ProductViewCell.xib" />
     <InterfaceDefinition Include="Views\Collections\GroupedHeaderView.xib" />
+    <InterfaceDefinition Include="ViewControllers\Collections\GroupedListPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\Table\ProductTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\Table\GroupedTableHeaderView.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -240,6 +243,19 @@
       <DependentUpon>GroupedHeaderView.cs</DependentUpon>
     </Compile>
     <Compile Include="Views\Collections\GroupedFooterView.cs" />
+    <Compile Include="ViewControllers\Collections\GroupedListPageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\GroupedListPageViewController.designer.cs">
+      <DependentUpon>GroupedListPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Table\ProductTableViewCell.cs" />
+    <Compile Include="Views\Table\ProductTableViewCell.designer.cs">
+      <DependentUpon>ProductTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Table\GroupedTableFooterView.cs" />
+    <Compile Include="Views\Table\GroupedTableHeaderView.cs" />
+    <Compile Include="Views\Table\GroupedTableHeaderView.designer.cs">
+      <DependentUpon>GroupedTableHeaderView.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -278,6 +294,9 @@
       <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Table\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
