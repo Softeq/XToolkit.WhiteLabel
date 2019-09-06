@@ -30,19 +30,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _modelToViewTypes = viewModelToView;
         }
 
-        public Type GetTargetType<T>(ViewType viewType)
+        public Type GetTargetType<TViewModel>(ViewType viewType)
         {
-            return GetTargetType(typeof(T), viewType);
+            return GetTargetType(typeof(TViewModel), viewType);
         }
 
-        public Type GetTargetType(Type type, ViewType viewType)
+        public Type GetTargetType(Type viewModelType, ViewType viewType)
         {
-            if (_modelToViewTypes.TryGetValue(type, out var typeOfView))
+            if (_modelToViewTypes.TryGetValue(viewModelType, out var typeOfView))
             {
                 return typeOfView;
             }
 
-            var typeName = type.FullName;
+            var typeName = viewModelType.FullName;
             return GetTargetType(typeName, viewType);
         }
 

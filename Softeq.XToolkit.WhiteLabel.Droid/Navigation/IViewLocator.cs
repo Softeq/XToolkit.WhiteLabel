@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     {
         void Initialize(Dictionary<Type, Type> viewModelToView);
 
-        Type GetTargetType<T>(ViewType viewType);
+        Type GetTargetType<TViewModel>(ViewType viewType);
 
         Type GetTargetType(Type type, ViewType viewType);
 
