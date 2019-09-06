@@ -20,8 +20,8 @@ namespace Playground.ViewModels.BottomTabs
         {
             TabModels = new List<TabItem>
             {
-                new TabItem("First", "Chat", typeof(RedViewModel)),
-                new TabItem("Second", "Settings", typeof(BlueViewModel))
+                TabItem.CreateFor<RedViewModel>("First", "Chat"),
+                TabItem.CreateFor<BlueViewModel>("Second", "Settings")
             };
         }
     }

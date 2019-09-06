@@ -19,5 +19,10 @@ namespace Softeq.XToolkit.WhiteLabel.Model
         public string ImageKey { get; }
 
         public Type RootViewModelType { get; }
+
+        public static TabItem CreateFor<T>(string title, string imageName)
+        {
+            return new TabItem(title, imageName, typeof(T));
+        }
     }
 }
