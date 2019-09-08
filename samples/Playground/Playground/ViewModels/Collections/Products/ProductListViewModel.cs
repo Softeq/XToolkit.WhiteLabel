@@ -33,7 +33,7 @@ namespace Playground.ViewModels.Collections.Products
             _addCommand = addCommand;
             _infoCommand = infoCommand;
 
-            Products = new ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel>();
+            Products = new ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel>(false);
         }
 
         public ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> Products { get; }
@@ -70,8 +70,20 @@ namespace Playground.ViewModels.Collections.Products
                 .Last()
                 .Id;
 
-            var newId = (lastId + 1).ToString()[0] == lastId.ToString()[0] ?
-                lastId + 1 : (int)Math.Pow(10, (int) Math.Floor(Math.Log10(lastId * 10)));
+            int newId;
+
+            if ((lastId + 1).ToString()[0] == lastId.ToString()[0])
+            {
+                newId = lastId + 1;
+            }
+            else
+            {
+                int intLength = (int) Math.Floor(Math.Log10(lastId)) + 1;
+                int mult = (int)Math.Pow(10, intLength);
+                int coeff = (int)(lastId / (int) Math.Pow(10, intLength - 1));
+
+                newId = (int) (coeff * mult);
+            }
 
             var newItem = _dataService.GetProduct(newId);
             newItem.AddToBasketCommand = _addCommand;
