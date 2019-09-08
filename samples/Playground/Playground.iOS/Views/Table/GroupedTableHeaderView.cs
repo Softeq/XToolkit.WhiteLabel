@@ -59,6 +59,7 @@ namespace Playground.iOS.Views.Table
 
         partial void AddButtonAction(NSObject _)
         {
+            ViewModel.AddCommand?.Execute(ViewModel);
         }
     }
 }

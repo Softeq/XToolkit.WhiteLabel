@@ -215,6 +215,17 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         private void HandleGroupRemove(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
+            foreach(var sectionsRange in e.OldItemRanges)
+            {
+                int sectionIndex = sectionsRange.Index;
+
+                foreach(var section in sectionsRange.OldItems)
+                {
+                    _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.Automatic);
+
+                    sectionIndex++;
+                }
+            }
         }
 
         private void HandleItemsAdd(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)

@@ -22,7 +22,7 @@ namespace Playground.ViewModels.Collections
             _dialogsService = dialogsService;
             _groupInfoCommand = new AsyncCommand<ProductHeaderViewModel>(GroupInfo);
             AddToCartCommand = new RelayCommand<ProductViewModel>(AddToBasket, CanAddToBasket);
-            ProductListViewModel = new ProductListViewModel(dataService, null, AddToCartCommand, _groupInfoCommand);
+            ProductListViewModel = new ProductListViewModel(dataService, null, null, AddToCartCommand, _groupInfoCommand);
             ProductBasketViewModel = new ProductBasketViewModel();
         }
 

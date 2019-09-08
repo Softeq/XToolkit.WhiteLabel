@@ -5,6 +5,7 @@ using Playground.iOS.Views.Table;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;
@@ -36,6 +37,13 @@ namespace Playground.iOS.ViewControllers.Collections
                 GetHeaderHeight,
                 null,
                 GetHeightForRow);
+        }
+
+        protected override void DoAttachBindings()
+        {
+            base.DoAttachBindings();
+
+            this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
         }
 
         private UIView GetHeaderView(UITableView tableView, ProductHeaderViewModel viewModel)

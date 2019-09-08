@@ -16,6 +16,8 @@ namespace Playground.ViewModels.Collections.Products
 
         public string PhotoUrl { get; set; }
 
+        public bool IsAddedToBasket { get; set; }
+
         public int Count
         {
             get => _count;

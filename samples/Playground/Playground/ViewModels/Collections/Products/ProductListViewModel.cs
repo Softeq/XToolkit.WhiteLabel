@@ -19,15 +19,18 @@ namespace Playground.ViewModels.Collections.Products
         private readonly ICommand<ProductViewModel> _addCommand;
         private readonly ICommand<ProductHeaderViewModel> _infoCommand;
         private readonly ICommand<ProductHeaderViewModel> _generateCommand;
+        private readonly ICommand<ProductHeaderViewModel> _addGroupToBasketCommand;
 
         private bool _isBusy;
 
         public ProductListViewModel(
             IDataService dataService,
+            ICommand<ProductHeaderViewModel> addGroupToBasketCommand,
             ICommand<ProductHeaderViewModel> generateCommand,
             ICommand<ProductViewModel> addCommand,
             ICommand<ProductHeaderViewModel> infoCommand)
         {
+            _addGroupToBasketCommand = addGroupToBasketCommand;
             _generateCommand = generateCommand;
             _dataService = dataService;
             _addCommand = addCommand;
@@ -62,15 +65,32 @@ namespace Playground.ViewModels.Collections.Products
 
         public async Task GenerateItem(ProductHeaderViewModel productViewModel)
         {
+            int newId = await GetNewId(productViewModel);
+
+            var newItem = _dataService.GetProduct(newId);
+            newItem.AddToBasketCommand = _addCommand;
+
+            Products.AddItems(new List<ProductViewModel> { newItem }, ToGroup, x => x);
+        }
+
+        private async Task<int> GetNewId(ProductHeaderViewModel productViewModel)
+        {
             var products = await _dataService.GetProducts(40);
 
-            var lastId = Products
-                .First(x => x.Key.Equals(productViewModel))
+            var gr = Products
+                .First(x => x.Key.Equals(productViewModel)).ToList();
+
+            if(gr.Count == 0)
+            {
+                return int.Parse(productViewModel.Category);
+            }
+
+            int newId;
+
+            int lastId = gr
                 .OrderBy(x => x.Id)
                 .Last()
                 .Id;
-
-            int newId;
 
             if ((lastId + 1).ToString()[0] == lastId.ToString()[0])
             {
@@ -79,16 +99,18 @@ namespace Playground.ViewModels.Collections.Products
             else
             {
                 int intLength = (int) Math.Floor(Math.Log10(lastId)) + 1;
-                int mult = (int)Math.Pow(10, intLength);
-                int coeff = (int)(lastId / (int) Math.Pow(10, intLength - 1));
+                int mult = (int) Math.Pow(10, intLength);
+                int coeff = (int) (lastId / (int) Math.Pow(10, intLength - 1));
 
                 newId = (int) (coeff * mult);
             }
 
-            var newItem = _dataService.GetProduct(newId);
-            newItem.AddToBasketCommand = _addCommand;
+            return newId;
+        }
 
-            Products.AddItems(new List<ProductViewModel> { newItem }, ToGroup, x => x);
+        public void RemoveGroup(ProductHeaderViewModel productHeaderViewModel)
+        {
+            Products.RemoveGroups(new List<ProductHeaderViewModel> { productHeaderViewModel });
         }
 
         public void RemoveItem(ProductViewModel productViewModel)
@@ -102,7 +124,8 @@ namespace Playground.ViewModels.Collections.Products
             {
                 Category = product.Title.First().ToString(),
                 InfoCommand = _infoCommand,
-                GenerateCommand = _generateCommand
+                GenerateCommand = _generateCommand,
+                AddCommand = _addGroupToBasketCommand
             };
         }
     }
