@@ -4,6 +4,7 @@ using Foundation;
 using Playground.iOS.Views.Table;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
+using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS;
@@ -22,6 +23,9 @@ namespace Playground.iOS.ViewControllers.Collections
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            AddButton.SetCommand(ViewModel.AddAllToCartCommand);
+            GenerateButton.SetCommand(ViewModel.GenerateGroupCommand);
 
             TableView.RegisterNibForCellReuse(ProductTableViewCell.Nib, ProductTableViewCell.Key);
             TableView.RegisterNibForHeaderFooterViewReuse(GroupedTableHeaderView.Nib, GroupedTableHeaderView.Key);

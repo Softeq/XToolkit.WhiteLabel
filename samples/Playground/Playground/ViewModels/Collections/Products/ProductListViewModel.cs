@@ -58,25 +58,49 @@ namespace Playground.ViewModels.Collections.Products
                 product.AddToBasketCommand = _addCommand;
             });
 
-            Products.AddItems(products, ToGroup, x => x);
+            Products.AddItems(products, x => CreateGroup(GetGroupId(x)), x => x);
 
             IsBusy = false;
         }
 
-        public async Task GenerateItem(ProductHeaderViewModel productViewModel)
+        public void TryGenerateGroup()
         {
-            int newId = await GetNewId(productViewModel);
+            var id = GetNewGroupId();
+
+            if(id > 9)
+            {
+                return;
+            }
+
+            var group = CreateGroup(id);
+
+            Products.AddGroups(new List<ProductHeaderViewModel>
+            {
+                group
+            });
+        }
+
+        public void GenerateItem(ProductHeaderViewModel productViewModel)
+        {
+            int newId = GetNewItemId(productViewModel);
 
             var newItem = _dataService.GetProduct(newId);
             newItem.AddToBasketCommand = _addCommand;
 
-            Products.AddItems(new List<ProductViewModel> { newItem }, ToGroup, x => x);
+            Products.AddItems(new List<ProductViewModel> { newItem }, x => CreateGroup(GetGroupId(x)), x => x);
         }
 
-        private async Task<int> GetNewId(ProductHeaderViewModel productViewModel)
+        private int GetNewGroupId()
         {
-            var products = await _dataService.GetProducts(40);
+            return Products.Count() > 0 ? Products
+                            .Select(x => x.Key)
+                            .OrderBy(x => x.Id)
+                            .Last()
+                            .Id + 1 : 1;
+        }
 
+        private int GetNewItemId(ProductHeaderViewModel productViewModel)
+        {
             var gr = Products
                 .First(x => x.Key.Equals(productViewModel)).ToList();
 
@@ -108,25 +132,36 @@ namespace Playground.ViewModels.Collections.Products
             return newId;
         }
 
-        public void RemoveGroup(ProductHeaderViewModel productHeaderViewModel)
+        public void ClearGroups()
         {
-            Products.RemoveGroups(new List<ProductHeaderViewModel> { productHeaderViewModel });
+            Products.ClearGroups();
+        }
+
+        public void ClearGroup(ProductHeaderViewModel productHeaderViewModel)
+        {
+            Products.ClearGroup(productHeaderViewModel);
         }
 
         public void RemoveItem(ProductViewModel productViewModel)
         {
-            Products.RemoveItems(new List<ProductViewModel> { productViewModel }, ToGroup, x => x);
+            Products.RemoveItems(new List<ProductViewModel> { productViewModel }, x => CreateGroup(GetGroupId(x)), x => x);
         }
 
-        private ProductHeaderViewModel ToGroup(ProductViewModel product)
+        private ProductHeaderViewModel CreateGroup(int id)
         {
             return new ProductHeaderViewModel
             {
-                Category = product.Title.First().ToString(),
+                Id = id,
+                Category =id.ToString(),
                 InfoCommand = _infoCommand,
                 GenerateCommand = _generateCommand,
                 AddCommand = _addGroupToBasketCommand
             };
+        }
+
+        private int GetGroupId(ProductViewModel product)
+        {
+            return int.Parse(product.Id.ToString()[0].ToString());
         }
     }
 }

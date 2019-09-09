@@ -1,6 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using Playground.Services;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Common.Command;
@@ -14,7 +14,7 @@ namespace Playground.ViewModels.Collections
     {
         private readonly IDialogsService _dialogsService;
         private readonly ICommand<ProductViewModel> _addToCartCommand;
-        private readonly ICommand<ProductHeaderViewModel> _addGroupToBasketCommand;
+        private readonly ICommand<ProductHeaderViewModel> _addGroupToCartCommand;
         private readonly ICommand<ProductHeaderViewModel> _groupInfoCommand;
         private readonly ICommand<ProductHeaderViewModel> _generateItemCommand;
 
@@ -23,13 +23,19 @@ namespace Playground.ViewModels.Collections
             IDataService dataService)
         {
             _dialogsService = dialogsService;
-            _addGroupToBasketCommand = new RelayCommand<ProductHeaderViewModel>(AddGroupToBasket);
-            _generateItemCommand = new AsyncCommand<ProductHeaderViewModel>(GenerateItem);
+            AddAllToCartCommand = new RelayCommand(AddAll);
+            GenerateGroupCommand = new RelayCommand(GenerateGroup);
+            _addGroupToCartCommand = new RelayCommand<ProductHeaderViewModel>(AddGroupToBasket);
+            _generateItemCommand = new RelayCommand<ProductHeaderViewModel>(GenerateItem);
             _groupInfoCommand = new AsyncCommand<ProductHeaderViewModel>(GroupInfo);
             _addToCartCommand = new RelayCommand<ProductViewModel>(AddToBasket, CanAddToBasket);
-            ProductListViewModel = new ProductListViewModel(dataService, _addGroupToBasketCommand, _generateItemCommand, _addToCartCommand, _groupInfoCommand);
+            ProductListViewModel = new ProductListViewModel(dataService, _addGroupToCartCommand, _generateItemCommand, _addToCartCommand, _groupInfoCommand);
             ProductBasketViewModel = new ProductBasketViewModel();
         }
+
+        public ICommand AddAllToCartCommand { get; }
+
+        public ICommand GenerateGroupCommand { get; }
 
         public ProductListViewModel ProductListViewModel { get; }
 
@@ -42,13 +48,27 @@ namespace Playground.ViewModels.Collections
             await ProductListViewModel.LoadDataAsync();
         }
 
+        private void AddAll()
+        {
+            ProductListViewModel.Products
+                .SelectMany(x => x)
+                .Apply(ProductBasketViewModel.AddItem);
+
+            ProductListViewModel.ClearGroups();
+        }
+
+        private void GenerateGroup()
+        {
+            ProductListViewModel.TryGenerateGroup();
+        }
+
         private void AddGroupToBasket(ProductHeaderViewModel viewModel)
         {
             ProductListViewModel.Products
                 .First(x => x.Key.Equals(viewModel))
                 .Apply(x => ProductBasketViewModel.AddItem(x));
 
-            ProductListViewModel.RemoveGroup(viewModel);
+            ProductListViewModel.ClearGroup(viewModel);
         }
 
         private void AddToBasket(ProductViewModel product)
@@ -68,9 +88,9 @@ namespace Playground.ViewModels.Collections
             await _dialogsService.ShowDialogAsync("Info", $"{groupHeader.Category}th section.", "OK");
         }
 
-        private Task GenerateItem(ProductHeaderViewModel groupHeader)
+        private void GenerateItem(ProductHeaderViewModel groupHeader)
         {
-            return ProductListViewModel.GenerateItem(groupHeader);
+            ProductListViewModel.GenerateItem(groupHeader);
         }
     }
 }

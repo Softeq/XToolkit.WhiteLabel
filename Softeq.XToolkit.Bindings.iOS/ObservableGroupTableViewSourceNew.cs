@@ -166,15 +166,21 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
             NSThreadExtensions.ExecuteOnMainThread(() =>
             {
+                if (e.Action == NotifyCollectionChangedAction.Reset)
+                {
+                    HandleGroupsReset();
+                    return;
+                }
+
                 _tableViewRef.Target?.BeginUpdates();
 
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        HandleGroupAdd(e);
+                        HandleGroupsAdd(e);
                         break;
                     case NotifyCollectionChangedAction.Remove:
-                        HandleGroupRemove(e);
+                        HandleGroupsRemove(e);
                         break;
                 }
 
@@ -190,6 +196,9 @@ namespace Softeq.XToolkit.Bindings.iOS
                             case NotifyCollectionChangedAction.Remove:
                                 HandleItemsRemove(groupEvent.GroupIndex, groupEvent.Arg);
                                 break;
+                            case NotifyCollectionChangedAction.Reset:
+                                HandleItemsReset(groupEvent.GroupIndex);
+                                break;
                         }
                     }
                 }
@@ -198,7 +207,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             });
         }
 
-        private void HandleGroupAdd(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        private void HandleGroupsAdd(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
             foreach(var sectionsRange in e.NewItemRanges)
             {
@@ -213,7 +222,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
         }
 
-        private void HandleGroupRemove(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        private void HandleGroupsRemove(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
             foreach(var sectionsRange in e.OldItemRanges)
             {
@@ -226,6 +235,11 @@ namespace Softeq.XToolkit.Bindings.iOS
                     sectionIndex++;
                 }
             }
+        }
+
+        private void HandleGroupsReset()
+        {
+            _tableViewRef.Target?.ReloadData();
         }
 
         private void HandleItemsAdd(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
@@ -249,5 +263,10 @@ namespace Softeq.XToolkit.Bindings.iOS
                 _tableViewRef.Target?.DeleteRows(indexPaths, UITableViewRowAnimation.Automatic);
             }
         }
-    }
+
+        private void HandleItemsReset(int groupIndex)
+        {
+            _tableViewRef.Target?.ReloadSections(NSIndexSet.FromIndex(groupIndex), UITableViewRowAnimation.Automatic);
+        }
+     }
 }

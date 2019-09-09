@@ -8,6 +8,8 @@ namespace Playground.ViewModels.Collections.Products
 {
     public class ProductHeaderViewModel
     {
+        public int Id { get; set; }
+
         public string Category { get; set; }
 
         public ICommand<ProductHeaderViewModel> AddCommand { get; set; }

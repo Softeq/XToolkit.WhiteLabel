@@ -12,6 +12,12 @@ namespace Playground.iOS.ViewControllers.Collections
 	partial class GroupedListPageViewController
 	{
 		[Outlet]
+		UIKit.UIButton AddButton { get; set; }
+
+		[Outlet]
+		UIKit.UIButton GenerateButton { get; set; }
+
+		[Outlet]
 		UIKit.UITableView TableView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
@@ -19,6 +25,16 @@ namespace Playground.iOS.ViewControllers.Collections
 			if (TableView != null) {
 				TableView.Dispose ();
 				TableView = null;
+			}
+
+			if (GenerateButton != null) {
+				GenerateButton.Dispose ();
+				GenerateButton = null;
+			}
+
+			if (AddButton != null) {
+				AddButton.Dispose ();
+				AddButton = null;
 			}
 		}
 	}

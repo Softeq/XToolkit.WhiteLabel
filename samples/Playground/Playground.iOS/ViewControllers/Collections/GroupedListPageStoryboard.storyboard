@@ -21,20 +21,40 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Bvh-1e-UHx">
+                                <rect key="frame" x="0.0" y="44" width="414" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Pp3-9d-QRD">
+                                        <rect key="frame" x="0.0" y="0.0" width="207" height="50"/>
+                                        <state key="normal" title="Generate"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="qTY-yZ-aYg">
+                                        <rect key="frame" x="207" y="0.0" width="207" height="50"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="XpQ-Na-Wkg"/>
+                                </constraints>
+                            </stackView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bO6-fC-l03">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="bO6-fC-l03" secondAttribute="trailing" id="0Zq-pz-8ii"/>
+                            <constraint firstItem="Bvh-1e-UHx" firstAttribute="leading" secondItem="bDR-Xz-TQn" secondAttribute="leading" id="G7c-mb-VPJ"/>
                             <constraint firstItem="2nb-sz-GOF" firstAttribute="top" secondItem="bO6-fC-l03" secondAttribute="bottom" id="Pcd-KF-nJ1"/>
+                            <constraint firstAttribute="trailing" secondItem="Bvh-1e-UHx" secondAttribute="trailing" id="Ylu-2j-1Tl"/>
+                            <constraint firstItem="Bvh-1e-UHx" firstAttribute="top" secondItem="VVV-TW-KzD" secondAttribute="bottom" id="cPa-sd-Upt"/>
                             <constraint firstItem="bO6-fC-l03" firstAttribute="leading" secondItem="bDR-Xz-TQn" secondAttribute="leading" id="f4K-TY-uFc"/>
-                            <constraint firstItem="bO6-fC-l03" firstAttribute="top" secondItem="VVV-TW-KzD" secondAttribute="bottom" id="lqB-uI-7yM"/>
+                            <constraint firstItem="bO6-fC-l03" firstAttribute="top" secondItem="Bvh-1e-UHx" secondAttribute="bottom" id="lqB-uI-7yM"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="AddButton" destination="qTY-yZ-aYg" id="QGv-Lf-Vdh"/>
+                        <outlet property="GenerateButton" destination="Pp3-9d-QRD" id="dtl-R4-IcD"/>
                         <outlet property="TableView" destination="bO6-fC-l03" id="4nu-WQ-8iy"/>
                     </connections>
                 </viewController>
