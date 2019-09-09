@@ -168,6 +168,28 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             var listOfFiredActions = RemoveItemsTest(groupCollection);
 
+            Assert.Equal(1, listOfFiredActions[0].GroupEvents.Count);
+
+            Assert.Equal(3, listOfFiredActions[0].GroupEvents[0].GroupIndex);
+
+            Assert.Equal(NotifyCollectionChangedAction.Remove, listOfFiredActions[0].GroupEvents[0].Arg.Action);
+
+            Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges);
+
+            Assert.NotNull(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges);
+
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges.Count);
+
+            Assert.Equal(0, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].Index);
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[1].Index);
+
+            Assert.Equal(1, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].OldItems.Count);
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[1].OldItems.Count);
+
+            Assert.Equal("newKey3value1", listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].OldItems[0]);
+            Assert.Equal("newKey3value3", listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[1].OldItems[0]);
+            Assert.Equal("newKey3value4", listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[1].OldItems[1]);
+
             Assert.Equal(NotifyCollectionChangedAction.Remove, listOfFiredActions[0].Action);
 
             Assert.NotNull(listOfFiredActions[0].OldItemRanges);
@@ -340,6 +362,37 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var groupCollection = new ObservableKeyGroupsCollectionNew<string, string>(false);
 
             var listOfFiredActions = RemoveItemsTest(groupCollection);
+
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents.Count);
+
+            Assert.Equal(1, listOfFiredActions[0].GroupEvents[0].GroupIndex);
+            Assert.Equal(3, listOfFiredActions[0].GroupEvents[1].GroupIndex);
+
+            Assert.Equal(NotifyCollectionChangedAction.Remove, listOfFiredActions[0].GroupEvents[0].Arg.Action);
+            Assert.Equal(NotifyCollectionChangedAction.Remove, listOfFiredActions[0].GroupEvents[1].Arg.Action);
+
+            Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges);
+            Assert.Null(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges);
+
+            Assert.NotNull(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges);
+            Assert.NotNull(listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges);
+
+            Assert.Equal(1, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges.Count);
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges.Count);
+
+            Assert.Equal(0, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].Index);
+            Assert.Equal(0, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[0].Index);
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[1].Index);
+
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].OldItems.Count);
+            Assert.Equal(1, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[0].OldItems.Count);
+            Assert.Equal(2, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[1].OldItems.Count);
+
+            Assert.Equal("newKey1value1", listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].OldItems[0]);
+            Assert.Equal("newKey1value2", listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].OldItems[1]);
+            Assert.Equal("newKey3value1", listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[0].OldItems[0]);
+            Assert.Equal("newKey3value3", listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[1].OldItems[0]);
+            Assert.Equal("newKey3value4", listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[1].OldItems[1]);
 
             Assert.Null(listOfFiredActions[0].Action);
 
@@ -742,37 +795,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Null(listOfFiredActions[0].NewItemRanges);
 
             Assert.NotNull(listOfFiredActions[0].GroupEvents);
-
-            Assert.Equal(2, listOfFiredActions[0].GroupEvents.Count);
-
-            Assert.Equal(1, listOfFiredActions[0].GroupEvents[0].GroupIndex);
-            Assert.Equal(3, listOfFiredActions[0].GroupEvents[1].GroupIndex);
-
-            Assert.Equal(NotifyCollectionChangedAction.Remove, listOfFiredActions[0].GroupEvents[0].Arg.Action);
-            Assert.Equal(NotifyCollectionChangedAction.Remove, listOfFiredActions[0].GroupEvents[1].Arg.Action);
-
-            Assert.Null(listOfFiredActions[0].GroupEvents[0].Arg.NewItemRanges);
-            Assert.Null(listOfFiredActions[0].GroupEvents[1].Arg.NewItemRanges);
-
-            Assert.NotNull(listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges);
-            Assert.NotNull(listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges);
-
-            Assert.Equal(1, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges.Count);
-            Assert.Equal(2, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges.Count);
-
-            Assert.Equal(0, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].Index);
-            Assert.Equal(0, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[0].Index);
-            Assert.Equal(2, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[1].Index);
-
-            Assert.Equal(2, listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].OldItems.Count);
-            Assert.Equal(1, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[0].OldItems.Count);
-            Assert.Equal(2, listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[1].OldItems.Count);
-
-            Assert.Equal("newKey1value1", listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].OldItems[0]);
-            Assert.Equal("newKey1value2", listOfFiredActions[0].GroupEvents[0].Arg.OldItemRanges[0].OldItems[1]);
-            Assert.Equal("newKey3value1", listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[0].OldItems[0]);
-            Assert.Equal("newKey3value3", listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[1].OldItems[0]);
-            Assert.Equal("newKey3value4", listOfFiredActions[0].GroupEvents[1].Arg.OldItemRanges[1].OldItems[1]);
 
             return listOfFiredActions;
         }

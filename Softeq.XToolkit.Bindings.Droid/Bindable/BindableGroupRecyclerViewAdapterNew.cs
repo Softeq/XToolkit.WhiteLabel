@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Linq;
 using Android.OS;
 using Android.Support.V7.Widget;
@@ -237,6 +238,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
             // TODO YP: improve handling without reload
+
             NotifyDataSetChanged();
         }
 
