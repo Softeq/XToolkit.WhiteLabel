@@ -182,6 +182,9 @@ namespace Softeq.XToolkit.Bindings.iOS
                     case NotifyCollectionChangedAction.Remove:
                         HandleGroupsRemove(e);
                         break;
+                    case NotifyCollectionChangedAction.Replace:
+                        HandleGroupsReplace(e);
+                        break;
                 }
 
                 if(e.GroupEvents != null)
@@ -235,6 +238,12 @@ namespace Softeq.XToolkit.Bindings.iOS
                     sectionIndex++;
                 }
             }
+        }
+
+        private void HandleGroupsReplace(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            HandleGroupsAdd(e);
+            HandleGroupsRemove(e);
         }
 
         private void HandleGroupsReset()

@@ -58,7 +58,7 @@ namespace Playground.ViewModels.Collections.Products
                 product.AddToBasketCommand = _addCommand;
             });
 
-            Products.AddItems(products, x => CreateGroup(GetGroupId(x)), x => x);
+            Products.ReplaceItems(products, x => CreateGroup(GetGroupId(x)), x => x);
 
             IsBusy = false;
         }
