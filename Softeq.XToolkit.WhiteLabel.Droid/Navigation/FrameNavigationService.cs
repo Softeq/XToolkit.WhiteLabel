@@ -48,9 +48,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
+                var fragment = _backStack.Peek().Fragment;
+
                 _backStack.Pop();
 
-                ReplaceFragment(_backStack.Peek().Fragment);
+                ViewModelCache.Remove(fragment.GetType().Name);
+
+                var fragmentManager = GetCurrentFragmentManager();
+
+                if (fragmentManager.BackStackEntryCount > 0)
+                {
+                    fragmentManager.PopBackStack();
+                }
+
+                if (fragmentManager.BackStackEntryCount == 0)
+                {
+                    ClearBackStack();
+                }
+
             });
         }
 
@@ -147,7 +162,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void NavigateToViewModel<T>(T viewModel) where T : IViewModelBase
         {
-            if (Contains(viewModel))
+            if (Contains(viewModel)) // TODO YP: pop fm backstack
             {
                 while (!ReferenceEquals(viewModel, _backStack.Peek().ViewModel))
                 {
@@ -194,24 +209,42 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
 
+            ViewModelCache.Save(fragment.GetType().Name, viewModel, true);
+
             _backStack.Push((viewModel, fragment));
+
             ReplaceFragment(fragment);
         }
 
         private void ReplaceFragment(Fragment fragment)
         {
-            var activity = (AppCompatActivity) _currentActivity.Activity;
-            var manager = activity.SupportFragmentManager;
+            var fragmentManager = GetCurrentFragmentManager();
 
-            var transaction = manager.BeginTransaction()
-                .Replace(_containerId, fragment);
+            var transaction = fragmentManager
+                .BeginTransaction()
+                .Replace(_containerId, fragment)
+                .AddToBackStack(null);
 
             PrepareTransaction(transaction).Commit();
+        }
+
+        private FragmentManager GetCurrentFragmentManager()
+        {
+            var activity = (AppCompatActivity) _currentActivity.Activity;
+            return activity.SupportFragmentManager;
         }
 
         private bool Contains(IViewModelBase viewModelBase)
         {
             return _backStack.Any(item => ReferenceEquals(item.ViewModel, viewModelBase));
+        }
+
+        private void ClearBackStack()
+        {
+            while (_backStack.TryPop(out var entry))
+            {
+                ViewModelCache.Remove(entry.Fragment.GetType().Name);
+            }
         }
     }
 }
