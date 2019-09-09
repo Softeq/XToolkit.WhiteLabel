@@ -9,40 +9,59 @@ using System.CodeDom.Compiler;
 
 namespace Playground.iOS.Views.Collections
 {
-    [Register("GroupedHeaderView")]
-    partial class GroupedHeaderView
-    {
-        [Outlet]
-        UIKit.UIView ContainerView { get; set; }
+	[Register ("GroupedHeaderView")]
+	partial class GroupedHeaderView
+	{
+		[Outlet]
+		UIKit.UIButton AddButton { get; set; }
 
-        [Outlet]
-        UIKit.UIButton InfoButton { get; set; }
+		[Outlet]
+		UIKit.UIView ContainerView { get; set; }
 
-        [Outlet]
-        UIKit.UILabel TitleLabel { get; set; }
+		[Outlet]
+		UIKit.UIButton GenerateButton { get; set; }
 
-        [Action("InfoButtonAction:")]
-        partial void InfoButtonAction(Foundation.NSObject _);
+		[Outlet]
+		UIKit.UIButton InfoButton { get; set; }
 
-        void ReleaseDesignerOutlets()
-        {
-            if (TitleLabel != null)
-            {
-                TitleLabel.Dispose();
-                TitleLabel = null;
-            }
+		[Outlet]
+		UIKit.UILabel TitleLabel { get; set; }
 
-            if (ContainerView != null)
-            {
-                ContainerView.Dispose();
-                ContainerView = null;
-            }
+		[Action ("AddButtonAction:")]
+		partial void AddButtonAction (Foundation.NSObject sender);
 
-            if (InfoButton != null)
-            {
-                InfoButton.Dispose();
-                InfoButton = null;
-            }
-        }
-    }
+		[Action ("GenerateButtonAction:")]
+		partial void GenerateButtonAction (Foundation.NSObject sender);
+
+		[Action ("InfoButtonAction:")]
+		partial void InfoButtonAction (Foundation.NSObject _);
+		
+		void ReleaseDesignerOutlets ()
+		{
+			if (AddButton != null) {
+				AddButton.Dispose ();
+				AddButton = null;
+			}
+
+			if (ContainerView != null) {
+				ContainerView.Dispose ();
+				ContainerView = null;
+			}
+
+			if (GenerateButton != null) {
+				GenerateButton.Dispose ();
+				GenerateButton = null;
+			}
+
+			if (InfoButton != null) {
+				InfoButton.Dispose ();
+				InfoButton = null;
+			}
+
+			if (TitleLabel != null) {
+				TitleLabel.Dispose ();
+				TitleLabel = null;
+			}
+		}
+	}
 }

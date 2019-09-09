@@ -15,6 +15,9 @@ namespace Playground.iOS.ViewControllers.Collections
 		UIKit.UIButton AddButton { get; set; }
 
 		[Outlet]
+		UIKit.UIActivityIndicatorView BusyView { get; set; }
+
+		[Outlet]
 		UIKit.UIButton GenerateButton { get; set; }
 
 		[Outlet]
@@ -22,9 +25,9 @@ namespace Playground.iOS.ViewControllers.Collections
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (TableView != null) {
-				TableView.Dispose ();
-				TableView = null;
+			if (AddButton != null) {
+				AddButton.Dispose ();
+				AddButton = null;
 			}
 
 			if (GenerateButton != null) {
@@ -32,9 +35,14 @@ namespace Playground.iOS.ViewControllers.Collections
 				GenerateButton = null;
 			}
 
-			if (AddButton != null) {
-				AddButton.Dispose ();
-				AddButton = null;
+			if (TableView != null) {
+				TableView.Dispose ();
+				TableView = null;
+			}
+
+			if (BusyView != null) {
+				BusyView.Dispose ();
+				BusyView = null;
 			}
 		}
 	}

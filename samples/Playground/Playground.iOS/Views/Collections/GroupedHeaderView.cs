@@ -53,5 +53,15 @@ namespace Playground.iOS.Views.Collections
         {
             ViewModel.InfoCommand?.Execute(ViewModel);
         }
+
+        partial void GenerateButtonAction(NSObject _)
+        {
+            ViewModel.GenerateCommand?.Execute(ViewModel);
+        }
+
+        partial void AddButtonAction(NSObject _)
+        {
+            ViewModel.AddCommand?.Execute(ViewModel);
+        }
     }
 }

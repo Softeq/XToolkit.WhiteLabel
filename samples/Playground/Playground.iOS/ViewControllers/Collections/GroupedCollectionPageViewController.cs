@@ -7,6 +7,7 @@ using Playground.Converters;
 using Playground.iOS.Views.Collections;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
+using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
@@ -30,6 +31,9 @@ namespace Playground.iOS.ViewControllers.Collections
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+
+            AddButton.SetCommand(ViewModel.AddAllToCartCommand);
+            GenerateButton.SetCommand(ViewModel.GenerateGroupCommand);
 
             InitCollectionView();
         }
@@ -70,21 +74,21 @@ namespace Playground.iOS.ViewControllers.Collections
             CollectionView.Delegate = new GroupedCollectionViewDelegateFlowLayout(columnsCount: 3);
 
             // set custom data source
-            //CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products)
-            //{
-            //    // main way for handle click by item
-            //    ItemClick = ViewModel.AddToCartCommand
-            //};
+            CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products)
+            {
+                // main way for handle click by item
+                //ItemClick = ViewModel.AddToCartCommand
+            };
         }
 
-        private class ProductsDataSource : BindableGroupCollectionViewSource<
+        private class ProductsDataSource : BindableGroupCollectionViewSourceNew<
             ProductHeaderViewModel, // header data type
             ProductViewModel,       // item data type
             GroupedHeaderView,      // header view type
             ProductViewCell>        // item cell type
         {
             public ProductsDataSource(
-                ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> items)
+                ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> items)
                 : base(items)
             {
             }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Foundation;
+using Playground.Converters;
 using Playground.iOS.Views.Table;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
@@ -48,6 +49,9 @@ namespace Playground.iOS.ViewControllers.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
+
+            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => BusyView.Hidden,
+                new InverseBooleanConverter());
         }
 
         private UIView GetHeaderView(UITableView tableView, ProductHeaderViewModel viewModel)

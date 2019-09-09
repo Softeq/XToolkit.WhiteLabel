@@ -21,8 +21,23 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="GvW-FL-L4i">
+                                <rect key="frame" x="20" y="44" width="374" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="KEH-zm-Jhj">
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="50"/>
+                                        <state key="normal" title="Generate"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="contactAdd" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="38y-Ou-uGQ">
+                                        <rect key="frame" x="187" y="0.0" width="187" height="50"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Ipr-vs-2aW"/>
+                                </constraints>
+                            </stackView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Lsj-2D-wv7">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="hX6-1x-h7l">
                                     <size key="itemSize" width="100" height="100"/>
@@ -39,17 +54,22 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
+                            <constraint firstItem="GvW-FL-L4i" firstAttribute="top" secondItem="ZJg-LX-5MA" secondAttribute="bottom" id="31q-qL-TQy"/>
                             <constraint firstItem="VZq-MF-Q3W" firstAttribute="centerX" secondItem="I7e-It-LjG" secondAttribute="centerX" id="6La-mw-X34"/>
                             <constraint firstItem="VZq-MF-Q3W" firstAttribute="centerY" secondItem="I7e-It-LjG" secondAttribute="centerY" id="L6x-s0-4KI"/>
                             <constraint firstItem="VfP-Th-SzX" firstAttribute="top" secondItem="Lsj-2D-wv7" secondAttribute="bottom" id="Rqv-qd-QoD"/>
                             <constraint firstAttribute="trailing" secondItem="Lsj-2D-wv7" secondAttribute="trailing" id="U75-vu-N8Y"/>
                             <constraint firstItem="Lsj-2D-wv7" firstAttribute="leading" secondItem="I7e-It-LjG" secondAttribute="leading" id="Vwl-tW-dB3"/>
-                            <constraint firstItem="Lsj-2D-wv7" firstAttribute="top" secondItem="ZJg-LX-5MA" secondAttribute="bottom" id="nvX-E3-gAn"/>
+                            <constraint firstItem="Lsj-2D-wv7" firstAttribute="top" secondItem="GvW-FL-L4i" secondAttribute="bottom" id="nvX-E3-gAn"/>
+                            <constraint firstItem="GvW-FL-L4i" firstAttribute="leading" secondItem="I7e-It-LjG" secondAttribute="leadingMargin" id="s9M-yP-eTl"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="GvW-FL-L4i" secondAttribute="trailing" id="uwJ-8S-l5q"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="ActivityIndicatorView" destination="VZq-MF-Q3W" id="SLF-ix-7ry"/>
+                        <outlet property="AddButton" destination="38y-Ou-uGQ" id="aIC-Mz-amx"/>
                         <outlet property="CollectionView" destination="Lsj-2D-wv7" id="QHJ-Hn-6QZ"/>
+                        <outlet property="GenerateButton" destination="KEH-zm-Jhj" id="olh-V3-0sv"/>
                         <outlet property="searchDisplayController" destination="5uS-Bm-k7R" id="gh6-N0-h6N"/>
                     </connections>
                 </viewController>

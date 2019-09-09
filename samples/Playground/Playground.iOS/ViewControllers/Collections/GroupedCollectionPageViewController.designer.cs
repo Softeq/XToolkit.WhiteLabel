@@ -16,18 +16,34 @@ namespace Playground.iOS.ViewControllers.Collections
 		UIKit.UIActivityIndicatorView ActivityIndicatorView { get; set; }
 
 		[Outlet]
+		UIKit.UIButton AddButton { get; set; }
+
+		[Outlet]
 		UIKit.UICollectionView CollectionView { get; set; }
+
+		[Outlet]
+		UIKit.UIButton GenerateButton { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ActivityIndicatorView != null) {
+				ActivityIndicatorView.Dispose ();
+				ActivityIndicatorView = null;
+			}
+
 			if (CollectionView != null) {
 				CollectionView.Dispose ();
 				CollectionView = null;
 			}
 
-			if (ActivityIndicatorView != null) {
-				ActivityIndicatorView.Dispose ();
-				ActivityIndicatorView = null;
+			if (GenerateButton != null) {
+				GenerateButton.Dispose ();
+				GenerateButton = null;
+			}
+
+			if (AddButton != null) {
+				AddButton.Dispose ();
+				AddButton = null;
 			}
 		}
 	}
