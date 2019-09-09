@@ -7,6 +7,7 @@ using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
 using Softeq.XToolkit.Common.Collections;
@@ -24,6 +25,8 @@ namespace Playground.Droid.Views.Collections
 
         private ProgressBar _progress;
         private RecyclerView _recyclerView;
+        private Button _generateButton;
+        private Button _addButton;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -31,6 +34,8 @@ namespace Playground.Droid.Views.Collections
 
             SetContentView(Resource.Layout.activity_group_collection);
 
+            _generateButton = FindViewById<Button>(Resource.Id.button_generate);
+            _addButton = FindViewById<Button>(Resource.Id.button_add);
             _progress = FindViewById<ProgressBar>(Resource.Id.activity_group_collection_progress);
             _recyclerView = FindViewById<RecyclerView>(Resource.Id.activity_group_collection_lst);
 
@@ -41,10 +46,9 @@ namespace Playground.Droid.Views.Collections
             // init adapter
             var adapter = new CustomAdapter(ViewModel.ProductListViewModel.Products)
             {
-                FooterViewHolder = typeof(ProductsListHeaderViewHolder),
                 HeaderSectionViewHolder = typeof(ProductHeaderViewHolder),
                 FooterSectionViewHolder = typeof(ProductFooterViewHolder),
-                ItemClick = ViewModel.AddToCartCommand
+                //ItemClick = ViewModel.AddToCartCommand
             };
             _recyclerView.SetAdapter(adapter);
 
@@ -52,6 +56,9 @@ namespace Playground.Droid.Views.Collections
             var layoutManager = new GridLayoutManager(this, ColumnsCount);
             layoutManager.SetSpanSizeLookup(new GroupedSpanSizeLookup(adapter, ColumnsCount));
             _recyclerView.SetLayoutManager(layoutManager);
+
+            _generateButton.SetCommand(ViewModel.GenerateGroupCommand);
+            _addButton.SetCommand(ViewModel.AddAllToCartCommand);
         }
 
         protected override void DoAttachBindings()
@@ -93,12 +100,12 @@ namespace Playground.Droid.Views.Collections
     /// <summary>
     ///     Sample of custom <see cref="T:BindableGroupRecyclerViewAdapter"/>
     /// </summary>
-    internal class CustomAdapter : BindableGroupRecyclerViewAdapter<
+    internal class CustomAdapter : BindableGroupRecyclerViewAdapterNew<
         ProductHeaderViewModel, // header data type
         ProductViewModel,       // item data type
         ProductViewHolder>      // item ViewHolder type
     {
-        public CustomAdapter(ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> items) : base(items)
+        public CustomAdapter(ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> items) : base(items)
         {
         }
 

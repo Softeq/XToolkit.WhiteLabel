@@ -21,11 +21,23 @@
             android:text="123"
             android:textColor="@android:color/black" />
 
-        <ImageButton
+        <Button
+            android:id="@+id/item_product_header_generate_btn"
+            android:text="Generate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/item_product_header_add_btn"
+            android:text="+"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
             android:id="@+id/item_product_header_info_btn"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:background="@android:drawable/ic_menu_info_details" />
+            android:text="ⓘ"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
 
     </LinearLayout>
 
