@@ -44,8 +44,8 @@ namespace Playground.iOS.ViewControllers.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
-            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => ActivityIndicatorView.Hidden,
-                new InverseBooleanConverter());
+            //this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => ActivityIndicatorView.Hidden,
+            //    new InverseBooleanConverter());
         }
 
         private void InitCollectionView()

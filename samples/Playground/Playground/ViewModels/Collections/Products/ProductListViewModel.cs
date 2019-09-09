@@ -36,7 +36,7 @@ namespace Playground.ViewModels.Collections.Products
             _addCommand = addCommand;
             _infoCommand = infoCommand;
 
-            Products = new ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel>(false);
+            Products = new ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel>();
         }
 
         public ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> Products { get; }
@@ -49,18 +49,18 @@ namespace Playground.ViewModels.Collections.Products
 
         public async Task LoadDataAsync()
         {
-            IsBusy = true;
+            //IsBusy = true;
 
-            var products = await _dataService.GetProducts(40);
+            //var products = await _dataService.GetProducts(40);
 
-            products.Apply(product =>
-            {
-                product.AddToBasketCommand = _addCommand;
-            });
+            //products.Apply(product =>
+            //{
+            //    product.AddToBasketCommand = _addCommand;
+            //});
 
-            Products.ReplaceItems(products, x => CreateGroup(GetGroupId(x)), x => x);
+            //Products.ReplaceItems(products, x => CreateGroup(GetGroupId(x)), x => x);
 
-            IsBusy = false;
+            //IsBusy = false;
         }
 
         public void TryGenerateGroup()
@@ -74,20 +74,34 @@ namespace Playground.ViewModels.Collections.Products
 
             var group = CreateGroup(id);
 
-            Products.AddGroups(new List<ProductHeaderViewModel>
+            var item = GenerateItem(group);
+
+            Products.AddGroups(new List<KeyValuePair<ProductHeaderViewModel, IList<ProductViewModel>>>
             {
-                group
+                new KeyValuePair<ProductHeaderViewModel, IList<ProductViewModel>>(group, new List<ProductViewModel> { item })
             });
         }
 
-        public void GenerateItem(ProductHeaderViewModel productViewModel)
+        public void GenerateAndAddItem(ProductHeaderViewModel productViewModel)
         {
             int newId = GetNewItemId(productViewModel);
 
             var newItem = _dataService.GetProduct(newId);
             newItem.AddToBasketCommand = _addCommand;
 
-            Products.AddItems(new List<ProductViewModel> { newItem }, x => CreateGroup(GetGroupId(x)), x => x);
+            Products.AddItems(new List<ProductViewModel> { GenerateItem(productViewModel) },
+                x => CreateGroup(GetGroupId(x)),
+                x => x);
+        }
+
+        private ProductViewModel GenerateItem(ProductHeaderViewModel productViewModel)
+        {
+            int newId = GetNewItemId(productViewModel);
+
+            var newItem = _dataService.GetProduct(newId);
+            newItem.AddToBasketCommand = _addCommand;
+
+            return newItem;
         }
 
         private int GetNewGroupId()
@@ -101,10 +115,12 @@ namespace Playground.ViewModels.Collections.Products
 
         private int GetNewItemId(ProductHeaderViewModel productViewModel)
         {
-            var gr = Products
-                .First(x => x.Key.Equals(productViewModel)).ToList();
+            var gr = Products?
+                .FirstOrDefault(x => x.Key.Equals(productViewModel))?
+                .ToList();
 
-            if(gr.Count == 0)
+            if (gr == null
+                || gr.Count == 0)
             {
                 return int.Parse(productViewModel.Category);
             }

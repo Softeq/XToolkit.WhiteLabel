@@ -40,7 +40,7 @@
                                 <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="7d6-Ez-DaW">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="7d6-Ez-DaW">
                                 <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
@@ -59,6 +59,11 @@
                             <constraint firstItem="bO6-fC-l03" firstAttribute="leading" secondItem="bDR-Xz-TQn" secondAttribute="leading" id="f4K-TY-uFc"/>
                             <constraint firstItem="bO6-fC-l03" firstAttribute="top" secondItem="Bvh-1e-UHx" secondAttribute="bottom" id="lqB-uI-7yM"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="7d6-Ez-DaW"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="AddButton" destination="qTY-yZ-aYg" id="QGv-Lf-Vdh"/>

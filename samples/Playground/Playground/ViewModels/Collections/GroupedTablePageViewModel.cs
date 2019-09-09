@@ -90,7 +90,7 @@ namespace Playground.ViewModels.Collections
 
         private void GenerateItem(ProductHeaderViewModel groupHeader)
         {
-            ProductListViewModel.GenerateItem(groupHeader);
+            ProductListViewModel.GenerateAndAddItem(groupHeader);
         }
     }
 }

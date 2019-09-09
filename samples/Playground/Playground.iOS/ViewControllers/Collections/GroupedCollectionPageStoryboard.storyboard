@@ -47,7 +47,7 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="VZq-MF-Q3W">
+                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="VZq-MF-Q3W">
                                 <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
                                 <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                             </activityIndicatorView>
@@ -64,6 +64,11 @@
                             <constraint firstItem="GvW-FL-L4i" firstAttribute="leading" secondItem="I7e-It-LjG" secondAttribute="leadingMargin" id="s9M-yP-eTl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="GvW-FL-L4i" secondAttribute="trailing" id="uwJ-8S-l5q"/>
                         </constraints>
+                        <variation key="default">
+                            <mask key="subviews">
+                                <exclude reference="VZq-MF-Q3W"/>
+                            </mask>
+                        </variation>
                     </view>
                     <connections>
                         <outlet property="ActivityIndicatorView" destination="VZq-MF-Q3W" id="SLF-ix-7ry"/>

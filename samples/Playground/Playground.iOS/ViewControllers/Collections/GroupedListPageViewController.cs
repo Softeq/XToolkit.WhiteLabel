@@ -50,8 +50,8 @@ namespace Playground.iOS.ViewControllers.Collections
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
 
-            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => BusyView.Hidden,
-                new InverseBooleanConverter());
+            //this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => BusyView.Hidden,
+            //    new InverseBooleanConverter());
         }
 
         private UIView GetHeaderView(UITableView tableView, ProductHeaderViewModel viewModel)
