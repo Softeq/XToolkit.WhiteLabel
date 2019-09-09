@@ -1,12 +1,13 @@
 ﻿using System;
 using CoreGraphics;
+using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using UIKit;
 
 namespace Playground.iOS.Views.Table
 {
-    public class GroupedTableFooterView : BindableTableViewHeaderFooterView<string>
+    public class GroupedTableFooterView : BindableTableViewHeaderFooterView<ProductHeaderViewModel>
     {
         private readonly UILabel _label;
 
@@ -29,7 +30,7 @@ namespace Playground.iOS.Views.Table
         {
             base.DoAttachBindings();
 
-            _label.Text = ViewModel;
+            _label.Text = $"Custom DataContext for section: {ViewModel.Id}";
         }
     }
 }

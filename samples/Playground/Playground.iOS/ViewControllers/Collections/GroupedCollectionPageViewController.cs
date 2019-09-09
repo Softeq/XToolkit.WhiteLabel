@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Linq;
 using Foundation;
 using Playground.Converters;
 using Playground.iOS.Views.Collections;
@@ -102,7 +103,7 @@ namespace Playground.iOS.ViewControllers.Collections
                     indexPath);
 
                 var bindableFooter = (IBindableView) footer;
-                bindableFooter.ReloadDataContext($"Custom DataContext for section: {indexPath.Section}");
+                bindableFooter.ReloadDataContext(DataSource.ElementAt(indexPath.Section).Key); 
 
                 return footer;
             }

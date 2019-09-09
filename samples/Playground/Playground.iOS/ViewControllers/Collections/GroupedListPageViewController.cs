@@ -30,7 +30,7 @@ namespace Playground.iOS.ViewControllers.Collections
 
             TableView.RegisterNibForCellReuse(ProductTableViewCell.Nib, ProductTableViewCell.Key);
             TableView.RegisterNibForHeaderFooterViewReuse(GroupedTableHeaderView.Nib, GroupedTableHeaderView.Key);
-            //TableView.RegisterClassForCellReuse(typeof(GroupedTableFooterView), nameof(GroupedTableFooterView));
+            TableView.RegisterClassForHeaderFooterViewReuse(typeof(GroupedTableFooterView), nameof(GroupedTableFooterView));
 
             TableView.Source = new ObservableGroupTableViewSourceNew<ProductHeaderViewModel, ProductViewModel>(
                 TableView,
@@ -38,9 +38,9 @@ namespace Playground.iOS.ViewControllers.Collections
                 GetCell,
                 null,
                 GetHeaderView,
-                null,
+                GetFooterView,
                 GetHeaderHeight,
-                null,
+                GetFooterHeight,
                 GetHeightForRow);
         }
 
@@ -65,9 +65,25 @@ namespace Playground.iOS.ViewControllers.Collections
             return view;
         }
 
+        private UIView GetFooterView(UITableView tableView, ProductHeaderViewModel viewModel)
+        {
+            var view = tableView.DequeueReusableHeaderFooterView(nameof(GroupedTableFooterView));
+
+            ((IBindableView) view).SetDataContext(viewModel);
+            ((IBindableView) view).DoDetachBindings();
+            ((IBindableView) view).DoAttachBindings();
+
+            return view;
+        }
+
         private nfloat GetHeaderHeight(ProductHeaderViewModel viewModel)
         {
             return 40f;
+        }
+
+        private nfloat GetFooterHeight(ProductHeaderViewModel viewModel)
+        {
+            return 20f;
         }
 
         private nfloat GetHeightForRow(NSIndexPath indexPath)
