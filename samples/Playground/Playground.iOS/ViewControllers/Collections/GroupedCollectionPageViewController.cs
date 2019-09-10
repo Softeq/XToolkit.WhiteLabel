@@ -4,7 +4,6 @@
 using System;
 using System.Linq;
 using Foundation;
-using Playground.Converters;
 using Playground.iOS.Views.Collections;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
@@ -103,7 +102,7 @@ namespace Playground.iOS.ViewControllers.Collections
                     indexPath);
 
                 var bindableFooter = (IBindableView) footer;
-                bindableFooter.ReloadDataContext(DataSource.ElementAt(indexPath.Section).Key); 
+                bindableFooter.ReloadDataContext(DataSource.ElementAt(indexPath.Section).Key);
 
                 return footer;
             }

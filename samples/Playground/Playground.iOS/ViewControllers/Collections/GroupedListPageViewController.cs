@@ -1,7 +1,6 @@
 using System;
 using System.Collections.Generic;
 using Foundation;
-using Playground.Converters;
 using Playground.iOS.Views.Table;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
@@ -58,9 +57,7 @@ namespace Playground.iOS.ViewControllers.Collections
         {
             var view = tableView.DequeueReusableHeaderFooterView(GroupedTableHeaderView.Key);
 
-            ((IBindableView) view).SetDataContext(viewModel);
-            ((IBindableView) view).DoDetachBindings();
-            ((IBindableView) view).DoAttachBindings();
+            ((IBindableView) view).ReloadDataContext(viewModel);
 
             return view;
         }
@@ -69,9 +66,7 @@ namespace Playground.iOS.ViewControllers.Collections
         {
             var view = tableView.DequeueReusableHeaderFooterView(nameof(GroupedTableFooterView));
 
-            ((IBindableView) view).SetDataContext(viewModel);
-            ((IBindableView) view).DoDetachBindings();
-            ((IBindableView) view).DoAttachBindings();
+            ((IBindableView) view).ReloadDataContext(viewModel);
 
             return view;
         }
@@ -95,9 +90,7 @@ namespace Playground.iOS.ViewControllers.Collections
         {
             var cell = table.DequeueReusableCell(ProductTableViewCell.Key, indexPath);
 
-            ((IBindableView) cell).SetDataContext(viewModel);
-            ((IBindableView) cell).DoDetachBindings();
-            ((IBindableView) cell).DoAttachBindings();
+            ((IBindableView) cell).ReloadDataContext(viewModel);
 
             return cell;
         }
