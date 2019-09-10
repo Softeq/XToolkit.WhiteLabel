@@ -1,5 +1,9 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Foundation;
 using Playground.iOS.Views.Table;
 using Playground.ViewModels.Collections;
@@ -7,7 +11,7 @@ using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Bindings.iOS;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;
 
@@ -31,16 +35,12 @@ namespace Playground.iOS.ViewControllers.Collections
             TableView.RegisterNibForHeaderFooterViewReuse(GroupedTableHeaderView.Nib, GroupedTableHeaderView.Key);
             TableView.RegisterClassForHeaderFooterViewReuse(typeof(GroupedTableFooterView), nameof(GroupedTableFooterView));
 
-            TableView.Source = new ObservableGroupTableViewSourceNew<ProductHeaderViewModel, ProductViewModel>(
-                TableView,
-                ViewModel.ProductListViewModel.Products,
-                GetCell,
-                null,
-                GetHeaderView,
-                GetFooterView,
-                GetHeaderHeight,
-                GetFooterHeight,
-                GetHeightForRow);
+            TableView.Source = new CustomSource(TableView, ViewModel.ProductListViewModel.Products)
+            {
+                HeightForRow = 60f,
+                HeightForHeader = 40f,
+                HeightForFooter = 20f
+            };
         }
 
         protected override void DoAttachBindings()
@@ -53,46 +53,23 @@ namespace Playground.iOS.ViewControllers.Collections
             //    new InverseBooleanConverter());
         }
 
-        private UIView GetHeaderView(UITableView tableView, ProductHeaderViewModel viewModel)
+        private class CustomSource : BindableGroupTableViewSource<ProductHeaderViewModel,
+                ProductViewModel,
+                GroupedTableHeaderView,
+                ProductTableViewCell>
         {
-            var view = tableView.DequeueReusableHeaderFooterView(GroupedTableHeaderView.Key);
+            public CustomSource(UITableView tableView, IEnumerable<IGrouping<ProductHeaderViewModel, ProductViewModel>> items) : base(tableView, items)
+            {
+            }
 
-            ((IBindableView) view).ReloadDataContext(viewModel);
+            public override UIView GetViewForFooter(UITableView tableView, nint section)
+            {
+                var view = tableView.DequeueReusableHeaderFooterView(nameof(GroupedTableFooterView));
 
-            return view;
-        }
+                ((IBindableView) view).ReloadDataContext(DataSource.ElementAt((int)section).Key);
 
-        private UIView GetFooterView(UITableView tableView, ProductHeaderViewModel viewModel)
-        {
-            var view = tableView.DequeueReusableHeaderFooterView(nameof(GroupedTableFooterView));
-
-            ((IBindableView) view).ReloadDataContext(viewModel);
-
-            return view;
-        }
-
-        private nfloat GetHeaderHeight(ProductHeaderViewModel viewModel)
-        {
-            return 40f;
-        }
-
-        private nfloat GetFooterHeight(ProductHeaderViewModel viewModel)
-        {
-            return 20f;
-        }
-
-        private nfloat GetHeightForRow(NSIndexPath indexPath)
-        {
-            return 60;
-        }
-
-        private UITableViewCell GetCell(UITableView table, ProductViewModel viewModel, IList<ProductViewModel> viewModels, NSIndexPath indexPath)
-        {
-            var cell = table.DequeueReusableCell(ProductTableViewCell.Key, indexPath);
-
-            ((IBindableView) cell).ReloadDataContext(viewModel);
-
-            return cell;
+                return view;
+            }
         }
     }
 }

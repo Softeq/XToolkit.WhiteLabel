@@ -3,10 +3,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Collections;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
     {
         public BindableGroupTableViewSource(
             UITableView tableView,
-            ObservableKeyGroupsCollection<TKey, TItem> items)
+            IEnumerable<IGrouping<TKey, TItem>> items)
             : base(tableView, items, null)
         {
         }

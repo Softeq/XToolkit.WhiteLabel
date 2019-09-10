@@ -10,6 +10,7 @@ using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.WeakSubscription;
 using UIKit;
 
@@ -25,11 +26,11 @@ namespace Softeq.XToolkit.Bindings.iOS
         private readonly Func<NSIndexPath, nfloat> _getHeightForRowFunc;
         private readonly Func<nint, nint> _getRowInSectionCountFunc;
         private readonly WeakReferenceEx<UITableView> _tableViewRef;
-        private IDisposable _subscription;
+        private readonly IDisposable _subscription;
 
         public ObservableGroupTableViewSource(
             UITableView tableView,
-            ObservableKeyGroupsCollection<TKey, TItem> items,
+            IEnumerable<IGrouping<TKey, TItem>> items,
             Func<UITableView, TItem, IList<TItem>, NSIndexPath, UITableViewCell> getCellViewFunc,
             Func<nint, nint> getRowInSectionCountFunc = null,
             Func<UITableView, TKey, UIView> getHeaderViewFunc = null,
@@ -48,10 +49,18 @@ namespace Softeq.XToolkit.Bindings.iOS
             _tableViewRef = WeakReferenceEx.Create(tableView);
 
             DataSource = items;
-            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(DataSource, NotifierCollectionChanged);
+
+            if (DataSource is INotifyGroupCollectionChanged dataSource)
+            {
+                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifyCollectionChanged);
+            }
+            else if (DataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
+            {
+                _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
+            }
         }
 
-        public ObservableKeyGroupsCollection<TKey, TItem> DataSource { get; }
+        public IEnumerable<IGrouping<TKey, TItem>> DataSource { get; }
 
         public nfloat? HeightForHeader { get; set; }
 
@@ -74,12 +83,12 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
             var item = GetItemByIndex(indexPath);
 
-            if (indexPath.Section == DataSource.Count - 1 && indexPath.Row == DataSource[indexPath.Section].Count - 1)
+            if (indexPath.Section == DataSource.Count() - 1 && indexPath.Row == DataSource.ElementAt(indexPath.Section).Count() - 1)
             {
                 LastItemRequested?.Invoke(this, EventArgs.Empty);
             }
 
-            return GetItemCell(tableView, item, DataSource[indexPath.Section], indexPath);
+            return GetItemCell(tableView, item, DataSource.ElementAt(indexPath.Section).ToList(), indexPath);
         }
 
         public override UIView GetViewForHeader(UITableView tableView, nint section)
@@ -94,12 +103,12 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         public override nint NumberOfSections(UITableView tableView)
         {
-            return DataSource.Count;
+            return DataSource.Count();
         }
 
         public override nint RowsInSection(UITableView tableview, nint section)
         {
-            return _getRowInSectionCountFunc?.Invoke(section) ?? DataSource[(int) section].Count;
+            return _getRowInSectionCountFunc?.Invoke(section) ?? DataSource.ElementAt((int) section).Count();
         }
 
         public override nfloat GetHeightForHeader(UITableView tableView, nint section)
@@ -156,38 +165,18 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         protected TItem GetItemByIndex(NSIndexPath indexPath)
         {
-            return DataSource[indexPath.Section][indexPath.Row];
+            return DataSource.ElementAt(indexPath.Section).ElementAt(indexPath.Row);
         }
 
         protected TKey GetKeyBySection(nint section)
         {
-            return DataSource[(int) section].Key;
+            return DataSource.ElementAt((int) section).Key;
         }
 
-        protected void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        protected override void Dispose(bool disposing)
         {
-            NSThreadExtensions.ExecuteOnMainThread(() =>
-            {
-                if (e.Action != NotifyCollectionChangedAction.Add && e.Action != NotifyCollectionChangedAction.Remove)
-                {
-                    _tableViewRef.Target?.ReloadData();
-                    return;
-                }
-
-                _tableViewRef.Target?.BeginUpdates();
-
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                        HandleAdd(e);
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        HandleRemove(e);
-                        break;
-                }
-
-                _tableViewRef.Target?.EndUpdates();
-            });
+            base.Dispose(disposing);
+            _subscription?.Dispose();
         }
 
         private void HandleAdd(NotifyKeyGroupsCollectionChangedEventArgs e)
@@ -226,5 +215,154 @@ namespace Softeq.XToolkit.Bindings.iOS
 
             return modifiedIndexPaths.ToArray();
         }
+
+        #region ObservableKeyGroupsCollection
+
+        protected void NotifyCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        {
+            NSThreadExtensions.ExecuteOnMainThread(() =>
+            {
+                if (e.Action != NotifyCollectionChangedAction.Add && e.Action != NotifyCollectionChangedAction.Remove)
+                {
+                    _tableViewRef.Target?.ReloadData();
+                    return;
+                }
+
+                _tableViewRef.Target?.BeginUpdates();
+
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        HandleAdd(e);
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        HandleRemove(e);
+                        break;
+                }
+
+                _tableViewRef.Target?.EndUpdates();
+            });
+        }
+        #endregion
+
+        #region ObservableKeyGroupsCollectionNew
+
+        protected void NotifyCollectionChangedNew(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            NSThreadExtensions.ExecuteOnMainThread(() =>
+            {
+                if (e.Action == NotifyCollectionChangedAction.Reset)
+                {
+                    HandleGroupsReset();
+                    return;
+                }
+
+                _tableViewRef.Target?.BeginUpdates();
+
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        HandleGroupsAdd(e);
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        HandleGroupsRemove(e);
+                        break;
+                    case NotifyCollectionChangedAction.Replace:
+                        HandleGroupsReplace(e);
+                        break;
+                }
+
+                if (e.GroupEvents != null)
+                {
+                    foreach (var groupEvent in e.GroupEvents)
+                    {
+                        switch (groupEvent.Arg.Action)
+                        {
+                            case NotifyCollectionChangedAction.Add:
+                                HandleItemsAdd(groupEvent.GroupIndex, groupEvent.Arg);
+                                break;
+                            case NotifyCollectionChangedAction.Remove:
+                                HandleItemsRemove(groupEvent.GroupIndex, groupEvent.Arg);
+                                break;
+                            case NotifyCollectionChangedAction.Reset:
+                                HandleItemsReset(groupEvent.GroupIndex);
+                                break;
+                        }
+                    }
+                }
+
+                _tableViewRef.Target?.EndUpdates();
+            });
+        }
+
+        private void HandleGroupsAdd(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            foreach (var sectionsRange in e.NewItemRanges)
+            {
+                int sectionIndex = sectionsRange.Index;
+
+                foreach (var section in sectionsRange.NewItems)
+                {
+                    _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.Automatic);
+
+                    sectionIndex++;
+                }
+            }
+        }
+
+        private void HandleGroupsRemove(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            foreach (var sectionsRange in e.OldItemRanges)
+            {
+                int sectionIndex = sectionsRange.Index;
+
+                foreach (var section in sectionsRange.OldItems)
+                {
+                    _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.Automatic);
+
+                    sectionIndex++;
+                }
+            }
+        }
+
+        private void HandleGroupsReplace(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            HandleGroupsAdd(e);
+            HandleGroupsRemove(e);
+        }
+
+        private void HandleGroupsReset()
+        {
+            _tableViewRef.Target?.ReloadData();
+        }
+
+        private void HandleItemsAdd(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        {
+            foreach (var range in args.NewItemRanges)
+            {
+                var indexPaths = Enumerable.Range(range.Index, range.NewItems.Count)
+                    .Select(x => NSIndexPath.FromRowSection(x, groupIndex))
+                    .ToArray();
+                _tableViewRef.Target?.InsertRows(indexPaths, UITableViewRowAnimation.Automatic);
+            }
+        }
+
+        private void HandleItemsRemove(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        {
+            foreach (var range in args.OldItemRanges)
+            {
+                var indexPaths = Enumerable.Range(range.Index, range.OldItems.Count)
+                    .Select(x => NSIndexPath.FromRowSection(x, groupIndex))
+                    .ToArray();
+                _tableViewRef.Target?.DeleteRows(indexPaths, UITableViewRowAnimation.Automatic);
+            }
+        }
+
+        private void HandleItemsReset(int groupIndex)
+        {
+            _tableViewRef.Target?.ReloadSections(NSIndexSet.FromIndex(groupIndex), UITableViewRowAnimation.Automatic);
+        }
+
+        #endregion
     }
 }
