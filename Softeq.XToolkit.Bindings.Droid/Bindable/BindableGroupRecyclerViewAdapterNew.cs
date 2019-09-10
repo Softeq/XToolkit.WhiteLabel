@@ -10,6 +10,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.EventArguments;
 using Softeq.XToolkit.Common.WeakSubscription;
@@ -239,7 +240,44 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         {
             // TODO YP: improve handling without reload
 
-            NotifyDataSetChanged();
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                HandleGroupsReset();
+            }
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    HandleGroupsAdd(e);
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    HandleGroupsRemove(e);
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    HandleGroupsReplace(e);
+                    break;
+            }
+
+            if (e.GroupEvents != null)
+            {
+                foreach (var groupEvent in e.GroupEvents)
+                {
+                    switch (groupEvent.Arg.Action)
+                    {
+                        case NotifyCollectionChangedAction.Add:
+                            HandleItemsAdd(groupEvent.GroupIndex, groupEvent.Arg);
+                            break;
+                        case NotifyCollectionChangedAction.Remove:
+                            HandleItemsRemove(groupEvent.GroupIndex, groupEvent.Arg);
+                            break;
+                        case NotifyCollectionChangedAction.Reset:
+                            HandleItemsReset(groupEvent.GroupIndex);
+                            break;
+                    }
+                }
+            }
+
+            ReloadMapping();
         }
 
         protected override void Dispose(bool disposing)
@@ -248,10 +286,149 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             _subscription.Dispose();
         }
 
+        private void HandleGroupsAdd(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            foreach(var range in e.NewItemRanges)
+            {
+                Enumerable.Range(range.Index, range.NewItems.Count())
+                    .Apply(InsertSection);
+            }
+        }
+
+        private void HandleGroupsRemove(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            foreach (var range in e.OldItemRanges)
+            {
+                Enumerable.Range(range.Index, range.OldItems.Count())
+                    .Apply(RemoveSection);
+            }
+        }
+
+        private void HandleGroupsReplace(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            HandleGroupsAdd(e);
+            HandleGroupsRemove(e);
+        }
+
+        private void HandleGroupsReset()
+        {
+            NotifyDataSetChanged();
+        }
+
+        private void HandleItemsAdd(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        {
+            foreach (var range in args.NewItemRanges)
+            {
+                InsertItems(groupIndex, range.Index, range.NewItems.Count());
+            }
+        }
+
+        private void HandleItemsRemove(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        {
+            foreach (var range in args.OldItemRanges)
+            {
+                RemoveItems(groupIndex, range.Index, range.OldItems.Count());
+            }
+        }
+
+        private void HandleItemsReset(int groupIndex)
+        {
+            RemoveItems(groupIndex, 0, _dataSource.ElementAt(groupIndex).Count());
+        }
+
+        private void InsertSection(int sectionIndex)
+        {
+            int positionStart = default;
+            int count = default;
+
+            var flat = _flatMapping.LastOrDefault(x => x.SectionIndex == sectionIndex - 1)
+                ?? _flatMapping?.FirstOrDefault(x => x.Type == ItemType.Header);
+
+            if (flat == null)
+            {
+                positionStart = 0;
+            }
+            else
+            {
+                positionStart = _flatMapping.IndexOf(flat) + 1;
+            }
+
+            if(HeaderSectionViewHolder != null)
+            {
+                count += 1;
+            }
+
+            count += _dataSource.ElementAt(sectionIndex).Count();
+
+            if(FooterSectionViewHolder != null)
+            {
+                count += 1;
+            }
+
+            NotifyItemRangeInserted(positionStart, count);
+        }
+
+        private void RemoveSection(int sectionIndex)
+        {
+            int positionStart = default;
+            int count = default;
+
+            var flat = _flatMapping.FirstOrDefault(x => x.SectionIndex == sectionIndex);
+
+            if (flat == null)
+            {
+                positionStart = 0;
+            }
+            else
+            {
+                positionStart = _flatMapping.IndexOf(flat);
+            }
+
+            count = _flatMapping.Count(x => x.SectionIndex == sectionIndex);
+
+            NotifyItemRangeRemoved(positionStart, count);
+        }
+
+        private void InsertItems(int sectionIndex, int startIndex, int count)
+        {
+            int positionStart = default;
+
+            var flat = _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.ItemIndex == startIndex - 1)
+                ?? _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.Type == ItemType.SectionHeader)
+                ?? _flatMapping?.LastOrDefault(x => x.SectionIndex == sectionIndex - 1)
+                ?? _flatMapping?.FirstOrDefault(x => x.Type == ItemType.Header);
+
+            if(flat == null)
+            {
+                positionStart = 0;
+            }
+            else
+            {
+                positionStart = _flatMapping.IndexOf(flat) + 1;
+            }
+
+            NotifyItemRangeInserted(positionStart, count);
+        }
+
+        private void RemoveItems(int sectionIndex, int startIndex, int count)
+        {
+            int positionStart = default;
+
+            var flat = _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.ItemIndex == startIndex);
+            if (flat == null)
+            {
+                positionStart = 0;
+            }
+            else
+            {
+                positionStart = _flatMapping.IndexOf(flat);
+            }
+
+            NotifyItemRangeRemoved(positionStart, count);
+        }
+
         private void NotifyCollectionChanged(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
-            ReloadMapping();
-
             NotifyCollectionChangedOnMainThread(e);
         }
 

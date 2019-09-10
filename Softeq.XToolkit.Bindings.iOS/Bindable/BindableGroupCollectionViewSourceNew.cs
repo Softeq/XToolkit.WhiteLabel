@@ -175,7 +175,6 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
                 if (e.Action == NotifyCollectionChangedAction.Reset)
                 {
                     HandleGroupsReset();
-                    return;
                 }
 
                 _collectionViewRef.Target?.PerformBatchUpdates(() =>
