@@ -81,7 +81,7 @@ namespace Playground.iOS.ViewControllers.Collections
             };
         }
 
-        private class ProductsDataSource : BindableGroupCollectionViewSourceNew<
+        private class ProductsDataSource : BindableGroupCollectionViewSource<
             ProductHeaderViewModel, // header data type
             ProductViewModel,       // item data type
             GroupedHeaderView,      // header view type

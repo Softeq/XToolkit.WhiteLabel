@@ -36,7 +36,7 @@ namespace Playground.ViewModels.Collections.Products
             _addCommand = addCommand;
             _infoCommand = infoCommand;
 
-            Products = new ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel>(false);
+            Products = new ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel>();
         }
 
         public ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> Products { get; }
