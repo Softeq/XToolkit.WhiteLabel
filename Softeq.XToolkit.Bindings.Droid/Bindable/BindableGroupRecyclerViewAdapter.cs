@@ -3,6 +3,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
@@ -10,6 +12,8 @@ using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.WeakSubscription;
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
@@ -18,16 +22,23 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         where TItemHolder : BindableViewHolder<TItem>
     {
         private readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
-        private readonly ObservableKeyGroupsCollection<TKey, TItem> _dataSource;
+        private readonly IEnumerable<IGrouping<TKey, TItem>> _dataSource;
         private readonly IDisposable _subscription;
 
         private ICommand<TItem> _itemClick;
 
-        public BindableGroupRecyclerViewAdapter(
-            ObservableKeyGroupsCollection<TKey, TItem> items)
+        public BindableGroupRecyclerViewAdapter(IEnumerable<IGrouping<TKey, TItem>> items)
         {
             _dataSource = items;
-            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(_dataSource, NotifyCollectionChanged);
+
+            if(_dataSource is INotifyGroupCollectionChanged dataSource)
+            {
+                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifyCollectionChanged);
+            }
+            else if(_dataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
+            {
+                _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
+            }
 
             ReloadMapping();
         }
@@ -154,10 +165,10 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             {
                 case ItemType.SectionHeader:
                 case ItemType.SectionFooter:
-                    return _dataSource[sectionIndex].Key;
+                    return _dataSource.ElementAt(sectionIndex).Key;
 
                 case ItemType.Item:
-                    return _dataSource[sectionIndex][itemIndex];
+                    return _dataSource.ElementAt(sectionIndex).ElementAt(itemIndex);
 
                 default:
                     return null;
@@ -233,11 +244,48 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupsCollectionChangedEventArgs e)
+        protected override void Dispose(bool disposing)
         {
-            // TODO YP: improve handling without reload
-            NotifyDataSetChanged();
+            base.Dispose(disposing);
+            _subscription?.Dispose();
         }
+
+        private void ReloadMapping()
+        {
+            _flatMapping.Clear();
+
+            if (HeaderViewHolder != null)
+            {
+                _flatMapping.Add(FlatItem.CreateForHeader());
+            }
+
+            for (int sectionIndex = 0; sectionIndex < _dataSource.Count(); sectionIndex++)
+            {
+                if (HeaderSectionViewHolder != null)
+                {
+                    _flatMapping.Add(FlatItem.CreateForSectionHeader(sectionIndex));
+                }
+
+                var sectionItemsCount = _dataSource.ElementAt(sectionIndex).Count();
+
+                for (int itemIndex = 0; itemIndex < sectionItemsCount; itemIndex++)
+                {
+                    _flatMapping.Add(FlatItem.CreateForItem(sectionIndex, itemIndex));
+                }
+
+                if (FooterSectionViewHolder != null)
+                {
+                    _flatMapping.Add(FlatItem.CreateForSectionFooter(sectionIndex));
+                }
+            }
+
+            if (FooterViewHolder != null)
+            {
+                _flatMapping.Add(FlatItem.CreateForFooter());
+            }
+        }
+
+        #region BindableGroupRecyclerViewAdapter
 
         private void NotifyCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
@@ -259,39 +307,217 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private void ReloadMapping()
+        protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupsCollectionChangedEventArgs e)
         {
-            _flatMapping.Clear();
+            // TODO YP: improve handling without reload
+            NotifyDataSetChanged();
+        }
 
-            if (HeaderViewHolder != null)
+        #endregion
+
+        #region BindableGroupRecyclerViewAdapterNew
+
+        private void NotifyCollectionChangedNew(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            NotifyCollectionChangedOnMainThread(e);
+        }
+
+        private void NotifyCollectionChangedOnMainThread(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            if (Looper.MainLooper == Looper.MyLooper())
             {
-                _flatMapping.Add(FlatItem.CreateForHeader());
+                NotifyCollectionChangedByAction(e);
             }
-
-            for (int sectionIndex = 0; sectionIndex < _dataSource.Count; sectionIndex++)
+            else
             {
-                if (HeaderSectionViewHolder != null)
-                {
-                    _flatMapping.Add(FlatItem.CreateForSectionHeader(sectionIndex));
-                }
-
-                var sectionItemsCount = _dataSource[sectionIndex].Count;
-
-                for (int itemIndex = 0; itemIndex < sectionItemsCount; itemIndex++)
-                {
-                    _flatMapping.Add(FlatItem.CreateForItem(sectionIndex, itemIndex));
-                }
-
-                if (FooterSectionViewHolder != null)
-                {
-                    _flatMapping.Add(FlatItem.CreateForSectionFooter(sectionIndex));
-                }
-            }
-
-            if (FooterViewHolder != null)
-            {
-                _flatMapping.Add(FlatItem.CreateForFooter());
+                var h = new Handler(Looper.MainLooper);
+                h.Post(() => NotifyCollectionChangedByAction(e));
             }
         }
+
+        protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            if (e.Action == NotifyCollectionChangedAction.Reset)
+            {
+                HandleGroupsReset();
+            }
+
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    HandleGroupsAdd(e);
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    HandleGroupsRemove(e);
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    HandleGroupsReplace(e);
+                    break;
+            }
+
+            if (e.GroupEvents != null)
+            {
+                foreach (var groupEvent in e.GroupEvents)
+                {
+                    switch (groupEvent.Arg.Action)
+                    {
+                        case NotifyCollectionChangedAction.Add:
+                            HandleItemsAdd(groupEvent.GroupIndex, groupEvent.Arg);
+                            break;
+                        case NotifyCollectionChangedAction.Remove:
+                            HandleItemsRemove(groupEvent.GroupIndex, groupEvent.Arg);
+                            break;
+                        case NotifyCollectionChangedAction.Reset:
+                            HandleItemsReset(groupEvent.GroupIndex);
+                            break;
+                    }
+                }
+            }
+
+            ReloadMapping();
+        }
+
+        private void HandleGroupsAdd(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            foreach (var range in e.NewItemRanges)
+            {
+                Enumerable.Range(range.Index, range.NewItems.Count())
+                    .Apply(InsertSection);
+            }
+        }
+
+        private void HandleGroupsRemove(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            foreach (var range in e.OldItemRanges)
+            {
+                Enumerable.Range(range.Index, range.OldItems.Count())
+                    .Apply(RemoveSection);
+            }
+        }
+
+        private void HandleGroupsReplace(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            HandleGroupsAdd(e);
+            HandleGroupsRemove(e);
+        }
+
+        private void HandleGroupsReset()
+        {
+            NotifyDataSetChanged();
+        }
+
+        private void HandleItemsAdd(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        {
+            foreach (var range in args.NewItemRanges)
+            {
+                InsertItems(groupIndex, range.Index, range.NewItems.Count());
+            }
+        }
+
+        private void HandleItemsRemove(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        {
+            foreach (var range in args.OldItemRanges)
+            {
+                RemoveItems(groupIndex, range.Index, range.OldItems.Count());
+            }
+        }
+
+        private void HandleItemsReset(int groupIndex)
+        {
+            RemoveItems(groupIndex, 0, _flatMapping.Count(x => x.SectionIndex == groupIndex && x.Type == ItemType.Item));
+        }
+
+        private void InsertSection(int sectionIndex)
+        {
+            int positionStart = default;
+            int count = default;
+
+            var flat = _flatMapping.LastOrDefault(x => x.SectionIndex == sectionIndex - 1)
+                ?? _flatMapping?.FirstOrDefault(x => x.Type == ItemType.Header);
+
+            if (flat == null)
+            {
+                positionStart = 0;
+            }
+            else
+            {
+                positionStart = _flatMapping.IndexOf(flat) + 1;
+            }
+
+            if (HeaderSectionViewHolder != null)
+            {
+                count += 1;
+            }
+
+            count += _dataSource.ElementAt(sectionIndex).Count();
+
+            if (FooterSectionViewHolder != null)
+            {
+                count += 1;
+            }
+
+            NotifyItemRangeInserted(positionStart, count);
+        }
+
+        private void RemoveSection(int sectionIndex)
+        {
+            int positionStart = default;
+            int count = default;
+
+            var flat = _flatMapping.FirstOrDefault(x => x.SectionIndex == sectionIndex);
+
+            if (flat == null)
+            {
+                positionStart = 0;
+            }
+            else
+            {
+                positionStart = _flatMapping.IndexOf(flat);
+            }
+
+            count = _flatMapping.Count(x => x.SectionIndex == sectionIndex);
+
+            NotifyItemRangeRemoved(positionStart, count);
+        }
+
+        private void InsertItems(int sectionIndex, int startIndex, int count)
+        {
+            int positionStart = default;
+
+            var flat = _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.ItemIndex == startIndex - 1)
+                ?? _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.Type == ItemType.SectionHeader)
+                ?? _flatMapping?.LastOrDefault(x => x.SectionIndex == sectionIndex - 1)
+                ?? _flatMapping?.FirstOrDefault(x => x.Type == ItemType.Header);
+
+            if (flat == null)
+            {
+                positionStart = 0;
+            }
+            else
+            {
+                positionStart = _flatMapping.IndexOf(flat) + 1;
+            }
+
+            NotifyItemRangeInserted(positionStart, count);
+        }
+
+        private void RemoveItems(int sectionIndex, int startIndex, int count)
+        {
+            int positionStart = default;
+
+            var flat = _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.ItemIndex == startIndex);
+            if (flat == null)
+            {
+                positionStart = 0;
+            }
+            else
+            {
+                positionStart = _flatMapping.IndexOf(flat);
+            }
+
+            NotifyItemRangeRemoved(positionStart, count);
+        }
+
+        #endregion
     }
 }
