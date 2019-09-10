@@ -333,7 +333,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         private void HandleItemsReset(int groupIndex)
         {
-            RemoveItems(groupIndex, 0, _dataSource.ElementAt(groupIndex).Count());
+            RemoveItems(groupIndex, 0, _flatMapping.Count(x => x.SectionIndex == groupIndex && x.Type == ItemType.Item));
         }
 
         private void InsertSection(int sectionIndex)
