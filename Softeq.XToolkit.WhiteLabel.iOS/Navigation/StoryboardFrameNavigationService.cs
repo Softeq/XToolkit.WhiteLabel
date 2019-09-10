@@ -31,8 +31,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         bool IFrameNavigationService.CanGoBack => CanGoBack;
 
-        IViewModelBase IFrameNavigationService.CurrentViewModel => null;
-
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
         {
             var viewModel = _container.Resolve<T>();

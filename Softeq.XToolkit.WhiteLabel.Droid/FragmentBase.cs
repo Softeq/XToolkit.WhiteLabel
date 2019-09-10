@@ -8,46 +8,11 @@ using Android.Support.V4.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid.Internal;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
-    internal static class ViewModelCache
-    {
-        private static readonly Dictionary<string, IViewModelBase> _map;
-
-        static ViewModelCache()
-        {
-            _map = new Dictionary<string, IViewModelBase>();
-        }
-
-        internal static void Save(string fragmentName, IViewModelBase viewModel, bool force = false)
-        {
-            if (!_map.ContainsKey(fragmentName))
-            {
-                _map.Add(fragmentName, viewModel);
-            }
-
-            if (force)
-            {
-                _map[fragmentName] = viewModel;
-            }
-        }
-
-        internal static IViewModelBase Find(string fragmentName)
-        {
-            _map.TryGetValue(fragmentName, out var viewModel);
-            return viewModel;
-        }
-
-        internal static void Remove(string fragmentName)
-        {
-            _map.Remove(fragmentName);
-        }
-    }
-
-
-
     public class FragmentBase<TViewModel> : Fragment, IBindable
         where TViewModel : ViewModelBase
     {
@@ -66,14 +31,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            InitializeViewModel(savedInstanceState);
+
             Log();
-
-            if (ViewModel == null && savedInstanceState != null) // was recreated by the system
-            {
-                DataContext = ViewModelCache.Find(GetType().Name);
-            }
-
-            ViewModel.OnInitialize();
         }
 
         public override void OnResume()
@@ -97,8 +57,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.OnDestroy();
 
             Log();
+        }
 
-            Dispose();
+        protected virtual void InitializeViewModel(Bundle savedInstanceState)
+        {
+            // when fragment was recreated by the system
+            if (ViewModel == null && savedInstanceState != null)
+            {
+                DataContext = ViewModelCache.Get(this);
+            }
+
+            if (!ViewModel.IsInitialized)
+            {
+                ViewModel.OnInitialize();
+            }
         }
 
         protected virtual void DoAttachBindings()
@@ -110,6 +82,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             this.DetachBindings();
         }
 
+        // TODO YP: REMOVE
         private void Log(string message = null, [CallerMemberName] string callerName = null)
         {
             Android.Util.Log.Debug("XXXX", $"{typeof(TViewModel).Name}: {callerName}: {message}");
