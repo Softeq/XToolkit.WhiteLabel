@@ -8,6 +8,7 @@ using System.Linq;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Softeq.XToolkit.Bindings.Droid.Models;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Command;
@@ -337,42 +338,12 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
-            if (e.Action == NotifyCollectionChangedAction.Reset)
-            {
-                HandleGroupsReset();
-            }
-
-            switch (e.Action)
-            {
-                case NotifyCollectionChangedAction.Add:
-                    HandleGroupsAdd(e);
-                    break;
-                case NotifyCollectionChangedAction.Remove:
-                    HandleGroupsRemove(e);
-                    break;
-                case NotifyCollectionChangedAction.Replace:
-                    HandleGroupsReplace(e);
-                    break;
-            }
-
-            if (e.GroupEvents != null)
-            {
-                foreach (var groupEvent in e.GroupEvents)
-                {
-                    switch (groupEvent.Arg.Action)
-                    {
-                        case NotifyCollectionChangedAction.Add:
-                            HandleItemsAdd(groupEvent.GroupIndex, groupEvent.Arg);
-                            break;
-                        case NotifyCollectionChangedAction.Remove:
-                            HandleItemsRemove(groupEvent.GroupIndex, groupEvent.Arg);
-                            break;
-                        case NotifyCollectionChangedAction.Reset:
-                            HandleItemsReset(groupEvent.GroupIndex);
-                            break;
-                    }
-                }
-            }
+            DroidRecyclerObservableKeyGroupCollectionUpdateManager.Execute(this,
+                _dataSource,
+                _flatMapping,
+                HeaderSectionViewHolder != null,
+                FooterSectionViewHolder != null,
+                e);
 
             ReloadMapping();
         }

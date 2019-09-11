@@ -67,6 +67,7 @@
     <Compile Include="Bindable\BindableViewHolderLayoutAttribute.cs" />
     <Compile Include="Bindable\ItemType.cs" />
     <Compile Include="Bindable\FlatItem.cs" />
+    <Compile Include="Models\DroidRecyclerObservableKeyGroupCollectionUpdateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
@@ -77,6 +78,9 @@
       <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Models\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

@@ -7,6 +7,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Foundation;
 using Softeq.XToolkit.Bindings.iOS.Extensions;
+using Softeq.XToolkit.Bindings.iOS.Models;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.EventArguments;
@@ -251,116 +252,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
             NSThreadExtensions.ExecuteOnMainThread(() =>
             {
-                if (e.Action == NotifyCollectionChangedAction.Reset)
-                {
-                    HandleGroupsReset();
-                    return;
-                }
-
-                _tableViewRef.Target?.BeginUpdates();
-
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                        HandleGroupsAdd(e);
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        HandleGroupsRemove(e);
-                        break;
-                    case NotifyCollectionChangedAction.Replace:
-                        HandleGroupsReplace(e);
-                        break;
-                }
-
-                if (e.GroupEvents != null)
-                {
-                    foreach (var groupEvent in e.GroupEvents)
-                    {
-                        switch (groupEvent.Arg.Action)
-                        {
-                            case NotifyCollectionChangedAction.Add:
-                                HandleItemsAdd(groupEvent.GroupIndex, groupEvent.Arg);
-                                break;
-                            case NotifyCollectionChangedAction.Remove:
-                                HandleItemsRemove(groupEvent.GroupIndex, groupEvent.Arg);
-                                break;
-                            case NotifyCollectionChangedAction.Reset:
-                                HandleItemsReset(groupEvent.GroupIndex);
-                                break;
-                        }
-                    }
-                }
-
-                _tableViewRef.Target?.EndUpdates();
+                IosTableObservableKeyGroupCollectionUpdateManager.Execute(_tableViewRef.Target, e);
             });
-        }
-
-        private void HandleGroupsAdd(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
-        {
-            foreach (var sectionsRange in e.NewItemRanges)
-            {
-                int sectionIndex = sectionsRange.Index;
-
-                foreach (var section in sectionsRange.NewItems)
-                {
-                    _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.Automatic);
-
-                    sectionIndex++;
-                }
-            }
-        }
-
-        private void HandleGroupsRemove(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
-        {
-            foreach (var sectionsRange in e.OldItemRanges)
-            {
-                int sectionIndex = sectionsRange.Index;
-
-                foreach (var section in sectionsRange.OldItems)
-                {
-                    _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.Automatic);
-
-                    sectionIndex++;
-                }
-            }
-        }
-
-        private void HandleGroupsReplace(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
-        {
-            HandleGroupsAdd(e);
-            HandleGroupsRemove(e);
-        }
-
-        private void HandleGroupsReset()
-        {
-            _tableViewRef.Target?.ReloadData();
-        }
-
-        private void HandleItemsAdd(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
-        {
-            foreach (var range in args.NewItemRanges)
-            {
-                var indexPaths = Enumerable.Range(range.Index, range.NewItems.Count)
-                    .Select(x => NSIndexPath.FromRowSection(x, groupIndex))
-                    .ToArray();
-                _tableViewRef.Target?.InsertRows(indexPaths, UITableViewRowAnimation.Automatic);
-            }
-        }
-
-        private void HandleItemsRemove(int groupIndex, NotifyGroupCollectionChangedArgs<TItem> args)
-        {
-            foreach (var range in args.OldItemRanges)
-            {
-                var indexPaths = Enumerable.Range(range.Index, range.OldItems.Count)
-                    .Select(x => NSIndexPath.FromRowSection(x, groupIndex))
-                    .ToArray();
-                _tableViewRef.Target?.DeleteRows(indexPaths, UITableViewRowAnimation.Automatic);
-            }
-        }
-
-        private void HandleItemsReset(int groupIndex)
-        {
-            _tableViewRef.Target?.ReloadSections(NSIndexSet.FromIndex(groupIndex), UITableViewRowAnimation.Automatic);
         }
 
         #endregion

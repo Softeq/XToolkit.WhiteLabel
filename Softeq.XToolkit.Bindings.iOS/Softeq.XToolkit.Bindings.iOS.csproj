@@ -39,6 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppleBinding.cs" />
@@ -66,6 +67,8 @@
     <Compile Include="Bindable\BindableGroupCollectionViewSource.cs" />
     <Compile Include="Bindable\BindableUICollectionReusableView.cs" />
     <Compile Include="Extensions\NSThreadExtensions.cs" />
+    <Compile Include="Models\IosCollectionObservableKeyGroupCollectionUpdateManager.cs" />
+    <Compile Include="Models\IosTableObservableKeyGroupCollectionUpdateManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
@@ -75,6 +78,10 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
       <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
+      <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
+      <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
