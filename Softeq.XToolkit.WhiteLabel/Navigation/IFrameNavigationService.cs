@@ -34,8 +34,15 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters)
             where TViewModel : IViewModelBase;
 
-        void NavigatToFirstPage();
 
+        /// <summary>
+        ///     Tab was open first. (RootFrameViewModel)
+        /// </summary>
+        void NavigateToFirstPage();
+
+        /// <summary>
+        ///     Restore fragment after switch between tabs or back navigation.
+        /// </summary>
         void RestoreState();
     }
 }

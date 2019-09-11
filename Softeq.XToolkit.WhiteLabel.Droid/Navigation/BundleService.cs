@@ -34,8 +34,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
     public class BundleService : IBundleService
     {
-        private const string ShouldRestoreStateKey = "wl_shouldRestore";
-        private const string ParametersKey = "wl_parameters";
+        private const string ShouldRestoreStateKey = "WL_ShouldRestore";
+        private const string ParametersKey = "WL_Parameters";
 
         private readonly IJsonSerializer _jsonSerializer;
 

@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             }
             else
             {
-                FrameNavigationService.NavigatToFirstPage();
+                FrameNavigationService.NavigateToFirstPage();
             }
         }
     }

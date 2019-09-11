@@ -16,16 +16,17 @@ using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
-    public class ReframeNavigationService : IFrameNavigationService
+    public class DroidFrameNavigationService : IFrameNavigationService
     {
         private readonly IViewLocator _viewLocator;
         private readonly ICurrentActivity _currentActivity;
         private readonly IContainer _container;
         private readonly BackStack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
+        private readonly IViewModelStore _viewModelStore;
 
         private int _containerId;
 
-        public ReframeNavigationService(
+        public DroidFrameNavigationService(
             IViewLocator viewLocator,
             ICurrentActivity currentActivity,
             IContainer container)
@@ -35,6 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _container = container;
 
             _backStack = new BackStack<(IViewModelBase ViewModel, Fragment Fragment)>();
+            _viewModelStore = ViewModelStore.Of((AppCompatActivity) _currentActivity.Activity);
         }
 
         public bool IsInitialized => _containerId != 0;
@@ -48,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             // remove current
             var currentEntry = _backStack.CurrentWithRemove();
 
-            ViewModelCache.Remove(currentEntry.Fragment);
+            _viewModelStore.Remove(currentEntry.Fragment.GetType().Name);
 
             // show previous
             RestoreState();
@@ -56,9 +58,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void GoBack<T>() where T : IViewModelBase
         {
-            _backStack.MoveBackWhile(x => !(x.ViewModel is T));
-
-            RestoreState();
+            throw new NotImplementedException();
         }
 
         public void Initialize(object navigation)
@@ -67,17 +67,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         }
 
         #region remove
-        public void NavigateToViewModel<T, TParameter>(TParameter parameter) where T : IViewModelBase, IViewModelParameter<TParameter>
+        public void NavigateToViewModel<T, TParameter>(TParameter parameter)
+            where T : IViewModelBase, IViewModelParameter<TParameter>
         {
             throw new NotImplementedException();
         }
 
-        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
+        public void NavigateToViewModel<T>(bool clearBackStack = false)
+            where T : IViewModelBase
         {
             throw new NotImplementedException();
         }
 
-        public void NavigateToViewModel<T>(T t) where T : IViewModelBase
+        public void NavigateToViewModel<T>(T t)
+            where T : IViewModelBase
         {
             throw new NotImplementedException();
         }
@@ -100,10 +103,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateInternal(viewModel);
         }
 
-        /// <summary>
-        ///     Tab was open first. (RootFrameViewModel)
-        /// </summary>
-        public void NavigatToFirstPage()
+        /// <inheritdoc />
+        public void NavigateToFirstPage()
         {
             if (_backStack.IsEmpty)
             {
@@ -115,9 +116,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateInternal(entry.ViewModel);
         }
 
-        /// <summary>
-        ///     Restore fregment after switch between tabs or back navigation.
-        /// </summary>
+        /// <inheritdoc />
         public void RestoreState()
         {
             var entry = _backStack.Current();
@@ -131,7 +130,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             _backStack.Add((viewModel, fragment));
 
-            ViewModelCache.Add(fragment, viewModel);
+            _viewModelStore.Add(fragment.GetType().Name, viewModel);
 
             ReplaceFragment(fragment);
         }
@@ -140,7 +139,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var fragmentManager = GetCurrentFragmentManager();
+                var activity = (AppCompatActivity) _currentActivity.Activity;
+                var fragmentManager = activity.SupportFragmentManager;
 
                 var transaction = fragmentManager
                     .BeginTransaction()
@@ -153,12 +153,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         protected virtual FragmentTransaction PrepareTransaction(FragmentTransaction fragmentTransaction)
         {
             return fragmentTransaction;
-        }
-
-        protected virtual FragmentManager GetCurrentFragmentManager()
-        {
-            var activity = (AppCompatActivity) _currentActivity.Activity;
-            return activity.SupportFragmentManager;
         }
 
         protected virtual IViewModelBase CreateViewModel(Type viewModelType)
@@ -176,44 +170,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             return viewModel;
-        }
-    }
-
-
-    internal class BackStack<T>
-    {
-        private readonly Stack<T> _backStack;
-
-        public BackStack()
-        {
-            _backStack = new Stack<T>();
-        }
-
-        public bool IsEmpty => _backStack.Count == 0;
-
-        public bool CanGoBack => _backStack.Count > 1;
-
-        public void Add(T entry) => _backStack.Push(entry);
-
-        public T CurrentWithRemove() => _backStack.Pop();
-
-        public T Current() => _backStack.Peek();
-
-        public T ResetToFirst()
-        {
-            while (_backStack.Count > 1)
-            {
-                _backStack.Pop();
-            }
-            return _backStack.Pop();
-        }
-
-        public void MoveBackWhile(Func<T, bool> canMove)
-        {
-            while (canMove(_backStack.Peek()))
-            {
-                _backStack.Pop();
-            }
         }
     }
 }

@@ -102,7 +102,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
         }
 
-        void IFrameNavigationService.NavigatToFirstPage()
+        void IFrameNavigationService.NavigateToFirstPage()
         {
         }
     }

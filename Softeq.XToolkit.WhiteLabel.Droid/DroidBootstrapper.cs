@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             builder.Singleton<DroidViewLocator>(IfRegistered.Keep);
             builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
 
-            builder.PerDependency<ReframeNavigationService, IFrameNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
             builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
         }
 

@@ -112,8 +112,12 @@
     <Compile Include="ImagePicker\ImagePickerActivity.cs" />
     <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
     <Compile Include="Extensions\FragmentExtensions.cs" />
+    <Compile Include="Navigation\DroidFrameNavigationService.cs" />
+    <Compile Include="Internal\ViewModelStore.cs" />
+    <Compile Include="Internal\BackStack.cs" />
     <Compile Include="Internal\ViewModelCache.cs" />
-    <Compile Include="Navigation\ReframeNavigationService.cs" />
+    <Compile Include="Internal\ViewModelStoreFragment.cs" />
+    <Compile Include="Internal\IViewModelStore.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">

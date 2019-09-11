@@ -2,13 +2,11 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
-using System.Runtime.CompilerServices;
 using Android.OS;
 using Android.Support.V4.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.WhiteLabel.Droid.Internal;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
@@ -31,9 +29,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            InitializeViewModel(savedInstanceState);
+            RestoreViewModelIfNeeded(savedInstanceState);
 
-            Log();
+            if (!ViewModel.IsInitialized)
+            {
+                ViewModel.OnInitialize();
+            }
         }
 
         public override void OnResume()
@@ -52,24 +53,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ViewModel.OnDisappearing();
         }
 
-        public override void OnDestroy()
+        protected virtual void RestoreViewModelIfNeeded(Bundle savedInstanceState)
         {
-            base.OnDestroy();
-
-            Log();
-        }
-
-        protected virtual void InitializeViewModel(Bundle savedInstanceState)
-        {
-            // when fragment was recreated by the system
             if (ViewModel == null && savedInstanceState != null)
             {
-                DataContext = ViewModelCache.Get(this);
-            }
-
-            if (!ViewModel.IsInitialized)
-            {
-                ViewModel.OnInitialize();
+                DataContext = Internal.ViewModelStore.Of(this).Get<TViewModel>(GetType().Name);
             }
         }
 
@@ -80,12 +68,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected virtual void DoDetachBindings()
         {
             this.DetachBindings();
-        }
-
-        // TODO YP: REMOVE
-        private void Log(string message = null, [CallerMemberName] string callerName = null)
-        {
-            Android.Util.Log.Debug("XXXX", $"{typeof(TViewModel).Name}: {callerName}: {message}");
         }
     }
 }

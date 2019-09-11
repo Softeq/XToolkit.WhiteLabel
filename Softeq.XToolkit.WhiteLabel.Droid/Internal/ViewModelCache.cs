@@ -2,45 +2,53 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
-using Android.Support.V4.App;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 {
-    // TODO YP:
-    // - clean up after back from host activity;
-
     internal static class ViewModelCache
     {
-        private static readonly Dictionary<string, IViewModelBase> _cache;
+        private static readonly Dictionary<string, Dictionary<string, IViewModelBase>> _cache;
 
         static ViewModelCache()
         {
-            _cache = new Dictionary<string, IViewModelBase>();
+            _cache = new Dictionary<string, Dictionary<string, IViewModelBase>>();
         }
 
-        internal static void Add(Fragment fragment, IViewModelBase viewModel)
+        internal static TViewModel Get<TViewModel>(string containerId, string key)
+            where TViewModel : class, IViewModelBase
         {
-            var fragmentName = fragment.GetType().Name;
+            var container = _cache.GetValueOrDefault(containerId);
 
-            if (!_cache.ContainsKey(fragmentName))
+            if (container != null)
             {
-                _cache.Add(fragmentName, viewModel);
+                return (TViewModel) container.GetValueOrDefault(key);
+            }
+
+            return null;
+        }
+
+        internal static void Add(string containerId, string key, IViewModelBase viewModel)
+        {
+            if (!_cache.ContainsKey(containerId))
+            {
+                _cache[containerId] = new Dictionary<string, IViewModelBase>();
+            }
+
+            _cache[containerId][key] = viewModel;
+        }
+
+        internal static void Remove(string containerId, string key)
+        {
+            if (_cache.ContainsKey(containerId))
+            {
+                _cache[containerId].Remove(key);
             }
         }
 
-        internal static IViewModelBase Get(Fragment fragment)
+        internal static void Clear(string containerId)
         {
-            var fragmentName = fragment.GetType().Name;
-
-            _cache.TryGetValue(fragmentName, out var viewModel);
-
-            return viewModel;
-        }
-
-        internal static void Remove(Fragment fragment)
-        {
-            _cache.Remove(fragment.GetType().Name);
+            _cache.Remove(containerId);
         }
     }
 }
