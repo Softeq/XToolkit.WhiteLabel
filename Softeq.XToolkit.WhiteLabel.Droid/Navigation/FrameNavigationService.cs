@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 _backStack.Pop();
             }
 
-            Execute.BeginOnUIThread(RestoreState);
+            Execute.BeginOnUIThread(RestoreNavigation);
         }
 
         public void Initialize(object navigation)
@@ -150,7 +150,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                     _backStack.Pop();
                 }
 
-                Execute.BeginOnUIThread(RestoreState);
+                Execute.BeginOnUIThread(RestoreNavigation);
             }
             else
             {
@@ -158,7 +158,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
         }
 
-        public void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> navigationParameters)
+        public void NavigateToViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel> navigationParameters)
             where TViewModel : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
@@ -166,7 +166,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateToViewModel(viewModel);
         }
 
-        public void RestoreState()
+        public void RestoreNavigation()
         {
             ReplaceFragment(_backStack.Peek().Fragment);
         }
@@ -207,6 +207,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private bool Contains(IViewModelBase viewModelBase)
         {
             return _backStack.Any(item => ReferenceEquals(item.ViewModel, viewModelBase));
+        }
+
+        public void NavigateToViewModel<TViewModel>(bool clearBackStack = false, IReadOnlyList<NavigationParameterModel> parameters = null) where TViewModel : IViewModelBase
+        {
+            throw new NotImplementedException();
+        }
+
+        public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false, IReadOnlyList<NavigationParameterModel> parameters = null)
+        {
+            throw new NotImplementedException();
         }
     }
 }

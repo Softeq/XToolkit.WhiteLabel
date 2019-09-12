@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 {
@@ -25,6 +26,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 
         internal T Current() => _backStack.Peek();
 
+        internal void Clear() => _backStack.Clear();
+
+        internal IReadOnlyList<TResult> Dump<TResult>(Func<T, TResult> selector)
+        {
+            return _backStack.Select(selector).ToArray();
+        }
+
         internal T ResetToFirst()
         {
             while (_backStack.Count > 1)
@@ -34,9 +42,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
             return _backStack.Pop();
         }
 
-        internal void MoveBackWhile(Func<T, bool> canMove)
+        internal void GoBackWhile(Func<T, bool> canGoBack)
         {
-            while (canMove(_backStack.Peek()))
+            while (canGoBack(_backStack.Peek()))
             {
                 _backStack.Pop();
             }

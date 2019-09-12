@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
 
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
+            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
         }
 
         private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(

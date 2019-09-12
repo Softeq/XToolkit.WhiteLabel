@@ -7,19 +7,19 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 {
-    public class RootFrameNavigationViewModel : RootFrameNavigationViewModelBase
+    public class TabViewModel : RootFrameNavigationViewModelBase
     {
         private TabItem _tab;
         private string _badgeText;
         private bool _isBadgeVisible;
 
-        public RootFrameNavigationViewModel(
+        public TabViewModel(
             IFrameNavigationService frameNavigationService)
             : base(frameNavigationService)
         {
         }
 
-        public RootFrameNavigationViewModel Initialize(TabItem tab)
+        internal TabViewModel Initialize(TabItem tab)
         {
             _tab = tab;
             return this;
@@ -43,9 +43,10 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 
         public override void NavigateToFirstPage()
         {
+            // Check fast-backward nav by tab selected
             if (FrameNavigationService.IsEmptyBackStack)
             {
-                FrameNavigationService.NavigateToViewModel(_tab.RootViewModelType, true);
+                FrameNavigationService.NavigateToViewModel(_tab.FirstViewModelType, true);
             }
             else
             {

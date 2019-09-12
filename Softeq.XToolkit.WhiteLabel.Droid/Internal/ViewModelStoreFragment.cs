@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections.Generic;
 using Android.OS;
 using Android.Support.V4.App;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -89,6 +90,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
         public void Remove(string fragmentName)
         {
             ViewModelCache.Remove(ViewModelStoreId, fragmentName);
+        }
+
+        /// <inheritdoc />
+        public void Remove(IReadOnlyList<string> fragmentNames)
+        {
+            ViewModelCache.Remove(ViewModelStoreId, fragmentNames);
         }
 
         /// <inheritdoc />

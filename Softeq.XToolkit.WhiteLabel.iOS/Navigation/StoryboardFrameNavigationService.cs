@@ -5,24 +5,22 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public class StoryboardFrameNavigationService : StoryboardNavigation, IFrameNavigationService
     {
-        private readonly IContainer _container;
+        private readonly IContainer _iocContainer;
 
         public StoryboardFrameNavigationService(
             IViewLocator viewLocator,
             IContainer iocContainer)
             : base(viewLocator)
         {
-            _container = iocContainer;
+            _iocContainer = iocContainer;
         }
 
         public bool IsEmptyBackStack => !NavigationController.ViewControllers.Any();
@@ -31,37 +29,27 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         bool IFrameNavigationService.CanGoBack => CanGoBack;
 
-        public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase
+        public void NavigateToViewModel<TViewModel>(
+            bool clearBackStack = false,
+            IReadOnlyList<NavigationParameterModel> parameters = null)
+            where TViewModel : IViewModelBase
         {
-            var viewModel = _container.Resolve<T>();
-            NavigateToViewModel(viewModel, clearBackStack, null);
+            NavigateToViewModel(typeof(TViewModel), clearBackStack, parameters);
         }
 
-        public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false)
+        public void NavigateToViewModel(
+            Type viewModelType,
+            bool clearBackStack = false,
+            IReadOnlyList<NavigationParameterModel> parameters = null)
         {
             if (!typeof(IViewModelBase).IsAssignableFrom(viewModelType))
             {
-                throw new ArgumentException("Class must implement IViewModelBase");
+                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
             }
 
-            var viewModel = (IViewModelBase) _container.Resolve(viewModelType);
-            NavigateToViewModel(viewModel, clearBackStack, null);
-        }
+            var viewModel = (IViewModelBase) _iocContainer.Resolve(viewModelType);
 
-        public void NavigateToViewModel<T, TParameter>(TParameter parameter)
-            where T : IViewModelBase, IViewModelParameter<TParameter>
-        {
-            var viewModel = _container.Resolve<T>();
-            viewModel.Parameter = parameter;
-            NavigateToViewModel(viewModel, false, null);
-        }
-
-        public void NavigateToViewModel<TViewModel>(IEnumerable<NavigationParameterModel> parameters)
-            where TViewModel : IViewModelBase
-        {
-            var viewModel = _container.Resolve<TViewModel>();
-            viewModel.ApplyParameters(parameters);
-            NavigateToViewModel(viewModel, false, null);
+            NavigateToViewModel(viewModel, clearBackStack, parameters);
         }
 
         void IFrameNavigationService.GoBack()
@@ -89,21 +77,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             Initialize(navigation);
         }
 
-        void IFrameNavigationService.NavigateToViewModel<T>(T t)
+        void IFrameNavigationService.RestoreNavigation()
         {
-            Execute.BeginOnUIThread(() =>
-            {
-                var controller = ViewLocator.GetView(t);
-                Navigate(controller, false);
-            });
-        }
-
-        void IFrameNavigationService.RestoreState()
-        {
+            throw new InvalidOperationException();
         }
 
         void IFrameNavigationService.NavigateToFirstPage()
         {
+            throw new InvalidOperationException();
         }
     }
 }

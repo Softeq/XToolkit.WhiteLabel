@@ -16,14 +16,14 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
     public abstract class ToolbarViewModelBase : ViewModelBase
     {
         private readonly ITabNavigationService _tabNavigationService;
-        private readonly IContainer _container;
+        private readonly IContainer _iocContainer;
 
         protected ToolbarViewModelBase(
             ITabNavigationService tabNavigationService,
-            IContainer container)
+            IContainer iocContainer)
         {
             _tabNavigationService = tabNavigationService;
-            _container = container;
+            _iocContainer = iocContainer;
 
             SelectionChangedCommand = new RelayCommand<int>(SelectionChanged);
             GoBackCommand = new RelayCommand(GoBack);
@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 
         public IList<TabItem> TabModels { get; protected set; }
 
-        public IList<RootFrameNavigationViewModel> TabViewModels { get; private set; }
+        public IList<TabViewModel> TabViewModels { get; protected set; }
 
         public ICommand GoBackCommand { get; }
 
@@ -47,11 +47,11 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 
             if (TabModels == null)
             {
-                throw new Exception("You must init TabModels property");
+                throw new InvalidOperationException($"You must init {nameof(TabModels)} property");
             }
 
             TabViewModels = TabModels
-                .Select(CreateRootViewModel)
+                .Select(CreateTabViewModel)
                 .ToList();
 
             var selectedViewModel = TabViewModels[SelectedIndex];
@@ -79,13 +79,13 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             _tabNavigationService.GoBack();
         }
 
-        private RootFrameNavigationViewModel CreateRootViewModel(TabItem tabModel)
+        private TabViewModel CreateTabViewModel(TabItem tabModel)
         {
-            var viewModel = _container.Resolve<RootFrameNavigationViewModel>();
+            var tabViewModel = _iocContainer.Resolve<TabViewModel>();
 
-            viewModel.Initialize(tabModel);
+            tabViewModel.Initialize(tabModel);
 
-            return viewModel;
+            return tabViewModel;
         }
     }
 }

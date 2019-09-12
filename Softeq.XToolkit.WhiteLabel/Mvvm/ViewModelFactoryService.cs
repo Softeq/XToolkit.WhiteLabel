@@ -8,25 +8,25 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
     public class ViewModelFactoryService : IViewModelFactoryService
     {
-        private readonly IContainer _container;
+        private readonly IContainer _iocContainer;
 
         public ViewModelFactoryService(
             IContainer container)
         {
-            _container = container;
+            _iocContainer = container;
         }
 
         public TViewModel ResolveViewModel<TViewModel, TParam>(TParam param)
             where TViewModel : ObservableObject, IViewModelParameter<TParam>
         {
-            var viewModel = _container.Resolve<TViewModel>();
+            var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.Parameter = param;
             return viewModel;
         }
 
         public TViewModel ResolveViewModel<TViewModel>() where TViewModel : ObservableObject
         {
-            var viewModel = _container.Resolve<TViewModel>();
+            var viewModel = _iocContainer.Resolve<TViewModel>();
             return viewModel;
         }
     }

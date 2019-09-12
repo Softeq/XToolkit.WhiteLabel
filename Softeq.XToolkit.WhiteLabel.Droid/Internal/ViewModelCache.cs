@@ -46,6 +46,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
             }
         }
 
+        internal static void Remove(string containerId, IReadOnlyCollection<string> keys)
+        {
+            if (_cache.ContainsKey(containerId))
+            {
+                var container = _cache[containerId];
+
+                foreach (var key in keys)
+                {
+                    container.Remove(key);
+                }
+            }
+        }
+
         internal static void Clear(string containerId)
         {
             _cache.Remove(containerId);

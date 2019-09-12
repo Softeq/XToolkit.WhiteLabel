@@ -28,18 +28,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
                 tabViewModel.InitializeNavigation(NavigationContainer);
             }
 
-            ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
+            var selectedTabViewModel = ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex);
+
+            selectedTabViewModel.NavigateToFirstPage();
         }
 
-        protected void TabSelected(int index)
+        protected void TabSelected(int newSelectedIndex)
         {
             var oldSelectedIndex = ViewModel.SelectedIndex;
 
-            ViewModel.SelectionChangedCommand?.Execute(index);
+            ViewModel.SelectionChangedCommand?.Execute(newSelectedIndex);
 
             var selectedTabViewModel = ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex);
 
-            if (oldSelectedIndex == index)
+            if (newSelectedIndex == oldSelectedIndex) // fast-backward nav
             {
                 selectedTabViewModel.NavigateToFirstPage();
             }

@@ -14,18 +14,19 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 
         public new bool IsInitialized => FrameNavigationService.IsInitialized;
 
-        public abstract void NavigateToFirstPage();
-
         public void InitializeNavigation(object navigation)
         {
             FrameNavigationService.Initialize(navigation);
         }
 
-        public void RestoreState()
+        public abstract void NavigateToFirstPage();
+
+        public virtual void RestoreState()
         {
+            // Check fast-backward nav
             if (FrameNavigationService.CanGoBack)
             {
-                FrameNavigationService.RestoreState();
+                FrameNavigationService.RestoreNavigation();
             }
             else
             {

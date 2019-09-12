@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
@@ -31,6 +32,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
         /// </summary>
         /// <param name="key">The view model unique key.</param>
         void Remove(string key);
+
+        /// <summary>
+        ///     Removes an existing view model instances from the store by <paramref name="keys"/>.
+        /// </summary>
+        /// <param name="keys">The collection of view model unique keys.</param>
+        void Remove(IReadOnlyList<string> keys);
 
         /// <summary>
         ///     Clears store.

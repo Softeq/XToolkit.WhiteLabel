@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 
         protected virtual Func<UITabBarController> TabBarControllerFactory { get; } = null;
 
-        protected virtual UITabBarItem GetTabBarItem(RootFrameNavigationViewModel viewModel)
+        protected virtual UITabBarItem GetTabBarItem(TabViewModel viewModel)
         {
             var image = GetImageFromKey(viewModel.ImageKey);
             var tabBarItem = new BindableTabBarItem(viewModel.Title, image, image);

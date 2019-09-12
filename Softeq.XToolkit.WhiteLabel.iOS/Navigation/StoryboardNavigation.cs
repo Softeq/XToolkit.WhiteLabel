@@ -6,6 +6,7 @@ using Softeq.XToolkit.Common;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
@@ -49,10 +50,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
                 frameViewModel.FrameNavigationService = this as IFrameNavigationService;
             }
 
+            if (parameters != null)
+            {
+                viewModelBase.ApplyParameters(parameters);
+            }
+
             Navigate(ViewLocator.GetView(viewModelBase), clearBackStack);
         }
 
-        protected void Navigate(UIViewController controller, bool clearBackStack)
+        protected virtual void Navigate(UIViewController controller, bool clearBackStack)
         {
             Execute.BeginOnUIThread(() =>
             {
