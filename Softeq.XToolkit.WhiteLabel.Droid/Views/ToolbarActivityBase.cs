@@ -14,29 +14,40 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            var wasInit = ViewModel.IsInitialized;
+
             base.OnCreate(savedInstanceState);
+
+            if (wasInit) // HACK YP: need another way
+            {
+                return;
+            }
 
             foreach (var tabViewModel in ViewModel.TabViewModels)
             {
                 tabViewModel.InitializeNavigation(NavigationContainer);
             }
 
-            ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
+            var selectedTabViewModel = ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex);
+
+            selectedTabViewModel.NavigateToFirstPage();
         }
 
-        protected void TabSelected(int index)
+        protected void TabSelected(int newSelectedIndex)
         {
             var oldSelectedIndex = ViewModel.SelectedIndex;
 
-            ViewModel.SelectionChangedCommand?.Execute(index);
+            ViewModel.SelectionChangedCommand?.Execute(newSelectedIndex);
 
-            if (oldSelectedIndex == index)
+            var selectedTabViewModel = ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex);
+
+            if (newSelectedIndex == oldSelectedIndex) // fast-backward nav
             {
-                ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).NavigateToFirstPage();
+                selectedTabViewModel.NavigateToFirstPage();
             }
             else
             {
-                ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex).RestoreState();
+                selectedTabViewModel.RestoreState();
             }
         }
 

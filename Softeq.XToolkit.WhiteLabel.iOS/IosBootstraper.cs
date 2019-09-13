@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             builder.Singleton<StoryboardViewLocator>(IfRegistered.Keep);
             builder.Singleton<StoryboardNavigation, IPlatformNavigationService>(IfRegistered.Keep);
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
+            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
             builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
         }
 

@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
     internal class BindableTabBarItem : UITabBarItem
     {
-        private WeakReferenceEx<RootFrameNavigationViewModel> _viewModelRef;
+        private WeakReferenceEx<TabViewModel> _viewModelRef;
         private Binding _textBinding;
         private Binding _visibilityBinding;
 
@@ -18,9 +18,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         {
         }
 
-        internal void SetViewModel(RootFrameNavigationViewModel viewModel)
+        internal void SetViewModel(TabViewModel viewModel)
         {
-            _viewModelRef = new WeakReferenceEx<RootFrameNavigationViewModel>(viewModel);
+            _viewModelRef = new WeakReferenceEx<TabViewModel>(viewModel);
 
             _textBinding?.Detach();
             _textBinding = this.SetBinding(() => _viewModelRef.Target.BadgeText).WhenSourceChanges(UpdateBadge);

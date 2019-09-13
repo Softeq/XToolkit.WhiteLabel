@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -49,14 +48,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
                 {
                     return viewModelBase;
                 }
-
-                throw new ArgumentException(
-                    $"Couldn't find ViewModel for type: {typeof(TViewModel)}. " +
-                    $"Please use {nameof(PageNavigationService)} navigating, " +
-                    "instead of navigation via StartActivity().");
             }
 
-            // Used to recreate ViewModel if processes or activity was killed
+            // used to create ViewModel when the page was created by system
             viewModel = _iocContainer.Resolve<TViewModel>();
 
             _backStack.Push(viewModel);

@@ -29,7 +29,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             base.OnCreate(savedInstanceState);
 
-            ViewModel.OnInitialize();
+            RestoreViewModelIfNeeded(savedInstanceState);
+
+            if (!ViewModel.IsInitialized)
+            {
+                ViewModel.OnInitialize();
+            }
         }
 
         public override void OnResume()
@@ -48,11 +53,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ViewModel.OnDisappearing();
         }
 
-        public override void OnDestroy()
+        protected virtual void RestoreViewModelIfNeeded(Bundle savedInstanceState)
         {
-            base.OnDestroy();
-
-            Dispose();
+            if (ViewModel == null && savedInstanceState != null)
+            {
+                DataContext = Internal.ViewModelStore.Of(this).Get<TViewModel>(GetType().Name);
+            }
         }
 
         protected virtual void DoAttachBindings()

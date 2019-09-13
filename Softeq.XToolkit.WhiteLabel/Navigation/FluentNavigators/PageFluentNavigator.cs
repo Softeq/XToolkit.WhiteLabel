@@ -17,16 +17,17 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             _navigationService = navigationService;
         }
 
-        public PageFluentNavigator<TViewModel> WithParam<TValue>(Expression<Func<TViewModel, TValue>> property,
+        public PageFluentNavigator<TViewModel> WithParam<TValue>(
+            Expression<Func<TViewModel, TValue>> property,
             TValue value)
         {
             ApplyParameter(property, value);
             return this;
         }
 
-        public PageFluentNavigator<TViewModel> WithParams(IEnumerable<NavigationParameterModel> navigationHelperParameters)
+        public PageFluentNavigator<TViewModel> WithParams(IEnumerable<NavigationParameterModel> navigationParameters)
         {
-            Parameters.AddRange(navigationHelperParameters);
+            Parameters.AddRange(navigationParameters);
             return this;
         }
 

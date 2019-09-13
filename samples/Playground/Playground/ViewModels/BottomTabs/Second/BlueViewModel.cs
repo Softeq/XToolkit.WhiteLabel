@@ -14,7 +14,7 @@ namespace Playground.ViewModels.BottomTabs.Second
 
         public BlueViewModel()
         {
-            NavigateCommand = new RelayCommand(HandleAction);
+            NavigateCommand = new RelayCommand(Navigate);
             IncrementCommand = new RelayCommand(Increment);
         }
 
@@ -25,7 +25,7 @@ namespace Playground.ViewModels.BottomTabs.Second
         public int Count
         {
             get => _count;
-            set => Set(ref _count, value);
+            private set => Set(ref _count, value);
         }
 
         private void Increment()
@@ -33,7 +33,7 @@ namespace Playground.ViewModels.BottomTabs.Second
             Count++;
         }
 
-        private void HandleAction()
+        private void Navigate()
         {
             FrameNavigationService.For<GreenViewModel>().Navigate();
         }

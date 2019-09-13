@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             builder.Singleton<IViewLocator>(x =>
             {
-                var viewLocator = x.Resolve<ViewLocator>();
+                var viewLocator = x.Resolve<DroidViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
             }, IfRegistered.Keep);
@@ -38,19 +38,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<FrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-            builder.Singleton<ViewLocator>(IfRegistered.Keep);
-            builder.PerDependency<RootFrameNavigationViewModel>(IfRegistered.Keep);
+            builder.Singleton<BundleService, IBundleService>(IfRegistered.Keep);
+            builder.Singleton<DroidViewLocator>(IfRegistered.Keep);
             builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
+
+            builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
         }
 
-        private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder,
+        private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(
+            IContainerBuilder builder,
             IEnumerable<Assembly> assemblies)
         {
             var viewModelToViewTypes = new Dictionary<Type, Type>();
+            var targetTypes = assemblies
+                .SelectMany(assembly => assembly.GetTypes()
+                    .View(typeof(AppCompatActivity), typeof(Fragment), typeof(DialogFragment)));
 
-            foreach (var type in assemblies.SelectMany(assembly => assembly.GetTypes()
-                .View(typeof(AppCompatActivity), typeof(Fragment), typeof(DialogFragment))))
+            foreach (var type in targetTypes)
             {
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
                 viewModelToViewTypes.Add(viewModelType, type);
