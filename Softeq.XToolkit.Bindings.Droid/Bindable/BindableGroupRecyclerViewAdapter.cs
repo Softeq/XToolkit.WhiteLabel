@@ -3,13 +3,16 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Views;
+using Softeq.XToolkit.Bindings.Droid.Handlers;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.WeakSubscription;
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
@@ -18,16 +21,23 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         where TItemHolder : BindableViewHolder<TItem>
     {
         private readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
-        private readonly ObservableKeyGroupsCollection<TKey, TItem> _dataSource;
+        private readonly IEnumerable<IGrouping<TKey, TItem>> _dataSource;
         private readonly IDisposable _subscription;
 
         private ICommand<TItem> _itemClick;
 
-        public BindableGroupRecyclerViewAdapter(
-            ObservableKeyGroupsCollection<TKey, TItem> items)
+        public BindableGroupRecyclerViewAdapter(IEnumerable<IGrouping<TKey, TItem>> items)
         {
             _dataSource = items;
-            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(_dataSource, NotifyCollectionChanged);
+
+            if (_dataSource is INotifyGroupCollectionChanged dataSource)
+            {
+                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifyCollectionChanged);
+            }
+            else if (_dataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
+            {
+                _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
+            }
 
             ReloadMapping();
         }
@@ -154,10 +164,10 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             {
                 case ItemType.SectionHeader:
                 case ItemType.SectionFooter:
-                    return _dataSource[sectionIndex].Key;
+                    return _dataSource.ElementAt(sectionIndex).Key;
 
                 case ItemType.Item:
-                    return _dataSource[sectionIndex][itemIndex];
+                    return _dataSource.ElementAt(sectionIndex).ElementAt(itemIndex);
 
                 default:
                     return null;
@@ -233,11 +243,48 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupsCollectionChangedEventArgs e)
+        protected override void Dispose(bool disposing)
         {
-            // TODO YP: improve handling without reload
-            NotifyDataSetChanged();
+            base.Dispose(disposing);
+            _subscription?.Dispose();
         }
+
+        private void ReloadMapping()
+        {
+            _flatMapping.Clear();
+
+            if (HeaderViewHolder != null)
+            {
+                _flatMapping.Add(FlatItem.CreateForHeader());
+            }
+
+            for (int sectionIndex = 0; sectionIndex < _dataSource.Count(); sectionIndex++)
+            {
+                if (HeaderSectionViewHolder != null)
+                {
+                    _flatMapping.Add(FlatItem.CreateForSectionHeader(sectionIndex));
+                }
+
+                var sectionItemsCount = _dataSource.ElementAt(sectionIndex).Count();
+
+                for (int itemIndex = 0; itemIndex < sectionItemsCount; itemIndex++)
+                {
+                    _flatMapping.Add(FlatItem.CreateForItem(sectionIndex, itemIndex));
+                }
+
+                if (FooterSectionViewHolder != null)
+                {
+                    _flatMapping.Add(FlatItem.CreateForSectionFooter(sectionIndex));
+                }
+            }
+
+            if (FooterViewHolder != null)
+            {
+                _flatMapping.Add(FlatItem.CreateForFooter());
+            }
+        }
+
+        #region BindableGroupRecyclerViewAdapter
 
         private void NotifyCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
@@ -259,39 +306,46 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private void ReloadMapping()
+        protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupsCollectionChangedEventArgs e)
         {
-            _flatMapping.Clear();
+            // TODO YP: improve handling without reload
+            NotifyDataSetChanged();
+        }
 
-            if (HeaderViewHolder != null)
+        #endregion
+
+        #region BindableGroupRecyclerViewAdapterNew
+
+        private void NotifyCollectionChangedNew(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            NotifyCollectionChangedOnMainThread(e);
+        }
+
+        private void NotifyCollectionChangedOnMainThread(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            if (Looper.MainLooper == Looper.MyLooper())
             {
-                _flatMapping.Add(FlatItem.CreateForHeader());
+                NotifyCollectionChangedByAction(e);
             }
-
-            for (int sectionIndex = 0; sectionIndex < _dataSource.Count; sectionIndex++)
+            else
             {
-                if (HeaderSectionViewHolder != null)
-                {
-                    _flatMapping.Add(FlatItem.CreateForSectionHeader(sectionIndex));
-                }
-
-                var sectionItemsCount = _dataSource[sectionIndex].Count;
-
-                for (int itemIndex = 0; itemIndex < sectionItemsCount; itemIndex++)
-                {
-                    _flatMapping.Add(FlatItem.CreateForItem(sectionIndex, itemIndex));
-                }
-
-                if (FooterSectionViewHolder != null)
-                {
-                    _flatMapping.Add(FlatItem.CreateForSectionFooter(sectionIndex));
-                }
-            }
-
-            if (FooterViewHolder != null)
-            {
-                _flatMapping.Add(FlatItem.CreateForFooter());
+                var h = new Handler(Looper.MainLooper);
+                h.Post(() => NotifyCollectionChangedByAction(e));
             }
         }
+
+        protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            DroidRecyclerDataSourceHandler.Handle(this,
+                _dataSource,
+                _flatMapping,
+                HeaderSectionViewHolder != null,
+                FooterSectionViewHolder != null,
+                e);
+
+            ReloadMapping();
+        }
+
+        #endregion
     }
 }

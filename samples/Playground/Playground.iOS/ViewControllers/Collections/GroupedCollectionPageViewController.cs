@@ -2,11 +2,12 @@
 // http://www.softeq.com
 
 using System;
+using System.Linq;
 using Foundation;
-using Playground.Converters;
 using Playground.iOS.Views.Collections;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
+using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
@@ -31,6 +32,9 @@ namespace Playground.iOS.ViewControllers.Collections
         {
             base.ViewDidLoad();
 
+            AddButton.SetCommand(ViewModel.AddAllToCartCommand);
+            GenerateButton.SetCommand(ViewModel.GenerateGroupCommand);
+
             InitCollectionView();
         }
 
@@ -39,8 +43,8 @@ namespace Playground.iOS.ViewControllers.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
-            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => ActivityIndicatorView.Hidden,
-                new InverseBooleanConverter());
+            //this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => ActivityIndicatorView.Hidden,
+            //    new InverseBooleanConverter());
         }
 
         private void InitCollectionView()
@@ -73,7 +77,7 @@ namespace Playground.iOS.ViewControllers.Collections
             CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products)
             {
                 // main way for handle click by item
-                ItemClick = ViewModel.AddToCartCommand
+                //ItemClick = ViewModel.AddToCartCommand
             };
         }
 
@@ -84,7 +88,7 @@ namespace Playground.iOS.ViewControllers.Collections
             ProductViewCell>        // item cell type
         {
             public ProductsDataSource(
-                ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> items)
+                ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> items)
                 : base(items)
             {
             }
@@ -98,7 +102,7 @@ namespace Playground.iOS.ViewControllers.Collections
                     indexPath);
 
                 var bindableFooter = (IBindableView) footer;
-                bindableFooter.ReloadDataContext($"Custom DataContext for section: {indexPath.Section}");
+                bindableFooter.ReloadDataContext(DataSource.ElementAt(indexPath.Section).Key);
 
                 return footer;
             }

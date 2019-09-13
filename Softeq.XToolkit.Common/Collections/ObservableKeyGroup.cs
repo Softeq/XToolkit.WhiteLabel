@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Softeq.XToolkit.Common.Collections
 {
@@ -10,7 +11,8 @@ namespace Softeq.XToolkit.Common.Collections
     /// </summary>
     /// <typeparam name="TKey">The element type of the key</typeparam>
     /// <typeparam name="TValue">The element type of the collection item</typeparam>
-    public class ObservableKeyGroup<TKey, TValue> : ObservableRangeCollection<TValue>
+    public class ObservableKeyGroup<TKey, TValue> : ObservableRangeCollection<TValue>,
+        IGrouping<TKey, TValue>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Collections.ObservableKeyGroup`2" /> class with the

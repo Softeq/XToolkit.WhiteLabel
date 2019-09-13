@@ -10,9 +10,13 @@ namespace Playground.ViewModels.Collections.Products
     {
         private int _count;
 
+        public int Id { get; set; }
+
         public string Title { get; set; }
 
         public string PhotoUrl { get; set; }
+
+        public bool IsAddedToBasket { get; set; }
 
         public int Count
         {

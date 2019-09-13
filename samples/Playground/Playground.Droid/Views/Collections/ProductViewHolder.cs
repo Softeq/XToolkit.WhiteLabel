@@ -61,12 +61,16 @@ namespace Playground.Droid.Views.Collections
     public class ProductHeaderViewHolder : BindableViewHolder<ProductHeaderViewModel>
     {
         private readonly TextView _title;
-        private readonly ImageButton _infoButton;
+        private readonly Button _infoButton;
+        private readonly Button _generateButton;
+        private readonly Button _addButton;
 
         public ProductHeaderViewHolder(View view) : base(view)
         {
             _title = view.FindViewById<TextView>(Resource.Id.item_product_header_title_lbl);
-            _infoButton = view.FindViewById<ImageButton>(Resource.Id.item_product_header_info_btn);
+            _generateButton = view.FindViewById<Button>(Resource.Id.item_product_header_generate_btn);
+            _addButton = view.FindViewById<Button>(Resource.Id.item_product_header_add_btn);
+            _infoButton = view.FindViewById<Button>(Resource.Id.item_product_header_info_btn);
         }
 
         public override void DoAttachBindings()
@@ -76,6 +80,8 @@ namespace Playground.Droid.Views.Collections
             _title.Text = $"{ViewModel.Category}th";
 
             _infoButton.Click += InfoButton_Click;
+            _generateButton.Click += _generateButton_Click;
+            _addButton.Click += _addButton_Click;
         }
 
         public override void DoDetachBindings()
@@ -83,6 +89,18 @@ namespace Playground.Droid.Views.Collections
             base.DoDetachBindings();
 
             _infoButton.Click -= InfoButton_Click;
+            _generateButton.Click -= _generateButton_Click;
+            _addButton.Click -= _addButton_Click;
+        }
+
+        private void _addButton_Click(object sender, System.EventArgs e)
+        {
+            ViewModel.AddCommand.Execute(ViewModel);
+        }
+
+        private void _generateButton_Click(object sender, System.EventArgs e)
+        {
+            ViewModel.GenerateCommand.Execute(ViewModel);
         }
 
         private void InfoButton_Click(object sender, System.EventArgs e)
@@ -105,19 +123,6 @@ namespace Playground.Droid.Views.Collections
             base.DoAttachBindings();
 
             _textView.Text = $"{ViewModel.Category}th footer.";
-        }
-    }
-
-    [BindableViewHolderLayout(Resource.Layout.fragment_green)]
-    public class ProductsListHeaderViewHolder : BindableViewHolder<object>
-    {
-        public ProductsListHeaderViewHolder(View itemView) : base(itemView)
-        {
-        }
-
-        public override void DoAttachBindings()
-        {
-            base.DoAttachBindings();
         }
     }
 }

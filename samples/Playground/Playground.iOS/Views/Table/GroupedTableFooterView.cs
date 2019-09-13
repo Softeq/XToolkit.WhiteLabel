@@ -1,22 +1,20 @@
-﻿// Developed by Softeq Development Corporation
+// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+﻿using System;
 using CoreGraphics;
-using Foundation;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using UIKit;
 
-namespace Playground.iOS.Views.Collections
+namespace Playground.iOS.Views.Table
 {
-    [Register(nameof(GroupedFooterView))]
-    public class GroupedFooterView : BindableUICollectionReusableView<ProductHeaderViewModel>
+    public class GroupedTableFooterView : BindableTableViewHeaderFooterView<ProductHeaderViewModel>
     {
         private readonly UILabel _label;
 
-        public GroupedFooterView(IntPtr handle) : base(handle)
+        public GroupedTableFooterView(IntPtr handle) : base(handle)
         {
             BackgroundColor = "#60d5c9".UIColorFromHex();
 
@@ -26,9 +24,9 @@ namespace Playground.iOS.Views.Collections
             AddSubview(_label);
         }
 
-        ~GroupedFooterView()
+        ~GroupedTableFooterView()
         {
-            Console.WriteLine($"Finalized: {nameof(GroupedFooterView)}");
+            Console.WriteLine($"Finalized: {nameof(GroupedTableFooterView)}");
         }
 
         public override void DoAttachBindings()

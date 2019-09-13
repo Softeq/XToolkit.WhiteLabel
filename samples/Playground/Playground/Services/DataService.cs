@@ -19,10 +19,16 @@ namespace Playground.Services
             return productModels.Select(Map).ToList();
         }
 
+        public ProductViewModel GetProduct(int id)
+        {
+            return Map(GenerateProduct(id));
+        }
+
         private ProductViewModel Map(Product product)
         {
             return new ProductViewModel
             {
+                Id = product.Id,
                 Title = product.Title,
                 PhotoUrl = product.PhotoUrl
             };
@@ -30,12 +36,18 @@ namespace Playground.Services
 
         private IEnumerable<Product> GenerateProducts(int count)
         {
-            return Enumerable.Range(0, count).Select(i => new Product
+            return Enumerable.Range(1, count).Select(GenerateProduct);
+        }
+
+        private Product GenerateProduct(int id)
+        {
+            return new Product
             {
-                Title = $"{i} #- Title",
-                PhotoUrl = $"https://picsum.photos/100/150?random={i}",
-                Price = i * 100
-            });
+                Id = id,
+                Title = $"{id} #- Title",
+                PhotoUrl = $"https://picsum.photos/100/150?random={id}",
+                Price = id * 100
+            };
         }
     }
 }

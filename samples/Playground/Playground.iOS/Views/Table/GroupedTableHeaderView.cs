@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+﻿using System;
 using CoreGraphics;
 using Foundation;
 using Playground.ViewModels.Collections.Products;
@@ -9,25 +9,26 @@ using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using UIKit;
 
-namespace Playground.iOS.Views.Collections
+namespace Playground.iOS.Views.Table
 {
-    public partial class GroupedHeaderView : BindableUICollectionReusableView<ProductHeaderViewModel>
+    [Register(nameof(GroupedTableHeaderView))]
+    public partial class GroupedTableHeaderView : BindableTableViewHeaderFooterView<ProductHeaderViewModel>
     {
         #region init
 
-        public static readonly NSString Key = new NSString(nameof(GroupedHeaderView));
+        public static readonly NSString Key = new NSString(nameof(GroupedTableHeaderView));
         public static readonly UINib Nib;
 
-        static GroupedHeaderView() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
+        static GroupedTableHeaderView() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected GroupedHeaderView(IntPtr handle) : base(handle)
+        protected GroupedTableHeaderView(IntPtr handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
         }
 
-        ~GroupedHeaderView()
+        ~GroupedTableHeaderView()
         {
-            Console.WriteLine($"Finalized: {nameof(GroupedHeaderView)}");
+            Console.WriteLine($"Finalized: {nameof(GroupedTableHeaderView)}");
         }
 
         #endregion

@@ -389,11 +389,13 @@ namespace Softeq.XToolkit.Common.Collections
                     .Select(x => x.Key));
             }
 
-            var keysToRemove = groupsToRemove?
-                .SelectMany(x => x.NewItems).ToList();
+            var keyIndexesToRemove = groupsToRemove?
+                .Select(x => Enumerable.Range(x.Index, x.NewItems.Count))
+                .SelectMany(x => x)
+                .ToList();
 
             var groupEvents = rangesToRemove
-                .Where(x => keysToRemove == null ? true : keysToRemove.All(y => !y.Equals(x.Key)))
+                .Where(x => keyIndexesToRemove == null ? true : keyIndexesToRemove.All(y => !y.Equals(x.Key)))
                 .Select(x => (x.Key, NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Remove,
                  default,
                  (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value))).ToList();

@@ -2,14 +2,18 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Extensions;
+using Softeq.XToolkit.Bindings.iOS.Handlers;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.WeakSubscription;
 using UIKit;
 
@@ -25,13 +29,21 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         private WeakReferenceEx<UICollectionView> _collectionViewRef;
         private ICommand<TItem> _itemClick;
 
-        public BindableGroupCollectionViewSource(ObservableKeyGroupsCollection<TKey, TItem> items)
+        public BindableGroupCollectionViewSource(IEnumerable<IGrouping<TKey, TItem>> items)
         {
             DataSource = items;
-            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(DataSource, NotifierCollectionChanged);
+
+            if (DataSource is INotifyGroupCollectionChanged dataSource)
+            {
+                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifierCollectionChanged);
+            }
+            else if (DataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
+            {
+                _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
+            }
         }
 
-        public ObservableKeyGroupsCollection<TKey, TItem> DataSource { get; }
+        public IEnumerable<IGrouping<TKey, TItem>> DataSource { get; }
 
         public ICommand<TItem> ItemClick
         {
@@ -61,13 +73,13 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
                 _collectionViewRef = WeakReferenceEx.Create(collectionView);
             }
 
-            return DataSource.Count;
+            return DataSource.Count();
         }
 
         /// <inheritdoc />
         public override nint GetItemsCount(UICollectionView collectionView, nint section)
         {
-            return DataSource[(int) section].Count;
+            return DataSource.ElementAt((int) section).Count();
         }
 
         /// <inheritdoc />
@@ -127,7 +139,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
             var bindableHeader = (IBindableView) header;
 
-            bindableHeader.ReloadDataContext(DataSource[indexPath.Section].Key);
+            bindableHeader.ReloadDataContext(DataSource.ElementAt(indexPath.Section).Key);
 
             return header;
         }
@@ -163,8 +175,16 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         protected virtual TItem GetItemByIndexPath(NSIndexPath indexPath)
         {
-            return DataSource[indexPath.Section][indexPath.Row];
+            return DataSource.ElementAt(indexPath.Section).ElementAt(indexPath.Row);
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            _subscription?.Dispose();
+        }
+
+        #region BindableGroupRecyclerViewAdapter
 
         protected virtual void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
         {
@@ -174,5 +194,19 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
                 _collectionViewRef.Target?.ReloadData();
             });
         }
+
+        #endregion
+
+        #region BindableGroupRecyclerViewAdapterNew
+
+        protected virtual void NotifyCollectionChangedNew(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        {
+            NSThreadExtensions.ExecuteOnMainThread(() =>
+            {
+                IosDataSourceHandler.Handle(_collectionViewRef.Target, e);
+            });
+        }
+
+        #endregion
     }
 }

@@ -9,31 +9,25 @@ using System.CodeDom.Compiler;
 
 namespace Playground.iOS.ViewControllers.Collections
 {
-	[Register ("GroupedCollectionPageViewController")]
-	partial class GroupedCollectionPageViewController
+	partial class GroupedListPageViewController
 	{
-		[Outlet]
-		UIKit.UIActivityIndicatorView ActivityIndicatorView { get; set; }
-
 		[Outlet]
 		UIKit.UIButton AddButton { get; set; }
 
 		[Outlet]
-		UIKit.UICollectionView CollectionView { get; set; }
+		UIKit.UIActivityIndicatorView BusyView { get; set; }
 
 		[Outlet]
 		UIKit.UIButton GenerateButton { get; set; }
+
+		[Outlet]
+		UIKit.UITableView TableView { get; set; }
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (ActivityIndicatorView != null) {
-				ActivityIndicatorView.Dispose ();
-				ActivityIndicatorView = null;
-			}
-
-			if (CollectionView != null) {
-				CollectionView.Dispose ();
-				CollectionView = null;
+			if (AddButton != null) {
+				AddButton.Dispose ();
+				AddButton = null;
 			}
 
 			if (GenerateButton != null) {
@@ -41,9 +35,14 @@ namespace Playground.iOS.ViewControllers.Collections
 				GenerateButton = null;
 			}
 
-			if (AddButton != null) {
-				AddButton.Dispose ();
-				AddButton = null;
+			if (TableView != null) {
+				TableView.Dispose ();
+				TableView = null;
+			}
+
+			if (BusyView != null) {
+				BusyView.Dispose ();
+				BusyView = null;
 			}
 		}
 	}

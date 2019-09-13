@@ -7,19 +7,12 @@
 using Foundation;
 using System.CodeDom.Compiler;
 
-namespace Playground.iOS.Views.Collections
+namespace Playground.iOS.Views.Table
 {
-	[Register ("GroupedHeaderView")]
-	partial class GroupedHeaderView
+	partial class GroupedTableHeaderView
 	{
 		[Outlet]
-		UIKit.UIButton AddButton { get; set; }
-
-		[Outlet]
 		UIKit.UIView ContainerView { get; set; }
-
-		[Outlet]
-		UIKit.UIButton GenerateButton { get; set; }
 
 		[Outlet]
 		UIKit.UIButton InfoButton { get; set; }
@@ -34,23 +27,13 @@ namespace Playground.iOS.Views.Collections
 		partial void GenerateButtonAction (Foundation.NSObject sender);
 
 		[Action ("InfoButtonAction:")]
-		partial void InfoButtonAction (Foundation.NSObject _);
+		partial void InfoButtonAction (Foundation.NSObject sender);
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (AddButton != null) {
-				AddButton.Dispose ();
-				AddButton = null;
-			}
-
 			if (ContainerView != null) {
 				ContainerView.Dispose ();
 				ContainerView = null;
-			}
-
-			if (GenerateButton != null) {
-				GenerateButton.Dispose ();
-				GenerateButton = null;
 			}
 
 			if (InfoButton != null) {

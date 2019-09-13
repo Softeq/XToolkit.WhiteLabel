@@ -5,6 +5,7 @@ using System;
 using System.Collections.Specialized;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.Common.WeakSubscription
 {
@@ -37,6 +38,22 @@ namespace Softeq.XToolkit.Common.WeakSubscription
         protected override Delegate CreateEventHandler()
         {
             return new EventHandler<NotifyKeyGroupsCollectionChangedEventArgs>(OnSourceEvent);
+        }
+    }
+
+    public class NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>
+        : WeakEventSubscription<INotifyKeyGroupCollectionChanged<TKey, TItem>, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem>>
+    {
+        public NotifyCollectionKeyGroupNewChangedEventSubscription(
+            INotifyKeyGroupCollectionChanged<TKey, TItem> source,
+            EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem>> targetEventHandler)
+            : base(source, "ItemsChanged", targetEventHandler)
+        {
+        }
+
+        protected override Delegate CreateEventHandler()
+        {
+            return new EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem>>(OnSourceEvent);
         }
     }
 }

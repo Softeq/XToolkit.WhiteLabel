@@ -1,7 +1,7 @@
-﻿// Developed by Softeq Development Corporation
+// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.Services;
@@ -13,7 +13,7 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Collections
 {
-    public class GroupedCollectionPageViewModel : ViewModelBase
+    public class GroupedTablePageViewModel : ViewModelBase
     {
         private readonly IDialogsService _dialogsService;
         private readonly ICommand<ProductViewModel> _addToCartCommand;
@@ -21,7 +21,7 @@ namespace Playground.ViewModels.Collections
         private readonly ICommand<ProductHeaderViewModel> _groupInfoCommand;
         private readonly ICommand<ProductHeaderViewModel> _generateItemCommand;
 
-        public GroupedCollectionPageViewModel(
+        public GroupedTablePageViewModel(
             IDialogsService dialogsService,
             IDataService dataService)
         {

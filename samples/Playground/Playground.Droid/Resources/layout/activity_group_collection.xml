@@ -1,20 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/activity_group_collection_lst"
-        android:scrollbars="vertical"
+	<LinearLayout
+		android:id="@+id/linearLayout1"
+		android:layout_alignParentTop="true"
+		android:orientation="horizontal"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content">
+    <Button
+        android:id="@+id/button_generate"
+        android:text="Generate"
+        android:layout_weight="1"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="wrap_content"/>
+    <Button
+        android:id="@+id/button_add"
+        android:text="+"
+        android:layout_weight="1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+	</LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/activity_group_collection_progress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:indeterminate="true" />
+	<android.support.v7.widget.RecyclerView
+		android:id="@+id/activity_group_collection_lst"
+    android:layout_below="@+id/linearLayout1"
+		android:layout_alignParentBottom="true"
+		android:scrollbars="vertical"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent" />
+
+	<ProgressBar
+		android:id="@+id/activity_group_collection_progress"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_centerInParent="true"
+		android:indeterminate="true" />
 
 </RelativeLayout>
