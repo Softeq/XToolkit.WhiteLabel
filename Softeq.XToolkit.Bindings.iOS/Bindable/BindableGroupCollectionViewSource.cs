@@ -8,7 +8,7 @@ using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Extensions;
-using Softeq.XToolkit.Bindings.iOS.Models;
+using Softeq.XToolkit.Bindings.iOS.Handlers;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Command;
@@ -203,7 +203,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             NSThreadExtensions.ExecuteOnMainThread(() =>
             {
-                IosCollectionObservableKeyGroupCollectionUpdateManager.Execute(_collectionViewRef.Target, e);
+                IosDataSourceHandler.Handle(_collectionViewRef.Target, e);
             });
         }
 

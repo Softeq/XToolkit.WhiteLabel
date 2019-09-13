@@ -1,27 +1,22 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Linq;
 using Foundation;
-using Softeq.XToolkit.Bindings.Models;
+using Softeq.XToolkit.Bindings.Handlers;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.EventArguments;
 using UIKit;
 
-namespace Softeq.XToolkit.Bindings.iOS.Models
+namespace Softeq.XToolkit.Bindings.iOS.Handlers
 {
-    internal class IosCollectionObservableKeyGroupCollectionUpdateManager
-    {
-        public static void Execute<TKey, TItem>(UICollectionView collectionView, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> args)
-        {
-            (new IosCollectionObservableKeyGroupCollectionUpdateManager<TKey, TItem>(collectionView)).ExecuteImpl(args);
-        }
-    }
-
-    internal sealed class IosCollectionObservableKeyGroupCollectionUpdateManager<TKey, TItem>
-        : ObservableKeyGroupCollectionUpdateManagerBase<TKey, TItem>
+    internal sealed class IosCollectionObservableKeyGroupCollectionHandler<TKey, TItem>
+        : ObservableKeyGroupCollectionHandlerBase<TKey, TItem>
     {
         private readonly WeakReferenceEx<UICollectionView> _collectionViewRef;
 
-        internal IosCollectionObservableKeyGroupCollectionUpdateManager(UICollectionView collectionView)
+        internal IosCollectionObservableKeyGroupCollectionHandler(UICollectionView collectionView)
         {
             _collectionViewRef = WeakReferenceEx.Create(collectionView);
         }

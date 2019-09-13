@@ -39,7 +39,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
-    <Folder Include="Models\" />
+    <Folder Include="Handlers\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppleBinding.cs" />
@@ -52,6 +52,7 @@
     <Compile Include="Gestures\BehaviourExtensions.cs" />
     <Compile Include="Gestures\SwipeGestureRecognizerBehaviour.cs" />
     <Compile Include="Gestures\TapGestureRecognizerBehaviour.cs" />
+    <Compile Include="Handlers\IosDataSourceHandler.cs" />
     <Compile Include="ObservableCollectionViewSource.cs" />
     <Compile Include="ObservableGroupTableViewSource.cs" />
     <Compile Include="ObservableTableViewController.cs" />
@@ -67,8 +68,8 @@
     <Compile Include="Bindable\BindableGroupCollectionViewSource.cs" />
     <Compile Include="Bindable\BindableUICollectionReusableView.cs" />
     <Compile Include="Extensions\NSThreadExtensions.cs" />
-    <Compile Include="Models\IosCollectionObservableKeyGroupCollectionUpdateManager.cs" />
-    <Compile Include="Models\IosTableObservableKeyGroupCollectionUpdateManager.cs" />
+    <Compile Include="Handlers\IosCollectionObservableKeyGroupCollectionHandler.cs" />
+    <Compile Include="Handlers\IosTableObservableKeyGroupCollectionHandler.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">

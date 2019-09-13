@@ -7,7 +7,7 @@ using System.Collections.Specialized;
 using System.Linq;
 using Foundation;
 using Softeq.XToolkit.Bindings.iOS.Extensions;
-using Softeq.XToolkit.Bindings.iOS.Models;
+using Softeq.XToolkit.Bindings.iOS.Handlers;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.EventArguments;
@@ -252,7 +252,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
             NSThreadExtensions.ExecuteOnMainThread(() =>
             {
-                IosTableObservableKeyGroupCollectionUpdateManager.Execute(_tableViewRef.Target, e);
+                IosDataSourceHandler.Handle(_tableViewRef.Target, e);
             });
         }
 

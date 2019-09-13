@@ -1,27 +1,22 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Linq;
 using Foundation;
-using Softeq.XToolkit.Bindings.Models;
+using Softeq.XToolkit.Bindings.Handlers;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.EventArguments;
 using UIKit;
 
-namespace Softeq.XToolkit.Bindings.iOS.Models
+namespace Softeq.XToolkit.Bindings.iOS.Handlers
 {
-    internal static class IosTableObservableKeyGroupCollectionUpdateManager
-    {
-        public static void Execute<TKey, TItem>(UITableView tableView, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> args)
-        {
-            (new IosTableObservableKeyGroupCollectionUpdateManager<TKey, TItem>(tableView)).ExecuteImpl(args);
-        }
-    }
-
-    internal sealed class IosTableObservableKeyGroupCollectionUpdateManager<TKey, TItem>
-        : ObservableKeyGroupCollectionUpdateManagerBase<TKey, TItem>
+    internal sealed class IosTableObservableKeyGroupCollectionHandler<TKey, TItem>
+        : ObservableKeyGroupCollectionHandlerBase<TKey, TItem>
     {
         private readonly WeakReferenceEx<UITableView> _tableViewRef;
 
-        internal IosTableObservableKeyGroupCollectionUpdateManager(UITableView tableView)
+        internal IosTableObservableKeyGroupCollectionHandler(UITableView tableView)
         {
             _tableViewRef = WeakReferenceEx.Create(tableView);
         }
