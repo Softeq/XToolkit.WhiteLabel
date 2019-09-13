@@ -1,12 +1,12 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
- using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
 using Android.Support.V7.Widget;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
- using Softeq.XToolkit.Bindings.Handlers;
- using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Bindings.Handlers;
+using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.EventArguments;
 using Softeq.XToolkit.Common.Extensions;
 
