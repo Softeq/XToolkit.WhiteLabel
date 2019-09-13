@@ -23,6 +23,11 @@ WhiteLabel  | [![Softeq.XToolkit.WhiteLabel](https://img.shields.io/nuget/v/Soft
 
 We welcome any contributions.
 
+- [How to Contribute](.github/CONTRIBUTING.md)
+
 ## License
 
 The XToolkit.WhiteLabel project is available for free use, as described by the [LICENSE](/LICENSE) (MIT).
+
+- Some bits of [MvvmLight](https://github.com/lbugnion/mvvmlight) are redistributed and modified under MIT License
+- Tiny bits of [MvvmCross](https://github.com/MvvmCross/MvvmCross) are redistributed and modified under MIT License
