@@ -5,11 +5,11 @@ using System;
 using System.Collections.Specialized;
 using Softeq.XToolkit.Common.EventArguments;
 
-namespace Softeq.XToolkit.Bindings.Models
+namespace Softeq.XToolkit.Bindings.Handlers
 {
-    public abstract class ObservableKeyGroupCollectionUpdateManagerBase<TKey, TItem>
+    public abstract class ObservableKeyGroupCollectionHandlerBase<TKey, TItem>
     {
-        public void ExecuteImpl(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> arg)
+        public void Handle(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> arg)
         {
             if (arg.Action == NotifyCollectionChangedAction.Reset)
             {

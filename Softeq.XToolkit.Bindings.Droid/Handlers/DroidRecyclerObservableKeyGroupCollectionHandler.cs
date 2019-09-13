@@ -1,30 +1,39 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+ using System.Collections.Generic;
 using System.Linq;
 using Android.Support.V7.Widget;
-using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.EventArguments;
-using Softeq.XToolkit.Bindings.Models;
-using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
-using System.Collections.Generic;
+ using Softeq.XToolkit.Bindings.Handlers;
+ using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Extensions;
 
-namespace Softeq.XToolkit.Bindings.Droid.Models
+namespace Softeq.XToolkit.Bindings.Droid.Handlers
 {
-    internal class DroidRecyclerObservableKeyGroupCollectionUpdateManager
+    internal class DroidRecyclerDataSourceHandler
     {
-        public static void Execute<TKey, TItem>(RecyclerView.Adapter adapter,
+        public static void Handle<TKey, TItem>(RecyclerView.Adapter adapter,
             IEnumerable<IGrouping<TKey, TItem>> dataSource,
             IList<FlatItem> flatMapping,
             bool withSectionHeader,
             bool withSectionFooter,
             NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> args)
         {
-            new DroidRecyclerObservableKeyGroupCollectionUpdateManager<TKey, TItem>(adapter, dataSource, flatMapping, withSectionHeader, withSectionFooter).ExecuteImpl(args);
+            var handler = new DroidRecyclerObservableKeyGroupCollectionHandler<TKey, TItem>(
+                adapter,
+                dataSource,
+                flatMapping,
+                withSectionHeader,
+                withSectionFooter);
+
+            handler.Handle(args);
         }
     }
 
-    internal sealed class DroidRecyclerObservableKeyGroupCollectionUpdateManager<TKey, TItem>
-        : ObservableKeyGroupCollectionUpdateManagerBase<TKey, TItem>
+    internal sealed class DroidRecyclerObservableKeyGroupCollectionHandler<TKey, TItem>
+        : ObservableKeyGroupCollectionHandlerBase<TKey, TItem>
     {
         private readonly WeakReferenceEx<RecyclerView.Adapter> _recyclerViewAdapterRef;
         private readonly IEnumerable<IGrouping<TKey, TItem>> _dataSource;
@@ -32,13 +41,13 @@ namespace Softeq.XToolkit.Bindings.Droid.Models
         private readonly bool _withSectionHeader;
         private readonly bool _withSectionFooter;
 
-        internal DroidRecyclerObservableKeyGroupCollectionUpdateManager(RecyclerView.Adapter collectionView,
+        internal DroidRecyclerObservableKeyGroupCollectionHandler(RecyclerView.Adapter recyclerView,
             IEnumerable<IGrouping<TKey, TItem>> dataSource,
             IList<FlatItem> flatMapping,
             bool withSectionHeader,
             bool withSectionFooter)
         {
-            _recyclerViewAdapterRef = WeakReferenceEx.Create(collectionView);
+            _recyclerViewAdapterRef = WeakReferenceEx.Create(recyclerView);
             _dataSource = dataSource;
             _flatMapping = flatMapping;
             _withSectionHeader = withSectionHeader;
@@ -130,8 +139,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Models
 
         private void RemoveSection(int sectionIndex)
         {
-            int positionStart = default;
-            int count = default;
+            int positionStart;
 
             var flat = _flatMapping.FirstOrDefault(x => x.SectionIndex == sectionIndex);
 
@@ -144,14 +152,14 @@ namespace Softeq.XToolkit.Bindings.Droid.Models
                 positionStart = _flatMapping.IndexOf(flat);
             }
 
-            count = _flatMapping.Count(x => x.SectionIndex == sectionIndex);
+            var count = _flatMapping.Count(x => x.SectionIndex == sectionIndex);
 
             _recyclerViewAdapterRef.Target?.NotifyItemRangeRemoved(positionStart, count);
         }
 
         private void InsertItems(int sectionIndex, int startIndex, int count)
         {
-            int positionStart = default;
+            int positionStart;
 
             var flat = _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.ItemIndex == startIndex - 1)
                 ?? _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.Type == ItemType.SectionHeader)
@@ -172,7 +180,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Models
 
         private void RemoveItems(int sectionIndex, int startIndex, int count)
         {
-            int positionStart = default;
+            int positionStart;
 
             var flat = _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.ItemIndex == startIndex);
             if (flat == null)
@@ -184,7 +192,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Models
                 positionStart = _flatMapping.IndexOf(flat);
             }
 
-           _recyclerViewAdapterRef.Target?.NotifyItemRangeRemoved(positionStart, count);
+            _recyclerViewAdapterRef.Target?.NotifyItemRangeRemoved(positionStart, count);
         }
     }
 }
