@@ -28,6 +28,21 @@ We are happy to receive Pull Requests adding new features and solving bugs. As f
 * **DO** assume that ["Squash and Merge"](https://github.com/blog/2141-squash-your-commits) will be used to merge your commit unless you request otherwise in the PR.
 * **DO NOT** mix independent, unrelated changes in one PR. Separate real product/test code changes from larger code formatting/dead code removal changes. Separate unrelated fixes into separate PRs, especially if they are in different assemblies.
 
+## Issues
+
+Issues should clearly lay out the problem, platforms experienced on, as well as steps to reproduce the issue.
+
+This aids in fixing the issues but also quality assurance, to check that the issue has indeed been fixed.
+
+Issues are labelled in the following way depending on its type:
+
+* `bug`: The issue is a bug in the product.
+* `enhancement`: The issue is an enhancement to either an existing feature in the product or to the infrastructure around the development process.
+* `documentation`: A documentation-related task.
+* `c/__`: Specifies the component of the task.
+* `e/__`: Specifies the effort required for the task.
+* `p/__`: Specifies the priority of the task.
+
 ## Commit Messages
 
 Please format commit messages as follows (based on [A Note About Git Commit Messages](http://tbaggery.com/2008/04/19/a-note-about-git-commit-messages.html)):

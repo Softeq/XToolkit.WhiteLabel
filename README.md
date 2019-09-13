@@ -21,7 +21,7 @@ WhiteLabel  | [![Softeq.XToolkit.WhiteLabel](https://img.shields.io/nuget/v/Soft
 
 ## Contributing
 
-We welcome any contributions.
+As an open source project, we're excited to accept contributions to the code from outside of Softeq and are striving to make that as easy and clean as possible.
 
 - [How to Contribute](.github/CONTRIBUTING.md)
 
