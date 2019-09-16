@@ -51,10 +51,11 @@ namespace Playground.iOS.ViewControllers
             var source = new BindableGroupTableViewSource<string, CommandAction,
                 MainPageGroupHeaderViewCell, MainPageItemViewCell>(
                 TableView,
+                UICollectionElementKindSection.Header,
                 ViewModel.Items)
             {
                 HeightForRow = 60f,
-                HeightForHeader = 100f,
+                HeightForGroupCell = 100f,
             };
 
             source.ItemSelected += (sender, args) => args.Value.Command.Execute(null);

@@ -56,19 +56,12 @@ namespace Playground.iOS.ViewControllers.Collections
         private class CustomSource : BindableGroupTableViewSource<ProductHeaderViewModel,
                 ProductViewModel,
                 GroupedTableHeaderView,
+                GroupedTableFooterView,
                 ProductTableViewCell>
         {
-            public CustomSource(UITableView tableView, IEnumerable<IGrouping<ProductHeaderViewModel, ProductViewModel>> items) : base(tableView, items)
+            public CustomSource(UITableView tableView, IEnumerable<IGrouping<ProductHeaderViewModel, ProductViewModel>> items)
+                : base(tableView, items)
             {
-            }
-
-            public override UIView GetViewForFooter(UITableView tableView, nint section)
-            {
-                var view = tableView.DequeueReusableHeaderFooterView(nameof(GroupedTableFooterView));
-
-                ((IBindableView) view).ReloadDataContext(DataSource.ElementAt((int)section).Key);
-
-                return view;
             }
         }
     }
