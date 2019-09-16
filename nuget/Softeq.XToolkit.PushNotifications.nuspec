@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Softeq.XToolkit.PushNotifications</id>
-    <version>1.0.0-beta1</version>
+    <version>1.0.0-beta2</version>
     <title>Softeq.XToolkit.PushNotifications</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
@@ -15,17 +15,17 @@
     <releaseNotes/>
     <dependencies>
       <group targetFramework="netstandard2.0">
-        <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta1]" />
+        <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta2]" />
       </group>
       <group targetFramework="MonoAndroid9.0">
-        <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta1]" />
+        <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta2]" />
         <dependency id="Xamarin.Android.Support.v7.AppCompat" version="28.0.0.1" />
         <dependency id="Xamarin.Android.Support.Media.Compat" version="28.0.0.1" />
         <dependency id="Xamarin.Firebase.Messaging" version="71.1740.0" />
         <dependency id="Xamarin.Android.Arch.Lifecycle.Extensions" version="1.1.1.1" />
       </group>
       <group targetFramework="Xamarin.iOS10">
-        <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta1]" />
+        <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta2]" />
         <dependency id="Plugin.Permissions" version="3.0.0.12"/>
         <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
       </group>
