@@ -22,7 +22,6 @@ namespace Playground.ViewModels.Collections
             _dialogsService = dialogsService;
 
             Items = GetMovies();
-            ItemModels.AddRange(GenerateItems());
 
             SelectItemCommand = new AsyncCommand<ItemViewModel>(SelectItem);
         }
@@ -31,12 +30,15 @@ namespace Playground.ViewModels.Collections
 
         public ObservableRangeCollection<ItemViewModel> ItemModels = new ObservableRangeCollection<ItemViewModel>();
 
-
         public ICommand<ItemViewModel> SelectItemCommand { get; }
 
         public override async void OnInitialize()
         {
             base.OnInitialize();
+
+            await Task.Delay(1000);
+
+            ItemModels.AddRange(GenerateItems());
 
             for (var i = 0; i < 50; i++)
             {

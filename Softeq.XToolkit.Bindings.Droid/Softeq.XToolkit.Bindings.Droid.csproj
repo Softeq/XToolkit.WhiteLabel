@@ -51,7 +51,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Bindable\BindableRecyclerViewAdapter.cs" />
     <Compile Include="DroidBinding.cs" />
     <Compile Include="DroidBindingExtensions.cs" />
     <Compile Include="DroidBindingFactory.cs" />
@@ -63,7 +62,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Bindable\IBindableViewHolder.cs" />
     <Compile Include="Bindable\BindableViewHolder.cs" />
-    <Compile Include="Bindable\BindableGroupRecyclerViewAdapter.cs" />
+    <Compile Include="Bindable\BindableRecyclerViewAdapter.cs" />
     <Compile Include="Bindable\BindableViewHolderLayoutAttribute.cs" />
     <Compile Include="Bindable\ItemType.cs" />
     <Compile Include="Bindable\FlatItem.cs" />
