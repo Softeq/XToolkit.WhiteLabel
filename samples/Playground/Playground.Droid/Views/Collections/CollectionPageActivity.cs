@@ -30,7 +30,7 @@ namespace Playground.Droid.Views.Collections
 
             _recyclerView.SetLayoutManager(new LinearLayoutManager(this));
 
-            var adapter = new BindableeRRecyclerViewAdapter<ItemViewModel, MovieCollectionViewHolder>(
+            var adapter = new BindableRecyclerViewAdapter<ItemViewModel, MovieCollectionViewHolder>(
                 ViewModel.ItemModels)
             {
                 ItemClick = ViewModel.SelectItemCommand
