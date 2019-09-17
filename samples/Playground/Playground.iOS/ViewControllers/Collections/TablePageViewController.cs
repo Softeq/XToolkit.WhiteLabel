@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using Playground.iOS.Views;
 using Playground.Models;
 using Playground.ViewModels.Collections;
