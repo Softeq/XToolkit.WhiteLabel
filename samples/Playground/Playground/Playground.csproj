@@ -18,6 +18,7 @@
     <Folder Include="ViewModels\Collections\Products\" />
     <Folder Include="Services\" />
     <Folder Include="Utils\" />
+    <Folder Include="ViewModels\Collections\Base\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
