@@ -160,6 +160,8 @@
     <InterfaceDefinition Include="ViewControllers\Collections\GroupedListPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\Table\ProductTableViewCell.xib" />
     <InterfaceDefinition Include="Views\Table\GroupedTableHeaderView.xib" />
+    <InterfaceDefinition Include="ViewControllers\Collections\TablePageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\MovieTableViewCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -255,6 +257,14 @@
     <Compile Include="Views\Table\GroupedTableHeaderView.cs" />
     <Compile Include="Views\Table\GroupedTableHeaderView.designer.cs">
       <DependentUpon>GroupedTableHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Collections\TablePageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\TablePageViewController.designer.cs">
+      <DependentUpon>TablePageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MovieTableViewCell.cs" />
+    <Compile Include="Views\MovieTableViewCell.designer.cs">
+      <DependentUpon>MovieTableViewCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@ using System;
 using Playground.iOS.Views;
 using Playground.ViewModels;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
+using Softeq.XToolkit.Common.Command;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -48,16 +49,17 @@ namespace Playground.iOS.ViewControllers
                 MainPageGroupHeaderViewCell.Nib,
                 MainPageGroupHeaderViewCell.Key);
 
-            var source = new BindableGroupTableViewSource<string, CommandAction,
+            var source = new BindableTableViewSource<string, CommandAction,
                 MainPageGroupHeaderViewCell, MainPageItemViewCell>(
                 TableView,
+                UICollectionElementKindSection.Header,
                 ViewModel.Items)
             {
                 HeightForRow = 60f,
-                HeightForHeader = 100f,
+                HeightForGroupCell = 100f,
             };
 
-            source.ItemSelected += (sender, args) => args.Value.Command.Execute(null);
+            source.ItemClick = new RelayCommand<CommandAction>((action) => action.Command.Execute(null));
 
             TableView.Source = source;
         }

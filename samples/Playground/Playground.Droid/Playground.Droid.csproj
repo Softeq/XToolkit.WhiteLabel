@@ -90,6 +90,7 @@
     <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Views\Collections\MovieCollectionViewHolder.cs" />
     <Compile Include="Views\Collections\GroupedTablePageActivity.cs" />
+    <Compile Include="Views\Collections\TablePageActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
