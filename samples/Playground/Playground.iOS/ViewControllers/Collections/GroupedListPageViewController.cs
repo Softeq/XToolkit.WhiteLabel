@@ -53,7 +53,7 @@ namespace Playground.iOS.ViewControllers.Collections
             //    new InverseBooleanConverter());
         }
 
-        private class CustomSource : BindableGroupTableViewSource<ProductHeaderViewModel,
+        private class CustomSource : BindableTableViewSource<ProductHeaderViewModel,
                 ProductViewModel,
                 GroupedTableHeaderView,
                 GroupedTableFooterView,

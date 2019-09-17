@@ -95,6 +95,17 @@ namespace Playground.ViewModels
                         Command = new RelayCommand(() =>
                         {
                             _pageNavigationService
+                                .For<TablePageViewModel>()
+                                .Navigate();
+                        })
+                    }),
+                (Category.Collections,
+                    new CommandAction
+                    {
+                        Title = "Observable collection",
+                        Command = new RelayCommand(() =>
+                        {
+                            _pageNavigationService
                                 .For<CollectionPageViewModel>()
                                 .Navigate();
                         })
