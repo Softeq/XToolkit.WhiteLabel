@@ -5,6 +5,7 @@ using System;
 using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Softeq.XToolkit.Common.Extensions;
 
 namespace Softeq.XToolkit.Common.Command
 {
@@ -50,7 +51,12 @@ namespace Softeq.XToolkit.Common.Command
         ///     Data used by the command. If the command does not require data
         ///     to be passed, this object can be set to a null reference
         /// </param>
-        public virtual async void Execute(object parameter)
+        public virtual void Execute(object parameter)
+        {
+            ExecuteAsync(parameter).SafeTaskWrapper();
+        }
+
+        public async Task ExecuteAsync(object parameter)
         {
             if (!CanExecute(parameter))
             {
@@ -61,7 +67,7 @@ namespace Softeq.XToolkit.Common.Command
 
             try
             {
-                await ExecuteAsync(parameter).Invoke();
+                await ExecuteAsyncImpl(parameter).Invoke();
             }
             finally
             {
@@ -72,7 +78,7 @@ namespace Softeq.XToolkit.Common.Command
 
         public event EventHandler CanExecuteChanged;
 
-        protected abstract Func<Task> ExecuteAsync(object parameter);
+        protected abstract Func<Task> ExecuteAsyncImpl(object parameter);
     }
 
     public class AsyncCommand : AsyncCommandBase
@@ -96,7 +102,7 @@ namespace Softeq.XToolkit.Common.Command
             _action = myAsyncFunction;
         }
 
-        protected override Func<Task> ExecuteAsync(object parameter)
+        protected override Func<Task> ExecuteAsyncImpl(object parameter)
         {
             return _action;
         }
@@ -144,7 +150,7 @@ namespace Softeq.XToolkit.Common.Command
             Execute((T) parameter);
         }
 
-        protected override Func<Task> ExecuteAsync(object parameter)
+        protected override Func<Task> ExecuteAsyncImpl(object parameter)
         {
             return () => _action((T) parameter);
         }
