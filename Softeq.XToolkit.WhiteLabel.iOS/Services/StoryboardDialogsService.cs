@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
-using Softeq.XToolkit.WhiteLabel.iOS.ViewControllers;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -44,11 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
             Execute.BeginOnUIThread(() =>
             {
-                var alertController = new TopLevelAlertController
-                {
-                    Title = title,
-                    Message = message
-                };
+                var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
 
                 var okActionStyle = options?.DialogType == DialogType.Destructive
                     ? UIAlertActionStyle.Destructive
@@ -63,7 +58,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                         action => { dialogResult.TrySetResult(false); }));
                 }
 
-                alertController.Show();
+                var topViewController = _viewLocator.GetTopViewController();
+                if (topViewController == null)
+                {
+                    _logger.Error("can't find top ViewController");
+                    dialogResult.TrySetResult(false);
+                    return;
+                }
+
+                topViewController.PresentViewController(alertController, true, null);
             });
 
             return dialogResult.Task;

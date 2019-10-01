@@ -96,15 +96,14 @@
     <Compile Include="Services\ViewControllerProvider.cs" />
     <Compile Include="ImagePicker\IosImagePickerService.cs" />
     <Compile Include="ImagePicker\IosImagePickerResult.cs" />
-    <Compile Include="ViewControllers\TopLevelAlertController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{797907F2-95D6-40E5-811E-3206CBF62213}</Project>
+      <Project>{C10D58B5-A4E7-4607-BCD8-4D28191B2B2A}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{D5F562B4-D878-4B86-AB35-93BC43A253C5}</Project>
+      <Project>{00BB8927-C9BC-4F4A-B4A1-1FEBAB0C74C9}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -112,7 +111,7 @@
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{B6D39FB0-BD3C-477A-BDED-579D688D59DA}</Project>
+      <Project>{69B5CB62-EAA0-4441-A261-3E11FA9868A9}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
@@ -120,7 +119,7 @@
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{E8FAA479-4003-4A66-B355-CA96A2D59DA0}</Project>
+      <Project>{7F58FADC-23EC-4E49-ACEE-9035F57B8BCA}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
