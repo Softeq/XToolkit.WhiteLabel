@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
 {
     public class JsonSerializer : IJsonSerializer
     {
-        private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
+        protected virtual JsonSerializerSettings Settings { get; } = new JsonSerializerSettings
         {
             Formatting = Formatting.None,
             TypeNameHandling = TypeNameHandling.None,
@@ -21,21 +21,24 @@ namespace Softeq.XToolkit.WhiteLabel.Services
             DateTimeZoneHandling = DateTimeZoneHandling.Utc
         };
 
+        /// <inheritdoc />
         public string Serialize(object value)
         {
-            return JsonConvert.SerializeObject(value, _jsonSerializerSettings);
+            return JsonConvert.SerializeObject(value, Settings);
         }
 
+        /// <inheritdoc />
         public T Deserialize<T>(string value)
         {
-            return JsonConvert.DeserializeObject<T>(value, _jsonSerializerSettings);
+            return JsonConvert.DeserializeObject<T>(value, Settings);
         }
 
+        /// <inheritdoc />
         public Task<T> DeserializeAsync<T>(Stream stream)
         {
             return Task.Run(() =>
             {
-                var serializer = Newtonsoft.Json.JsonSerializer.Create(_jsonSerializerSettings);
+                var serializer = Newtonsoft.Json.JsonSerializer.Create(Settings);
                 using (var streamReader = new StreamReader(stream))
                 {
                     using (var jsonTextReader = new JsonTextReader(streamReader))
@@ -46,11 +49,12 @@ namespace Softeq.XToolkit.WhiteLabel.Services
             });
         }
 
+        /// <inheritdoc />
         public Task SerializeAsync(object obj, Stream stream)
         {
             return Task.Run(() =>
             {
-                var serializer = Newtonsoft.Json.JsonSerializer.Create(_jsonSerializerSettings);
+                var serializer = Newtonsoft.Json.JsonSerializer.Create(Settings);
                 using (var streamWriter = new StreamWriter(stream))
                 {
                     using (var jsonTextWriter = new JsonTextWriter(streamWriter))
