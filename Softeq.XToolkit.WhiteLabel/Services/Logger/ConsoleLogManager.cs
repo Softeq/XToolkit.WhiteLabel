@@ -7,6 +7,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services.Logger
 {
     public class ConsoleLogManager : ILogManager
     {
+        /// <inheritdoc />
         public ILogger GetLogger<T>()
         {
             var type = typeof(T);
@@ -14,6 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services.Logger
             return CreateInstance(name);
         }
 
+        /// <inheritdoc />
         public ILogger GetLogger(string name)
         {
             return CreateInstance(name);
@@ -21,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services.Logger
 
         private static ILogger CreateInstance(string name)
         {
-            return new ConsoleLogger();
+            return new ConsoleLogger(name);
         }
     }
 }
