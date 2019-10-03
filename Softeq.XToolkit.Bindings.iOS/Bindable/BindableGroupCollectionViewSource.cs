@@ -85,7 +85,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         /// <inheritdoc />
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (TItemCell) collectionView.DequeueReusableCell(typeof(TItemCell).Name, indexPath);
+            var cell = (TItemCell) collectionView.DequeueReusableCell(GetCellName(indexPath), indexPath);
             var bindableCell = (IBindableView) cell;
 
             bindableCell.ReloadDataContext(GetItemByIndexPath(indexPath));
@@ -134,7 +134,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             var header = collectionView.DequeueReusableSupplementaryView(
                 UICollectionElementKindSectionKey.Header,
-                typeof(THeaderView).Name,
+                GetHeaderViewName(indexPath),
                 indexPath);
 
             var bindableHeader = (IBindableView) header;
@@ -177,6 +177,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             return DataSource.ElementAt(indexPath.Section).ElementAt(indexPath.Row);
         }
+
+        protected virtual string GetCellName(NSIndexPath indexPath) => typeof(TItemCell).Name;
+
+        protected virtual string GetHeaderViewName(NSIndexPath indexPath) => typeof(THeaderView).Name;
 
         protected override void Dispose(bool disposing)
         {
