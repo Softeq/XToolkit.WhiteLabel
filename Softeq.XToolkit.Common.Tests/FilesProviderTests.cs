@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using NSubstitute;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Files;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests

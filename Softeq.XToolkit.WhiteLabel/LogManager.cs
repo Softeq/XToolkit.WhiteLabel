@@ -3,6 +3,7 @@
 
 using System;
 using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 
 namespace Softeq.XToolkit.WhiteLabel
 {

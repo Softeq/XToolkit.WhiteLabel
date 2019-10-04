@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;

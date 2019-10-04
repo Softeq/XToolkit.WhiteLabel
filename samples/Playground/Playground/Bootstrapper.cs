@@ -3,10 +3,10 @@
 
 using Playground.Services;
 using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Services;
-using Softeq.XToolkit.WhiteLabel.Services.Logger;
 
 namespace Playground
 {

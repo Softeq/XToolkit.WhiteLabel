@@ -4,7 +4,7 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Plugin.Permissions;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;

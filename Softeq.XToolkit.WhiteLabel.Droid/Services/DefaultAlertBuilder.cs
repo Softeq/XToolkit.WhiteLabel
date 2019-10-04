@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Threading;
 

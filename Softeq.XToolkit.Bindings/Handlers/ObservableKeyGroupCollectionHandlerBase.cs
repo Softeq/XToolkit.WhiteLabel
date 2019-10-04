@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Specialized;
-using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Collections;
 
 namespace Softeq.XToolkit.Bindings.Handlers
 {

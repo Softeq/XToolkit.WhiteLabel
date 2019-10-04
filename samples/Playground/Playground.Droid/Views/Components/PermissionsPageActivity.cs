@@ -9,6 +9,7 @@ using Android.Widget;
 using Playground.ViewModels.Components;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Converters;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid;
 

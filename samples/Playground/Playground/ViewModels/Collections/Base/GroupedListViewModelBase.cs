@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.Services;
 using Playground.ViewModels.Collections.Products;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;

@@ -4,7 +4,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 
 namespace Softeq.XToolkit.Common.Extensions
 {

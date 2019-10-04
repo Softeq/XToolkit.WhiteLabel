@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
+using Softeq.XToolkit.Common.Tasks;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests

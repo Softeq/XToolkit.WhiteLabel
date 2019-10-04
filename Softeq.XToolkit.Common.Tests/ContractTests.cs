@@ -4,6 +4,7 @@
 using System;
 using NSubstitute;
 using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests
@@ -25,8 +26,8 @@ namespace Softeq.XToolkit.Common.Tests
         public void ILoggerTest()
         {
             var mock = Substitute.For<ILogger>();
-            mock.Debug(default(string));
-            mock.Info(default(string));
+            mock.Debug(default);
+            mock.Info(default);
             mock.Warn(default(string));
             mock.Warn(default(string));
             mock.Error(default(string));

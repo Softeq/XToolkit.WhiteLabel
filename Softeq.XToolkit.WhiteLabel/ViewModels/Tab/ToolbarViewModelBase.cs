@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;

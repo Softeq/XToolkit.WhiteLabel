@@ -7,9 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
-using Softeq.XToolkit.Common.EventArguments;
 using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.Common.Collections
 {
@@ -32,7 +30,7 @@ namespace Softeq.XToolkit.Common.Collections
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
-        ///   Initializes a new instance of the class.
+        ///     Initializes a new instance of the class.
         /// </summary>
         /// <param name="withoutEmptyGroups">If true empty groups will be removed</param>
         public ObservableKeyGroupsCollectionNew(bool withoutEmptyGroups = true)

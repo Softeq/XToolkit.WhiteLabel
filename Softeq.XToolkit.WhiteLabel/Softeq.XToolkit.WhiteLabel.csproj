@@ -14,5 +14,9 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <Folder Include="Services\Logger" />
+  </ItemGroup>
 
 </Project>

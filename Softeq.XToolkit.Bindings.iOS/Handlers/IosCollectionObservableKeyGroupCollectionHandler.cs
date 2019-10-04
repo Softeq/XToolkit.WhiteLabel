@@ -6,7 +6,8 @@ using System.Linq;
 using Foundation;
 using Softeq.XToolkit.Bindings.Handlers;
 using Softeq.XToolkit.Common;
-using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Weak;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Handlers

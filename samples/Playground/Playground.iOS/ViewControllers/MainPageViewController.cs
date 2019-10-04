@@ -5,7 +5,7 @@ using System;
 using Playground.iOS.Views;
 using Playground.ViewModels;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;

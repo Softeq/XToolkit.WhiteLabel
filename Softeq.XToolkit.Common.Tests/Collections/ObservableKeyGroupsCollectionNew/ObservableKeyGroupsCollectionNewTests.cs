@@ -1,13 +1,12 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using Softeq.XToolkit.Common.Collections;
-using Softeq.XToolkit.Common.EventArguments;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionNew
