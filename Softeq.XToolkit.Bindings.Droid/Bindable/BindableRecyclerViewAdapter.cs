@@ -12,7 +12,6 @@ using Softeq.XToolkit.Bindings.Droid.Handlers;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable

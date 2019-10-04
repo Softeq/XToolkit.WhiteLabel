@@ -26,8 +26,8 @@ namespace Softeq.XToolkit.Common.Tests
         public void ILoggerTest()
         {
             var mock = Substitute.For<ILogger>();
-            mock.Debug(default);
-            mock.Info(default);
+            mock.Debug(default(string));
+            mock.Info(default(string));
             mock.Warn(default(string));
             mock.Warn(default(string));
             mock.Error(default(string));
