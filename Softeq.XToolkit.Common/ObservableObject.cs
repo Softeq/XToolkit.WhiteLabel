@@ -10,7 +10,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 
-namespace Softeq.XToolkit.WhiteLabel.Mvvm
+namespace Softeq.XToolkit.Common
 {
     /// <summary>
     ///     A base class for objects of which the properties must be observable.

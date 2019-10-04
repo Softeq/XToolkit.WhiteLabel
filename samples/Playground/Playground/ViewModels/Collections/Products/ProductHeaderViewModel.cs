@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
 
 namespace Playground.ViewModels.Collections.Products

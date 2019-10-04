@@ -1,8 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.ViewModels.Collections.Products
 {

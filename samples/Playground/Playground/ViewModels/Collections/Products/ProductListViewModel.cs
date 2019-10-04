@@ -6,10 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Playground.Services;
+using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.ViewModels.Collections.Products
 {
