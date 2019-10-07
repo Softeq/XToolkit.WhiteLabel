@@ -13,11 +13,6 @@ namespace Softeq.XToolkit.Common
         }
 
         public T Value { get; }
-
-        public static GenericEventArgs<T> Create<T>(T item)
-        {
-            return new GenericEventArgs<T>(item);
-        }
     }
 
     public static class GenericEventArgs

@@ -9,6 +9,7 @@ using Playground.Services;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Extensions;
 
 namespace Playground.ViewModels.Collections.Products
 {
@@ -43,30 +44,27 @@ namespace Playground.ViewModels.Collections.Products
         public bool IsBusy
         {
             get => _isBusy;
-            set => Set(ref _isBusy, value);
+            private set => Set(ref _isBusy, value);
         }
 
         public async Task LoadDataAsync()
         {
-            //IsBusy = true;
+            IsBusy = true;
 
-            //var products = await _dataService.GetProducts(40);
+            var products = await _dataService.GetProducts(40);
 
-            //products.Apply(product =>
-            //{
-            //    product.AddToBasketCommand = _addCommand;
-            //});
+            products.Apply(product => { product.AddToBasketCommand = _addCommand; });
 
-            //Products.ReplaceItems(products, x => CreateGroup(GetGroupId(x)), x => x);
+            Products.ReplaceItems(products, x => CreateGroup(GetGroupId(x)), x => x);
 
-            //IsBusy = false;
+            IsBusy = false;
         }
 
         public void TryGenerateGroup()
         {
             var id = GetNewGroupId();
 
-            if(id > 9)
+            if (id > 9)
             {
                 return;
             }
@@ -105,28 +103,30 @@ namespace Playground.ViewModels.Collections.Products
 
         private int GetNewGroupId()
         {
-            return Products.Any() ? Products
-                            .Select(x => x.Key)
-                            .OrderBy(x => x.Id)
-                            .Last()
-                            .Id + 1 : 1;
+            return Products.Any()
+                ? Products
+                    .Select(x => x.Key)
+                    .OrderBy(x => x.Id)
+                    .Last()
+                    .Id + 1
+                : 1;
         }
 
         private int GetNewItemId(ProductHeaderViewModel productViewModel)
         {
-            var gr = Products?
+            var groups = Products?
                 .FirstOrDefault(x => x.Key.Equals(productViewModel))?
                 .ToList();
 
-            if (gr == null
-                || gr.Count == 0)
+            if (groups == null
+                || groups.Count == 0)
             {
                 return int.Parse(productViewModel.Category);
             }
 
             int newId;
 
-            int lastId = gr
+            int lastId = groups
                 .OrderBy(x => x.Id)
                 .Last()
                 .Id;
@@ -139,9 +139,9 @@ namespace Playground.ViewModels.Collections.Products
             {
                 int intLength = (int) Math.Floor(Math.Log10(lastId)) + 1;
                 int mult = (int) Math.Pow(10, intLength);
-                int coeff = (int) (lastId / (int) Math.Pow(10, intLength - 1));
+                int coeff = lastId / (int) Math.Pow(10, intLength - 1);
 
-                newId = (int) (coeff * mult);
+                newId = coeff * mult;
             }
 
             return newId;
@@ -167,7 +167,7 @@ namespace Playground.ViewModels.Collections.Products
             return new ProductHeaderViewModel
             {
                 Id = id,
-                Category =id.ToString(),
+                Category = id.ToString(),
                 InfoCommand = _infoCommand,
                 GenerateCommand = _generateCommand,
                 AddCommand = _addGroupToBasketCommand
