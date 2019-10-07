@@ -4,7 +4,6 @@
 using System;
 using Android.Views;
 using Android.Widget;
-using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Weak;
 using Object = Java.Lang.Object;

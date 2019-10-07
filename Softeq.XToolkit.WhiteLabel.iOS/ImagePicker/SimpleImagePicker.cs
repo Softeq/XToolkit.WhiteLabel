@@ -13,7 +13,6 @@ using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 

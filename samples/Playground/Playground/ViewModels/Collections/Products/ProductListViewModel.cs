@@ -105,7 +105,7 @@ namespace Playground.ViewModels.Collections.Products
 
         private int GetNewGroupId()
         {
-            return Products.Count() > 0 ? Products
+            return Products.Any() ? Products
                             .Select(x => x.Key)
                             .OrderBy(x => x.Id)
                             .Last()

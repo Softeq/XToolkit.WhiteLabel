@@ -3,7 +3,6 @@
 
 using System;
 using Softeq.XToolkit.Common.Converters;
-using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.WhiteLabel.ImagePicker
 {

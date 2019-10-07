@@ -3,7 +3,6 @@
 
 using Playground.Models;
 using Softeq.XToolkit.Common.Converters;
-using Softeq.XToolkit.Common.Interfaces;
 
 namespace Playground.Converters
 {

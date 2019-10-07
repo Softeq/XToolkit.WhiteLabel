@@ -6,7 +6,6 @@ using System.Windows.Input;
 using Playground.Converters;
 using Playground.Models;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;

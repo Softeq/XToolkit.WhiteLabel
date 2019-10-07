@@ -9,7 +9,6 @@ using Android.Views;
 using Java.Lang;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;

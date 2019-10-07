@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
