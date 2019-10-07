@@ -12,7 +12,7 @@ using Firebase.Iid;
 using Firebase.Messaging;
 using Java.Interop;
 using Java.IO;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 using Object = Java.Lang.Object;
 
 namespace Softeq.XToolkit.PushNotifications.Droid

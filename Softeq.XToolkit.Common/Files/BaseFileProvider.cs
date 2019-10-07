@@ -4,7 +4,6 @@
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.Common.Files
 {

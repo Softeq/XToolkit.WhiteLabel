@@ -9,7 +9,7 @@ using Android.Widget;
 using Playground.ViewModels.Components;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Converters;
 using Softeq.XToolkit.WhiteLabel.Droid;
 
 namespace Playground.Droid.Views.Components
@@ -28,13 +28,13 @@ namespace Playground.Droid.Views.Components
             SetContentView(Resource.Layout.activity_permissions);
 
             _cameraButton = FindViewById<Button>(Resource.Id.buttonCamera);
-            _cameraButton.SetCommand(ViewModel.RequestCameraCommand);
+            _cameraButton.SetCommand(ViewModel.Camera.RequestPermissionCommand);
 
             _storageButton = FindViewById<Button>(Resource.Id.buttonStorage);
-            _storageButton.SetCommand(ViewModel.RequestStorageCommand);
+            _storageButton.SetCommand(ViewModel.Storage.RequestPermissionCommand);
 
             _locationButton = FindViewById<Button>(Resource.Id.buttonLocationInUse);
-            _locationButton.SetCommand(ViewModel.RequestLocationCommand);
+            _locationButton.SetCommand(ViewModel.Location.RequestPermissionCommand);
         }
 
         protected override void DoAttachBindings()
@@ -43,9 +43,9 @@ namespace Playground.Droid.Views.Components
 
             var converter = new ColorConverter();
 
-            this.Bind(() => ViewModel.CameraGranted, () => _cameraButton.Background, converter);
-            this.Bind(() => ViewModel.StorageGranted, () => _storageButton.Background, converter);
-            this.Bind(() => ViewModel.LocationGranted, () => _locationButton.Background, converter);
+            this.Bind(() => ViewModel.Camera.IsGranted, () => _cameraButton.Background, converter);
+            this.Bind(() => ViewModel.Storage.IsGranted, () => _storageButton.Background, converter);
+            this.Bind(() => ViewModel.Location.IsGranted, () => _locationButton.Background, converter);
         }
 
         private class ColorConverter : IConverter<Drawable, bool>

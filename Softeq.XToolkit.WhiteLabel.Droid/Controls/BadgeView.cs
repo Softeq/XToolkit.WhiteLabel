@@ -7,8 +7,8 @@ using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Widget;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Droid.Converters;
+using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls

@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using System;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests

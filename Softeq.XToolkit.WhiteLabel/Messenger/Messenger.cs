@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.WhiteLabel.Messenger
 {

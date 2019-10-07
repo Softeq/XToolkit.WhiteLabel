@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable

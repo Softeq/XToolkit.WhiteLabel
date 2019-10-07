@@ -8,7 +8,7 @@ using Android.Locations;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Location;
 using Object = Java.Lang.Object;
 

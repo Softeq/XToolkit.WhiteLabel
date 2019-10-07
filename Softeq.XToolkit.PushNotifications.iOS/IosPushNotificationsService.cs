@@ -3,7 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 using UIKit;
 using UserNotifications;
 

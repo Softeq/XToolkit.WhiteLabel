@@ -7,7 +7,7 @@ using Android.Support.V7.Widget;
 using Android.Views;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.WeakSubscription;
+using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {

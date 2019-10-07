@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 
 namespace Softeq.XToolkit.PushNotifications
 {

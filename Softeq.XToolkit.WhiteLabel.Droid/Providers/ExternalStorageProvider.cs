@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 using Android.OS;
 using Plugin.Permissions;
 using Softeq.XToolkit.Common.Files;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Permissions;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
