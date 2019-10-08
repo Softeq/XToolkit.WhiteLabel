@@ -3,7 +3,9 @@
 
 using System;
 using System.Threading.Tasks;
+using NSubstitute;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Logger;
 using Xunit;
 using TaskExt = Softeq.XToolkit.Common.Extensions.TaskExtensions;
 
@@ -105,6 +107,26 @@ namespace Softeq.XToolkit.Common.Tests.Extensions
 
             await Assert.ThrowsAsync<ApplicationException>(() => timeoutTask);
             Assert.Same(tcs.Task.Exception.InnerException, timeoutTask.Exception.InnerException);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void SafeTaskWrapper_Execute(bool generic)
+        {
+            var logger = Substitute.For<ILogger>();
+            var tcs = new TaskCompletionSource<object>();
+            var task = generic
+                ? tcs.Task.SafeTaskWrapper<object>(logger)
+                : ((Task) tcs.Task).SafeTaskWrapper(logger);
+
+            Assert.False(task.IsCompleted);
+
+            tcs.SetResult(null);
+
+            task.GetAwaiter().GetResult();
+
+            logger.DidNotReceiveWithAnyArgs().Error(default(string));
         }
     }
 }

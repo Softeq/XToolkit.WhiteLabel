@@ -41,10 +41,8 @@ namespace Softeq.XToolkit.Common.Extensions
                     throw new TimeoutException();
                 }
 
-                // The timeout did not elapse, so cancel the timer to recover system resources.
                 timerCancellation.Cancel();
 
-                // re-throw any exceptions from the completed task.
                 await task.ConfigureAwait(false);
             }
         }
@@ -65,18 +63,42 @@ namespace Softeq.XToolkit.Common.Extensions
             return task.GetAwaiter().GetResult();
         }
 
-        public static Task<T> SafeTaskWrapper<T>(this Task<T> task, ILogger logger = null)
+        /// <summary>
+        ///     Useful for fire-and-forget calls to async methods within async methods.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <returns>The task.</returns>
+        public static Task SafeTaskWrapper(this Task task, ILogger logger = null)
         {
-            task.ContinueWith(t => { LogException(t, logger); }, CancellationToken.None,
-                TaskContinuationOptions.NotOnRanToCompletion, TaskScheduler.Default);
+            task.ContinueWith(t =>
+                {
+                    LogException(t, logger);
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.NotOnRanToCompletion,
+                TaskScheduler.Default);
+
             return task;
         }
 
-        public static Task SafeTaskWrapper(this Task task, ILogger logger = null)
+        /// <summary>
+        ///     Useful for fire-and-forget calls to async methods within async methods.
+        /// </summary>
+        /// <typeparam name="T">Type of task result.</typeparam>
+        /// <param name="task">The task.</param>
+        /// <param name="logger">Logger object.</param>
+        /// <returns>The task.</returns>
+        public static Task<T> SafeTaskWrapper<T>(this Task<T> task, ILogger logger = null)
         {
-            //todo PL: implement default logger
-            task.ContinueWith(t => { LogException(t, logger); }, CancellationToken.None,
-                TaskContinuationOptions.NotOnRanToCompletion, TaskScheduler.Default);
+            task.ContinueWith(t =>
+                {
+                    LogException(t, logger);
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.NotOnRanToCompletion,
+                TaskScheduler.Default);
+
             return task;
         }
 
