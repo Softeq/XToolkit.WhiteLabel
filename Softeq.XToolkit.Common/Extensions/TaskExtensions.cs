@@ -11,23 +11,58 @@ namespace Softeq.XToolkit.Common.Extensions
     public static class TaskExtensions
     {
         /// <summary>
-        ///     Task extension to add a timeout.
+        ///     Returns a task that completes as the original task completes or when a timeout expires, whichever happens first.
         /// </summary>
-        /// <returns>The task with timeout.</returns>
-        /// <param name="task">Task.</param>
-        /// <param name="timeout">Timeout.</param>
-        /// <typeparam name="T">Task type.</typeparam>
-        public static async Task<T> WithTimeout<T>(this Task<T> task, TimeSpan timeout)
+        /// <param name="task">The task to wait for.</param>
+        /// <param name="timeout">The maximum time to wait.</param>
+        /// <returns>
+        ///     A task that completes with the result of the specified <paramref name="task"/> or
+        ///     faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
+        /// </returns>
+        public static async Task WithTimeout(this Task task, TimeSpan timeout)
         {
-            var retTask = await Task.WhenAny(task, Task.Delay((int) timeout.TotalMilliseconds))
-                .ConfigureAwait(false);
+            // Details:
+            //     https://devblogs.microsoft.com/pfxteam/crafting-a-task-timeoutafter-method/
+            // Source:
+            //     https://github.com/microsoft/vs-threading/blob/master/src/Microsoft.VisualStudio.Threading/TplExtensions.cs#L73
 
-            if (retTask is Task<T>)
+            if (task == null)
             {
-                return task.Result;
+                throw new ArgumentNullException(nameof(task));
             }
 
-            return default;
+            using (var timerCancellation = new CancellationTokenSource())
+            {
+                var timeoutTask = Task.Delay(timeout, timerCancellation.Token);
+                var firstCompletedTask = await Task.WhenAny(task, timeoutTask).ConfigureAwait(false);
+
+                if (firstCompletedTask == timeoutTask)
+                {
+                    throw new TimeoutException();
+                }
+
+                // The timeout did not elapse, so cancel the timer to recover system resources.
+                timerCancellation.Cancel();
+
+                // re-throw any exceptions from the completed task.
+                await task.ConfigureAwait(false);
+            }
+        }
+
+        /// <summary>
+        ///     Returns a task that completes as the original task completes or when a timeout expires, whichever happens first.
+        /// </summary>
+        /// <typeparam name="T">The type of value returned by the original task.</typeparam>
+        /// <param name="task">The task to wait for.</param>
+        /// <param name="timeout">The maximum time to wait.</param>
+        /// <returns>
+        ///     A task that completes with the result of the specified <paramref name="task"/> or
+        ///     faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
+        /// </returns>
+        public static async Task<T> WithTimeout<T>(this Task<T> task, TimeSpan timeout)
+        {
+            await WithTimeout((Task) task, timeout).ConfigureAwait(false);
+            return task.GetAwaiter().GetResult();
         }
 
         public static Task<T> SafeTaskWrapper<T>(this Task<T> task, ILogger logger = null)
