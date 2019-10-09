@@ -64,12 +64,12 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Useful for fire-and-forget calls to async methods within async methods.
+        ///     Useful for fire-and-forget calls to async methods.
         /// </summary>
         /// <param name="task">The task.</param>
         /// <param name="logger">Logger object.</param>
         /// <returns>The task.</returns>
-        public static Task SafeTaskWrapper(this Task task, ILogger logger = null)
+        public static void FireAndForget(this Task task, ILogger logger = null)
         {
             task.ContinueWith(t =>
                 {
@@ -78,33 +78,12 @@ namespace Softeq.XToolkit.Common.Extensions
                 CancellationToken.None,
                 TaskContinuationOptions.NotOnRanToCompletion,
                 TaskScheduler.Default);
-
-            return task;
-        }
-
-        /// <summary>
-        ///     Useful for fire-and-forget calls to async methods within async methods.
-        /// </summary>
-        /// <typeparam name="T">Type of task result.</typeparam>
-        /// <param name="task">The task.</param>
-        /// <param name="logger">Logger object.</param>
-        /// <returns>The task.</returns>
-        public static Task<T> SafeTaskWrapper<T>(this Task<T> task, ILogger logger = null)
-        {
-            task.ContinueWith(t =>
-                {
-                    LogException(t, logger);
-                },
-                CancellationToken.None,
-                TaskContinuationOptions.NotOnRanToCompletion,
-                TaskScheduler.Default);
-
-            return task;
         }
 
         private static void LogException(Task task, ILogger logger)
         {
             Exception exception = task.Exception;
+
             if (exception != null && logger != null)
             {
                 logger.Error(exception.StackTrace);

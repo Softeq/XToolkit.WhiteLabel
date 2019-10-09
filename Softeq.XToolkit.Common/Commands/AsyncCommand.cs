@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// </param>
         public virtual void Execute(object parameter)
         {
-            ExecuteAsync(parameter).SafeTaskWrapper();
+            ExecuteAsync(parameter).FireAndForget();
         }
 
         public async Task ExecuteAsync(object parameter)

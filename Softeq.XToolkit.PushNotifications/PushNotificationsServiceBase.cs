@@ -79,14 +79,14 @@ namespace Softeq.XToolkit.PushNotifications
             }
             else
             {
-                OnRegisterSuccessInternal(token).SafeTaskWrapper(Logger);
+                OnRegisterSuccessInternal(token).FireAndForget(Logger);
             }
         }
 
         public virtual void OnFailedToRegisterForPushNotifications(string errorMessage)
         {
             Logger.Warn($"Push Notifications failed to register: {errorMessage}");
-            OnRegisterFailedInternal().SafeTaskWrapper(Logger);
+            OnRegisterFailedInternal().FireAndForget(Logger);
         }
 
         public void OnMessageReceived(object pushNotification, bool inForeground)

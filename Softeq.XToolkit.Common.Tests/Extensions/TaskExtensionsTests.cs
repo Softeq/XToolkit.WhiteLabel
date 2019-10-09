@@ -109,24 +109,34 @@ namespace Softeq.XToolkit.Common.Tests.Extensions
             Assert.Same(tcs.Task.Exception.InnerException, timeoutTask.Exception.InnerException);
         }
 
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public void SafeTaskWrapper_Execute(bool generic)
+        [Fact]
+        public async Task FireAndForget_Executes()
         {
             var logger = Substitute.For<ILogger>();
             var tcs = new TaskCompletionSource<object>();
-            var task = generic
-                ? tcs.Task.SafeTaskWrapper<object>(logger)
-                : ((Task) tcs.Task).SafeTaskWrapper(logger);
-
-            Assert.False(task.IsCompleted);
 
             tcs.SetResult(null);
 
-            task.GetAwaiter().GetResult();
+            tcs.Task.FireAndForget(logger);
 
-            logger.DidNotReceiveWithAnyArgs().Error(default(string));
+            await Task.Delay(1);
+
+            logger.DidNotReceiveWithAnyArgs().Error(Arg.Any<string>());
+        }
+
+        [Fact]
+        public async Task FireAndForget_ExecutesAndLogs()
+        {
+            var logger = Substitute.For<ILogger>();
+            var tcs = new TaskCompletionSource<object>();
+
+            tcs.SetException(new ApplicationException());
+
+            tcs.Task.FireAndForget(logger);
+
+            await Task.Delay(1);
+
+            logger.Received().Error(Arg.Any<string>());
         }
     }
 }
