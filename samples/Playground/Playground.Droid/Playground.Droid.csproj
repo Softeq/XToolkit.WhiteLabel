@@ -178,6 +178,10 @@
       <Project>{955A4101-4989-4764-9134-E621FC4D9C86}</Project>
       <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
+      <Project>{A6BEDF91-0022-4FD5-85CD-DA39691BF919}</Project>
+      <Name>Softeq.XToolkit.Connectivity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
