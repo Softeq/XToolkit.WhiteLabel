@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using Softeq.XToolkit.Common.WeakSubscription;
 using Plugin.Connectivity.Abstractions;
 

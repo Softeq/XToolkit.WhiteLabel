@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using Plugin.Connectivity.Abstractions;
 
 namespace Softeq.XToolkit.Connectivity
