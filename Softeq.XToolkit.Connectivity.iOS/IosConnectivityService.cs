@@ -140,6 +140,12 @@ namespace Softeq.XToolkit.Connectivity.iOS
         {
             if (disposing)
             {
+                _ceccularMonitor.Cancel();
+                _wifiMonitor.Cancel();
+                _wiredMonitor.Cancel();
+                _loopbackMonitor.Cancel();
+                _otherMonitor.Cancel();
+
                 _ceccularMonitor.Dispose();
                 _wifiMonitor.Dispose();
                 _wiredMonitor.Dispose();
