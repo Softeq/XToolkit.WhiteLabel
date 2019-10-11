@@ -1,19 +1,17 @@
-﻿namespace Softeq.XToolkit.Remote
+﻿using System.Net.Http;
+
+namespace Softeq.XToolkit.Remote
 {
     public interface IRemoteServiceFactory
     {
-        IRemoteService<T> Create<T>(RemoteServiceConfig config);
+        IRemoteService<T> Create<T>(HttpClient httpClient);
     }
 
     public class RestRemoteServiceFactory : IRemoteServiceFactory
     {
-        public IRemoteService<T> Create<T>(RemoteServiceConfig config)
+        public IRemoteService<T> Create<T>(HttpClient httpClient)
         {
-            var refitService = new RefitService<T>(
-                config.BaseUrl,
-                config.AutoRedirectRequests,
-                config.DelegatingHandler,
-                config.DefaultHeaders);
+            var refitService = new RefitService<T>(httpClient);
 
             return new RestRemoteService<T>(refitService);
         }

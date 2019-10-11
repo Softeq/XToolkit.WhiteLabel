@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using Refit;
 
@@ -15,50 +14,11 @@ namespace Softeq.XToolkit.Remote
     {
         private readonly Lazy<T> _coreService;
 
-        public RefitService(
-            string apiBaseAddress,
-            bool autoRedirectRequests,
-            Func<DelegatingHandler> delegatingHandler,
-            IDictionary<string, string> defaultHeaders)
+        public RefitService(HttpClient httpClient)
         {
-            if (string.IsNullOrEmpty(apiBaseAddress))
-            {
-                throw new ArgumentNullException(nameof(apiBaseAddress));
-            }
-
             Func<HttpMessageHandler, T> createClient = messageHandler =>
             {
-                HttpMessageHandler handler;
-
-                if (delegatingHandler != null)
-                {
-                    var delegatingHandlerInstance = delegatingHandler.Invoke();
-                    delegatingHandlerInstance.InnerHandler = messageHandler;
-                    handler = delegatingHandlerInstance;
-                }
-                else
-                {
-                    handler = messageHandler;
-                }
-
-                if (!autoRedirectRequests)
-                {
-                    DisableAutoRedirects(messageHandler);
-                }
-
-                var client = handler == null ? new HttpClient() : new HttpClient(handler);
-
-                client.BaseAddress = new Uri(apiBaseAddress);
-
-                if (defaultHeaders != default)
-                {
-                    foreach (var header in defaultHeaders)
-                    {
-                        client.DefaultRequestHeaders.Add(header.Key, header.Value);
-                    }
-                }
-
-                return RestService.For<T>(client);
+                return RestService.For<T>(httpClient);
             };
 
             _coreService = new Lazy<T>(() => createClient(null));

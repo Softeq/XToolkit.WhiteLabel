@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Polly;
 using Polly.Wrap;
@@ -9,6 +10,8 @@ namespace Softeq.XToolkit.Remote
     {
         Task Execute(Func<T, Task> operation);
         Task<TResult> Execute<TResult>(Func<T, Task<TResult>> operation);
+        Task Execute(Func<T, Task> operation, RequestOptions options);
+        Task<TResult> Execute<TResult>(Func<T, Task<TResult>> operation, RequestOptions options);
     }
 
     public class RestRemoteService<T> : IRemoteService<T>

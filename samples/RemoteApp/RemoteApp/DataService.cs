@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Softeq.XToolkit.Remote;
 
 namespace RemoteApp
@@ -10,14 +12,38 @@ namespace RemoteApp
         public DataService(
             IRemoteServiceFactory remoteServiceFactory)
         {
-            var config = new RemoteServiceConfig("https://jsonplaceholder.typicode.com/");
+            var httpClient = new HttpClientBuilder("https://jsonplaceholder.typicode.com")
+                //.WithLogger(new MyLogger())
+                //.WithDefaultHeaders(new List<string>())
+                .Build();
 
-            _remoteService = remoteServiceFactory.Create<IApiService>(config);
+            _remoteService = remoteServiceFactory.Create<IApiService>(httpClient);
         }
 
         public async Task GetDataAsync()
         {
-            var a = await _remoteService.Execute(service => service.GetAllPhotosAsync());
+            try
+            {
+                // connectivity?
+                // fatal api error?
+                // fatal request error?
+                // auth?
+                // cancellation?
+
+                var cts = new CancellationTokenSource();
+
+                var result = await _remoteService.Execute(
+                    service => service.GetAllPhotosAsync(cts.Token),
+                    new RequestOptions
+                    {
+                        Priority = Priority.Background,
+                        RetryCount = 5,
+                        Timeout = 5000
+                    }).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+            }
         }
     }
 }
