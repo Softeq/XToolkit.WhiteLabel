@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Net.Http;
 using System.Reflection;
 using Softeq.XToolkit.Common.Logger;
@@ -10,6 +9,7 @@ namespace Softeq.XToolkit.Remote
     public interface IHttpClientBuilder
     {
         IHttpClientBuilder WithLogger(ILogger logger);
+        IHttpClientBuilder WithDelegatingHandler(Func<HttpMessageHandler, HttpMessageHandler> messageHandler);
         HttpClient Build();
     }
 
@@ -18,6 +18,7 @@ namespace Softeq.XToolkit.Remote
         private readonly string _baseUrl;
 
         private ILogger _logger;
+        private Func<HttpMessageHandler, HttpMessageHandler> _messageHandler;
 
         public HttpClientBuilder(string baseUrl)
         {
@@ -30,10 +31,16 @@ namespace Softeq.XToolkit.Remote
             return this;
         }
 
-        public IHttpClientBuilder WithAuthentication(string headerName)
+        public IHttpClientBuilder WithDelegatingHandler(Func<HttpMessageHandler, HttpMessageHandler> messageHandler)
         {
+            _messageHandler = messageHandler;
             return this;
         }
+
+        //public IHttpClientBuilder WithAuthentication(string headerName)
+        //{
+        //    return this;
+        //}
 
         public HttpClient Build()
         {
@@ -50,7 +57,13 @@ namespace Softeq.XToolkit.Remote
 
         protected virtual HttpClient CreateHttpClient()
         {
-            var handler = GetHttpMessageHander();
+            var handler = GetHttpMessageHandler();
+
+            if (_messageHandler != null)
+            {
+                handler = _messageHandler(handler);
+            }
+
 #if DEBUG
             return new HttpClient(new HttpDiagnosticsHandler(handler, _logger));
 #else
@@ -58,7 +71,7 @@ namespace Softeq.XToolkit.Remote
 #endif
         }
 
-        protected virtual HttpMessageHandler GetHttpMessageHander()
+        protected virtual HttpMessageHandler GetHttpMessageHandler()
         {
             return CreateDefaultHandler();
         }
@@ -69,7 +82,7 @@ namespace Softeq.XToolkit.Remote
             // Sources: https://github.com/mono/mono/blob/master/mcs/class/System.Net.Http/HttpClient.DefaultHandler.cs#L5
 
             var method = typeof(HttpClient).GetMethod("CreateDefaultHandler", BindingFlags.NonPublic | BindingFlags.Static);
-            return method.Invoke(null, null) as HttpMessageHandler;
+            return method?.Invoke(null, null) as HttpMessageHandler;
         }
     }
 }

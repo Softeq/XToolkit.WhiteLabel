@@ -1,4 +1,4 @@
-﻿namespace Softeq.XToolkit.Remote
+﻿namespace Softeq.XToolkit.Remote.Primitives
 {
     public enum Priority
     {

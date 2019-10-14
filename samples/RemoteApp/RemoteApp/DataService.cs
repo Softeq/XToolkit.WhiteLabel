@@ -2,8 +2,10 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Refit;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
+using Softeq.XToolkit.Remote.Primitives;
 
 namespace RemoteApp
 {
@@ -17,46 +19,48 @@ namespace RemoteApp
             ILogger logger)
         {
             var httpClient = new HttpClientBuilder("https://jsonplaceholder.typicode.com")
-                .WithLogger(logger)
-                .Build();
+                .WithLogger(logger);
 
             _remoteService = remoteServiceFactory.Create<IPhotosApiService>(httpClient);
             _logger = logger;
         }
 
-        public async Task<string> GetDataAsync()
+        public async Task<string> GetDataAsync(CancellationToken cancellationToken)
         {
-            _logger.Debug("============== Start request");
+            // fatal api error? - on refit side
+            // connectivity & fatal network error - on consumer side
+            // cancellation - done
+
+            // auth? - need refit integration
+            // mapper
+            // integrate with Fusillade - for priorities
+
+            _logger.Debug("========= Begin =========");
+
             try
             {
-                // connectivity?
-                // fatal api error?
-                // fatal request error?
-                // auth?
-                // cancellation?
-                // mapper
-
-                var cts = new CancellationTokenSource();
-
                 var result = await _remoteService.Execute(
-                    service => service.GetAllPhotosAsync(cts.Token),
+                    (service, ct) => service.GetAllPhotosAsync(ct),
                     new RequestOptions
                     {
                         Priority = Priority.Background,
-                        RetryCount = 5,
-                        Timeout = 5000
+                        RetryCount = 2,
+                        Timeout = 2,
+                        CancellationToken = cancellationToken
                     }).ConfigureAwait(false);
 
                 return $"Done. Count: {result.Count()}";
             }
             catch (Exception ex)
             {
-                return ex.ToString();
+                _logger.Error(ex);
             }
             finally
             {
-                _logger.Debug("============== End request");
+                _logger.Debug("========== End ==========");
             }
+
+            return "Failed. See log.";
         }
     }
 }

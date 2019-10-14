@@ -13,6 +13,9 @@ namespace RemoteApp.iOS
 	partial class ViewController
 	{
 		[Outlet]
+		UIKit.UIButton CancelRequestBtn { get; set; }
+
+		[Outlet]
 		UIKit.UIButton ClearLogBtn { get; set; }
 
 		[Outlet]
@@ -29,6 +32,11 @@ namespace RemoteApp.iOS
 		
 		void ReleaseDesignerOutlets ()
 		{
+			if (ClearLogBtn != null) {
+				ClearLogBtn.Dispose ();
+				ClearLogBtn = null;
+			}
+
 			if (IndicatorView != null) {
 				IndicatorView.Dispose ();
 				IndicatorView = null;
@@ -49,9 +57,9 @@ namespace RemoteApp.iOS
 				ResultLabel = null;
 			}
 
-			if (ClearLogBtn != null) {
-				ClearLogBtn.Dispose ();
-				ClearLogBtn = null;
+			if (CancelRequestBtn != null) {
+				CancelRequestBtn.Dispose ();
+				CancelRequestBtn = null;
 			}
 		}
 	}

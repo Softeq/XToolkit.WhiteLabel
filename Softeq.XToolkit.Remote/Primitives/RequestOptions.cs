@@ -1,6 +1,7 @@
 ﻿using System;
+using System.Threading;
 
-namespace Softeq.XToolkit.Remote
+namespace Softeq.XToolkit.Remote.Primitives
 {
     public class RequestOptions
     {
@@ -29,6 +30,11 @@ namespace Softeq.XToolkit.Remote
         /// </summary>
         public static Func<Exception, bool> DefaultShouldRetry { get; set; }
 
+        /// <summary>
+        ///     Default cancellation token. Default value is None.
+        /// </summary>
+        public static CancellationToken DefaultCancellationToken { get; set; } = CancellationToken.None;
+
         public int RetryCount { get; set; } = DefaultRetryCount;
 
         public int Timeout { get; set; } = DefaultTimeout;
@@ -36,5 +42,20 @@ namespace Softeq.XToolkit.Remote
         public Priority Priority { get; set; } = DefaultPriority;
 
         public Func<Exception, bool> ShouldRetry { get; set; } = DefaultShouldRetry;
+
+        public CancellationToken CancellationToken { get; set; } = DefaultCancellationToken;
+
+        public static RequestOptions GetDefaultOptions()
+        {
+            return DefaultRequestOptions
+                   ?? new RequestOptions
+                   {
+                       Priority = DefaultPriority,
+                       RetryCount = DefaultRetryCount,
+                       Timeout = DefaultTimeout,
+                       ShouldRetry = DefaultShouldRetry,
+                       CancellationToken = DefaultCancellationToken
+                   };
+        }
     }
 }

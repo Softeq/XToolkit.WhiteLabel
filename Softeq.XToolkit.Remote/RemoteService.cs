@@ -1,107 +1,87 @@
 ﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Polly;
+using Polly.Timeout;
 using Polly.Wrap;
+using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote
 {
     public interface IRemoteService<T>
     {
-        Task Execute(Func<T, Task> operation);
-        Task<TResult> Execute<TResult>(Func<T, Task<TResult>> operation);
-        Task Execute(Func<T, Task> operation, RequestOptions options);
-        Task<TResult> Execute<TResult>(Func<T, Task<TResult>> operation, RequestOptions options);
+        Task Execute(Func<T, CancellationToken, Task> operation);
+        Task<TResult> Execute<TResult>(Func<T, CancellationToken, Task<TResult>> operation);
+        Task Execute(Func<T, CancellationToken, Task> operation, RequestOptions options);
+        Task<TResult> Execute<TResult>(Func<T, CancellationToken, Task<TResult>> operation, RequestOptions options);
     }
 
     public class RemoteService<T> : IRemoteService<T>
     {
-        private readonly IApiService<T> _apiService;
+        private readonly IHttpClientProvider<T> _apiService;
 
         public RemoteService(
-            IApiService<T> refitService)
+            IHttpClientProvider<T> refitService)
         {
             _apiService = refitService;
         }
 
-        public Task Execute(Func<T, Task> operation)
+        public Task Execute(Func<T, CancellationToken, Task> operation)
         {
-            return Execute(operation, GetDefaultOptions());
+            return Execute(operation, RequestOptions.GetDefaultOptions());
         }
 
-        public Task<TResult> Execute<TResult>(Func<T, Task<TResult>> operation)
+        public Task<TResult> Execute<TResult>(Func<T, CancellationToken, Task<TResult>> operation)
         {
-            return Execute(operation, GetDefaultOptions());
+            return Execute(operation, RequestOptions.GetDefaultOptions());
         }
 
-        public Task Execute(Func<T, Task> operation, RequestOptions options)
+        public async Task Execute(Func<T, CancellationToken, Task> operation, RequestOptions options)
         {
-            return Execute(operation, options.Priority, options.RetryCount, options.ShouldRetry, options.Timeout);
+            var service = _apiService.GetByPriority(options.Priority);
+
+            var policy = GetWrappedPolicy(options.RetryCount, options.ShouldRetry, options.Timeout);
+
+            await policy.ExecuteAsync(ct => operation.Invoke(service, ct), options.CancellationToken);
         }
 
-        public Task<TResult> Execute<TResult>(Func<T, Task<TResult>> operation, RequestOptions options)
+        public async Task<TResult> Execute<TResult>(Func<T, CancellationToken, Task<TResult>> operation, RequestOptions options)
         {
-            return Execute<TResult>(operation, options.Priority, options.RetryCount, options.ShouldRetry, options.Timeout);
+            var service = _apiService.GetByPriority(options.Priority);
+
+            var policy = GetWrappedPolicy<TResult>(options.RetryCount, options.ShouldRetry, options.Timeout);
+
+            return await policy.ExecuteAsync(ct => operation.Invoke(service, ct), options.CancellationToken);
         }
 
-        public async Task Execute(
-            Func<T, Task> operation,
-            Priority priority,
+        protected virtual AsyncPolicyWrap GetWrappedPolicy(
             int retryCount,
             Func<Exception, bool> shouldRetry,
             int timeout)
-        {
-            var service = _apiService.GetByPriority(priority);
-
-            var policy = GetWrappedPolicy(retryCount, shouldRetry, timeout);
-
-            await policy.ExecuteAsync(() => operation.Invoke(service));
-        }
-
-        public async Task<TResult> Execute<TResult>(
-            Func<T, Task<TResult>> operation,
-            Priority priority,
-            int retryCount,
-            Func<Exception, bool> shouldRetry,
-            int timeout)
-        {
-            var service = _apiService.GetByPriority(priority);
-
-            var policy = GetWrappedPolicy<TResult>(retryCount, shouldRetry, timeout);
-
-            return await policy.ExecuteAsync(() => operation.Invoke(service));
-        }
-
-        protected virtual AsyncPolicyWrap GetWrappedPolicy(int retryCount, Func<Exception, bool> shouldRetry, int timeout)
         {
             var retryPolicy = Policy.Handle<Exception>(e => shouldRetry?.Invoke(e) ?? true)
                                     .RetryAsync(retryCount);
-            var timeoutPolicy = Policy.TimeoutAsync(timeout);
+            var timeoutPolicy = Policy.TimeoutAsync(timeout, TimeoutStrategy.Pessimistic);
 
             return Policy.WrapAsync(retryPolicy, timeoutPolicy);
         }
 
-        protected virtual AsyncPolicyWrap<TResult> GetWrappedPolicy<TResult>(int retryCount, Func<Exception, bool> shouldRetry, int timeout)
+        protected virtual AsyncPolicyWrap<TResult> GetWrappedPolicy<TResult>(
+            int retryCount,
+            Func<Exception, bool> shouldRetry,
+            int timeout)
         {
             var retryPolicy = Policy.Handle<Exception>(e => shouldRetry?.Invoke(e) ?? true)
                                     .WaitAndRetryAsync(retryCount, RetryAttempt)
                                     .AsAsyncPolicy<TResult>();
-            var timeoutPolicy = Policy.TimeoutAsync<TResult>(timeout);
+            var timeoutPolicy = Policy.TimeoutAsync<TResult>(timeout, TimeoutStrategy.Pessimistic);
 
-            return Policy.WrapAsync<TResult>(retryPolicy, timeoutPolicy);
+            return Policy.WrapAsync(retryPolicy, timeoutPolicy);
         }
 
-        protected virtual TimeSpan RetryAttempt(int attemptNumber) => TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
-
-        private RequestOptions GetDefaultOptions()
+        protected virtual TimeSpan RetryAttempt(int attemptNumber)
         {
-            return RequestOptions.DefaultRequestOptions
-                ?? new RequestOptions
-                {
-                    Priority = RequestOptions.DefaultPriority,
-                    RetryCount = RequestOptions.DefaultRetryCount,
-                    Timeout = RequestOptions.DefaultTimeout,
-                    ShouldRetry = RequestOptions.DefaultShouldRetry
-                };
+            return TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
         }
     }
 }

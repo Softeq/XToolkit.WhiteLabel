@@ -2,10 +2,15 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Refit;
+using Softeq.XToolkit.Remote;
+using Softeq.XToolkit.Remote.Primitives;
 
 namespace RemoteApp
 {
-    [Headers("User-Agent: " + nameof(RemoteApp), "Accept-Encoding: gzip", "Accept: application/json")]
+    [Headers(
+        "User-Agent: " + nameof(RemoteApp),
+        Header.Gzip,
+        Header.Json)]
     public interface IPhotosApiService
     {
         [Get("/photos")]

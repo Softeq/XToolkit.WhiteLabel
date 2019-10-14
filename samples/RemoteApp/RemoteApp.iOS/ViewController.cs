@@ -21,6 +21,7 @@ namespace RemoteApp.iOS
             _viewModel.PropertyChanged += _viewModel_PropertyChanged;
 
             RequestBtn.TouchUpInside += RequestBtn_TouchUpInside;
+            CancelRequestBtn.TouchUpInside += CancelRequestBtn_TouchUpInside;
             ClearLogBtn.TouchUpInside += ClearLogBtn_TouchUpInside;
         }
 
@@ -35,6 +36,7 @@ namespace RemoteApp.iOS
                 else if (e.PropertyName == nameof(_viewModel.IsBusy))
                 {
                     IndicatorView.Hidden = !_viewModel.IsBusy;
+                    CancelRequestBtn.Hidden = !_viewModel.IsBusy;
                 }
                 else if (e.PropertyName == nameof(_viewModel.LogData))
                 {
@@ -52,6 +54,11 @@ namespace RemoteApp.iOS
         private void RequestBtn_TouchUpInside(object sender, EventArgs e)
         {
             _viewModel.RequestCommand.Execute(null);
+        }
+
+        private void CancelRequestBtn_TouchUpInside(object sender, EventArgs e)
+        {
+            _viewModel.CancelRequestCommand.Execute(null);
         }
 
         private void ClearLogBtn_TouchUpInside(object sender, EventArgs e)

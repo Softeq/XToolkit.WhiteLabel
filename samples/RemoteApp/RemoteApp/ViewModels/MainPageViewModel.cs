@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Commands;
@@ -14,6 +15,8 @@ namespace RemoteApp.ViewModels
         private string _resultData;
         private string _logData;
 
+        private CancellationTokenSource _cts = new CancellationTokenSource();
+
         public MainPageViewModel()
         {
             // TODO: only for sample
@@ -22,10 +25,13 @@ namespace RemoteApp.ViewModels
             _dataService = new DataService(new RemoteServiceFactory(), logger);
 
             RequestCommand = new AsyncCommand(Request);
+            CancelRequestCommand = new RelayCommand(() => _cts.Cancel());
             ClearLogCommand = new RelayCommand(() => LogData = string.Empty);
         }
 
         public ICommand RequestCommand { get; }
+
+        public ICommand CancelRequestCommand { get; }
 
         public ICommand ClearLogCommand { get; }
 
@@ -51,7 +57,9 @@ namespace RemoteApp.ViewModels
         {
             IsBusy = true;
 
-            ResultData = await _dataService.GetDataAsync();
+            Interlocked.Exchange(ref _cts, new CancellationTokenSource()).Cancel();
+
+            ResultData = await _dataService.GetDataAsync(_cts.Token);
 
             IsBusy = false;
         }
