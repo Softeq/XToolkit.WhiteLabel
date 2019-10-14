@@ -49,13 +49,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         [Conditional("DEBUG")]
         protected void InitStrictMode()
         {
-            StrictMode.SetThreadPolicy(
-                new StrictMode.ThreadPolicy.Builder()
+            var builder = new StrictMode.ThreadPolicy.Builder()
                     .DetectCustomSlowCalls()
                     .DetectNetwork()
-                    .DetectResourceMismatches()
-                    .PenaltyLog()
-                    .Build());
+                    .PenaltyLog();
+
+            if(Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                builder = builder.DetectResourceMismatches();
+            }
+
+            StrictMode.SetThreadPolicy(builder.Build());
 
             StrictMode.SetVmPolicy(
                 new StrictMode.VmPolicy.Builder()
