@@ -1,34 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Reflection;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Handlers;
 
 namespace Softeq.XToolkit.Remote
 {
     public interface IHttpClientBuilder
     {
-        IHttpClientBuilder WithLogger(object myLogger);
-        IHttpClientBuilder WithDefaultHeaders(IList<string> headers);
+        IHttpClientBuilder WithLogger(ILogger logger);
+        HttpClient Build();
     }
 
     public class HttpClientBuilder : IHttpClientBuilder
     {
         private readonly string _baseUrl;
 
+        private ILogger _logger;
+
         public HttpClientBuilder(string baseUrl)
         {
             _baseUrl = baseUrl;
         }
 
-        public IHttpClientBuilder WithLogger(object myLogger)
+        public IHttpClientBuilder WithLogger(ILogger logger)
         {
-            return this;
-        }
-
-        public IHttpClientBuilder WithDefaultHeaders(IList<string> headers)
-        {
+            _logger = logger;
             return this;
         }
 
@@ -54,7 +52,7 @@ namespace Softeq.XToolkit.Remote
         {
             var handler = GetHttpMessageHander();
 #if DEBUG
-            return new HttpClient(new HttpDiagnosticsHandler(handler));
+            return new HttpClient(new HttpDiagnosticsHandler(handler, _logger));
 #else
             return new HttpClient(handler);
 #endif

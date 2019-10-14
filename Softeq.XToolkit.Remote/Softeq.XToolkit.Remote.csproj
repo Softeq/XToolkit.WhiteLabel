@@ -11,4 +11,7 @@
   <ItemGroup>
     <Folder Include="Handlers\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
+  </ItemGroup>
 </Project>

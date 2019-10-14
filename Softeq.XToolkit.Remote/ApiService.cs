@@ -4,17 +4,17 @@ using Refit;
 
 namespace Softeq.XToolkit.Remote
 {
-    public interface IRefitService<T>
+    public interface IApiService<T>
     {
         T GetByPriority(Priority priority);
     }
 
 
-    public class RefitService<T> : IRefitService<T>
+    public class ApiService<T> : IApiService<T>
     {
         private readonly Lazy<T> _coreService;
 
-        public RefitService(HttpClient httpClient)
+        public ApiService(HttpClient httpClient)
         {
             Func<HttpMessageHandler, T> createClient = messageHandler =>
             {
@@ -24,15 +24,6 @@ namespace Softeq.XToolkit.Remote
             _coreService = new Lazy<T>(() => createClient(null));
 
             //_background = new Lazy<T>(() => createClient(NetCache.Background));
-        }
-
-        protected virtual void DisableAutoRedirects(HttpMessageHandler messageHandler)
-        {
-            if (messageHandler is DelegatingHandler internalDelegate
-                && internalDelegate.InnerHandler is HttpClientHandler internalClientHandler)
-            {
-                internalClientHandler.AllowAutoRedirect = false;
-            }
         }
 
         public T GetByPriority(Priority priority)

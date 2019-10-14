@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System;
+using System.Net.Http;
 
 namespace Softeq.XToolkit.Remote
 {
@@ -7,13 +8,15 @@ namespace Softeq.XToolkit.Remote
         IRemoteService<T> Create<T>(HttpClient httpClient);
     }
 
-    public class RestRemoteServiceFactory : IRemoteServiceFactory
+    public class RemoteServiceFactory : IRemoteServiceFactory
     {
         public IRemoteService<T> Create<T>(HttpClient httpClient)
         {
-            var refitService = new RefitService<T>(httpClient);
+            var refitService = new ApiService<T>(httpClient);
 
-            return new RestRemoteService<T>(refitService);
+            return new RemoteService<T>(refitService);
         }
+
+
     }
 }

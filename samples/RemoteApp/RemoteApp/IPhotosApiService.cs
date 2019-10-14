@@ -5,7 +5,8 @@ using Refit;
 
 namespace RemoteApp
 {
-    public interface IApiService
+    [Headers("User-Agent: " + nameof(RemoteApp), "Accept-Encoding: gzip", "Accept: application/json")]
+    public interface IPhotosApiService
     {
         [Get("/photos")]
         Task<IEnumerable<PhotoDto>> GetAllPhotosAsync(CancellationToken cancellationToken);

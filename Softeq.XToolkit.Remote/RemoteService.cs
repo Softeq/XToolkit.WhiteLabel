@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using System.Threading.Tasks;
 using Polly;
 using Polly.Wrap;
@@ -14,14 +13,14 @@ namespace Softeq.XToolkit.Remote
         Task<TResult> Execute<TResult>(Func<T, Task<TResult>> operation, RequestOptions options);
     }
 
-    public class RestRemoteService<T> : IRemoteService<T>
+    public class RemoteService<T> : IRemoteService<T>
     {
-        private readonly IRefitService<T> _refitService;
+        private readonly IApiService<T> _apiService;
 
-        public RestRemoteService(
-            IRefitService<T> refitService)
+        public RemoteService(
+            IApiService<T> refitService)
         {
-            _refitService = refitService;
+            _apiService = refitService;
         }
 
         public Task Execute(Func<T, Task> operation)
@@ -44,25 +43,35 @@ namespace Softeq.XToolkit.Remote
             return Execute<TResult>(operation, options.Priority, options.RetryCount, options.ShouldRetry, options.Timeout);
         }
 
-        public async Task Execute(Func<T, Task> operation, Priority priority, int retryCount, Func<Exception, bool> shouldRetry, int timeout)
+        public async Task Execute(
+            Func<T, Task> operation,
+            Priority priority,
+            int retryCount,
+            Func<Exception, bool> shouldRetry,
+            int timeout)
         {
-            var service = _refitService.GetByPriority(priority);
+            var service = _apiService.GetByPriority(priority);
 
             var policy = GetWrappedPolicy(retryCount, shouldRetry, timeout);
 
             await policy.ExecuteAsync(() => operation.Invoke(service));
         }
 
-        public async Task<TResult> Execute<TResult>(Func<T, Task<TResult>> operation, Priority priority, int retryCount, Func<Exception, bool> shouldRetry, int timeout)
+        public async Task<TResult> Execute<TResult>(
+            Func<T, Task<TResult>> operation,
+            Priority priority,
+            int retryCount,
+            Func<Exception, bool> shouldRetry,
+            int timeout)
         {
-            var service = _refitService.GetByPriority(priority);
+            var service = _apiService.GetByPriority(priority);
 
             var policy = GetWrappedPolicy<TResult>(retryCount, shouldRetry, timeout);
 
             return await policy.ExecuteAsync(() => operation.Invoke(service));
         }
 
-        private static AsyncPolicyWrap GetWrappedPolicy(int retryCount, Func<Exception, bool> shouldRetry, int timeout)
+        protected virtual AsyncPolicyWrap GetWrappedPolicy(int retryCount, Func<Exception, bool> shouldRetry, int timeout)
         {
             var retryPolicy = Policy.Handle<Exception>(e => shouldRetry?.Invoke(e) ?? true)
                                     .RetryAsync(retryCount);
@@ -71,15 +80,17 @@ namespace Softeq.XToolkit.Remote
             return Policy.WrapAsync(retryPolicy, timeoutPolicy);
         }
 
-        private static AsyncPolicyWrap<TResult> GetWrappedPolicy<TResult>(int retryCount, Func<Exception, bool> shouldRetry, int timeout)
+        protected virtual AsyncPolicyWrap<TResult> GetWrappedPolicy<TResult>(int retryCount, Func<Exception, bool> shouldRetry, int timeout)
         {
             var retryPolicy = Policy.Handle<Exception>(e => shouldRetry?.Invoke(e) ?? true)
-                                    .RetryAsync(retryCount)
+                                    .WaitAndRetryAsync(retryCount, RetryAttempt)
                                     .AsAsyncPolicy<TResult>();
             var timeoutPolicy = Policy.TimeoutAsync<TResult>(timeout);
 
             return Policy.WrapAsync<TResult>(retryPolicy, timeoutPolicy);
         }
+
+        protected virtual TimeSpan RetryAttempt(int attemptNumber) => TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
 
         private RequestOptions GetDefaultOptions()
         {

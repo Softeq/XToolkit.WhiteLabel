@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteApp", "RemoteApp\Remo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Remote", "..\..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj", "{4EB75E47-5164-415B-9075-21B95C2F0DA9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{10D0D128-2BF2-4DCD-96C2-A243362827E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -39,5 +41,13 @@ Global
 		{4EB75E47-5164-415B-9075-21B95C2F0DA9}.Debug|iPhone.Build.0 = Debug|Any CPU
 		{4EB75E47-5164-415B-9075-21B95C2F0DA9}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{4EB75E47-5164-415B-9075-21B95C2F0DA9}.Release|iPhone.Build.0 = Release|Any CPU
+		{10D0D128-2BF2-4DCD-96C2-A243362827E1}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{10D0D128-2BF2-4DCD-96C2-A243362827E1}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{10D0D128-2BF2-4DCD-96C2-A243362827E1}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{10D0D128-2BF2-4DCD-96C2-A243362827E1}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{10D0D128-2BF2-4DCD-96C2-A243362827E1}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{10D0D128-2BF2-4DCD-96C2-A243362827E1}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{10D0D128-2BF2-4DCD-96C2-A243362827E1}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{10D0D128-2BF2-4DCD-96C2-A243362827E1}.Release|iPhone.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

@@ -93,6 +93,10 @@
         <Project>{9A92BEB4-283C-4480-A3E3-06F6B3F62D93}</Project>
         <Name>RemoteApp</Name>
       </ProjectReference>
+      <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+        <Project>{10D0D128-2BF2-4DCD-96C2-A243362827E1}</Project>
+        <Name>Softeq.XToolkit.Common</Name>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
