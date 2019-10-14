@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Polly;
 using Polly.Timeout;
 using Polly.Wrap;
+using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote

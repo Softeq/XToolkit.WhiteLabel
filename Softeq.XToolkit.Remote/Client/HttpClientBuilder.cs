@@ -4,7 +4,7 @@ using System.Reflection;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Handlers;
 
-namespace Softeq.XToolkit.Remote
+namespace Softeq.XToolkit.Remote.Client
 {
     public interface IHttpClientBuilder
     {

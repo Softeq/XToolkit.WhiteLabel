@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Refit;
-using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Primitives;
 
 namespace RemoteApp
@@ -14,7 +13,7 @@ namespace RemoteApp
     public interface IPhotosApiService
     {
         [Get("/photos")]
-        Task<IEnumerable<PhotoDto>> GetAllPhotosAsync(CancellationToken cancellationToken);
+        Task<IReadOnlyCollection<PhotoDto>> GetAllPhotosAsync(CancellationToken cancellationToken);
 
         [Get("/photos/{photoId}")]
         Task<PhotoDto> GetPhotoAsync(int photoId, CancellationToken cancellationToken);

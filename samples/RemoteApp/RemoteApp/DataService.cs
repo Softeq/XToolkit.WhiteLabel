@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Refit;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
+using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
 namespace RemoteApp
@@ -34,6 +33,7 @@ namespace RemoteApp
             // auth? - need refit integration
             // mapper
             // integrate with Fusillade - for priorities
+            // Bug: throttling & retry - logs many results
 
             _logger.Debug("========= Begin =========");
 
@@ -49,7 +49,7 @@ namespace RemoteApp
                         CancellationToken = cancellationToken
                     }).ConfigureAwait(false);
 
-                return $"Done. Count: {result.Count()}";
+                return $"Done. Count: {result.Count}";
             }
             catch (Exception ex)
             {
