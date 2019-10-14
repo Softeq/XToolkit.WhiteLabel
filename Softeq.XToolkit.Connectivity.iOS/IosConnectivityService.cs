@@ -38,6 +38,21 @@ namespace Softeq.XToolkit.Connectivity.iOS
 
         public bool IsSupported => true;
 
+        public IEnumerable<ConnectionType> ConnectionTypes
+        {
+            get
+            {
+                var statuses = _connectionStatuses.Where(x => x.Value).Select(x => x.Key).ToList();
+
+                if(statuses.Contains(NWInterfaceType.Other) && statuses.Count() > 1)
+                {
+                    statuses.Remove(NWInterfaceType.Other);
+                }
+
+                return ConvertTypes(statuses);
+            }
+        }
+
         private void UpdateWiredSnapshot(NWPath nWPath)
         {
             HandleUpdateSnapshot(nWPath, NWInterfaceType.Wired);
@@ -66,7 +81,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
         private void HandleUpdateSnapshot(NWPath nWPath, NWInterfaceType type)
         {
             bool isConnectedOld = IsConnected;
-            var connectionTypesOld = _connectionStatuses.Where(x => x.Value).Select(x => x.Key).ToList();
+            var connectionTypesOld = ConnectionTypes;
 
             _connectionStatuses[type] = nWPath.Status == NWPathStatus.Satisfied;
 
@@ -78,14 +93,12 @@ namespace Softeq.XToolkit.Connectivity.iOS
                 });
             }
 
-            var connectionTypes = _connectionStatuses.Where(x => x.Value).Select(x => x.Key);
-
-            if (!connectionTypes.SequenceEqual(connectionTypesOld))
+            if (!ConnectionTypes.SequenceEqual(connectionTypesOld))
             {
                 ConnectivityTypeChanged?.Invoke(this, new ConnectivityTypeChangedEventArgs
                 {
                     IsConnected = IsConnected,
-                    ConnectionTypes = ConvertTypes(connectionTypes)
+                    ConnectionTypes = ConnectionTypes
                 });
             }
         }

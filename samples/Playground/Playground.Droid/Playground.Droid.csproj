@@ -91,6 +91,7 @@
     <Compile Include="Views\Collections\MovieCollectionViewHolder.cs" />
     <Compile Include="Views\Collections\GroupedTablePageActivity.cs" />
     <Compile Include="Views\Collections\TablePageActivity.cs" />
+    <Compile Include="Views\Components\ConnectivityPageActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -140,6 +141,10 @@
     <AndroidResource Include="Resources\layout\activity_group_collection.xml" />
     <AndroidResource Include="Resources\layout\item_product.xml" />
     <AndroidResource Include="Resources\layout\item_product_header.xml" />
+    <AndroidResource Include="Resources\layout\activity_connectivity.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">

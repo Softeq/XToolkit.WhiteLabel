@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections.Generic;
 using Plugin.Connectivity.Abstractions;
 
 namespace Softeq.XToolkit.Connectivity
@@ -15,5 +16,7 @@ namespace Softeq.XToolkit.Connectivity
         bool IsConnected { get; }
 
         bool IsSupported { get; }
+
+        IEnumerable<ConnectionType> ConnectionTypes { get; }
     }
 }

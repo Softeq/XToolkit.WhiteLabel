@@ -4,6 +4,7 @@
 using System;
 using Softeq.XToolkit.Common.WeakSubscription;
 using Plugin.Connectivity.Abstractions;
+using System.Collections.Generic;
 
 namespace Softeq.XToolkit.Connectivity
 {
@@ -21,6 +22,8 @@ namespace Softeq.XToolkit.Connectivity
         public virtual bool IsConnected => Plugin.Connectivity.CrossConnectivity.Current.IsConnected;
 
         public bool IsSupported => Plugin.Connectivity.CrossConnectivity.IsSupported;
+
+        public IEnumerable<ConnectionType> ConnectionTypes => Plugin.Connectivity.CrossConnectivity.Current.ConnectionTypes;
 
         private void CurrentConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {

@@ -156,7 +156,16 @@ namespace Playground.ViewModels
                                 .For<PermissionsPageViewModel>()
                                 .Navigate();
                         })
-                    })
+                    }),
+                (Category.Components,
+                    new CommandAction
+                    {
+                        Title = "Connectivity",
+                        Command = new RelayCommand(() =>
+                        {
+                            _pageNavigationService.NavigateToViewModel<ConnectivityPageViewModel>();
+                        })
+                })
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());

@@ -24,6 +24,7 @@ namespace Playground.iOS
             // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
+
             builder.Singleton<IosConnectivityService, IConnectivityService>();
         }
     }

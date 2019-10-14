@@ -162,6 +162,7 @@
     <InterfaceDefinition Include="Views\Table\GroupedTableHeaderView.xib" />
     <InterfaceDefinition Include="ViewControllers\Collections\TablePageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieTableViewCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -265,6 +266,10 @@
     <Compile Include="Views\MovieTableViewCell.cs" />
     <Compile Include="Views\MovieTableViewCell.designer.cs">
       <DependentUpon>MovieTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Components\ConnectivityPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\ConnectivityPageViewController.designer.cs">
+      <DependentUpon>ConnectivityPageViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
