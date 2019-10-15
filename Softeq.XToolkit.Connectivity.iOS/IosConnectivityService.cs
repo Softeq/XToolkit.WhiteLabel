@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
             {
                 var statuses = _connectionStatuses.Where(x => x.Value).Select(x => x.Key).ToList();
 
-                if(statuses.Contains(NWInterfaceType.Other) && statuses.Count() > 1)
+                if (statuses.Contains(NWInterfaceType.Other) && statuses.Count > 1)
                 {
                     statuses.Remove(NWInterfaceType.Other);
                 }
@@ -119,7 +119,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
                     }
                 }).ToList();
 
-            if(types.Contains(ConnectionType.Other) && types.Count > 1)
+            if (types.Contains(ConnectionType.Other) && types.Count > 1)
             {
                 types.Remove(ConnectionType.Other);
             }
