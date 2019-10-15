@@ -105,7 +105,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
 
         private IEnumerable<ConnectionType> ConvertTypes(IEnumerable<NWInterfaceType> nWInterfaceTypes)
         {
-            var types = nWInterfaceTypes
+            return nWInterfaceTypes
                 .Select(x =>
                 {
                     switch (x)
@@ -117,14 +117,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
                         default:
                             return ConnectionType.Other;
                     }
-                }).ToList();
-
-            if (types.Contains(ConnectionType.Other) && types.Count > 1)
-            {
-                types.Remove(ConnectionType.Other);
-            }
-
-            return types;
+                });
         }
 
         private NWPathMonitor CreateMonitor(NWInterfaceType type, Action<NWPath> action)
