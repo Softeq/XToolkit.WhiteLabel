@@ -16,9 +16,9 @@ namespace Softeq.XToolkit.Remote.Primitives
         public static int DefaultRetryCount { get; set; } = 1;
 
         /// <summary>
-        ///     Default timeout for requests
+        ///     Default timeout for requests. In seconds.
         /// </summary>
-        public static int DefaultTimeout { get; set; } = 60;
+        public static int DefaultTimeout { get; set; } = 1;
 
         /// <summary>
         ///     Default priority for requests. Matches fusillade policy

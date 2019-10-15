@@ -17,23 +17,28 @@ namespace RemoteApp
             IRemoteServiceFactory remoteServiceFactory,
             ILogger logger)
         {
-            var httpClient = new HttpClientBuilder("https://jsonplaceholder.typicode.com")
+            var httpClientBuilder = new HttpClientBuilder("https://jsonplaceholder.typicode.com")
                 .WithLogger(logger);
 
-            _remoteService = remoteServiceFactory.Create<IPhotosApiService>(httpClient);
+            _remoteService = remoteServiceFactory.Create<IPhotosApiService>(httpClientBuilder);
             _logger = logger;
         }
 
         public async Task<string> GetDataAsync(CancellationToken cancellationToken)
         {
+            // DONE:
             // fatal api error? - on refit side
             // connectivity & fatal network error - on consumer side
-            // cancellation - done
+            // cancellation
 
+            // TODO:
+            // mapper - need default, declaration on consumer side
             // auth? - need refit integration
-            // mapper
-            // integrate with Fusillade - for priorities
-            // Bug: throttling & retry - logs many results
+            // priority - need integration with Fusillade
+            // serialization settings - need refit settings integration
+
+            // Bugs:
+            // throttling & retry - logs many results
 
             _logger.Debug("========= Begin =========");
 
