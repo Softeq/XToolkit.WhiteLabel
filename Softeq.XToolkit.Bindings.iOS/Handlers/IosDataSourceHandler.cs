@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Collections;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Handlers

@@ -6,9 +6,9 @@ using System.Linq;
 using Android.Support.V7.Widget;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
 using Softeq.XToolkit.Bindings.Handlers;
-using Softeq.XToolkit.Common;
-using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.Bindings.Droid.Handlers
 {

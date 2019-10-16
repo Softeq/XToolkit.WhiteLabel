@@ -8,8 +8,8 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Converters;
+using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.Bindings
 {

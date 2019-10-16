@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.Common;
 
 namespace Playground.ViewModels.Collections.Products
 {

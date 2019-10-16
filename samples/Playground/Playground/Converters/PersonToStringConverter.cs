@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using Playground.Models;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Converters;
 
 namespace Playground.Converters
 {

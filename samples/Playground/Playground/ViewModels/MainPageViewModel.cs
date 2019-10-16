@@ -10,7 +10,7 @@ using Playground.ViewModels.Components;
 using Playground.ViewModels.Dialogs;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Common.Collections;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 

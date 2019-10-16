@@ -4,7 +4,7 @@
 using System;
 using System.Linq.Expressions;
 using Softeq.XToolkit.Bindings.Abstract;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Converters;
 
 namespace Softeq.XToolkit.Bindings.Extensions
 {

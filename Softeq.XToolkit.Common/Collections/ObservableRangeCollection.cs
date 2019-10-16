@@ -7,7 +7,6 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using Softeq.XToolkit.Common.EventArguments;
 
 namespace Softeq.XToolkit.Common.Collections
 {
@@ -126,8 +125,14 @@ namespace Softeq.XToolkit.Common.Collections
         /// <param name="collection">The collection from which the elements are copied.</param>
         /// <param name="comparer">Method that compares <typeparamref name="T" /> objects</param>
         /// <returns>Inserted items indexes</returns>
-        public IList<int> InsertRangeSorted(IEnumerable<T> collection, Comparison<T> comparer)
+        public IList<int> InsertRangeSorted(IEnumerable<T> collection, Comparison<T> comparer,
+            NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
+            if (notificationMode != NotifyCollectionChangedAction.Add &&
+                notificationMode != NotifyCollectionChangedAction.Reset)
+            {
+                throw new ArgumentException("Mode must be either Add or Reset for InsertRangeSorted.", nameof(notificationMode));
+            }
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
@@ -151,7 +156,14 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnPropertyChanged(EventArgsCache.CountPropertyChanged);
             OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
-            OnCollectionChanged(new NotifyCollectionInsertEventArgs(insertedItemsIndexes));
+            if (notificationMode == NotifyCollectionChangedAction.Add)
+            {
+                OnCollectionChanged(new NotifyCollectionInsertEventArgs(insertedItemsIndexes));
+            }
+            else
+            {
+                OnCollectionChanged(new NotifyCollectionChangedEventArgs(notificationMode));
+            }
             return insertedItemsIndexes;
         }
 

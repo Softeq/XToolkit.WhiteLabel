@@ -3,7 +3,7 @@
 
 using System;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
 {
