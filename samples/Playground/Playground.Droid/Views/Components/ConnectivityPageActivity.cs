@@ -1,14 +1,8 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
 
-using Android.App;
-using Android.Content;
+﻿using Android.App;
 using Android.OS;
-using Android.Runtime;
-using Android.Views;
 using Android.Widget;
 using Playground.ViewModels.Components;
 using Softeq.XToolkit.WhiteLabel.Droid;
@@ -16,7 +10,7 @@ using Softeq.XToolkit.Bindings.Extensions;
 
 namespace Playground.Droid.Views.Components
 {
-    [Activity(Label = "ConnectivityPageActivity")]
+    [Activity(Label = "Connectivity")]
     public class ConnectivityPageActivity : ActivityBase<ConnectivityPageViewModel>
     {
         private TextView _connectionTextView;

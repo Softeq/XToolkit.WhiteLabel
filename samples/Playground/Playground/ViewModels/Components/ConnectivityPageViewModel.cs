@@ -1,4 +1,7 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+﻿using Plugin.Connectivity.Abstractions;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -25,7 +28,7 @@ namespace Playground.ViewModels.Components
             RaisePropertyChanged(nameof(ConnectionTypes));
         }
 
-        private void ConnectivityServiceConnectivityChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityChangedEventArgs e)
+        private void ConnectivityServiceConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -33,7 +36,7 @@ namespace Playground.ViewModels.Components
             });
         }
 
-        private void ConnectivityServiceConnectivityTypeChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityTypeChangedEventArgs e)
+        private void ConnectivityServiceConnectivityTypeChanged(object sender, ConnectivityTypeChangedEventArgs e)
         {
             Execute.BeginOnUIThread(() =>
             {

@@ -7,7 +7,6 @@ using System.Linq;
 using CoreFoundation;
 using Network;
 using Plugin.Connectivity.Abstractions;
-using UIKit;
 
 namespace Softeq.XToolkit.Connectivity.iOS
 {
@@ -35,6 +34,11 @@ namespace Softeq.XToolkit.Connectivity.iOS
             _otherMonitor = CreateMonitor(NWInterfaceType.Other, UpdateOtherSnapshot);
         }
 
+        ~IosConnectivityService()
+        {
+            Dispose(false);
+        }
+
         public bool IsConnected => _connectionStatuses.Values.Any(x => x);
 
         public bool IsSupported => true;
@@ -51,6 +55,30 @@ namespace Softeq.XToolkit.Connectivity.iOS
                 }
 
                 return ConvertTypes(statuses);
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                _ceccularMonitor.Cancel();
+                _wifiMonitor.Cancel();
+                _wiredMonitor.Cancel();
+                _loopbackMonitor.Cancel();
+                _otherMonitor.Cancel();
+
+                _ceccularMonitor.Dispose();
+                _wifiMonitor.Dispose();
+                _wiredMonitor.Dispose();
+                _loopbackMonitor.Dispose();
+                _otherMonitor.Dispose();
             }
         }
 
@@ -81,7 +109,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
 
         private void HandleUpdateSnapshot(NWPath nWPath, NWInterfaceType type)
         {
-            bool isConnectedOld = IsConnected;
+            var isConnectedOld = IsConnected;
             var connectionTypesOld = ConnectionTypes;
 
             _connectionStatuses[type] = nWPath.Status == NWPathStatus.Satisfied;
@@ -104,9 +132,9 @@ namespace Softeq.XToolkit.Connectivity.iOS
             }
         }
 
-        private IEnumerable<ConnectionType> ConvertTypes(IEnumerable<NWInterfaceType> nWInterfaceTypes)
+        private IEnumerable<ConnectionType> ConvertTypes(IEnumerable<NWInterfaceType> networkInterfaceTypes)
         {
-            return nWInterfaceTypes
+            return networkInterfaceTypes
                 .Select(x =>
                 {
                     switch (x)
@@ -130,35 +158,6 @@ namespace Softeq.XToolkit.Connectivity.iOS
             monitor.SetUpdatedSnapshotHandler(action);
             monitor.Start();
             return monitor;
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~IosConnectivityService()
-        {
-            Dispose(false);
-        }
-
-        protected void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                _ceccularMonitor.Cancel();
-                _wifiMonitor.Cancel();
-                _wiredMonitor.Cancel();
-                _loopbackMonitor.Cancel();
-                _otherMonitor.Cancel();
-
-                _ceccularMonitor.Dispose();
-                _wifiMonitor.Dispose();
-                _wiredMonitor.Dispose();
-                _loopbackMonitor.Dispose();
-                _otherMonitor.Dispose();
-            }
         }
     }
 }

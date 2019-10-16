@@ -2,8 +2,9 @@
 // http://www.softeq.com
 
 using System;
-using Plugin.Connectivity.Abstractions;
 using System.Collections.Generic;
+using Plugin.Connectivity;
+using Plugin.Connectivity.Abstractions;
 
 namespace Softeq.XToolkit.Connectivity
 {
@@ -14,15 +15,35 @@ namespace Softeq.XToolkit.Connectivity
 
         public ConnectivityService()
         {
-            Plugin.Connectivity.CrossConnectivity.Current.ConnectivityChanged += CurrentConnectivityChanged;
-            Plugin.Connectivity.CrossConnectivity.Current.ConnectivityTypeChanged += CurrentConnectivityTypeChanged;
+            CrossConnectivity.Current.ConnectivityChanged += CurrentConnectivityChanged;
+            CrossConnectivity.Current.ConnectivityTypeChanged += CurrentConnectivityTypeChanged;
         }
 
-        public virtual bool IsConnected => Plugin.Connectivity.CrossConnectivity.Current.IsConnected;
+        ~ConnectivityService()
+        {
+            Dispose(false);
+        }
 
-        public bool IsSupported => Plugin.Connectivity.CrossConnectivity.IsSupported;
+        public virtual bool IsConnected => CrossConnectivity.Current.IsConnected;
 
-        public IEnumerable<ConnectionType> ConnectionTypes => Plugin.Connectivity.CrossConnectivity.Current.ConnectionTypes;
+        public bool IsSupported => CrossConnectivity.IsSupported;
+
+        public IEnumerable<ConnectionType> ConnectionTypes => CrossConnectivity.Current.ConnectionTypes;
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        protected void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                CrossConnectivity.Current.ConnectivityChanged -= CurrentConnectivityChanged;
+                CrossConnectivity.Current.ConnectivityTypeChanged -= CurrentConnectivityTypeChanged;
+            }
+        }
 
         private void CurrentConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
         {
@@ -32,26 +53,6 @@ namespace Softeq.XToolkit.Connectivity
         private void CurrentConnectivityTypeChanged(object sender, ConnectivityTypeChangedEventArgs e)
         {
             ConnectivityTypeChanged?.Invoke(sender, e);
-        }
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~ConnectivityService()
-        {
-            Dispose(false);
-        }
-
-        protected void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                Plugin.Connectivity.CrossConnectivity.Current.ConnectivityChanged -= CurrentConnectivityChanged;
-                Plugin.Connectivity.CrossConnectivity.Current.ConnectivityTypeChanged -= CurrentConnectivityTypeChanged;
-            }
         }
     }
 }
