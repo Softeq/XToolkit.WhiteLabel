@@ -30,15 +30,17 @@ namespace RemoteApp
             // fatal api error? - on refit side
             // connectivity & fatal network error - on consumer side
             // cancellation
+            // priority - need integration with Fusillade
 
             // TODO:
             // mapper - need default, declaration on consumer side
             // auth? - need refit integration
-            // priority - need integration with Fusillade
+            // add sample for priority
             // serialization settings - need refit settings integration
 
             // Bugs:
             // throttling & retry - logs many results
+
 
             _logger.Debug("========= Begin =========");
 
@@ -48,7 +50,7 @@ namespace RemoteApp
                     (service, ct) => service.GetAllPhotosAsync(ct),
                     new RequestOptions
                     {
-                        Priority = Priority.Background,
+                        Priority = Priority.UserInitiated,
                         RetryCount = 2,
                         Timeout = 2,
                         CancellationToken = cancellationToken

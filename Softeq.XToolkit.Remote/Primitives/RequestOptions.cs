@@ -6,34 +6,34 @@ namespace Softeq.XToolkit.Remote.Primitives
     public class RequestOptions
     {
         /// <summary>
-        ///     Default RequestOptions object. If defined, it will be used when no options are specified
+        ///     Default value for retry intents.
         /// </summary>
-        public static RequestOptions DefaultRequestOptions { get; set; }
-
-        /// <summary>
-        ///     Default value for retry intents
-        /// </summary>
-        public static int DefaultRetryCount { get; set; } = 1;
+        public const int DefaultRetryCount = 1;
 
         /// <summary>
         ///     Default timeout for requests. In seconds.
         /// </summary>
-        public static int DefaultTimeout { get; set; } = 1;
+        public const int DefaultTimeout = 1;
 
         /// <summary>
-        ///     Default priority for requests. Matches fusillade policy
+        ///     Default priority for requests. Matches fusillade policy.
         /// </summary>
-        public static Priority DefaultPriority { get; set; } = Priority.UserInitiated;
+        public const Priority DefaultPriority = Priority.UserInitiated;
 
         /// <summary>
-        ///     Default should retry condition. Default value is null
+        ///     Default RequestOptions object. If defined, it will be used when no options are specified.
         /// </summary>
-        public static Func<Exception, bool> DefaultShouldRetry { get; set; }
+        public static RequestOptions DefaultRequestOptions { get; set; }
+
+        /// <summary>
+        ///     Default should retry condition. Default value is null.
+        /// </summary>
+        public static Func<Exception, bool> DefaultShouldRetry { get; }
 
         /// <summary>
         ///     Default cancellation token. Default value is None.
         /// </summary>
-        public static CancellationToken DefaultCancellationToken { get; set; } = CancellationToken.None;
+        public static CancellationToken DefaultCancellationToken { get; } = CancellationToken.None;
 
         public int RetryCount { get; set; } = DefaultRetryCount;
 

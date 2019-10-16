@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.Remote.Client
     public interface IHttpClientBuilder
     {
         IHttpClientBuilder WithLogger(ILogger logger);
-        IHttpClientBuilder WithDelegatingHandler(Func<HttpMessageHandler, HttpMessageHandler> messageHandler);
+        IHttpClientBuilder WithCustomHandler(Func<HttpMessageHandler, HttpMessageHandler> messageHandler);
         HttpClient Build();
     }
 
@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Remote.Client
         private readonly string _baseUrl;
 
         private ILogger _logger;
-        private Func<HttpMessageHandler, HttpMessageHandler> _messageHandler;
+        private Func<HttpMessageHandler, HttpMessageHandler> _customHandler;
 
         public HttpClientBuilder(string baseUrl)
         {
@@ -31,49 +31,52 @@ namespace Softeq.XToolkit.Remote.Client
             return this;
         }
 
-        public IHttpClientBuilder WithDelegatingHandler(Func<HttpMessageHandler, HttpMessageHandler> messageHandler)
+        public IHttpClientBuilder WithCustomHandler(Func<HttpMessageHandler, HttpMessageHandler> customHandler)
         {
-            _messageHandler = messageHandler;
+            _customHandler = customHandler;
             return this;
         }
 
-        //public IHttpClientBuilder WithAuthentication(string headerName)
-        //{
-        //    return this;
-        //}
+        public IHttpClientBuilder WithoutAutoRedirects()
+        {
+            //if (messageHandler is DelegatingHandler internalDelegate
+            //    && internalDelegate.InnerHandler is HttpClientHandler internalClientHandler)
+            //{
+            //    internalClientHandler.AllowAutoRedirect = false;
+            //}
+            return this;
+        }
 
         public HttpClient Build()
         {
-            var httpClient = CreateHttpClient();
+            var handler = GetHttpMessageHandler();
+            var httpClient = CreateHttpClient(handler);
 
             httpClient.BaseAddress = new Uri(_baseUrl);
-
-            //httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            //httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
             return httpClient;
         }
 
-        protected virtual HttpClient CreateHttpClient()
+        // NativeHandler <- PriorityHandler (<- AuthHandler) <- DiagnosticHandler
+        protected virtual HttpMessageHandler GetHttpMessageHandler()
         {
-            var handler = GetHttpMessageHandler();
+            var handler = CreateDefaultHandler();
 
-            if (_messageHandler != null)
+            if (_customHandler != null)
             {
-                handler = _messageHandler(handler);
+                handler = _customHandler(handler);
             }
 
 #if DEBUG
-            return new HttpClient(new HttpDiagnosticsHandler(handler, _logger));
-#else
-            return new HttpClient(handler);
+            handler = new HttpDiagnosticsHandler(handler, _logger);
 #endif
+
+            return handler;
         }
 
-        protected virtual HttpMessageHandler GetHttpMessageHandler()
+        protected virtual HttpClient CreateHttpClient(HttpMessageHandler handler)
         {
-            return CreateDefaultHandler();
+            return new HttpClient(handler);
         }
 
         protected virtual HttpMessageHandler CreateDefaultHandler()

@@ -6,7 +6,7 @@ using Softeq.XToolkit.Common.Logger;
 
 namespace Softeq.XToolkit.Remote.Handlers
 {
-    public class HttpDiagnosticsHandler : DelegatingHandler
+    internal class HttpDiagnosticsHandler : DelegatingHandler
     {
         private readonly ILogger _logger;
 
@@ -15,13 +15,12 @@ namespace Softeq.XToolkit.Remote.Handlers
             _logger = logger;
         }
 
-        public HttpDiagnosticsHandler()
-        { }
-
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
+            var totalElapsedTime = Stopwatch.StartNew();
+
             WriteMessage($"Request: {request}");
             if (request.Content != null)
             {
@@ -32,9 +31,18 @@ namespace Softeq.XToolkit.Remote.Handlers
             var responseElapsedTime = Stopwatch.StartNew();
             var response = await base.SendAsync(request, cancellationToken);
 
+            WriteMessage($"Response: {response}");
+            if (response.Content != null)
+            {
+                var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
+                WriteMessage($"Response Content: {content}");
+            }
+
             responseElapsedTime.Stop();
             WriteMessage($"Response elapsed time: {responseElapsedTime.ElapsedMilliseconds} ms");
-            WriteMessage(response.ToString());
+
+            totalElapsedTime.Stop();
+            WriteMessage($"Total elapsed time: {totalElapsedTime.ElapsedMilliseconds} ms");
 
             return response;
         }

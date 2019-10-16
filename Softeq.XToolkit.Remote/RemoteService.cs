@@ -1,88 +1,50 @@
 ﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Polly;
-using Polly.Timeout;
-using Polly.Wrap;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote
 {
-    public interface IRemoteService<T>
+    public interface IRemoteService<out TApiService>
     {
-        Task Execute(Func<T, CancellationToken, Task> operation);
-        Task<TResult> Execute<TResult>(Func<T, CancellationToken, Task<TResult>> operation);
-        Task Execute(Func<T, CancellationToken, Task> operation, RequestOptions options);
-        Task<TResult> Execute<TResult>(Func<T, CancellationToken, Task<TResult>> operation, RequestOptions options);
+        Task Execute(Func<TApiService, CancellationToken, Task> operation, RequestOptions options = null);
+        Task<TResult> Execute<TResult>(Func<TApiService, CancellationToken, Task<TResult>> operation, RequestOptions options = null);
     }
 
-    public class RemoteService<T> : IRemoteService<T>
+    public class RemoteService<TApiService> : IRemoteService<TApiService>
     {
-        private readonly IHttpClientProvider<T> _apiService;
+        private readonly IApiServiceProvider<TApiService> _apiServiceProvider;
+        private readonly IExecutorFactory _executorFactory;
 
         public RemoteService(
-            IHttpClientProvider<T> refitService)
+            IApiServiceProvider<TApiService> httpClientProvider,
+            IExecutorFactory executorFactory)
         {
-            _apiService = refitService;
+            _apiServiceProvider = httpClientProvider;
+            _executorFactory = executorFactory;
         }
 
-        public Task Execute(Func<T, CancellationToken, Task> operation)
+        public async Task Execute(Func<TApiService, CancellationToken, Task> operation, RequestOptions options = null)
         {
-            return Execute(operation, RequestOptions.GetDefaultOptions());
+            options = options ?? RequestOptions.GetDefaultOptions();
+
+            var service = _apiServiceProvider.GetByPriority(options.Priority);
+
+            var executor = _executorFactory.Create(options.RetryCount, options.ShouldRetry, options.Timeout);
+
+            await executor.ExecuteAsync(ct => operation(service, ct), options.CancellationToken);
         }
 
-        public Task<TResult> Execute<TResult>(Func<T, CancellationToken, Task<TResult>> operation)
+        public async Task<TResult> Execute<TResult>(Func<TApiService, CancellationToken, Task<TResult>> operation, RequestOptions options = null)
         {
-            return Execute(operation, RequestOptions.GetDefaultOptions());
-        }
+            options = options ?? RequestOptions.GetDefaultOptions();
 
-        public async Task Execute(Func<T, CancellationToken, Task> operation, RequestOptions options)
-        {
-            var service = _apiService.GetByPriority(options.Priority);
+            var service = _apiServiceProvider.GetByPriority(options.Priority);
 
-            var policy = GetWrappedPolicy(options.RetryCount, options.ShouldRetry, options.Timeout);
+            var executor = _executorFactory.Create<TResult>(options.RetryCount, options.ShouldRetry, options.Timeout);
 
-            await policy.ExecuteAsync(ct => operation.Invoke(service, ct), options.CancellationToken);
-        }
-
-        public async Task<TResult> Execute<TResult>(Func<T, CancellationToken, Task<TResult>> operation, RequestOptions options)
-        {
-            var service = _apiService.GetByPriority(options.Priority);
-
-            var policy = GetWrappedPolicy<TResult>(options.RetryCount, options.ShouldRetry, options.Timeout);
-
-            return await policy.ExecuteAsync(ct => operation.Invoke(service, ct), options.CancellationToken);
-        }
-
-        protected virtual AsyncPolicyWrap GetWrappedPolicy(
-            int retryCount,
-            Func<Exception, bool> shouldRetry,
-            int timeout)
-        {
-            var retryPolicy = Policy.Handle<Exception>(e => shouldRetry?.Invoke(e) ?? true)
-                                    .RetryAsync(retryCount);
-            var timeoutPolicy = Policy.TimeoutAsync(timeout, TimeoutStrategy.Pessimistic);
-
-            return Policy.WrapAsync(retryPolicy, timeoutPolicy);
-        }
-
-        protected virtual AsyncPolicyWrap<TResult> GetWrappedPolicy<TResult>(
-            int retryCount,
-            Func<Exception, bool> shouldRetry,
-            int timeout)
-        {
-            var retryPolicy = Policy.Handle<Exception>(e => shouldRetry?.Invoke(e) ?? true)
-                                    .WaitAndRetryAsync(retryCount, RetryAttempt)
-                                    .AsAsyncPolicy<TResult>();
-            var timeoutPolicy = Policy.TimeoutAsync<TResult>(timeout, TimeoutStrategy.Pessimistic);
-
-            return Policy.WrapAsync(retryPolicy, timeoutPolicy);
-        }
-
-        protected virtual TimeSpan RetryAttempt(int attemptNumber)
-        {
-            return TimeSpan.FromSeconds(Math.Pow(2, attemptNumber));
+            return await executor.ExecuteAsync(ct => operation(service, ct), options.CancellationToken);
         }
     }
 }
