@@ -164,6 +164,7 @@
     <InterfaceDefinition Include="ViewControllers\Collections\TablePageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieTableViewCell.xib" />
     <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -272,6 +273,10 @@
     <Compile Include="ViewControllers\Controls\PhotoBrowserViewController.designer.cs">
       <DependentUpon>PhotoBrowserViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\Components\ConnectivityPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\ConnectivityPageViewController.designer.cs">
+      <DependentUpon>ConnectivityPageViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -309,6 +314,14 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
       <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
+      <Project>{A6BEDF91-0022-4FD5-85CD-DA39691BF919}</Project>
+      <Name>Softeq.XToolkit.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity.iOS\Softeq.XToolkit.Connectivity.iOS.csproj">
+      <Project>{E3CCEEA3-C0B0-47B0-B414-2D6C18AC100A}</Project>
+      <Name>Softeq.XToolkit.Connectivity.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

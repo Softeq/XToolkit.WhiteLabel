@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -22,6 +23,7 @@ namespace Playground.Droid
 
             builder.Singleton<DroidFragmentDialogService, IDialogsService>();
             builder.Singleton<DefaultAlertBuilder, IAlertBuilder>();
+            builder.Singleton<ConnectivityService, IConnectivityService>();
 
             // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();

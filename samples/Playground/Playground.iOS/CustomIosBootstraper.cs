@@ -1,6 +1,8 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Softeq.XToolkit.Connectivity;
+using Softeq.XToolkit.Connectivity.iOS;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -25,7 +27,11 @@ namespace Playground.iOS
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
 
+            // image picker
             builder.Singleton<IosImagePickerService, IImagePickerService>();
+            
+            // connectivity
+            builder.Singleton<IosConnectivityService, IConnectivityService>();
         }
     }
 }
