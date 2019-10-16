@@ -1,5 +1,7 @@
-﻿using System;
-using Foundation;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using Playground.ViewModels.Controls;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.Bindings;

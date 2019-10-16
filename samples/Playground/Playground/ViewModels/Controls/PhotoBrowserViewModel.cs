@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
