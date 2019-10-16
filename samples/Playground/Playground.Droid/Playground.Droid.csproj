@@ -142,8 +142,8 @@
     <AndroidResource Include="Resources\layout\activity_group_collection.xml" />
     <AndroidResource Include="Resources\layout\item_product.xml" />
     <AndroidResource Include="Resources\layout\item_product_header.xml" />
-    <AndroidResource Include="Resources\layout\activity_imagepicker.axml" />
-    <AndroidResource Include="Resources\layout\activity_connectivity.axml" />
+    <AndroidResource Include="Resources\layout\activity_imagepicker.xml" />
+    <AndroidResource Include="Resources\layout\activity_connectivity.xml" />
     <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -184,7 +184,7 @@
       <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
-      <Project>{A6BEDF91-0022-4FD5-85CD-DA39691BF919}</Project>
+      <Project>{7210D34B-AEDE-4661-9C36-EABCEDA19C6A}</Project>
       <Name>Softeq.XToolkit.Connectivity</Name>
     </ProjectReference>
   </ItemGroup>
