@@ -48,8 +48,9 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignKey>iPhone Developer: Vadim Pylsky (WQYTBA2884)</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
+<CodesignProvision>Softeq Wildcard - Development</CodesignProvision>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <DebugType>none</DebugType>
@@ -162,6 +163,7 @@
     <InterfaceDefinition Include="Views\Table\GroupedTableHeaderView.xib" />
     <InterfaceDefinition Include="ViewControllers\Collections\TablePageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieTableViewCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -266,6 +268,10 @@
     <Compile Include="Views\MovieTableViewCell.designer.cs">
       <DependentUpon>MovieTableViewCell.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\Controls\PhotoBrowserViewController.cs" />
+    <Compile Include="ViewControllers\Controls\PhotoBrowserViewController.designer.cs">
+      <DependentUpon>PhotoBrowserViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -307,6 +313,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Table\" />
+    <Folder Include="ViewControllers\Controls\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

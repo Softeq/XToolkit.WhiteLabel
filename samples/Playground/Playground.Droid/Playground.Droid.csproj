@@ -91,6 +91,7 @@
     <Compile Include="Views\Collections\MovieCollectionViewHolder.cs" />
     <Compile Include="Views\Collections\GroupedTablePageActivity.cs" />
     <Compile Include="Views\Collections\TablePageActivity.cs" />
+    <Compile Include="Views\Controls\PhotoBrowserActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -140,6 +141,14 @@
     <AndroidResource Include="Resources\layout\activity_group_collection.xml" />
     <AndroidResource Include="Resources\layout\item_product.xml" />
     <AndroidResource Include="Resources\layout\item_product_header.xml" />
+    <AndroidResource Include="Resources\layout\activity_imagepicker.axml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\xml\file_paths.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
@@ -178,6 +187,10 @@
       <Project>{955A4101-4989-4764-9134-E621FC4D9C86}</Project>
       <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\Controls\" />
+    <Folder Include="Resources\xml\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

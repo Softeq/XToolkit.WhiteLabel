@@ -4,7 +4,9 @@
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.iOS;
+using Softeq.XToolkit.WhiteLabel.iOS.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -22,6 +24,8 @@ namespace Playground.iOS
             // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
+
+            builder.Singleton<IosImagePickerService, IImagePickerService>();
         }
     }
 }
