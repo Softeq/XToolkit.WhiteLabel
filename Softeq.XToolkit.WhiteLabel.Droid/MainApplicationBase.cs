@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                     .DetectNetwork()
                     .PenaltyLog();
 
-            if(Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
             {
                 builder = builder.DetectResourceMismatches();
             }

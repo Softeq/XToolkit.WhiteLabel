@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
-      <Project>{A6BEDF91-0022-4FD5-85CD-DA39691BF919}</Project>
+      <Project>{7210D34B-AEDE-4661-9C36-EABCEDA19C6A}</Project>
       <Name>Softeq.XToolkit.Connectivity</Name>
     </ProjectReference>
   </ItemGroup>
