@@ -17,7 +17,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
@@ -184,7 +184,7 @@
       <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
-      <Project>{F355D95B-E73C-4A57-873E-4E44480F315E}</Project>
+      <Project>{A6BEDF91-0022-4FD5-85CD-DA39691BF919}</Project>
       <Name>Softeq.XToolkit.Connectivity</Name>
     </ProjectReference>
   </ItemGroup>

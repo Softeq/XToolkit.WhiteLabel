@@ -1,14 +1,13 @@
 ﻿using System;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Playground.ViewModels.Components
 {
     public class ConnectivityPageViewModel : ViewModelBase
     {
         private readonly IConnectivityService _connectivityService;
-
-        private string _connectionTypes;
 
         public ConnectivityPageViewModel(IConnectivityService connectivityService)
         {
@@ -28,12 +27,18 @@ namespace Playground.ViewModels.Components
 
         private void ConnectivityServiceConnectivityChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(ConnectionStatus));
+            Execute.BeginOnUIThread(() =>
+            {
+                RaisePropertyChanged(nameof(ConnectionStatus));
+            });
         }
 
         private void ConnectivityServiceConnectivityTypeChanged(object sender, Plugin.Connectivity.Abstractions.ConnectivityTypeChangedEventArgs e)
         {
-            RaisePropertyChanged(nameof(ConnectionTypes));
+            Execute.BeginOnUIThread(() =>
+            {
+                RaisePropertyChanged(nameof(ConnectionTypes));
+            });
         }
 
         public string ConnectionStatus

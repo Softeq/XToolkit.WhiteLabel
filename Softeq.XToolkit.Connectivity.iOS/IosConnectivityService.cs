@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CoreFoundation;
 using Network;
 using Plugin.Connectivity.Abstractions;
 using UIKit;
@@ -125,7 +126,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
             _connectionStatuses.Add(type, false);
 
             var monitor = new NWPathMonitor(type);
-            monitor.SetQueue(CoreFoundation.DispatchQueue.MainQueue);
+            monitor.SetQueue(DispatchQueue.GetGlobalQueue(DispatchQueuePriority.Background));
             monitor.SetUpdatedSnapshotHandler(action);
             monitor.Start();
             return monitor;
