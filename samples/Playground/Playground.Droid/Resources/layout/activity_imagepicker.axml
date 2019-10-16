@@ -5,13 +5,9 @@
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
     android:layout_weight="1"
-		android:minWidth="25px"
-		android:minHeight="25px"
 		android:id="@+id/imageView1" />
 	<LinearLayout
 		android:orientation="horizontal"
-		android:minWidth="25px"
-		android:minHeight="25px"
     android:layout_weight="0"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"

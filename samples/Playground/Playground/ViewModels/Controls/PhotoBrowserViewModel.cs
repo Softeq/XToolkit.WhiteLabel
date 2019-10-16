@@ -32,11 +32,7 @@ namespace Playground.ViewModels.Controls
         public IDisposable Image
         {
             get => _image;
-            set
-            {
-                _image = value;
-                RaisePropertyChanged(nameof(Image));
-            }
+            set => Set(ref _image, value);
         }
 
         private async Task OnGallery()

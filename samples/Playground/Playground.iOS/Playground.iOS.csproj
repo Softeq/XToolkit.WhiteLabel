@@ -48,7 +48,7 @@
     <ConsolePause>false</ConsolePause>
     <MtouchArch>ARM64</MtouchArch>
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <CodesignKey>iPhone Developer: Vadim Pylsky (WQYTBA2884)</CodesignKey>
+    <CodesignKey>iPhone Developer</CodesignKey>
     <MtouchDebug>true</MtouchDebug>
 <CodesignProvision>Softeq Wildcard - Development</CodesignProvision>
   </PropertyGroup>
