@@ -8,7 +8,7 @@ using Android.Widget;
 using Java.Lang;
 using Playground.ViewModels;
 using Softeq.XToolkit.Bindings.Droid;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 

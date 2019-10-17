@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 using Playground.Models;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.ViewModels.Dialogs

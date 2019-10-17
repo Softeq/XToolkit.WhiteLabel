@@ -8,7 +8,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Foundation;
 using Softeq.XToolkit.Bindings.iOS.Extensions;
-using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Common;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS

@@ -9,12 +9,9 @@ using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Handlers;
-using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
-using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.Common.EventArguments;
-using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.Common.WeakSubscription;
+using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Weak;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable

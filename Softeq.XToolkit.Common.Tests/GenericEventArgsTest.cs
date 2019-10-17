@@ -3,7 +3,6 @@
 
 using System;
 using NSubstitute;
-using Softeq.XToolkit.Common.EventArguments;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests

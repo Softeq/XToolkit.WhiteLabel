@@ -8,7 +8,7 @@ using Android.OS;
 using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
-using Softeq.XToolkit.Common.WeakSubscription;
+using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.Bindings.Droid
 {

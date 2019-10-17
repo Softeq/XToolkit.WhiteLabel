@@ -3,7 +3,7 @@
 
 using System;
 using Android.Views;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Converters;
 
 namespace Playground.Droid.Converters
 {
