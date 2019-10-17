@@ -16,10 +16,8 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public class BindableGroupCollectionViewSource<TKey, TItem, THeaderView, TItemCell> : UICollectionViewSource
+    public abstract class BindableGroupCollectionViewSource<TKey, TItem> : UICollectionViewSource
         where TItem : class
-        where THeaderView : BindableUICollectionReusableView<TKey>
-        where TItemCell : BindableCollectionViewCell<TItem>
     {
         private readonly IDisposable _subscription;
 
@@ -61,7 +59,6 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
                 _itemClick = value;
             }
         }
-
         /// <inheritdoc />
         public override nint NumberOfSections(UICollectionView collectionView)
         {
@@ -82,12 +79,12 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         /// <inheritdoc />
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (TItemCell) collectionView.DequeueReusableCell(GetCellName(indexPath), indexPath);
+            var cell = collectionView.DequeueReusableCell(GetCellName(indexPath), indexPath);
             var bindableCell = (IBindableView) cell;
 
             bindableCell.ReloadDataContext(GetItemByIndexPath(indexPath));
 
-            return cell;
+            return (UICollectionViewCell) cell;
         }
 
         /// <inheritdoc />
@@ -175,10 +172,6 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
             return DataSource.ElementAt(indexPath.Section).ElementAt(indexPath.Row);
         }
 
-        protected virtual string GetCellName(NSIndexPath indexPath) => typeof(TItemCell).Name;
-
-        protected virtual string GetHeaderViewName(NSIndexPath indexPath) => typeof(THeaderView).Name;
-
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
@@ -209,5 +202,24 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         }
 
         #endregion
+
+        protected abstract string GetCellName(NSIndexPath indexPath);
+
+        protected abstract string GetHeaderViewName(NSIndexPath indexPath);
+    }
+
+    public class BindableGroupCollectionViewSource<TKey, TItem, THeaderView, TItemCell>
+        : BindableGroupCollectionViewSource<TKey, TItem>
+        where TItem : class
+        where THeaderView : BindableUICollectionReusableView<TKey>
+        where TItemCell : BindableCollectionViewCell<TItem>
+    {
+        public BindableGroupCollectionViewSource(IEnumerable<IGrouping<TKey, TItem>> items) : base(items)
+        {
+        }
+
+        protected override string GetCellName(NSIndexPath indexPath) => typeof(TItemCell).Name;
+
+        protected override string GetHeaderViewName(NSIndexPath indexPath) => typeof(THeaderView).Name;
     }
 }

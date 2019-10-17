@@ -17,8 +17,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableTableViewSourceBase<TItem, TItemCell> : UITableViewSource
-        where TItemCell : BindableTableViewCell<TItem>
+    public abstract class BindableTableViewSourceBase<TItem> : UITableViewSource
     {
         private protected readonly WeakReferenceEx<UITableView> _tableViewRef;
 
@@ -74,8 +73,6 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
             return itemCell;
         }
 
-        protected virtual string GetCellName(NSIndexPath indexPath) => typeof(TItemCell).Name;
-
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             _itemClick?.Execute(GetItemByIndex(indexPath));
@@ -94,6 +91,18 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         protected abstract TItem GetItemByIndex(NSIndexPath indexPath);
 
         protected abstract bool IsLastItem(NSIndexPath indexPath);
+
+        protected abstract string GetCellName(NSIndexPath indexPath);
+    }
+
+    public abstract class BindableTableViewSourceBase<TItem, TItemCell> : BindableTableViewSourceBase<TItem>
+        where TItemCell : BindableTableViewCell<TItem>
+    {
+        protected BindableTableViewSourceBase(UITableView tableView) : base(tableView)
+        {
+        }
+
+        protected override string GetCellName(NSIndexPath indexPath) => typeof(TItemCell).Name;
     }
 
     public abstract class BindableTableViewSourceBase<TKey, TItem, TItemCell>
