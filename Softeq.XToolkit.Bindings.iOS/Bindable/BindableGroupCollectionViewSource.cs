@@ -16,7 +16,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableGroupCollectionViewSource<TKey, TItem> : UICollectionViewSource
+    public abstract class BindableGroupCollectionViewSourceBase<TKey, TItem> : UICollectionViewSource
         where TItem : class
     {
         private readonly IDisposable _subscription;
@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         private WeakReferenceEx<UICollectionView> _collectionViewRef;
         private ICommand<TItem> _itemClick;
 
-        public BindableGroupCollectionViewSource(IEnumerable<IGrouping<TKey, TItem>> items)
+        public BindableGroupCollectionViewSourceBase(IEnumerable<IGrouping<TKey, TItem>> items)
         {
             DataSource = items;
 
@@ -209,7 +209,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
     }
 
     public class BindableGroupCollectionViewSource<TKey, TItem, THeaderView, TItemCell>
-        : BindableGroupCollectionViewSource<TKey, TItem>
+        : BindableGroupCollectionViewSourceBase<TKey, TItem>
         where TItem : class
         where THeaderView : BindableUICollectionReusableView<TKey>
         where TItemCell : BindableCollectionViewCell<TItem>
