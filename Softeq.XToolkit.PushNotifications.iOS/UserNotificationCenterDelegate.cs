@@ -42,7 +42,22 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             UNNotificationResponse response,
             Action completionHandler)
         {
-            _pushNotificationsReceiver.OnMessageTapped(response.Notification.Request.Content.UserInfo);
+            var actionIdentifier = response.ActionIdentifier;
+            var userInfo = response.Notification.Request.Content.UserInfo;
+
+            if (response.IsCustomAction)
+            {
+                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier);
+            }
+            else if (response.IsDefaultAction)
+            {
+                _pushNotificationsReceiver.OnMessageTapped(userInfo);
+            }
+            else if (response.IsDismissAction)
+            {
+                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier);
+            }
+
             completionHandler.Invoke();
         }
     }

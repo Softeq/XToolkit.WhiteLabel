@@ -122,6 +122,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             return tcs.Task;
         }
 
+        public override void OnMessageCustomActionInvoked(object pushNotification, string actionId)
+        {
+            // Not implemented for now
+        }
+
         protected override PushNotificationModel OnMessageReceivedInternal(object pushNotification, bool inForeground)
         {
             var parsedNotification = base.OnMessageReceivedInternal(pushNotification, inForeground);
