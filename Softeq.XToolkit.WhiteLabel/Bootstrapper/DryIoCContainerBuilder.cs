@@ -159,5 +159,10 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         {
             return _container.Resolve(type);
         }
+
+        public Lazy<T> ResolveLazy<T>()
+        {
+            return new Lazy<T>(() => _container.Resolve<T>());
+        }
     }
 }

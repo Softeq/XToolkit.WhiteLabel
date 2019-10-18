@@ -7,6 +7,7 @@ using Playground.Models;
 using Playground.ViewModels.BottomTabs;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Components;
+using Playground.ViewModels.Controls;
 using Playground.ViewModels.Dialogs;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Common.Collections;
@@ -134,7 +135,7 @@ namespace Playground.ViewModels
                         Title = "Photo browser",
                         Command = new RelayCommand(() =>
                         {
-                            //_pageNavigationService.NavigateToViewModel<PhotoBrowserViewModel>();
+                            _pageNavigationService.NavigateToViewModel<PhotoBrowserViewModel>();
                         })
                     }),
                 (Category.Components,
@@ -156,7 +157,16 @@ namespace Playground.ViewModels
                                 .For<PermissionsPageViewModel>()
                                 .Navigate();
                         })
-                    })
+                    }),
+                (Category.Components,
+                    new CommandAction
+                    {
+                        Title = "Connectivity",
+                        Command = new RelayCommand(() =>
+                        {
+                            _pageNavigationService.NavigateToViewModel<ConnectivityPageViewModel>();
+                        })
+                })
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());
