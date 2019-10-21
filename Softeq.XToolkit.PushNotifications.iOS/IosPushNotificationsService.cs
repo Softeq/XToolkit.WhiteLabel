@@ -64,11 +64,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests();
         }
 
-        public override void OnRegisteredForPushNotifications(string token)
-        {
-            base.OnRegisteredForPushNotifications(SimplifyToken(token));
-        }
-
         protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
@@ -76,11 +71,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                 UIApplication.SharedApplication.UnregisterForRemoteNotifications();
             });
             return Task.FromResult(true);
-        }
-
-        private string SimplifyToken(string token)
-        {
-            return string.IsNullOrWhiteSpace(token) ? token : token.Trim('<').Trim('>').Replace(" ", string.Empty);
         }
     }
 }
