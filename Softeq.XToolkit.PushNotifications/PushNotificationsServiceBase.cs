@@ -71,7 +71,7 @@ namespace Softeq.XToolkit.PushNotifications
             return PushNotificationsUnregisterResult.Success;
         }
 
-        public void OnRegisteredForPushNotifications(string token)
+        public virtual void OnRegisteredForPushNotifications(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
             {
@@ -83,7 +83,7 @@ namespace Softeq.XToolkit.PushNotifications
             }
         }
 
-        public void OnFailedToRegisterForPushNotifications(string errorMessage)
+        public virtual void OnFailedToRegisterForPushNotifications(string errorMessage)
         {
             Logger.Warn($"Push Notifications failed to register: {errorMessage}");
             OnRegisterFailedInternal().SafeTaskWrapper(Logger);
