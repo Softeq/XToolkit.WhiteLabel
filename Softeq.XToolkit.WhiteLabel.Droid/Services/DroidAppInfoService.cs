@@ -10,10 +10,12 @@ using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
-    public class DroidAppService : IAppService
+    public class DroidAppInfoService : IAppInfoService
     {
+        /// <inheritdoc />
         public Platform Platform => Platform.Android;
 
+        /// <inheritdoc />
         public string Name
         {
             get
@@ -24,20 +26,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             }
         }
 
+        /// <inheritdoc />
         public string PackageName => Context.PackageName;
 
+        /// <inheritdoc />
         public string Version => GetPackageInfo().VersionName;
 
+        /// <inheritdoc />
         public string Build => GetPackageInfo().VersionCode.ToString(CultureInfo.InvariantCulture);
 
         public string GetVersion(bool withBuildNumber) => withBuildNumber ? $"{Version}.{Build}" : Version;
 
-        private Context Context => Application.Context;
+        private static Context Context => Application.Context;
 
-        private PackageInfo GetPackageInfo()
-        {
-            var packageManager = Context.PackageManager;
-            return packageManager.GetPackageInfo(PackageName, PackageInfoFlags.MetaData);
-        }
+        private PackageInfo GetPackageInfo() => Context.PackageManager.GetPackageInfo(PackageName, PackageInfoFlags.MetaData);
     }
 }
