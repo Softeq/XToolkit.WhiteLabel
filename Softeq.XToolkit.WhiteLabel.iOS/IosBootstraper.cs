@@ -54,8 +54,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
                     builder.PerDependency(viewModelType, IfRegistered.Keep);
                 }
-                catch (Exception ex)
+                catch (Exception)
                 {
+                    // TODO: ignored
                 }
             }
 

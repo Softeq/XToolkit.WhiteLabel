@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
@@ -15,29 +16,39 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
     {
         public void Init(IList<Assembly> assemblies)
         {
-            var containerBuilder = new DryIoCContainerBuilder();
+            var containerBuilder = CreateContainerBuilder();
+
             ConfigureIoc(containerBuilder);
             RegisterInternalServices(containerBuilder);
 
-            Dependencies.Initialize(BuildContainer(containerBuilder, assemblies));
+            var container = BuildContainer(containerBuilder, assemblies);
+
+            Dependencies.Initialize(container);
+        }
+
+        protected virtual IContainerBuilder CreateContainerBuilder()
+        {
+            return new DryIocContainerBuilder();
         }
 
         protected abstract void ConfigureIoc(IContainerBuilder builder);
 
+        protected abstract void RegisterInternalServices(IContainerBuilder builder);
+
         protected virtual IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
         {
-            //navigation
+            // navigation
             builder.Singleton<PageNavigationService, IPageNavigationService>();
             builder.Singleton<BackStackManager, IBackStackManager>();
-            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
 
-            //logs
+            // tabs
+            builder.Singleton<TabNavigationService, ITabNavigationService>();
+            builder.PerDependency<TabViewModel>();
+
+            // logs
             builder.Singleton<ConsoleLogManager, ILogManager>();
 
             return builder.Build();
         }
-
-        protected abstract void RegisterInternalServices(IContainerBuilder builder);
     }
 }
