@@ -13,8 +13,6 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
@@ -40,10 +38,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
             builder.Singleton<BundleService, IBundleService>(IfRegistered.Keep);
             builder.Singleton<DroidViewLocator>(IfRegistered.Keep);
-            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
 
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
         }
 
         private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(
