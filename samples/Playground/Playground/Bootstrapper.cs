@@ -16,11 +16,6 @@ namespace Playground
         {
             // common
             builder.Singleton<JsonSerializer, IJsonSerializer>();
-            builder.Singleton<ConsoleLogManager, ILogManager>();
-
-            // navigation
-            builder.Singleton<PageNavigationService, IPageNavigationService>();
-            builder.Singleton<BackStackManager, IBackStackManager>();
 
             // playgroud
             builder.Singleton<DataService, IDataService>();

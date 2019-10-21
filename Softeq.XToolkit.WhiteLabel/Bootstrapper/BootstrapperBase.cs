@@ -3,7 +3,11 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
@@ -22,6 +26,15 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 
         protected virtual IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
         {
+            //navigation
+            builder.Singleton<PageNavigationService, IPageNavigationService>();
+            builder.Singleton<BackStackManager, IBackStackManager>();
+            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
+
+            //logs
+            builder.Singleton<ConsoleLogManager, ILogManager>();
+
             return builder.Build();
         }
 

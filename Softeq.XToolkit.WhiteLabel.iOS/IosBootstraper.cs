@@ -12,8 +12,6 @@ using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
@@ -40,8 +38,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             builder.Singleton<StoryboardViewLocator>(IfRegistered.Keep);
             builder.Singleton<StoryboardNavigation, IPlatformNavigationService>(IfRegistered.Keep);
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
-            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
         }
 
         private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder,
