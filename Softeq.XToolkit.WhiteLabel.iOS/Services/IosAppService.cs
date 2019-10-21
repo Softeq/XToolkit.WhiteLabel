@@ -11,12 +11,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         public Platform Platform => Platform.iOS;
 
-        public string GetVersion(bool withBuildNumber)
-        {
-            var version = NSBundle.MainBundle.InfoDictionary["CFBundleShortVersionString"];
-            return withBuildNumber
-                ? $"{version} ({NSBundle.MainBundle.InfoDictionary["CFBundleVersion"]})"
-                : version.ToString();
-        }
+        public string Name => GetBundleValue("CFBundleDisplayName") ?? GetBundleValue("CFBundleName");
+
+        public string PackageName => GetBundleValue("CFBundleIdentifier");
+
+        public string Version => GetBundleValue("CFBundleShortVersionString");
+
+        public string Build => GetBundleValue("CFBundleVersion");
+
+        public string GetVersion(bool withBuildNumber) => withBuildNumber ? $"{Version}.{Build}" : Version;
+
+        private static string GetBundleValue(string key) => NSBundle.MainBundle.ObjectForInfoDictionary(key)?.ToString();
     }
 }

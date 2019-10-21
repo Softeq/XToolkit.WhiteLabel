@@ -1,7 +1,10 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Globalization;
 using Android.App;
+using Android.Content;
+using Android.Content.PM;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Model;
 
@@ -11,13 +14,30 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
     {
         public Platform Platform => Platform.Android;
 
-        public string GetVersion(bool withBuildNumber)
+        public string Name
         {
-            var context = Application.Context;
-            var info = context.PackageManager.GetPackageInfo(context.PackageName, 0);
-            return withBuildNumber
-                ? $"{info.VersionName}.{info.VersionCode}"
-                : info.VersionName;
+            get
+            {
+                var applicationInfo = Context.ApplicationInfo;
+                var packageManager = Context.PackageManager;
+                return applicationInfo.LoadLabel(packageManager);
+            }
+        }
+
+        public string PackageName => Context.PackageName;
+
+        public string Version => GetPackageInfo().VersionName;
+
+        public string Build => GetPackageInfo().VersionCode.ToString(CultureInfo.InvariantCulture);
+
+        public string GetVersion(bool withBuildNumber) => withBuildNumber ? $"{Version}.{Build}" : Version;
+
+        private Context Context => Application.Context;
+
+        private PackageInfo GetPackageInfo()
+        {
+            var packageManager = Context.PackageManager;
+            return packageManager.GetPackageInfo(PackageName, PackageInfoFlags.MetaData);
         }
     }
 }
