@@ -45,19 +45,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             var viewModelToViewControllerTypes = new Dictionary<Type, Type>();
 
-            foreach (var type in assemblies.SelectMany(x => x.GetTypes().View(typeof(UIViewController))))
+            foreach (var type in assemblies.SelectMany(x => x.GetTypes().View(typeof(ViewControllerBase))))
             {
-                try
-                {
-                    var viewModelType = type.BaseType.GetGenericArguments()[0];
-                    viewModelToViewControllerTypes.Add(viewModelType, type);
+                var viewModelType = type.BaseType.GetGenericArguments()[0];
+                viewModelToViewControllerTypes.Add(viewModelType, type);
 
-                    builder.PerDependency(viewModelType, IfRegistered.Keep);
-                }
-                catch (Exception)
-                {
-                    // TODO: ignored
-                }
+                builder.PerDependency(viewModelType, IfRegistered.Keep);
             }
 
             return viewModelToViewControllerTypes;
