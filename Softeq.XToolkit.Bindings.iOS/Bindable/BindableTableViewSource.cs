@@ -17,8 +17,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public abstract class BindableTableViewSourceBase<TItem, TItemCell> : UITableViewSource
-        where TItemCell : BindableTableViewCell<TItem>
+    public abstract class BindableTableViewSourceBase<TItem> : UITableViewSource
     {
         private protected readonly WeakReferenceEx<UITableView> _tableViewRef;
 
@@ -66,7 +65,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
                 LastItemRequested?.Invoke(this, EventArgs.Empty);
             }
 
-            var itemCell = tableView.DequeueReusableCell(typeof(TItemCell).Name, indexPath);
+            var itemCell = tableView.DequeueReusableCell(GetCellName(indexPath), indexPath);
             var bindableView = (IBindableView) itemCell;
 
             bindableView.ReloadDataContext(item);
@@ -92,6 +91,18 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         protected abstract TItem GetItemByIndex(NSIndexPath indexPath);
 
         protected abstract bool IsLastItem(NSIndexPath indexPath);
+
+        protected abstract string GetCellName(NSIndexPath indexPath);
+    }
+
+    public abstract class BindableTableViewSourceBase<TItem, TItemCell> : BindableTableViewSourceBase<TItem>
+        where TItemCell : BindableTableViewCell<TItem>
+    {
+        protected BindableTableViewSourceBase(UITableView tableView) : base(tableView)
+        {
+        }
+
+        protected override string GetCellName(NSIndexPath indexPath) => typeof(TItemCell).Name;
     }
 
     public abstract class BindableTableViewSourceBase<TKey, TItem, TItemCell>
@@ -390,13 +401,15 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         private UIView GetHeaderFooterView(UITableView tableView, nint section)
         {
-            var groupCell = tableView.DequeueReusableHeaderFooterView(typeof(TGroupCell).Name);
+            var groupCell = tableView.DequeueReusableHeaderFooterView(GetHeaderViewName(section));
             var bindableView = (IBindableView) groupCell;
 
             bindableView.ReloadDataContext(GetKeyBySection(section));
 
             return groupCell;
         }
+
+        protected virtual string GetHeaderViewName(nint section) => typeof(TGroupCell).Name;
     }
 
     public class BindableTableViewSource<TKey, TItem, THeaderView, TFooterView, TItemCell>
@@ -441,7 +454,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         public override UIView GetViewForHeader(UITableView tableView, nint section)
         {
-            var headerView = tableView.DequeueReusableHeaderFooterView(typeof(THeaderView).Name);
+            var headerView = tableView.DequeueReusableHeaderFooterView(GetHeaderViewName(section));
             var bindableView = (IBindableView) headerView;
 
             bindableView.ReloadDataContext(GetKeyBySection(section));
@@ -451,12 +464,16 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         public override UIView GetViewForFooter(UITableView tableView, nint section)
         {
-            var footerView = tableView.DequeueReusableHeaderFooterView(typeof(TFooterView).Name);
+            var footerView = tableView.DequeueReusableHeaderFooterView(GetFooterViewName(section));
             var bindableView = (IBindableView) footerView;
 
             bindableView.ReloadDataContext(GetKeyBySection(section));
 
             return footerView;
         }
+
+        protected virtual string GetFooterViewName(nint section) => typeof(TFooterView).Name;
+
+        protected virtual string GetHeaderViewName(nint section) => typeof(THeaderView).Name;
     }
 }

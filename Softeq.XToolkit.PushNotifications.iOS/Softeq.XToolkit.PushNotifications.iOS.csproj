@@ -47,6 +47,7 @@
     <Compile Include="IosNotificationsPermissionsService.cs" />
     <Compile Include="UserNotificationCenterDelegate.cs" />
     <Compile Include="INotificationCategoriesProvider.cs" />
+    <Compile Include="NSDataExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">
