@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             _pushNotificationsReceiver.OnMessageReceived(notification.Request.Content.UserInfo, true);
             if (_showForegroundNotificationsInSystem)
             {
-                completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);
+                completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Badge); // TODO: make customizable
             }
             else
             {
@@ -47,7 +47,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
             if (response.IsCustomAction)
             {
-                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier);
+                var textInput = (response as UNTextInputNotificationResponse)?.UserText;
+                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier, textInput);
             }
             else if (response.IsDefaultAction)
             {
@@ -55,7 +56,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             }
             else if (response.IsDismissAction)
             {
-                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier);
+                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier, null);
             }
 
             completionHandler.Invoke();

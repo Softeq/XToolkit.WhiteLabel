@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System.Collections.Generic;
 using UserNotifications;
 
 namespace Softeq.XToolkit.PushNotifications.iOS
@@ -8,6 +11,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         IList<UNNotificationCategory> NotificationCategories { get; }
         IList<UNNotificationAction> NotificationActions { get; }
 
-        void HandlePushNotificationCustomAction(PushNotificationModel pushNotification, string actionId);
+        void HandlePushNotificationCustomAction(PushNotificationModel pushNotification, string actionId, string textInput);
     }
 }

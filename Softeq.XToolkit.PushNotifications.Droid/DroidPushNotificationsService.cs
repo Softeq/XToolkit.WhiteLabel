@@ -122,7 +122,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             return tcs.Task;
         }
 
-        public override void OnMessageCustomActionInvoked(object pushNotification, string actionId)
+        public override void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput)
         {
             // Not implemented for now
         }

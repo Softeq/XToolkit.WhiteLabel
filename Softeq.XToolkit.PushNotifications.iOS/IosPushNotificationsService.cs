@@ -13,6 +13,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 {
     public class IosPushNotificationsService : PushNotificationsServiceBase
     {
+        public const string UNNotificationDismissActionIdentifier = "com.apple.UNNotificationDismissActionIdentifier";
+
         private readonly INotificationsPermissionsService _permissionsService;
         private readonly INotificationCategoriesProvider _notificationCategoriesProvider;
 
@@ -79,13 +81,13 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             base.OnRegisteredForPushNotifications(SimplifyToken(token));
         }
 
-        public override void OnMessageCustomActionInvoked(object pushNotification, string actionId)
+        public override void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput)
         {
             if (_notificationCategoriesProvider != null)
             {
                 var parsedNotification = PushNotificationParser.Parse(pushNotification);
 
-                _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionId);
+                _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionId, textInput);
             }
         }
 

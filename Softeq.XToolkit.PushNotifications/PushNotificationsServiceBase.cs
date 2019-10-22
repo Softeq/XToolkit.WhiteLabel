@@ -107,7 +107,7 @@ namespace Softeq.XToolkit.PushNotifications
             PushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
         }
 
-        public abstract void OnMessageCustomActionInvoked(object pushNotification, string actionId);
+        public abstract void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput);
 
         protected abstract Task<bool> UnregisterFromPushTokenInSystem();
 
