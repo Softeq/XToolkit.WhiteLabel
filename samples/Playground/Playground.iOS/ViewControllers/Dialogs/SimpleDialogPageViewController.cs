@@ -5,6 +5,7 @@ using System;
 using Playground.ViewModels.Dialogs;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.iOS;
+using UIKit;
 
 namespace Playground.iOS.ViewControllers.Dialogs
 {

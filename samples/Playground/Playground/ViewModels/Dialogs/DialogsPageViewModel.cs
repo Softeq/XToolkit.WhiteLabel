@@ -21,6 +21,7 @@ namespace Playground.ViewModels.Dialogs
         private string _alertResult = "-";
         private Person _dialogUntilDismissResult;
         private Person _dialogUntilResult;
+        private string _presentationStyle;
 
         public DialogsPageViewModel(
             IDialogsService dialogsService,
@@ -35,6 +36,7 @@ namespace Playground.ViewModels.Dialogs
             OpenDialogUntilDismissCommand = new RelayCommand(OpenDialogUntilDismiss);
             OpenDialogUntilResultCommand = new AsyncCommand(OpenDialogUntilResult);
             OpenTwoDialogsCommand = new AsyncCommand(OpenTwoDialogs);
+            SelectPresentationStyleCommand = new RelayCommand(SelectPresentationStyle);
         }
 
         public ICommand OpenAlertCommand { get; }
@@ -44,6 +46,8 @@ namespace Playground.ViewModels.Dialogs
         public ICommand OpenDialogUntilResultCommand { get; }
 
         public ICommand OpenTwoDialogsCommand { get; }
+
+        public ICommand SelectPresentationStyleCommand { get; }
 
         public string AlertResult
         {
@@ -63,7 +67,24 @@ namespace Playground.ViewModels.Dialogs
             set => Set(ref _dialogUntilResult, value);
         }
 
+        public string PresentationStyle
+        {
+            get => _presentationStyle;
+            set => Set(ref _presentationStyle, value);
+        }
+
         public PersonToStringConverter PersonConverter { get; }
+
+        private void SelectPresentationStyle()
+        {
+            _dialogsService
+                .For<SelectPresentationStyleViewModel>()
+                .Navigate<string>(PresentationStyle)
+                .ContinueOnUIThread(result =>
+                {
+                    PresentationStyle = result;
+                });
+        }
 
         private async Task OpenAlert()
         {
@@ -82,7 +103,7 @@ namespace Playground.ViewModels.Dialogs
                     .For<SimpleDialogPageViewModel>()
                     .WithParam(x => x.FirstName, "First")
                     .WithParam(x => x.LastName, "Last")
-                    .Navigate<Person>()
+                    .Navigate<Person>(PresentationStyle)
                     .ContinueOnUIThread(result =>
                     {
                         DialogUntilDismissResult = result;
@@ -97,7 +118,7 @@ namespace Playground.ViewModels.Dialogs
                 .WithParam(x => x.FirstName, "First")
                 .WithParam(x => x.LastName, "Last")
                 .WithAwaitResult() // wait until result
-                .Navigate<Person>();
+                .Navigate<Person>(PresentationStyle);
 
             DialogUntilResult = result;
         }
@@ -110,7 +131,7 @@ namespace Playground.ViewModels.Dialogs
                 .For<SimpleDialogPageViewModel>()
                 .WithParam(x => x.FirstName, "First1")
                 .WithParam(x => x.LastName, "Last1")
-                .Navigate<Person>();
+                .Navigate<Person>(PresentationStyle);
 
             _logger.Debug($"Dialog1 result: {PersonConverter.ConvertValue(result1)}");
 
@@ -118,7 +139,7 @@ namespace Playground.ViewModels.Dialogs
                .For<SimpleDialogPageViewModel>()
                .WithParam(x => x.FirstName, $"{result1?.FirstName}2")
                .WithParam(x => x.LastName, $"{result1?.LastName}2")
-               .Navigate<Person>();
+               .Navigate<Person>(PresentationStyle);
 
             _logger.Debug($"Dialog2 result: {PersonConverter.ConvertValue(result2)}");
         }

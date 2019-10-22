@@ -8,6 +8,7 @@ using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
@@ -27,6 +28,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
                 var viewLocator = x.Resolve<StoryboardViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
+            }, IfRegistered.Keep);
+
+            var stylesDictionary = CreateAndRegisterPresentationStyles(assemblies);
+
+            builder.Singleton<IosPresentationStyleStorage>(x =>
+            {
+                var storage = new IosPresentationStyleStorage();
+                storage.Initialize(stylesDictionary);
+                return storage;
             }, IfRegistered.Keep);
 
             return base.BuildContainer(builder, assemblies);
@@ -54,6 +64,21 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             }
 
             return viewModelToViewControllerTypes;
+        }
+
+        private static Dictionary<string, Type> CreateAndRegisterPresentationStyles(IEnumerable<Assembly> assemblies)
+        {
+            var types = new Dictionary<string, Type>();
+
+            foreach (var type in assemblies.SelectMany(x => x.GetTypes())
+                .Where(x => x.IsSubclassOf(typeof(PresentationArgsBase))))
+            {
+                var attribute = type.GetCustomAttribute<PresentationStyleAttribute>();
+
+                types.Add(attribute.Id, type);
+            }
+
+            return types;
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)

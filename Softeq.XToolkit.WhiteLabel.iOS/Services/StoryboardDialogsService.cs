@@ -13,6 +13,10 @@ using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using UIKit;
+using CoreGraphics;
+using CoreAnimation;
+using Foundation;
+using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
@@ -21,12 +25,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         private readonly ILogger _logger;
         private readonly IViewLocator _viewLocator;
         private readonly IContainer _iocContainer;
+        private readonly IosPresentationStyleStorage _iosPresentationStyleStorage;
 
         public StoryboardDialogsService(
+            IosPresentationStyleStorage iosPresentationStyleStorage,
             IViewLocator viewLocator,
             ILogManager logManager,
             IContainer iocContainer)
         {
+            _iosPresentationStyleStorage = iosPresentationStyleStorage;
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
             _logger = logManager.GetLogger<StoryboardDialogsService>();
@@ -73,26 +80,29 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         }
 
         public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
-           IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
            where TViewModel : IDialogViewModel
         {
             try
             {
-                var (viewController, result) = await ShowViewModelForResultAsync<TViewModel>(parameters);
+                var (viewController, result) = await ShowViewModelForResultAsync<TViewModel>(parameters, presentationStyleId);
 
                 return new DialogResult(DismissViewControllerAsync(viewController));
             }
@@ -104,12 +114,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         }
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
-           IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
            where TViewModel : IDialogViewModel
         {
             try
             {
-                var (viewController, resultObject) = await ShowViewModelForResultAsync<TViewModel>(parameters);
+                var (viewController, resultObject) = await ShowViewModelForResultAsync<TViewModel>(parameters, presentationStyleId);
 
                 var result = resultObject is TResult convertedResult
                     ? convertedResult
@@ -125,25 +136,33 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         }
 
         private async Task<(UIViewController, object)> ShowViewModelForResultAsync<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel> parameters,
+            string presentationStyleId)
             where TViewModel : IDialogViewModel
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
-            var viewController = await PresentModalViewControllerAsync(viewModel).ConfigureAwait(false);
+            var viewController = await PresentModalViewControllerAsync(viewModel, presentationStyleId).ConfigureAwait(false);
             var dialogResult = await viewModel.DialogComponent.Task;
 
             return (viewController, dialogResult);
         }
 
-        private Task<UIViewController> PresentModalViewControllerAsync(object viewModel)
+        private Task<UIViewController> PresentModalViewControllerAsync(object viewModel, string presentationStyleId)
         {
             var tcs = new TaskCompletionSource<UIViewController>();
+            PresentationArgsBase args = null;
+
+            if(presentationStyleId != null)
+            {
+                args = _iosPresentationStyleStorage.GetStyle(presentationStyleId);
+            }
 
             Execute.BeginOnUIThread(() =>
             {
                 var targetViewController = _viewLocator.GetView(viewModel);
-                targetViewController.ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
+                targetViewController.ModalPresentationStyle = args?.PresentationStyle ?? UIModalPresentationStyle.OverFullScreen;
+                targetViewController.TransitioningDelegate = args?.TransitioningDelegate;
                 var topViewController = _viewLocator.GetTopViewController();
                 topViewController.View.EndEditing(true);
                 topViewController.PresentViewController(targetViewController, true, null);
@@ -171,5 +190,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             });
             return tcs.Task;
         }
+
     }
 }

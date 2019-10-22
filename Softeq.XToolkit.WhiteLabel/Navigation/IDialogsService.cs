@@ -19,20 +19,24 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel;
 
         [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel;
 
         Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel;
 
         Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel;
     }
 }

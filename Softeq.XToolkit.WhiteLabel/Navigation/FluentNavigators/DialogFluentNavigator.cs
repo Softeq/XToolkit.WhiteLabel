@@ -50,10 +50,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         ///     Open dialog with awaiting until dialog will be dismissed.
         /// </summary>
         /// <returns></returns>
-        public Task Navigate()
+        public Task Navigate(string presentationStyleId = null)
         {
             return _dialogsService
-                .ShowForViewModelAsync<TViewModel>(Parameters)
+                .ShowForViewModelAsync<TViewModel>(Parameters, presentationStyleId)
                 .WaitUntilDismissed();
         }
 
@@ -63,9 +63,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// </summary>
         /// <typeparam name="TResult">Type of dialog result.</typeparam>
         /// <returns></returns>
-        public async Task<TResult> Navigate<TResult>()
+        public async Task<TResult> Navigate<TResult>(string presentationStyleId = null)
         {
-            var showDialogTask = _dialogsService.ShowForViewModelAsync<TViewModel, TResult>(Parameters);
+            var showDialogTask = _dialogsService.ShowForViewModelAsync<TViewModel, TResult>(Parameters, presentationStyleId);
 
             if (_awaitResult)
             {

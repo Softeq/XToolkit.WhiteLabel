@@ -1,11 +1,10 @@
 // WARNING
 //
-// This file has been generated automatically by Visual Studio from the outlets and
-// actions declared in your storyboard file.
-// Manual changes to this file will not be maintained.
+// This file has been generated automatically by Visual Studio to store outlets and
+// actions made in the UI designer. If it is removed, they will be lost.
+// Manual changes to this file may not be handled correctly.
 //
 using Foundation;
-using System;
 using System.CodeDom.Compiler;
 
 namespace Playground.iOS.ViewControllers.Dialogs
@@ -21,6 +20,9 @@ namespace Playground.iOS.ViewControllers.Dialogs
 
 		[Outlet]
 		UIKit.UIButton OpenTwoDialogsButton { get; set; }
+
+		[Outlet]
+		UIKit.UIButton PresentationStyleButton { get; set; }
 
 		[Outlet]
 		UIKit.UIButton ShowAlertButton { get; set; }
@@ -46,6 +48,11 @@ namespace Playground.iOS.ViewControllers.Dialogs
 				DialogUntilDismissResultLabel = null;
 			}
 
+			if (OpenTwoDialogsButton != null) {
+				OpenTwoDialogsButton.Dispose ();
+				OpenTwoDialogsButton = null;
+			}
+
 			if (ShowAlertButton != null) {
 				ShowAlertButton.Dispose ();
 				ShowAlertButton = null;
@@ -66,9 +73,9 @@ namespace Playground.iOS.ViewControllers.Dialogs
 				ShowDialogUntilResultLabel = null;
 			}
 
-			if (OpenTwoDialogsButton != null) {
-				OpenTwoDialogsButton.Dispose ();
-				OpenTwoDialogsButton = null;
+			if (PresentationStyleButton != null) {
+				PresentationStyleButton.Dispose ();
+				PresentationStyleButton = null;
 			}
 		}
 	}
