@@ -122,15 +122,14 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             return tcs.Task;
         }
 
-        protected override PushNotificationModel OnMessageReceivedInternal(object pushNotification, bool inForeground)
+        protected override void OnMessageReceivedInternal(object pushNotification, PushNotificationModel parsedNotification, bool inForeground)
         {
-            var parsedNotification = base.OnMessageReceivedInternal(pushNotification, inForeground);
+            base.OnMessageReceivedInternal(pushNotification, parsedNotification, inForeground);
+
             if (!parsedNotification.IsSilent)
             {
                 ShowNotification(pushNotification, parsedNotification, inForeground);
             }
-
-            return parsedNotification;
         }
 
         private void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification, bool inForeground)
