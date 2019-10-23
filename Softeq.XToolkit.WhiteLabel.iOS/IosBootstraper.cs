@@ -22,9 +22,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             var viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(builder, assemblies);
 
-            builder.Singleton<IViewLocator>(x =>
+            builder.Singleton<IViewLocator>(container =>
             {
-                var viewLocator = x.Resolve<StoryboardViewLocator>();
+                var viewLocator = container.Resolve<StoryboardViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
             }, IfRegistered.Keep);
@@ -34,6 +34,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
+            base.RegisterInternalServices(builder);
+
+            // navigation
             builder.Singleton<ViewControllerProvider, IViewControllerProvider>(IfRegistered.Keep);
             builder.Singleton<StoryboardViewLocator>(IfRegistered.Keep);
             builder.Singleton<StoryboardNavigation, IPlatformNavigationService>(IfRegistered.Keep);
