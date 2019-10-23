@@ -1,6 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+
 namespace Softeq.XToolkit.PushNotifications
 {
     public interface IPushNotificationsHandler
@@ -41,5 +43,12 @@ namespace Softeq.XToolkit.PushNotifications
         /// </summary>
         /// <param name="pushNotification">Push notification model</param>
         void HandleSilentPushNotification(PushNotificationModel pushNotification);
+
+        /// <summary>
+        ///     Handle the situation when received Push notification is not valid (most likely could not be parsed)
+        /// </summary>
+        /// <param name="exception">Details of exception that happenned during parsing notification</param>
+        /// <param name="pushNotification">Raw push notification object</param>   // TODO: make this param more convenient for logging/debugging
+        void HandleInvalidPushNotification(Exception exception, object pushNotification);
     }
 }

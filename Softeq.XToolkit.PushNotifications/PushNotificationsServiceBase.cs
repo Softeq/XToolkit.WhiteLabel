@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
@@ -91,29 +92,32 @@ namespace Softeq.XToolkit.PushNotifications
 
         public void OnMessageReceived(object pushNotification, bool inForeground)
         {
-            OnMessageReceivedInternal(pushNotification, inForeground);
+            if (TryParsePushNotification(pushNotification, out var parsedNotification))
+            {
+                OnMessageReceivedInternal(pushNotification, parsedNotification, inForeground);
+            }
         }
 
         public void OnMessageTapped(object pushNotification)
         {
-            var parsedNotification = PushNotificationParser.Parse(pushNotification);
-
-            if (parsedNotification.IsSilent)
+            if (TryParsePushNotification(pushNotification, out var parsedNotification))
             {
-                PushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
-                return;
+                if (parsedNotification.IsSilent)
+                {
+                    PushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
+                }
+                else
+                {
+                    PushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
+                }
             }
-
-            PushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
         }
 
         protected abstract Task<bool> UnregisterFromPushTokenInSystem();
 
         // ReSharper disable once UnusedMethodReturnValue.Global - used on Android
-        protected virtual PushNotificationModel OnMessageReceivedInternal(object pushNotification, bool inForeground)
+        protected virtual void OnMessageReceivedInternal(object pushNotification, PushNotificationModel parsedNotification, bool inForeground)
         {
-            var parsedNotification = PushNotificationParser.Parse(pushNotification);
-
             if (parsedNotification.IsSilent)
             {
                 PushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
@@ -122,8 +126,21 @@ namespace Softeq.XToolkit.PushNotifications
             {
                 PushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, inForeground);
             }
+        }
 
-            return parsedNotification;
+        private bool TryParsePushNotification(object pushNotification, out PushNotificationModel result)
+        {
+            try
+            {
+                result = PushNotificationParser.Parse(pushNotification);
+            }
+            catch (Exception ex)
+            {
+                PushNotificationsHandler.HandleInvalidPushNotification(ex, pushNotification);
+                result = null;
+            }
+
+            return result != null;
         }
 
         private async Task OnRegisterSuccessInternal(string token)
