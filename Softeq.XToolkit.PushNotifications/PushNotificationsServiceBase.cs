@@ -107,9 +107,15 @@ namespace Softeq.XToolkit.PushNotifications
             PushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
         }
 
-        public abstract void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput);
+        public void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput)
+        {
+            var parsedNotification = PushNotificationParser.Parse(pushNotification);
+            OnMessageCustomActionInvokedInternal(parsedNotification, actionId, textInput);
+        }
 
         protected abstract Task<bool> UnregisterFromPushTokenInSystem();
+
+        protected abstract void OnMessageCustomActionInvokedInternal(PushNotificationModel parsedNotification, string actionId, string textInput);
 
         // ReSharper disable once UnusedMethodReturnValue.Global - used on Android
         protected virtual PushNotificationModel OnMessageReceivedInternal(object pushNotification, bool inForeground)

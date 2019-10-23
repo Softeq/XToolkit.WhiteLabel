@@ -13,6 +13,9 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 {
     public class IosPushNotificationsService : PushNotificationsServiceBase
     {
+        /// <summary>
+        /// Default Dismiss Action identifier
+        /// </summary>
         public const string UNNotificationDismissActionIdentifier = "com.apple.UNNotificationDismissActionIdentifier";
 
         private readonly INotificationsPermissionsService _permissionsService;
@@ -45,11 +48,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             _isInitialized = true;
 
             UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate(this, showForegroundNotificationsInSystem);
-
-            if (_notificationCategoriesProvider != null)
-            {
-                UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(_notificationCategoriesProvider.NotificationCategories.ToArray()));
-            }
+            UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(_notificationCategoriesProvider.NotificationCategories.ToArray()));
         }
 
         public override void RegisterForPushNotifications()
@@ -81,14 +80,9 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             base.OnRegisteredForPushNotifications(SimplifyToken(token));
         }
 
-        public override void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput)
+        protected override void OnMessageCustomActionInvokedInternal(PushNotificationModel parsedNotification, string actionId, string textInput)
         {
-            if (_notificationCategoriesProvider != null)
-            {
-                var parsedNotification = PushNotificationParser.Parse(pushNotification);
-
-                _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionId, textInput);
-            }
+            _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionId, textInput);
         }
 
         protected override Task<bool> UnregisterFromPushTokenInSystem()
