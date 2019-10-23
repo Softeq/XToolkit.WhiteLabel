@@ -8,14 +8,14 @@ using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
 
-namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
+namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 {
-    public class DryIoCContainerBuilder : IContainerBuilder
+    public class DryIocContainerBuilder : IContainerBuilder
     {
         private readonly List<Action<IContainer>> _buildActions;
         private DryIoc.IContainer _container;
 
-        public DryIoCContainerBuilder()
+        public DryIocContainerBuilder()
         {
             _container = new Container(rules => rules.WithoutFastExpressionCompiler());
             _buildActions = new List<Action<IContainer>>();
@@ -69,12 +69,12 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 
         public IContainer Build()
         {
-            Singleton<DryIoCContainer, IContainer>();
+            Singleton<DryIocContainer, IContainer>();
 
             var container = _container.Resolve<IContainer>();
             _container = _container.WithNoMoreRegistrationAllowed();
 
-            ((DryIoCContainer) container).Initialize(_container);
+            ((DryIocContainer) container).Initialize(_container);
 
             _buildActions.Apply(action => action?.Invoke(container));
             _buildActions.Clear();
@@ -118,51 +118,6 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
                 default:
                     throw new ArgumentOutOfRangeException(nameof(ifRegistered), ifRegistered, null);
             }
-        }
-    }
-
-    public enum IfRegistered
-    {
-        /// <summary>
-        ///     Keeps old default or keyed registration ignoring new registration: ensures Register-Once semantics.
-        /// </summary>
-        Keep,
-
-        /// <summary>
-        ///     Replaces old registration with new one.
-        /// </summary>
-        Replace,
-
-        /// <summary>
-        ///     Adds the new implementation or null (Made.Of),
-        ///     otherwise keeps the previous registration of the same implementation type.
-        /// </summary>
-        AppendNewImplementation
-    }
-
-    internal class DryIoCContainer : IContainer
-    {
-        private DryIoc.IContainer _container;
-
-        public IContainer Initialize(DryIoc.IContainer container)
-        {
-            _container = container;
-            return this;
-        }
-
-        public T Resolve<T>()
-        {
-            return _container.Resolve<T>();
-        }
-
-        public object Resolve(Type type)
-        {
-            return _container.Resolve(type);
-        }
-
-        public Lazy<T> ResolveLazy<T>()
-        {
-            return new Lazy<T>(() => _container.Resolve<T>());
         }
     }
 }

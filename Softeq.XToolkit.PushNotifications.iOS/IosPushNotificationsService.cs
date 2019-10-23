@@ -80,7 +80,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         private string SimplifyToken(string token)
         {
-            return string.IsNullOrWhiteSpace(token) ? token : token.Trim('<').Trim('>').Replace(" ", string.Empty);
+            return string.IsNullOrWhiteSpace(token) ? token : token.Replace("-", string.Empty);
         }
     }
 }
