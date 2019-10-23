@@ -84,7 +84,10 @@ namespace Playground.iOS.Styles
                     var animationDuration = TransitionDuration(transitionContext);
 
                     var animation = (CASpringAnimation) CASpringAnimation.FromKeyPath("position.y");
-                    animation.Damping = 2;
+                    animation.Damping = 10;
+                    animation.InitialVelocity = 20;
+                    animation.Mass = 1;
+                    animation.Stiffness = 100;
                     animation.From = FromObject(containerView.Bounds.Height);
                     animation.To = FromObject(UIScreen.MainScreen.Bounds.Height / 2);
                     animation.Duration = TransitionDuration(transitionContext);
@@ -100,7 +103,7 @@ namespace Playground.iOS.Styles
 
                 public override double TransitionDuration(IUIViewControllerContextTransitioning transitionContext)
                 {
-                    return 8;
+                    return 1;
                 }
             }
 
