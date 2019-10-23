@@ -286,6 +286,10 @@
     <Compile Include="Styles\FormSheetPresentationStyle.cs" />
     <Compile Include="Styles\DickPresentationStyle.cs" />
     <Compile Include="Views\SimpleTableViewCell.cs" />
+    <Compile Include="Styles\BlurOverScreenStyle.cs" />
+    <Compile Include="Styles\FullScreenPresentationStyle.cs" />
+    <Compile Include="Styles\OverFullScreenPresentationStyle.cs" />
+    <Compile Include="Styles\PageSheetPresentationStyle.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

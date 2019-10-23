@@ -13,7 +13,11 @@ namespace Playground.ViewModels.Dialogs
             StyleIds = new ObservableRangeCollection<string>
             {
                 "DickPresentationStyle",
-                "FormSheetPresentationStyle"
+                "FormSheetPresentationStyle",
+                "BlurOverScreenPresentationStyle",
+                "FullScreenPresentationStyle",
+                "OverFullScreenPresentationStyle",
+                "PageSheetPresentationStyle"
             };
 
             SelectItemCommand = new RelayCommand<string>(SelectItem);
