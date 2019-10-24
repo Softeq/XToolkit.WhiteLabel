@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             _notificationCategoriesProvider = notificationCategoriesProvider;
         }
 
-        public override void Initialize(bool showForegroundNotificationsInSystem)
+        public override void Initialize(ForegroundNotificationOptions showForegroundNotificationsInSystemOptions)
         {
             if (_isInitialized)
             {
@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
             _isInitialized = true;
 
-            UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate(this, showForegroundNotificationsInSystem);
+            UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate(this, showForegroundNotificationsInSystemOptions);
             UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(_notificationCategoriesProvider.NotificationCategories.ToArray()));
         }
 
@@ -78,6 +78,11 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         public override void OnRegisteredForPushNotifications(string token)
         {
             base.OnRegisteredForPushNotifications(SimplifyToken(token));
+        }
+
+        protected override void SetBadgeNumberInternal(int badgeNumber)
+        {
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = badgeNumber;
         }
 
         protected override void OnMessageCustomActionInvokedInternal(PushNotificationModel parsedNotification, string actionId, string textInput)

@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.PushNotifications
             Logger = logManager.GetLogger<PushNotificationsServiceBase>();
         }
 
-        public abstract void Initialize(bool showForegroundNotificationsInSystem);
+        public abstract void Initialize(ForegroundNotificationOptions showForegroundNotificationsInSystemOptions);
 
         public abstract void ClearAllNotifications();
 
@@ -120,6 +120,13 @@ namespace Softeq.XToolkit.PushNotifications
                 OnMessageCustomActionInvokedInternal(parsedNotification, actionId, textInput);
             }
         }
+
+        public void SetBadgeNumber(int badgeNumber)
+        {
+            SetBadgeNumberInternal(badgeNumber <= 0 ? 0 : badgeNumber);
+        }
+
+        protected abstract void SetBadgeNumberInternal(int badgeNumber);
 
         protected abstract Task<bool> UnregisterFromPushTokenInSystem();
 

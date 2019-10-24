@@ -14,12 +14,11 @@ namespace Softeq.XToolkit.PushNotifications
         ///     On iOS call this method before your app finishes launching (in WillFinishLaunching or FinishedLaunching of AppDelegate).
         ///     On Android call this method in OnCreate of Application
         /// </summary>
-        /// <param name="showForegroundNotificationsInSystem">
-        ///     If true, notifications received in foreground will be shown in system as well as all other notifications.
-        ///     Note: On Android this parameter applies only if push notification contains 'notification' part, if it only contains 'data'
-        ///     part notifications will always be shown in system
+        /// <param name="showForegroundNotificationsInSystemOptions">
+        ///     If Show or ShowWithBadge, notifications received in foreground will be shown in system as well as all other notifications.
+        ///     If ShowWithBadge, on iOS: badge value from the notification will be applied; on Android: no effect for now (= Show)
         /// </param>
-        void Initialize(bool showForegroundNotificationsInSystem);
+        void Initialize(ForegroundNotificationOptions showForegroundNotificationsInSystemOptions);
 
         #endregion
 
@@ -29,6 +28,17 @@ namespace Softeq.XToolkit.PushNotifications
         ///     Clears all notifications from notifications center
         /// </summary>
         void ClearAllNotifications();
+
+        #endregion
+
+        #region Changing badge number
+
+        /// <summary>
+        /// Set specific value for the app Badge number manually. Negative or zero value will remove the badge
+        /// NOTE: not implemented on Android for now
+        /// </summary>
+        /// <param name="badgeNumber">Number to be displayed on the Badge</param>
+        void SetBadgeNumber(int badgeNumber);
 
         #endregion
 
