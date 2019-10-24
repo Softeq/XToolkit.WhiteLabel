@@ -32,6 +32,7 @@ namespace Softeq.XToolkit.Common.Extensions
 
         /// <summary>
         ///     Returns a task that completes as the original task completes or when a timeout expires, whichever happens first.
+        ///     For logging exceptions of <paramref name="task"/> use <see cref="WithLoggingErrors"/> method before calling this.
         /// </summary>
         /// <param name="task">The task to wait for.</param>
         /// <param name="timeout">The maximum time to wait.</param>
@@ -40,6 +41,15 @@ namespace Softeq.XToolkit.Common.Extensions
         ///     A task that completes with the result of the specified <paramref name="task"/> or
         ///     faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
         /// </returns>
+        /// <example>
+        ///     If you need timeout with cancellation, use the better approach with <see cref="CancellationToken"/>:
+        /// <code>
+        ///     using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
+        ///     {
+        ///         result = await tc.WithCancellation(cts.Token);
+        ///     }
+        /// </code>
+        /// </example>
         public static async Task WithTimeoutAsync(this Task task, TimeSpan timeout)
         {
             // Details:
@@ -70,6 +80,7 @@ namespace Softeq.XToolkit.Common.Extensions
 
         /// <summary>
         ///     Returns a task that completes as the original task completes or when a timeout expires, whichever happens first.
+        ///     For logging exceptions of <paramref name="task"/> use <see cref="WithLoggingErrors{T}"/> method before calling this.
         /// </summary>
         /// <typeparam name="T">The type of value returned by the original task.</typeparam>
         /// <param name="task">The task to wait for.</param>
@@ -91,7 +102,58 @@ namespace Softeq.XToolkit.Common.Extensions
         public static async Task<T> WithTimeoutAsync<T>(this Task<T> task, TimeSpan timeout)
         {
             await WithTimeoutAsync((Task) task, timeout).ConfigureAwait(false);
-            return task.GetAwaiter().GetResult();
+            return await task.ConfigureAwait(false);
+        }
+
+        /// <summary>
+        ///     Attaches the <paramref name="logger"/> to the <paramref name="task"/> for logging exceptions.
+        /// </summary>
+        /// <param name="task">The task to wait for.</param>
+        /// <param name="logger">Logger implementation.</param>
+        /// <returns>
+        ///     A task that completes with the result of the specified <paramref name="task"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="logger"/> is null.</exception>
+        public static Task WithLoggingErrors(this Task task, ILogger logger)
+        {
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
+            task.ContinueWith(
+                notSuccessfullyCompletedTask =>
+                {
+                    if (notSuccessfullyCompletedTask.IsCanceled && notSuccessfullyCompletedTask.Exception == null)
+                    {
+                        LogException(new TaskCanceledException(notSuccessfullyCompletedTask), logger);
+                    }
+                    else
+                    {
+                        LogException(notSuccessfullyCompletedTask.Exception, logger);
+                    }
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.NotOnRanToCompletion,
+                TaskScheduler.Default);
+
+            return task;
+        }
+
+        /// <summary>
+        ///     Attaches the <paramref name="logger"/> to the <paramref name="task"/> for logging exceptions.
+        /// </summary>
+        /// <typeparam name="T">The type of value returned by the original task.</typeparam>
+        /// <param name="task">The task to wait for.</param>
+        /// <param name="logger">Logger implementation.</param>
+        /// <returns>
+        ///     A task that completes with the result of the specified <paramref name="task"/>.
+        /// </returns>
+        /// <exception cref="ArgumentNullException">When <paramref name="logger"/> is null.</exception>
+        public static Task<T> WithLoggingErrors<T>(this Task<T> task, ILogger logger)
+        {
+            WithLoggingErrors((Task) task, logger);
+            return task;
         }
 
         /// <summary>

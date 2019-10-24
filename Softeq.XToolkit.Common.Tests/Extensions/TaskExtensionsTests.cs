@@ -110,6 +110,153 @@ namespace Softeq.XToolkit.Common.Tests.Extensions
             Assert.Same(tcs.Task.Exception.InnerException, timeoutTask.Exception.InnerException);
         }
 
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task WithTimeout_TimesOutWithInternalThrows(bool generic)
+        {
+            var tcs = new TaskCompletionSource<object>();
+
+            var timeoutTask = generic
+                ? tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
+                : ((Task) tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
+
+            Assert.False(timeoutTask.IsCompleted);
+
+            await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
+
+            tcs.SetException(new ApplicationException());
+
+            Assert.Throws<ApplicationException>(() => tcs.Task.GetAwaiter().GetResult());
+            Assert.True(tcs.Task.IsFaulted);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task WithTimeout_TimesOutWithInternalCancel(bool generic)
+        {
+            var tcs = new TaskCompletionSource<object>();
+
+            var timeoutTask = generic
+                ? tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
+                : ((Task) tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
+
+            Assert.False(timeoutTask.IsCompleted);
+
+            await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
+
+            tcs.SetCanceled();
+
+            Assert.Throws<TaskCanceledException>(() => tcs.Task.GetAwaiter().GetResult());
+            Assert.True(tcs.Task.IsCanceled);
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task WithTimeout_TimesOutWithInternalThrowsLog(bool generic)
+        {
+            var logger = Substitute.For<ILogger>();
+            var tcs = new TaskCompletionSource<object>();
+
+            var timeoutTask = generic
+                ? tcs.Task
+                    .WithLoggingErrors(logger)
+                    .WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
+                : ((Task) tcs.Task)
+                    .WithLoggingErrors(logger)
+                    .WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
+
+            Assert.False(timeoutTask.IsCompleted);
+
+            await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
+
+            tcs.SetException(new ApplicationException());
+
+            await Task.Delay(1);
+
+            logger.Received().Error(Arg.Any<Exception>());
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public void LogWrapper_NullLogger(bool generic)
+        {
+            var tcs = new TaskCompletionSource<object>();
+
+            Assert.Throws<ArgumentNullException>(() =>
+            {
+                var _ = generic
+                    ? tcs.Task.WithLoggingErrors<object>(null)
+                    : tcs.Task.WithLoggingErrors(null);
+            });
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task LogWrapper_Executes(bool generic)
+        {
+            var logger = Substitute.For<ILogger>();
+            var tcs = new TaskCompletionSource<object>();
+
+            tcs.SetResult(null);
+
+            var wrappedTask = generic
+                ? tcs.Task.WithLoggingErrors<object>(logger)
+                : tcs.Task.WithLoggingErrors(logger);
+
+            await wrappedTask;
+
+            await Task.Delay(1);
+
+            logger.DidNotReceiveWithAnyArgs().Error(Arg.Any<Exception>());
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task LogWrapper_Throws(bool generic)
+        {
+            var logger = Substitute.For<ILogger>();
+            var tcs = new TaskCompletionSource<object>();
+
+            tcs.SetException(new ApplicationException());
+
+            var wrappedTask = generic
+                ? tcs.Task.WithLoggingErrors<object>(logger)
+                : tcs.Task.WithLoggingErrors(logger);
+
+            await Assert.ThrowsAsync<ApplicationException>(() => wrappedTask);
+
+            await Task.Delay(1);
+
+            logger.Received().Error(Arg.Any<Exception>());
+        }
+
+        [Theory]
+        [InlineData(false)]
+        [InlineData(true)]
+        public async Task LogWrapper_Cancels(bool generic)
+        {
+            var logger = Substitute.For<ILogger>();
+            var tcs = new TaskCompletionSource<object>();
+
+            tcs.SetCanceled();
+
+            var wrappedTask = generic
+                ? tcs.Task.WithLoggingErrors<object>(logger)
+                : tcs.Task.WithLoggingErrors(logger);
+
+            await Assert.ThrowsAsync<TaskCanceledException>(() => wrappedTask);
+
+            await Task.Delay(1);
+
+            logger.Received().Error(Arg.Any<Exception>());
+        }
+
         [Fact]
         public async Task FireAndForget_Executes()
         {
