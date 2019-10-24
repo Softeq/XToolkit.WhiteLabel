@@ -115,8 +115,10 @@ namespace Softeq.XToolkit.PushNotifications
 
         public void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput)
         {
-            var parsedNotification = PushNotificationParser.Parse(pushNotification);
-            OnMessageCustomActionInvokedInternal(parsedNotification, actionId, textInput);
+            if (TryParsePushNotification(pushNotification, out var parsedNotification))
+            {
+                OnMessageCustomActionInvokedInternal(parsedNotification, actionId, textInput);
+            }
         }
 
         protected abstract Task<bool> UnregisterFromPushTokenInSystem();
