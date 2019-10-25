@@ -144,7 +144,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         private void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification, bool inForeground)
         {
-            if (_showForegroundNotificationsInSystemOptions.DoShow() || !inForeground)
+            if (_showForegroundNotificationsInSystemOptions.ShouldShow() || !inForeground)
             {
                 var notificationData = (pushNotification as RemoteMessage)?.Data;
                 NotificationsHelper.CreateNotification(_appContext, parsedPushNotification, notificationData, _notificationsSettings);

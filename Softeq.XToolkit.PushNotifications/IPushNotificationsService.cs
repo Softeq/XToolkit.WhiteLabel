@@ -15,8 +15,10 @@ namespace Softeq.XToolkit.PushNotifications
         ///     On Android call this method in OnCreate of Application
         /// </summary>
         /// <param name="showForegroundNotificationsInSystemOptions">
-        ///     If Show or ShowWithBadge, notifications received in foreground will be shown in system as well as all other notifications.
-        ///     If ShowWithBadge, on iOS: badge value from the notification will be applied; on Android: no effect for now (= Show)
+        ///     If <see cref="ForegroundNotificationOptions.Show"/> or <see cref="ForegroundNotificationOptions.ShowWithBadge"/>,
+        ///     notifications received in foreground will be shown in system as well as all other notifications.
+        ///     If <see cref="ForegroundNotificationOptions.ShowWithBadge"/>,
+        ///     on iOS: badge value from the notification will be applied; on Android: no effect for now (= Show)
         /// </param>
         void Initialize(ForegroundNotificationOptions showForegroundNotificationsInSystemOptions);
 

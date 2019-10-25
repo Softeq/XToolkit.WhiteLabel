@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
     {
         public IList<UNNotificationCategory> NotificationCategories { get; } = new List<UNNotificationCategory>();
 
-        protected Dictionary<string, IList<UNNotificationAction>> _actionsForCategories = new Dictionary<string, IList<UNNotificationAction>>();
+        protected readonly Dictionary<string, IList<UNNotificationAction>> _actionsForCategories = new Dictionary<string, IList<UNNotificationAction>>();
 
         public virtual void HandlePushNotificationCustomAction(PushNotificationModel pushNotification, string actionId, string textInput) { }
 
@@ -56,8 +56,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// <param name="options">Additional options for handling notifications of this type</param>
         protected void AddCategory(string categoryId, string[] intentIdentifiers, UNNotificationCategoryOptions options)
         {
-            IList<UNNotificationAction> actions;
-            _actionsForCategories.TryGetValue(categoryId, out actions);
+            _actionsForCategories.TryGetValue(categoryId, out var actions);
 
             var messageCategory = UNNotificationCategory.FromIdentifier(categoryId,
                 actions?.ToArray() ?? new UNNotificationAction[] { }, intentIdentifiers, options);
@@ -77,8 +76,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         protected void AddCategory(string categoryId, string[] intentIdentifiers, string hiddenPreviewsBodyPlaceholder,
             UNNotificationCategoryOptions options)
         {
-            IList<UNNotificationAction> actions;
-            _actionsForCategories.TryGetValue(categoryId, out actions);
+            _actionsForCategories.TryGetValue(categoryId, out var actions);
 
             var messageCategory = UNNotificationCategory.FromIdentifier(categoryId,
                 actions?.ToArray() ?? new UNNotificationAction[] { }, intentIdentifiers, hiddenPreviewsBodyPlaceholder, options);
@@ -102,8 +100,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         protected void AddCategory(string categoryId, string[] intentIdentifiers, string hiddenPreviewsBodyPlaceholder,
             string categorySummaryFormat, UNNotificationCategoryOptions options)
         {
-            IList<UNNotificationAction> actions;
-            _actionsForCategories.TryGetValue(categoryId, out actions);
+            _actionsForCategories.TryGetValue(categoryId, out var actions);
 
             UNNotificationCategory messageCategory;
 

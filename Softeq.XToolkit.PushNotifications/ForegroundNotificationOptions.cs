@@ -25,7 +25,7 @@
         /// </summary>
         /// <param name="foregroundOptions">Value of current foreground options</param>
         /// <returns>True if notifications should be shown in foreground, False otherwise</returns>
-        public static bool DoShow(this ForegroundNotificationOptions foregroundOptions) =>
+        public static bool ShouldShow(this ForegroundNotificationOptions foregroundOptions) =>
             foregroundOptions == ForegroundNotificationOptions.Show
             || foregroundOptions == ForegroundNotificationOptions.ShowWithBadge;
     }
