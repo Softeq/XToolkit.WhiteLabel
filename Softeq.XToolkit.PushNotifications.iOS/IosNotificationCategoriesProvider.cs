@@ -88,7 +88,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// <summary>
         /// A method to create and save a Category that will be registered for your app with all the actions
         /// that were previously added for this Category Id and with hiddenPreviewsBodyPlaceholder and categorySummaryFormat.
-        /// CategorySummaryFormat is only supported since iOS 12. For iOS 11 category will be created ignoring this option.
+        /// NOTE: CategorySummaryFormat is only supported since iOS 12. For iOS 11 category will be created ignoring this option.
         /// See <see cref="UNNotificationCategory.FromIdentifier"/>
         /// </summary>
         /// <param name="categoryId">The unique identifier for the Category. Should not be empty</param>
@@ -122,8 +122,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
             NotificationCategories.Add(messageCategory);
         }
-
-        // TODO: might want to add other constructors for category (with hiddenPreviewsBodyPlaceholder and categorySummaryFormat(12+))
 
         private void SaveAction(string categoryId, UNNotificationAction action)
         {
