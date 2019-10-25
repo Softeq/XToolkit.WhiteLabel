@@ -1,11 +1,13 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using CoreAnimation;
 using CoreGraphics;
 using UIKit;
 
 namespace Playground.iOS.ViewControllers.Dialogs
 {
-    public class DickTransitioningDelegate : UIViewControllerTransitioningDelegate
+    public class CustomTransitioningDelegate : UIViewControllerTransitioningDelegate
     {
         public override UIPresentationController GetPresentationControllerForPresentedViewController
             (UIViewController presentedViewController,
