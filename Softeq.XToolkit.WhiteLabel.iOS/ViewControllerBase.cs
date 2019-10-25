@@ -72,13 +72,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             base.ViewDidDisappear(animated);
 
-            if (ViewModel is DialogViewModelBase dialogViewModel)
-            {
-                if (IsBeingDismissed || IsMovingFromParentViewController)
-                {
-                    dialogViewModel.DialogComponent.CloseCommand.Execute(null);
-                }
-            }
+            CloseDialogIfNeeded();
         }
 
         protected virtual void DoAttachBindings()
@@ -103,6 +97,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         private void InitViewController()
         {
             ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
+        }
+
+        private void CloseDialogIfNeeded()
+        {
+            if (ViewModel is DialogViewModelBase dialogViewModel)
+            {
+                if (IsBeingDismissed || IsMovingFromParentViewController)
+                {
+                    dialogViewModel.DialogComponent.CloseCommand.Execute(null);
+                }
+            }
         }
     }
 }

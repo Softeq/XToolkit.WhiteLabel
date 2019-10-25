@@ -88,7 +88,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
             IEnumerable<NavigationParameterModel> parameters = null)
-           where TViewModel : IDialogViewModel
+            where TViewModel : IDialogViewModel
         {
             try
             {
@@ -105,7 +105,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel> parameters = null)
-           where TViewModel : IDialogViewModel
+            where TViewModel : IDialogViewModel
         {
             try
             {
