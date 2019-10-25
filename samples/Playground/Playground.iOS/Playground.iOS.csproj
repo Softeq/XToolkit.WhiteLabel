@@ -278,7 +278,7 @@
     <Compile Include="ViewControllers\Components\ConnectivityPageViewController.designer.cs">
       <DependentUpon>ConnectivityPageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewControllers\Dialogs\DickTransitioningDelegate.cs" />
+    <Compile Include="ViewControllers\Dialogs\CustomTransitioningDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

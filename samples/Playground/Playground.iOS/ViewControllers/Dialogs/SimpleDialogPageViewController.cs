@@ -24,7 +24,7 @@ namespace Playground.iOS.ViewControllers.Dialogs
 
             if(ModalPresentationStyle == UIModalPresentationStyle.Custom)
             {
-                TransitioningDelegate = new DickTransitioningDelegate();
+                TransitioningDelegate = new CustomTransitioningDelegate();
             }
         }
 
