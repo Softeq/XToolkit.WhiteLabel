@@ -11,18 +11,13 @@ namespace Playground.iOS.ViewControllers.Dialogs
 {
     public partial class SimpleDialogPageViewController : ViewControllerBase<SimpleDialogPageViewModel>
     {
-        private readonly static Random _rand;
-
-        static SimpleDialogPageViewController()
-        {
-            _rand = new Random();
-        }
+        private static readonly Random _rand = new Random();
 
         public SimpleDialogPageViewController(IntPtr handle) : base(handle)
         {
             ModalPresentationStyle = (UIModalPresentationStyle) _rand.Next(1, 8);
 
-            if(ModalPresentationStyle == UIModalPresentationStyle.Custom)
+            if (ModalPresentationStyle == UIModalPresentationStyle.Custom)
             {
                 TransitioningDelegate = new CustomTransitioningDelegate();
             }

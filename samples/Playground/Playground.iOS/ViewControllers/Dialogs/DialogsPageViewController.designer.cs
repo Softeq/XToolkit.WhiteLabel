@@ -22,9 +22,6 @@ namespace Playground.iOS.ViewControllers.Dialogs
 		UIKit.UIButton OpenTwoDialogsButton { get; set; }
 
 		[Outlet]
-		UIKit.UIButton PresentationStyleButton { get; set; }
-
-		[Outlet]
 		UIKit.UIButton ShowAlertButton { get; set; }
 
 		[Outlet]
@@ -71,11 +68,6 @@ namespace Playground.iOS.ViewControllers.Dialogs
 			if (ShowDialogUntilResultLabel != null) {
 				ShowDialogUntilResultLabel.Dispose ();
 				ShowDialogUntilResultLabel = null;
-			}
-
-			if (PresentationStyleButton != null) {
-				PresentationStyleButton.Dispose ();
-				PresentationStyleButton = null;
 			}
 		}
 	}

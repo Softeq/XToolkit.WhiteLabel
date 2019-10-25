@@ -9,34 +9,35 @@ namespace Playground.iOS.ViewControllers.Dialogs
 {
     public class CustomTransitioningDelegate : UIViewControllerTransitioningDelegate
     {
-        public override UIPresentationController GetPresentationControllerForPresentedViewController
-            (UIViewController presentedViewController,
+        public override UIPresentationController GetPresentationControllerForPresentedViewController(
+            UIViewController presentedViewController,
             UIViewController presentingViewController,
             UIViewController sourceViewController)
         {
-            return new DickPresentationController(presentedViewController, presentingViewController);
+            return new CustomPresentationController(presentedViewController, presentingViewController);
         }
 
-        public override IUIViewControllerAnimatedTransitioning GetAnimationControllerForPresentedController
-            (UIViewController presented,
+        public override IUIViewControllerAnimatedTransitioning GetAnimationControllerForPresentedController(
+            UIViewController presented,
             UIViewController presenting,
             UIViewController source)
         {
-            return new DickPresentationAnimator();
+            return new CustomPresentationAnimator();
         }
 
-        public override IUIViewControllerAnimatedTransitioning GetAnimationControllerForDismissedController
-            (UIViewController dismissed)
+        public override IUIViewControllerAnimatedTransitioning GetAnimationControllerForDismissedController(
+            UIViewController dismissed)
         {
-            return new DickDismissAnimator();
+            return new CustomDismissAnimator();
         }
 
-        private class DickPresentationController : UIPresentationController
+        private class CustomPresentationController : UIPresentationController
         {
-            public DickPresentationController(UIViewController presentedViewController,
-                UIViewController presentingViewController) : base(presentedViewController, presentingViewController)
+            public CustomPresentationController(
+                UIViewController presentedViewController,
+                UIViewController presentingViewController)
+                : base(presentedViewController, presentingViewController)
             {
-
             }
 
             public override CGRect FrameOfPresentedViewInContainerView =>
@@ -68,7 +69,7 @@ namespace Playground.iOS.ViewControllers.Dialogs
             }
         }
 
-        private class DickPresentationAnimator : UIViewControllerAnimatedTransitioning
+        private class CustomPresentationAnimator : UIViewControllerAnimatedTransitioning
         {
             public override void AnimateTransition(IUIViewControllerContextTransitioning transitionContext)
             {
@@ -101,7 +102,7 @@ namespace Playground.iOS.ViewControllers.Dialogs
             }
         }
 
-        private class DickDismissAnimator : UIViewControllerAnimatedTransitioning
+        private class CustomDismissAnimator : UIViewControllerAnimatedTransitioning
         {
             public override void AnimateTransition(IUIViewControllerContextTransitioning transitionContext)
             {
@@ -124,4 +125,3 @@ namespace Playground.iOS.ViewControllers.Dialogs
         }
     }
 }
-

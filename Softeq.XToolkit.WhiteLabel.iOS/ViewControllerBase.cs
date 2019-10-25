@@ -66,10 +66,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             base.ViewWillDisappear(animated);
             DetachBindings();
             ViewModel.OnDisappearing();
+        }
 
-            if(ViewModel is DialogViewModelBase dialogViewModel)
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+
+            if (ViewModel is DialogViewModelBase dialogViewModel)
             {
-                if(IsBeingDismissed || IsMovingFromParentViewController)
+                if (IsBeingDismissed || IsMovingFromParentViewController)
                 {
                     dialogViewModel.DialogComponent.CloseCommand.Execute(null);
                 }
