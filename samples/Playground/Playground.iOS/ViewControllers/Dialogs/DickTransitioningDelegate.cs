@@ -3,9 +3,9 @@ using CoreAnimation;
 using CoreGraphics;
 using UIKit;
 
-namespace Playground.iOS.Styles
+namespace Playground.iOS.ViewControllers.Dialogs
 {
-    public class DickViewControllerTransitioningDelegate : UIViewControllerTransitioningDelegate
+    public class DickTransitioningDelegate : UIViewControllerTransitioningDelegate
     {
         public override UIPresentationController GetPresentationControllerForPresentedViewController
             (UIViewController presentedViewController,

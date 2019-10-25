@@ -170,6 +170,5 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             });
             return tcs.Task;
         }
-
     }
 }

@@ -278,8 +278,7 @@
     <Compile Include="ViewControllers\Components\ConnectivityPageViewController.designer.cs">
       <DependentUpon>ConnectivityPageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="Styles\DickPresentationStyle.cs" />
-    <Compile Include="Views\SimpleTableViewCell.cs" />
+    <Compile Include="ViewControllers\Dialogs\DickTransitioningDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

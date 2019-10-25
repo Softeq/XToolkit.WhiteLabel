@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using Playground.iOS.Styles;
 using Playground.ViewModels.Dialogs;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.iOS;
@@ -25,7 +24,7 @@ namespace Playground.iOS.ViewControllers.Dialogs
 
             if(ModalPresentationStyle == UIModalPresentationStyle.Custom)
             {
-                TransitioningDelegate = new DickViewControllerTransitioningDelegate();
+                TransitioningDelegate = new DickTransitioningDelegate();
             }
         }
 
