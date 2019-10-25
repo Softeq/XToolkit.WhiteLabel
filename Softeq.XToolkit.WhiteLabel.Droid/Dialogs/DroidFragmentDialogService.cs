@@ -39,21 +39,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);
@@ -64,7 +67,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         }
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel> parameters = null,
+            string presentationStyleId = null)
             where TViewModel : IDialogViewModel
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);
