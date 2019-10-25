@@ -23,7 +23,6 @@ namespace Playground.iOS.ViewControllers.Dialogs
             ShowDialogUntilDismissButton.SetCommand(ViewModel.OpenDialogUntilDismissCommand);
             ShowDialogUntilResultButton.SetCommand(ViewModel.OpenDialogUntilResultCommand);
             OpenTwoDialogsButton.SetCommand(ViewModel.OpenTwoDialogsCommand);
-            PresentationStyleButton.SetCommand(ViewModel.SelectPresentationStyleCommand);
         }
 
         protected override void DoAttachBindings()

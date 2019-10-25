@@ -96,9 +96,6 @@
     <Compile Include="Services\ViewControllerProvider.cs" />
     <Compile Include="ImagePicker\IosImagePickerService.cs" />
     <Compile Include="ImagePicker\IosImagePickerResult.cs" />
-    <Compile Include="Dialogs\PresentationArgsBase.cs" />
-    <Compile Include="Dialogs\PresentationStyleAttribute.cs" />
-    <Compile Include="Dialogs\IosPresentationStyleStorage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
@@ -128,9 +125,6 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="ViewControllers\FullScreenImageStoryboard.storyboard" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Dialogs\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

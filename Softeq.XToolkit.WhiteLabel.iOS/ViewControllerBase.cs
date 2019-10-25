@@ -29,10 +29,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     {
         protected ViewControllerBase()
         {
+            InitViewController();
         }
 
         protected internal ViewControllerBase(IntPtr handle) : base(handle)
         {
+            InitViewController();
         }
 
         public List<Binding> Bindings { get; } = new List<Binding>();
@@ -91,6 +93,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             BindableExtensions.DetachBindings(this);
             DoDetachBindings();
+        }
+
+        private void InitViewController()
+        {
+            ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
         }
     }
 }

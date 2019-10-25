@@ -60,7 +60,7 @@
                                 <rect key="frame" x="145" y="416" width="124" height="30"/>
                                 <state key="normal" title="Open Two Dialogs"/>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxo-96-8xh">
+                            <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Uxo-96-8xh">
                                 <rect key="frame" x="20" y="169" width="374" height="34"/>
                                 <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                                 <state key="normal" title="TAP TO SELECT PRESENTATION STYLE"/>

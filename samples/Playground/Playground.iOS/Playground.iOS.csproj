@@ -166,7 +166,6 @@
     <InterfaceDefinition Include="Views\MovieTableViewCell.xib" />
     <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Dialogs\SelectPresentationStyleStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -279,17 +278,8 @@
     <Compile Include="ViewControllers\Components\ConnectivityPageViewController.designer.cs">
       <DependentUpon>ConnectivityPageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewControllers\Dialogs\SelectPresentationStyleViewController.cs" />
-    <Compile Include="ViewControllers\Dialogs\SelectPresentationStyleViewController.designer.cs">
-      <DependentUpon>SelectPresentationStyleViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Styles\FormSheetPresentationStyle.cs" />
     <Compile Include="Styles\DickPresentationStyle.cs" />
     <Compile Include="Views\SimpleTableViewCell.cs" />
-    <Compile Include="Styles\BlurOverScreenStyle.cs" />
-    <Compile Include="Styles\FullScreenPresentationStyle.cs" />
-    <Compile Include="Styles\OverFullScreenPresentationStyle.cs" />
-    <Compile Include="Styles\PageSheetPresentationStyle.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
