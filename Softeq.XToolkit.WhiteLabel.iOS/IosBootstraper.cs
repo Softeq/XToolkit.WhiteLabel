@@ -12,8 +12,6 @@ using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
@@ -40,8 +38,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             builder.Singleton<StoryboardViewLocator>(IfRegistered.Keep);
             builder.Singleton<StoryboardNavigation, IPlatformNavigationService>(IfRegistered.Keep);
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
-            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
         }
 
         private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder,
@@ -51,16 +47,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
             foreach (var type in assemblies.SelectMany(x => x.GetTypes().View(typeof(UIViewController))))
             {
-                try
-                {
-                    var viewModelType = type.BaseType.GetGenericArguments()[0];
-                    viewModelToViewControllerTypes.Add(viewModelType, type);
+                var viewModelType = type.BaseType.GetGenericArguments()[0];
 
-                    builder.PerDependency(viewModelType, IfRegistered.Keep);
-                }
-                catch (Exception ex)
-                {
-                }
+                viewModelToViewControllerTypes.Add(viewModelType, type);
+
+                builder.PerDependency(viewModelType, IfRegistered.Keep);
             }
 
             return viewModelToViewControllerTypes;
