@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Timers
     public class Timer : ITimer, IDisposable
     {
         private readonly int _interval;
-        private TaskReference _taskReference;
+        private TaskReference? _taskReference;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Timers.Timer" /> class with specified interval.
@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.Common.Timers
             do
             {
                 await Task.Delay(_interval);
-                if (IsActive)
+                if (IsActive && _taskReference != null)
                 {
                     await _taskReference.RunAsync().ConfigureAwait(false);
                 }

@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.Common.Weak
 {
     public class WeakAction
     {
-        private Action _staticAction;
+        private Action? _staticAction;
 
         /// <summary>
         ///     Initializes an empty instance of the <see cref="WeakAction" /> class.
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Common.Weak
             "CA1062:Validate arguments of public methods",
             MessageId = "1",
             Justification = "Method should fail with an exception if action is null.")]
-        public WeakAction(object target, Action action)
+        public WeakAction(object? target, Action action)
         {
             if (action.GetMethodInfo().IsStatic)
             {
@@ -62,12 +62,12 @@ namespace Softeq.XToolkit.Common.Weak
         ///     Gets or sets the <see cref="MethodInfo" /> corresponding to this WeakAction's
         ///     method passed in the constructor.
         /// </summary>
-        protected MethodInfo Method { get; set; }
+        protected MethodInfo? Method { get; set; }
 
         /// <summary>
         ///     Gets the name of the method that this WeakAction represents.
         /// </summary>
-        public virtual string MethodName => _staticAction != null ? _staticAction.GetMethodInfo().Name : Method.Name;
+        public virtual string MethodName => _staticAction != null ? _staticAction.GetMethodInfo().Name : Method!.Name;
 
         /// <summary>
         ///     Gets or sets a WeakReference to this WeakAction's action's target.
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     <see cref="Reference" />, for example if the
         ///     method is anonymous.
         /// </summary>
-        protected WeakReference ActionReference { get; set; }
+        protected WeakReference? ActionReference { get; set; }
 
         /// <summary>
         ///     Gets or sets a WeakReference to the target passed when constructing
@@ -83,7 +83,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     <see cref="ActionReference" />, for example if the
         ///     method is anonymous.
         /// </summary>
-        protected WeakReference Reference { get; set; }
+        protected WeakReference? Reference { get; set; }
 
         /// <summary>
         ///     Gets a value indicating whether the WeakAction is static or not.
@@ -114,7 +114,7 @@ namespace Softeq.XToolkit.Common.Weak
                     return true;
                 }
 
-                return Reference.IsAlive;
+                return Reference!.IsAlive;
             }
         }
 
@@ -122,12 +122,12 @@ namespace Softeq.XToolkit.Common.Weak
         ///     Gets the Action's owner. This object is stored as a
         ///     <see cref="WeakReference" />.
         /// </summary>
-        public object Target => Reference?.Target;
+        public object? Target => Reference?.Target;
 
         /// <summary>
         ///     The target of the weak reference.
         /// </summary>
-        protected object ActionTarget => ActionReference?.Target;
+        protected object? ActionTarget => ActionReference?.Target;
 
         /// <summary>
         ///     Executes the action. This only happens if the action's owner
@@ -178,14 +178,14 @@ namespace Softeq.XToolkit.Common.Weak
     ////[ClassInfo(typeof(WeakAction))]
     public class WeakAction<T> : WeakAction, IExecuteWithObject
     {
-        private Action<T> _staticAction;
+        private Action<T>? _staticAction;
 
         /// <summary>
         ///     Initializes a new instance of the WeakAction class.
         /// </summary>
         /// <param name="action">The action that will be associated to this instance.</param>
         public WeakAction(Action<T> action)
-            : this(action?.Target, action)
+            : this(action.Target, action)
         {
         }
 
@@ -199,7 +199,7 @@ namespace Softeq.XToolkit.Common.Weak
             "CA1062:Validate arguments of public methods",
             MessageId = "1",
             Justification = "Method should fail with an exception if action is null.")]
-        public WeakAction(object target, Action<T> action)
+        public WeakAction(object? target, Action<T> action)
         {
             if (action.GetMethodInfo().IsStatic)
             {
@@ -223,7 +223,7 @@ namespace Softeq.XToolkit.Common.Weak
         /// <summary>
         ///     Gets the name of the method that this WeakAction represents.
         /// </summary>
-        public override string MethodName => _staticAction != null ? _staticAction.GetMethodInfo().Name : Method.Name;
+        public override string MethodName => _staticAction != null ? _staticAction.GetMethodInfo().Name : Method!.Name;
 
         /// <summary>
         ///     Gets a value indicating whether the Action's owner is still alive, or if it was collected
@@ -244,7 +244,7 @@ namespace Softeq.XToolkit.Common.Weak
                     return Reference == null || Reference.IsAlive;
                 }
 
-                return Reference.IsAlive;
+                return Reference!.IsAlive;
             }
         }
 
@@ -281,7 +281,7 @@ namespace Softeq.XToolkit.Common.Weak
         /// </summary>
         public new void Execute()
         {
-            Execute(default);
+            Execute(default!);
         }
 
         /// <summary>
@@ -307,7 +307,7 @@ namespace Softeq.XToolkit.Common.Weak
                 {
                     Method.Invoke(
                         actionTarget,
-                        new object[] { parameter });
+                        new object?[] { parameter });
                 }
             }
         }
@@ -323,7 +323,7 @@ namespace Softeq.XToolkit.Common.Weak
         /// <summary>
         ///     The target of the WeakAction.
         /// </summary>
-        object Target { get; }
+        object? Target { get; }
 
         /// <summary>
         ///     Executes an action.

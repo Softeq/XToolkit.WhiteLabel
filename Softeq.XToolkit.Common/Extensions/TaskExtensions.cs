@@ -27,17 +27,17 @@ namespace Softeq.XToolkit.Common.Extensions
                 return task.Result;
             }
 
-            return default;
+            return default!;
         }
 
-        public static Task<T> SafeTaskWrapper<T>(this Task<T> task, ILogger logger = null)
+        public static Task<T> SafeTaskWrapper<T>(this Task<T> task, ILogger? logger = null)
         {
             task.ContinueWith(t => { LogException(t, logger); }, CancellationToken.None,
                 TaskContinuationOptions.NotOnRanToCompletion, TaskScheduler.Default);
             return task;
         }
 
-        public static Task SafeTaskWrapper(this Task task, ILogger logger = null)
+        public static Task SafeTaskWrapper(this Task task, ILogger? logger = null)
         {
             //todo PL: implement default logger
             task.ContinueWith(t => { LogException(t, logger); }, CancellationToken.None,
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.Common.Extensions
             return task;
         }
 
-        private static void LogException(Task task, ILogger logger)
+        private static void LogException(Task task, ILogger? logger)
         {
             Exception exception = task.Exception;
             if (exception != null && logger != null)
