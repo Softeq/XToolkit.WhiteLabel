@@ -91,7 +91,7 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\RemoteApp\RemoteApp.csproj">
-        <Project>{9A92BEB4-283C-4480-A3E3-06F6B3F62D93}</Project>
+        <Project>{364598C2-6261-4CAC-B1E6-546F5498C3CB}</Project>
         <Name>RemoteApp</Name>
       </ProjectReference>
       <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
