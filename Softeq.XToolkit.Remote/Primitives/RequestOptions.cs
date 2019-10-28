@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Remote.Primitives
         /// <summary>
         ///     Default priority for requests. Matches fusillade policy.
         /// </summary>
-        public const Priority DefaultPriority = Priority.UserInitiated;
+        public const RequestPriority DefaultPriority = RequestPriority.UserInitiated;
 
         /// <summary>
         ///     Default RequestOptions object. If defined, it will be used when no options are specified.
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.Remote.Primitives
 
         public int Timeout { get; set; } = DefaultTimeout;
 
-        public Priority Priority { get; set; } = DefaultPriority;
+        public RequestPriority Priority { get; set; } = DefaultPriority;
 
         public Func<Exception, bool> ShouldRetry { get; set; } = DefaultShouldRetry;
 

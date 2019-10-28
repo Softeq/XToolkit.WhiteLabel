@@ -3,7 +3,7 @@
     /// <summary>
     /// This enumeration defines the default base priorities associated with the different HttpMessageHandler instances.
     /// </summary>
-    public enum Priority
+    public enum RequestPriority
     {
         /// <summary>
         /// A speculative priority where we aren't sure.

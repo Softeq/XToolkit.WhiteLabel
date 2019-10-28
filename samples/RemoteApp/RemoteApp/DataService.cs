@@ -50,7 +50,7 @@ namespace RemoteApp
                     (service, ct) => service.GetAllPhotosAsync(ct),
                     new RequestOptions
                     {
-                        Priority = Priority.UserInitiated,
+                        Priority = RequestPriority.UserInitiated,
                         RetryCount = 2,
                         Timeout = 2,
                         CancellationToken = cancellationToken

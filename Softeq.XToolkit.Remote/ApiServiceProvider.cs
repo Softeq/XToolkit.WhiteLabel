@@ -1,68 +1,59 @@
 ﻿using System;
-using System.ComponentModel;
-using System.Net.Http;
-using Fusillade;
-using Refit;
 using Softeq.XToolkit.Remote.Client;
-using InternalPriority = Softeq.XToolkit.Remote.Primitives.Priority;
+using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote
 {
     public interface IApiServiceProvider<out TApiService>
     {
-        TApiService GetByPriority(InternalPriority priority);
+        TApiService Get();
+
+        TApiService GetByPriority(RequestPriority requestPriority);
     }
 
     public class ApiServiceProvider<TApiService> : IApiServiceProvider<TApiService>
     {
+        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IApiServiceFactory _apiServiceFactory;
+
         private readonly Lazy<TApiService> _userInitiated;
         private readonly Lazy<TApiService> _background;
         private readonly Lazy<TApiService> _speculative;
 
-        public ApiServiceProvider(IHttpClientBuilder httpClientBuilder)
+        public ApiServiceProvider(
+            IHttpClientFactory httpClientFactory,
+            IApiServiceFactory apiServiceFactory)
         {
-            _userInitiated = new Lazy<TApiService>(() => CreateService(httpClientBuilder, Priority.UserInitiated));
-            _background = new Lazy<TApiService>(() => CreateService(httpClientBuilder, Priority.Background));
-            _speculative = new Lazy<TApiService>(() => CreateService(httpClientBuilder, Priority.Speculative));
+            _httpClientFactory = httpClientFactory;
+            _apiServiceFactory = apiServiceFactory;
+
+            _userInitiated = new Lazy<TApiService>(() => CreateService(RequestPriority.UserInitiated));
+            _background = new Lazy<TApiService>(() => CreateService(RequestPriority.Background));
+            _speculative = new Lazy<TApiService>(() => CreateService(RequestPriority.Speculative));
         }
 
-        public TApiService GetByPriority(InternalPriority priority)
+        public TApiService Get()
         {
-            switch (priority)
+            return _speculative.Value;
+        }
+
+        public TApiService GetByPriority(RequestPriority requestPriority)
+        {
+            switch (requestPriority)
             {
-                case InternalPriority.UserInitiated:
+                case RequestPriority.UserInitiated:
                     return _userInitiated.Value;
-                case InternalPriority.Background:
+                case RequestPriority.Background:
                     return _background.Value;
                 default:
                     return _speculative.Value;
             }
         }
 
-        protected virtual TApiService CreateService(IHttpClientBuilder httpClientBuilder, Priority priority)
+        protected virtual TApiService CreateService(RequestPriority requestPriority)
         {
-            var httpClient = httpClientBuilder
-                    .WithCustomHandler(innerHandler => GetHandlerByPriority(innerHandler, priority))
-                    .Build();
-
-            return RestService.For<TApiService>(httpClient);
-        }
-
-        protected virtual HttpMessageHandler GetHandlerByPriority(HttpMessageHandler innerHandler, Priority priority)
-        {
-            // Based on Fusillade default handlers:
-            // https://github.com/reactiveui/Fusillade/blob/master/src/Fusillade/NetCache.cs#L47-L50
-            switch (priority)
-            {
-                case Priority.Speculative:
-                    const int maxBytesToRead = 1048576 * 5;
-                    return new RateLimitedHttpMessageHandler(innerHandler, Priority.Speculative, 0, maxBytesToRead);
-                case Priority.UserInitiated:
-                case Priority.Background:
-                    return new RateLimitedHttpMessageHandler(innerHandler, priority);
-                default:
-                    throw new InvalidEnumArgumentException(nameof(priority), (int) priority, typeof(Priority));
-            }
+            var httpClient = _httpClientFactory.CreateWithPriority(requestPriority);
+            return _apiServiceFactory.Create<TApiService>(httpClient);
         }
     }
 }

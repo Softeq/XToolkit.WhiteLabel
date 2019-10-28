@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Remote
             int timeout)
         {
             var retryPolicy = Policy.Handle<Exception>(e => shouldRetry?.Invoke(e) ?? true)
-                                    .RetryAsync(retryCount);
+                                    .WaitAndRetryAsync(retryCount, RetryAttempt);
             var timeoutPolicy = Policy.TimeoutAsync(timeout, TimeoutStrategy.Pessimistic);
 
             return Policy.WrapAsync(retryPolicy, timeoutPolicy);
