@@ -13,9 +13,6 @@ namespace Playground.iOS.ViewControllers.Collections
 	partial class GroupedCollectionPageViewController
 	{
 		[Outlet]
-		UIKit.UIActivityIndicatorView ActivityIndicatorView { get; set; }
-
-		[Outlet]
 		UIKit.UIButton AddButton { get; set; }
 
 		[Outlet]
@@ -26,11 +23,6 @@ namespace Playground.iOS.ViewControllers.Collections
 		
 		void ReleaseDesignerOutlets ()
 		{
-			if (ActivityIndicatorView != null) {
-				ActivityIndicatorView.Dispose ();
-				ActivityIndicatorView = null;
-			}
-
 			if (CollectionView != null) {
 				CollectionView.Dispose ();
 				CollectionView = null;
