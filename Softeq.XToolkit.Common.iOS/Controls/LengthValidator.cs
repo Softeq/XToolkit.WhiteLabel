@@ -49,14 +49,14 @@ namespace Softeq.XToolkit.Common.iOS.Controls
 
                 if (_textField is UITextField)
                 {
-                    var castedField = _textField as UITextField;
+                    var castedField = (UITextField) _textField;
                     castedField.Text = newText;
                     var fieldCursorPosition = castedField.GetPosition(castedField.BeginningOfDocument, cursorPosition);
                     castedField.SelectedTextRange = castedField.GetTextRange(fieldCursorPosition, fieldCursorPosition);
                 }
                 else if (_textField is UITextView)
                 {
-                    var castedView = _textField as UITextView;
+                    var castedView = (UITextView) _textField;
                     castedView.Text = newText;
                     castedView.SelectedRange = new NSRange(cursorPosition, 0);
                 }

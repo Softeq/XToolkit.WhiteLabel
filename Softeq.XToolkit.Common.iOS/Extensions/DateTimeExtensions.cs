@@ -10,8 +10,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
     {
         public static DateTime NSDateToDateTime(this NSDate date)
         {
-            var reference = TimeZone.CurrentTimeZone.ToLocalTime(
-                new DateTime(2001, 1, 1, 0, 0, 0));
+            var reference = TimeZoneInfo.ConvertTimeFromUtc(new DateTime(2001, 1, 1, 0, 0, 0), TimeZoneInfo.Local);
             return reference.AddSeconds(date.SecondsSinceReferenceDate);
         }
 
