@@ -2,7 +2,7 @@
 
 namespace RemoteApp.Services.Auth.Dtos
 {
-    public class TokenResponse : ResponseBase
+    public class TokenResponse
     {
         [JsonProperty("access_token")]
         public string AccessToken { get; set; }

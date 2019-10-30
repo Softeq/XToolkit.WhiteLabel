@@ -5,7 +5,7 @@ using RemoteApp.Services.Auth.Dtos;
 
 namespace RemoteApp.Services.Auth
 {
-    public interface ISofteqAuthApiService
+    public interface IAuthApiService
     {
         [Post("/connect/token")]
         Task<TokenResponse> Login(

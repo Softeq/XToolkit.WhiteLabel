@@ -37,7 +37,9 @@ namespace Softeq.XToolkit.Remote
 
             var executor = _executorFactory.Create(options.RetryCount, options.ShouldRetry, options.Timeout);
 
-            await executor.ExecuteAsync(ct => operation(apiService, ct), options.CancellationToken);
+            await executor
+                .ExecuteAsync(ct => operation(apiService, ct), options.CancellationToken)
+                .ConfigureAwait(false);
         }
 
         public async Task<TResult> Execute<TResult>(
@@ -50,7 +52,9 @@ namespace Softeq.XToolkit.Remote
 
             var executor = _executorFactory.Create<TResult>(options.RetryCount, options.ShouldRetry, options.Timeout);
 
-            return await executor.ExecuteAsync(ct => operation(apiService, ct), options.CancellationToken);
+            return await executor
+                .ExecuteAsync(ct => operation(apiService, ct), options.CancellationToken)
+                .ConfigureAwait(false);
         }
     }
 }
