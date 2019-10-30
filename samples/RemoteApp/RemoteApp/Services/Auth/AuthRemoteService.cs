@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Refit;
 using RemoteApp.Services.Auth.Dtos;
@@ -9,7 +10,14 @@ using Softeq.XToolkit.Remote.Primitives;
 
 namespace RemoteApp.Services.Auth
 {
-    public class AuthRemoteService
+    public interface IAuthRemoteService
+    {
+        Task<TokenResult> LoginAsync(string login, string password, CancellationToken cancellationToken);
+
+        Task<TokenResult> RefreshTokenAsync(string refreshToken, CancellationToken cancellationToken);
+    }
+
+    public class AuthRemoteService : IAuthRemoteService
     {
         private readonly IRemoteService<IAuthApiService> _remoteService;
         private readonly AuthConfig _config;
@@ -44,24 +52,18 @@ namespace RemoteApp.Services.Auth
                         CancellationToken = cancellationToken
                     });
 
-            try
-            {
-                var response = await requestTask.ConfigureAwait(false);
+            var result = await ExecuteWithMapExceptions(requestTask).ConfigureAwait(false);
 
-                return new TokenResult
-                {
-                    AccessToken = response.AccessToken,
-                    RefreshToken = response.RefreshToken
-                };
-            }
-            catch (ApiException ex)
-            {
-                throw await Mapper.MapAsync(ex).ConfigureAwait(false);
-            }
+            return Mapper.Map(result);
         }
 
-        public async Task RefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
+        public async Task<TokenResult> RefreshTokenAsync(string refreshToken, CancellationToken cancellationToken)
         {
+            if (string.IsNullOrEmpty(refreshToken))
+            {
+                throw new ArgumentNullException(nameof(refreshToken));
+            }
+
             var request = new RefreshTokenRequest
             {
                 RefreshToken = refreshToken,
@@ -69,9 +71,33 @@ namespace RemoteApp.Services.Auth
                 ClientSecret = _config.ClientSecret
             };
 
-            var response = await _remoteService
-                .Execute((service, ct) => service.RefreshToken(request, ct))
-                .ConfigureAwait(false);
+            var requestTask = _remoteService
+                .Execute(
+                    (service, ct) => service.RefreshToken(request, ct),
+                    new RequestOptions
+                    {
+                        Priority = RequestPriority.UserInitiated,
+                        RetryCount = 3,
+                        ShouldRetry = ex => !(ex is ApiException),
+                        Timeout = 2,
+                        CancellationToken = cancellationToken
+                    });
+
+            var result = await ExecuteWithMapExceptions(requestTask).ConfigureAwait(false);
+
+            return Mapper.Map(result);
+        }
+
+        private static async Task<TResult> ExecuteWithMapExceptions<TResult>(Task<TResult> requestTask)
+        {
+            try
+            {
+                return await requestTask.ConfigureAwait(false);
+            }
+            catch (ApiException ex)
+            {
+                throw await Mapper.MapAsync(ex).ConfigureAwait(false);
+            }
         }
     }
 }

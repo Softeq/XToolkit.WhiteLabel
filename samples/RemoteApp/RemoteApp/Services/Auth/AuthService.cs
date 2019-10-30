@@ -9,16 +9,18 @@ namespace RemoteApp.Services.Auth
     public interface IAuthService
     {
         Task<LoginStatus> LoginAsync(string login, string password, CancellationToken cancellationToken);
+
+        Task<RefreshTokenStatus> RefreshTokenAsync(CancellationToken cancellationToken);
     }
 
     public class AuthService : IAuthService
     {
-        private readonly AuthRemoteService _remoteService;
+        private readonly IAuthRemoteService _remoteService;
         private readonly ITokenManager _tokenManager;
         private readonly ILogger _logger;
 
         public AuthService(
-            AuthRemoteService remoteService,
+            IAuthRemoteService remoteService,
             ILogger logger)
         {
             _logger = logger;
@@ -30,15 +32,15 @@ namespace RemoteApp.Services.Auth
         {
             try
             {
-                await _tokenManager.ResetTokensAsync();
+                await _tokenManager.ResetTokensAsync().ConfigureAwait(false);
 
                 var result = await _remoteService.LoginAsync(login, password, cancellationToken).ConfigureAwait(false);
 
-                await _tokenManager.SaveAsync(result.AccessToken, result.RefreshToken);
+                await _tokenManager.SaveAsync(result.AccessToken, result.RefreshToken).ConfigureAwait(false);
             }
             catch (AuthException ex)
             {
-                return Map(ex.Error);
+                return Mapper.Map(ex.Error);
             }
             catch (Exception ex)
             {
@@ -50,21 +52,22 @@ namespace RemoteApp.Services.Auth
             return LoginStatus.Successful;
         }
 
-        private static LoginStatus Map(ErrorResult error)
+        public async Task<RefreshTokenStatus> RefreshTokenAsync(CancellationToken cancellationToken)
         {
-            if (error == null)
+            try
             {
-                return LoginStatus.Undefined;
-            }
+                var refreshToken = _tokenManager.RefreshToken;
+                var result = await _remoteService.RefreshTokenAsync(refreshToken, cancellationToken).ConfigureAwait(false);
 
-            switch (error.ErrorCode)
+                await _tokenManager.SaveAsync(result.AccessToken, result.RefreshToken).ConfigureAwait(false);
+
+                return RefreshTokenStatus.Successful;
+            }
+            catch (Exception ex)
             {
-                case ErrorCodes.UserNotFound:
-                    return LoginStatus.EmailOrPasswordIncorrect;
-                case ErrorCodes.EmailIsNotConfirmed:
-                    return LoginStatus.EmailNotConfirmed;
-                default:
-                    return LoginStatus.Failed;
+                _logger.Error(ex);
+
+                return RefreshTokenStatus.Failed;
             }
         }
     }

@@ -6,6 +6,12 @@ namespace RemoteApp.Services.Auth.Models
         Successful,
         EmailOrPasswordIncorrect,
         EmailNotConfirmed,
-        Undefined,
+        Undefined
+    }
+
+    public enum RefreshTokenStatus
+    {
+        Failed,
+        Successful
     }
 }
