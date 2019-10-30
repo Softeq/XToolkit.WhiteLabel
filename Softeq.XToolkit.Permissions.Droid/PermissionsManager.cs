@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         private readonly ISettings _internalSettings;
         private readonly IPermissionsService _permissionsService;
 
-        private IPermissionsDialogService _permissionsDialogService;
+        private IPermissionsDialogService? _permissionsDialogService;
 
         public PermissionsManager(
             IPermissionsService permissionsService)
