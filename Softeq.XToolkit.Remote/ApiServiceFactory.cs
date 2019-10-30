@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.Remote
         TApiService Create<TApiService>(HttpClient httpClient);
     }
 
-    public class RefitApiServiceFactory: IApiServiceFactory
+    public class RefitApiServiceFactory : IApiServiceFactory
     {
         public TApiService Create<TApiService>(HttpClient httpClient)
         {

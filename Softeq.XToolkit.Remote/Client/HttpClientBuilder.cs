@@ -15,14 +15,14 @@ namespace Softeq.XToolkit.Remote.Client
 
     public class HttpClientBuilder : IHttpClientBuilder
     {
-        private readonly string _baseUrl;
+        protected readonly string BaseUrl;
 
         private ILogger _logger;
         private Func<HttpMessageHandler, HttpMessageHandler> _customHandler;
 
         public HttpClientBuilder(string baseUrl)
         {
-            _baseUrl = baseUrl;
+            BaseUrl = baseUrl;
         }
 
         public IHttpClientBuilder WithLogger(ILogger logger)
@@ -47,12 +47,12 @@ namespace Softeq.XToolkit.Remote.Client
             return this;
         }
 
-        public HttpClient Build()
+        public virtual HttpClient Build()
         {
             var handler = GetHttpMessageHandler();
             var httpClient = CreateHttpClient(handler);
 
-            httpClient.BaseAddress = new Uri(_baseUrl);
+            httpClient.BaseAddress = new Uri(BaseUrl);
 
             return httpClient;
         }

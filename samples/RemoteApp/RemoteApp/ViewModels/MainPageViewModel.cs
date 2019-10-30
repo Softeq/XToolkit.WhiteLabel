@@ -22,7 +22,7 @@ namespace RemoteApp.ViewModels
         private string _logData;
 
         private CancellationTokenSource _cts = new CancellationTokenSource();
-        
+
         private string _authUrl;
         private string _profileUrl;
         private string _clientId;
@@ -41,7 +41,7 @@ namespace RemoteApp.ViewModels
             {
                 throw new ArgumentNullException("Please add API config");
             }
-            
+
             _authService = new AuthService(new AuthRemoteService(new RemoteServiceFactory(), new AuthConfig
             {
                 BaseUrl = _authUrl,
