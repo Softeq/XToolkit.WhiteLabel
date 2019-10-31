@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         public bool IsInitialized { get; private set; }
 
         // TODO YP: Rework to remove
-        public IFrameNavigationService FrameNavigationService { get; set; }
+        public IFrameNavigationService FrameNavigationService { get; set; } = default!;
 
         // TODO YP: Review using lifetime methods here
         public virtual void OnInitialize()

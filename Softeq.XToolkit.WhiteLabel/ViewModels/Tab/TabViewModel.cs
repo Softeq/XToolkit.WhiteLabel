@@ -9,8 +9,8 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 {
     public class TabViewModel : RootFrameNavigationViewModelBase
     {
-        private TabItem _tab;
-        private string _badgeText;
+        private TabItem _tab = default!;
+        private string? _badgeText;
         private bool _isBadgeVisible;
 
         public TabViewModel(
@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             return this;
         }
 
-        public string BadgeText
+        public string? BadgeText
         {
             get => _badgeText;
             set => Set(ref _badgeText, value);

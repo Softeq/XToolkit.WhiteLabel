@@ -11,6 +11,6 @@ namespace Softeq.XToolkit.WhiteLabel.Threading
         /// <summary>
         ///     Gets or sets the current <see cref="IPlatformProvider" />.
         /// </summary>
-        public static IPlatformProvider Current { get; set; }
+        public static IPlatformProvider Current { get; set; } = default!;
     }
 }

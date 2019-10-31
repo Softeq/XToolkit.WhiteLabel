@@ -31,9 +31,9 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 
         public bool CanGoBack => _tabNavigationService.CanGoBack;
 
-        public IList<TabItem> TabModels { get; protected set; }
+        public IList<TabItem> TabModels { get; protected set; } = default!;
 
-        public IList<TabViewModel> TabViewModels { get; protected set; }
+        public IList<TabViewModel> TabViewModels { get; protected set; } = default!;
 
         public ICommand GoBackCommand { get; }
 

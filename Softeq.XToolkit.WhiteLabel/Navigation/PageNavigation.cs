@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         internal void NavigateToViewModel<T>(
             bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters)
+            IReadOnlyList<NavigationParameterModel>? parameters)
             where T : IViewModelBase
         {
             if (clearBackStack)

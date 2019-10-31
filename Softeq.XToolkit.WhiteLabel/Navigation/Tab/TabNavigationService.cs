@@ -7,7 +7,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.Tab
 {
     public class TabNavigationService : ITabNavigationService
     {
-        public IFrameNavigationService CurrentFrameNavigationService { get; private set; }
+        public IFrameNavigationService CurrentFrameNavigationService { get; private set; } = default!;
 
         public bool CanGoBack => CurrentFrameNavigationService.CanGoBack;
 
