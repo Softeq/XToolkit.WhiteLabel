@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using Softeq.XToolkit.Remote.Auth;
 
 namespace RemoteApp.Services.Auth
 {

@@ -41,7 +41,7 @@ namespace RemoteApp.Services.Auth
             };
 
             var requestTask = _remoteService
-                .Execute(
+                .MakeRequest(
                     (service, ct) => service.Login(request, ct),
                     new RequestOptions
                     {
@@ -72,7 +72,7 @@ namespace RemoteApp.Services.Auth
             };
 
             var requestTask = _remoteService
-                .Execute(
+                .MakeRequest(
                     (service, ct) => service.RefreshToken(request, ct),
                     new RequestOptions
                     {

@@ -1,8 +1,8 @@
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using RemoteApp.Services.Profile.Models;
 using Softeq.XToolkit.Remote;
+using Softeq.XToolkit.Remote.Auth;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
@@ -14,18 +14,22 @@ namespace RemoteApp.Services.Profile
 
         public ProfileRemoteService(
             IRemoteServiceFactory remoteServiceFactory,
+            ISessionContext sessionContext,
             string baseUrl)
         {
-            var httpClientBuilder = new HttpClientBuilder(baseUrl);
-            _remoteService = remoteServiceFactory.Create<IProfileApiService>(httpClientBuilder);
+            var httpClientBuilder = new RefitHttpClientBuilder(baseUrl)
+                .WithSessionContext(sessionContext);
+
+            _remoteService = remoteServiceFactory.CreateWithAuth<IProfileApiService>(httpClientBuilder, sessionContext);
         }
 
         public async Task<ProfileResult> GetProfileAsync(CancellationToken cancellationToken)
         {
-            var requestTask = _remoteService.Execute(
+            var requestTask = _remoteService.MakeRequest(
                 (service, ct) => service.Profile(ct),
                 new RequestOptions
                 {
+                    Timeout = 15,
                     CancellationToken = cancellationToken
                 });
 

@@ -6,13 +6,6 @@ using Softeq.XToolkit.Remote.Handlers;
 
 namespace Softeq.XToolkit.Remote.Client
 {
-    public interface IHttpClientBuilder
-    {
-        IHttpClientBuilder WithLogger(ILogger logger);
-        IHttpClientBuilder WithCustomHandler(Func<HttpMessageHandler, HttpMessageHandler> messageHandler);
-        HttpClient Build();
-    }
-
     public class HttpClientBuilder : IHttpClientBuilder
     {
         protected readonly string BaseUrl;

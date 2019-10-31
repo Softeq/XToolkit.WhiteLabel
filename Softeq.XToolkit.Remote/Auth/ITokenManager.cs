@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace RemoteApp.Services.Auth
+namespace Softeq.XToolkit.Remote.Auth
 {
     public interface ITokenManager
     {

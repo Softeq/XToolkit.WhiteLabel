@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using RemoteApp.Services.Auth.Models;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.Remote.Auth;
 
 namespace RemoteApp.Services.Auth
 {
@@ -21,11 +22,12 @@ namespace RemoteApp.Services.Auth
 
         public AuthService(
             IAuthRemoteService remoteService,
-            ILogger logger)
+            ILogger logger,
+            ITokenManager tokenManager)
         {
             _logger = logger;
             _remoteService = remoteService;
-            _tokenManager = new InMemoryTokenManager();
+            _tokenManager = tokenManager;
         }
 
         public async Task<LoginStatus> LoginAsync(string login, string password, CancellationToken cancellationToken)

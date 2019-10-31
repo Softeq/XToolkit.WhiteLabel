@@ -46,7 +46,7 @@ namespace RemoteApp
 
             try
             {
-                var result = await _remoteService.Execute(
+                var result = await _remoteService.MakeRequest(
                     (service, ct) => service.GetAllPhotosAsync(ct),
                     new RequestOptions
                     {

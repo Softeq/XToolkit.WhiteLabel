@@ -42,14 +42,18 @@ namespace RemoteApp.ViewModels
                 throw new ArgumentNullException("Please add API config");
             }
 
+            var tokenManager = new InMemoryTokenManager();
+
             _authService = new AuthService(new AuthRemoteService(new RemoteServiceFactory(), new AuthConfig
             {
                 BaseUrl = _authUrl,
                 ClientId = _clientId,
                 ClientSecret = _clientSecret
-            }), logger);
+            }), logger, tokenManager);
 
-            _profileService = new ProfileService(new ProfileRemoteService(new RemoteServiceFactory(), _profileUrl));
+            var sessionContext = new SessionContext(tokenManager, _authService);
+
+            _profileService = new ProfileService(new ProfileRemoteService(new RemoteServiceFactory(), sessionContext, _profileUrl));
 
             RequestCommand = new AsyncCommand(Request);
             CancelRequestCommand = new RelayCommand(() => _cts.Cancel());
@@ -94,9 +98,15 @@ namespace RemoteApp.ViewModels
 
 //            var result = await _authService.RefreshTokenAsync(_cts.Token);
 
-            var result = await _profileService.GetInfoAsync(_cts.Token);
+            try
+            {
+                var result = await _profileService.GetInfoAsync(_cts.Token);
 
-            ResultData = result.ToString();
+                ResultData = result.ToString();
+            }
+            catch (Exception e)
+            {
+            }
 
             IsBusy = false;
         }

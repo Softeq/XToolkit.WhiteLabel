@@ -5,11 +5,6 @@ using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote.Client
 {
-    public interface IHttpClientFactory
-    {
-        HttpClient CreateWithPriority(RequestPriority requestPriority);
-    }
-
     public class HttpClientFactory : IHttpClientFactory
     {
         private readonly IHttpClientBuilder _httpClientBuilder;

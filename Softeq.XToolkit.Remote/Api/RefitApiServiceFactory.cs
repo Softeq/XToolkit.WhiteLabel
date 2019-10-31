@@ -1,13 +1,8 @@
 using System.Net.Http;
 using Refit;
 
-namespace Softeq.XToolkit.Remote
+namespace Softeq.XToolkit.Remote.Api
 {
-    public interface IApiServiceFactory
-    {
-        TApiService Create<TApiService>(HttpClient httpClient);
-    }
-
     public class RefitApiServiceFactory : IApiServiceFactory
     {
         public TApiService Create<TApiService>(HttpClient httpClient)

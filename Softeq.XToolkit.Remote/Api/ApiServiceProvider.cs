@@ -2,15 +2,8 @@
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
-namespace Softeq.XToolkit.Remote
+namespace Softeq.XToolkit.Remote.Api
 {
-    public interface IApiServiceProvider<out TApiService>
-    {
-        TApiService Get();
-
-        TApiService GetByPriority(RequestPriority requestPriority);
-    }
-
     public class ApiServiceProvider<TApiService> : IApiServiceProvider<TApiService>
     {
         private readonly IHttpClientFactory _httpClientFactory;
