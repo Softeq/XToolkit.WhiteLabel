@@ -31,10 +31,10 @@ namespace RemoteApp
             // connectivity & fatal network error - on consumer side
             // cancellation
             // priority - need integration with Fusillade
-
-            // TODO:
-            // mapper - need default, declaration on consumer side
             // auth? - need refit integration
+
+            // TODO YP:
+            // mapper - need default, declaration on consumer side
             // add sample for priority
             // serialization settings - need refit settings integration
 

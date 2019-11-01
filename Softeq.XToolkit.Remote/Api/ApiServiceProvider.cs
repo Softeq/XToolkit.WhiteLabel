@@ -1,12 +1,13 @@
 ﻿using System;
 using Softeq.XToolkit.Remote.Client;
+using Softeq.XToolkit.Remote.Handlers;
 using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote.Api
 {
     public class ApiServiceProvider<TApiService> : IApiServiceProvider<TApiService>
     {
-        private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IHttpClientBuilder _httpClientBuilder;
         private readonly IApiServiceFactory _apiServiceFactory;
 
         private readonly Lazy<TApiService> _userInitiated;
@@ -14,10 +15,10 @@ namespace Softeq.XToolkit.Remote.Api
         private readonly Lazy<TApiService> _speculative;
 
         public ApiServiceProvider(
-            IHttpClientFactory httpClientFactory,
+            IHttpClientBuilder httpClientBuilder,
             IApiServiceFactory apiServiceFactory)
         {
-            _httpClientFactory = httpClientFactory;
+            _httpClientBuilder = httpClientBuilder;
             _apiServiceFactory = apiServiceFactory;
 
             _userInitiated = new Lazy<TApiService>(() => CreateService(RequestPriority.UserInitiated));
@@ -45,7 +46,10 @@ namespace Softeq.XToolkit.Remote.Api
 
         protected virtual TApiService CreateService(RequestPriority requestPriority)
         {
-            var httpClient = _httpClientFactory.CreateWithPriority(requestPriority);
+            var httpClient = _httpClientBuilder
+                .WithPriority(requestPriority)
+                .Build();
+
             return _apiServiceFactory.Create<TApiService>(httpClient);
         }
     }

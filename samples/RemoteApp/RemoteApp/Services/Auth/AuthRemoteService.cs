@@ -24,7 +24,7 @@ namespace RemoteApp.Services.Auth
 
         public AuthRemoteService(IRemoteServiceFactory remoteServiceFactory, AuthConfig config)
         {
-            var httpClientBuilder = new HttpClientBuilder(config.BaseUrl);
+            var httpClientBuilder = new RefitHttpClientBuilder(config.BaseUrl);
 
             _remoteService = remoteServiceFactory.Create<IAuthApiService>(httpClientBuilder);
             _config = config;

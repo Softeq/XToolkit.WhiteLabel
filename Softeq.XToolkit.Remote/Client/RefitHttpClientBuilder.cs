@@ -19,7 +19,8 @@ namespace Softeq.XToolkit.Remote.Client
             return this;
         }
 
-        protected override HttpClient CreateHttpClient(HttpMessageHandler _)
+        // TODO YP: reimplement refit client for support (auth & diagnostic & priority manage via HttpMessageHandlers
+        public override HttpClient Build()
         {
             var settings = new RefitSettings
             {
@@ -32,8 +33,6 @@ namespace Softeq.XToolkit.Remote.Client
             }
 
             return RestService.CreateHttpClient(BaseUrl, settings);
-
-            // TODO YP: reimplement refit client for support (auth & diagnostic & priority manage via HttpMessageHandlers
         }
     }
 }

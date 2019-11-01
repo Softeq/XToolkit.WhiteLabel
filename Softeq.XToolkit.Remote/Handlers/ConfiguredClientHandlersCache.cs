@@ -3,27 +3,11 @@ using System.Net.Http;
 using Fusillade;
 using Softeq.XToolkit.Remote.Primitives;
 
-namespace Softeq.XToolkit.Remote.Client
+namespace Softeq.XToolkit.Remote.Handlers
 {
-    public class HttpClientFactory : IHttpClientFactory
+    internal static class ConfiguredClientHandlersCache
     {
-        private readonly IHttpClientBuilder _httpClientBuilder;
-
-        public HttpClientFactory(IHttpClientBuilder httpClientBuilder)
-        {
-            _httpClientBuilder = httpClientBuilder;
-        }
-
-        public HttpClient CreateWithPriority(RequestPriority requestPriority)
-        {
-            var httpClient = _httpClientBuilder
-                .WithCustomHandler(innerHandler => GetHandlerByPriority(innerHandler, requestPriority))
-                .Build();
-
-            return httpClient;
-        }
-
-        protected virtual HttpMessageHandler GetHandlerByPriority(HttpMessageHandler innerHandler, RequestPriority requestPriority)
+        internal static DelegatingHandler GetByPriority(HttpMessageHandler innerHandler, RequestPriority requestPriority)
         {
             // TODO YP: Based on Fusillade default handlers:
             // https://github.com/reactiveui/Fusillade/blob/master/src/Fusillade/NetCache.cs#L47-L50

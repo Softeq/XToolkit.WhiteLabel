@@ -10,8 +10,7 @@ namespace Softeq.XToolkit.Remote
         public IRemoteService<T> Create<T>(IHttpClientBuilder httpClientBuilder)
         {
             var apiServiceFactory = new RefitApiServiceFactory();
-            var httpClientFactory = new HttpClientFactory(httpClientBuilder);
-            var httpClientProvider = new ApiServiceProvider<T>(httpClientFactory, apiServiceFactory);
+            var httpClientProvider = new ApiServiceProvider<T>(httpClientBuilder, apiServiceFactory);
             var retryStrategy = new PollyExecutorBuilderFactory();
 
             return new RemoteService<T>(httpClientProvider, retryStrategy);
@@ -20,8 +19,7 @@ namespace Softeq.XToolkit.Remote
         public IRemoteService<T> CreateWithAuth<T>(IHttpClientBuilder httpClientBuilder, ISessionContext sessionContext)
         {
             var apiServiceFactory = new RefitApiServiceFactory();
-            var httpClientFactory = new HttpClientFactory(httpClientBuilder);
-            var httpClientProvider = new ApiServiceProvider<T>(httpClientFactory, apiServiceFactory);
+            var httpClientProvider = new ApiServiceProvider<T>(httpClientBuilder, apiServiceFactory);
             var retryStrategy = new PollyExecutorBuilderFactory();
 
             return new RemoteService<T>(httpClientProvider, retryStrategy, sessionContext);

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Net.Http;
-using System.Reflection;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Handlers;
 
@@ -11,11 +10,13 @@ namespace Softeq.XToolkit.Remote.Client
         protected readonly string BaseUrl;
 
         private ILogger _logger;
-        private Func<HttpMessageHandler, HttpMessageHandler> _customHandler;
+        private readonly Lazy<HttpHandlerBuilder> _clientHandlersBuilder;
 
         public HttpClientBuilder(string baseUrl)
         {
             BaseUrl = baseUrl;
+
+            _clientHandlersBuilder = new Lazy<HttpHandlerBuilder>(() => new HttpHandlerBuilder());
         }
 
         public IHttpClientBuilder WithLogger(ILogger logger)
@@ -24,19 +25,9 @@ namespace Softeq.XToolkit.Remote.Client
             return this;
         }
 
-        public IHttpClientBuilder WithCustomHandler(Func<HttpMessageHandler, HttpMessageHandler> customHandler)
+        public IHttpClientBuilder AddHandler(Func<HttpMessageHandler, DelegatingHandler> delegatingHandler)
         {
-            _customHandler = customHandler;
-            return this;
-        }
-
-        public IHttpClientBuilder WithoutAutoRedirects()
-        {
-            //if (messageHandler is DelegatingHandler internalDelegate
-            //    && internalDelegate.InnerHandler is HttpClientHandler internalClientHandler)
-            //{
-            //    internalClientHandler.AllowAutoRedirect = false;
-            //}
+            _clientHandlersBuilder.Value.AddHandler(delegatingHandler);
             return this;
         }
 
@@ -50,15 +41,10 @@ namespace Softeq.XToolkit.Remote.Client
             return httpClient;
         }
 
-        // NativeHandler <- PriorityHandler (<- AuthHandler) <- DiagnosticHandler
+        // NativeHandler) PriorityHandler) AuthHandler) DiagnosticHandler
         protected virtual HttpMessageHandler GetHttpMessageHandler()
         {
-            var handler = CreateDefaultHandler();
-
-            if (_customHandler != null)
-            {
-                handler = _customHandler(handler);
-            }
+            var handler = _clientHandlersBuilder.Value.Build();
 
 #if DEBUG
             handler = new HttpDiagnosticsHandler(handler, _logger);
@@ -70,15 +56,6 @@ namespace Softeq.XToolkit.Remote.Client
         protected virtual HttpClient CreateHttpClient(HttpMessageHandler handler)
         {
             return new HttpClient(handler);
-        }
-
-        protected virtual HttpMessageHandler CreateDefaultHandler()
-        {
-            // HACK YP: need check, because linker can change assembly.
-            // Sources: https://github.com/mono/mono/blob/master/mcs/class/System.Net.Http/HttpClient.DefaultHandler.cs#L5
-
-            var method = typeof(HttpClient).GetMethod("CreateDefaultHandler", BindingFlags.NonPublic | BindingFlags.Static);
-            return method?.Invoke(null, null) as HttpMessageHandler;
         }
     }
 }
