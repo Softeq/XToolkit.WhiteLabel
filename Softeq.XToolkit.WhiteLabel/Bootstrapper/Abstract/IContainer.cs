@@ -7,8 +7,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
 {
     public interface IContainer
     {
-        T Resolve<T>();
-        Lazy<T> ResolveLazy<T>();
+        TService Resolve<TService>();
+
+        [Obsolete("Use Resolve<Lazy<TService>> instead.")]
+        Lazy<TService> ResolveLazy<TService>();
+
         object Resolve(Type type);
     }
 }
