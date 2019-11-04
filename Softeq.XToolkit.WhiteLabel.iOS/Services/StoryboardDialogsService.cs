@@ -36,8 +36,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             string title,
             string message,
             string okButtonText,
-            string cancelButtonText = null,
-            OpenDialogOptions options = null)
+            string? cancelButtonText = null,
+            OpenDialogOptions? options = null)
         {
             var dialogResult = new TaskCompletionSource<bool>();
 
@@ -73,21 +73,21 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         }
 
         public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel>? parameters)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel>? parameters)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
-           IEnumerable<NavigationParameterModel> parameters = null)
+           IEnumerable<NavigationParameterModel>? parameters = null)
            where TViewModel : IDialogViewModel
         {
             try
@@ -100,11 +100,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 _logger.Error(e);
             }
-            return null;
+            return default!;
         }
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
-           IEnumerable<NavigationParameterModel> parameters = null)
+           IEnumerable<NavigationParameterModel>? parameters = null)
            where TViewModel : IDialogViewModel
         {
             try
@@ -121,11 +121,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 _logger.Error(e);
             }
-            return null;
+            return default!;
         }
 
         private async Task<(UIViewController, object)> ShowViewModelForResultAsync<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel>? parameters)
             where TViewModel : IDialogViewModel
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();

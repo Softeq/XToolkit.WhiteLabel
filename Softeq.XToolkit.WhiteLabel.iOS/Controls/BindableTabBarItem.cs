@@ -10,9 +10,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
     internal class BindableTabBarItem : UITabBarItem
     {
-        private WeakReferenceEx<TabViewModel> _viewModelRef;
-        private Binding _textBinding;
-        private Binding _visibilityBinding;
+        private WeakReferenceEx<TabViewModel> _viewModelRef = default!;
+        private Binding? _textBinding;
+        private Binding? _visibilityBinding;
 
         internal BindableTabBarItem(string title, UIImage image, UIImage selectedImage) : base(title, image, selectedImage)
         {

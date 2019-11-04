@@ -7,7 +7,14 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
     public class CommandAction
     {
-        public ICommand? Command { get; set; }
+        public CommandAction(ICommand command, string title, CommandActionStyle commandActionStyle = default)
+        {
+            Command = command;
+            Title = title;
+            CommandActionStyle = commandActionStyle;
+        }
+
+        public ICommand Command { get; set; }
 
         public string? Title { get; set; }
 

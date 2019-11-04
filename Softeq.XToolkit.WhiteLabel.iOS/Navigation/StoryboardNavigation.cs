@@ -8,6 +8,7 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using UIKit;
+using System;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
@@ -15,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
     {
         protected readonly IViewLocator ViewLocator;
 
-        private WeakReferenceEx<UINavigationController> _navigationControllerRef;
+        private WeakReferenceEx<UINavigationController>? _navigationControllerRef;
 
         public StoryboardNavigation(IViewLocator viewLocator)
         {
@@ -24,7 +25,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         protected UINavigationController NavigationController
         {
-            get => _navigationControllerRef?.Target;
+            get
+            {
+                if(_navigationControllerRef == null)
+                {
+                    throw new Exception("not initialized");
+                }
+
+                return _navigationControllerRef.Target;
+            }
             set => _navigationControllerRef = WeakReferenceEx.Create(value);
         }
 
@@ -32,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public void Initialize(object navigation)
         {
-            NavigationController = navigation as UINavigationController;
+            NavigationController = (UINavigationController) navigation;
         }
 
         public void GoBack()
@@ -43,11 +52,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         public void NavigateToViewModel(
             IViewModelBase viewModelBase,
             bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters)
+            IReadOnlyList<NavigationParameterModel>? parameters)
         {
             if (viewModelBase is IFrameViewModel frameViewModel)
             {
-                frameViewModel.FrameNavigationService = this as IFrameNavigationService;
+                frameViewModel.FrameNavigationService = (IFrameNavigationService) this;
             }
 
             if (parameters != null)

@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         {
             var xibName = GetType().Name;
             var nib = UINib.FromName(xibName, NSBundle.MainBundle);
-            var view = nib.Instantiate(this, null)[0] as UIView;
+            var view = (UIView) nib.Instantiate(this, null)[0];
             view.TranslatesAutoresizingMaskIntoConstraints = false;
             AddSubview(view);
             var right = view.RightAnchor.ConstraintEqualTo(RightAnchor);

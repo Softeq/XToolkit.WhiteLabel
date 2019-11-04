@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public object DataContext { get; private set; }
+        public object DataContext { get; private set; } = default!;
 
         public TViewModel ViewModel => (TViewModel) DataContext;
 

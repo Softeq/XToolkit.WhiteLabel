@@ -58,6 +58,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
 
         public class AvatarStyles
         {
+            public AvatarStyles(Size size, UIFont font, string[] backgroundHexColors)
+            {
+                Size = size;
+                Font = font;
+                BackgroundHexColors = backgroundHexColors;
+            }
+
             public Size Size { get; set; }
             public UIFont Font { get; set; }
             public string[] BackgroundHexColors { get; set; }

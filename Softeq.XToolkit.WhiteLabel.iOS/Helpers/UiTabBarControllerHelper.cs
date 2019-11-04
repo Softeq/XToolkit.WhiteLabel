@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
         public static UITabBarController CreateForViewModels(
             IEnumerable<IViewModelBase> viewModels,
             IList<UITabBarItem> tabBarItems,
-            Func<UITabBarController> tabBarControllerFactory = null)
+            Func<UITabBarController>? tabBarControllerFactory = null)
         {
             var tabBarController = tabBarControllerFactory != null
                 ? tabBarControllerFactory.Invoke()

@@ -117,7 +117,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             {
                 base.OnDismissed(transientBottomBar, eventCode);
 
-                _commandAction?.Command?.Execute(this);
+                _commandAction?.Command.Execute(this);
                 _commandAction = null;
 
                 _taskCompletionSource.TrySetResult(true);
