@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         public void Enqueue(ToastModel model)
         {
             _queue.Enqueue(model);
-            StartHandleImp().SafeTaskWrapper(_logger);
+            StartHandleImp().FireAndForget(_logger);
         }
 
         private async Task StartHandleImp()
