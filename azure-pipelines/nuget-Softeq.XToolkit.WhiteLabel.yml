@@ -13,7 +13,10 @@ variables:
   BuildConfiguration: 'Release'
   ProjectName: 'Softeq.XToolkit.WhiteLabel'
 steps:
-  # make sure to select the correct Xamarin and mono
+  - task: UseDotNet@2
+    displayName: 'Use .Net Core sdk'
+    inputs:
+      version: 3.0.100
   - bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
     displayName: Switch to the latest Xamarin SDK
   - script: 'msbuild nuget/$(ProjectName).sln -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
