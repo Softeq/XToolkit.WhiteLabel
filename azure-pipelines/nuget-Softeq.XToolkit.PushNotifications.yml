@@ -9,7 +9,7 @@ queue:
   demands: Xamarin.iOS
 
 variables:
-  MONO_VERSION: 5_18_1
+  MONO_VERSION: 6_4_0
   BuildConfiguration: 'Release'
   ProjectName: 'Softeq.XToolkit.PushNotifications'
 steps:

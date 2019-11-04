@@ -9,8 +9,8 @@ trigger:
 
 variables:
   BuildConfiguration: 'Release'
-  MONO_VERSION: 5_18_1
-  XCODE_VERSION: 10.2
+  MONO_VERSION: 6_4_0
+  XCODE_VERSION: 11.1
 
 jobs:
 - job: macos_1014
