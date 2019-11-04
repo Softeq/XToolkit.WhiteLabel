@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,10 +19,6 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="so1-cY-Jua">
-                                <rect key="frame" x="112.5" y="173" width="189" height="30"/>
-                                <state key="normal" title="Show Dialog - Until Dismiss"/>
-                            </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHG-NU-tdS">
                                 <rect key="frame" x="169.5" y="74" width="75" height="30"/>
                                 <state key="normal" title="Show Alert"/>
@@ -35,6 +29,10 @@
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="so1-cY-Jua">
+                                <rect key="frame" x="112.5" y="173" width="189" height="30"/>
+                                <state key="normal" title="Show Dialog - Until Dismiss"/>
+                            </button>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="click above" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gjE-B8-4p1">
                                 <rect key="frame" x="164.5" y="211" width="85.5" height="21"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
@@ -63,13 +61,13 @@
                             <constraint firstItem="iFx-vF-jYP" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="IWq-Wd-UYB"/>
                             <constraint firstItem="eHG-NU-tdS" firstAttribute="top" secondItem="bWY-St-6ms" secondAttribute="bottom" constant="30" id="K1K-VS-WRT"/>
                             <constraint firstItem="eHG-NU-tdS" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="NDb-rk-4xd"/>
+                            <constraint firstItem="so1-cY-Jua" firstAttribute="top" secondItem="Nkm-J1-2QI" secondAttribute="bottom" constant="40" id="Swa-zh-0ns"/>
                             <constraint firstItem="gjE-B8-4p1" firstAttribute="top" secondItem="so1-cY-Jua" secondAttribute="bottom" constant="8" id="THy-JA-vqh"/>
                             <constraint firstItem="fNs-jM-7fJ" firstAttribute="top" secondItem="Wyf-xA-eIW" secondAttribute="bottom" constant="40" id="TJ2-lf-ACF"/>
                             <constraint firstItem="fNs-jM-7fJ" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="XmM-mJ-z3E"/>
                             <constraint firstItem="Wyf-xA-eIW" firstAttribute="top" secondItem="iFx-vF-jYP" secondAttribute="bottom" constant="8" id="kUv-VI-YC7"/>
                             <constraint firstItem="Wyf-xA-eIW" firstAttribute="centerX" secondItem="bRA-4i-Lg6" secondAttribute="centerX" id="m69-Ry-bUh"/>
                             <constraint firstItem="iFx-vF-jYP" firstAttribute="top" secondItem="gjE-B8-4p1" secondAttribute="bottom" constant="40" id="nBG-2Y-Fcr"/>
-                            <constraint firstItem="so1-cY-Jua" firstAttribute="top" secondItem="Nkm-J1-2QI" secondAttribute="bottom" constant="40" id="oAl-ey-i3H"/>
                             <constraint firstItem="Nkm-J1-2QI" firstAttribute="centerX" secondItem="eHG-NU-tdS" secondAttribute="centerX" id="r0q-5f-f9r"/>
                             <constraint firstItem="gjE-B8-4p1" firstAttribute="centerX" secondItem="so1-cY-Jua" secondAttribute="centerX" id="xo8-lC-Xh6"/>
                         </constraints>
@@ -86,7 +84,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="gzV-wq-8rw" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="9" y="31"/>
+            <point key="canvasLocation" x="8.6956521739130448" y="30.803571428571427"/>
         </scene>
     </scenes>
 </document>

@@ -73,22 +73,22 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         }
 
         public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel> parameters = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
-           IEnumerable<NavigationParameterModel> parameters = null)
-           where TViewModel : IDialogViewModel
+            IEnumerable<NavigationParameterModel> parameters = null)
+            where TViewModel : IDialogViewModel
         {
             try
             {
@@ -106,8 +106,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         }
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
-           IEnumerable<NavigationParameterModel> parameters = null)
-           where TViewModel : IDialogViewModel
+            IEnumerable<NavigationParameterModel> parameters = null)
+            where TViewModel : IDialogViewModel
         {
             try
             {
@@ -155,7 +155,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             Execute.BeginOnUIThread(() =>
             {
                 var targetViewController = _viewLocator.GetView(viewModel);
-                targetViewController.ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
                 var topViewController = _viewLocator.GetTopViewController();
                 topViewController.View.EndEditing(true);
                 topViewController.PresentViewController(targetViewController, true, null);

@@ -29,10 +29,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     {
         protected ViewControllerBase()
         {
+            InitViewController();
         }
 
         protected internal ViewControllerBase(IntPtr handle) : base(handle)
         {
+            InitViewController();
         }
 
         public List<Binding> Bindings { get; } = new List<Binding>();
@@ -66,6 +68,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             ViewModel.OnDisappearing();
         }
 
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+
+            CloseDialogIfNeeded();
+        }
+
         protected virtual void DoAttachBindings()
         {
         }
@@ -83,6 +92,22 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             BindableExtensions.DetachBindings(this);
             DoDetachBindings();
+        }
+
+        private void InitViewController()
+        {
+            ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
+        }
+
+        private void CloseDialogIfNeeded()
+        {
+            if (ViewModel is DialogViewModelBase dialogViewModel)
+            {
+                if (IsBeingDismissed || IsMovingFromParentViewController)
+                {
+                    dialogViewModel.DialogComponent.CloseCommand.Execute(null);
+                }
+            }
         }
     }
 }
