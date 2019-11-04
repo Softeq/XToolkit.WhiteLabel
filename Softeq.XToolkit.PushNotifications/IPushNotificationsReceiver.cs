@@ -25,5 +25,15 @@ namespace Softeq.XToolkit.PushNotifications
         /// </summary>
         /// <param name="pushNotification">Push notification object</param>
         void OnMessageTapped(object pushNotification);
+
+        /// <summary>
+        ///     Callback which must be called when push notification custom action was selected
+        ///     On iOS is called internally
+        ///     !!! Not implemented On Android for now
+        /// </summary>
+        /// <param name="pushNotification">Push notification object</param>
+        /// <param name="actionId">String identifier of the action invoked. On iOS this includes UNNotificationDismissActionIdentifier if notification category has CustomDismissAction option</param>
+        /// <param name="textInput">String with user input for UNTextInputNotificationAction (will be null for UNNotificationAction)</param>
+        void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput);
     }
 }

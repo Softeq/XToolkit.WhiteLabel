@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Foundation;
 using Softeq.XToolkit.Bindings.Abstract;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;

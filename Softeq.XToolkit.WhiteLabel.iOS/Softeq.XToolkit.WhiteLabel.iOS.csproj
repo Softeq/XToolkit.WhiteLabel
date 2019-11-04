@@ -68,7 +68,7 @@
     <Compile Include="Navigation\StoryboardFrameNavigationService.cs" />
     <Compile Include="Navigation\StoryboardNavigation.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IosAppService.cs" />
+    <Compile Include="Services\IosAppInfoService.cs" />
     <Compile Include="Services\IosInternalSettings.cs" />
     <Compile Include="Services\LauncherService.cs" />
     <Compile Include="Services\LocationService.cs" />
@@ -96,15 +96,14 @@
     <Compile Include="Services\ViewControllerProvider.cs" />
     <Compile Include="ImagePicker\IosImagePickerService.cs" />
     <Compile Include="ImagePicker\IosImagePickerResult.cs" />
-    <Compile Include="ViewControllers\TopLevelAlertController.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{797907F2-95D6-40E5-811E-3206CBF62213}</Project>
+      <Project>{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{D5F562B4-D878-4B86-AB35-93BC43A253C5}</Project>
+      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -112,7 +111,7 @@
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{B6D39FB0-BD3C-477A-BDED-579D688D59DA}</Project>
+      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
@@ -120,7 +119,7 @@
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{E8FAA479-4003-4A66-B355-CA96A2D59DA0}</Project>
+      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>

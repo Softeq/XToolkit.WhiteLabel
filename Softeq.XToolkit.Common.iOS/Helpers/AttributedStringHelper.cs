@@ -45,17 +45,18 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
             return new NSMutableAttributedString(attributedString);
         }
 
-        public static NSMutableAttributedString Font(this NSMutableAttributedString self, UIFont font)
+        public static NSMutableAttributedString Font(this NSMutableAttributedString self, UIFont font, NSRange? range = null)
         {
-            self.AddAttribute(UIStringAttributeKey.Font, font, new NSRange(0, self.Length));
+            self.AddAttribute(UIStringAttributeKey.Font, font, range ?? new NSRange(0, self.Length));
             return self;
         }
 
         public static NSMutableAttributedString Underline(this NSMutableAttributedString self,
-            NSUnderlineStyle underlineStyle = NSUnderlineStyle.Single)
+            NSUnderlineStyle underlineStyle = NSUnderlineStyle.Single,
+            NSRange? range = null)
         {
             self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int) underlineStyle),
-                new NSRange(0, self.Length));
+                range ?? new NSRange(0, self.Length));
             return self;
         }
 

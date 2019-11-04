@@ -10,7 +10,7 @@ using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid;
 
-namespace Playground.Droid.Views.BottomTabs.Second
+namespace Playground.Droid.Views.BottomTabs.First
 {
     public class RedFragment : FragmentBase<RedViewModel>
     {

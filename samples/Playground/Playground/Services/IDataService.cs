@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Playground.Models;
 using Playground.ViewModels.Collections.Products;
 
 namespace Playground.Services

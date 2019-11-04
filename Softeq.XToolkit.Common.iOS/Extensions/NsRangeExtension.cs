@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using Foundation;
-using Softeq.XToolkit.Common.Models;
+using Softeq.XToolkit.Common.Helpers;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
 {

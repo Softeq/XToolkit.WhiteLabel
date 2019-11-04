@@ -2,8 +2,10 @@
 // http://www.softeq.com
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Interfaces;
+using Foundation;
+using Softeq.XToolkit.Common.Logger;
 using UIKit;
 using UserNotifications;
 
@@ -11,7 +13,13 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 {
     public class IosPushNotificationsService : PushNotificationsServiceBase
     {
+        /// <summary>
+        /// Default Dismiss Action identifier
+        /// </summary>
+        public const string UNNotificationDismissActionIdentifier = "com.apple.UNNotificationDismissActionIdentifier";
+
         private readonly INotificationsPermissionsService _permissionsService;
+        private readonly INotificationCategoriesProvider _notificationCategoriesProvider;
 
         private bool _isInitialized;
 
@@ -21,14 +29,16 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             IPushNotificationsHandler pushNotificationsHandler,
             IPushNotificationParser pushNotificationParser,
             INotificationsPermissionsService permissionsService,
+            INotificationCategoriesProvider notificationCategoriesProvider,
             ILogManager logManager)
             : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
                 logManager)
         {
             _permissionsService = permissionsService;
+            _notificationCategoriesProvider = notificationCategoriesProvider;
         }
 
-        public override void Initialize(bool showForegroundNotificationsInSystem)
+        public override void Initialize(ForegroundNotificationOptions showForegroundNotificationsInSystemOptions)
         {
             if (_isInitialized)
             {
@@ -37,7 +47,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
             _isInitialized = true;
 
-            UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate(this, showForegroundNotificationsInSystem);
+            UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate(this, showForegroundNotificationsInSystemOptions);
+            UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(_notificationCategoriesProvider.NotificationCategories.ToArray()));
         }
 
         public override void RegisterForPushNotifications()
@@ -69,6 +80,16 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             base.OnRegisteredForPushNotifications(SimplifyToken(token));
         }
 
+        protected override void SetBadgeNumberInternal(int badgeNumber)
+        {
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = badgeNumber;
+        }
+
+        protected override void OnMessageCustomActionInvokedInternal(PushNotificationModel parsedNotification, string actionId, string textInput)
+        {
+            _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionId, textInput);
+        }
+
         protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
@@ -80,7 +101,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         private string SimplifyToken(string token)
         {
-            return string.IsNullOrWhiteSpace(token) ? token : token.Trim('<').Trim('>').Replace(" ", string.Empty);
+            return string.IsNullOrWhiteSpace(token) ? token : token.Replace("-", string.Empty);
         }
     }
 }

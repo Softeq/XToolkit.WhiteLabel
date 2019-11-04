@@ -9,27 +9,22 @@ using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Handlers;
-using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
-using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.Common.EventArguments;
-using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.Common.WeakSubscription;
+using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Weak;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
-    public class BindableGroupCollectionViewSource<TKey, TItem, THeaderView, TItemCell> : UICollectionViewSource
+    public abstract class BindableGroupCollectionViewSourceBase<TKey, TItem> : UICollectionViewSource
         where TItem : class
-        where THeaderView : BindableUICollectionReusableView<TKey>
-        where TItemCell : BindableCollectionViewCell<TItem>
     {
         private readonly IDisposable _subscription;
 
         private WeakReferenceEx<UICollectionView> _collectionViewRef;
         private ICommand<TItem> _itemClick;
 
-        public BindableGroupCollectionViewSource(IEnumerable<IGrouping<TKey, TItem>> items)
+        public BindableGroupCollectionViewSourceBase(IEnumerable<IGrouping<TKey, TItem>> items)
         {
             DataSource = items;
 
@@ -64,7 +59,6 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
                 _itemClick = value;
             }
         }
-
         /// <inheritdoc />
         public override nint NumberOfSections(UICollectionView collectionView)
         {
@@ -85,12 +79,12 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         /// <inheritdoc />
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (TItemCell) collectionView.DequeueReusableCell(typeof(TItemCell).Name, indexPath);
+            var cell = collectionView.DequeueReusableCell(GetCellName(indexPath), indexPath);
             var bindableCell = (IBindableView) cell;
 
             bindableCell.ReloadDataContext(GetItemByIndexPath(indexPath));
 
-            return cell;
+            return (UICollectionViewCell) cell;
         }
 
         /// <inheritdoc />
@@ -134,7 +128,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             var header = collectionView.DequeueReusableSupplementaryView(
                 UICollectionElementKindSectionKey.Header,
-                typeof(THeaderView).Name,
+                GetHeaderViewName(indexPath),
                 indexPath);
 
             var bindableHeader = (IBindableView) header;
@@ -208,5 +202,24 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         }
 
         #endregion
+
+        protected abstract string GetCellName(NSIndexPath indexPath);
+
+        protected abstract string GetHeaderViewName(NSIndexPath indexPath);
+    }
+
+    public class BindableGroupCollectionViewSource<TKey, TItem, THeaderView, TItemCell>
+        : BindableGroupCollectionViewSourceBase<TKey, TItem>
+        where TItem : class
+        where THeaderView : BindableUICollectionReusableView<TKey>
+        where TItemCell : BindableCollectionViewCell<TItem>
+    {
+        public BindableGroupCollectionViewSource(IEnumerable<IGrouping<TKey, TItem>> items) : base(items)
+        {
+        }
+
+        protected override string GetCellName(NSIndexPath indexPath) => typeof(TItemCell).Name;
+
+        protected override string GetHeaderViewName(NSIndexPath indexPath) => typeof(THeaderView).Name;
     }
 }

@@ -9,7 +9,6 @@ using Playground.iOS.Views.Table;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.WhiteLabel.iOS;
@@ -53,22 +52,15 @@ namespace Playground.iOS.ViewControllers.Collections
             //    new InverseBooleanConverter());
         }
 
-        private class CustomSource : BindableGroupTableViewSource<ProductHeaderViewModel,
+        private class CustomSource : BindableTableViewSource<ProductHeaderViewModel,
                 ProductViewModel,
                 GroupedTableHeaderView,
+                GroupedTableFooterView,
                 ProductTableViewCell>
         {
-            public CustomSource(UITableView tableView, IEnumerable<IGrouping<ProductHeaderViewModel, ProductViewModel>> items) : base(tableView, items)
+            public CustomSource(UITableView tableView, IEnumerable<IGrouping<ProductHeaderViewModel, ProductViewModel>> items)
+                : base(tableView, items)
             {
-            }
-
-            public override UIView GetViewForFooter(UITableView tableView, nint section)
-            {
-                var view = tableView.DequeueReusableHeaderFooterView(nameof(GroupedTableFooterView));
-
-                ((IBindableView) view).ReloadDataContext(DataSource.ElementAt((int)section).Key);
-
-                return view;
             }
         }
     }

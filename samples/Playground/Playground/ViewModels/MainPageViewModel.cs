@@ -7,10 +7,11 @@ using Playground.Models;
 using Playground.ViewModels.BottomTabs;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Components;
+using Playground.ViewModels.Controls;
 using Playground.ViewModels.Dialogs;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Common.Collections;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -95,6 +96,17 @@ namespace Playground.ViewModels
                         Command = new RelayCommand(() =>
                         {
                             _pageNavigationService
+                                .For<TablePageViewModel>()
+                                .Navigate();
+                        })
+                    }),
+                (Category.Collections,
+                    new CommandAction
+                    {
+                        Title = "Observable collection",
+                        Command = new RelayCommand(() =>
+                        {
+                            _pageNavigationService
                                 .For<CollectionPageViewModel>()
                                 .Navigate();
                         })
@@ -123,7 +135,7 @@ namespace Playground.ViewModels
                         Title = "Photo browser",
                         Command = new RelayCommand(() =>
                         {
-                            //_pageNavigationService.NavigateToViewModel<PhotoBrowserViewModel>();
+                            _pageNavigationService.NavigateToViewModel<PhotoBrowserViewModel>();
                         })
                     }),
                 (Category.Components,
@@ -145,7 +157,16 @@ namespace Playground.ViewModels
                                 .For<PermissionsPageViewModel>()
                                 .Navigate();
                         })
-                    })
+                    }),
+                (Category.Components,
+                    new CommandAction
+                    {
+                        Title = "Connectivity",
+                        Command = new RelayCommand(() =>
+                        {
+                            _pageNavigationService.NavigateToViewModel<ConnectivityPageViewModel>();
+                        })
+                })
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());

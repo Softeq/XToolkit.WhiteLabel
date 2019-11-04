@@ -4,6 +4,7 @@
 using System;
 using NSubstitute;
 using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests

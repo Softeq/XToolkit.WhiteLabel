@@ -26,6 +26,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -36,6 +37,7 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -160,6 +162,10 @@
     <InterfaceDefinition Include="ViewControllers\Collections\GroupedListPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\Table\ProductTableViewCell.xib" />
     <InterfaceDefinition Include="Views\Table\GroupedTableHeaderView.xib" />
+    <InterfaceDefinition Include="ViewControllers\Collections\TablePageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\MovieTableViewCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -256,6 +262,23 @@
     <Compile Include="Views\Table\GroupedTableHeaderView.designer.cs">
       <DependentUpon>GroupedTableHeaderView.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\Collections\TablePageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\TablePageViewController.designer.cs">
+      <DependentUpon>TablePageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MovieTableViewCell.cs" />
+    <Compile Include="Views\MovieTableViewCell.designer.cs">
+      <DependentUpon>MovieTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Controls\PhotoBrowserViewController.cs" />
+    <Compile Include="ViewControllers\Controls\PhotoBrowserViewController.designer.cs">
+      <DependentUpon>PhotoBrowserViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Components\ConnectivityPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\ConnectivityPageViewController.designer.cs">
+      <DependentUpon>ConnectivityPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\CustomTransitioningDelegate.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -294,9 +317,19 @@
       <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
+      <Project>{044152C1-3B2A-45A6-B233-80A51C511129}</Project>
+      <Name>Softeq.XToolkit.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity.iOS\Softeq.XToolkit.Connectivity.iOS.csproj">
+      <Project>{E3CCEEA3-C0B0-47B0-B414-2D6C18AC100A}</Project>
+      <Name>Softeq.XToolkit.Connectivity.iOS</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Table\" />
+    <Folder Include="ViewControllers\Controls\" />
+    <Folder Include="Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

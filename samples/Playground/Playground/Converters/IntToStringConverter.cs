@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Converters;
 
 namespace Playground.Converters
 {

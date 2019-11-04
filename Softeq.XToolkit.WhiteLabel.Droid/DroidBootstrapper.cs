@@ -13,8 +13,6 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
@@ -24,9 +22,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             var viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(builder, assemblies);
 
-            builder.Singleton<IViewLocator>(x =>
+            builder.Singleton<IViewLocator>(container =>
             {
-                var viewLocator = x.Resolve<DroidViewLocator>();
+                var viewLocator = container.Resolve<DroidViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
             }, IfRegistered.Keep);
@@ -36,14 +34,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
+            base.RegisterInternalServices(builder);
+
+            // common
             builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
+
+            // navigation
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
             builder.Singleton<BundleService, IBundleService>(IfRegistered.Keep);
             builder.Singleton<DroidViewLocator>(IfRegistered.Keep);
-            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
-
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
         }
 
         private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(

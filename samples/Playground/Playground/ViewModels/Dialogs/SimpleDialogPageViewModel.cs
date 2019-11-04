@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 using Playground.Models;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.ViewModels.Dialogs
@@ -12,7 +12,7 @@ namespace Playground.ViewModels.Dialogs
     {
         public SimpleDialogPageViewModel()
         {
-            CloseCommand = new RelayCommand(Close);
+            CloseCommand = DialogComponent.CloseCommand;
             DoneCommand = new RelayCommand(Done);
         }
 
@@ -23,11 +23,6 @@ namespace Playground.ViewModels.Dialogs
         public string FirstName { get; set; }
 
         public string LastName { get; set; }
-
-        private void Close()
-        {
-            DialogComponent.CloseCommand.Execute(null);
-        }
 
         private void Done()
         {
