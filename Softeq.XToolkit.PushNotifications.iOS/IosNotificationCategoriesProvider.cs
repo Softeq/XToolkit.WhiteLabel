@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System.Collections.Generic;
 using System.Linq;
 using Foundation;
 using UIKit;
@@ -8,9 +11,9 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 {
     public class IosNotificationCategoriesProvider : INotificationCategoriesProvider
     {
-        public IList<UNNotificationCategory> NotificationCategories { get; } = new List<UNNotificationCategory>();
+        private readonly Dictionary<string, IList<UNNotificationAction>> _actionsForCategories = new Dictionary<string, IList<UNNotificationAction>>();
 
-        protected readonly Dictionary<string, IList<UNNotificationAction>> _actionsForCategories = new Dictionary<string, IList<UNNotificationAction>>();
+        public IList<UNNotificationCategory> NotificationCategories { get; } = new List<UNNotificationCategory>();
 
         public virtual void HandlePushNotificationCustomAction(PushNotificationModel pushNotification, string actionId, string textInput) { }
 
@@ -100,24 +103,20 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         protected void AddCategory(string categoryId, string[] intentIdentifiers, string hiddenPreviewsBodyPlaceholder,
             string categorySummaryFormat, UNNotificationCategoryOptions options)
         {
-            _actionsForCategories.TryGetValue(categoryId, out var actions);
-
-            UNNotificationCategory messageCategory;
-
             if (UIDevice.CurrentDevice.CheckSystemVersion(12, 0))
             {
-                messageCategory = UNNotificationCategory.FromIdentifier(categoryId,
+                _actionsForCategories.TryGetValue(categoryId, out var actions);
+
+                var messageCategory = UNNotificationCategory.FromIdentifier(categoryId,
                     actions?.ToArray() ?? new UNNotificationAction[] { }, intentIdentifiers,
                     hiddenPreviewsBodyPlaceholder, new NSString(categorySummaryFormat), options);
+                NotificationCategories.Add(messageCategory);
             }
             else
             {
-                messageCategory = UNNotificationCategory.FromIdentifier(categoryId,
-                    actions?.ToArray() ?? new UNNotificationAction[] { }, intentIdentifiers,
-                    hiddenPreviewsBodyPlaceholder, options);
+                AddCategory(categoryId, intentIdentifiers, hiddenPreviewsBodyPlaceholder, options);
             }
 
-            NotificationCategories.Add(messageCategory);
         }
 
         private void SaveAction(string categoryId, UNNotificationAction action)

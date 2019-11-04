@@ -1,4 +1,7 @@
-﻿namespace Softeq.XToolkit.PushNotifications
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+namespace Softeq.XToolkit.PushNotifications
 {
     public enum ForegroundNotificationOptions
     {
