@@ -1,0 +1,37 @@
+resources:
+- repo: self
+trigger:
+  - release/*
+pr: none
+
+queue:
+  name: Hosted macOS
+  demands: Xamarin.iOS
+
+variables:
+  MONO_VERSION: 6_4_0
+  DOTNET_SDK_VERSION: 3.0.100
+  BuildConfiguration: 'Release'
+  
+# defaults for any parameters that aren't specified
+parameters:
+  ProjectName: ''
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .Net Core sdk'
+  inputs:
+    version: $(DOTNET_SDK_VERSION)
+- bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
+  displayName: Switch to the latest Xamarin SDK
+- bash: 'msbuild nuget/${{ ProjectName }}.sln -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
+  displayName: Build library
+- bash: 'nuget pack nuget/${{ ProjectName }}.nuspec'
+  displayName: Pack library
+- task: CopyFiles@2
+  inputs:
+    contents: '${{ ProjectName }}*.nupkg'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+- task: PublishBuildArtifacts@1
+  inputs:
+    ArtifactName: 'drop'
