@@ -3,23 +3,23 @@
 
 using System;
 using DryIoc;
+using IDryContainer = DryIoc.IContainer;
 using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 {
-    internal class DryIocContainer : IContainer
+    internal class DryIocContainerAdapter : IContainer
     {
-        private DryIoc.IContainer _container = default!;
+        private IDryContainer _container = default!;
 
-        public IContainer Initialize(DryIoc.IContainer container)
+        internal void Initialize(IDryContainer container)
         {
             _container = container;
-            return this;
         }
 
-        public T Resolve<T>()
+        public TService Resolve<TService>()
         {
-            return _container.Resolve<T>();
+            return _container.Resolve<TService>();
         }
 
         public object Resolve(Type type)
@@ -27,9 +27,9 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             return _container.Resolve(type);
         }
 
-        public Lazy<T> ResolveLazy<T>()
+        public Lazy<TService> ResolveLazy<TService>()
         {
-            return new Lazy<T>(() => _container.Resolve<T>());
+            return new Lazy<TService>(() => _container.Resolve<TService>());
         }
     }
 }

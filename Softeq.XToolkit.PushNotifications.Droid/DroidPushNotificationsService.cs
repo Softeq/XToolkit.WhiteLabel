@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         private bool _isInitialized;
 
         private bool _registrationRequired;
-        private bool _showForegroundNotificationsInSystem;
+        private ForegroundNotificationOptions _showForegroundNotificationsInSystemOptions;
 
         public DroidPushNotificationsService(
             IRemotePushNotificationsService remotePushNotificationsService,
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
         }
 
-        public override void Initialize(bool showForegroundNotificationsInSystem)
+        public override void Initialize(ForegroundNotificationOptions showForegroundNotificationsInSystemOptions)
         {
             if (_isInitialized)
             {
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
 
             _isInitialized = true;
-            _showForegroundNotificationsInSystem = showForegroundNotificationsInSystem;
+            _showForegroundNotificationsInSystemOptions = showForegroundNotificationsInSystemOptions;
 
             //TODO: + update on locale changed
             NotificationsHelper.CreateNotificationChannels(_appContext, _notificationsSettings);
@@ -90,6 +90,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
+        protected override void SetBadgeNumberInternal(int badgeNumber)
+        {
+            // Not implemented for now
+        }
+
         protected override Task<bool> UnregisterFromPushTokenInSystem()
         {
             var tcs = new TaskCompletionSource<bool>();
@@ -122,6 +127,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             return tcs.Task;
         }
 
+        protected override void OnMessageCustomActionInvokedInternal(PushNotificationModel parsedNotification, string actionId, string textInput)
+        {
+            // Not implemented for now
+        }
+
         protected override void OnMessageReceivedInternal(object pushNotification, PushNotificationModel parsedNotification, bool inForeground)
         {
             base.OnMessageReceivedInternal(pushNotification, parsedNotification, inForeground);
@@ -134,7 +144,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         private void ShowNotification(object pushNotification, PushNotificationModel parsedPushNotification, bool inForeground)
         {
-            if (_showForegroundNotificationsInSystem || !inForeground)
+            if (_showForegroundNotificationsInSystemOptions.ShouldShow() || !inForeground)
             {
                 var notificationData = (pushNotification as RemoteMessage)?.Data;
                 NotificationsHelper.CreateNotification(_appContext, parsedPushNotification, notificationData, _notificationsSettings);

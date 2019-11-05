@@ -19,6 +19,6 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
         ///     Adds the new implementation or null (Made.Of),
         ///     otherwise keeps the previous registration of the same implementation type.
         /// </summary>
-        AppendNewImplementation
+        AppendNew
     }
 }

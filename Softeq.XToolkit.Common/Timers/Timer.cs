@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.Common.Timers
             }
 
             IsActive = true;
-            DoWork().SafeTaskWrapper();
+            DoWork().FireAndForget();
         }
 
         /// <inheritdoc />

@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.PushNotifications
             Logger = logManager.GetLogger<PushNotificationsServiceBase>();
         }
 
-        public abstract void Initialize(bool showForegroundNotificationsInSystem);
+        public abstract void Initialize(ForegroundNotificationOptions showForegroundNotificationsInSystemOptions);
 
         public abstract void ClearAllNotifications();
 
@@ -80,14 +80,14 @@ namespace Softeq.XToolkit.PushNotifications
             }
             else
             {
-                OnRegisterSuccessInternal(token).SafeTaskWrapper(Logger);
+                OnRegisterSuccessInternal(token).FireAndForget(Logger);
             }
         }
 
         public virtual void OnFailedToRegisterForPushNotifications(string errorMessage)
         {
             Logger.Warn($"Push Notifications failed to register: {errorMessage}");
-            OnRegisterFailedInternal().SafeTaskWrapper(Logger);
+            OnRegisterFailedInternal().FireAndForget(Logger);
         }
 
         public void OnMessageReceived(object pushNotification, bool inForeground)
@@ -113,7 +113,24 @@ namespace Softeq.XToolkit.PushNotifications
             }
         }
 
+        public void OnMessageCustomActionInvoked(object pushNotification, string actionId, string textInput)
+        {
+            if (TryParsePushNotification(pushNotification, out var parsedNotification))
+            {
+                OnMessageCustomActionInvokedInternal(parsedNotification, actionId, textInput);
+            }
+        }
+
+        public void SetBadgeNumber(int badgeNumber)
+        {
+            SetBadgeNumberInternal(badgeNumber <= 0 ? 0 : badgeNumber);
+        }
+
+        protected abstract void SetBadgeNumberInternal(int badgeNumber);
+
         protected abstract Task<bool> UnregisterFromPushTokenInSystem();
+
+        protected abstract void OnMessageCustomActionInvokedInternal(PushNotificationModel parsedNotification, string actionId, string textInput);
 
         // ReSharper disable once UnusedMethodReturnValue.Global - used on Android
         protected virtual void OnMessageReceivedInternal(object pushNotification, PushNotificationModel parsedNotification, bool inForeground)

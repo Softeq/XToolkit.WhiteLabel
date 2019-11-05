@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Softeq.XToolkit.WhiteLabel</id>
-    <version>2.0.0-beta1</version>
+    <version>2.0.0-beta4</version>
     <title>Softeq.XToolkit.WhiteLabel</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
@@ -15,33 +15,37 @@
     <releaseNotes/>
     <dependencies>
      <group targetFramework="netstandard2.0">
-        <dependency id="DryIoc" version="4.0.5" />
+        <dependency id="DryIoc.dll" version="4.0.5" />
         <dependency id="Newtonsoft.Json" version="12.0.2" />
-        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta1" />
-        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta1" />
-        <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta1" />
+        <!-- XToolkit -->
+        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta2" />
+        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta3" />
+        <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta3" />
       </group>
      <group targetFramework="MonoAndroid10">
-        <dependency id="DryIoc" version="4.0.5" />
+        <dependency id="DryIoc.dll" version="4.0.5" />
         <dependency id="Newtonsoft.Json" version="12.0.2" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <dependency id="Xam.Plugins.Settings" version="3.1.1" />
+        <!-- XToolkit -->
+        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta2" />
+        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta3" />
+        <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta3" />
+        <!-- Android specific -->
         <dependency id="Plugin.CurrentActivity" version="2.1.0.4" />
         <dependency id="Xamarin.Android.Support.Design" version="28.0.0.1" />
         <dependency id="Xamarin.Android.Support.v4" version="28.0.0.1" />
         <dependency id="Xamarin.Android.Support.v7.AppCompat" version="28.0.0.1" />
-        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta1" />
-        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta1" />
-        <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta1" />
       </group>
      <group targetFramework="Xamarin.iOS10">
-        <dependency id="DryIoc" version="4.0.5" />
+        <dependency id="DryIoc.dll" version="4.0.5" />
         <dependency id="Newtonsoft.Json" version="12.0.2" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <dependency id="Xam.Plugins.Settings" version="3.1.1" />
-        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta1" />
-        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta1" />
-        <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta1" />
+        <!-- XToolkit -->
+        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta2" />
+        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta3" />
+        <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta3" />
       </group>
    </dependencies>
   </metadata>
