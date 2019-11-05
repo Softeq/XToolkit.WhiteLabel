@@ -9,7 +9,7 @@ queue:
   demands: Xamarin.iOS
 
 variables:
-- template: vars.yml
+- template: templates/vars.yml
 
 steps:
 - template: templates/nuget-steps.yml
