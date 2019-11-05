@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         public static PropertyInfoModel FromProperty(MemberInfo memberInfo)
         {
-            return new PropertyInfoModel(memberInfo.DeclaringType.AssemblyQualifiedName, memberInfo.Name);
+            return new PropertyInfoModel(memberInfo.Name, memberInfo.DeclaringType.AssemblyQualifiedName);
         }
 
         public PropertyInfo ToProperty()

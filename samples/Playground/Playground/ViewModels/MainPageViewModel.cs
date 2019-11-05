@@ -41,21 +41,14 @@ namespace Playground.ViewModels
             var actions = new List<(Category Header, CommandAction Item)>
             {
                 (Category.Navigation,
-                    new CommandAction
-                    {
-                        Title = "Without parameters",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService
                                 .For<DetailsPageViewModel>()
                                 .Navigate();
-                        })
-                    }),
+                        }), "Without parameters")),
                 (Category.Navigation,
-                    new CommandAction
-                    {
-                        Title = "With parameters",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService
                                 .For<DetailsPageViewModel>()
@@ -65,108 +58,67 @@ namespace Playground.ViewModels
                                     LastName = "Ivanov"
                                 })
                                 .Navigate();
-                        })
-                    }),
+                        }), "With parameters")),
                 (Category.Navigation,
-                    new CommandAction
-                    {
-                        Title = "Bottom Tabs",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService
                                 .For<BottomTabsPageViewModel>()
                                 .Navigate();
-                        })
-                    }),
+                        }), "Bottom Tabs")),
                 (Category.Navigation,
-                    new CommandAction
-                    {
-                        Title = "Dialogs",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService
                                 .For<DialogsPageViewModel>()
                                 .Navigate();
-                        })
-                    }),
+                        }), "Dialogs")),
                 (Category.Collections,
-                    new CommandAction
-                    {
-                        Title = "Observable list",
-                        Command = new RelayCommand(() =>
+                    new CommandAction( new RelayCommand(() =>
                         {
                             _pageNavigationService
                                 .For<TablePageViewModel>()
                                 .Navigate();
-                        })
-                    }),
+                        }), "Observable list")),
                 (Category.Collections,
-                    new CommandAction
-                    {
-                        Title = "Observable collection",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService
                                 .For<CollectionPageViewModel>()
                                 .Navigate();
-                        })
-                    }),
+                        }), "Observable collection")),
                 (Category.Collections,
-                    new CommandAction
-                    {
-                        Title = "Observable grouped list",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService.NavigateToViewModel<GroupedTablePageViewModel>();
-                        })
-                    }),
+                        }), "Observable grouped list")),
                 (Category.Collections,
-                    new CommandAction
-                    {
-                        Title = "Observable grouped collection",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService.NavigateToViewModel<GroupedCollectionPageViewModel>();
-                        })
-                    }),
+                        }), "Observable grouped collection")),
                 (Category.Controls,
-                    new CommandAction
-                    {
-                        Title = "Photo browser",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService.NavigateToViewModel<PhotoBrowserViewModel>();
-                        })
-                    }),
+                        }), "Photo browser")),
                 (Category.Components,
-                    new CommandAction
-                    {
-                        Title = "Files",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             //_pageNavigationService.NavigateToViewModel<FilesViewModel>();
-                        })
-                }),
+                        }), "Files")),
                 (Category.Components,
-                    new CommandAction
-                    {
-                        Title = "Permissions",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService
                                 .For<PermissionsPageViewModel>()
                                 .Navigate();
-                        })
-                    }),
+                        }), "Permissions")),
                 (Category.Components,
-                    new CommandAction
-                    {
-                        Title = "Connectivity",
-                        Command = new RelayCommand(() =>
+                    new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService.NavigateToViewModel<ConnectivityPageViewModel>();
-                        })
-                })
+                        }), "Connectivity"))
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());

@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             _iocContainer = iocContainer;
         }
 
-        public bool IsEmptyBackStack => !NavigationController.ViewControllers.Any();
+        public bool IsEmptyBackStack => !NavigationController!.ViewControllers.Any();
 
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
 
@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var controller = NavigationController
+                var controller = NavigationController!
                     .ChildViewControllers
                     .FirstOrDefault(x => x is ViewControllerBase<T>);
 

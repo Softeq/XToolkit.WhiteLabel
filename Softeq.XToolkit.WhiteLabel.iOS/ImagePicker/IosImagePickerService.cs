@@ -14,17 +14,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private TaskCompletionSource<UIImage?>? _taskCompletionSource;
         private UIImagePickerController? _pickerController;
 
-        public Task<ImagePickerResult> PickPhotoAsync(float quality)
+        public Task<ImagePickerResult?> PickPhotoAsync(float quality)
         {
             return GetImageAsync(UIImagePickerControllerSourceType.PhotoLibrary, quality);
         }
 
-        public Task<ImagePickerResult> TakePhotoAsync(float quality)
+        public Task<ImagePickerResult?> TakePhotoAsync(float quality)
         {
             return GetImageAsync(UIImagePickerControllerSourceType.Camera, quality);
         }
 
-        private async Task<ImagePickerResult> GetImageAsync(UIImagePickerControllerSourceType type, float quality)
+        private async Task<ImagePickerResult?> GetImageAsync(UIImagePickerControllerSourceType type, float quality)
         {
             _pickerController = new UIImagePickerController
             {
