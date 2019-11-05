@@ -1,11 +1,5 @@
-variables:
-  MONO_VERSION: 6_4_0
-  DOTNET_SDK_VERSION: 3.0.100
-  BuildConfiguration: 'Release'
-  
-# defaults for any parameters that aren't specified
-parameters:
-  ProjectName: ''
+parameters: # defaults for any parameters that aren't specified
+  ProjectName: '' 
 
 steps:
 - task: UseDotNet@2

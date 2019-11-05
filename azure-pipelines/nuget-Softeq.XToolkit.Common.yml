@@ -8,6 +8,9 @@ queue:
   name: Hosted macOS
   demands: Xamarin.iOS
 
+variables:
+- template: vars.yml
+
 steps:
 - template: templates/nuget-steps.yml
   parameters:

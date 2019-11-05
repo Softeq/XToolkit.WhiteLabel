@@ -1,0 +1,4 @@
+variables:
+  MONO_VERSION: 6_4_0
+  DOTNET_SDK_VERSION: 3.0.100
+  BuildConfiguration: 'Release'
