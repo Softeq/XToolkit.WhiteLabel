@@ -8,9 +8,9 @@ steps:
     version: $(DOTNET_SDK_VERSION)
 - bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
   displayName: Switch to the latest Xamarin SDK
-- bash: 'msbuild nuget/${{ ProjectName }}.sln -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
+- script: 'msbuild nuget/${{ ProjectName }}.sln -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
   displayName: Build library
-- bash: 'nuget pack nuget/${{ ProjectName }}.nuspec'
+- script: 'nuget pack nuget/${{ ProjectName }}.nuspec'
   displayName: Pack library
 - task: CopyFiles@2
   inputs:
