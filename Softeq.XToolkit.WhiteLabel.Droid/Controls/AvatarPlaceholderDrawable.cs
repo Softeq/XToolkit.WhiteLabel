@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         private readonly Paint _textPaint;
 
-        private RectF _placeholderBounds;
+        private RectF? _placeholderBounds;
         private float _textStartXPoint;
         private float _textStartYPoint;
 
@@ -111,11 +111,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         private float CalculateTextSize()
         {
-            return _placeholderBounds.Height() * TextSizePercentage / 100;
+            return _placeholderBounds!.Height() * TextSizePercentage / 100;
         }
 
         public class AvatarStyles
         {
+            public AvatarStyles(Size size, string[] backgroundHexColors)
+            {
+                Size = size;
+                BackgroundHexColors = backgroundHexColors;
+            }
+
             public Size Size { get; set; }
             public string[] BackgroundHexColors { get; set; }
         }

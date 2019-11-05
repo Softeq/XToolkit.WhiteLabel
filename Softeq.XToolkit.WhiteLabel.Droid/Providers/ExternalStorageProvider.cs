@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
             await _storageProvider.ClearFolderAsync(Path.Combine(_rootFolderPath, path)).ConfigureAwait(false);
         }
 
-        public async Task<string> CopyFileFromAsync(string path, string newPath)
+        public async Task<string?> CopyFileFromAsync(string path, string newPath)
         {
             await CheckPermission().ConfigureAwait(false);
 

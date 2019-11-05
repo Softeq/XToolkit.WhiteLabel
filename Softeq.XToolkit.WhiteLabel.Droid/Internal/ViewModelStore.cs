@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using Android.Support.V4.App;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
@@ -21,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 
         private static IViewModelStore Get(FragmentManager fragmentManager)
         {
-            ViewModelStoreFragment viewModelStore = null;
+            ViewModelStoreFragment viewModelStore;
 
             if (!fragmentManager.IsDestroyed)
             {
@@ -36,6 +37,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
                         .Add(viewModelStore, ViewModelStoreTag)
                         .CommitNow();
                 }
+            }
+            else
+            {
+                throw new Exception("view model store has been destroyed");
             }
 
             return viewModelStore;

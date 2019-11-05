@@ -209,12 +209,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return _backStack.Any(item => ReferenceEquals(item.ViewModel, viewModelBase));
         }
 
-        public void NavigateToViewModel<TViewModel>(bool clearBackStack = false, IReadOnlyList<NavigationParameterModel> parameters = null) where TViewModel : IViewModelBase
+        public void NavigateToViewModel<TViewModel>(bool clearBackStack = false, IReadOnlyList<NavigationParameterModel>? parameters = null) where TViewModel : IViewModelBase
         {
             throw new NotImplementedException();
         }
 
-        public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false, IReadOnlyList<NavigationParameterModel> parameters = null)
+        public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false, IReadOnlyList<NavigationParameterModel>? parameters = null)
         {
             throw new NotImplementedException();
         }

@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
         {
         }
 
-        public void Detach(ActivityBase item = null)
+        public void Detach(ActivityBase? item = null)
         {
         }
     }
