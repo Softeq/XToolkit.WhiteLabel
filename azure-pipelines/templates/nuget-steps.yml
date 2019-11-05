@@ -1,9 +1,3 @@
-resources:
-- repo: self
-trigger:
-  - release/*
-pr: none
-
 queue:
   name: Hosted macOS
   demands: Xamarin.iOS
