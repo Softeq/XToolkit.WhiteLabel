@@ -1,0 +1,23 @@
+parameters: # defaults for any parameters that aren't specified
+  SolutionPath: '' 
+  TestsPath: ''
+
+jobs:
+- job: macos_1014
+  pool:
+    name: Hosted macOS
+  steps:
+    # setup env
+    - task: UseDotNet@2
+      displayName: 'Use .Net Core sdk'
+      inputs:
+        version: $(DOTNET_SDK_VERSION)
+    - bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
+      displayName: Switch to the latest Xamarin SDK
+    - bash: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(XCODE_VERSION).app;sudo xcode-select --switch /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
+      displayName: Switch to the latest Xcode
+    # restore, build
+    - script: 'msbuild ${{ parameters.SolutionPath }} -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
+      displayName: Build Solution
+    - script: 'dotnet test ${{ parameters.TestsPath }} --configuration $(BuildConfiguration)'
+      displayName: Run Tests
