@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
+using Android.Support.V4.App;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
@@ -32,6 +33,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <returns>Notification channel importance</returns>
         NotificationImportance GetNotificationChannelImportance(string channelId);
 
+        void ConfigureNotificationChannel(string channelId, NotificationChannel channel);
+
         /// <summary>
         ///     Obtains channel id for specific notification
         /// </summary>
@@ -43,9 +46,18 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         ///     Obtains styles for displaying the given push notification in system. Provide different ids for notifications if you do not
         ///     want them to replace each other
         /// </summary>
-        /// <param name="pushNotification"></param>
+        /// <param name="pushNotification">Push notification data</param>
         /// <returns></returns>
         PushNotificationStyles GetStylesForNotification(PushNotificationModel pushNotification);
+
+        /// <summary>
+        /// You can customize how push notification will be shown (apart from ContentTitle, ContentText, channelid,
+        /// styles set in GetStylesForNotification and content intent)
+        /// </summary>
+        /// <param name="notificationBuilder">Already created notification builder that can be further customized</param>
+        /// <param name="pushNotification">Push notification data</param>
+        /// <returns>The same notification builder passed inside the parameter, possibly modified</returns>
+        NotificationCompat.Builder CustomizeNotificationBuilder(NotificationCompat.Builder notificationBuilder, PushNotificationModel pushNotification);
 
         /// <summary>
         ///     Obtains type of the Start Activity which will be opened by tap on the given notification

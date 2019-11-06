@@ -57,6 +57,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             {
                 var permissionGranted = await _permissionsService.RequestNotificationsPermissions();
 
+                // TODO: we should register token in any case to handle the possibility of user changing permission in Settings
+                // (the system itself will disregard notifications if permissions are not granted)
                 if (permissionGranted)
                 {
                     UIApplication.SharedApplication.RegisterForRemoteNotifications();
