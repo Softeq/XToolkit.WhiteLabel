@@ -64,6 +64,9 @@
     <PackageReference Include="Xamarin.Android.Arch.Lifecycle.Extensions">
       <Version>1.1.1.1</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.ShortcutBadger">
+      <Version>1.1.21</Version>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">

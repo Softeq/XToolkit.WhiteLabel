@@ -13,6 +13,7 @@ using Firebase.Messaging;
 using Java.Interop;
 using Java.IO;
 using Softeq.XToolkit.Common.Logger;
+using XamarinShortcutBadger;
 using Object = Java.Lang.Object;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
@@ -92,7 +93,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         protected override void SetBadgeNumberInternal(int badgeNumber)
         {
-            // Not implemented for now
+            if (_appContext != null)
+            {
+                var result = ShortcutBadger.ApplyCount(_appContext, badgeNumber);
+            }
         }
 
         protected override Task<bool> UnregisterFromPushTokenInSystem()
