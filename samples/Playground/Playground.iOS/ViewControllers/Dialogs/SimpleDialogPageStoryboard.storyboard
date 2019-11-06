@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -21,22 +19,32 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="anN-uu-Mab">
+                                <rect key="frame" x="20" y="44" width="374" height="100"/>
+                                <color key="backgroundColor" red="1" green="0.67082563693358721" blue="0.81671568156687013" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="100" id="Vyk-6h-WRc"/>
+                                </constraints>
+                            </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="coz-eT-TKA">
-                                <rect key="frame" x="60" y="84" width="39" height="30"/>
+                                <rect key="frame" x="157.5" y="79" width="39" height="30"/>
                                 <fontDescription key="fontDescription" name=".AppleSystemUIFont" family=".AppleSystemUIFont" pointSize="15"/>
                                 <state key="normal" title="Close"/>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CeC-vT-mMu">
-                                <rect key="frame" x="317" y="84" width="37" height="30"/>
+                                <rect key="frame" x="218.5" y="79" width="37" height="30"/>
                                 <state key="normal" title="Done"/>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="backgroundColor" red="1" green="0.98110325001941834" blue="0.80732911090249171" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstAttribute="trailingMargin" secondItem="CeC-vT-mMu" secondAttribute="trailing" constant="40" id="4aH-ly-x66"/>
-                            <constraint firstItem="coz-eT-TKA" firstAttribute="leading" secondItem="D3o-6o-fVR" secondAttribute="leadingMargin" constant="40" id="J1i-Hd-F9O"/>
-                            <constraint firstItem="CeC-vT-mMu" firstAttribute="top" secondItem="gMd-6M-K0q" secondAttribute="bottom" constant="40" id="aqZ-ym-dEA"/>
-                            <constraint firstItem="coz-eT-TKA" firstAttribute="top" secondItem="gMd-6M-K0q" secondAttribute="bottom" constant="40" id="orB-Iy-cEe"/>
+                            <constraint firstItem="CeC-vT-mMu" firstAttribute="centerY" secondItem="anN-uu-Mab" secondAttribute="centerY" id="2Va-c9-mTD"/>
+                            <constraint firstItem="coz-eT-TKA" firstAttribute="centerX" secondItem="D3o-6o-fVR" secondAttribute="centerX" constant="-30" id="5Ru-ZN-0NK"/>
+                            <constraint firstItem="anN-uu-Mab" firstAttribute="top" secondItem="gMd-6M-K0q" secondAttribute="bottom" id="851-P0-oQd"/>
+                            <constraint firstItem="CeC-vT-mMu" firstAttribute="centerX" secondItem="D3o-6o-fVR" secondAttribute="centerX" constant="30" id="dsi-XV-MqR"/>
+                            <constraint firstItem="coz-eT-TKA" firstAttribute="centerY" secondItem="anN-uu-Mab" secondAttribute="centerY" id="jM5-Qo-RIf"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="anN-uu-Mab" secondAttribute="trailing" id="kDe-fX-PrN"/>
+                            <constraint firstItem="anN-uu-Mab" firstAttribute="leading" secondItem="D3o-6o-fVR" secondAttribute="leadingMargin" id="wXf-8D-Oyv"/>
                         </constraints>
                     </view>
                     <connections>

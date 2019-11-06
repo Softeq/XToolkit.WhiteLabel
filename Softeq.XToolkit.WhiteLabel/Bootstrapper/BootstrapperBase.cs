@@ -18,8 +18,8 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         {
             var containerBuilder = CreateContainerBuilder();
 
-            ConfigureIoc(containerBuilder);
             RegisterInternalServices(containerBuilder);
+            ConfigureIoc(containerBuilder);
 
             var container = BuildContainer(containerBuilder, assemblies);
 
@@ -31,23 +31,24 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             return new DryIocContainerBuilder();
         }
 
-        protected abstract void ConfigureIoc(IContainerBuilder builder);
+        protected virtual void RegisterInternalServices(IContainerBuilder builder)
+        {
+            // logs
+            builder.Singleton<ConsoleLogManager, ILogManager>(IfRegistered.Keep);
 
-        protected abstract void RegisterInternalServices(IContainerBuilder builder);
+            // navigation
+            builder.Singleton<PageNavigationService, IPageNavigationService>(IfRegistered.Keep);
+            builder.Singleton<BackStackManager, IBackStackManager>(IfRegistered.Keep);
+
+            // tabs
+            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
+            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
+        }
+
+        protected abstract void ConfigureIoc(IContainerBuilder builder);
 
         protected virtual IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
         {
-            // navigation
-            builder.Singleton<PageNavigationService, IPageNavigationService>();
-            builder.Singleton<BackStackManager, IBackStackManager>();
-
-            // tabs
-            builder.Singleton<TabNavigationService, ITabNavigationService>();
-            builder.PerDependency<TabViewModel>();
-
-            // logs
-            builder.Singleton<ConsoleLogManager, ILogManager>();
-
             return builder.Build();
         }
     }

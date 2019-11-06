@@ -22,9 +22,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             var viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(builder, assemblies);
 
-            builder.Singleton<IViewLocator>(x =>
+            builder.Singleton<IViewLocator>(container =>
             {
-                var viewLocator = x.Resolve<DroidViewLocator>();
+                var viewLocator = container.Resolve<DroidViewLocator>();
                 viewLocator.Initialize(viewModelToViewControllerDictionary);
                 return viewLocator;
             }, IfRegistered.Keep);
@@ -34,11 +34,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
+            base.RegisterInternalServices(builder);
+
+            // common
             builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
+
+            // navigation
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
             builder.Singleton<BundleService, IBundleService>(IfRegistered.Keep);
             builder.Singleton<DroidViewLocator>(IfRegistered.Keep);
-
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
         }
 

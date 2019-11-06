@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using DryIoc;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using IDryContainer = DryIoc.IContainer;
 using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
@@ -13,51 +14,55 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
     public class DryIocContainerBuilder : IContainerBuilder
     {
         private readonly List<Action<IContainer>> _buildActions;
-        private DryIoc.IContainer _container;
+        private IDryContainer _dryContainer;
 
         public DryIocContainerBuilder()
         {
-            _container = new Container(rules => rules.WithoutFastExpressionCompiler());
+            _dryContainer = new Container(rules => rules.WithoutFastExpressionCompiler());
             _buildActions = new List<Action<IContainer>>();
         }
 
-        public void PerDependency<T1, T2>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation) where T1 : T2
+        public void PerDependency<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
+            where TImplementation : TService
         {
-            RegisterInternal<T1, T2>(Reuse.Transient, ifRegistered);
+            RegisterInternal<TImplementation, TService>(Reuse.Transient, ifRegistered);
         }
 
-        public void PerDependency<T1>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation)
+        public void PerDependency<TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
-            RegisterInternal<T1>(Reuse.Transient, ifRegistered);
+            RegisterInternal<TService>(Reuse.Transient, ifRegistered);
         }
 
-        public void PerDependency<T1>(Func<IContainer, T1> func, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation)
+        public void PerDependency<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(func, Reuse.Transient, ifRegistered);
         }
 
-        public void PerDependency(Type type, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation)
+        public void PerDependency(Type type, IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(type, Reuse.Transient, ifRegistered);
         }
 
-        public void PerDependency<T1>(Func<IContainer, object> func,
-            IfRegistered ifRegistered = IfRegistered.AppendNewImplementation)
+#pragma warning disable RECS0096 // Type parameter is never used
+        public void PerDependency<TService>(Func<IContainer, object> func,
+#pragma warning restore RECS0096 // Type parameter is never used
+            IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(func, Reuse.Transient, ifRegistered);
         }
 
-        public void Singleton<T1, T2>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation) where T1 : T2
+        public void Singleton<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
+            where TImplementation : TService
         {
-            RegisterInternal<T1, T2>(Reuse.Singleton, ifRegistered);
+            RegisterInternal<TImplementation, TService>(Reuse.Singleton, ifRegistered);
         }
 
-        public void Singleton<T1>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation)
+        public void Singleton<TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
-            RegisterInternal<T1>(Reuse.Singleton, ifRegistered);
+            RegisterInternal<TService>(Reuse.Singleton, ifRegistered);
         }
 
-        public void Singleton<T1>(Func<IContainer, T1> func, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation)
+        public void Singleton<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(func, Reuse.Singleton);
         }
@@ -69,12 +74,13 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 
         public IContainer Build()
         {
-            Singleton<DryIocContainer, IContainer>();
+            var container = new DryIocContainerAdapter();
 
-            var container = _container.Resolve<IContainer>();
-            _container = _container.WithNoMoreRegistrationAllowed();
+            _dryContainer.RegisterInstance<IContainer>(container, IfAlreadyRegistered.Keep);
 
-            ((DryIocContainer) container).Initialize(_container);
+            _dryContainer = _dryContainer.WithNoMoreRegistrationAllowed(); // lock for new registrations
+
+            container.Initialize(_dryContainer);
 
             _buildActions.Apply(action => action?.Invoke(container));
             _buildActions.Clear();
@@ -82,26 +88,26 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             return container;
         }
 
-        private void RegisterInternal<T1>(IReuse reuse, IfRegistered ifRegistered)
+        private void RegisterInternal<TService>(IReuse reuse, IfRegistered ifRegistered)
         {
-            _container.Register<T1>(reuse, null, null, MapIfAlreadyRegistered(ifRegistered));
+            _dryContainer.Register<TService>(reuse, null, null, MapIfAlreadyRegistered(ifRegistered));
         }
 
-        private void RegisterInternal<T1, T2>(IReuse reuse, IfRegistered ifRegistered)
-            where T1 : T2
+        private void RegisterInternal<TImplementation, TService>(IReuse reuse, IfRegistered ifRegistered)
+            where TImplementation : TService
         {
-            _container.Register<T2, T1>(reuse, null, null, MapIfAlreadyRegistered(ifRegistered));
+            _dryContainer.Register<TService, TImplementation>(reuse, null, null, MapIfAlreadyRegistered(ifRegistered));
         }
 
         private void RegisterInternal(Type type, IReuse reuse, IfRegistered ifRegistered)
         {
-            _container.Register(type, reuse, null, null, MapIfAlreadyRegistered(ifRegistered));
+            _dryContainer.Register(type, reuse, null, null, MapIfAlreadyRegistered(ifRegistered));
         }
 
-        private void RegisterInternal<T1>(Func<IContainer, T1> func, IReuse reuse,
-            IfRegistered ifRegistered = IfRegistered.AppendNewImplementation)
+        private void RegisterInternal<TService>(Func<IContainer, TService> func, IReuse reuse,
+            IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
-            _container.RegisterDelegate(c => func.Invoke(c.Resolve<IContainer>()), reuse, null,
+            _dryContainer.RegisterDelegate(c => func.Invoke(c.Resolve<IContainer>()), reuse, null,
                 MapIfAlreadyRegistered(ifRegistered));
         }
 
@@ -113,7 +119,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
                     return IfAlreadyRegistered.Keep;
                 case IfRegistered.Replace:
                     return IfAlreadyRegistered.Replace;
-                case IfRegistered.AppendNewImplementation:
+                case IfRegistered.AppendNew:
                     return IfAlreadyRegistered.AppendNewImplementation;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(ifRegistered), ifRegistered, null);

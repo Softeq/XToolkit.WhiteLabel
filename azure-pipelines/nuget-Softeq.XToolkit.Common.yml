@@ -9,15 +9,9 @@ queue:
   demands: Xamarin.iOS
 
 variables:
-  BuildConfiguration: 'Release'
-  ProjectName: 'Softeq.XToolkit.Common'
+- template: templates/vars.yml
+
 steps:
-- script: 'msbuild nuget/$(ProjectName).sln -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
-- script: 'nuget pack nuget/$(ProjectName).nuspec'
-- task: CopyFiles@2
-  inputs:
-    contents: '$(ProjectName)*.nupkg'
-    targetFolder: $(Build.ArtifactStagingDirectory)
-- task: PublishBuildArtifacts@1
-  inputs:
-    ArtifactName: 'drop'
+- template: templates/nuget-steps.yml
+  parameters:
+    ProjectName: 'Softeq.XToolkit.Common'

@@ -37,7 +37,7 @@ namespace Playground.ViewModels.Components
         {
             base.OnAppearing();
 
-            CheckAll().SafeTaskWrapper();
+            CheckAll().FireAndForget();
         }
 
         private async Task CheckAll()

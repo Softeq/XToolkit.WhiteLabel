@@ -9,14 +9,14 @@ namespace Softeq.XToolkit.PushNotifications.iOS
     public class UserNotificationCenterDelegate : UNUserNotificationCenterDelegate
     {
         private readonly IPushNotificationsReceiver _pushNotificationsReceiver;
-        private readonly bool _showForegroundNotificationsInSystem;
+        private readonly ForegroundNotificationOptions _showForegroundNotificationsInSystemOptions;
 
         public UserNotificationCenterDelegate(
             IPushNotificationsReceiver pushNotificationsReceiver,
-            bool showForegroundNotificationsInSystem)
+            ForegroundNotificationOptions showForegroundNotificationsInSystemOptions)
         {
             _pushNotificationsReceiver = pushNotificationsReceiver;
-            _showForegroundNotificationsInSystem = showForegroundNotificationsInSystem;
+            _showForegroundNotificationsInSystemOptions = showForegroundNotificationsInSystemOptions;
         }
 
         // Handle Foreground Notifications
@@ -26,13 +26,17 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             Action<UNNotificationPresentationOptions> completionHandler)
         {
             _pushNotificationsReceiver.OnMessageReceived(notification.Request.Content.UserInfo, true);
-            if (_showForegroundNotificationsInSystem)
+            switch (_showForegroundNotificationsInSystemOptions)
             {
-                completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);
-            }
-            else
-            {
-                completionHandler(UNNotificationPresentationOptions.None);
+                case ForegroundNotificationOptions.Show:
+                    completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);
+                    break;
+                case ForegroundNotificationOptions.ShowWithBadge:
+                    completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Badge);
+                    break;
+                case ForegroundNotificationOptions.DoNotShow:
+                    completionHandler(UNNotificationPresentationOptions.None);
+                    break;
             }
         }
 
@@ -42,7 +46,23 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             UNNotificationResponse response,
             Action completionHandler)
         {
-            _pushNotificationsReceiver.OnMessageTapped(response.Notification.Request.Content.UserInfo);
+            var actionIdentifier = response.ActionIdentifier;
+            var userInfo = response.Notification.Request.Content.UserInfo;
+
+            if (response.IsCustomAction)
+            {
+                var textInput = (response as UNTextInputNotificationResponse)?.UserText;
+                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier, textInput);
+            }
+            else if (response.IsDefaultAction)
+            {
+                _pushNotificationsReceiver.OnMessageTapped(userInfo);
+            }
+            else if (response.IsDismissAction)
+            {
+                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier, null);
+            }
+
             completionHandler.Invoke();
         }
     }
