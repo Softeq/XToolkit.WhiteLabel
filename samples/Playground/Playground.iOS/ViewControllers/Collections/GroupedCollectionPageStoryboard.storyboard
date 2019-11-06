@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -61,18 +61,9 @@
                         <outlet property="AddButton" destination="38y-Ou-uGQ" id="aIC-Mz-amx"/>
                         <outlet property="CollectionView" destination="Lsj-2D-wv7" id="QHJ-Hn-6QZ"/>
                         <outlet property="GenerateButton" destination="KEH-zm-Jhj" id="olh-V3-0sv"/>
-                        <outlet property="searchDisplayController" destination="5uS-Bm-k7R" id="gh6-N0-h6N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O1N-DJ-RLQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="5uS-Bm-k7R">
-                    <connections>
-                        <outlet property="delegate" destination="jwe-91-B8l" id="1eB-IY-sYy"/>
-                        <outlet property="searchContentsController" destination="jwe-91-B8l" id="fol-zl-zV3"/>
-                        <outlet property="searchResultsDataSource" destination="jwe-91-B8l" id="hO9-rn-chx"/>
-                        <outlet property="searchResultsDelegate" destination="jwe-91-B8l" id="5G5-AL-Fri"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="166.66666666666669" y="83.705357142857139"/>
         </scene>
