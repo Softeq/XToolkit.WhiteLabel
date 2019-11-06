@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Remote.Primitives
         /// <summary>
         ///     Default timeout for requests. In seconds.
         /// </summary>
-        public const int DefaultTimeout = 1;
+        public const int DefaultTimeout = 10;
 
         /// <summary>
         ///     Default priority for requests. Matches fusillade policy.

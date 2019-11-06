@@ -13,6 +13,7 @@ namespace Softeq.XToolkit.Remote.Client
         {
         }
 
+        // TODO YP: export to the HttpClientBuilderExtensions
         public IHttpClientBuilder WithSessionContext(ISessionContext sessionContext)
         {
             _sessionContext = sessionContext;

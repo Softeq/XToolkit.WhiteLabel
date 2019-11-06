@@ -48,7 +48,6 @@ namespace RemoteApp.Services.Auth
                         Priority = RequestPriority.UserInitiated,
                         RetryCount = 2,
                         ShouldRetry = ex => !(ex is ApiException),
-                        Timeout = 2,
                         CancellationToken = cancellationToken
                     });
 

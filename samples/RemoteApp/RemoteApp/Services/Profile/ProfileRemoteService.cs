@@ -29,7 +29,6 @@ namespace RemoteApp.Services.Profile
                 (service, ct) => service.Profile(ct),
                 new RequestOptions
                 {
-                    Timeout = 15,
                     CancellationToken = cancellationToken
                 });
 
