@@ -96,6 +96,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             if (_appContext != null)
             {
                 var result = ShortcutBadger.ApplyCount(_appContext, badgeNumber);
+                Logger.Debug($"Badge count {badgeNumber} was" + (!result ? "NOT" : "") + "set");
             }
         }
 

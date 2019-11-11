@@ -56,17 +56,11 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             UIApplication.SharedApplication.InvokeOnMainThread(async () =>
             {
                 var permissionGranted = await _permissionsService.RequestNotificationsPermissions();
+                PushNotificationsHandler.OnPushPermissionsRequestCompleted(permissionGranted);
 
-                // TODO: we should register token in any case to handle the possibility of user changing permission in Settings
-                // (the system itself will disregard notifications if permissions are not granted)
-                if (permissionGranted)
-                {
-                    UIApplication.SharedApplication.RegisterForRemoteNotifications();
-                }
-                else
-                {
-                    OnFailedToRegisterForPushNotifications("Permission denied");
-                }
+                // We should register token in any case (even when permissions are not granted) to handle the possibility
+                // of user changing permission in Settings (the system itself will disregard notifications if permissions are not granted)
+                UIApplication.SharedApplication.RegisterForRemoteNotifications();
             });
         }
 
