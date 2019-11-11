@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         ///     Context for obtaining channel names from resources (Names should be obtained from resources for
         ///     localization support)
         /// </param>
-        /// <returns>Dictionary of channel ids and names</returns>
+        /// <returns>Dictionary of channel Ids and Names</returns>
         Dictionary<string, string> GetNotificationChannels(Context context);
 
         /// <summary>
@@ -33,6 +33,15 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <returns>Notification channel importance</returns>
         NotificationImportance GetNotificationChannelImportance(string channelId);
 
+        /// <summary>
+        ///     You can add some custom configuration for a created Notification Channel (like description, sound, etc.)
+        /// </summary>
+        /// <param name="channelId">Channel Id string</param>
+        /// <param name="channel">
+        ///     A NotificationChannel that will be registered in the system. Contains already set channelId,
+        ///     name (received from <see cref="GetNotificationChannels"/>)
+        ///     and importance (provided by <see cref="GetNotificationChannelImportance"/>)
+        /// </param>
         void ConfigureNotificationChannel(string channelId, NotificationChannel channel);
 
         /// <summary>
@@ -51,13 +60,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         PushNotificationStyles GetStylesForNotification(PushNotificationModel pushNotification);
 
         /// <summary>
-        /// You can customize how push notification will be shown (apart from ContentTitle, ContentText, channelid,
-        /// styles set in GetStylesForNotification and content intent)
+        ///     You can customize how push notification will be shown (apart from ContentTitle, ContentText, channelid,
+        ///     styles set in GetStylesForNotification and content intent). You can use SetNumber to set badge on Android 26+
         /// </summary>
         /// <param name="notificationBuilder">Already created notification builder that can be further customized</param>
         /// <param name="pushNotification">Push notification data</param>
-        /// <returns>The same notification builder passed inside the parameter, possibly modified</returns>
-        NotificationCompat.Builder CustomizeNotificationBuilder(NotificationCompat.Builder notificationBuilder, PushNotificationModel pushNotification);
+        void CustomizeNotificationBuilder(NotificationCompat.Builder notificationBuilder, PushNotificationModel pushNotification);
 
         /// <summary>
         ///     Obtains type of the Start Activity which will be opened by tap on the given notification

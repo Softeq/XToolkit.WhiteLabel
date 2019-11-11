@@ -86,7 +86,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             var pendingIntent = PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             notificationBuilder.SetContentIntent(pendingIntent);
 
-            notificationBuilder = notificationsSettings.CustomizeNotificationBuilder(notificationBuilder, pushNotification);
+            notificationsSettings.CustomizeNotificationBuilder(notificationBuilder, pushNotification);
 
             NotificationManager.FromContext(context).Notify(styles.Id, notificationBuilder.Build());
         }
