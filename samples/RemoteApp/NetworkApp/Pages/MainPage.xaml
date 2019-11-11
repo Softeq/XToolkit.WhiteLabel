@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    mc:Ignorable="d"
+    ios:Page.UseSafeArea="true"
+    x:Class="NetworkApp.Pages.MainPage">
+    <StackLayout>
+
+        <StackLayout
+            Orientation="Horizontal">
+            <ActivityIndicator
+                IsRunning="True"
+                IsVisible="{Binding IsBusy}"
+                Color="Blue" />
+            <Button
+                Text="Request"
+                Command="{Binding RequestCommand}" />
+            <Button
+                Text="Cancel"
+                Command="{Binding CancelRequestCommand}" />
+        </StackLayout>
+
+        <ScrollView>
+            <Label
+                Text="{Binding ResultData}" />
+        </ScrollView>
+
+    </StackLayout>
+</ContentPage>

@@ -90,13 +90,13 @@ namespace RemoteApp.ViewModels
 
             Interlocked.Exchange(ref _cts, new CancellationTokenSource()).Cancel();
 
-//            ResultData = await _dataService.GetDataAsync(_cts.Token);
+            // ResultData = await _dataService.GetDataAsync(_cts.Token);
 
             var result0 = await _authService.LoginAsync(_login, _password, _cts.Token);
 
             await Task.Delay(3000);
 
-//            var result = await _authService.RefreshTokenAsync(_cts.Token);
+            // var result = await _authService.RefreshTokenAsync(_cts.Token);
 
             try
             {
@@ -106,6 +106,7 @@ namespace RemoteApp.ViewModels
             }
             catch (Exception e)
             {
+                ResultData = e.ToString();
             }
 
             IsBusy = false;

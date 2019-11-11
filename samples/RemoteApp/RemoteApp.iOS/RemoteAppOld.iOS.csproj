@@ -59,6 +59,22 @@
         <MtouchArch>ARM64</MtouchArch>
         <CodesignKey>iPhone Developer</CodesignKey>
     </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+      <DebugSymbols>false</DebugSymbols>
+      <Optimize>false</Optimize>
+      <OutputPath>bin\Debug</OutputPath>
+      <DefineConstants></DefineConstants>
+      <WarningLevel>4</WarningLevel>
+      <CodesignKey>iPhone Developer</CodesignKey>
+      <MtouchDebug>true</MtouchDebug>
+      <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+      <MtouchFastDev>true</MtouchFastDev>
+      <IOSDebuggerPort>38507</IOSDebuggerPort>
+      <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+      <MtouchVerbosity></MtouchVerbosity>
+      <MtouchEnableSGenConc>false</MtouchEnableSGenConc>
+      <MtouchLink>SdkOnly</MtouchLink>
+    </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
         <Reference Include="System.Xml" />
