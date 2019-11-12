@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Refit;
 using RemoteServices.Auth.Dtos;
 using RemoteServices.Auth.Models;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
@@ -22,9 +23,10 @@ namespace RemoteServices.Auth
         private readonly IRemoteService<IAuthApiService> _remoteService;
         private readonly AuthConfig _config;
 
-        public AuthRemoteService(IRemoteServiceFactory remoteServiceFactory, AuthConfig config)
+        public AuthRemoteService(IRemoteServiceFactory remoteServiceFactory, AuthConfig config, ILogger logger)
         {
-            var httpClientBuilder = new RefitHttpClientBuilder(config.BaseUrl);
+            var httpClientBuilder = new HttpClientBuilder(config.BaseUrl)
+                .WithLogger(logger);
 
             _remoteService = remoteServiceFactory.Create<IAuthApiService>(httpClientBuilder);
             _config = config;
@@ -75,7 +77,7 @@ namespace RemoteServices.Auth
                     (service, ct) => service.RefreshToken(request, ct),
                     new RequestOptions
                     {
-                        Priority = RequestPriority.UserInitiated,
+                        Priority = RequestPriority.UserInitiated, // TODO YP: Background
                         RetryCount = 3,
                         ShouldRetry = ex => !(ex is ApiException),
                         Timeout = 2,

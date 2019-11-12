@@ -16,6 +16,7 @@ namespace Softeq.XToolkit.Remote
             return new RemoteService<T>(httpClientProvider, retryStrategy);
         }
 
+        // TODO YP: remove this method
         public IRemoteService<T> CreateWithAuth<T>(IHttpClientBuilder httpClientBuilder, ISessionContext sessionContext)
         {
             var apiServiceFactory = new RefitApiServiceFactory();

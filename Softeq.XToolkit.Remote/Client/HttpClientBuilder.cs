@@ -1,33 +1,26 @@
 ﻿using System;
 using System.Net.Http;
-using Softeq.XToolkit.Common.Logger;
-using Softeq.XToolkit.Remote.Handlers;
 
 namespace Softeq.XToolkit.Remote.Client
 {
     public class HttpClientBuilder : IHttpClientBuilder
     {
-        protected readonly string BaseUrl;
-
-        private ILogger _logger;
-        private readonly Lazy<HttpHandlerBuilder> _clientHandlersBuilder;
+        private readonly string _baseUrl;
+        private readonly Lazy<HttpHandlerBuilder> _builderOfMessageHandlerLazy;
 
         public HttpClientBuilder(string baseUrl)
         {
-            BaseUrl = baseUrl;
-
-            _clientHandlersBuilder = new Lazy<HttpHandlerBuilder>(() => new HttpHandlerBuilder());
+            _baseUrl = baseUrl;
+            _builderOfMessageHandlerLazy = new Lazy<HttpHandlerBuilder>(() => new HttpHandlerBuilder());
         }
 
-        public IHttpClientBuilder WithLogger(ILogger logger)
+        // TODO YP: handlers order
+        //     Fix ability for public change order: diagnostic) AuthHandler
+        // Correct order:
+        //     NativeHandler) PriorityHandler) AuthHandler) DiagnosticHandler
+        public IHttpClientBuilder AddHandler(DelegatingHandler delegatingHandler)
         {
-            _logger = logger;
-            return this;
-        }
-
-        public IHttpClientBuilder AddHandler(Func<HttpMessageHandler, DelegatingHandler> delegatingHandler)
-        {
-            _clientHandlersBuilder.Value.AddHandler(delegatingHandler);
+            _builderOfMessageHandlerLazy.Value.AddHandler(delegatingHandler);
             return this;
         }
 
@@ -36,21 +29,14 @@ namespace Softeq.XToolkit.Remote.Client
             var handler = GetHttpMessageHandler();
             var httpClient = CreateHttpClient(handler);
 
-            httpClient.BaseAddress = new Uri(BaseUrl);
+            httpClient.BaseAddress = new Uri(_baseUrl);
 
             return httpClient;
         }
 
-        // NativeHandler) PriorityHandler) AuthHandler) DiagnosticHandler
         protected virtual HttpMessageHandler GetHttpMessageHandler()
         {
-            var handler = _clientHandlersBuilder.Value.Build();
-
-#if DEBUG
-            handler = new HttpDiagnosticsHandler(handler, _logger);
-#endif
-
-            return handler;
+            return _builderOfMessageHandlerLazy.Value.Build();
         }
 
         protected virtual HttpClient CreateHttpClient(HttpMessageHandler handler)

@@ -50,11 +50,11 @@ namespace NetworkApp.ViewModels
                 BaseUrl = _authUrl,
                 ClientId = _clientId,
                 ClientSecret = _clientSecret
-            }), logger, tokenManager);
+            }, logger), logger, tokenManager);
 
             var sessionContext = new SessionContext(tokenManager, _authService);
 
-            _profileService = new ProfileService(new ProfileRemoteService(new RemoteServiceFactory(), sessionContext, _profileUrl));
+            _profileService = new ProfileService(new ProfileRemoteService(new RemoteServiceFactory(), sessionContext, _profileUrl, logger));
 
             RequestCommand = new AsyncCommand(Request);
             CancelRequestCommand = new RelayCommand(() => _cts.Cancel());

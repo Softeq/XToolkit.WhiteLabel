@@ -1,14 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Reflection;
 
-namespace Softeq.XToolkit.Remote.Handlers
+namespace Softeq.XToolkit.Remote.Client
 {
     public class HttpHandlerBuilder
     {
-        private readonly IList<DelegatingHandler> _handlersList = new List<DelegatingHandler>();
+        private readonly IList<DelegatingHandler> _handlers = new List<DelegatingHandler>();
         private readonly HttpMessageHandler _rootHandler;
 
         /// <summary>
@@ -34,26 +33,12 @@ namespace Softeq.XToolkit.Remote.Handlers
         /// <returns></returns>
         public HttpHandlerBuilder AddHandler(DelegatingHandler handler)
         {
-            if (_handlersList.Any())
+            if (_handlers.Any())
             {
-                _handlersList.Last().InnerHandler = handler;
+                _handlers.Last().InnerHandler = handler;
             }
 
-            _handlersList.Add(handler);
-
-            return this;
-        }
-
-        /// <summary>
-        /// Adds a <see cref="HttpMessageHandler"/> to the chain of handlers.
-        /// </summary>
-        /// <param name="handlerDelegate"></param>
-        /// <returns></returns>
-        public HttpHandlerBuilder AddHandler(Func<HttpMessageHandler, DelegatingHandler> handlerDelegate)
-        {
-            var handler = handlerDelegate(_rootHandler); // TODO YP: temp
-
-            _handlersList.Add(handler);
+            _handlers.Add(handler);
 
             return this;
         }
@@ -64,10 +49,10 @@ namespace Softeq.XToolkit.Remote.Handlers
         /// <returns></returns>
         public HttpMessageHandler Build()
         {
-            if (_handlersList.Any())
+            if (_handlers.Any())
             {
-                _handlersList.Last().InnerHandler = _rootHandler;
-                return _handlersList.FirstOrDefault();
+                _handlers.Last().InnerHandler = _rootHandler;
+                return _handlers.FirstOrDefault();
             }
 
             return _rootHandler;

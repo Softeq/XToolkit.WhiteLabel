@@ -4,13 +4,13 @@ using System.Threading;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
 
-namespace Softeq.XToolkit.Remote.Handlers
+namespace Softeq.XToolkit.Remote.Client.Handlers
 {
     internal class HttpDiagnosticsHandler : DelegatingHandler
     {
         private readonly ILogger _logger;
 
-        public HttpDiagnosticsHandler(HttpMessageHandler innerHandler, ILogger logger = null) : base(innerHandler)
+        public HttpDiagnosticsHandler(ILogger logger = null)
         {
             _logger = logger;
         }
@@ -49,8 +49,6 @@ namespace Softeq.XToolkit.Remote.Handlers
 
         private void WriteMessage(string message)
         {
-            Debug.WriteLine(message);
-
             _logger?.Debug(message);
         }
     }
