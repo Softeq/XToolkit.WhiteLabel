@@ -13,6 +13,6 @@
     <Folder Include="Pages\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\RemoteApp\RemoteApp.csproj" />
+    <ProjectReference Include="..\RemoteServices\RemoteServices.csproj" />
   </ItemGroup>
 </Project>

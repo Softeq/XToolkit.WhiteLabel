@@ -1,6 +1,6 @@
 ﻿using Xamarin.Forms;
 using NetworkApp.Pages;
-using RemoteApp.ViewModels;
+using NetworkApp.ViewModels;
 
 namespace NetworkApp
 {

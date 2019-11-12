@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <ProduceReferenceAssembly>true</ProduceReferenceAssembly>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="refit" Version="4.7.51" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj" />
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
+  </ItemGroup>
+</Project>

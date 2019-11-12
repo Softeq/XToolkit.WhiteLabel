@@ -5,7 +5,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Remote", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{10D0D128-2BF2-4DCD-96C2-A243362827E1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteApp", "RemoteApp\RemoteApp.csproj", "{364598C2-6261-4CAC-B1E6-546F5498C3CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RemoteServices", "RemoteServices\RemoteServices.csproj", "{364598C2-6261-4CAC-B1E6-546F5498C3CB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "XToolkit", "XToolkit", "{1C76F232-42E1-496A-BF46-457CDDEC2CC6}"
 EndProject
