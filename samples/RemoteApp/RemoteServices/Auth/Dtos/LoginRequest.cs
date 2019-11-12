@@ -15,8 +15,5 @@ namespace RemoteServices.Auth.Dtos
 
         [AliasAs("password")]
         public string Password { get; set; }
-
-        [AliasAs("scope")]
-        public string Scope { get; set; }
     }
 }

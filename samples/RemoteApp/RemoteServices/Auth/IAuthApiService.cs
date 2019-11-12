@@ -5,6 +5,9 @@ using RemoteServices.Auth.Dtos;
 
 namespace RemoteServices.Auth
 {
+    /// <summary>
+    ///     API Client for https://github.com/Softeq/NetKit.Auth
+    /// </summary>
     public interface IAuthApiService
     {
         [Post("/connect/token")]

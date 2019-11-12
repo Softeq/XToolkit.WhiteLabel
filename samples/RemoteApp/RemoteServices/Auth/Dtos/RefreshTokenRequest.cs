@@ -7,6 +7,7 @@ namespace RemoteServices.Auth.Dtos
         public RefreshTokenRequest()
         {
             GrantType = AuthConsts.GrantTypeRefreshToken;
+            Scope = AuthConsts.ScopeApiOfflineAccess;
         }
 
         [AliasAs("refresh_token")]

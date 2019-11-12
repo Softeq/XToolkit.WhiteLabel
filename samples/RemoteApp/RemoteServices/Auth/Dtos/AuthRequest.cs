@@ -12,5 +12,8 @@ namespace RemoteServices.Auth.Dtos
 
         [AliasAs("grant_type")]
         public string GrantType { get; set; }
+
+        [AliasAs("scope")]
+        public string Scope { get; set; }
     }
 }
