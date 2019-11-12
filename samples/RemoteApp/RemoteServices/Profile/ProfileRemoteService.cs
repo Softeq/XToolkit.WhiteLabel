@@ -23,7 +23,6 @@ namespace RemoteServices.Profile
                 .WithLogger(logger)
                 .WithSessionContext(sessionContext);
 
-//            _remoteService = remoteServiceFactory.CreateWithAuth<IProfileApiService>(httpClientBuilder, sessionContext);
             _remoteService = remoteServiceFactory.Create<IProfileApiService>(httpClientBuilder);
         }
 

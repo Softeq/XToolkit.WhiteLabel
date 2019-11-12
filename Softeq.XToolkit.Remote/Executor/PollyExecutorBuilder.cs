@@ -34,6 +34,7 @@ namespace Softeq.XToolkit.Remote.Executor
             return this;
         }
 
+        // TODO YP: Move to handler
         public IExecutorBuilder<T> WithRefreshToken(Func<Task> refreshToken)
         {
             const int AccessTokenExpired = 1;

@@ -2,7 +2,6 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Remote.Api;
-using Softeq.XToolkit.Remote.Auth;
 using Softeq.XToolkit.Remote.Executor;
 using Softeq.XToolkit.Remote.Primitives;
 
@@ -12,16 +11,13 @@ namespace Softeq.XToolkit.Remote
     {
         private readonly IApiServiceProvider<TApiService> _apiServiceProvider;
         private readonly IExecutorBuilderFactory _executorFactory;
-        private readonly Func<Task> _refreshTokenDelegate;
 
         public RemoteService(
             IApiServiceProvider<TApiService> apiServiceProvider,
-            IExecutorBuilderFactory executorFactory,
-            ISessionContext sessionContext = null)
+            IExecutorBuilderFactory executorFactory)
         {
             _apiServiceProvider = apiServiceProvider;
             _executorFactory = executorFactory;
-            _refreshTokenDelegate = (sessionContext ?? new AnonymousSessionContext()).RefreshTokenAsync;
         }
 
         public async Task<TResult> MakeRequest<TResult>(
@@ -36,7 +32,6 @@ namespace Softeq.XToolkit.Remote
                 .Create<TResult>()
                 .WithRetry(options.RetryCount, options.ShouldRetry)
                 .WithTimeout(options.Timeout)
-                .WithRefreshToken(_refreshTokenDelegate)
                 .Build();
 
             return await executor

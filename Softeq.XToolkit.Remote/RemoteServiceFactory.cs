@@ -1,5 +1,4 @@
 ﻿using Softeq.XToolkit.Remote.Api;
-using Softeq.XToolkit.Remote.Auth;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Executor;
 
@@ -14,16 +13,6 @@ namespace Softeq.XToolkit.Remote
             var retryStrategy = new PollyExecutorBuilderFactory();
 
             return new RemoteService<T>(httpClientProvider, retryStrategy);
-        }
-
-        // TODO YP: remove this method
-        public IRemoteService<T> CreateWithAuth<T>(IHttpClientBuilder httpClientBuilder, ISessionContext sessionContext)
-        {
-            var apiServiceFactory = new RefitApiServiceFactory();
-            var httpClientProvider = new ApiServiceProvider<T>(httpClientBuilder, apiServiceFactory);
-            var retryStrategy = new PollyExecutorBuilderFactory();
-
-            return new RemoteService<T>(httpClientProvider, retryStrategy, sessionContext);
         }
     }
 }
