@@ -36,8 +36,8 @@ namespace Softeq.XToolkit.Remote.Executor
 
         public IExecutorBuilder<T> WithRefreshToken(Func<Task> refreshToken)
         {
-            const int accessTokenExpired = 1;
-            const int refreshTokenExpired = 2;
+            const int AccessTokenExpired = 1;
+            const int RefreshTokenExpired = 2;
 
             if (refreshToken == null)
             {
@@ -46,16 +46,17 @@ namespace Softeq.XToolkit.Remote.Executor
 
             var policy = Policy
                 .Handle<ApiException>(ex => ex.StatusCode == HttpStatusCode.Unauthorized)
-                .RetryAsync(2, async (exception, retryCount) =>
+                .RetryAsync(2, async (exception, attempt) =>
                 {
-                    if (retryCount == accessTokenExpired)
+                    switch (attempt)
                     {
-                        await refreshToken().ConfigureAwait(false);
-                    }
-
-                    if (retryCount == refreshTokenExpired) // refresh token expired
-                    {
-                        throw new ExpiredRefreshTokenException();
+                        case AccessTokenExpired:
+                            await refreshToken().ConfigureAwait(false);
+                            break;
+                        case RefreshTokenExpired:
+                            throw new ExpiredRefreshTokenException(exception);
+                        default:
+                            throw new InvalidOperationException($"Can't handle attempt number: {attempt.ToString()}", exception);
                     }
                 })
                 .AsAsyncPolicy<T>();
