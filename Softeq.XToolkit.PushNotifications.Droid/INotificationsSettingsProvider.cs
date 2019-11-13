@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
@@ -18,6 +17,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         /// <summary>
         ///     Obtains a dictionary of notification channles where the key is channel id and the value is channel name
+        ///     Note: if you are using "notification" notifications, Firebase will use a separate channel for them when received in Background
         /// </summary>
         /// <param name="context">
         ///     Context for obtaining channel names from resources (Names should be obtained from resources for
@@ -34,7 +34,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         NotificationImportance GetNotificationChannelImportance(string channelId);
 
         /// <summary>
-        ///     You can add some custom configuration for a created Notification Channel (like description, sound, etc.)
+        ///     You can add some custom configuration for a created Notification Channel (like description, sound,
+        ///     create and set group (<see cref="NotificationChannelsHelper"/> to create a group), etc.)
+        ///     This method will only be called on API 26+
         /// </summary>
         /// <param name="channelId">Channel Id string</param>
         /// <param name="channel">
@@ -61,17 +63,19 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         /// <summary>
         ///     You can customize how push notification will be shown (apart from ContentTitle, ContentText, channelid,
-        ///     styles set in GetStylesForNotification and content intent). You can use SetNumber to set badge on Android 26+
+        ///     styles set in GetStylesForNotification and content intent). For instance, you can use SetNumber to set badge on Android 26+;
+        ///     add Action buttons; add groups and create additional notifications - like group summary notification;
+        ///     add progress bar and later update for this notificationId; or simply save notificationId; etc.
         /// </summary>
         /// <param name="notificationBuilder">Already created notification builder that can be further customized</param>
         /// <param name="pushNotification">Push notification data</param>
-        void CustomizeNotificationBuilder(NotificationCompat.Builder notificationBuilder, PushNotificationModel pushNotification);
+        void CustomizeNotificationBuilder(NotificationCompat.Builder notificationBuilder, PushNotificationModel pushNotification, int notificationId);
 
         /// <summary>
-        ///     Obtains type of the Start Activity which will be opened by tap on the given notification
+        ///     Provides info about the Activity which will be opened by tap on the given notification
         /// </summary>
         /// <param name="pushNotification">Push notification data</param>
-        /// <returns>Start Activity type</returns>
-        Type GetStartActivityTypeFromPush(PushNotificationModel pushNotification);
+        /// <returns>Intent Activity info (type and whether parent stack should be created)</returns>
+        NotificationIntentActivityInfo GetIntentActivityInfoFromPush(PushNotificationModel pushNotification);
     }
 }

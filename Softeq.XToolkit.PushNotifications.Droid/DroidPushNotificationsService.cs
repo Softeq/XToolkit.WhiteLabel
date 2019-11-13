@@ -7,6 +7,7 @@ using Android.App;
 using Android.Arch.Lifecycle;
 using Android.Content;
 using Android.Gms.Extensions;
+using Android.Support.V4.App;
 using Firebase;
 using Firebase.Iid;
 using Firebase.Messaging;
@@ -22,7 +23,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
     {
         private readonly Context _appContext;
         private readonly AppLifecycleObserver _lifecycleObserver;
-        private readonly INotificationsSettingsProvider _notificationsSettings;
 
         private bool _isInitialized;
 
@@ -39,8 +39,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
                 logManager)
         {
-            _notificationsSettings = notificationsSettings;
             _appContext = Application.Context;
+
+            NotificationsHelper.Init(notificationsSettings);
 
             _lifecycleObserver = new AppLifecycleObserver();
             ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
@@ -56,8 +57,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             _isInitialized = true;
             _showForegroundNotificationsInSystemOptions = showForegroundNotificationsInSystemOptions;
 
-            //TODO: + update on locale changed
-            NotificationsHelper.CreateNotificationChannels(_appContext, _notificationsSettings);
+            NotificationsHelper.CreateNotificationChannels(_appContext);
 
             FirebaseApp.InitializeApp(_appContext);
             XFirebaseMessagingService.OnTokenRefreshed += OnPushTokenRefreshed;
@@ -86,8 +86,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         {
             if (_appContext != null)
             {
-                var notificationManager = NotificationManager.FromContext(_appContext);
-                notificationManager.CancelAll();
+                NotificationManagerCompat.From(_appContext).CancelAll();
             }
         }
 
@@ -152,7 +151,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             if (_showForegroundNotificationsInSystemOptions.ShouldShow() || !inForeground)
             {
                 var notificationData = (pushNotification as RemoteMessage)?.Data;
-                NotificationsHelper.CreateNotification(_appContext, parsedPushNotification, notificationData, _notificationsSettings);
+                NotificationsHelper.CreateNotification(_appContext, parsedPushNotification, notificationData);
             }
         }
 
