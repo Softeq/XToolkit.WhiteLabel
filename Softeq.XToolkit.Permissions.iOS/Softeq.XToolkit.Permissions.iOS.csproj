@@ -9,6 +9,8 @@
         <RootNamespace>Softeq.XToolkit.Permissions.iOS</RootNamespace>
         <AssemblyName>Softeq.XToolkit.Permissions.iOS</AssemblyName>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+        <LangVersion>8.0</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -29,8 +31,6 @@
         </MtouchVerbosity>
         <MtouchLink>
         </MtouchLink>
-        <LangVersion>8.0</LangVersion>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugType>pdbonly</DebugType>
@@ -46,8 +46,6 @@
         <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
         <MtouchVerbosity>
         </MtouchVerbosity>
-        <LangVersion>8.0</LangVersion>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />

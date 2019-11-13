@@ -4,13 +4,11 @@
 		<TargetFramework>netstandard2.1</TargetFramework>
 		<AssemblyName>Softeq.XToolkit.Common</AssemblyName>
 		<RootNamespace>Softeq.XToolkit.Common</RootNamespace>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-	  <LangVersion>8.0</LangVersion>
-	  <Nullable>enable</Nullable>
 	</PropertyGroup>
 	<PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-	  <LangVersion>8.0</LangVersion>
-	  <Nullable>enable</Nullable>
 	</PropertyGroup>
 </Project>
