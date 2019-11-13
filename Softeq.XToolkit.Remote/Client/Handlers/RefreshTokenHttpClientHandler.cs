@@ -1,23 +1,22 @@
 using System;
 using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
+using Polly;
+using Softeq.XToolkit.Remote.Exceptions;
 
 namespace Softeq.XToolkit.Remote.Client.Handlers
 {
-    internal class RefreshTokenHttpClientHandler : DelegatingHandler
+    internal class RefreshTokenHttpClientHandler : AuthenticatedHttpClientHandler
     {
-        private readonly Func<Task<string>> _getAccessToken;
-        private readonly Func<Task<string>> _getRefreshedToken;
+        private readonly Func<Task> _getRefreshedToken;
 
         public RefreshTokenHttpClientHandler(
             Func<Task<string>> getAccessToken,
-            Func<Task<string>> getRefreshedToken)
+            Func<Task> getRefreshedToken)
+            : base(getAccessToken)
         {
-            _getAccessToken = getAccessToken ?? throw new ArgumentNullException(nameof(getAccessToken));
-
             _getRefreshedToken = getRefreshedToken;
         }
 
@@ -25,40 +24,28 @@ namespace Softeq.XToolkit.Remote.Client.Handlers
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
-            HttpResponseMessage result;
-
-            if (request.Headers.Authorization != null)
-            {
-                var token = await _getAccessToken().ConfigureAwait(false);
-
-                result = await SendWithTokenAsync(request, cancellationToken, token).ConfigureAwait(false);
-
-                if (result.StatusCode == HttpStatusCode.Unauthorized && _getRefreshedToken != null)
-                {
-                    var refreshedToken = await _getRefreshedToken().ConfigureAwait(false);
-
-                    result = await SendWithTokenAsync(request, cancellationToken, refreshedToken).ConfigureAwait(false);
-                }
-            }
-            else
-            {
-                result = await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
-            }
-            return result;
+            return await Policy
+                .HandleResult<HttpResponseMessage>(response => response.StatusCode == HttpStatusCode.Unauthorized)
+                .RetryAsync(2, OnRetryAsync)
+                .ExecuteAsync(async ct => await base.SendAsync(request, ct).ConfigureAwait(false), cancellationToken)
+                .ConfigureAwait(false);
         }
 
-        private async Task<HttpResponseMessage> SendWithTokenAsync(
-            HttpRequestMessage request,
-            CancellationToken cancellationToken,
-            string token)
+        private async Task OnRetryAsync(DelegateResult<HttpResponseMessage> result, int attempt)
         {
-            var auth = request.Headers.Authorization;
-            if (auth != null)
-            {
-                request.Headers.Authorization = new AuthenticationHeaderValue(auth.Scheme, token);
-            }
+            const int AccessTokenExpired = 1;
+            const int RefreshTokenExpired = 2;
 
-            return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            switch (attempt)
+            {
+                case AccessTokenExpired:
+                    await _getRefreshedToken().ConfigureAwait(false);
+                    break;
+                case RefreshTokenExpired:
+                    throw new ExpiredRefreshTokenException(result.Exception);
+                default:
+                    throw new InvalidOperationException($"Can't handle attempt number: {attempt.ToString()}", result.Exception);
+            }
         }
     }
 }
