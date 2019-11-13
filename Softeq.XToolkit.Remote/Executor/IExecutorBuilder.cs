@@ -1,5 +1,4 @@
 using System;
-using System.Threading.Tasks;
 using Polly;
 
 namespace Softeq.XToolkit.Remote.Executor
@@ -8,7 +7,6 @@ namespace Softeq.XToolkit.Remote.Executor
     {
         IExecutorBuilder<T> WithRetry(int retryCount, Func<Exception, bool> shouldRetry);
         IExecutorBuilder<T> WithTimeout(int timeout);
-        IExecutorBuilder<T> WithRefreshToken(Func<Task> refreshToken);
         IAsyncPolicy<T> Build();
     }
 }

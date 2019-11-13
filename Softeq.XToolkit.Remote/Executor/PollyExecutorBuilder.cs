@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Net;
-using System.Threading.Tasks;
 using Polly;
 using Polly.Timeout;
-using Refit;
-using Softeq.XToolkit.Remote.Exceptions;
 
 namespace Softeq.XToolkit.Remote.Executor
 {
@@ -28,39 +24,6 @@ namespace Softeq.XToolkit.Remote.Executor
         public IExecutorBuilder<T> WithTimeout(int timeout)
         {
             var policy = Policy.TimeoutAsync(timeout, TimeoutStrategy.Pessimistic).AsAsyncPolicy<T>();
-
-            _policies.Add(policy);
-
-            return this;
-        }
-
-        // TODO YP: Move to handler
-        public IExecutorBuilder<T> WithRefreshToken(Func<Task> refreshToken)
-        {
-            const int AccessTokenExpired = 1;
-            const int RefreshTokenExpired = 2;
-
-            if (refreshToken == null)
-            {
-                return this;
-            }
-
-            var policy = Policy
-                .Handle<ApiException>(ex => ex.StatusCode == HttpStatusCode.Unauthorized)
-                .RetryAsync(2, async (exception, attempt) =>
-                {
-                    switch (attempt)
-                    {
-                        case AccessTokenExpired:
-                            await refreshToken().ConfigureAwait(false);
-                            break;
-                        case RefreshTokenExpired:
-                            throw new ExpiredRefreshTokenException(exception);
-                        default:
-                            throw new InvalidOperationException($"Can't handle attempt number: {attempt.ToString()}", exception);
-                    }
-                })
-                .AsAsyncPolicy<T>();
 
             _policies.Add(policy);
 

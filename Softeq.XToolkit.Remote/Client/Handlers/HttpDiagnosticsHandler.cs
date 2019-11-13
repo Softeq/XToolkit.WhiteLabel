@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Remote.Client.Handlers
     {
         private readonly ILogger _logger;
 
-        public HttpDiagnosticsHandler(ILogger logger = null)
+        public HttpDiagnosticsHandler(ILogger logger)
         {
             _logger = logger;
         }
@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.Remote.Client.Handlers
 
         private void WriteMessage(string message)
         {
-            _logger?.Debug(message);
+            _logger.Debug(message);
         }
     }
 }

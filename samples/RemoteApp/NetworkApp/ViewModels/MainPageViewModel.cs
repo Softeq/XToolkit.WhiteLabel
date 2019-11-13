@@ -8,6 +8,7 @@ using RemoteServices.Photos;
 using RemoteServices.Profile;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 
 namespace NetworkApp.ViewModels
@@ -34,8 +35,9 @@ namespace NetworkApp.ViewModels
         public MainPageViewModel()
         {
             // TODO: only for sample
-            var logger = new DelegatingLogger();
-            logger.Written += Logger_Written;
+//            var logger = new DelegatingLogger();
+//            logger.Written += Logger_Written;
+            var logger = new ConsoleLogger("NetworkApp");
             _dataService = new DataService(new RemoteServiceFactory(), logger);
 
             if (string.IsNullOrEmpty(_authUrl))

@@ -77,7 +77,7 @@ namespace RemoteServices.Auth
                     (service, ct) => service.RefreshToken(request, ct),
                     new RequestOptions
                     {
-                        Priority = RequestPriority.UserInitiated, // TODO YP: Background
+                        Priority = RequestPriority.UserInitiated,
                         RetryCount = 3,
                         ShouldRetry = ex => !(ex is ApiException),
                         Timeout = 2,
