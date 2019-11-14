@@ -11,14 +11,14 @@ namespace Softeq.XToolkit.Remote.Client
         private readonly HttpMessageHandler _rootHandler;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpHandlerBuilder"/> class.
+        ///     Initializes a new instance of the <see cref="HttpHandlerBuilder"/> class.
         /// </summary>
         public HttpHandlerBuilder() : this(CreateDefaultHandler())
         {
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="HttpHandlerBuilder"/> class.
+        ///     Initializes a new instance of the <see cref="HttpHandlerBuilder"/> class.
         /// </summary>
         /// <param name="rootHandler">Root handler.</param>
         public HttpHandlerBuilder(HttpMessageHandler rootHandler)
@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Remote.Client
         }
 
         /// <summary>
-        /// Adds a <see cref="HttpMessageHandler"/> to the chain of handlers.
+        ///     Adds a <see cref="HttpMessageHandler"/> to the chain of handlers.
         /// </summary>
         /// <param name="handler"></param>
         /// <returns></returns>
@@ -44,27 +44,40 @@ namespace Softeq.XToolkit.Remote.Client
         }
 
         /// <summary>
-        /// Adds <see cref="DelegatingHandler"/> as the last link of the chain.
+        ///     Adds <see cref="DelegatingHandler"/> as the last link of the chain.
         /// </summary>
         /// <returns></returns>
         public HttpMessageHandler Build()
         {
             if (_handlers.Any())
             {
-                _handlers.Last().InnerHandler = _rootHandler;
+                var lastHandler = _handlers.Last();
+                if (lastHandler.InnerHandler == null) // when lastHandler is shared (for example Fusillade handlers)
+                {
+                    lastHandler.InnerHandler = _rootHandler;
+                }
+
                 return _handlers.FirstOrDefault();
             }
 
             return _rootHandler;
         }
 
+        private static HttpMessageHandler _cachedNativeHttpMessageHandler;
+
         private static HttpMessageHandler CreateDefaultHandler()
         {
-            // HACK YP: need check, because linker can change assembly.
-            // Sources: https://github.com/mono/mono/blob/master/mcs/class/System.Net.Http/HttpClient.DefaultHandler.cs#L5
+            if (_cachedNativeHttpMessageHandler == null)
+            {
+                // HACK YP: need check, because linker can change assembly.
+                // Sources: https://github.com/mono/mono/blob/master/mcs/class/System.Net.Http/HttpClient.DefaultHandler.cs#L5
 
-            var method = typeof(HttpClient).GetMethod("CreateDefaultHandler", BindingFlags.NonPublic | BindingFlags.Static);
-            return method?.Invoke(null, null) as HttpMessageHandler;
+                var createHandler = typeof(HttpClient).GetMethod("CreateDefaultHandler", BindingFlags.NonPublic | BindingFlags.Static);
+                var nativeHandler = createHandler?.Invoke(null, null);
+                _cachedNativeHttpMessageHandler = nativeHandler as HttpMessageHandler;
+            }
+
+            return _cachedNativeHttpMessageHandler;
         }
     }
 }
