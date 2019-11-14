@@ -166,6 +166,7 @@
     <InterfaceDefinition Include="Views\MovieTableViewCell.xib" />
     <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Components\GesturesPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -279,6 +280,10 @@
       <DependentUpon>ConnectivityPageViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="ViewControllers\Dialogs\CustomTransitioningDelegate.cs" />
+    <Compile Include="ViewControllers\Components\GesturesPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\GesturesPageViewController.designer.cs">
+      <DependentUpon>GesturesPageViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
