@@ -10,10 +10,12 @@ namespace NetworkApp
         {
             InitializeComponent();
 
-            MainPage = new MainPage
+            var mainPage = new MainPage
             {
                 BindingContext = new MainPageViewModel()
             };
+
+            MainPage = new NavigationPage(mainPage);
         }
 
         protected override void OnStart()

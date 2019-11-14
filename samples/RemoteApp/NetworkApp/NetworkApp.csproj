@@ -11,6 +11,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Pages\" />
+    <Folder Include="Converters\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RemoteServices\RemoteServices.csproj" />
