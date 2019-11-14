@@ -11,4 +11,7 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj" />
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tests\" />
+  </ItemGroup>
 </Project>

@@ -6,6 +6,7 @@ using RemoteServices.Auth;
 using RemoteServices.Auth.Models;
 using RemoteServices.Photos;
 using RemoteServices.Profile;
+using RemoteServices.Tests;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
@@ -20,6 +21,7 @@ namespace NetworkApp.ViewModels
         private readonly DataService _dataService;
         private readonly IAuthService _authService;
         private readonly ProfileService _profileService;
+        private readonly TestRemoteService _testService;
 
         public ObservableRangeCollection<WorkItemViewModel> WorkItems { get; } = new ObservableRangeCollection<WorkItemViewModel>();
 
@@ -56,6 +58,8 @@ namespace NetworkApp.ViewModels
 
             _profileService = new ProfileService(new ProfileRemoteService(new RemoteServiceFactory(), sessionContext, _profileUrl, logger));
 
+            _testService = new TestRemoteService(logger);
+
 
             // fill list
             WorkItems.Add(new WorkItemViewModel(DataRequest) { Name = $"Simple Data" });
@@ -65,6 +69,8 @@ namespace NetworkApp.ViewModels
             {
                 WorkItems.Add(new WorkItemViewModel(ProfileInfoRequest) { Name = $"Profile Info" });
             }
+
+            WorkItems.Add(new WorkItemViewModel(ExpiredSslRequest) { Name = $"Expired Ssl" });
 
             for (int i = 0; i < 100; i++)
             {
@@ -113,6 +119,15 @@ namespace NetworkApp.ViewModels
             await Task.Delay(1000);
 
             var result = await _profileService.GetInfoAsync(ct);
+
+            callback($"end - {result}");
+        }
+
+        private async Task ExpiredSslRequest(Action<string> callback, CancellationToken ct)
+        {
+            callback("start");
+
+            var result = await _testService.CheckExpiredSslAsync(ct);
 
             callback($"end - {result}");
         }
