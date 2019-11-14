@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Threading.Tasks;
 using Playground.ViewModels.Components;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
