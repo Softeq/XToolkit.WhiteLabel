@@ -15,13 +15,13 @@ namespace Softeq.XToolkit.Common.iOS.Controls
         {
             _textField = textField;
             MaxLength = maxLength;
-            if (_textField is UITextField)
+            if (_textField is UITextField castedField)
             {
-                ((UITextField) _textField).ShouldChangeCharacters += OnChangeTextField;
+                castedField.ShouldChangeCharacters += OnChangeTextField;
             }
-            else if (_textField is UITextView)
+            else if (_textField is UITextView castedView)
             {
-                ((UITextView) _textField).ShouldChangeText += OnChangeTextView;
+                castedView.ShouldChangeText += OnChangeTextView;
             }
         }
 

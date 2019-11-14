@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.Common.Commands
         {
             if (execute == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(execute));
             }
 
             _execute = new WeakAction(execute);
