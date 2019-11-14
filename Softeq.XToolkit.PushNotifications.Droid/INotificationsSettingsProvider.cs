@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// </summary>
         /// <param name="context">
         ///     Context for obtaining channel names from resources (Names should be obtained from resources for
-        ///     localization support)
+        ///     localization support, this list of channels will be automatically recreated when language changes)
         /// </param>
         /// <returns>Dictionary of channel Ids and Names</returns>
         Dictionary<string, string> GetNotificationChannels(Context context);
@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         /// <summary>
         ///     You can add some custom configuration for a created Notification Channel (like description, sound,
-        ///     create and set group (<see cref="NotificationChannelsHelper"/> to create a group), etc.)
+        ///     turn off badges, create and set group - <see cref="NotificationChannelsHelper"/> to create a group, etc.)
         ///     This method will only be called on API 26+
         /// </summary>
         /// <param name="channelId">Channel Id string</param>
@@ -63,9 +63,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
         /// <summary>
         ///     You can customize how push notification will be shown (apart from ContentTitle, ContentText, channelid,
-        ///     styles set in GetStylesForNotification and content intent). For instance, you can use SetNumber to set badge on Android 26+;
-        ///     add Action buttons; add groups and create additional notifications - like group summary notification;
-        ///     add progress bar and later update for this notificationId; or simply save notificationId; etc.
+        ///     styles set in GetStylesForNotification and content intent). For instance, you can use SetNumber to change badge
+        ///     value increment on Android 26+; add Action buttons; add groups and create additional notifications - like group
+        ///     summary notification; add progress bar and later update for this notificationId; or simply save notificationId; etc.
         /// </summary>
         /// <param name="notificationBuilder">Already created notification builder that can be further customized</param>
         /// <param name="pushNotification">Push notification data</param>
