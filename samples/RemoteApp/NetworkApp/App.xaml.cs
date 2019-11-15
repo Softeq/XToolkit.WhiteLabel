@@ -11,9 +11,12 @@ namespace NetworkApp
     {
         public App()
         {
-            // YP: not working for AndroidClientHandler
-            // More details: https://thomasbandt.com/certificate-and-public-key-pinning-with-xamarin
-            ServicePointManager.ServerCertificateValidationCallback = SslCertificateValidationCallback;
+            // YP: currently not working for AndroidClientHandler (https://github.com/xamarin/xamarin-android/issues/3682)
+            ServicePointManager.ServerCertificateValidationCallback =
+                (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
+                {
+                    return true;
+                };
 
             InitializeComponent();
 
@@ -38,11 +41,6 @@ namespace NetworkApp
         protected override void OnResume()
         {
             // Handle when your app resumes
-        }
-
-        private bool SslCertificateValidationCallback(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
-        {
-            return true;
         }
     }
 }
