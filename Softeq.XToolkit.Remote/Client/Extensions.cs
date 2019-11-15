@@ -26,13 +26,13 @@ namespace Softeq.XToolkit.Remote.Client
             switch (requestPriority)
             {
                 case RequestPriority.Speculative:
-                    innerHandler = NetCache.Speculative;
+                    innerHandler = PriorityCache.Speculative;
                     break;
                 case RequestPriority.UserInitiated:
-                    innerHandler = (RateLimitedHttpMessageHandler)NetCache.UserInitiated;
+                    innerHandler = PriorityCache.UserInitiated;
                     break;
                 case RequestPriority.Background:
-                    innerHandler = (RateLimitedHttpMessageHandler)NetCache.Background;
+                    innerHandler = PriorityCache.Background;
                     break;
                 default:
                     throw new InvalidEnumArgumentException(nameof(requestPriority), (int) requestPriority, typeof(Priority));
