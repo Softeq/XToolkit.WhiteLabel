@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.Remote.Api
         protected virtual TApiService CreateService(RequestPriority requestPriority)
         {
             var httpClient = _httpClientBuilder
-                .WithPriority(requestPriority)
+                //.WithPriority(requestPriority) // TODO YP: Fix bug: Refit disposing reusable responses from Fusillade
                 .Build();
 
             return _apiServiceFactory.Create<TApiService>(httpClient);
