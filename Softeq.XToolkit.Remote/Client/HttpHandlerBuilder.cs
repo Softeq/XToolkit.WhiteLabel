@@ -7,13 +7,16 @@ namespace Softeq.XToolkit.Remote.Client
 {
     public class HttpHandlerBuilder
     {
+        // TODO YP: temporary solution
+        public static HttpMessageHandler NativeHandler { get; set; }
+
         private readonly IList<DelegatingHandler> _handlers = new List<DelegatingHandler>();
         private readonly HttpMessageHandler _rootHandler;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="HttpHandlerBuilder"/> class.
         /// </summary>
-        public HttpHandlerBuilder() : this(CreateDefaultHandler())
+        public HttpHandlerBuilder() : this(NativeHandler ?? CreateDefaultHandler())
         {
         }
 
@@ -52,7 +55,7 @@ namespace Softeq.XToolkit.Remote.Client
             if (_handlers.Any())
             {
                 var lastHandler = _handlers.Last();
-                if (lastHandler.InnerHandler == null) // when lastHandler is shared (for example Fusillade handlers)
+                //if (lastHandler.InnerHandler == null) // when lastHandler is shared (for example Fusillade handlers)
                 {
                     lastHandler.InnerHandler = _rootHandler;
                 }

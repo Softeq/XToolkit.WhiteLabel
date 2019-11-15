@@ -17,7 +17,10 @@ namespace NetworkApp.iOS.CustomHandlers
             {
                 trust.Evaluate(out var error);
 
-                Console.WriteLine(error.UserInfo);
+                if (error != null)
+                {
+                    Console.WriteLine(error.UserInfo);
+                }
 
                 return true;
             };

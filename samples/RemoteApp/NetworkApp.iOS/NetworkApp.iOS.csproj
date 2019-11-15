@@ -127,6 +127,10 @@
       <Project>{D10F2B95-B663-438A-BDB6-EA69F1EB1963}</Project>
       <Name>NetworkApp</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj">
+      <Project>{4EB75E47-5164-415B-9075-21B95C2F0DA9}</Project>
+      <Name>Softeq.XToolkit.Remote</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="CustomHandlers\" />

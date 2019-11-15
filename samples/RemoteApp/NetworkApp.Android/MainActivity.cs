@@ -17,6 +17,8 @@ namespace NetworkApp.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
+            HttpHandlerBuilder.NativeHandler = new IgnoreSSLClientHandler();
+
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
 
