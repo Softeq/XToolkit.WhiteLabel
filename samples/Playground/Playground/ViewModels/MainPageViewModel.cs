@@ -118,7 +118,12 @@ namespace Playground.ViewModels
                     new CommandAction(new RelayCommand(() =>
                         {
                             _pageNavigationService.NavigateToViewModel<ConnectivityPageViewModel>();
-                        }), "Connectivity"))
+                        }), "Connectivity")),
+                (Category.Components,
+                    new CommandAction(new RelayCommand(() =>
+                        {
+                            _pageNavigationService.NavigateToViewModel<GesturesPageViewModel>();
+                        }), "Gestures"))
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());
