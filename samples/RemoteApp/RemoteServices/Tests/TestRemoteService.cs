@@ -1,6 +1,4 @@
-﻿// Developed for [customer name] by Softeq Development Corporation
-// http://www.softeq.com
-using System;
+﻿using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
@@ -17,8 +15,10 @@ namespace RemoteServices.Tests
 
         public TestRemoteService(ILogger logger)
         {
-            // https://self-signed.badssl.com/
-            var httpClientBuilder = new HttpClientBuilder("https://expired.badssl.com")
+            //var url = "https://self-signed.badssl.com";
+            var url = "https://expired.badssl.com";
+
+            var httpClientBuilder = new HttpClientBuilder(url)
                 .WithLogger(logger);
 
             _remoteService = new RemoteServiceFactory().Create<ISslApiService>(httpClientBuilder);
