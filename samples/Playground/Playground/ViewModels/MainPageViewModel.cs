@@ -25,14 +25,16 @@ namespace Playground.ViewModels
             IPageNavigationService pageNavigationService)
         {
             _pageNavigationService = pageNavigationService;
+
+            Items = new ObservableKeyGroupsCollection<string, CommandAction>();
+            GoToEmptyCommand = new RelayCommand(GoToEmpty);
         }
 
         public string Title => "Main";
 
-        public ObservableKeyGroupsCollection<string, CommandAction> Items { get; } =
-            new ObservableKeyGroupsCollection<string, CommandAction>();
+        public ObservableKeyGroupsCollection<string, CommandAction> Items { get; }
 
-        public ICommand GoToEmptyCommand { get; private set; }
+        public ICommand GoToEmptyCommand { get; }
 
         public override void OnInitialize()
         {
@@ -127,8 +129,6 @@ namespace Playground.ViewModels
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());
-
-            GoToEmptyCommand = new RelayCommand(GoToEmpty);
         }
 
         private void GoToEmpty()

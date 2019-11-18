@@ -15,15 +15,13 @@ namespace Playground.iOS
     [Register(nameof(AppDelegate))]
     public class AppDelegate : AppDelegateBase
     {
-        private UINavigationController _rootNavigationController;
+        private readonly UINavigationController _rootNavigationController = new UINavigationController();
 
-        public override UIWindow Window { get; set; }
+        public override UIWindow Window { get; set; } = default!;
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             var _ = base.FinishedLaunching(application, launchOptions);
-
-            _rootNavigationController = new UINavigationController();
 
             Window = new UIWindow(UIScreen.MainScreen.Bounds)
             {

@@ -9,13 +9,13 @@ namespace Playground.ViewModels.Collections.Products
     {
         public int Id { get; set; }
 
-        public string Category { get; set; }
+        public string Category { get; set; } = string.Empty;
 
-        public ICommand<ProductHeaderViewModel> AddCommand { get; set; }
+        public ICommand<ProductHeaderViewModel>? AddCommand { get; set; }
 
-        public ICommand<ProductHeaderViewModel> InfoCommand { get; set; }
+        public ICommand<ProductHeaderViewModel>? InfoCommand { get; set; }
 
-        public ICommand<ProductHeaderViewModel> GenerateCommand { get; set; }
+        public ICommand<ProductHeaderViewModel>? GenerateCommand { get; set; }
 
         #region for Collect to Group
 

@@ -14,13 +14,13 @@ namespace Playground.Droid.Views.Dialogs
     [Activity]
     public class DialogsPageActivity : ActivityBase<DialogsPageViewModel>
     {
-        private Button _openAlertButton;
-        private TextView _alertResultTextView;
-        private Button _openDialogUntilDismissButton;
-        private TextView _dialogDismissResultTextView;
-        private Button _openDialogUntilResultButton;
-        private TextView _dialogDismissResultResultTextView;
-        private Button _openTwoDialogsButton;
+        private Button? _openAlertButton;
+        private TextView? _alertResultTextView;
+        private Button? _openDialogUntilDismissButton;
+        private TextView? _dialogDismissResultTextView;
+        private Button? _openDialogUntilResultButton;
+        private TextView? _dialogDismissResultResultTextView;
+        private Button? _openTwoDialogsButton;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -46,9 +46,9 @@ namespace Playground.Droid.Views.Dialogs
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.AlertResult, () => _alertResultTextView.Text);
-            this.Bind(() => ViewModel.DialogUntilDismissResult, () => _dialogDismissResultTextView.Text, ViewModel.PersonConverter);
-            this.Bind(() => ViewModel.DialogUntilResult, () => _dialogDismissResultResultTextView.Text, ViewModel.PersonConverter);
+            this.Bind(() => ViewModel.AlertResult, () => _alertResultTextView!.Text);
+            this.Bind(() => ViewModel.DialogUntilDismissResult, () => _dialogDismissResultTextView!.Text, ViewModel.PersonConverter);
+            this.Bind(() => ViewModel.DialogUntilResult, () => _dialogDismissResultResultTextView!.Text, ViewModel.PersonConverter);
         }
     }
 }
