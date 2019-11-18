@@ -52,6 +52,10 @@
     <Compile Include="DroidPushNotificationParser.cs" />
     <Compile Include="DroidPushNotificationsService.cs" />
     <Compile Include="PushNotificationStyles.cs" />
+    <Compile Include="LocaleChangeBroadcastReceiver.cs" />
+    <Compile Include="NotificationIntentActivityInfo.cs" />
+    <Compile Include="NotificationChannelsHelper.cs" />
+    <Compile Include="NotificationActionsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Support.v7.AppCompat" Version="28.0.0.3" />
@@ -66,6 +70,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.Android.Support.v4">
       <Version>28.0.0.3</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.ShortcutBadger">
+      <Version>1.1.21</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
