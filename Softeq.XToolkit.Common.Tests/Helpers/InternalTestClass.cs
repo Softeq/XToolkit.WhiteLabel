@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers
             _index = index;
         }
 
-        public static string Result { get; private set; }
+        public static string? Result { get; private set; }
 
         private void DoStuffPrivately()
         {
@@ -93,9 +93,9 @@ namespace Softeq.XToolkit.Common.Tests.Helpers
             return Result;
         }
 
-        public WeakAction GetAction(WeakActionTestCase testCase)
+        public WeakAction? GetAction(WeakActionTestCase testCase)
         {
-            WeakAction action = null;
+            WeakAction? action = null;
 
             switch (testCase)
             {
@@ -144,9 +144,9 @@ namespace Softeq.XToolkit.Common.Tests.Helpers
             return action;
         }
 
-        public WeakFunc<string> GetFunc(WeakActionTestCase testCase)
+        public WeakFunc<string>? GetFunc(WeakActionTestCase testCase)
         {
-            WeakFunc<string> func = null;
+            WeakFunc<string>? func = null;
 
             switch (testCase)
             {

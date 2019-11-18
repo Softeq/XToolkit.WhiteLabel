@@ -17,10 +17,10 @@ namespace Softeq.XToolkit.Common.Tests
             }
 
             _command = new RelayCommand(TestAction, CanExecuteCommandFunc);
-            _command.CanExecuteChanged += CommandOnCanExecuteChanged;
+            _command.CanExecuteChanged += CommandOnCanExecuteChanged!;
 
             _genericCommand = new RelayCommand<string>(TestAction, CanExecuteGeneric);
-            _genericCommand.CanExecuteChanged += CommandOnCanExecuteChanged;
+            _genericCommand.CanExecuteChanged += CommandOnCanExecuteChanged!;
         }
 
         private readonly RelayCommand _command;

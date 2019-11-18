@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Tests
 
         public class TestClass
         {
-            public event EventHandler<GenericEventArgs<Tuple<string, int>>> TestEvent;
+            public event EventHandler<GenericEventArgs<Tuple<string, int>>>? TestEvent;
 
             public void RaiseEvent()
             {

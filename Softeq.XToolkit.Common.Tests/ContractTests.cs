@@ -7,6 +7,8 @@ using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.Logger;
 using Xunit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Common.Tests
 {
     public class ContractTests
