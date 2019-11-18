@@ -16,9 +16,10 @@ using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
-#nullable disable
     [Obsolete("Use IImagePickerService")]
     public class SimpleImagePicker : ObservableObject
     {
@@ -252,4 +253,3 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         }
     }
 }
-#nullable restore

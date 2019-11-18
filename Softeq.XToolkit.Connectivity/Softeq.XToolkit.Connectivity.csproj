@@ -6,10 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Xam.Plugin.Connectivity" Version="3.2.0" />
   </ItemGroup>

@@ -6,10 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Plugin.Permissions" Version="5.0.0-beta" />
   </ItemGroup>
