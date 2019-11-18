@@ -28,14 +28,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         {
             var pushNotification = new PushNotificationModel();
 
-            if (pushNotificationData is RemoteMessage)
+            if (pushNotificationData is RemoteMessage remoteNotification)
             {
-                var remoteNotification = pushNotificationData as RemoteMessage;
                 pushNotification = ParseRemoteMessageNotification(remoteNotification);
             }
-            else if (pushNotificationData is Bundle)
+            else if (pushNotificationData is Bundle bundleNotification)
             {
-                var bundleNotification = pushNotificationData as Bundle;
                 pushNotification = ParseBundleNotification(bundleNotification);
             }
 
@@ -102,9 +100,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <param name="data">IDictionary object</param>
         /// <param name="key">Key string</param>
         /// <returns>String stored under the specified key or null</returns>
-        protected string GetStringFromDictionary(IDictionary<string, string> data, string key)
+        protected string GetStringFromDictionary(IDictionary<string, string>? data, string key)
         {
-            return data == null ? null : data.TryGetValue(key, out var value) ? value : null;
+            return data == null
+                ? string.Empty
+                : data.TryGetValue(key, out var value)
+                    ? value
+                    : string.Empty;
         }
     }
 }

@@ -154,7 +154,7 @@ namespace Softeq.XToolkit.PushNotifications
             catch (Exception ex)
             {
                 PushNotificationsHandler.HandleInvalidPushNotification(ex, pushNotification);
-                result = null;
+                result = new PushNotificationModel();
             }
 
             return result != null;

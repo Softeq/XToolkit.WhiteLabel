@@ -8,12 +8,12 @@ namespace Softeq.XToolkit.PushNotifications
         /// <summary>
         ///     Notification title
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
         /// <summary>
         ///     Notification body - message
         /// </summary>
-        public string Body { get; set; }
+        public string Body { get; set; } = string.Empty;
 
         /// <summary>
         ///     Value to determine if notification is silent (not visible to the user, for some inner updates)
@@ -23,11 +23,11 @@ namespace Softeq.XToolkit.PushNotifications
         /// <summary>
         ///     Additional data stored in notification (custom data)
         /// </summary>
-        public string AdditionalData { get; set; }
+        public string AdditionalData { get; set; } = string.Empty;
 
         /// <summary>
         ///     Notification type as string (custom data)
         /// </summary>
-        public string Type { get; set; }
+        public string Type { get; set; } = string.Empty;
     }
 }

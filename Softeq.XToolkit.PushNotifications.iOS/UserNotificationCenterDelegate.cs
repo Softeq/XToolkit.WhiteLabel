@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
             if (response.IsCustomAction)
             {
-                var textInput = (response as UNTextInputNotificationResponse)?.UserText;
+                var textInput = (response as UNTextInputNotificationResponse)?.UserText ?? string.Empty;
                 _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier, textInput);
             }
             else if (response.IsDefaultAction)
@@ -60,7 +60,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             }
             else if (response.IsDismissAction)
             {
-                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier, null);
+                _pushNotificationsReceiver.OnMessageCustomActionInvoked(userInfo, actionIdentifier, string.Empty);
             }
 
             completionHandler.Invoke();
