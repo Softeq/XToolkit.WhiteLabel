@@ -19,6 +19,13 @@ namespace Softeq.XToolkit.PushNotifications
         void OnPushRegistrationCompleted(bool isRegisteredInSystem, bool isSavedOnServer);
 
         /// <summary>
+        ///     Handle the result of push notifications permission request on iOS (this is not relevant for Android)
+        ///     Note that push notifications registration will be initiated anyway. You might want to use this callback for logging or analytics
+        /// </summary>
+        /// <param name="permissionsGranted">True if user allowed notification permissions, false if denied</param>
+        void OnPushPermissionsRequestCompleted(bool permissionsGranted);
+
+        /// <summary>
         ///     Handle the situation when push notification was received
         ///     (happens in foreground for iOS; in foreground for Android 'notification' messages; in all cases for Android 'data' messages)
         /// </summary>
