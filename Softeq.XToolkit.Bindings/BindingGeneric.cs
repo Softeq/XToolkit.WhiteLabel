@@ -1384,7 +1384,7 @@ namespace Softeq.XToolkit.Bindings
         {
             if (_isFallbackValueActive)
             {
-                _targetProperty.SetValue(PropertyTarget.Target, FallbackValue, null);
+                _targetProperty.SetValue(PropertyTarget.Target, _converter.Convert(FallbackValue), null);
                 return true;
             }
 
