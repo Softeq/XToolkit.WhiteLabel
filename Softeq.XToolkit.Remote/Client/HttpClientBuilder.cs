@@ -3,27 +3,30 @@ using System.Net.Http;
 
 namespace Softeq.XToolkit.Remote.Client
 {
+    /// <inheritdoc />
     public class HttpClientBuilder : IHttpClientBuilder
     {
         private readonly string _baseUrl;
-        private readonly Lazy<HttpHandlerBuilder> _builderOfMessageHandlerLazy;
+        private readonly HttpMessageHandlerBuilder _httpMessageHandlerBuilder;
 
-        public HttpClientBuilder(string baseUrl)
+        public HttpClientBuilder(string baseUrl) : this(baseUrl, new DefaultHttpMessageHandlerBuilder())
         {
-            _baseUrl = baseUrl;
-            _builderOfMessageHandlerLazy = new Lazy<HttpHandlerBuilder>(() => new HttpHandlerBuilder());
         }
 
-        // TODO YP: handlers order
-        //     Fix ability for public change order: diagnostic) AuthHandler
-        // Correct order:
-        //     NativeHandler) PriorityHandler) AuthHandler) DiagnosticHandler
+        public HttpClientBuilder(string baseUrl, HttpMessageHandlerBuilder httpMessageHandlerBuilder)
+        {
+            _baseUrl = baseUrl;
+            _httpMessageHandlerBuilder = httpMessageHandlerBuilder;
+        }
+
+        /// <inheritdoc />
         public IHttpClientBuilder AddHandler(DelegatingHandler delegatingHandler)
         {
-            _builderOfMessageHandlerLazy.Value.AddHandler(delegatingHandler);
+            _httpMessageHandlerBuilder.AddHandler(delegatingHandler);
             return this;
         }
 
+        /// <inheritdoc />
         public virtual HttpClient Build()
         {
             var handler = GetHttpMessageHandler();
@@ -36,7 +39,7 @@ namespace Softeq.XToolkit.Remote.Client
 
         protected virtual HttpMessageHandler GetHttpMessageHandler()
         {
-            return _builderOfMessageHandlerLazy.Value.Build();
+            return _httpMessageHandlerBuilder.Build();
         }
 
         protected virtual HttpClient CreateHttpClient(HttpMessageHandler handler)

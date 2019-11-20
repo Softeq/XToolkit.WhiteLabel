@@ -2,7 +2,6 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Android.OS;
-using Softeq.XToolkit.Remote.Client;
 using NetworkApp.Droid.CustomHandlers;
 
 namespace NetworkApp.Droid
@@ -17,7 +16,7 @@ namespace NetworkApp.Droid
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            HttpHandlerBuilder.NativeHandler = new IgnoreSSLClientHandler();
+            var customHttpMessageHandler = new IgnoreSSLClientHandler();
 
             TabLayoutResource = Resource.Layout.Tabbar;
             ToolbarResource = Resource.Layout.Toolbar;
@@ -27,7 +26,7 @@ namespace NetworkApp.Droid
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            LoadApplication(new App());
+            LoadApplication(new App(customHttpMessageHandler));
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {

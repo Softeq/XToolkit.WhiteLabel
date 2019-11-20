@@ -1,8 +1,11 @@
-﻿namespace Softeq.XToolkit.Remote.Primitives
+﻿using System;
+
+namespace Softeq.XToolkit.Remote.Primitives
 {
     /// <summary>
     /// This enumeration defines the default base priorities associated with the different HttpMessageHandler instances.
     /// </summary>
+    [Obsolete]
     public enum RequestPriority
     {
         /// <summary>

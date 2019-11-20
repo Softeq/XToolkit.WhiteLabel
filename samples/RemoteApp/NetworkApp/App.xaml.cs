@@ -1,9 +1,6 @@
-﻿using Xamarin.Forms;
-using NetworkApp.Pages;
-using NetworkApp.ViewModels;
-using System.Net;
-using System.Net.Security;
-using System.Security.Cryptography.X509Certificates;
+﻿using System.Net.Http;
+using Xamarin.Forms;
+using DryIoc;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Auth;
@@ -11,9 +8,10 @@ using RemoteServices.Auth;
 using RemoteServices.Auth.Models;
 using RemoteServices.Photos;
 using RemoteServices.Profile;
-using DryIoc;
-using RemoteServices.Tests;
 using RemoteServices.Profile.Models;
+using RemoteServices.Ssl;
+using NetworkApp.Pages;
+using NetworkApp.ViewModels;
 
 namespace NetworkApp
 {
@@ -26,14 +24,14 @@ namespace NetworkApp
 
         private readonly IContainer _container;
 
-        public App()
+        public App(HttpMessageHandler customHttpMessageHandler) // sample of using custom primary http message handler
         {
             // YP: currently not working for AndroidClientHandler (https://github.com/xamarin/xamarin-android/issues/3682)
-            ServicePointManager.ServerCertificateValidationCallback =
-                (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
-                {
-                    return true;
-                };
+            //ServicePointManager.ServerCertificateValidationCallback =
+            //    (object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors) =>
+            //    {
+            //        return true;
+            //    };
 
             InitializeComponent();
 
@@ -68,7 +66,8 @@ namespace NetworkApp
 
             _container.Register<NewDataService>(Reuse.Singleton);
             _container.Register<DataService>(Reuse.Singleton);
-            _container.Register<TestRemoteService>(Reuse.Singleton);
+            _container.Register<SslTestRemoteService>(Reuse.Singleton);
+            _container.RegisterDelegate<HttpMessageHandler>(r => customHttpMessageHandler);
 
             // ViewModels
 

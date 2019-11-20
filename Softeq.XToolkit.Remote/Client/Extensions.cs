@@ -1,9 +1,5 @@
-using System.ComponentModel;
-using System.Net.Http;
-using Fusillade;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Client.Handlers;
-using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote.Client
 {
@@ -15,30 +11,6 @@ namespace Softeq.XToolkit.Remote.Client
         {
             var handler = new HttpDiagnosticsHandler(logger);
             return httpClientBuilder.AddHandler(handler);
-        }
-
-        internal static IHttpClientBuilder WithPriority(
-            this IHttpClientBuilder httpClientBuilder,
-            RequestPriority requestPriority)
-        {
-            DelegatingHandler innerHandler;
-
-            switch (requestPriority)
-            {
-                case RequestPriority.Speculative:
-                    innerHandler = PriorityCache.Speculative;
-                    break;
-                case RequestPriority.UserInitiated:
-                    innerHandler = PriorityCache.UserInitiated;
-                    break;
-                case RequestPriority.Background:
-                    innerHandler = PriorityCache.Background;
-                    break;
-                default:
-                    throw new InvalidEnumArgumentException(nameof(requestPriority), (int) requestPriority, typeof(Priority));
-            }
-
-            return httpClientBuilder.AddHandler(innerHandler);
         }
     }
 }

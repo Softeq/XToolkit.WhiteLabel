@@ -1,6 +1,5 @@
 ﻿using Foundation;
 using NetworkApp.iOS.CustomHandlers;
-using Softeq.XToolkit.Remote.Client;
 using UIKit;
 
 namespace NetworkApp.iOS
@@ -10,10 +9,10 @@ namespace NetworkApp.iOS
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
-            HttpHandlerBuilder.NativeHandler = IgnoreSslClientHelper.CreateHandler();
+            var customHttpMessageHandler = IgnoreSslClientHelper.CreateHandler();
 
             Xamarin.Forms.Forms.Init();
-            LoadApplication(new App());
+            LoadApplication(new App(customHttpMessageHandler));
 
             return base.FinishedLaunching(app, options);
         }

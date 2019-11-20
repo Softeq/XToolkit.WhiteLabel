@@ -8,7 +8,7 @@ using Softeq.XToolkit.Remote.Exceptions;
 
 namespace Softeq.XToolkit.Remote.Client.Handlers
 {
-    internal class RefreshTokenHttpClientHandler : AuthenticatedHttpClientHandler
+    public class RefreshTokenHttpClientHandler : AuthenticatedHttpClientHandler
     {
         private readonly Func<Task> _getRefreshedToken;
 

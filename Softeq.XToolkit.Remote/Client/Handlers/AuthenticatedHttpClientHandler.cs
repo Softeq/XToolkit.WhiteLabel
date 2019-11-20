@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Remote.Client.Handlers
     ///     Migrated Refit private implementation:
     ///     https://github.com/reactiveui/refit/blob/2cc549bf06f84e8eddb6e3dcb67bebf81ce5f642/Refit/AuthenticatedHttpClientHandler.cs
     /// </summary>
-    internal class AuthenticatedHttpClientHandler : DelegatingHandler
+    public class AuthenticatedHttpClientHandler : DelegatingHandler
     {
         private readonly Func<Task<string>> _getToken;
 

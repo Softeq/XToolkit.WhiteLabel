@@ -5,7 +5,7 @@ using System.Windows.Input;
 using RemoteServices.Auth;
 using RemoteServices.Photos;
 using RemoteServices.Profile;
-using RemoteServices.Tests;
+using RemoteServices.Ssl;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
@@ -18,7 +18,7 @@ namespace NetworkApp.ViewModels
         private readonly DataService _dataService;
         private readonly IAuthService _authService;
         private readonly ProfileService _profileService;
-        private readonly TestRemoteService _testService;
+        private readonly SslTestRemoteService _sslService;
         private readonly NewDataService _newDataService;
 
         public ObservableRangeCollection<WorkItemViewModel> WorkItems { get; } = new ObservableRangeCollection<WorkItemViewModel>();
@@ -31,13 +31,13 @@ namespace NetworkApp.ViewModels
             DataService dataService,
             IAuthService authService,
             ProfileService profileService,
-            TestRemoteService testRemoteService)
+            SslTestRemoteService sslService)
         {
             _newDataService = newDataService;
             _dataService = dataService;
             _authService = authService;
             _profileService = profileService;
-            _testService = testRemoteService;
+            _sslService = sslService;
 
 
 
@@ -122,7 +122,7 @@ namespace NetworkApp.ViewModels
         {
             callback("start");
 
-            var result = await _testService.CheckExpiredSslAsync(ct);
+            var result = await _sslService.CheckExpiredSslAsync(ct);
 
             callback($"end - {result}");
         }

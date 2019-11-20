@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Refit;
 
-namespace RemoteServices.Tests
+namespace RemoteServices.Ssl
 {
     public interface ISslApiService
     {

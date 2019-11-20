@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
@@ -6,19 +7,20 @@ using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
-namespace RemoteServices.Tests
+namespace RemoteServices.Ssl
 {
-    public class TestRemoteService
+    public class SslTestRemoteService
     {
         private readonly IRemoteService<ISslApiService> _remoteService;
         private readonly ILogger _logger;
 
-        public TestRemoteService(ILogger logger)
+        public SslTestRemoteService(ILogger logger, HttpMessageHandler customHttpMessageHandler)
         {
             //var url = "https://self-signed.badssl.com";
             var url = "https://expired.badssl.com";
 
-            var httpClientBuilder = new HttpClientBuilder(url)
+            var customHttpMessageHandlerBuilder = new DefaultHttpMessageHandlerBuilder(customHttpMessageHandler);
+            var httpClientBuilder = new HttpClientBuilder(url, customHttpMessageHandlerBuilder)
                 .WithLogger(logger);
 
             _remoteService = new RemoteServiceFactory().Create<ISslApiService>(httpClientBuilder);

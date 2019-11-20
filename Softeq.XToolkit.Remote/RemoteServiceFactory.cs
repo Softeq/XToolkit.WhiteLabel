@@ -7,20 +7,18 @@ namespace Softeq.XToolkit.Remote
 {
     public class RemoteServiceFactory : IRemoteServiceFactory
     {
-        private readonly IHttpClientFactory _httpClientFactory;
         private readonly IApiServiceFactory _apiServiceFactory;
         private readonly IExecutorBuilderFactory _executorBuilderFactory;
 
         public RemoteServiceFactory()
         {
-            _httpClientFactory = new DefaultHttpClientFactory();
             _apiServiceFactory = new RefitApiServiceFactory();
             _executorBuilderFactory = new PollyExecutorBuilderFactory();
         }
 
         public IRemoteService<T> Create<T>(string baseUrl)
         {
-            var httpClient = _httpClientFactory.CreateHttpClient(baseUrl);
+            var httpClient = new HttpClientBuilder(baseUrl).Build();
 
             return Create<T>(httpClient);
         }
