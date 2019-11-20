@@ -6,10 +6,5 @@
         {
             return new PollyExecutorBuilder<T>();
         }
-
-        public IExecutorBuilder Create()
-        {
-            return new PollyExecutorBuilder();
-        }
     }
 }

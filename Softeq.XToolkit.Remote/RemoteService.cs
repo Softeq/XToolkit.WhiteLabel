@@ -36,21 +36,11 @@ namespace Softeq.XToolkit.Remote
                 .ConfigureAwait(false);
         }
 
-        public async Task MakeRequest(
+        public Task MakeRequest(
             Func<TApiService, CancellationToken, Task> operation,
             RequestOptions options = null)
         {
-            options = options ?? RequestOptions.GetDefaultOptions();
-
-            var executor = _executorFactory
-                .Create()
-                .WithRetry(options.RetryCount, options.ShouldRetry)
-                .WithTimeout(options.Timeout)
-                .Build();
-
-            await executor
-                .ExecuteAsync(ct => operation(_apiService, ct), options.CancellationToken)
-                .ConfigureAwait(false);
+            throw new NotImplementedException();
         }
     }
 }
