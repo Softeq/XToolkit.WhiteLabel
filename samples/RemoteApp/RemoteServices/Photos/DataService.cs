@@ -8,6 +8,11 @@ using Softeq.XToolkit.Remote.Primitives;
 
 namespace RemoteServices.Photos
 {
+    // YP: simple consumer service for make API call as simples as possible.
+    // Responsibility:
+    // - Fetch data from API;
+    // - Catch remote exceptions;
+    // - Map data & error DTOs to the app models;
     public class DataService
     {
         private readonly IRemoteService<IPhotosApiService> _remoteService;
@@ -26,21 +31,11 @@ namespace RemoteServices.Photos
 
         public async Task<string> GetDataAsync(CancellationToken cancellationToken)
         {
-            // DONE:
-            // fatal api error? - on refit side
-            // connectivity & fatal network error - on consumer side
-            // cancellation
-            // priority - need integration with Fusillade
-            // auth? - need refit integration
-
             // TODO YP:
             // mapper - need default, declaration on consumer side
-            // add sample for priority
-            // serialization settings - need refit settings integration
 
             // Bugs:
             // throttling & retry - logs many results
-
 
             _logger.Debug("========= Begin =========");
 

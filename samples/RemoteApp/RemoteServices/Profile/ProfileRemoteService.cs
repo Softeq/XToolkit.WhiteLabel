@@ -16,10 +16,10 @@ namespace RemoteServices.Profile
         public ProfileRemoteService(
             IRemoteServiceFactory remoteServiceFactory,
             ISessionContext sessionContext,
-            string baseUrl,
+            ProfileConfig config,
             ILogger logger)
         {
-            var httpClientBuilder = new HttpClientBuilder(baseUrl)
+            var httpClientBuilder = new HttpClientBuilder(config.BaseUrl)
                 .WithLogger(logger)
                 .WithSessionContext(sessionContext);
 

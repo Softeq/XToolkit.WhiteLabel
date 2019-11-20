@@ -9,4 +9,11 @@ namespace Softeq.XToolkit.Remote.Executor
         IExecutorBuilder<T> WithTimeout(int timeout);
         IAsyncPolicy<T> Build();
     }
+
+    public interface IExecutorBuilder
+    {
+        IExecutorBuilder WithRetry(int retryCount, Func<Exception, bool> shouldRetry);
+        IExecutorBuilder WithTimeout(int timeout);
+        IAsyncPolicy Build();
+    }
 }

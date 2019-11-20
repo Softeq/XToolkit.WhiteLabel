@@ -2,8 +2,15 @@ namespace RemoteServices.Auth.Models
 {
     public class AuthConfig
     {
-        public string BaseUrl { get; set; }
-        public string ClientId { get; set; }
-        public string ClientSecret { get; set; }
+        public AuthConfig(string baseUrl, string clientId, string clientSecret)
+        {
+            BaseUrl = baseUrl;
+            ClientId = clientId;
+            ClientSecret = clientSecret;
+        }
+
+        public string BaseUrl { get; }
+        public string ClientId { get; }
+        public string ClientSecret { get; }
     }
 }

@@ -10,5 +10,9 @@ namespace Softeq.XToolkit.Remote
         Task<TResult> MakeRequest<TResult>(
             Func<TApiService, CancellationToken, Task<TResult>> operation,
             RequestOptions options = null);
+
+        Task MakeRequest(
+            Func<TApiService, CancellationToken, Task> operation,
+            RequestOptions options = null);
     }
 }
