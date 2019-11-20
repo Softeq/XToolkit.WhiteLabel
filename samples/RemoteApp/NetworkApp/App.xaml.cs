@@ -1,9 +1,12 @@
 ﻿using Xamarin.Forms;
 using NetworkApp.Pages;
 using NetworkApp.ViewModels;
+using System;
 using System.Net;
 using System.Net.Security;
 using System.Security.Cryptography.X509Certificates;
+using RemoteServices.Photos;
+using System.Threading.Tasks;
 
 namespace NetworkApp
 {
@@ -18,11 +21,28 @@ namespace NetworkApp
                     return true;
                 };
 
+
+
+            IHttpClientFactory httpClientFactory = new DefaultHttpClientFactory();
+            IApiServiceFactory apiServiceFactory = new RefitApiServiceFactory();
+
+            SimpleIoc.Register<Lazy<IPhotosApiService>>(new Lazy<IPhotosApiService>(() =>
+            {
+                var httpClient = httpClientFactory.CreateHttpClient("https://jsonplaceholder.typicode.com");
+
+                var apiService = apiServiceFactory.CreateService<IPhotosApiService>(httpClient);
+
+                return apiService;
+            }));
+
+
+
+
             InitializeComponent();
 
             var mainPage = new MainPage
             {
-                BindingContext = new MainPageViewModel()
+                BindingContext = SimpleIoc.Resolve<MainPageViewModel>()
             };
 
             MainPage = new NavigationPage(mainPage);
@@ -42,5 +62,6 @@ namespace NetworkApp
         {
             // Handle when your app resumes
         }
+
     }
 }

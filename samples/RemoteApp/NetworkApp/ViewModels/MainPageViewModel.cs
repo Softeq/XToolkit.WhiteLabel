@@ -22,6 +22,7 @@ namespace NetworkApp.ViewModels
         private readonly IAuthService _authService;
         private readonly ProfileService _profileService;
         private readonly TestRemoteService _testService;
+        private readonly NewDataService _newDataService;
 
         public ObservableRangeCollection<WorkItemViewModel> WorkItems { get; } = new ObservableRangeCollection<WorkItemViewModel>();
 
@@ -32,8 +33,12 @@ namespace NetworkApp.ViewModels
         private string _login;
         private string _password;
 
-        public MainPageViewModel()
+        public MainPageViewModel(
+            NewDataService newDataService
+            )
         {
+            _newDataService = newDataService;
+
 
             // init services
             var logger = new ConsoleLogger("NetworkApp");
@@ -61,21 +66,26 @@ namespace NetworkApp.ViewModels
             _testService = new TestRemoteService(logger);
 
 
-            // fill list
-            WorkItems.Add(new WorkItemViewModel(DataRequest) { Name = $"Simple Data" });
-            WorkItems.Add(new WorkItemViewModel(LoginRequest) { Name = $"Login" });
 
+            // fill list
             for (int i = 0; i < 5; i++)
             {
-                WorkItems.Add(new WorkItemViewModel(ProfileInfoRequest) { Name = $"Profile Info" });
+                WorkItems.Add(new WorkItemViewModel(DataRequest) { Name = $"Simple Data" });
             }
 
-            WorkItems.Add(new WorkItemViewModel(ExpiredSslRequest) { Name = $"Expired Ssl" });
+            //WorkItems.Add(new WorkItemViewModel(LoginRequest) { Name = $"Login" });
 
-            for (int i = 0; i < 100; i++)
-            {
-                WorkItems.Add(new WorkItemViewModel(FakeRequest) { Name = $"#{i} fake" });
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    WorkItems.Add(new WorkItemViewModel(ProfileInfoRequest) { Name = $"Profile Info" });
+            //}
+
+            //WorkItems.Add(new WorkItemViewModel(ExpiredSslRequest) { Name = $"Expired Ssl" });
+
+            //for (int i = 0; i < 100; i++)
+            //{
+            //    WorkItems.Add(new WorkItemViewModel(FakeRequest) { Name = $"#{i} fake" });
+            //}
 
             RunAllCommand = new RelayCommand(() => WorkItems.Apply(x => x.RunCommand.Execute(null)));
             CancelAllCommand = new RelayCommand(() => WorkItems.Apply(x => x.CancelCommand.Execute(null)));
@@ -98,7 +108,9 @@ namespace NetworkApp.ViewModels
         {
             callback("start");
 
-            var result = await _dataService.GetDataAsync(ct);
+            //var result = await _dataService.GetDataAsync(ct);
+            await _newDataService.GetAllPhotosAsync();
+            var result = "done";
 
             callback($"end - {result}");
         }
