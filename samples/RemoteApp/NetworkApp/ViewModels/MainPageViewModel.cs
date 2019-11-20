@@ -109,7 +109,7 @@ namespace NetworkApp.ViewModels
             callback("start");
 
             //var result = await _dataService.GetDataAsync(ct);
-            await _newDataService.GetAllPhotosAsync();
+            await _newDataService.GetAllPhotosAsync(ct);
             var result = "done";
 
             callback($"end - {result}");
