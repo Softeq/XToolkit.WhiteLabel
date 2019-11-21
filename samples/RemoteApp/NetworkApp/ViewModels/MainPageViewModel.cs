@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using RemoteServices.Auth;
+using RemoteServices.GitHub;
 using RemoteServices.Photos;
 using RemoteServices.Profile;
 using RemoteServices.Ssl;
@@ -19,6 +20,7 @@ namespace NetworkApp.ViewModels
         private readonly IAuthService _authService;
         private readonly ProfileService _profileService;
         private readonly SslTestRemoteService _sslService;
+        private readonly GitHubRemoteService _githubService;
         private readonly NewDataService _newDataService;
 
         public ObservableRangeCollection<WorkItemViewModel> WorkItems { get; } = new ObservableRangeCollection<WorkItemViewModel>();
@@ -31,13 +33,15 @@ namespace NetworkApp.ViewModels
             DataService dataService,
             IAuthService authService,
             ProfileService profileService,
-            SslTestRemoteService sslService)
+            SslTestRemoteService sslService,
+            GitHubRemoteService githubService)
         {
             _newDataService = newDataService;
             _dataService = dataService;
             _authService = authService;
             _profileService = profileService;
             _sslService = sslService;
+            _githubService = githubService;
 
 
 
@@ -57,6 +61,11 @@ namespace NetworkApp.ViewModels
             }
 
             WorkItems.Add(new WorkItemViewModel(ExpiredSslRequest) { Name = $"Expired Ssl" });
+
+            for (int i = 0; i < 10; i++)
+            {
+                WorkItems.Add(new WorkItemViewModel(GithubGetUserRequest) { Name = $"#{i} GitHub User" });
+            }
 
             for (int i = 0; i < 10; i++)
             {
@@ -125,6 +134,15 @@ namespace NetworkApp.ViewModels
             var result = await _sslService.CheckExpiredSslAsync(ct);
 
             callback($"end - {result}");
+        }
+
+        private async Task GithubGetUserRequest(Action<string> callback, CancellationToken ct)
+        {
+            callback("start");
+
+            var user = await _githubService.GetUserAsync("wcoder", ct);
+
+            callback($"end - {user.Name}");
         }
     }
 }

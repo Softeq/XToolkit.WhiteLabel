@@ -23,13 +23,6 @@ namespace Softeq.XToolkit.Remote
             return Create<T>(httpClient);
         }
 
-        public IRemoteService<T> Create<T>(IHttpClientBuilder httpClientBuilder)
-        {
-            var httpClient = httpClientBuilder.Build();
-
-            return Create<T>(httpClient);
-        }
-
         public IRemoteService<T> Create<T>(HttpClient httpClient)
         {
             var apiService = _apiServiceFactory.CreateService<T>(httpClient);

@@ -20,23 +20,17 @@ namespace RemoteServices.Photos
 
         public DataService(
             IRemoteServiceFactory remoteServiceFactory,
+            IHttpClientFactory httpClientFactory,
             ILogger logger)
         {
-            var httpClientBuilder = new HttpClientBuilder("https://jsonplaceholder.typicode.com")
-                .WithLogger(logger);
+            var httpClient = httpClientFactory.CreateSimpleClient("https://jsonplaceholder.typicode.com", logger);
 
-            _remoteService = remoteServiceFactory.Create<IPhotosApiService>(httpClientBuilder);
+            _remoteService = remoteServiceFactory.Create<IPhotosApiService>(httpClient);
             _logger = logger;
         }
 
         public async Task<string> GetDataAsync(CancellationToken cancellationToken)
         {
-            // TODO YP:
-            // mapper - need default, declaration on consumer side
-
-            // Bugs:
-            // throttling & retry - logs many results
-
             _logger.Debug("========= Begin =========");
 
             try
@@ -45,7 +39,6 @@ namespace RemoteServices.Photos
                     (service, ct) => service.GetAllPhotosAsync(ct),
                     new RequestOptions
                     {
-                        Priority = RequestPriority.UserInitiated,
                         RetryCount = 2,
                         Timeout = 2,
                         CancellationToken = cancellationToken

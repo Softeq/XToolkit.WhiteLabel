@@ -23,12 +23,15 @@ namespace RemoteServices.Auth
         private readonly IRemoteService<IAuthApiService> _remoteService;
         private readonly AuthConfig _config;
 
-        public AuthRemoteService(IRemoteServiceFactory remoteServiceFactory, AuthConfig config, ILogger logger)
+        public AuthRemoteService(
+            IRemoteServiceFactory remoteServiceFactory,
+            IHttpClientFactory httpClientFactory,
+            AuthConfig config,
+            ILogger logger)
         {
-            var httpClientBuilder = new HttpClientBuilder(config.BaseUrl)
-                .WithLogger(logger);
+            var httpClient = httpClientFactory.CreateSimpleClient(config.BaseUrl, logger);
 
-            _remoteService = remoteServiceFactory.Create<IAuthApiService>(httpClientBuilder);
+            _remoteService = remoteServiceFactory.Create<IAuthApiService>(httpClient);
             _config = config;
         }
 
@@ -47,7 +50,6 @@ namespace RemoteServices.Auth
                     (service, ct) => service.Login(request, ct),
                     new RequestOptions
                     {
-                        Priority = RequestPriority.UserInitiated,
                         RetryCount = 2,
                         ShouldRetry = ex => !(ex is ApiException),
                         CancellationToken = cancellationToken
@@ -77,7 +79,6 @@ namespace RemoteServices.Auth
                     (service, ct) => service.RefreshToken(request, ct),
                     new RequestOptions
                     {
-                        Priority = RequestPriority.UserInitiated,
                         RetryCount = 3,
                         ShouldRetry = ex => !(ex is ApiException),
                         Timeout = 2,

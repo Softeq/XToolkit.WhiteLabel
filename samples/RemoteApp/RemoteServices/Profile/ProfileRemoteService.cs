@@ -15,15 +15,14 @@ namespace RemoteServices.Profile
 
         public ProfileRemoteService(
             IRemoteServiceFactory remoteServiceFactory,
+            IHttpClientFactory httpClientFactory,
             ISessionContext sessionContext,
             ProfileConfig config,
             ILogger logger)
         {
-            var httpClientBuilder = new HttpClientBuilder(config.BaseUrl)
-                .WithLogger(logger)
-                .WithSessionContext(sessionContext);
+            var httpClient = httpClientFactory.CreateAuthClient(config.BaseUrl, sessionContext, logger);
 
-            _remoteService = remoteServiceFactory.Create<IProfileApiService>(httpClientBuilder);
+            _remoteService = remoteServiceFactory.Create<IProfileApiService>(httpClient);
         }
 
         public async Task<ProfileResult> GetProfileAsync(CancellationToken cancellationToken)
@@ -32,7 +31,6 @@ namespace RemoteServices.Profile
                 (service, ct) => service.Profile(ct),
                 new RequestOptions
                 {
-                    Priority = RequestPriority.UserInitiated,
                     CancellationToken = cancellationToken
                 });
 

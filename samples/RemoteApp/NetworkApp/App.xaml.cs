@@ -4,12 +4,14 @@ using DryIoc;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Auth;
+using Softeq.XToolkit.Remote.Client;
 using RemoteServices.Auth;
 using RemoteServices.Auth.Models;
 using RemoteServices.Photos;
 using RemoteServices.Profile;
 using RemoteServices.Profile.Models;
 using RemoteServices.Ssl;
+using RemoteServices.GitHub;
 using NetworkApp.Pages;
 using NetworkApp.ViewModels;
 
@@ -46,6 +48,7 @@ namespace NetworkApp
 
             // Remote Services
 
+            _container.Register<IHttpClientFactory, DefaultHttpClientFactory>(Reuse.Singleton);
             _container.Register<IRemoteServiceFactory, RemoteServiceFactory>(Reuse.Singleton);
 
             // Auth Services
@@ -56,7 +59,7 @@ namespace NetworkApp
             _container.Register<IAuthService, AuthService>(Reuse.Singleton);
             _container.Register<ISessionContext, SessionContext>(Reuse.Singleton);
 
-            // Profile Serivices
+            // Profile Services
 
             _container.RegisterDelegate(r => new ProfileConfig(_profileUrl), Reuse.Singleton);
             _container.Register<ProfileRemoteService>(Reuse.Singleton);
@@ -68,6 +71,7 @@ namespace NetworkApp
             _container.Register<DataService>(Reuse.Singleton);
             _container.Register<SslTestRemoteService>(Reuse.Singleton);
             _container.RegisterDelegate<HttpMessageHandler>(r => customHttpMessageHandler);
+            _container.Register<GitHubRemoteService>(Reuse.Singleton);
 
             // ViewModels
 

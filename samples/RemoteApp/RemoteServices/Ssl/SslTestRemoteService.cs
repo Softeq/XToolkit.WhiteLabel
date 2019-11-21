@@ -14,16 +14,20 @@ namespace RemoteServices.Ssl
         private readonly IRemoteService<ISslApiService> _remoteService;
         private readonly ILogger _logger;
 
-        public SslTestRemoteService(ILogger logger, HttpMessageHandler customHttpMessageHandler)
+        public SslTestRemoteService(
+            IRemoteServiceFactory remoteServiceFactory,
+            ILogger logger,
+            HttpMessageHandler customHttpMessageHandler)
         {
             //var url = "https://self-signed.badssl.com";
             var url = "https://expired.badssl.com";
 
             var customHttpMessageHandlerBuilder = new DefaultHttpMessageHandlerBuilder(customHttpMessageHandler);
             var httpClientBuilder = new HttpClientBuilder(url, customHttpMessageHandlerBuilder)
-                .WithLogger(logger);
+                .WithLogger(logger)
+                .Build();
 
-            _remoteService = new RemoteServiceFactory().Create<ISslApiService>(httpClientBuilder);
+            _remoteService = remoteServiceFactory.Create<ISslApiService>(httpClientBuilder);
             _logger = logger;
         }
 
