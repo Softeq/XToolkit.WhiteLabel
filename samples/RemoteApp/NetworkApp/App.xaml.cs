@@ -23,6 +23,7 @@ namespace NetworkApp
         private string _clientId;
         private string _clientSecret;
         private string _profileUrl;
+        private string _githubPersonalToken;
 
         private readonly IContainer _container;
 
@@ -65,13 +66,20 @@ namespace NetworkApp
             _container.Register<ProfileRemoteService>(Reuse.Singleton);
             _container.Register<ProfileService>(Reuse.Singleton);
 
+            // GitHub Services
+
+            _container.Register<GitHubRemoteService>(Reuse.Singleton);
+            _container.RegisterDelegate<GitHubSessionContext>(r => new GitHubSessionContext(_githubPersonalToken), Reuse.Singleton);
+
+            // Ssl Test Services
+
+            _container.Register<SslTestRemoteService>(Reuse.Singleton);
+            _container.RegisterDelegate<HttpMessageHandler>(r => customHttpMessageHandler, Reuse.Singleton);
+
             // Other Data Services
 
             _container.Register<NewDataService>(Reuse.Singleton);
             _container.Register<DataService>(Reuse.Singleton);
-            _container.Register<SslTestRemoteService>(Reuse.Singleton);
-            _container.RegisterDelegate<HttpMessageHandler>(r => customHttpMessageHandler);
-            _container.Register<GitHubRemoteService>(Reuse.Singleton);
 
             // ViewModels
 
