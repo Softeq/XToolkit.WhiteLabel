@@ -1,9 +1,9 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using RemoteServices.Auth.Models;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Auth;
+using RemoteServices.Auth.Models;
 
 namespace RemoteServices.Auth
 {
@@ -22,10 +22,10 @@ namespace RemoteServices.Auth
 
         public AuthService(
             IAuthRemoteService remoteService,
-            ILogger logger,
+            ILogManager logManager,
             ITokenManager tokenManager)
         {
-            _logger = logger;
+            _logger = logManager.GetLogger<AuthService>();
             _remoteService = remoteService;
             _tokenManager = tokenManager;
         }

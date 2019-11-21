@@ -16,19 +16,20 @@ namespace RemoteServices.Ssl
 
         public SslTestRemoteService(
             IRemoteServiceFactory remoteServiceFactory,
-            ILogger logger,
+            ILogManager logManager,
             HttpMessageHandler customHttpMessageHandler)
         {
+            _logger = logManager.GetLogger<SslTestRemoteService>();
+
             //var url = "https://self-signed.badssl.com";
             var url = "https://expired.badssl.com";
 
             var customHttpMessageHandlerBuilder = new DefaultHttpMessageHandlerBuilder(customHttpMessageHandler);
             var httpClientBuilder = new HttpClientBuilder(url, customHttpMessageHandlerBuilder)
-                .WithLogger(logger)
+                .WithLogger(_logger)
                 .Build();
 
             _remoteService = remoteServiceFactory.Create<ISslApiService>(httpClientBuilder);
-            _logger = logger;
         }
 
         public async Task<string> CheckExpiredSslAsync(CancellationToken cancellationToken)

@@ -21,12 +21,13 @@ namespace RemoteServices.Photos
         public DataService(
             IRemoteServiceFactory remoteServiceFactory,
             IHttpClientFactory httpClientFactory,
-            ILogger logger)
+            ILogManager logManager)
         {
-            var httpClient = httpClientFactory.CreateSimpleClient("https://jsonplaceholder.typicode.com", logger);
+            _logger = logManager.GetLogger<DataService>();
+
+            var httpClient = httpClientFactory.CreateSimpleClient("https://jsonplaceholder.typicode.com", _logger);
 
             _remoteService = remoteServiceFactory.Create<IPhotosApiService>(httpClient);
-            _logger = logger;
         }
 
         public async Task<string> GetDataAsync(CancellationToken cancellationToken)

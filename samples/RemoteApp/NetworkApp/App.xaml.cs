@@ -44,7 +44,7 @@ namespace NetworkApp
 
             // Common Services
 
-            _container.RegisterDelegate<ILogger>(r => new ConsoleLogger("NetworkApp"), Reuse.Singleton);
+            _container.Register<ILogManager, ConsoleLogManager>();
 
             // Remote Services
 

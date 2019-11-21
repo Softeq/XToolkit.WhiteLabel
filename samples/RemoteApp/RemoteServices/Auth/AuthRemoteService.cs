@@ -26,9 +26,10 @@ namespace RemoteServices.Auth
         public AuthRemoteService(
             IRemoteServiceFactory remoteServiceFactory,
             IHttpClientFactory httpClientFactory,
-            AuthConfig config,
-            ILogger logger)
+            ILogManager logManager,
+            AuthConfig config)
         {
+            var logger = logManager.GetLogger<AuthRemoteService>();
             var httpClient = httpClientFactory.CreateSimpleClient(config.BaseUrl, logger);
 
             _remoteService = remoteServiceFactory.Create<IAuthApiService>(httpClient);

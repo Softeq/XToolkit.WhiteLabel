@@ -1,11 +1,11 @@
 using System.Threading;
 using System.Threading.Tasks;
-using RemoteServices.Profile.Models;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Auth;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
+using RemoteServices.Profile.Models;
 
 namespace RemoteServices.Profile
 {
@@ -17,9 +17,11 @@ namespace RemoteServices.Profile
             IRemoteServiceFactory remoteServiceFactory,
             IHttpClientFactory httpClientFactory,
             ISessionContext sessionContext,
-            ProfileConfig config,
-            ILogger logger)
+            ILogManager logManager,
+            ProfileConfig config)
         {
+            var logger = logManager.GetLogger<ProfileRemoteService>();
+
             var httpClient = httpClientFactory.CreateAuthClient(config.BaseUrl, sessionContext, logger);
 
             _remoteService = remoteServiceFactory.Create<IProfileApiService>(httpClient);

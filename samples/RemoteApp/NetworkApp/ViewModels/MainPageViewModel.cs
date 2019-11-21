@@ -142,7 +142,9 @@ namespace NetworkApp.ViewModels
 
             var user = await _githubService.GetUserAsync("wcoder", ct);
 
-            callback($"end - {user.Name}");
+            callback(user == null
+                ? "end - error - null"
+                : $"end - {user.Name}");
         }
     }
 }
