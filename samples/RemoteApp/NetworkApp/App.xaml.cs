@@ -78,7 +78,7 @@ namespace NetworkApp
 
             // Other Data Services
 
-            _container.Register<NewDataService>(Reuse.Singleton);
+            _container.Register<HttpBinRemoteService>(Reuse.Singleton);
             _container.Register<DataService>(Reuse.Singleton);
 
             // ViewModels

@@ -21,7 +21,7 @@ namespace NetworkApp.ViewModels
         private readonly ProfileService _profileService;
         private readonly SslTestRemoteService _sslService;
         private readonly GitHubRemoteService _githubService;
-        private readonly NewDataService _newDataService;
+        private readonly HttpBinRemoteService _httpBinRemoteService;
 
         public ObservableRangeCollection<WorkItemViewModel> WorkItems { get; } = new ObservableRangeCollection<WorkItemViewModel>();
 
@@ -29,14 +29,14 @@ namespace NetworkApp.ViewModels
         private string _password;
 
         public MainPageViewModel(
-            NewDataService newDataService,
+            HttpBinRemoteService httpBinRemoteService,
             DataService dataService,
             IAuthService authService,
             ProfileService profileService,
             SslTestRemoteService sslService,
             GitHubRemoteService githubService)
         {
-            _newDataService = newDataService;
+            _httpBinRemoteService = httpBinRemoteService;
             _dataService = dataService;
             _authService = authService;
             _profileService = profileService;
@@ -46,31 +46,31 @@ namespace NetworkApp.ViewModels
 
 
             // fill list
-            for (int i = 0; i < 5; i++)
-            {
-                WorkItems.Add(new WorkItemViewModel(DataRequest) { Name = $"Simple Data" });
-            }
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    WorkItems.Add(new WorkItemViewModel(DataRequest) { Name = $"Simple Data" });
+            //}
 
-            WorkItems.Add(new WorkItemViewModel(NewDataRequest) { Name = $"New Simple Data" });
+            WorkItems.Add(new WorkItemViewModel(HttpBinCheckStatusRequest) { Name = $"New Simple Data" });
 
-            WorkItems.Add(new WorkItemViewModel(LoginRequest) { Name = $"Login" });
+            //WorkItems.Add(new WorkItemViewModel(LoginRequest) { Name = $"Login" });
 
-            for (int i = 0; i < 10; i++)
-            {
-                WorkItems.Add(new WorkItemViewModel(ProfileInfoRequest) { Name = $"Profile Info" });
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    WorkItems.Add(new WorkItemViewModel(ProfileInfoRequest) { Name = $"Profile Info" });
+            //}
 
-            WorkItems.Add(new WorkItemViewModel(ExpiredSslRequest) { Name = $"Expired Ssl" });
+            //WorkItems.Add(new WorkItemViewModel(ExpiredSslRequest) { Name = $"Expired Ssl" });
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 100; i++)
             {
                 WorkItems.Add(new WorkItemViewModel(GithubGetUserRequest) { Name = $"#{i} GitHub User" });
             }
 
-            for (int i = 0; i < 10; i++)
-            {
-                WorkItems.Add(new WorkItemViewModel(FakeRequest) { Name = $"#{i} fake" });
-            }
+            //for (int i = 0; i < 10; i++)
+            //{
+            //    WorkItems.Add(new WorkItemViewModel(FakeRequest) { Name = $"#{i} fake" });
+            //}
 
             RunAllCommand = new RelayCommand(() => WorkItems.Apply(x => x.RunCommand.Execute(null)));
             CancelAllCommand = new RelayCommand(() => WorkItems.Apply(x => x.CancelCommand.Execute(null)));
@@ -98,11 +98,11 @@ namespace NetworkApp.ViewModels
             callback($"end - {result}");
         }
 
-        private async Task NewDataRequest(Action<string> callback, CancellationToken ct)
+        private async Task HttpBinCheckStatusRequest(Action<string> callback, CancellationToken ct)
         {
             callback("start");
 
-            await _newDataService.GetAllPhotosAsync(ct);
+            await _httpBinRemoteService.CheckStatusCode(200, ct);
 
             callback($"end - done");
         }

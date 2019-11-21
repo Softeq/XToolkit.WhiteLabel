@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.Remote
             _executorFactory = executorFactory;
         }
 
-        public async Task<TResult> MakeRequest<TResult>(
+        public virtual async Task<TResult> MakeRequest<TResult>(
             Func<TApiService, CancellationToken, Task<TResult>> operation,
             RequestOptions options = null)
         {
@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.Remote
                 .ConfigureAwait(false);
         }
 
-        public Task MakeRequest(
+        public virtual Task MakeRequest(
             Func<TApiService, CancellationToken, Task> operation,
             RequestOptions options = null)
         {
