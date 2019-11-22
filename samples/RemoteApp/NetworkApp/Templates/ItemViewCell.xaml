@@ -14,40 +14,28 @@
                     Width="Auto" />
                 <ColumnDefinition
                     Width="Auto" />
-                <ColumnDefinition>
-                    <ColumnDefinition.Width>
-                        <OnPlatform
-                            x:TypeArguments="GridLength"
-                            Android="20"
-                            iOS="40" />
-                    </ColumnDefinition.Width>
-                </ColumnDefinition>
             </Grid.ColumnDefinitions>
 
             <Label
                 Grid.Column="0"
-                Text="{Binding Name}"
+                Text="{Binding Name, Mode=OneTime}"
                 VerticalOptions="Center" />
             <Label
                 Grid.Column="1"
-                Text="{Binding ResultData}"
+                Text="{Binding ResultData, Mode=OneWay}"
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="Center" />
             <Button
                 Grid.Column="2"
                 Text="Run"
-                Command="{Binding RunCommand}"
-                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}}"
+                Command="{Binding RunCommand, Mode=OneTime}"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}, Mode=OneWay}"
                 HorizontalOptions="End" />
             <Button
                 Grid.Column="3"
                 Text="Cancel"
-                Command="{Binding CancelCommand}"
-                IsEnabled="{Binding IsBusy}"
-                HorizontalOptions="End" />
-            <ActivityIndicator
-                Grid.Column="4"
-                IsRunning="{Binding IsBusy}"
+                Command="{Binding CancelCommand, Mode=OneTime}"
+                IsEnabled="{Binding IsBusy, Mode=OneWay}"
                 HorizontalOptions="End" />
         </Grid>
     </ViewCell.View>

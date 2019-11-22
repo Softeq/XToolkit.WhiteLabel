@@ -38,9 +38,11 @@ namespace NetworkApp
             InitializeComponent();
 
 
+
+
             // ==== Begin configuration
 
-            _container = new Container();
+            _container = new Container(rules => rules.WithoutFastExpressionCompiler());
 
             // Common Services
 

@@ -7,6 +7,7 @@
     mc:Ignorable="d"
     xmlns:c="clr-namespace:NetworkApp.Converters"
     xmlns:t="clr-namespace:NetworkApp.Templates"
+    xmlns:vm="clr-namespace:NetworkApp.ViewModels"
     x:Class="NetworkApp.App">
     <Application.Resources>
         <!-- Converters: -->
@@ -15,7 +16,8 @@
 
         <!-- Data Templates: -->
         <DataTemplate
-            x:Key="MainPageListItemTemplate">
+            x:Key="MainPageListItemTemplate"
+            x:DataType="vm:WorkItemViewModel">
             <t:ItemViewCell />
         </DataTemplate>
     </Application.Resources>

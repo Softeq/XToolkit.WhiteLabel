@@ -25,6 +25,8 @@
     <ListView
         ItemsSource="{Binding WorkItems}"
         ItemTemplate="{StaticResource MainPageListItemTemplate}"
+        CachingStrategy="RecycleElement"
+        SelectionMode="None"
         Footer="" />
 
 </ContentPage>
