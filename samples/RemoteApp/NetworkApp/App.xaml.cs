@@ -7,11 +7,10 @@ using Softeq.XToolkit.Remote.Auth;
 using Softeq.XToolkit.Remote.Client;
 using RemoteServices.Auth;
 using RemoteServices.Auth.Models;
-using RemoteServices.Photos;
 using RemoteServices.Profile;
 using RemoteServices.Profile.Models;
-using RemoteServices.Ssl;
 using RemoteServices.GitHub;
+using RemoteServices.Test;
 using NetworkApp.Pages;
 using NetworkApp.ViewModels;
 
@@ -79,7 +78,7 @@ namespace NetworkApp
             // Other Data Services
 
             _container.Register<HttpBinRemoteService>(Reuse.Singleton);
-            _container.Register<DataService>(Reuse.Singleton);
+            _container.Register<JsonPlaceholderRemoteService>(Reuse.Singleton);
 
             // ViewModels
 

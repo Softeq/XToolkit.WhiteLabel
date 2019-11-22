@@ -13,6 +13,7 @@
   <ItemGroup>
     <Folder Include="Pages\" />
     <Folder Include="Converters\" />
+    <Folder Include="Templates\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\RemoteServices\RemoteServices.csproj" />

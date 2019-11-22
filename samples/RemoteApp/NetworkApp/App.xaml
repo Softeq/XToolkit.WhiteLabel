@@ -5,7 +5,18 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
+    xmlns:c="clr-namespace:NetworkApp.Converters"
+    xmlns:t="clr-namespace:NetworkApp.Templates"
     x:Class="NetworkApp.App">
     <Application.Resources>
+        <!-- Converters: -->
+        <c:InvertBoolConverter
+            x:Key="InvertBool" />
+
+        <!-- Data Templates: -->
+        <DataTemplate
+            x:Key="MainPageListItemTemplate">
+            <t:ItemViewCell />
+        </DataTemplate>
     </Application.Resources>
 </Application>

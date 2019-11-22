@@ -5,17 +5,9 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
-    xmlns:c="clr-namespace:NetworkApp.Converters"
     mc:Ignorable="d"
     ios:Page.UseSafeArea="true"
     x:Class="NetworkApp.Pages.MainPage">
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <c:InvertBoolConverter
-                x:Key="InvertBool" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <ContentPage.ToolbarItems>
         <ToolbarItem
@@ -31,48 +23,8 @@
     </ContentPage.ToolbarItems>
 
     <ListView
-        ItemsSource="{Binding WorkItems}">
-        <ListView.ItemTemplate>
-            <DataTemplate>
-                <ViewCell>
-                    <StackLayout
-                        Orientation="Horizontal">
-                        <Label
-                            Text="{Binding Name}"
-                            HorizontalOptions="Center"
-                            VerticalOptions="Center" />
-                        <Label
-                            Text="{Binding ResultData}"
-                            HorizontalOptions="CenterAndExpand"
-                            VerticalOptions="Center" />
-                        <Button
-                            Text="Run"
-                            Command="{Binding RunCommand}"
-                            IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}}"
-                            HorizontalOptions="End" />
-                        <Button
-                            Text="Cancel"
-                            Command="{Binding CancelCommand}"
-                            IsEnabled="{Binding IsBusy}"
-                            HorizontalOptions="End" />
-                        <ActivityIndicator
-                            IsRunning="{Binding IsBusy}"
-                            HorizontalOptions="End">
-                            <ActivityIndicator.WidthRequest>
-                                <OnPlatform
-                                    x:TypeArguments="x:Double">
-                                    <On
-                                        Platform="Android"
-                                        Value="20" />
-                                    <On
-                                        Platform="iOS"
-                                        Value="40" />
-                                </OnPlatform>
-                            </ActivityIndicator.WidthRequest>
-                        </ActivityIndicator>
-                    </StackLayout>
-                </ViewCell>
-            </DataTemplate>
-        </ListView.ItemTemplate>
-    </ListView>
+        ItemsSource="{Binding WorkItems}"
+        ItemTemplate="{StaticResource MainPageListItemTemplate}"
+        Footer="" />
+
 </ContentPage>

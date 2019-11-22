@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using NetworkApp.ViewModels;
 using Xamarin.Forms;
 
 namespace NetworkApp.Pages
@@ -11,6 +12,16 @@ namespace NetworkApp.Pages
         public MainPage()
         {
             InitializeComponent();
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+
+            if (BindingContext is MainPageViewModel vm)
+            {
+                vm.Initialize();
+            }
         }
     }
 }

@@ -16,9 +16,12 @@ namespace NetworkApp.ViewModels
         private string _resultData;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
-        public WorkItemViewModel(Func<Action<string>, CancellationToken, Task> operation)
+        public WorkItemViewModel(
+            Func<Action<string>, CancellationToken, Task> operation,
+            string name)
         {
             _operation = operation;
+            _name = name;
 
             RunCommand = new AsyncCommand(Request);
             CancelCommand = new RelayCommand(Cancel);
@@ -30,19 +33,19 @@ namespace NetworkApp.ViewModels
         public string Name
         {
             get => _name;
-            set => Set(ref _name, value);
+            private set => Set(ref _name, value);
         }
 
         public bool IsBusy
         {
             get => _isBusy;
-            set => Set(ref _isBusy, value);
+            private set => Set(ref _isBusy, value);
         }
 
         public string ResultData
         {
             get => _resultData;
-            set => Set(ref _resultData, value);
+            private set => Set(ref _resultData, value);
         }
 
         private async Task Request()

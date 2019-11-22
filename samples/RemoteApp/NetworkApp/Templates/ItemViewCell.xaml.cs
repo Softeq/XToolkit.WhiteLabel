@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
-namespace NetworkApp.Pages
+namespace NetworkApp.Templates
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ItemViewCell : ViewCell
