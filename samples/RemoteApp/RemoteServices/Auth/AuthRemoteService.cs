@@ -30,7 +30,7 @@ namespace RemoteServices.Auth
             AuthConfig config)
         {
             var logger = logManager.GetLogger<AuthRemoteService>();
-            var httpClient = httpClientFactory.CreateSimpleClient(config.BaseUrl, logger);
+            var httpClient = httpClientFactory.CreateClient(config.BaseUrl, logger);
 
             _remoteService = remoteServiceFactory.Create<IAuthApiService>(httpClient);
             _config = config;

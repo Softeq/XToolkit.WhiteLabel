@@ -4,7 +4,7 @@ namespace Softeq.XToolkit.Remote.Auth
 {
     public interface ITokenManager
     {
-        string Token { get; }
+        string AccessToken { get; }
         string RefreshToken { get; }
 
         Task SaveAsync(string accessToken, string refreshToken);

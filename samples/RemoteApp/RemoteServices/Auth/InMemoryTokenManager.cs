@@ -5,12 +5,12 @@ namespace RemoteServices.Auth
 {
     public class InMemoryTokenManager : ITokenManager
     {
-        public string Token { get; private set; }
+        public string AccessToken { get; private set; }
         public string RefreshToken { get; private set; }
 
         public Task SaveAsync(string accessToken, string refreshToken)
         {
-            Token = accessToken;
+            AccessToken = accessToken;
             RefreshToken = refreshToken;
 
             return Task.CompletedTask;
@@ -18,7 +18,7 @@ namespace RemoteServices.Auth
 
         public Task ResetTokensAsync()
         {
-            Token = string.Empty;
+            AccessToken = string.Empty;
             RefreshToken = string.Empty;
 
             return Task.CompletedTask;

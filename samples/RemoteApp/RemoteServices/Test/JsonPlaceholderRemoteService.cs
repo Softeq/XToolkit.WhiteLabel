@@ -22,7 +22,7 @@ namespace RemoteServices.Test
         {
             _logger = logManager.GetLogger<JsonPlaceholderRemoteService>();
 
-            var httpClient = httpClientFactory.CreateSimpleClient(ApiUrl, _logger);
+            var httpClient = httpClientFactory.CreateClient(ApiUrl, _logger);
 
             _remoteService = remoteServiceFactory.Create<IPhotosApiService>(httpClient);
         }

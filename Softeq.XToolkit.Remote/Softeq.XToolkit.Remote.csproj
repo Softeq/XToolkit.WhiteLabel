@@ -7,7 +7,6 @@
   <ItemGroup>
     <PackageReference Include="Polly" Version="7.1.1" />
     <PackageReference Include="refit" Version="4.7.51" />
-    <PackageReference Include="fusillade" Version="2.0.5" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Primitives\" />

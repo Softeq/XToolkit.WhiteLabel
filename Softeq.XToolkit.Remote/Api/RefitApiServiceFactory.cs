@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Remote.Api
     {
         public TApiService CreateService<TApiService>(HttpClient httpClient)
         {
-            return RestService.For<TApiService>(httpClient); // new RefitSettings()
+            return RestService.For<TApiService>(httpClient);
         }
     }
 }

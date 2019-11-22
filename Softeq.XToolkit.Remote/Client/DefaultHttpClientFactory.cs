@@ -6,7 +6,7 @@ namespace Softeq.XToolkit.Remote.Client
 {
     public class DefaultHttpClientFactory : IHttpClientFactory
     {
-        public virtual HttpClient CreateSimpleClient(string baseUrl, ILogger logger = null)
+        public virtual HttpClient CreateClient(string baseUrl, ILogger logger = null)
         {
             var builder = new HttpClientBuilder(baseUrl);
 

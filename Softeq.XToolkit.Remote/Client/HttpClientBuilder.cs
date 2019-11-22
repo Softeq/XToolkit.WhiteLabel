@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// <inheritdoc />
         public virtual HttpClient Build()
         {
-            var handler = GetHttpMessageHandler();
+            var handler = CreateHttpMessageHandler();
             var httpClient = CreateHttpClient(handler);
 
             httpClient.BaseAddress = new Uri(_baseUrl);
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Remote.Client
             return httpClient;
         }
 
-        protected virtual HttpMessageHandler GetHttpMessageHandler()
+        protected virtual HttpMessageHandler CreateHttpMessageHandler()
         {
             return _httpMessageHandlerBuilder.Build();
         }

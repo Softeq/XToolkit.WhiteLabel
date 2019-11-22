@@ -17,7 +17,7 @@ namespace RemoteServices.Auth
             _refreshTokenService = refreshTokenService;
         }
 
-        public string AccessToken => _tokenManager.Token;
+        public string AccessToken => _tokenManager.AccessToken;
 
         public Task RefreshTokenAsync() // TODO YP: support concurrency access
         {
