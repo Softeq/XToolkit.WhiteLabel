@@ -2,7 +2,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Refit;
 
-namespace RemoteServices.Photos
+namespace RemoteServices.Test
 {
     public interface IHttpBinApiService
     {

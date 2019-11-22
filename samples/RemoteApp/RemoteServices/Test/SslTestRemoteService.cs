@@ -7,10 +7,12 @@ using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
-namespace RemoteServices.Ssl
+namespace RemoteServices.Test
 {
     public class SslTestRemoteService
     {
+        private const string ApiUrl = "https://expired.badssl.com"; // "https://self-signed.badssl.com";
+
         private readonly IRemoteService<ISslApiService> _remoteService;
         private readonly ILogger _logger;
 
@@ -21,11 +23,9 @@ namespace RemoteServices.Ssl
         {
             _logger = logManager.GetLogger<SslTestRemoteService>();
 
-            //var url = "https://self-signed.badssl.com";
-            var url = "https://expired.badssl.com";
-
             var customHttpMessageHandlerBuilder = new DefaultHttpMessageHandlerBuilder(customHttpMessageHandler);
-            var httpClientBuilder = new HttpClientBuilder(url, customHttpMessageHandlerBuilder)
+            
+            var httpClientBuilder = new HttpClientBuilder(ApiUrl, customHttpMessageHandlerBuilder)
                 .WithLogger(_logger)
                 .Build();
 

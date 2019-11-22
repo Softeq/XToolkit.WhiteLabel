@@ -6,26 +6,23 @@ using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
-namespace RemoteServices.Photos
+namespace RemoteServices.Test
 {
-    // YP: simple consumer service for make API call as simples as possible.
-    // Responsibility:
-    // - Fetch data from API;
-    // - Catch remote exceptions;
-    // - Map data & error DTOs to the app models;
-    public class DataService
+    public class JsonPlaceholderRemoteService
     {
+        private const string ApiUrl = "https://jsonplaceholder.typicode.com";
+
         private readonly IRemoteService<IPhotosApiService> _remoteService;
         private readonly ILogger _logger;
 
-        public DataService(
+        public JsonPlaceholderRemoteService(
             IRemoteServiceFactory remoteServiceFactory,
             IHttpClientFactory httpClientFactory,
             ILogManager logManager)
         {
-            _logger = logManager.GetLogger<DataService>();
+            _logger = logManager.GetLogger<JsonPlaceholderRemoteService>();
 
-            var httpClient = httpClientFactory.CreateSimpleClient("https://jsonplaceholder.typicode.com", _logger);
+            var httpClient = httpClientFactory.CreateSimpleClient(ApiUrl, _logger);
 
             _remoteService = remoteServiceFactory.Create<IPhotosApiService>(httpClient);
         }

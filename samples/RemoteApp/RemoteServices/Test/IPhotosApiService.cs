@@ -5,7 +5,7 @@ using Refit;
 using RemoteServices.Photos.Dtos;
 using Softeq.XToolkit.Remote.Primitives;
 
-namespace RemoteServices.Photos
+namespace RemoteServices.Test
 {
     [Headers(
         "User-Agent: XToolkit.Remote",

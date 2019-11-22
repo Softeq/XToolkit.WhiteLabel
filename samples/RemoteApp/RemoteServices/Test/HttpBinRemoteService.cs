@@ -1,10 +1,9 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using Refit;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 
-namespace RemoteServices.Photos
+namespace RemoteServices.Test
 {
     public class HttpBinRemoteService
     {
@@ -21,19 +20,12 @@ namespace RemoteServices.Photos
             _remoteData = remoteServiceFactory.Create<IHttpBinApiService>(ApiUrl);
         }
 
-        public async Task CheckStatusCode(int statusCode, CancellationToken cancellationToken)
+        public Task CheckStatusCode(int statusCode, CancellationToken cancellationToken)
         {
-
-//            var a = await _remoteData.SafeRequest(
-//                (s, ct) => s.CheckStatus(statusCode, ct),
-//                cancellationToken,
-//                _logger);
+            return _remoteData.SafeRequest(
+                (s, ct) => s.CheckStatus(statusCode, ct),
+                cancellationToken,
+                _logger);
         }
-    }
-
-    public interface IHttpBinApiService
-    {
-        [Get("/status/{statusCode}")]
-        Task CheckStatus(int statusCode, CancellationToken cancellationToken);
     }
 }

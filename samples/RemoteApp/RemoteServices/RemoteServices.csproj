@@ -12,7 +12,6 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Ssl\" />
     <Folder Include="GitHub\" />
   </ItemGroup>
 </Project>
