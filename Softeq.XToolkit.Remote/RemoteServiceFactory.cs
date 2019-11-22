@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Remote
         public RemoteServiceFactory()
         {
             _apiServiceFactory = new RefitApiServiceFactory();
-            _executorBuilderFactory = new PollyExecutorBuilderFactory();
+            _executorBuilderFactory = new DefaultExecutorBuilderFactory();
         }
 
         public IRemoteService<T> Create<T>(string baseUrl)

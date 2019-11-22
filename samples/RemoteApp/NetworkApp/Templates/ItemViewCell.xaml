@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="NetworkApp.Pages.ItemViewCell">
+    <ViewCell.View>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="100" />
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition>
+                    <ColumnDefinition.Width>
+                        <OnPlatform
+                            x:TypeArguments="GridLength"
+                            Android="20"
+                            iOS="40" />
+                    </ColumnDefinition.Width>
+                </ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Grid.Column="0"
+                Text="{Binding Name}"
+                VerticalOptions="Center" />
+            <Label
+                Grid.Column="1"
+                Text="{Binding ResultData}"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="Center" />
+            <Button
+                Grid.Column="2"
+                Text="Run"
+                Command="{Binding RunCommand}"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}}"
+                HorizontalOptions="End" />
+            <Button
+                Grid.Column="3"
+                Text="Cancel"
+                Command="{Binding CancelCommand}"
+                IsEnabled="{Binding IsBusy}"
+                HorizontalOptions="End" />
+            <ActivityIndicator
+                Grid.Column="4"
+                IsRunning="{Binding IsBusy}"
+                HorizontalOptions="End" />
+        </Grid>
+    </ViewCell.View>
+</ViewCell>

@@ -24,9 +24,11 @@ namespace Softeq.XToolkit.Remote.Client.Handlers
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
+            const int RetryStatesCount = 2;
+
             return await Policy
                 .HandleResult<HttpResponseMessage>(response => response.StatusCode == HttpStatusCode.Unauthorized)
-                .RetryAsync(2, OnRetryAsync)
+                .RetryAsync(RetryStatesCount, OnRetryAsync)
                 .ExecuteAsync(async ct => await base.SendAsync(request, ct).ConfigureAwait(false), cancellationToken)
                 .ConfigureAwait(false);
         }

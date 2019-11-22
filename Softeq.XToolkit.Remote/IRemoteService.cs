@@ -7,12 +7,12 @@ namespace Softeq.XToolkit.Remote
 {
     public interface IRemoteService<out TApiService>
     {
-        Task<TResult> MakeRequest<TResult>(
-            Func<TApiService, CancellationToken, Task<TResult>> operation,
-            RequestOptions options = null);
-
         Task MakeRequest(
             Func<TApiService, CancellationToken, Task> operation,
+            RequestOptions options = null);
+
+        Task<TResult> MakeRequest<TResult>(
+            Func<TApiService, CancellationToken, Task<TResult>> operation,
             RequestOptions options = null);
     }
 }

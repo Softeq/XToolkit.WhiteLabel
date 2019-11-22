@@ -29,5 +29,26 @@ namespace Softeq.XToolkit.Remote
                 return default;
             }
         }
+
+        public static async Task SafeRequest<TApiService>(
+            this IRemoteService<TApiService> remoteService,
+            Func<TApiService, CancellationToken, Task> operation,
+            CancellationToken cancellationToken,
+            ILogger logger = null)
+        {
+            try
+            {
+                await remoteService.MakeRequest(
+                    operation,
+                    new RequestOptions
+                    {
+                        CancellationToken = cancellationToken
+                    });
+            }
+            catch (Exception ex)
+            {
+                logger?.Error(ex);
+            }
+        }
     }
 }

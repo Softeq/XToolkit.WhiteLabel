@@ -3,10 +3,10 @@ using Polly;
 
 namespace Softeq.XToolkit.Remote.Executor
 {
-    public interface IExecutorBuilder<T>
+    public interface IExecutorBuilder
     {
-        IExecutorBuilder<T> WithRetry(int retryCount, Func<Exception, bool> shouldRetry);
-        IExecutorBuilder<T> WithTimeout(int timeout);
-        IAsyncPolicy<T> Build();
+        IExecutorBuilder WithTimeout(int timeout);
+        IExecutorBuilder WithRetry(int retryCount, Func<Exception, bool> shouldRetry);
+        IAsyncPolicy Build();
     }
 }
