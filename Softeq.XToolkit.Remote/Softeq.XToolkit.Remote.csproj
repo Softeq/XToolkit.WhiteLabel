@@ -10,7 +10,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Primitives\" />
-    <Folder Include="Client\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />

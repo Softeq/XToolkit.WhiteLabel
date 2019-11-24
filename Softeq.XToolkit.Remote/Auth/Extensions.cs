@@ -1,6 +1,6 @@
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
+using Softeq.XToolkit.Remote.Auth.Handlers;
 using Softeq.XToolkit.Remote.Client;
-using Softeq.XToolkit.Remote.Client.Handlers;
 
 namespace Softeq.XToolkit.Remote.Auth
 {

@@ -1,4 +1,4 @@
-using Softeq.XToolkit.Common.Logger;
+﻿using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Client.Handlers;
 
 namespace Softeq.XToolkit.Remote.Client
