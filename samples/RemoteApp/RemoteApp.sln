@@ -15,6 +15,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkApp.iOS", "NetworkAp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetworkApp", "NetworkApp\NetworkApp.csproj", "{D10F2B95-B663-438A-BDB6-EA69F1EB1963}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Remote.Tests", "..\..\Softeq.XToolkit.Remote.Tests\Softeq.XToolkit.Remote.Tests.csproj", "{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|iPhoneSimulator = Debug|iPhoneSimulator
@@ -79,9 +81,20 @@ Global
 		{D10F2B95-B663-438A-BDB6-EA69F1EB1963}.Release|iPhone.Build.0 = Release|Any CPU
 		{D10F2B95-B663-438A-BDB6-EA69F1EB1963}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{D10F2B95-B663-438A-BDB6-EA69F1EB1963}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Release|iPhone.Build.0 = Release|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{10D0D128-2BF2-4DCD-96C2-A243362827E1} = {1C76F232-42E1-496A-BF46-457CDDEC2CC6}
 		{4EB75E47-5164-415B-9075-21B95C2F0DA9} = {1C76F232-42E1-496A-BF46-457CDDEC2CC6}
+		{1DDC9CCC-B048-4779-A1DE-A2FF26E54978} = {1C76F232-42E1-496A-BF46-457CDDEC2CC6}
 	EndGlobalSection
 EndGlobal
