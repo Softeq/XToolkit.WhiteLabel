@@ -34,20 +34,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             IReadOnlyList<NavigationParameterModel> parameters = null)
             where TViewModel : IViewModelBase
         {
-            NavigateToViewModel(typeof(TViewModel), clearBackStack, parameters);
-        }
-
-        public void NavigateToViewModel(
-            Type viewModelType,
-            bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
-        {
-            if (!typeof(IViewModelBase).IsAssignableFrom(viewModelType))
+            if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
             {
                 throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
             }
 
-            var viewModel = (IViewModelBase) _iocContainer.Resolve(viewModelType);
+            var viewModel = (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
 
             NavigateToViewModel(viewModel, clearBackStack, parameters);
         }

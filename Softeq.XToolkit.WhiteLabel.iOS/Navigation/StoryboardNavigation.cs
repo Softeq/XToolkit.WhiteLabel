@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
+using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
@@ -45,11 +45,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel> parameters)
         {
-            if (viewModelBase is IFrameViewModel frameViewModel)
-            {
-                frameViewModel.FrameNavigationService = this as IFrameNavigationService;
-            }
-
             if (parameters != null)
             {
                 viewModelBase.ApplyParameters(parameters);
@@ -64,7 +59,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             {
                 if (clearBackStack)
                 {
-                    NavigationController.SetViewControllers(new[] { controller }, false);
+                    NavigationController.SetViewControllers(new[] {controller}, false);
                     return;
                 }
 

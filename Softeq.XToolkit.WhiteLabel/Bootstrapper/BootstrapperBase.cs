@@ -7,8 +7,6 @@ using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
@@ -39,10 +37,6 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             // navigation
             builder.Singleton<PageNavigationService, IPageNavigationService>(IfRegistered.Keep);
             builder.Singleton<BackStackManager, IBackStackManager>(IfRegistered.Keep);
-
-            // tabs
-            builder.Singleton<TabNavigationService, ITabNavigationService>(IfRegistered.Keep);
-            builder.PerDependency<TabViewModel>(IfRegistered.Keep);
         }
 
         protected abstract void ConfigureIoc(IContainerBuilder builder);

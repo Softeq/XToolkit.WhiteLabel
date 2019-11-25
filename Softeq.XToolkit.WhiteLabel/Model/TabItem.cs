@@ -1,28 +1,36 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Model
 {
-    public class TabItem
+    public interface ITabItem
     {
-        public TabItem(string title, string imageName, Type firstViewModelType)
+        string Title { get; }
+        string ImageKey { get; }
+
+        TabViewModel CreateTabViewModel();
+    }
+
+    public class TabItem<T> : ITabItem where T : ViewModelBase
+    {
+        public TabItem(string title, string imageName)
         {
             Title = title;
             ImageKey = imageName;
-            FirstViewModelType = firstViewModelType;
         }
 
         public string Title { get; }
 
         public string ImageKey { get; }
 
-        public Type FirstViewModelType { get; }
-
-        public static TabItem CreateFor<TViewModel>(string title, string imageName)
+        public TabViewModel CreateTabViewModel()
         {
-            return new TabItem(title, imageName, typeof(TViewModel));
+            var tabViewModel = Dependencies.Container.Resolve<TabViewModel<T>>();
+            tabViewModel.Initialize(this);
+            return tabViewModel;
         }
     }
 }
