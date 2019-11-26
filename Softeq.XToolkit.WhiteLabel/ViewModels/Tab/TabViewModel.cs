@@ -11,9 +11,10 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
     {
         private string _badgeText;
         private bool _isBadgeVisible;
-        private ITabItem _tab;
+        private TabItem _tab;
 
-        public TabViewModel(IFrameNavigationService frameNavigationService) : base(frameNavigationService)
+        protected TabViewModel(IFrameNavigationService frameNavigationService)
+            : base(frameNavigationService)
         {
         }
 
@@ -40,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             FrameNavigationService.GoBack();
         }
 
-        internal void Initialize(ITabItem tab)
+        internal void Initialize(TabItem tab)
         {
             _tab = tab;
         }
@@ -48,8 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 
     public class TabViewModel<T> : TabViewModel where T : ViewModelBase
     {
-        public TabViewModel(
-            IFrameNavigationService frameNavigationService)
+        public TabViewModel(IFrameNavigationService frameNavigationService)
             : base(frameNavigationService)
         {
         }
