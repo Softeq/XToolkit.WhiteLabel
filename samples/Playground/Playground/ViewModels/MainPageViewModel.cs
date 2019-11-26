@@ -166,7 +166,16 @@ namespace Playground.ViewModels
                         {
                             _pageNavigationService.NavigateToViewModel<ConnectivityPageViewModel>();
                         })
-                })
+                    }),
+                (Category.Components,
+                    new CommandAction
+                    {
+                        Title = "Gestures",
+                        Command = new RelayCommand(() =>
+                        {
+                            _pageNavigationService.NavigateToViewModel<GesturesPageViewModel>();
+                        })
+                    })
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());

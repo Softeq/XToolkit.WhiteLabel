@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.PushNotifications
 
         /// <summary>
         /// Set specific value for the app Badge number manually. Negative or zero value will remove the badge
-        /// NOTE: not implemented on Android for now
+        /// NOTE: on Android <see cref="https://github.com/wcoder/ShortcutBadger"/> library is used. See wiki for details, not all devices are supported
         /// </summary>
         /// <param name="badgeNumber">Number to be displayed on the Badge</param>
         void SetBadgeNumber(int badgeNumber);
