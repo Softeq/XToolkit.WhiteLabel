@@ -12,6 +12,8 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
             FrameNavigationService = frameNavigationService;
         }
 
+        public IFrameNavigationService FrameNavigationService { get; }
+
         public new bool IsInitialized => FrameNavigationService.IsInitialized;
 
         public void InitializeNavigation(object navigation)
