@@ -81,22 +81,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             RestoreNavigation();
         }
 
-        public void NavigateToViewModel<TViewModel>(
+        public virtual void NavigateToViewModel<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel> parameters = null)
             where TViewModel : IViewModelBase
         {
-            if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
-            {
-                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
-            }
-
-            var viewModel = (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
-
-            if (parameters != null)
-            {
-                viewModel.ApplyParameters(parameters);
-            }
+            var viewModel = CreateViewModel<TViewModel>(parameters);
 
             if (clearBackStack && !IsEmptyBackStack)
             {
@@ -150,6 +140,23 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private string ToKey(Fragment fragment)
         {
             return fragment.GetType().Name;
+        }
+
+        protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel> parameters)
+        {
+            if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
+            {
+                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
+            }
+
+            var viewModel = (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
+
+            if (parameters != null)
+            {
+                viewModel.ApplyParameters(parameters);
+            }
+
+            return viewModel;
         }
 
         protected virtual void ReplaceFragment(Fragment fragment)

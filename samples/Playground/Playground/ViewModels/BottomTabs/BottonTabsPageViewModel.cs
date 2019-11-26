@@ -13,7 +13,7 @@ namespace Playground.ViewModels.BottomTabs
     {
         public BottomTabsPageViewModel()
         {
-            TabModels = new List<ITabItem>
+            TabModels = new List<TabItem>
             {
                 new TabItem<RedViewModel>("First", "Chat"),
                 new TabItem<BlueViewModel>("Second", "Settings")

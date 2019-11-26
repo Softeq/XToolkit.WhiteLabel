@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 {
     public abstract class ToolbarViewModelBase : ViewModelBase
     {
-        public IList<ITabItem> TabModels { get; protected set; }
+        public IList<TabItem> TabModels { get; protected set; }
 
         public IList<TabViewModel> TabViewModels { get; protected set; }
 
@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             }
 
             TabViewModels = TabModels
-                .Select(x => x.CreateTabViewModel())
+                .Select(x => x.CreateViewModel())
                 .ToList();
         }
     }

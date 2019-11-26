@@ -7,17 +7,9 @@ using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Model
 {
-    public interface ITabItem
+    public abstract class TabItem
     {
-        string Title { get; }
-        string ImageKey { get; }
-
-        TabViewModel CreateTabViewModel();
-    }
-
-    public class TabItem<T> : ITabItem where T : ViewModelBase
-    {
-        public TabItem(string title, string imageName)
+        protected TabItem(string title, string imageName)
         {
             Title = title;
             ImageKey = imageName;
@@ -27,10 +19,19 @@ namespace Softeq.XToolkit.WhiteLabel.Model
 
         public string ImageKey { get; }
 
-        public TabViewModel CreateTabViewModel()
+        public abstract TabViewModel CreateViewModel();
+    }
+
+    public class TabItem<TFirstViewModel> : TabItem where TFirstViewModel : ViewModelBase
+    {
+        public TabItem(string title, string imageName) : base(title, imageName)
+        {
+        }
+
+        public override TabViewModel CreateViewModel()
         {
             var frameNavigationService = Dependencies.Container.Resolve<IFrameNavigationService>();
-            var tabViewModel = new TabViewModel<T>(frameNavigationService);
+            var tabViewModel = new TabViewModel<TFirstViewModel>(frameNavigationService);
             tabViewModel.Initialize(this);
             return tabViewModel;
         }

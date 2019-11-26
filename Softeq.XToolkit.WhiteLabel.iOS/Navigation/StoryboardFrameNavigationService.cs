@@ -29,17 +29,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         bool IFrameNavigationService.CanGoBack => CanGoBack;
 
-        public void NavigateToViewModel<TViewModel>(
+        public virtual void NavigateToViewModel<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel> parameters = null)
             where TViewModel : IViewModelBase
         {
-            if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
-            {
-                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
-            }
-
-            var viewModel = (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
+            var viewModel = CreateViewModel<TViewModel>();
 
             NavigateToViewModel(viewModel, clearBackStack, parameters);
         }
@@ -77,6 +72,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         void IFrameNavigationService.NavigateToFirstPage()
         {
             throw new InvalidOperationException();
+        }
+
+        protected virtual IViewModelBase CreateViewModel<TViewModel>()
+        {
+            if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
+            {
+                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
+            }
+
+            return (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
         }
     }
 }
