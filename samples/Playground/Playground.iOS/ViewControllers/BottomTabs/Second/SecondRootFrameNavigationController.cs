@@ -1,12 +1,10 @@
-// Developed by Softeq Development Corporation
-// http://www.softeq.com
-
+using Playground.ViewModels.BottomTabs.Second;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers.Tab
+namespace Playground.iOS.ViewControllers.BottomTabs.Second
 {
-    public class RootFrameNavigationViewController : RootFrameNavigationControllerBase<TabViewModel>
+    public class SecondRootFrameNavigationController : RootFrameNavigationControllerBase<TabViewModel<BlueViewModel>>
     {
         public override void ViewDidLoad()
         {

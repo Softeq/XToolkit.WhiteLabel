@@ -174,6 +174,8 @@
   <ItemGroup>
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="ViewControllers\BottomTabs\First\FirstRootFrameNavigationController.cs" />
+    <Compile Include="ViewControllers\BottomTabs\Second\SecondRootFrameNavigationController.cs" />
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>

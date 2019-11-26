@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Model
@@ -28,7 +29,8 @@ namespace Softeq.XToolkit.WhiteLabel.Model
 
         public TabViewModel CreateTabViewModel()
         {
-            var tabViewModel = Dependencies.Container.Resolve<TabViewModel<T>>();
+            var frameNavigationService = Dependencies.Container.Resolve<IFrameNavigationService>();
+            var tabViewModel = new TabViewModel<T>(frameNavigationService);
             tabViewModel.Initialize(this);
             return tabViewModel;
         }
