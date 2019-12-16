@@ -36,8 +36,7 @@ namespace Softeq.XToolkit.PushNotifications
 
         public abstract void RegisterForPushNotifications();
 
-        public async Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(
-            PushNotificationsUnregisterOptions options = PushNotificationsUnregisterOptions.OnServerOnly)
+        public async Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(PushNotificationsUnregisterOptions options)
         {
             // Unregister in system if needed
             if (options.ShouldUnregisterInSystem() && PushTokenStorageService.IsTokenRegisteredInSystem)
@@ -196,7 +195,7 @@ namespace Softeq.XToolkit.PushNotifications
         {
             PushTokenStorageService.IsTokenRegisteredInSystem = false;
 
-            await UnregisterFromPushNotifications();
+            await UnregisterFromPushNotifications(PushNotificationsUnregisterOptions.OnServerOnly);
 
             PushNotificationsHandler.OnPushRegistrationCompleted(
                 PushTokenStorageService.IsTokenRegisteredInSystem,
