@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.PushNotifications
@@ -77,7 +78,20 @@ namespace Softeq.XToolkit.PushNotifications
         ///     On Android unsubscribing in system will only work when there is Internet Connection
         /// </param>
         /// <returns>Task with <see cref="PushNotificationsUnregisterResult" /> about unregistration status on server and in system as well.</returns>
+        [Obsolete("Use UnregisterFromPushNotifications with PushNotificationsUnregisterOptions param instead.")]
         Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(bool unregisterInSystem = false);
+
+        /// <summary>
+        ///     Unregisters application from push notifications
+        /// </summary>
+        /// <param name="options">
+        ///     Defines if we should unregister in system and if we should unregister on server
+        ///     Default value is OnServerOnly as it is not very recommended to unsubscribe in system by Apple and Firebase documentation,
+        ///     but it might be useful on logout.
+        ///     On Android unsubscribing in system will only work when there is Internet Connection
+        /// </param>
+        /// <returns>Task with <see cref="PushNotificationsUnregisterResult" /> about unregistration status on server and in system as well.</returns>
+        Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(PushNotificationsUnregisterOptions options = PushNotificationsUnregisterOptions.OnServerOnly);
 
         #endregion
 
