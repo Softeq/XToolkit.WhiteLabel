@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
     {
         /// <summary>
         /// Creates a simple notification action. Note: you can pass these parameters directly
-        /// to <see cref="NotificationCompat.Builder.AddAction"/> without creating an instance of action
+        /// to <see cref="NotificationCompat.Builder.AddAction(NotificationCompat.Action)"/> without creating an instance of action
         /// </summary>
         /// <param name="iconResId">Resource id for the icon</param>
         /// <param name="name">Name for the action button</param>
@@ -59,12 +59,14 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <summary>
         /// Obtains user reply from the <see cref="RemoteInput"/>
         /// </summary>
-        /// <param name="intent">Intent which opened Activity/BroadcastReceiver/Service and contains data from <see cref="RemoteInput"/></param>
+        /// <param name="intent">
+        ///     Intent which opened Activity/BroadcastReceiver/Service and contains data from <see cref="RemoteInput"/>
+        /// </param>
         /// <param name="resultKey">Result key that was used to create the <see cref="RemoteInput"/></param>
         /// <returns>A string message with user reply or null</returns>
         public static string GetRemoteInputMessage(Intent intent, string resultKey)
         {
-            string reply = null;
+            var reply = string.Empty;
             var remoteInput = RemoteInput.GetResultsFromIntent(intent);
             if (remoteInput != null)
             {
