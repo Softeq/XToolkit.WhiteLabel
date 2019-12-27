@@ -8,6 +8,7 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Permissions;
+using System.Text;
 
 namespace Softeq.XToolkit.Common.Collections
 {
@@ -19,10 +20,10 @@ namespace Softeq.XToolkit.Common.Collections
     {
         private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
 
-        [NonSerialized] 
+        [NonSerialized]
         private readonly ReverseDictionary _reverseDictionary;
 
-        [NonSerialized] 
+        [NonSerialized]
         private readonly IDictionary<TSecond, TFirst> _secondToFirst;
 
         public BiDictionary()
@@ -37,14 +38,14 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 throw new ArgumentNullException(nameof(info));
             }
-            
+
             var data = (byte[]) info.GetValue("firstToSecond", typeof(byte[]));
             using (var memoryStream = new MemoryStream(data))
             {
                 var binaryFormatter = new BinaryFormatter();
                 _firstToSecond = (Dictionary<TFirst, TSecond>) binaryFormatter.Deserialize(memoryStream);
             }
-            
+
             _secondToFirst = new Dictionary<TSecond, TFirst>();
             _reverseDictionary = new ReverseDictionary(this);
         }
@@ -312,7 +313,7 @@ namespace Softeq.XToolkit.Common.Collections
                     {
                         _owner._firstToSecond.Remove(_owner._secondToFirst[key]);
                     }
-                    
+
                     _owner._secondToFirst[key] = value;
                     _owner._firstToSecond[value] = key;
                 }
