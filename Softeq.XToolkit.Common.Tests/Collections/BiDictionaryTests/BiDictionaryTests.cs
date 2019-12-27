@@ -14,25 +14,32 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
     public class BiDictionaryTests
     {
         [Fact]
-        public void AddTest()
+        public void Add()
         {
-            var testData = new TestData();
+            var dictionary = BiDictionaryHelper.CreateEmpty();
 
-            var dictionary = testData.Dictionary;
             dictionary.Add(0, "0");
             var added = dictionary.TryAdd(1, "1");
-            var notAdded = dictionary.TryAdd(1, "1");
 
             Assert.True(added);
-            Assert.False(notAdded);
-            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", testData.ExtractResult());
+            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", dictionary.GetResult());
         }
 
         [Fact]
-        public void AddWithExceptionsTest()
+        public void Add_Negative()
         {
-            var testData = new TestData(3);
-            var dictionary = testData.Dictionary;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
+
+            var notAdded = dictionary.TryAdd(1, "1");
+
+            Assert.False(notAdded);
+            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", dictionary.GetResult());
+        }
+
+        [Fact]
+        public void Add_ThrowsArgumentException()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
 
             var ex = Assert.Throws<ArgumentException>(() => dictionary.Add(1, "1"));
 
@@ -40,10 +47,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
         }
 
         [Fact]
-        public void ClearTest()
+        public void Clear()
         {
-            var testData = new TestData(3);
-            var dictionary = testData.Dictionary;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
 
             dictionary.Clear();
 
@@ -53,20 +59,25 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
         }
 
         [Fact]
-        public void ContainsTest()
+        public void Contains()
         {
-            var testData = new TestData(2);
-            var dictionary = testData.Dictionary;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
 
             Assert.True(dictionary.ContainsKey(0));
+        }
+
+        [Fact]
+        public void Contains_Negative()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
+
             Assert.False(dictionary.ContainsKey(2));
         }
 
         [Fact]
-        public void EnumerateTest()
+        public void Enumerate()
         {
-            var testData = new TestData(2);
-            var dictionary = testData.Dictionary;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
 
             var sb = new StringBuilder();
             sb.AppendJoin(",", dictionary);
@@ -75,48 +86,65 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
         }
 
         [Fact]
-        public void GetTests()
+        public void Get()
         {
-            var testData = new TestData(2);
-            var dictionary = testData.Dictionary;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
 
             Assert.Equal("0", dictionary[0]);
-            Assert.True(dictionary.TryGetValue(0, out var value0));
-            Assert.Equal("0", value0);
+            Assert.True(dictionary.TryGetValue(0, out var value));
+            Assert.Equal("0", value);
+        }
 
-            Assert.False(dictionary.TryGetValue(2, out var value1));
-            Assert.Null(value1);
+        [Fact]
+        public void Get_Negative()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
+
+            Assert.False(dictionary.TryGetValue(2, out var value));
+            Assert.Null(value);
+        }
+
+        [Fact]
+        public void Get_ThrowsKeyNotFoundException()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
 
             var ex = Assert.Throws<KeyNotFoundException>(() => dictionary[2]);
             Assert.Equal("The given key '2' was not present in the dictionary.", ex.Message);
         }
 
         [Fact]
-        public void RemoveTest()
+        public void Remove()
         {
-            var testData = new TestData(3);
-            var dictionary = testData.Dictionary;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
 
             var wasRemoved0 = dictionary.Remove(0);
-            var wasNotRemoved0 = dictionary.Remove(0);
-
             var wasRemoved1 = dictionary.Remove(1, out var removedValue);
-            var wasNotRemoved1 = dictionary.Remove(1, out var notRemovedValue);
 
             Assert.True(wasRemoved0);
-            Assert.False(wasNotRemoved0);
             Assert.True(wasRemoved1);
-            Assert.False(wasNotRemoved1);
             Assert.Equal("1", removedValue);
-            Assert.Null(notRemovedValue);
-            Assert.Equal("[2, 2]-[2, 2]", testData.ExtractResult());
+            Assert.Equal("-", dictionary.GetResult());
         }
 
         [Fact]
-        public void SerializationTest()
+        public void Remove_Negative()
         {
-            var testData = new TestData(2);
-            var dictionary = testData.Dictionary;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
+
+            var wasNotRemoved0 = dictionary.Remove(2);
+            var wasNotRemoved1 = dictionary.Remove(2, out var notRemovedValue);
+
+            Assert.False(wasNotRemoved0);
+            Assert.False(wasNotRemoved1);
+            Assert.Null(notRemovedValue);
+            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", dictionary.GetResult());
+        }
+
+        [Fact]
+        public void Serialization()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
 
             var sb = new StringBuilder();
 
@@ -137,39 +165,45 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
         }
 
         [Fact]
-        public void SetTest()
+        public void Set()
         {
-            var testData = new TestData();
-            var dictionary = testData.Dictionary;
+            var dictionary = BiDictionaryHelper.CreateEmpty();
 
             dictionary[0] = "0";
             dictionary[1] = "2";
 
-            Assert.Equal("[0, 0],[1, 2]-[0, 0],[2, 1]", testData.ExtractResult());
+            Assert.Equal("[0, 0],[1, 2]-[0, 0],[2, 1]", dictionary.GetResult());
         }
 
-        //reverse
-
         [Fact]
-        public void ReverseAddTest()
+        public void Add_Reverse()
         {
-            var testData = new ReverseTestData();
-            var dictionary = testData.Dictionary.Reverse;
+            var original = BiDictionaryHelper.CreateEmptyReverse();
+            var dictionary = original.Reverse;
 
             dictionary.Add(0, "0");
             var added = dictionary.TryAdd(1, "1");
-            var notAdded = dictionary.TryAdd(1, "1");
 
             Assert.True(added);
-            Assert.False(notAdded);
-            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", testData.ExtractResult());
+            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", original.GetResult());
         }
 
         [Fact]
-        public void ReverseAddWithExceptionsTest()
+        public void Add_Negative_Reverse()
         {
-            var testData = new ReverseTestData(3);
-            var dictionary = testData.Dictionary.Reverse;
+            var original = BiDictionaryHelper.CreateWithTwoItemsReverse();
+            var dictionary = original.Reverse;
+
+            var notAdded = dictionary.TryAdd(1, "1");
+
+            Assert.False(notAdded);
+            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", original.GetResult());
+        }
+
+        [Fact]
+        public void Add_ThrowsArgumentException_Reverse()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItemsReverse().Reverse;
 
             var ex = Assert.Throws<ArgumentException>(() => dictionary.Add(1, "1"));
 
@@ -177,10 +211,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
         }
 
         [Fact]
-        public void ReverseClearTest()
+        public void Clear_Reverse()
         {
-            var testData = new ReverseTestData(3);
-            var dictionary = testData.Dictionary.Reverse;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItemsReverse().Reverse;
 
             dictionary.Clear();
 
@@ -190,20 +223,25 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
         }
 
         [Fact]
-        public void ReverseContainsTest()
+        public void Contains_Reverse()
         {
-            var testData = new ReverseTestData(2);
-            var dictionary = testData.Dictionary.Reverse;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItemsReverse().Reverse;
 
             Assert.True(dictionary.ContainsKey(0));
+        }
+
+        [Fact]
+        public void Contains_Negative_Reverse()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItemsReverse().Reverse;
+
             Assert.False(dictionary.ContainsKey(2));
         }
 
         [Fact]
-        public void ReverseEnumerateTest()
+        public void Enumerate_Reverse()
         {
-            var testData = new ReverseTestData(2);
-            var dictionary = testData.Dictionary.Reverse;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItemsReverse().Reverse;
 
             var sb = new StringBuilder();
             sb.AppendJoin(",", dictionary);
@@ -212,53 +250,73 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
         }
 
         [Fact]
-        public void ReverseGetTests()
+        public void Get_Reverse()
         {
-            var testData = new ReverseTestData(2);
-            var dictionary = testData.Dictionary.Reverse;
+            var dictionary = BiDictionaryHelper.CreateWithTwoItemsReverse().Reverse;
 
             Assert.Equal("0", dictionary[0]);
-            Assert.True(dictionary.TryGetValue(0, out var value0));
-            Assert.Equal("0", value0);
+            Assert.True(dictionary.TryGetValue(0, out var value));
+            Assert.Equal("0", value);
+        }
 
-            Assert.False(dictionary.TryGetValue(2, out var value1));
-            Assert.Null(value1);
+        [Fact]
+        public void Get_Negative_Reverse()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItemsReverse().Reverse;
+
+            Assert.False(dictionary.TryGetValue(2, out var value));
+            Assert.Null(value);
+        }
+
+        [Fact]
+        public void Get_ThrowsKeyNotFoundException_Reverse()
+        {
+            var dictionary = BiDictionaryHelper.CreateWithTwoItemsReverse().Reverse;
 
             var ex = Assert.Throws<KeyNotFoundException>(() => dictionary[2]);
             Assert.Equal("The given key '2' was not present in the dictionary.", ex.Message);
         }
 
         [Fact]
-        public void ReverseRemoveTest()
+        public void Remove_Reverse()
         {
-            var testData = new ReverseTestData(3);
-            var dictionary = testData.Dictionary.Reverse;
+            var original = BiDictionaryHelper.CreateWithTwoItemsReverse();
+            var dictionary = original.Reverse;
 
             var wasRemoved0 = dictionary.Remove(0);
-            var wasNotRemoved0 = dictionary.Remove(0);
-
             var wasRemoved1 = dictionary.Remove(1, out var removedValue);
-            var wasNotRemoved1 = dictionary.Remove(1, out var notRemovedValue);
 
             Assert.True(wasRemoved0);
-            Assert.False(wasNotRemoved0);
             Assert.True(wasRemoved1);
-            Assert.False(wasNotRemoved1);
             Assert.Equal("1", removedValue);
-            Assert.Null(notRemovedValue);
-            Assert.Equal("[2, 2]-[2, 2]", testData.ExtractResult());
+            Assert.Equal("-", original.GetResult());
         }
 
         [Fact]
-        public void ReverseSetTest()
+        public void Remove_Negative_Reverse()
         {
-            var testData = new ReverseTestData();
-            var dictionary = testData.Dictionary.Reverse;
+            var original = BiDictionaryHelper.CreateWithTwoItemsReverse();
+            var dictionary = original.Reverse;
+
+            var wasNotRemoved0 = dictionary.Remove(2);
+            var wasNotRemoved1 = dictionary.Remove(2, out var notRemovedValue);
+
+            Assert.False(wasNotRemoved0);
+            Assert.False(wasNotRemoved1);
+            Assert.Null(notRemovedValue);
+            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", original.GetResult());
+        }
+
+        [Fact]
+        public void Set_Reverse()
+        {
+            var original = BiDictionaryHelper.CreateWithTwoItemsReverse();
+            var dictionary = original.Reverse;
 
             dictionary[0] = "0";
             dictionary[1] = "2";
 
-            Assert.Equal("[0, 0],[2, 1]-[0, 0],[1, 2]", testData.ExtractResult());
+            Assert.Equal("[0, 0],[2, 1]-[0, 0],[1, 2]", original.GetResult());
         }
     }
 }
