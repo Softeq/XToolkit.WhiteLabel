@@ -24,11 +24,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 #pragma warning restore RECS0021 // Warns about calls to virtual member functions occuring in the constructor
         }
 
+        protected virtual string XibName => GetType().Name;
+
         protected virtual void Initialize()
         {
-            var xibName = GetType().Name;
-            var nib = UINib.FromName(xibName, NSBundle.MainBundle);
-            var view = (UIView) nib.Instantiate(this, null)[0];
+            var nib = UINib.FromName(XibName, NSBundle.MainBundle);
+            var view = nib.Instantiate(this, null)[0] as UIView;
             view.TranslatesAutoresizingMaskIntoConstraints = false;
             AddSubview(view);
             var right = view.RightAnchor.ConstraintEqualTo(RightAnchor);

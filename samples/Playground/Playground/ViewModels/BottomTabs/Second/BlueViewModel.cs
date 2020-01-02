@@ -10,10 +10,12 @@ namespace Playground.ViewModels.BottomTabs.Second
 {
     public class BlueViewModel : ViewModelBase
     {
+        private readonly IFrameNavigationService _frameNavigationService;
         private int _count;
 
-        public BlueViewModel()
+        public BlueViewModel(IFrameNavigationService frameNavigationService)
         {
+            _frameNavigationService = frameNavigationService;
             NavigateCommand = new RelayCommand(Navigate);
             IncrementCommand = new RelayCommand(Increment);
         }
@@ -35,7 +37,7 @@ namespace Playground.ViewModels.BottomTabs.Second
 
         private void Navigate()
         {
-            FrameNavigationService.For<GreenViewModel>().Navigate();
+            _frameNavigationService.For<GreenViewModel>().Navigate();
         }
     }
 }

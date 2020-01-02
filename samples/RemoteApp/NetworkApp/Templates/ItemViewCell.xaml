@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="NetworkApp.Templates.ItemViewCell">
+    <ViewCell.View>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition
+                    Width="100" />
+                <ColumnDefinition
+                    Width="*" />
+                <ColumnDefinition
+                    Width="Auto" />
+                <ColumnDefinition
+                    Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Label
+                Grid.Column="0"
+                Text="{Binding Name, Mode=OneTime}"
+                VerticalOptions="Center" />
+            <Label
+                Grid.Column="1"
+                Text="{Binding ResultData, Mode=OneWay}"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="Center" />
+            <Button
+                Grid.Column="2"
+                Text="Run"
+                Command="{Binding RunCommand, Mode=OneTime}"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}, Mode=OneWay}"
+                HorizontalOptions="End" />
+            <Button
+                Grid.Column="3"
+                Text="Cancel"
+                Command="{Binding CancelCommand, Mode=OneTime}"
+                IsEnabled="{Binding IsBusy, Mode=OneWay}"
+                HorizontalOptions="End" />
+        </Grid>
+    </ViewCell.View>
+</ViewCell>

@@ -90,7 +90,6 @@
       <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\KeyboardService.cs" />
-    <Compile Include="ViewControllers\Tab\RootFrameNavigationViewController.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
     <Compile Include="Controls\BindableTabBarItem.cs" />
     <Compile Include="IosBootstraper.cs" />

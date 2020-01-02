@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
+using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
@@ -41,22 +41,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             NavigationController = (UINavigationController) navigation;
         }
 
-        public void GoBack()
+        public virtual void GoBack()
         {
             Execute.BeginOnUIThread(() => { NavigationController!.PopViewController(true); });
         }
 
-        public void NavigateToViewModel(
+        public virtual void NavigateToViewModel(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
         {
-            if (viewModelBase is IFrameViewModel frameViewModel
-                && this is IFrameNavigationService frameNavigationService)
-            {
-                frameViewModel.FrameNavigationService = frameNavigationService;
-            }
-
             if (parameters != null)
             {
                 viewModelBase.ApplyParameters(parameters);

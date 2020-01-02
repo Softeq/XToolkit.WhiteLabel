@@ -18,10 +18,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class DroidFrameNavigationService : IFrameNavigationService
     {
-        private readonly IViewLocator _viewLocator;
+        private readonly BackStack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
         private readonly ICurrentActivity _currentActivity;
         private readonly IContainer _iocContainer;
-        private readonly BackStack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
+        private readonly IViewLocator _viewLocator;
         private readonly IViewModelStore _viewModelStore;
 
         private int _containerId;
@@ -81,25 +81,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             RestoreNavigation();
         }
 
-        public void NavigateToViewModel<TViewModel>(
+        public virtual void NavigateToViewModel<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
         {
-            NavigateToViewModel(typeof(TViewModel), clearBackStack, parameters);
-        }
-
-        public void NavigateToViewModel(
-            Type viewModelType,
-            bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel>? parameters = null)
-        {
-            var viewModel = CreateViewModel(viewModelType);
-
-            if (parameters != null)
-            {
-                viewModel.ApplyParameters(parameters);
-            }
+            var viewModel = CreateViewModel<TViewModel>(parameters);
 
             if (clearBackStack && !IsEmptyBackStack)
             {
@@ -150,7 +137,27 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _viewModelStore.Remove(fragmentNames);
         }
 
-        private string ToKey(Fragment fragment) => fragment.GetType().Name;
+        private string ToKey(Fragment fragment)
+        {
+            return fragment.GetType().Name;
+        }
+
+        protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel> parameters)
+        {
+            if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
+            {
+                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
+            }
+
+            var viewModel = (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
+
+            if (parameters != null)
+            {
+                viewModel.ApplyParameters(parameters);
+            }
+
+            return viewModel;
+        }
 
         protected virtual void ReplaceFragment(Fragment fragment)
         {
@@ -170,23 +177,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         protected virtual FragmentTransaction PrepareTransaction(FragmentTransaction fragmentTransaction)
         {
             return fragmentTransaction;
-        }
-
-        protected virtual IViewModelBase CreateViewModel(Type viewModelType)
-        {
-            if (!typeof(IViewModelBase).IsAssignableFrom(viewModelType))
-            {
-                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
-            }
-
-            var viewModel = (IViewModelBase) _iocContainer.Resolve(viewModelType);
-
-            if (viewModel is IFrameViewModel frameViewModel)
-            {
-                frameViewModel.FrameNavigationService = this;
-            }
-
-            return viewModel;
         }
     }
 }

@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using Softeq.XToolkit.Common;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
@@ -13,15 +12,10 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         void OnDisappearing();
     }
 
-    public interface IFrameViewModel
-    {
-        IFrameNavigationService FrameNavigationService { get; set; }
-    }
-
     /// <summary>
     ///     A base class for the ViewModel classes in the MVVM pattern.
     /// </summary>
-    public abstract class ViewModelBase : ObservableObject, IViewModelBase, IFrameViewModel
+    public abstract class ViewModelBase : ObservableObject, IViewModelBase
     {
         private bool _isBusy;
 
@@ -32,9 +26,6 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         public bool IsInitialized { get; private set; }
-
-        // TODO YP: Rework to remove
-        public IFrameNavigationService FrameNavigationService { get; set; } = default!;
 
         // TODO YP: Review using lifetime methods here
         public virtual void OnInitialize()
