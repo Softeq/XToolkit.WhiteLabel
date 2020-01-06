@@ -1,0 +1,21 @@
+parameters: # defaults for any parameters that aren't specified
+  ProjectName: '' 
+
+steps:
+- task: UseDotNet@2
+  displayName: 'Use .Net Core sdk'
+  inputs:
+    version: $(DOTNET_SDK_VERSION)
+- bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
+  displayName: Switch to the latest Xamarin SDK
+- script: 'msbuild nuget/${{ parameters.ProjectName }}.sln -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
+  displayName: Build library
+- script: 'nuget pack nuget/${{ parameters.ProjectName }}.nuspec -Symbols -SymbolPackageFormat snupkg'
+  displayName: Pack library
+- task: CopyFiles@2
+  inputs:
+    contents: '${{ parameters.ProjectName }}*.(nupkg|snupkg)'
+    targetFolder: $(Build.ArtifactStagingDirectory)
+- task: PublishBuildArtifacts@1
+  inputs:
+    ArtifactName: 'drop'
