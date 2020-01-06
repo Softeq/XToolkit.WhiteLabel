@@ -14,7 +14,7 @@ steps:
   displayName: Pack library
 - task: CopyFiles@2
   inputs:
-    contents: '${{ parameters.ProjectName }}*.(nupkg|snupkg)'
+    contents: '${{ parameters.ProjectName }}.?(*.nupkg|*.snupkg)'
     targetFolder: $(Build.ArtifactStagingDirectory)
 - task: PublishBuildArtifacts@1
   inputs:
