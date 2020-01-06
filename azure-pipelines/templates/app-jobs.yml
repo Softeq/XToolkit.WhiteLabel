@@ -1,6 +1,5 @@
 parameters: # defaults for any parameters that aren't specified
-  SolutionPath: '' 
-  TestsPath: ''
+  SolutionPath: ''
 
 jobs:
 - job: macos_1014
@@ -19,5 +18,9 @@ jobs:
     # restore, build
     - script: 'msbuild ${{ parameters.SolutionPath }} -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
       displayName: Build Solution
-    - script: 'dotnet test ${{ parameters.TestsPath }} --configuration $(BuildConfiguration)'
+    - task: DotNetCoreCLI@2
       displayName: Run Tests
+      inputs:
+        command: test
+        projects: '**/*.Tests.csproj'
+        arguments: '-c Release'
