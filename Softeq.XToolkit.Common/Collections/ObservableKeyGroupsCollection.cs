@@ -2,442 +2,657 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Softeq.XToolkit.Common.Extensions;
 
 namespace Softeq.XToolkit.Common.Collections
 {
-    public class ObservableKeyGroupsCollection<TKey, TValue> :
-        ObservableRangeCollection<ObservableKeyGroup<TKey, TValue>>, INotifyGroupCollectionChanged
+    /// <summary>
+    ///     Represents groups of items that provides notifications when groups or
+    ///     it's items get added, removed, or when the whole list is refreshed.
+    /// </summary>
+    /// <typeparam name="TKey">The group type of the collection</typeparam>
+    /// <typeparam name="TValue">The item type of the collection</typeparam>
+    public sealed class ObservableKeyGroupsCollection<TKey, TValue>
+        : IObservableKeyGroupsCollection<TKey, TValue>,
+            INotifyKeyGroupCollectionChanged<TKey, TValue>,
+            INotifyCollectionChanged
     {
-        private readonly Comparison<TKey> _defaultKeyComparison;
-        private readonly Func<TValue, TKey> _defaultSelector;
-        private readonly Comparison<TValue> _defaultValueComparison;
+        private readonly IList<Group> _items;
+        private readonly bool _withoutEmptyGroups;
 
-        public ObservableKeyGroupsCollection(Func<TValue, TKey> selector = null,
-            Comparison<TKey> keyComparison = null,
-            Comparison<TValue> valueComparison = null)
-        {
-            Keys = new ObservableRangeCollection<TKey>();
-            _defaultSelector = selector;
-            _defaultKeyComparison = keyComparison;
-            _defaultValueComparison = valueComparison;
-        }
+        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> ItemsChanged;
 
-        public ObservableRangeCollection<TKey> Keys { get; }
-
-        public IEnumerable<TValue> Values => Items.SelectMany(x => x);
-
-        public event EventHandler<NotifyKeyGroupsCollectionChangedEventArgs> ItemsChanged;
-
-        public void AddRangeToGroups<T>(IList<T> listItem, Func<T, TValue> itemSelector,
-            Func<T, TKey> keySelector = null)
-        {
-            var keySelectorInstance = GetSelector(itemSelector, keySelector);
-
-            var keysToAdd = listItem.Select(keySelectorInstance).Distinct().ToArray();
-
-            var newKeys = keysToAdd.Where(x => !Keys.Contains(x)).ToArray();
-            var oldKeys = keysToAdd.Where(x => Keys.Contains(x)).ToArray();
-
-            var list = new List<ObservableKeyGroup<TKey, TValue>>();
-            foreach (var key in newKeys)
-            {
-                var items = listItem.Where(x => keySelectorInstance(x).Equals(key));
-                var item = new ObservableKeyGroup<TKey, TValue>(key);
-                item.AddRange(items.Select(itemSelector));
-                list.Add(item);
-            }
-
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Add);
-            if (newKeys.Any())
-            {
-                var oldSectionsCount = Count;
-                AddRange(list);
-                Keys.AddRange(newKeys);
-                eventArgs.ModifiedSectionsIndexes.AddRange(Enumerable.Range(oldSectionsCount, list.Count));
-            }
-
-            foreach (var oldKey in oldKeys)
-            {
-                var items = listItem.Where(x => keySelectorInstance(x).Equals(oldKey)).Select(itemSelector).ToArray();
-                var item = this.First(x => x.Key.Equals(oldKey));
-                var oldSectionItemsCount = item.Count;
-                item.AddRange(items);
-                var oldSectionIndex = Items.IndexOf(item);
-                eventArgs.ModifiedItemsIndexes.Add((oldSectionIndex,
-                    Enumerable.Range(oldSectionItemsCount, items.Length).ToList()));
-            }
-
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public void AddRangeToGroups(IList<TValue> listItem, Func<TValue, TKey> selector = null)
-        {
-            AddRangeToGroups(listItem, x => x, selector);
-        }
-
-        public void AddGroup(ObservableKeyGroup<TKey, TValue> group)
-        {
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Add);
-
-            Keys.Add(group.Key);
-            Add(group);
-
-            eventArgs.ModifiedSectionsIndexes.Add(Keys.IndexOf(group.Key));
-            eventArgs.ModifiedItemsIndexes.Add((Keys.IndexOf(group.Key),
-                Enumerable.Range(0, group.Count).ToList()));
-
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public void InsertGroup(int index, ObservableKeyGroup<TKey, TValue> group)
-        {
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Add);
-
-            Keys.Insert(index, group.Key);
-            Insert(index, group);
-
-            eventArgs.ModifiedSectionsIndexes.Add(Keys.IndexOf(group.Key));
-
-            if (group.Count > 0)
-            {
-                eventArgs.ModifiedItemsIndexes.Add((Keys.IndexOf(group.Key), Enumerable.Range(0, group.Count).ToList()));
-            }
-
-            if (eventArgs.ModifiedItemsIndexes.Any() || eventArgs.ModifiedSectionsIndexes.Any())
-            {
-                ItemsChanged?.Invoke(this, eventArgs);
-            }
-        }
-
-        public void AddGroups(IEnumerable<ObservableKeyGroup<TKey, TValue>> groups)
-        {
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Add);
-
-            foreach (var group in groups)
-            {
-                Keys.Add(group.Key);
-                Add(group);
-
-                eventArgs.ModifiedSectionsIndexes.Add(Keys.IndexOf(group.Key));
-                eventArgs.ModifiedItemsIndexes.Add((Keys.IndexOf(group.Key), Enumerable.Range(0, group.Count).ToList()));
-            }
-
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public void ClearGroup(TKey key)
-        {
-            var group = this.FirstOrDefault(x => x.Key.Equals(key));
-
-            if (group == null || !group.Any())
-            {
-                return;
-            }
-
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
-            var sectionIndex = Keys.IndexOf(key);
-            eventArgs.ModifiedItemsIndexes.Add((sectionIndex, Enumerable.Range(0, Items[sectionIndex].Count).ToList()));
-
-            group.Clear();
-
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public void RemoveGroup(ObservableKeyGroup<TKey, TValue> group)
-        {
-            var sectionIndex = Keys.IndexOf(group.Key);
-
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
-            eventArgs.ModifiedSectionsIndexes.Add(sectionIndex);
-
-            RemoveGroupInternal(group);
-
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public void RemoveGroupRange(IEnumerable<TKey> toRemove)
-        {
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
-
-            foreach (var key in toRemove)
-            {
-                var sectionIndex = Keys.IndexOf(key);
-                eventArgs.ModifiedSectionsIndexes.Add(sectionIndex);
-
-                RemoveGroupInternal(Items.FirstOrDefault(x => x.Key.Equals(key)));
-            }
-
-            if (eventArgs.ModifiedSectionsIndexes.Any())
-            {
-                ItemsChanged?.Invoke(this, eventArgs);
-            }
-        }
-
-        private void RemoveGroupInternal(ObservableKeyGroup<TKey, TValue> group)
-        {
-            Remove(group);
-            Keys.Remove(group.Key);
-        }
-
-        public void AddRangeToGroupsSorted<T>(IEnumerable<T> items,
-            Func<T, TValue> itemSelector,
-            Comparison<TValue> valueComparison = null,
-            Comparison<TKey> keyComparison = null,
-            Func<T, TKey> keySelector = null)
-        {
-            var keySelectorInstance = GetSelector(itemSelector, keySelector);
-            var valueComparisonInstance = GetValueComparison(valueComparison);
-            var keyComparisonInstance = GetKeyComparison(keyComparison);
-
-            var itemsArray = items.ToArray();
-
-            var keysToAdd = itemsArray.Select(keySelectorInstance).Distinct().ToArray();
-
-            var newKeys = keysToAdd.Where(x => !Keys.Contains(x)).ToArray();
-            var oldKeys = keysToAdd.Where(x => Keys.Contains(x)).ToArray();
-
-            var newSections = new List<ObservableKeyGroup<TKey, TValue>>();
-            foreach (var key in newKeys)
-            {
-                var itemsToAdd = itemsArray.Where(x => keySelectorInstance(x).Equals(key));
-                var item = new ObservableKeyGroup<TKey, TValue>(key);
-                item.InsertRangeSorted(itemsToAdd.Select(itemSelector), valueComparisonInstance);
-                newSections.Add(item);
-            }
-
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Add);
-            if (newKeys.Any())
-            {
-                var insertedSectionsIndexes =
-                    InsertRangeSorted(newSections, (x, y) => keyComparisonInstance(x.Key, y.Key));
-                eventArgs.ModifiedSectionsIndexes.AddRange(insertedSectionsIndexes);
-                Keys.InsertRangeSorted(newKeys, keyComparisonInstance);
-            }
-
-            foreach (var oldKey in oldKeys)
-            {
-                var itemsToInsert = itemsArray.Where(x => keySelectorInstance(x).Equals(oldKey)).ToArray();
-                var item = this.First(x => x.Key.Equals(oldKey));
-                var insertedItemsIndexes =
-                    item.InsertRangeSorted(itemsToInsert.Select(itemSelector), valueComparisonInstance);
-                var oldSectionIndex = Items.IndexOf(item);
-                eventArgs.ModifiedItemsIndexes.Add((oldSectionIndex, insertedItemsIndexes));
-            }
-
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public void AddRangeToGroupsSorted(IList<TValue> listItem,
-            Comparison<TValue> valueComparison = null,
-            Comparison<TKey> keyComparison = null,
-            Func<TValue, TKey> keySelector = null)
-        {
-            if (listItem.Count == 0)
-            {
-                return;
-            }
-
-            AddRangeToGroupsSorted(listItem, x => x, valueComparison, keyComparison, keySelector);
-        }
-
-        public void ReplaceRangeGroup(IList<TValue> listItem, Func<TValue, TKey> selector = null)
-        {
-            var selectorInstance = GetSelector(selector);
-
-            var keysToAdd = listItem.Select(selectorInstance).Distinct().ToArray();
-            Keys.ReplaceRange(keysToAdd);
-
-            var valuesToAdd = listItem
-                .GroupBy(selectorInstance)
-                .Select(x => new ObservableKeyGroup<TKey, TValue>(x.Key, x));
-
-            ReplaceRange(valuesToAdd);
-
-            ItemsChanged?.Invoke(this, CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Reset));
-        }
-
-        public void ClearAll()
-        {
-            var sectionsCount = Count;
-            Keys.Clear();
-            Clear();
-
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
-            eventArgs.ModifiedSectionsIndexes = Enumerable.Range(0, sectionsCount).ToList();
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public void RemoveFromGroups(TValue removeItem, Func<TValue, TKey> selector = null)
-        {
-            var selectorInstance = GetSelector(selector);
-
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
-
-            var item = this.FirstOrDefault(a => a.Key.Equals(selectorInstance(removeItem)));
-            if (item == null || item.IndexOf(removeItem) < 0)
-            {
-                return;
-            }
-
-            var itemIndex = item.IndexOf(removeItem);
-            item.Remove(removeItem);
-
-            if (item.Count == 0)
-            {
-                eventArgs.ModifiedSectionsIndexes.Add(Items.IndexOf(item));
-                Remove(item);
-                Keys.Remove(item.Key);
-            }
-            else
-            {
-                eventArgs.ModifiedItemsIndexes.Add((Items.IndexOf(item), new List<int> { itemIndex }));
-            }
-
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public void RemoveAllFromGroups(TValue removeItem)
-        {
-            RemoveAllFromGroups(new List<TValue> { removeItem });
-        }
-
-        public void RemoveAllFromGroups(IEnumerable<TValue> items)
-        {
-            var eventArgs = CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Remove);
-            for (var sectionIndex = Count - 1; sectionIndex >= 0; sectionIndex--)
-            {
-                var section = Items[sectionIndex];
-                var indexesToRemove =
-                    Enumerable.Range(0, section.Count).Where(i => items.Contains(section[i])).ToList();
-                if (indexesToRemove.Count == 0)
-                {
-                    continue;
-                }
-
-                for (var j = indexesToRemove.Count - 1; j >= 0; j--)
-                {
-                    section.RemoveAt(indexesToRemove[j]);
-                }
-
-                if (section.Count == 0)
-                {
-                    eventArgs.ModifiedSectionsIndexes.Add(sectionIndex);
-                    RemoveAt(sectionIndex);
-                    Keys.Remove(section.Key);
-                }
-                else
-                {
-                    eventArgs.ModifiedItemsIndexes.Add((sectionIndex, indexesToRemove));
-                }
-            }
-
-            ItemsChanged?.Invoke(this, eventArgs);
-        }
-
-        public TValue FirstOrDefaultValue(Func<TValue, bool> predicate = null)
-        {
-            if (predicate != null)
-            {
-                var section = this.FirstOrDefault(x => x.Any(predicate));
-                return section != null ? section.FirstOrDefault(predicate) : default;
-            }
-
-            return Count > 0 ? this.First(x => x.Count > 0).FirstOrDefault() : default;
-        }
-
-        private Func<TValue, TKey> GetSelector(Func<TValue, TKey> selector = null)
-        {
-            if (selector != null)
-            {
-                return selector;
-            }
-
-            if (_defaultSelector == null)
-            {
-                throw new ArgumentNullException(nameof(selector));
-            }
-
-            return _defaultSelector;
-        }
-
-        private Func<T, TKey> GetSelector<T>(Func<T, TValue> valueSelector, Func<T, TKey> keySelector = null)
-        {
-            if (keySelector != null)
-            {
-                return keySelector;
-            }
-
-            if (_defaultSelector == null)
-            {
-                throw new ArgumentNullException(nameof(keySelector));
-            }
-
-            return arg => _defaultSelector.Invoke(valueSelector.Invoke(arg));
-        }
-
-        private Comparison<TKey> GetKeyComparison(Comparison<TKey> comparison)
-        {
-            if (comparison == null && _defaultKeyComparison == null)
-            {
-                throw new ArgumentNullException(nameof(_defaultKeyComparison), "No key comparison found");
-            }
-
-            return comparison ?? _defaultKeyComparison;
-        }
-
-        private Comparison<TValue> GetValueComparison(Comparison<TValue> comparison)
-        {
-            if (comparison == null && _defaultValueComparison == null)
-            {
-                throw new ArgumentNullException(nameof(_defaultValueComparison), "No value comparison found");
-            }
-
-            return comparison ?? _defaultValueComparison;
-        }
-
-        private NotifyKeyGroupsCollectionChangedEventArgs CreateItemsChangedEventArgs(
-            NotifyCollectionChangedAction action)
-        {
-            return new NotifyKeyGroupsCollectionChangedEventArgs(action, Items.Select(x => x.Count).ToList());
-        }
+        public event NotifyCollectionChangedEventHandler CollectionChanged;
 
         /// <summary>
-        ///     Union for groups with items.
+        ///     Initializes a new instance of the class.
         /// </summary>
-        /// <param name="newCollection">Sorted group collection.</param>
-        /// <param name="itemComparer">Item comparer.</param>
-        public void UnionSortedGroups(
-            ObservableKeyGroupsCollection<TKey, TValue> newCollection,
-            IEqualityComparer<TValue> itemComparer)
+        /// <param name="withoutEmptyGroups">If true empty groups will be removed</param>
+        public ObservableKeyGroupsCollection(bool withoutEmptyGroups = true)
         {
-            var newKeys = Keys.Union(newCollection.Keys).OrderBy(x => x).ToArray();
+            _withoutEmptyGroups = withoutEmptyGroups;
+            _items = new List<Group>();
+        }
 
-            for (var i = 0; i < newKeys.Length; i++)
+        #region IObservableKeyGroupCollection
+
+        /// <inheritdoc />
+        public void AddGroups(IEnumerable<TKey> keys)
+        {
+            if (keys == null)
             {
-                var newKey = newKeys[i];
-                var currentGroupItems = Items.FirstOrDefault(x => x.Key.Equals(newKey));
-                var newGroupItems = newCollection.FirstOrDefault(x => x.Key.Equals(newKey));
+                throw new ArgumentNullException();
+            }
 
-                if (currentGroupItems != null && newGroupItems != null && newGroupItems.Count > 0)
+            AddGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>())));
+        }
+
+        /// <inheritdoc />
+        public void AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            var insertionIndex = _items.Count;
+
+            InsertGroups(insertionIndex, items);
+        }
+
+        /// <inheritdoc />
+        public void InsertGroups(int index, IEnumerable<TKey> keys)
+        {
+            if (keys == null)
+            {
+                throw new ArgumentNullException(nameof(keys));
+            }
+
+            InsertGroups(index, keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>())));
+        }
+
+        /// <inheritdoc />
+        public void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
+            if(insertedGroups == null)
+            {
+                return;
+            }
+
+            OnChanged(
+                NotifyCollectionChangedAction.Add,
+                new Collection<(int, IReadOnlyList<TKey>)> { (index, insertedGroups.Select(x => x.Key).ToList()) },
+                default,
+                default);
+        }
+
+        /// <inheritdoc />
+        public void ReplaceGroups(IEnumerable<TKey> keys)
+        {
+            if (keys == null)
+            {
+                throw new ArgumentNullException(nameof(keys));
+            }
+
+            _items.Clear();
+
+            ReplaceGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>())));
+        }
+
+        /// <inheritdoc />
+        public void ReplaceGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
+        {
+            if (items == null)
+            {
+                throw new ArgumentNullException(nameof(items));
+            }
+
+            var toRemove = _items.Select(x => x.Key).ToList();
+
+            _items.Clear();
+
+            const int insertionIndex = 0;
+
+            var insertedGroups = InsertGroupsWithoutNotify(insertionIndex, items, _withoutEmptyGroups);
+            if (insertedGroups == null)
+            {
+                return;
+            }
+
+            OnChanged(
+                NotifyCollectionChangedAction.Replace,
+                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, insertedGroups.Select(x => x.Key).ToList()) },
+                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, toRemove) },
+                default);
+        }
+
+        /// <inheritdoc />
+        public void RemoveGroups(IEnumerable<TKey> keys)
+        {
+            if (keys == null)
+            {
+                throw new ArgumentNullException(nameof(keys));
+            }
+
+            var oldItemsRange = RemoveGroupsWithoutNotify(keys);
+
+            if (oldItemsRange.Count == 0)
+            {
+                return;
+            }
+
+            OnChanged(
+                NotifyCollectionChangedAction.Remove,
+                default,
+                oldItemsRange,
+                default);
+        }
+
+        /// <inheritdoc />
+        public void ClearGroups()
+        {
+            _items.Clear();
+
+            OnChanged(
+                NotifyCollectionChangedAction.Reset,
+                default,
+                default,
+                default);
+        }
+
+        /// <inheritdoc />
+        public void ClearGroup(TKey key)
+        {
+            if (_withoutEmptyGroups)
+            {
+                RemoveGroups(new Collection<TKey> { key });
+                return;
+            }
+
+            var item = _items.FirstOrDefault(x => x.Key.Equals(key));
+
+            if (item == null)
+            {
+                throw new KeyNotFoundException($"Can't be found key: {key.ToString()}");
+            }
+
+            item.Clear();
+
+            var groupEvents =
+                new Collection<(int, NotifyGroupCollectionChangedArgs<TValue>)>
                 {
-                    var mergedGroupItems = currentGroupItems.Union(newGroupItems, itemComparer).ToList();
-                    currentGroupItems.ReplaceRange(mergedGroupItems);
+                    (_items.IndexOf(item),
+                        NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Reset, null, null))
+                };
+
+            OnChanged(
+                default,
+                default,
+                default,
+                groupEvents);
+
+        }
+
+        /// <inheritdoc />
+        public void AddItems<T>(
+            IEnumerable<T> items,
+            Func<T, TKey> keySelector,
+            Func<T, TValue> valueSelector)
+        {
+            if (items == null || keySelector == null || valueSelector == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            int insertionIndex = _items.Count;
+
+            var groups = items
+                .Select(keySelector.Invoke)
+                .Distinct()
+                .Where(x => _items.All(y => !y.Key.Equals(x)))
+                .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>()));
+
+            var keysToAdd = InsertGroupsWithoutNotify(insertionIndex, groups, false)?.Select(x => x.Key).ToList();
+
+            var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
+
+            if (!result.Any())
+            {
+                return;
+            }
+
+            var groupEvents = result
+                .Where(x => keysToAdd == null ? true : keysToAdd.All(y => !y.Equals(x.Key)))
+                .Select(x =>
+                    (
+                        _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
+                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                            NotifyCollectionChangedAction.Add,
+                            new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
+                            default
+                        )
+                    ))
+                .ToList();
+
+            groupEvents = groupEvents.Count > 0 ? groupEvents : default;
+
+            OnChanged(
+                keysToAdd == null ? default(NotifyCollectionChangedAction?) : NotifyCollectionChangedAction.Add,
+                keysToAdd == null ? default : new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, keysToAdd) },
+                default,
+                groupEvents);
+        }
+
+        /// <inheritdoc />
+        public void InsertItems<T>(
+            IEnumerable<T> items,
+            Func<T, TKey> keySelector,
+            Func<T, TValue> valueSelector,
+            Func<T, int> valueIndexSelector)
+        {
+            if (items == null || keySelector == null || valueSelector == null || valueIndexSelector == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, valueIndexSelector);
+
+            if (!result.Any())
+            {
+                return;
+            }
+
+            var groupEvents = result
+                .Select(x =>
+                    (
+                        _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
+                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                            NotifyCollectionChangedAction.Add,
+                            new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
+                            default)
+                    ))
+                .ToList();
+
+            OnChanged(
+                default,
+                default,
+                default,
+                groupEvents);
+        }
+
+        /// <inheritdoc />
+        public void ReplaceItems<T>(
+            IEnumerable<T> items,
+            Func<T, TKey> keySelector,
+            Func<T, TValue> valueSelector)
+        {
+            if (items == null || keySelector == null || valueSelector == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            var toRemove = _items.Select(x => x.Key).ToList();
+
+            _items.Clear();
+
+            const int insertionIndex = 0;
+
+            var groups = items
+                .Select(keySelector.Invoke)
+                .Distinct()
+                .Where(x => _items.All(y => !y.Key.Equals(x)))
+                .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>()));
+
+            var keysToAdd = InsertGroupsWithoutNotify(insertionIndex, groups, false)?.Select(x => x.Key).ToList();
+
+            var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
+
+            if (!result.Any())
+            {
+                return;
+            }
+
+            var groupEvents = result
+                .Where(x => keysToAdd == null ? true : keysToAdd.All(y => !y.Equals(x.Key)))
+                .Select(x =>
+                    (
+                        _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
+                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                            NotifyCollectionChangedAction.Add,
+                            new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
+                            default)
+                    ))
+                .ToList();
+
+            groupEvents = groupEvents.Count > 0 ? groupEvents : default;
+
+            OnChanged(
+                NotifyCollectionChangedAction.Replace,
+                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, keysToAdd) },
+                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, toRemove) },
+                groupEvents);
+        }
+
+        /// <inheritdoc />
+        public void RemoveItems<T>(
+            IEnumerable<T> items,
+            Func<T, TKey> keySelector,
+            Func<T, TValue> valueSelector)
+        {
+            if (items == null || keySelector == null || valueSelector == null)
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (!items.Any())
+            {
+                return;
+            }
+
+            var rangesToRemove = new Dictionary<int, IList<(int ValIndex, IReadOnlyList<TValue> Vals)>>();
+            var groupsInfos = new List<(int GroupIndex, List<KeyValuePair<TValue, int>> Items)>();
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> groupsToRemove = null;
+
+            foreach (var item in items)
+            {
+                var key = keySelector(item);
+
+                if (!_items.Any(x => x.Key.Equals(key)))
+                {
+                    throw new KeyNotFoundException();
                 }
-                else
+
+                var groupIndex = _items.IndexOf(_items.First(x => x.Key.Equals(key)));
+                var val = valueSelector(item);
+                var valIndex = _items.ElementAt(groupIndex).IndexOf(val);
+
+                if (!_items.ElementAt(groupIndex).Any(x => x.Equals(val)))
                 {
-                    if (currentGroupItems == null && newGroupItems != null)
-                    {
-                        Insert(i, newGroupItems);
-                    }
+                    throw new KeyNotFoundException();
+                }
+
+                if (groupsInfos.All(x => x.GroupIndex != groupIndex))
+                {
+                    groupsInfos.Add((groupIndex, new List<KeyValuePair<TValue, int>>()));
+                }
+
+                groupsInfos
+                    .First(x => x.GroupIndex == groupIndex)
+                    .Items
+                    .Add(new KeyValuePair<TValue, int>(val, valIndex));
+            }
+
+            foreach(var groupInfo in groupsInfos)
+            {
+                if (!rangesToRemove.ContainsKey(groupInfo.GroupIndex))
+                {
+                    rangesToRemove.Add(groupInfo.GroupIndex, new List<(int, IReadOnlyList<TValue>)>());
+                }
+                rangesToRemove[groupInfo.GroupIndex].AddRange(GroupByIndex(groupInfo.Items).ToList());
+            }
+
+            foreach (var groupInfo in groupsInfos)
+            {
+                foreach (var item in groupInfo.Items)
+                {
+                    _items[groupInfo.GroupIndex].Remove(item.Key);
                 }
             }
 
-            Keys.ReplaceRange(newKeys);
+            if (_withoutEmptyGroups)
+            {
+                var keysToRemove = _items.Where(x => x.Count == 0).Select(x => x.Key);
+                groupsToRemove = RemoveGroupsWithoutNotify(keysToRemove);
+            }
 
-            ItemsChanged?.Invoke(this, CreateItemsChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            var keyIndexesToRemove = groupsToRemove?
+                .Select(x => Enumerable.Range(x.Index, x.NewItems.Count))
+                .SelectMany(x => x)
+                .ToList();
+
+            var groupEvents = rangesToRemove
+                .Where(x => keyIndexesToRemove == null ? true : keyIndexesToRemove.All(y => !y.Equals(x.Key)))
+                .Select(x =>
+                    (
+                        x.Key,
+                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                            NotifyCollectionChangedAction.Remove,
+                            default,
+                            (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value)
+                    ))
+                .ToList();
+
+            groupEvents = groupEvents.Count > 0 ? groupEvents : default;
+
+            OnChanged(
+                groupsToRemove?.Count > 0 ? NotifyCollectionChangedAction.Remove : (NotifyCollectionChangedAction?) null,
+                default,
+                groupsToRemove?.Count > 0 ? groupsToRemove : null,
+                groupEvents);
+        }
+
+        #endregion
+
+        #region IEnumerable
+
+        /// <inheritdoc />
+        public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return _items.GetEnumerator();
+        }
+
+        #endregion
+
+        private void OnChanged(
+            NotifyCollectionChangedAction? action,
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> newItems,
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> OldItems)> oldItems,
+            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)> groupEvents)
+        {
+            RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+                action,
+                newItems,
+                oldItems,
+                groupEvents));
+        }
+
+        private void RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
+        {
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+
+            ItemsChanged?.Invoke(this, args);
+        }
+
+        private IEnumerable<Group> InsertGroupsWithoutNotify(
+            int index,
+            IEnumerable<KeyValuePair<TKey, IList<TValue>>> items,
+            bool withoutEmptyGroups)
+        {
+            if (!items.Any())
+            {
+                return null;
+            }
+
+            if (items.Any(x => x.Value == null))
+            {
+                throw new ArgumentNullException();
+            }
+
+            if (index > _items.Count + items.Count() - 1)
+            {
+                throw new ArgumentOutOfRangeException();
+            }
+
+            var toInsert = items
+                .Where(x => !withoutEmptyGroups || x.Value.Count > 0)
+                .Select(x => new Group(x))
+                .ToList();
+
+            if (toInsert.Count == 0)
+            {
+                return null;
+            }
+
+            int i = index;
+
+            foreach (var item in toInsert)
+            {
+                _items.Insert(i++, item);
+            }
+
+            return toInsert;
+        }
+
+        private IEnumerable<(TKey Key, IEnumerable<(int Index, IReadOnlyList<TValue> Values)> ValuesGroups)>
+            InsertItemsWithoutNotify<T>(
+                IEnumerable<T> items,
+                Func<T, TKey> keySelector,
+                Func<T, TValue> valueSelector,
+                Func<T, int> indexSelector)
+        {
+            var groupedItemsToAdd = new List<(TKey Key, IEnumerable<(int Index, IReadOnlyList<TValue> Values)> Ranges)>();
+
+            var itemsToAdd = new List<(TKey Key, IList<KeyValuePair<TValue, int>> Values)>();
+
+            foreach (var item in items)
+            {
+                var key = keySelector.Invoke(item);
+
+                if (!_items.Any(x => x.Key.Equals(key)))
+                {
+                    throw new KeyNotFoundException($"Can't be found key: {key.ToString()}");
+                }
+
+                var val = valueSelector.Invoke(item);
+
+                int index;
+
+                if (indexSelector == null)
+                {
+                    index = _items.First(x => x.Key.Equals(key)).Count;
+                }
+                else
+                {
+                    index = indexSelector.Invoke(item);
+                }
+
+                if (!itemsToAdd.Any(x => x.Key.Equals(key)))
+                {
+                    itemsToAdd.Add((key, new List<KeyValuePair<TValue, int>>()));
+                }
+
+                itemsToAdd.First(x => x.Key.Equals(key)).Values.Add(new KeyValuePair<TValue, int>(val, index));
+            }
+
+            foreach (var (key, values) in itemsToAdd)
+            {
+                groupedItemsToAdd.Add((key, GroupByIndex(values)));
+            }
+
+            foreach (var (key, ranges) in groupedItemsToAdd)
+            {
+                foreach (var (index, values) in ranges)
+                {
+                    _items
+                        .First(x => x.Key.Equals(key))
+                        .InsertRange(index, values.ToList());
+                }
+            }
+
+            return groupedItemsToAdd;
+        }
+
+        private IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> RemoveGroupsWithoutNotify(IEnumerable<TKey> keys)
+        {
+            if (keys.Any(key => _items.All(item => !item.Key.Equals(key))))
+            {
+                throw new KeyNotFoundException();
+            }
+
+            var indexes = new List<KeyValuePair<TKey, int>>();
+
+            for (int i = 0; i < _items.Count; i++)
+            {
+                if (keys.Any(x => x.Equals(_items[i].Key)))
+                {
+                    indexes.Add(new KeyValuePair<TKey, int>(_items[i].Key, i));
+                }
+            }
+
+            foreach (var key in keys.ToList())
+            {
+                _items.Remove(_items.First(x => x.Key.Equals(key)));
+            }
+
+            return GroupByIndex(indexes);
+        }
+
+        private IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> GroupByIndex<T>(IList<KeyValuePair<T, int>> items)
+        {
+            var sortedItems = items.OrderBy(x => x.Value).ToList();
+
+            while (!IsIndexesGrouped(sortedItems))
+            {
+                DecrementIndex(sortedItems);
+            }
+
+            return sortedItems
+                .GroupBy(x => x.Value)
+                .Select(x => (x.Key, (IReadOnlyList<T>) x.Select(y => y.Key).ToList()))
+                .ToList();
+        }
+
+        private bool IsIndexesGrouped<T>(IList<KeyValuePair<T, int>> indexList)
+        {
+            for (var i = 0; i < indexList.Count - 1; i++)
+            {
+                if (indexList[i].Value == indexList[i + 1].Value - 1)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private void DecrementIndex<T>(IList<KeyValuePair<T, int>> indexes)
+        {
+            for (int i = indexes.Count - 1; i > 0; i--)
+            {
+                if (indexes[i].Value - 1 == indexes[i - 1].Value)
+                {
+                    indexes[i] = new KeyValuePair<T, int>(indexes[i].Key, indexes[i].Value - 1);
+                    return;
+                }
+            }
+        }
+
+        private class Group : List<TValue>, IGrouping<TKey, TValue>
+        {
+            public Group(KeyValuePair<TKey, IList<TValue>> keyValuePair)
+            {
+                Key = keyValuePair.Key;
+                AddRange(keyValuePair.Value);
+            }
+
+            public TKey Key { get; }
         }
     }
 }

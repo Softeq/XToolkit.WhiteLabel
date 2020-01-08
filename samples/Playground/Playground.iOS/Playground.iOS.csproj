@@ -299,7 +299,7 @@
       <Name>Playground</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}</Project>
+      <Project>{C1D38F7D-30B8-4DAD-9A9D-621453A8A382}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
@@ -319,11 +319,11 @@
       <Name>Softeq.XToolkit.Permissions.iOS</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
+      <Project>{95D579A2-58D4-40F7-8F4B-BFC1B2B153F5}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
-      <Project>{044152C1-3B2A-45A6-B233-80A51C511129}</Project>
+      <Project>{968EB463-2116-42FA-A2CD-25206F05E08A}</Project>
       <Name>Softeq.XToolkit.Connectivity</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity.iOS\Softeq.XToolkit.Connectivity.iOS.csproj">

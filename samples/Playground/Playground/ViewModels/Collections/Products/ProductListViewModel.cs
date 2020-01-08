@@ -36,10 +36,10 @@ namespace Playground.ViewModels.Collections.Products
             _addCommand = addCommand;
             _infoCommand = infoCommand;
 
-            Products = new ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel>();
+            Products = new ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel>();
         }
 
-        public ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> Products { get; }
+        public ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> Products { get; }
 
         public bool IsBusy
         {
@@ -137,9 +137,9 @@ namespace Playground.ViewModels.Collections.Products
             }
             else
             {
-                int intLength = (int) Math.Floor(Math.Log10(lastId)) + 1;
-                int mult = (int) Math.Pow(10, intLength);
-                int coeff = lastId / (int) Math.Pow(10, intLength - 1);
+                int intLength = (int)Math.Floor(Math.Log10(lastId)) + 1;
+                int mult = (int)Math.Pow(10, intLength);
+                int coeff = lastId / (int)Math.Pow(10, intLength - 1);
 
                 newId = coeff * mult;
             }

@@ -105,7 +105,7 @@ namespace Playground.Droid.Views.Collections
         ProductViewModel,       // item data type
         ProductViewHolder>      // item ViewHolder type
     {
-        public CustomAdapter(ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> items) : base(items)
+        public CustomAdapter(ObservableKeyGroupsCollectionn<<ProductHeaderViewModel, ProductViewModel> items) : base(items)
         {
         }
 

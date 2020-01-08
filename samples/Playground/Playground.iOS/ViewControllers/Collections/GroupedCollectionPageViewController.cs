@@ -88,7 +88,7 @@ namespace Playground.iOS.ViewControllers.Collections
             ProductViewCell>        // item cell type
         {
             public ProductsDataSource(
-                ObservableKeyGroupsCollectionNew<ProductHeaderViewModel, ProductViewModel> items)
+                ObservableKeyGroupsCollectionn<<ProductHeaderViewModel, ProductViewModel> items)
                 : base(items)
             {
             }
