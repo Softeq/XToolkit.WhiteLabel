@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Softeq.XToolkit.Remote</id>
+    <version>1.0.0</version>
+    <title>Softeq.XToolkit.Remote</title>
+    <authors>Softeq Development Corp.</authors>
+    <owners>Softeq Development Corp.</owners>
+    <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Advanced HttpClient infrastructure for mobile applications.</description>
+    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
+    <tags>Softeq XToolkit Xamarin iOS Android Remote Http Rest Api Auth</tags>
+    <releaseNotes/>
+    <dependencies>
+      <dependency id="Polly" version="7.1.1" />
+      <dependency id="refit" version="4.7.51" />
+      <!-- XToolkit -->
+      <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta3]" />
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- Core -->
+    <file src="../Softeq.XToolkit.Remote/bin/Release/netstandard2.0/Softeq.XToolkit.Remote.dll" target="lib\netstandard2.0" />
+    <file src="../Softeq.XToolkit.Remote/bin/Release/netstandard2.0/Softeq.XToolkit.Remote.pdb" target="lib\netstandard2.0" />
+  </files>
+</package>
