@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics;
 
 namespace Softeq.XToolkit.Common.Logger
 {
@@ -50,14 +51,14 @@ namespace Softeq.XToolkit.Common.Logger
             WriteMessage(ex);
         }
 
-        private void WriteMessage(Exception ex)
+        protected virtual void WriteMessage(Exception ex)
         {
-            System.Diagnostics.Debug.WriteLine(ex, _category);
+            Trace.WriteLine(ex, _category);
         }
 
-        private void WriteMessage(string message)
+        protected virtual void WriteMessage(string message)
         {
-            System.Diagnostics.Debug.WriteLine(message, _category);
+            Trace.WriteLine(message, _category);
         }
     }
 }
