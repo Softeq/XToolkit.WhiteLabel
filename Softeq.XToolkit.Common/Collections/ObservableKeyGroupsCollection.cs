@@ -29,6 +29,11 @@ namespace Softeq.XToolkit.Common.Collections
 
         public event NotifyCollectionChangedEventHandler CollectionChanged;
 
+        public IList<TKey> Keys => _items?.Select(item => item.Key).ToList();
+        //public IList<IList<TValue>> Values => _items?.Select(item => _items).ToList();
+
+        public int Count => _items.Count;
+
         /// <summary>
         ///     Initializes a new instance of the class.
         /// </summary>
@@ -44,6 +49,11 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void AddGroups(IEnumerable<TKey> keys)
         {
+            if (_withoutEmptyGroups)
+            {
+                throw new InvalidOperationException();
+            }
+
             if (keys == null)
             {
                 throw new ArgumentNullException();
@@ -85,7 +95,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
-            if(insertedGroups == null)
+            if (insertedGroups == null)
             {
                 return;
             }
@@ -393,7 +403,7 @@ namespace Softeq.XToolkit.Common.Collections
                     .Add(new KeyValuePair<TValue, int>(val, valIndex));
             }
 
-            foreach(var groupInfo in groupsInfos)
+            foreach (var groupInfo in groupsInfos)
             {
                 if (!rangesToRemove.ContainsKey(groupInfo.GroupIndex))
                 {
