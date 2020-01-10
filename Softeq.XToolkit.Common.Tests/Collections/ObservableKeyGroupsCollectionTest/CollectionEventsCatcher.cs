@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Linq;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Softeq.XToolkit.Common.Collections;
+using System.Collections.ObjectModel;
 
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest
 {
@@ -25,11 +27,27 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             _collection.CollectionChanged += CatchEvents;
         }
 
-        public bool IsSame(NotifyCollectionChangedAction action, IList<TKey> keys)
+        public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<TKey> keys)
         {
             _collection.CollectionChanged -= CatchEvents;
 
-            return _events.Count == 1 && _events[0].Action == action;
+            try
+            {
+                var actualEvent = _events[0];
+                var actualKeys = (actualEvent.NewItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList();
+                var keysExist = true;
+
+                foreach (var key in keys)
+                {
+                    keysExist = keysExist && actualKeys.Contains(key);
+                }
+
+                return keysExist && _events.Count == 1 && actualEvent.Action == action;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private void CatchEvents(object sender, NotifyCollectionChangedEventArgs e)

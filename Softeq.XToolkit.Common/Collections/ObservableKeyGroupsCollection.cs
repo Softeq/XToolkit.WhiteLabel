@@ -485,7 +485,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
         {
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(args.Action.Value, args.NewItemRanges));// NotifyCollectionChangedAction.Reset));
 
             ItemsChanged?.Invoke(this, args);
         }

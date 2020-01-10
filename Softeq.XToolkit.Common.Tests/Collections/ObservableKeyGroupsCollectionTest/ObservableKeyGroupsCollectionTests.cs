@@ -29,23 +29,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.True(false);
         }
 
-        #region 
-        [Fact]
-        // AddGroups(IEnumerable<TKey> keys)
-        public void AddGroups_Test_Miss()
-        {
-            // one key
-            // duplicate one key
-            // several keys
-            // duplicate one key in several
-            // duplicate all keys in several
-            // nptification change collection several items
-            // no notification change items sevela items
-            // specific exceptions
-
-            Assert.True(false);
-        }
-
         [Fact]
         public void AddGroups_NullListOfKeysForForbiddenEmptyGroups_InvalidOperationException()
         {
@@ -83,7 +66,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Fact]
-        public void AddGroups_EmptyListOfKeysForAllowedEmptyGroups_KeyCountNotChanged()
+        public void AddGroups_EmptyListOfKeysForAllowedEmptyGroups_KeysCountNotChanged()
         {
             var collection = ObservableKeyGroupsCollectionHelper.CreateWithItemsWithEmptyGroups();
             var expected = collection.Keys.Count;
@@ -95,10 +78,22 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Fact]
-        public void AddGroups_OneUniqueKeyForAllowedEmptyGroups_KeyCountIncreaseByOne()
+        public void AddGroups_OneNullKeyForAllowedEmptyGroups_ArgumentNullException()
         {
             var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-            var keys = ObservableKeyGroupsCollectionHelper.OneGroupKeys;
+            var keys = ObservableKeyGroupsCollectionHelper.OneNullGroupKeys;
+            var expectedException = new ArgumentNullException();
+
+            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(keys));
+
+            Assert.Equal(expectedException.Message, actualException.Message);
+        }
+
+        [Fact]
+        public void AddGroups_UniqueKeysForAllowedEmptyGroups_KeyCountIncreaseByNumberOfUniqueKeys()
+        {
+            var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
+            var keys = ObservableKeyGroupsCollectionHelper.TwoGroupKeys;
             var expected = collection.Keys.Count + keys.Count;
 
             collection.AddGroups(keys);
@@ -107,109 +102,43 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Fact]
-        public void AddGroups_OneDuplicateKeyForAllowedEmptyGroups_ArgumentException()
+        public void AddGroups_UniqueEmptyKeyForAllowedEmptyGroups_KeyCountIncreaseByNumberOfUniqueKeys()
         {
             var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-            var argumentException = new ArgumentNullException();
+            var keys = ObservableKeyGroupsCollectionHelper.OneEmptyGroupKeys;
+            var expected = collection.Keys.Count + keys.Count;
 
+            collection.AddGroups(keys);
 
-
+            Assert.Equal(expected, collection.Keys.Count);
         }
 
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
+        [Fact]
+        public void AddGroups_DuplicateKeysForAllowedEmptyGroups_ArgumentException()
+        {
+            var collection = ObservableKeyGroupsCollectionHelper.CreateWithItemsWithEmptyGroups();
+            var expectedException = new ArgumentNullException();
 
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
+            var actualException = Assert.Throws<ArgumentException>(() => collection.AddGroups(ObservableKeyGroupsCollectionHelper.OneGroupKeys));
 
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
-        //[Fact]
-        //public void AddGroups__()
-        //{
-        //    var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
-
-        //}
+            Assert.Equal(expectedException.Message, actualException.Message);
+        }
 
         [Fact]
-        public void AddGroups_TwoKeysForAllowedEmptyGroups_NotifyCollectionChangedOneTime()
+        public void AddGroups_UniqueKeysForAllowedEmptyGroups_CollectionChangedNotifyOneTime()
+        {
+            var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
+            var keys = ObservableKeyGroupsCollectionHelper.TwoGroupKeys;
+            var catcher = ObservableKeyGroupsCollectionHelper.CreateEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddGroups(keys);
+
+            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, ObservableKeyGroupsCollectionHelper.TwoWithEmptyGroupKeys));
+        }
+
+        [Fact]
+        public void AddGroups_UniqueKeysForAllowedEmptyGroups_CollectionChangedNotifyAddEvent()
         {
             var collection = ObservableKeyGroupsCollectionHelper.CreateEmptyWithEmptyGroups();
             var catcher = ObservableKeyGroupsCollectionHelper.CreateEventCatcher(collection);
@@ -217,8 +146,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             collection.AddGroups(ObservableKeyGroupsCollectionHelper.TwoGroupKeys);
 
-            Assert.True(catcher.IsSame(NotifyCollectionChangedAction.Add, ObservableKeyGroupsCollectionHelper.TwoGroupKeys));
+            Assert.True(false);
         }
+
+
+        //public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> ItemsChanged;
 
         //[Fact]
         //public void AddGroups_TwoKeysForAllowedEmptyGroups_ItemsChangedForTwoKeys()
@@ -231,7 +163,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         //    Assert.Equal(ObservableKeyGroupsCollectionHelper.TwoGroupKeys.Count, handler.Count);
         //}
-        #endregion
 
         [Fact]
         // AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)

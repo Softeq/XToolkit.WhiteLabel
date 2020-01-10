@@ -13,6 +13,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public static IList<string> NullKeys;
         public static IList<string> EmptyKeys = new List<string>();
+        public static IList<string> OneNullGroupKeys = new List<string> { null };
+        public static IList<string> OneEmptyGroupKeys = new List<string> { null };
         public static IList<string> OneGroupKeys = new List<string> { FirstGroupKey };
         public static IList<string> TwoGroupKeys = new List<string> { FirstGroupKey, SecondKeyGroup };
         public static IList<string> TwoWithEmptyGroupKeys = new List<string> { FirstGroupKey, EmptyGroupKey };
