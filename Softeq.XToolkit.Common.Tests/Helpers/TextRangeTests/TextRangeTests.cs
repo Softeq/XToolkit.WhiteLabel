@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
         [InlineData(10, 10)]
         [InlineData(10, 5)]
         [InlineData(10, 0)]
-        public void Create_WithNonNegativeParams_SavesState(int position, int length)
+        public void Create_NonNegativeParams_SavesState(int position, int length)
         {
             var textRange = new TextRange(position, length);
 
@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
         [InlineData(-1, 0)]
         [InlineData(0, -1)]
         [InlineData(-1, -1)]
-        public void Create_WithNegativeParams_ThrowsArgumentException(int position, int length)
+        public void Create_NegativeParams_ThrowsArgumentException(int position, int length)
         {
             Assert.Throws<ArgumentException>(() => new TextRange(position, length));
         }
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
         [InlineData(null, "")]
         [InlineData("", null)]
         [InlineData(null, null)]
-        public void BuildNewString_WithNullParameters_ThrowsArgumentNullException(string fullString, string newString)
+        public void BuildNewString_NullParams_ThrowsArgumentNullException(string fullString, string newString)
         {
             var textRange = TextRangeDataProvider.CreateFisrtSymbolTextRange();
 
@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
 
         [Theory]
         [MemberData(nameof(TextRangeDataProvider.OutOfRangeBuildStringData), MemberType = typeof(TextRangeDataProvider))]
-        public void BuildNewString_WithPositionOutOfRange_ThrowsArgumentOutOfRangeException(string fullString, string newString,
+        public void BuildNewString_PositionOutOfRange_ThrowsArgumentOutOfRangeException(string fullString, string newString,
             int textRangePosition, int textRangeLength)
         {
             var textRange = new TextRange(textRangePosition, textRangeLength);
@@ -56,7 +56,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
 
         [Theory]
         [MemberData(nameof(TextRangeDataProvider.ValidTextRangeBuildStringData), MemberType = typeof(TextRangeDataProvider))]
-        public void BuildNewString_WithValidParams_ConstructsCorrectString(string fullString, string newString,
+        public void BuildNewString_ValidParams_ConstructsCorrectString(string fullString, string newString,
             int textRangePosition, int textRangeLength, string resultString)
         {
             var textRange = new TextRange(textRangePosition, textRangeLength);

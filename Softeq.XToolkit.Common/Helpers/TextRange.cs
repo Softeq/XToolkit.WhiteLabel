@@ -53,5 +53,10 @@ namespace Softeq.XToolkit.Common.Helpers
                 .Remove(Position, Length)
                 .Insert(Position, newString);
         }
+
+        public override string ToString()
+        {
+            return $"[{Position} {Length}]";
+        }
     }
 }
