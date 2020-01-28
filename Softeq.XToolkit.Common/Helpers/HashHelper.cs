@@ -3,6 +3,9 @@
 
 namespace Softeq.XToolkit.Common.Helpers
 {
+    /// <summary>
+    /// Class helps to get a hash code for a number of objects combined (2-10)
+    /// </summary>
     public static class HashHelper
     {
         private const int PrimeOne = 17;
