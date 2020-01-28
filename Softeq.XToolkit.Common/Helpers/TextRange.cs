@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.Common.Helpers
         {
             if (position < 0 || length < 0)
             {
-                throw new ArgumentException("Position and Length can not be negative");
+                throw new ArgumentOutOfRangeException("Position and Length can not be negative");
             }
 
             Position = position;

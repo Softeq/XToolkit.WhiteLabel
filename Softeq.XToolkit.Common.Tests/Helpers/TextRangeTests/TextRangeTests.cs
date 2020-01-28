@@ -28,9 +28,9 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
         [InlineData(-1, 0)]
         [InlineData(0, -1)]
         [InlineData(-1, -1)]
-        public void Create_NegativeParams_ThrowsArgumentException(int position, int length)
+        public void Create_NegativeParams_ThrowsArgumentOutOfRangeException(int position, int length)
         {
-            Assert.Throws<ArgumentException>(() => new TextRange(position, length));
+            Assert.Throws<ArgumentOutOfRangeException>(() => new TextRange(position, length));
         }
 
         [Theory]

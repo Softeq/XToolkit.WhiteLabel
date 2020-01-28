@@ -48,17 +48,13 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TagsHelperTests
             Assert.Equal(textRange.Length, result[0].Length);
         }
 
-        [Fact]
-        public void ExtractTagsRanges_InputWithMultipleTags_ReturnsCorrectTagRange()
+        [Theory]
+        [MemberData(nameof(TagsHelperDataProvider.MultipleTagsTextRangeData), MemberType = typeof(TagsHelperDataProvider))]
+        public void ExtractTagsRanges_InputWithMultipleTags_ReturnsCorrectTagRange(string input, string textRangesResult)
         {
-            var input = TagsHelperDataProvider.InputWithMultipleTags;
-            var textRanges = TagsHelperDataProvider.TagsTextRangeArray;
-            var stringResult = textRanges.GetResult();
-
             var result = TagsHelper.ExtractTagsRanges(input);
 
-            Assert.Equal(textRanges.Length, result.Length);
-            Assert.Equal(stringResult, result.GetResult());
+            Assert.Equal(textRangesResult, result.GetResult());
         }
 
         [Fact]
@@ -97,11 +93,10 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TagsHelperTests
             Assert.Equal(tag, result[0]);
         }
 
-        [Fact]
-        public void ExtractTags_InputWithMultipleTags_ReturnsCorrectTagRange()
+        [Theory]
+        [MemberData(nameof(TagsHelperDataProvider.MultipleTagsContentData), MemberType = typeof(TagsHelperDataProvider))]
+        public void ExtractTags_InputWithMultipleTags_ReturnsCorrectTagRange(string input, string[] tagsContent)
         {
-            var input = TagsHelperDataProvider.InputWithMultipleTags;
-            var tagsContent = TagsHelperDataProvider.TagsContentArray;
             var stringResult = tagsContent.GetResult();
 
             var result = TagsHelper.ExtractTags(input);
