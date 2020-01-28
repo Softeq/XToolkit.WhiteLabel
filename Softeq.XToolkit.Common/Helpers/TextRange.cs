@@ -17,9 +17,13 @@ namespace Softeq.XToolkit.Common.Helpers
         /// <param name="length">Length of this range</param>
         public TextRange(int position, int length)
         {
-            if (position < 0 || length < 0)
+            if (position < 0)
             {
-                throw new ArgumentOutOfRangeException("Position and Length can not be negative");
+                throw new ArgumentOutOfRangeException($"{nameof(position)} can not be negative");
+            }
+            if (length < 0)
+            {
+                throw new ArgumentOutOfRangeException($"{nameof(length)} can not be negative");
             }
 
             Position = position;
@@ -44,9 +48,13 @@ namespace Softeq.XToolkit.Common.Helpers
         /// <returns></returns>
         public string BuildNewString(string fullString, string newString)
         {
-            if (fullString == null || newString == null)
+            if (fullString == null)
             {
-                throw new ArgumentNullException("Parameters can not be null");
+                throw new ArgumentNullException($"{nameof(fullString)} can not be null");
+            }
+            if (newString == null)
+            {
+                throw new ArgumentNullException($"{nameof(newString)} can not be null");
             }
 
             return fullString
