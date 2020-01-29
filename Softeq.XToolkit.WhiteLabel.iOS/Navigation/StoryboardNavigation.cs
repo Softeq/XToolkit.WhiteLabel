@@ -37,7 +37,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public virtual void GoBack()
         {
-            Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
+            Execute.BeginOnUIThread(() =>
+            {
+                ViewLocator.GetTopViewController()?.View.EndEditing(true);
+
+                NavigationController.PopViewController(true);
+            });
         }
 
         public virtual void NavigateToViewModel(
@@ -57,6 +62,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
+                ViewLocator.GetTopViewController()?.View.EndEditing(true);
+
                 if (clearBackStack)
                 {
                     NavigationController.SetViewControllers(new[] { controller }, false);
