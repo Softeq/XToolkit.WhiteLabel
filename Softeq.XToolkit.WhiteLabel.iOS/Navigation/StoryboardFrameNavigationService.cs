@@ -54,6 +54,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
                 if (controller != null)
                 {
+                    ViewLocator.GetTopViewController()?.View.EndEditing(true);
+
                     NavigationController.PopToViewController(controller, false);
                 }
             });
