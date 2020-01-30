@@ -7,7 +7,7 @@ using System.Linq;
 using Softeq.XToolkit.Common.Extensions;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.Tests.Extensions
+namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
 {
     public class StringExtensionsTests
     {

@@ -10,13 +10,13 @@ namespace Softeq.XToolkit.Common.Extensions
         public static void AddOrUpdateJsonValue<T>(this IInternalSettings internalSettings,
             IJsonSerializer jsonSerializer, string key, T value)
         {
-            var json = jsonSerializer.Serialize(value);
-            if (json == "null")
+            if (value == null)
             {
                 internalSettings.Remove(key);
                 return;
             }
 
+            var json = jsonSerializer.Serialize(value);
             internalSettings.AddOrUpdateValue(key, json);
         }
 
