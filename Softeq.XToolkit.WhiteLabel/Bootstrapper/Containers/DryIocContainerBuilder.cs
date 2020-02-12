@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             _buildActions.Add(action);
         }
 
-        public void RegisterAsDecorator<TService, TImplementation>()
+        public void Decorator<TImplementation, TService>()
             where TImplementation : TService
         {
             _dryContainer.Register<TService, TImplementation>(setup: Setup.Decorator);
