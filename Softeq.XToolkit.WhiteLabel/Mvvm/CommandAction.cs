@@ -5,12 +5,8 @@ using System.Windows.Input;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
-    public class CommandAction
+    public class CommandAction : DialogOption
     {
         public ICommand Command { get; set; }
-
-        public string Title { get; set; }
-
-        public CommandActionStyle CommandActionStyle { get; set; }
     }
 }

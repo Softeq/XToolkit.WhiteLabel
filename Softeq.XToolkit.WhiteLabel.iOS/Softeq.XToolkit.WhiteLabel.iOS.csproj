@@ -95,6 +95,7 @@
     <Compile Include="Services\ViewControllerProvider.cs" />
     <Compile Include="ImagePicker\IosImagePickerService.cs" />
     <Compile Include="ImagePicker\IosImagePickerResult.cs" />
+    <Compile Include="Extensions\CommandActionStyleExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">

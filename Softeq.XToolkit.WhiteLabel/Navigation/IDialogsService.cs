@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Model;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
@@ -16,6 +17,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             string okButtonText,
             string cancelButtonText = null,
             OpenDialogOptions options = null);
+
+        Task<TEnum> ShowDialogAsync<TEnum>(string title,
+            string message,
+            Dictionary<TEnum, DialogOption> actions)
+            where TEnum : Enum;
 
         [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task ShowForViewModel<TViewModel>(

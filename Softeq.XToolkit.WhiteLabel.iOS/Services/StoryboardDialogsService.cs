@@ -13,6 +13,8 @@ using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using UIKit;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.iOS.Extensions;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
@@ -63,6 +65,39 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 {
                     _logger.Error("can't find top ViewController");
                     dialogResult.TrySetResult(false);
+                    return;
+                }
+
+                topViewController.PresentViewController(alertController, true, null);
+            });
+
+            return dialogResult.Task;
+        }
+
+        public Task<TEnum> ShowDialogAsync<TEnum>(string title,
+            string message,
+            Dictionary<TEnum, DialogOption> actions)
+            where TEnum : Enum
+        {
+            var dialogResult = new TaskCompletionSource<TEnum>();
+
+            Execute.BeginOnUIThread(() =>
+            {
+                var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+
+                foreach (var action in actions)
+                {
+                    var option = UIAlertAction.Create(action.Value.Title,
+                        action.Value.CommandActionStyle.ToNative(),
+                        _ => { dialogResult.TrySetResult(action.Key); });
+                    alertController.AddAction(option);
+                }
+
+                var topViewController = _viewLocator.GetTopViewController();
+                if (topViewController == null)
+                {
+                    _logger.Error("can't find top ViewController");
+                    dialogResult.TrySetException(new Exception("Unable to show dialog: cannot find top ViewController"));
                     return;
                 }
 
