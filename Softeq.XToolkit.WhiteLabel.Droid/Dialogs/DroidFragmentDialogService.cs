@@ -1,30 +1,35 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Android.App;
+using Android.Content;
+using Plugin.CurrentActivity;
+using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Model;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
+using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public class DroidFragmentDialogService : IDialogsService
     {
-        private readonly IAlertBuilder _alertBuilder;
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
 
         public DroidFragmentDialogService(
             IViewLocator viewLocator,
-            IAlertBuilder alertBuilder,
             IContainer iocContainer)
         {
             _viewLocator = viewLocator;
-            _alertBuilder = alertBuilder;
             _iocContainer = iocContainer;
         }
 
@@ -35,7 +40,59 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             string cancelButtonText = null,
             OpenDialogOptions openDialogOptions = null)
         {
-            return _alertBuilder.ShowAlertAsync(title, message, okButtonText, cancelButtonText);
+            var actions = new Dictionary<bool, DialogOption>
+            {
+                { true, new DialogOption { Title = okButtonText } }
+            };
+            if (cancelButtonText != null)
+            {
+                actions.Add(false, new DialogOption { Title = cancelButtonText, CommandActionStyle = CommandActionStyle.Cancel });
+            }
+            return ShowDialogAsync(title, message, actions);
+        }
+
+        public Task<TResult> ShowDialogAsync<TResult>(string title, string message, Dictionary<TResult, DialogOption> actions)
+        {
+            var tcs = new TaskCompletionSource<TResult>();
+
+            Execute.BeginOnUIThread(() =>
+            {
+                var context = CrossCurrentActivity.Current.Activity;
+
+                var builder = new AlertDialog.Builder(context)
+                    .SetTitle(title)
+                    .SetMessage(message)
+                    .SetCancelable(typeof(TResult) == typeof(bool));
+
+                foreach (var action in actions)
+                {
+                    EventHandler<DialogClickEventArgs> onOptionChosen = (o, e) =>
+                    {
+                        tcs.TrySetResult(action.Key);
+                        var alertDialog = (AlertDialog) o;
+                        alertDialog.Dismiss();
+                    };
+                    if (action.Value.CommandActionStyle == CommandActionStyle.Destructive)
+                    {
+                        builder.SetPositiveButton(action.Value.Title, onOptionChosen);
+                    }
+                    else if (action.Value.CommandActionStyle == CommandActionStyle.Default)
+                    {
+                        builder.SetNeutralButton(action.Value.Title, onOptionChosen);
+                    }
+                    else
+                    {
+                        builder.SetNegativeButton(action.Value.Title, onOptionChosen);
+                    }
+                }
+
+                var dialog = builder.Create();
+                var dismissCommand = new RelayCommand<TaskCompletionSource<TResult>>(x => { x.TrySetResult(default(TResult)); });
+                dialog.SetCommand(nameof(dialog.DismissEvent), dismissCommand, tcs);
+                dialog.Show();
+            });
+
+            return tcs.Task;
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(

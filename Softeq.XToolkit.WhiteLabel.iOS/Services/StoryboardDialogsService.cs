@@ -6,15 +6,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using UIKit;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.iOS.Extensions;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
@@ -41,45 +41,25 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             string cancelButtonText = null,
             OpenDialogOptions options = null)
         {
-            var dialogResult = new TaskCompletionSource<bool>();
-
-            Execute.BeginOnUIThread(() =>
+            var okActionStyle = options?.DialogType == DialogType.Destructive
+                    ? CommandActionStyle.Destructive
+                    : CommandActionStyle.Default;
+            var actions = new Dictionary<bool, DialogOption>
             {
-                var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-
-                var okActionStyle = options?.DialogType == DialogType.Destructive
-                    ? UIAlertActionStyle.Destructive
-                    : UIAlertActionStyle.Default;
-
-                alertController.AddAction(UIAlertAction.Create(okButtonText, okActionStyle,
-                    action => { dialogResult.TrySetResult(true); }));
-
-                if (cancelButtonText != null)
-                {
-                    alertController.AddAction(UIAlertAction.Create(cancelButtonText, UIAlertActionStyle.Cancel,
-                        action => { dialogResult.TrySetResult(false); }));
-                }
-
-                var topViewController = _viewLocator.GetTopViewController();
-                if (topViewController == null)
-                {
-                    _logger.Error("can't find top ViewController");
-                    dialogResult.TrySetResult(false);
-                    return;
-                }
-
-                topViewController.PresentViewController(alertController, true, null);
-            });
-
-            return dialogResult.Task;
+                { true, new DialogOption { Title = okButtonText, CommandActionStyle = okActionStyle } }
+            };
+            if (cancelButtonText != null)
+            {
+                actions.Add(false, new DialogOption { Title = cancelButtonText, CommandActionStyle = CommandActionStyle.Cancel });
+            }
+            return ShowDialogAsync(title, message, actions);
         }
 
-        public Task<TEnum> ShowDialogAsync<TEnum>(string title,
+        public Task<TResult> ShowDialogAsync<TResult>(string title,
             string message,
-            Dictionary<TEnum, DialogOption> actions)
-            where TEnum : Enum
+            Dictionary<TResult, DialogOption> actions)
         {
-            var dialogResult = new TaskCompletionSource<TEnum>();
+            var dialogResult = new TaskCompletionSource<TResult>();
 
             Execute.BeginOnUIThread(() =>
             {

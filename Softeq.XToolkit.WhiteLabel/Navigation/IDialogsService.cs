@@ -18,10 +18,18 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             string cancelButtonText = null,
             OpenDialogOptions options = null);
 
-        Task<TEnum> ShowDialogAsync<TEnum>(string title,
+        /// <summary>
+        /// On Android this method can show up to three options
+        /// and all of them must have different CommandActionStyle.
+        /// They will be sorted in God-only-knows-what order: https://stackoverflow.com/questions/11401951/android-difference-between-positive-negative-and-neutral-button
+        /// Probably this must be refactored to use radiobuttons.
+        /// 
+        /// On iOS there can be only one Cancel option (it will be in the bottom) and several others,
+        /// which are not sorted.
+        /// </summary>
+        Task<TResult> ShowDialogAsync<TResult>(string title,
             string message,
-            Dictionary<TEnum, DialogOption> actions)
-            where TEnum : Enum;
+            Dictionary<TResult, DialogOption> actions);
 
         [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task ShowForViewModel<TViewModel>(
