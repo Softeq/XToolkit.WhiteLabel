@@ -60,7 +60,12 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
             var bitmap = await _taskCompletionSource.Task.ConfigureAwait(false);
 
-            return new DroidImagePickerResult { Quality = quality, ImageObject = bitmap, ImageExtension = ImageExtension.Jpg };
+            return new DroidImagePickerResult
+            {
+                Quality = quality,
+                ImageObject = bitmap,
+                ImageExtension = ImageExtension.Jpg
+            };
         }
 
         private void OnImagePicked(object sender, Bitmap? e)
