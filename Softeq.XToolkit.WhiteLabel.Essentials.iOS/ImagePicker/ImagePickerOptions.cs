@@ -1,9 +1,9 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 {
     public class ImagePickerOptions
     {

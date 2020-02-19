@@ -20,7 +20,7 @@ using ImageOrientation = Android.Media.Orientation;
 using IOException = System.IO.IOException;
 using Stream = System.IO.Stream;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     [Activity]
     internal class ImagePickerActivity : Activity

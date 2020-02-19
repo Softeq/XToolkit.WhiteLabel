@@ -3,7 +3,7 @@
 
 using Softeq.XToolkit.Common;
 
-namespace Softeq.XToolkit.WhiteLabel.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
 {
     public class SimpleImagePickerViewModel : ObservableObject
     {

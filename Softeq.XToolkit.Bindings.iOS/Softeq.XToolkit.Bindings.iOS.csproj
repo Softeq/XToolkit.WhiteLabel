@@ -38,9 +38,6 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="AppleBinding.cs" />
     <Compile Include="AppleBindingExtensions.cs" />
     <Compile Include="AppleBindingFactory.cs" />

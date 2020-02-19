@@ -8,7 +8,7 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Xunit;
 
-namespace Softeq.XToolkit.Whitelabel.Tests
+namespace Softeq.XToolkit.WhiteLabel.Tests
 {
     public class PageNavigationServiceTests
     {

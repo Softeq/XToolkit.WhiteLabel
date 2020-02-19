@@ -1,7 +1,7 @@
-﻿// Developed by Softeq Development Corporation
+// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-namespace Softeq.XToolkit.Permissions
+namespace Softeq.XToolkit.Common.Droid.Permissions
 {
     public interface IPermissionRequestHandler
     {

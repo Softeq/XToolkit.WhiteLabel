@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
 

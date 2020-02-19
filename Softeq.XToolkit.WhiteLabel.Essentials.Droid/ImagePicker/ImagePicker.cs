@@ -8,10 +8,10 @@ using FFImageLoading;
 using FFImageLoading.Work;
 using Plugin.Permissions;
 using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
+namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     [Obsolete("Use WhiteLabel.ImagePicker.IImagePickerService")]
     public interface IImagePickerService

@@ -4,7 +4,7 @@
 using System;
 using Softeq.XToolkit.Common.Converters;
 
-namespace Softeq.XToolkit.WhiteLabel.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
 {
     public class ImageExtensionToStringConverter : IConverter<string?, ImageExtension>
     {

@@ -4,10 +4,10 @@
 using System;
 using System.Threading.Tasks;
 using MobileCoreServices;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 {
     public class IosImagePickerService : IImagePickerService
     {
