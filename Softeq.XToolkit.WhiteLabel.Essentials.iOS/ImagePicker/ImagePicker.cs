@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
         {
             _viewController = WeakReferenceEx.Create(viewController);
             _fileProvider = Dependencies.InternalStorageProvider;
-            _permissionManager = DependenciesEx.PermissionsManager;
+            _permissionManager = Dependencies.Container.Resolve<IPermissionsManager>();
 
             _imagePicker = new UIImagePickerController();
         }
