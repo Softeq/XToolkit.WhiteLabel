@@ -16,6 +16,8 @@ namespace Softeq.XToolkit.PushNotifications
         protected readonly IPushTokenStorageService PushTokenStorageService;
         protected readonly IRemotePushNotificationsService RemotePushNotificationsService;
 
+        private TaskCompletionSource<PushNotificationRegistrationResult> _registrationCompletionSource;
+
         protected PushNotificationsServiceBase(
             IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService,
@@ -35,6 +37,16 @@ namespace Softeq.XToolkit.PushNotifications
         public abstract void ClearAllNotifications();
 
         public abstract void RegisterForPushNotifications();
+
+        public Task<PushNotificationRegistrationResult> RegisterForPushNotificationsAsync()
+        {
+            if (_registrationCompletionSource == null || _registrationCompletionSource.Task.IsCompleted)
+            {
+                _registrationCompletionSource = new TaskCompletionSource<PushNotificationRegistrationResult>();
+                RegisterForPushNotifications();
+            }
+            return _registrationCompletionSource.Task;
+        }
 
         public async Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(PushNotificationsUnregisterOptions options)
         {
@@ -190,6 +202,9 @@ namespace Softeq.XToolkit.PushNotifications
             PushNotificationsHandler.OnPushRegistrationCompleted(
                 PushTokenStorageService.IsTokenRegisteredInSystem,
                 PushTokenStorageService.IsTokenSavedOnServer);
+
+            _registrationCompletionSource?.TrySetResult(new PushNotificationRegistrationResult(
+                PushTokenStorageService.IsTokenRegisteredInSystem, PushTokenStorageService.IsTokenSavedOnServer));
         }
 
         private async Task OnRegisterFailedInternal()
@@ -201,6 +216,9 @@ namespace Softeq.XToolkit.PushNotifications
             PushNotificationsHandler.OnPushRegistrationCompleted(
                 PushTokenStorageService.IsTokenRegisteredInSystem,
                 PushTokenStorageService.IsTokenSavedOnServer);
+
+            _registrationCompletionSource?.TrySetResult(new PushNotificationRegistrationResult(
+                PushTokenStorageService.IsTokenRegisteredInSystem, PushTokenStorageService.IsTokenSavedOnServer));
         }
     }
 }

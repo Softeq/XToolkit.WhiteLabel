@@ -27,6 +27,9 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
 
         void RegisterBuildCallback(Action<IContainer> action);
 
+        void Decorator<TImplementation, TService>()
+            where TImplementation : TService;
+
         IContainer Build();
     }
 }

@@ -72,6 +72,12 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             _buildActions.Add(action);
         }
 
+        public void Decorator<TImplementation, TService>()
+            where TImplementation : TService
+        {
+            _dryContainer.Register<TService, TImplementation>(setup: Setup.Decorator);
+        }
+
         public IContainer Build()
         {
             var container = new DryIocContainerAdapter();

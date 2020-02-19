@@ -17,6 +17,8 @@ namespace Softeq.XToolkit.PushNotifications
 
         /// <summary>
         ///     Value to determine if notification is silent (not visible to the user, for some inner updates)
+        ///     On iOS: contains content-available key with value 1
+        ///     On Android: does not contain Body
         /// </summary>
         public bool IsSilent { get; set; }
 

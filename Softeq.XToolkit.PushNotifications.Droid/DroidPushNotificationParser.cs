@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             pushNotification.Title = pushMessage == null ? GetStringFromDictionary(pushData, DataTitleKey) : pushMessage.Title;
             pushNotification.Body = pushMessage == null ? GetStringFromDictionary(pushData, DataBodyKey) : pushMessage.Body;
 
-            pushNotification.IsSilent = string.IsNullOrEmpty(pushNotification.Body); // TODO: possibly other way to determine (?client-side)
+            pushNotification.IsSilent = string.IsNullOrEmpty(pushNotification.Body);
 
             pushNotification.Type = ParseNotificationTypeFromData(pushData);
             pushNotification.AdditionalData = GetStringFromDictionary(pushData, DataKey);

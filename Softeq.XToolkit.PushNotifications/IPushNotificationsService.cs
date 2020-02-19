@@ -53,6 +53,12 @@ namespace Softeq.XToolkit.PushNotifications
         void RegisterForPushNotifications();
 
         /// <summary>
+        ///     Registers application for push notifications asynchronously
+        /// </summary>
+        /// <returns>Task with <see cref="PushNotificationRegistrationResult" /> about registration status in system and on server.</returns>
+        Task<PushNotificationRegistrationResult> RegisterForPushNotificationsAsync();
+
+        /// <summary>
         ///     Callback to notify the service that registration for push notifications finished successfully.
         ///     On iOS should be called in AppDelegate's RegisteredForRemoteNotifications
         ///     On Android is called internally

@@ -14,4 +14,3 @@ jobs:
 - template: templates/app-jobs.yml
   parameters:
     SolutionPath: 'samples/Playground/Playground.sln'
-    TestsPath: 'Softeq.XToolkit.Common.Tests/Softeq.XToolkit.Common.Tests.csproj'
