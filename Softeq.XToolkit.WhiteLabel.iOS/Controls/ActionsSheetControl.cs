@@ -15,9 +15,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
     public class ActionsSheetControl : IActionSheet
     {
         private readonly IViewLocator _viewLocator;
-        private string _actionHeaderMessage;
-        private string _actionHeaderTitle;
-        private IList<CommandAction> _actions;
+        private string? _actionHeaderMessage;
+        private string? _actionHeaderTitle;
+        private IList<CommandAction> _actions = default!;
 
         public ActionsSheetControl(IViewLocator viewLocator)
         {

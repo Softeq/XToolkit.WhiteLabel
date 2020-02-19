@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.Common.Helpers
         public static TextRange[] ExtractTagsRanges(string input)
         {
             var result = new List<TextRange>();
-            TextRange range = null;
+            TextRange? range = null;
             do
             {
                 if (range != null)
@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.Common.Helpers
             return result.ToArray();
         }
 
-        private static TextRange ExtractFirstTagRange(string input, int startIndex)
+        private static TextRange? ExtractFirstTagRange(string input, int startIndex)
         {
             if (startIndex >= input.Length)
             {

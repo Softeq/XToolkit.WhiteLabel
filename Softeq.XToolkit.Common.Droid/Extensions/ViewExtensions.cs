@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         /// <param name="view">Target view.</param>
         public static void RemoveFromParent(this View view)
         {
-            ((ViewGroup) view?.Parent)?.RemoveView(view);
+            ((ViewGroup) view.Parent)?.RemoveView(view);
         }
     }
 }

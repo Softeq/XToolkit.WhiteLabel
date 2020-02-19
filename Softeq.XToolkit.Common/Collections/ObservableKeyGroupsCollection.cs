@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-
+#nullable disable
 namespace Softeq.XToolkit.Common.Collections
 {
     public class ObservableKeyGroupsCollection<TKey, TValue> :
@@ -441,3 +441,4 @@ namespace Softeq.XToolkit.Common.Collections
         }
     }
 }
+#nullable restore

@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
     {
         public IList<TabItem> TabModels { get; protected set; }
 
-        public IList<TabViewModel> TabViewModels { get; protected set; }
+        public IList<TabViewModel> TabViewModels { get; protected set; } = default!;
 
         public override void OnInitialize()
         {

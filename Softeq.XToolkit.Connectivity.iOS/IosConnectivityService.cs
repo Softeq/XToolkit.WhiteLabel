@@ -20,8 +20,8 @@ namespace Softeq.XToolkit.Connectivity.iOS
 
         private readonly Dictionary<NWInterfaceType, bool> _connectionStatuses;
 
-        public event ConnectivityChangedEventHandler ConnectivityChanged;
-        public event ConnectivityTypeChangedEventHandler ConnectivityTypeChanged;
+        public event ConnectivityChangedEventHandler? ConnectivityChanged;
+        public event ConnectivityTypeChangedEventHandler? ConnectivityTypeChanged;
 
         public IosConnectivityService()
         {

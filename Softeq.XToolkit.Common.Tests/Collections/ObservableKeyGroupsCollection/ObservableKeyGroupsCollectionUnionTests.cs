@@ -9,6 +9,8 @@ using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection.Helpers;
 using Xunit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 {
     public class ObservableKeyGroupsCollectionUnionTests : IDisposable

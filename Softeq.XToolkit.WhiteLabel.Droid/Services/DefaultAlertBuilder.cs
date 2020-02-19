@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
     public class DefaultAlertBuilder : IAlertBuilder
     {
         public Task<bool> ShowAlertAsync(string title, string message, string okButtonText,
-            string cancelButtonText = null)
+            string? cancelButtonText = null)
         {
             var tcs = new TaskCompletionSource<bool>();
 

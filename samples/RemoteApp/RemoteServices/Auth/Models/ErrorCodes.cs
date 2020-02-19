@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 namespace RemoteServices.Auth.Models
 {
     public enum ErrorCodes

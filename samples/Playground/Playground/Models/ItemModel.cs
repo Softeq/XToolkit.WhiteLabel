@@ -21,8 +21,8 @@ namespace Playground.Models
 
     public class ItemViewModel : ObservableObject
     {
-        private string _title;
-        private string _iconUrl;
+        private string _title = string.Empty;
+        private string _iconUrl = string.Empty;
 
         public string Title
         {

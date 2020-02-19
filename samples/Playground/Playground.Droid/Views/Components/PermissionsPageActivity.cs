@@ -17,9 +17,9 @@ namespace Playground.Droid.Views.Components
     [Activity]
     public class PermissionsPageActivity : ActivityBase<PermissionsPageViewModel>
     {
-        private Button _cameraButton;
-        private Button _storageButton;
-        private Button _locationButton;
+        private Button? _cameraButton;
+        private Button? _storageButton;
+        private Button? _locationButton;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -43,19 +43,19 @@ namespace Playground.Droid.Views.Components
 
             var converter = new ColorConverter();
 
-            this.Bind(() => ViewModel.Camera.IsGranted, () => _cameraButton.Background, converter);
-            this.Bind(() => ViewModel.Storage.IsGranted, () => _storageButton.Background, converter);
-            this.Bind(() => ViewModel.Location.IsGranted, () => _locationButton.Background, converter);
+            this.Bind(() => ViewModel.Camera.IsGranted, () => _cameraButton!.Background, converter);
+            this.Bind(() => ViewModel.Storage.IsGranted, () => _storageButton!.Background, converter);
+            this.Bind(() => ViewModel.Location.IsGranted, () => _locationButton!.Background, converter);
         }
 
         private class ColorConverter : IConverter<Drawable, bool>
         {
-            public Drawable ConvertValue(bool TIn, object parameter = null, string language = null)
+            public Drawable ConvertValue(bool TIn, object? parameter = null, string? language = null)
             {
                 return new ColorDrawable(TIn ? Color.Green : Color.Red);
             }
 
-            public bool ConvertValueBack(Drawable value, object parameter = null, string language = null)
+            public bool ConvertValueBack(Drawable value, object? parameter = null, string? language = null)
             {
                 return ((ColorDrawable) value).Color == Color.Green;
             }

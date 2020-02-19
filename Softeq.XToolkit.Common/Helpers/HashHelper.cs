@@ -38,16 +38,16 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
-                hash = hash * PrimeTwo + arg3.GetHashCode();
-                hash = hash * PrimeTwo + arg4.GetHashCode();
-                hash = hash * PrimeTwo + arg5.GetHashCode();
-                hash = hash * PrimeTwo + arg6.GetHashCode();
-                hash = hash * PrimeTwo + arg7.GetHashCode();
-                hash = hash * PrimeTwo + arg8.GetHashCode();
-                hash = hash * PrimeTwo + arg9.GetHashCode();
-                hash = hash * PrimeTwo + arg10.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
+                hash = hash * PrimeTwo + arg3!.GetHashCode();
+                hash = hash * PrimeTwo + arg4!.GetHashCode();
+                hash = hash * PrimeTwo + arg5!.GetHashCode();
+                hash = hash * PrimeTwo + arg6!.GetHashCode();
+                hash = hash * PrimeTwo + arg7!.GetHashCode();
+                hash = hash * PrimeTwo + arg8!.GetHashCode();
+                hash = hash * PrimeTwo + arg9!.GetHashCode();
+                hash = hash * PrimeTwo + arg10!.GetHashCode();
 
                 return hash;
             }
@@ -81,15 +81,15 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
-                hash = hash * PrimeTwo + arg3.GetHashCode();
-                hash = hash * PrimeTwo + arg4.GetHashCode();
-                hash = hash * PrimeTwo + arg5.GetHashCode();
-                hash = hash * PrimeTwo + arg6.GetHashCode();
-                hash = hash * PrimeTwo + arg7.GetHashCode();
-                hash = hash * PrimeTwo + arg8.GetHashCode();
-                hash = hash * PrimeTwo + arg9.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
+                hash = hash * PrimeTwo + arg3!.GetHashCode();
+                hash = hash * PrimeTwo + arg4!.GetHashCode();
+                hash = hash * PrimeTwo + arg5!.GetHashCode();
+                hash = hash * PrimeTwo + arg6!.GetHashCode();
+                hash = hash * PrimeTwo + arg7!.GetHashCode();
+                hash = hash * PrimeTwo + arg8!.GetHashCode();
+                hash = hash * PrimeTwo + arg9!.GetHashCode();
 
                 return hash;
             }
@@ -121,14 +121,14 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
-                hash = hash * PrimeTwo + arg3.GetHashCode();
-                hash = hash * PrimeTwo + arg4.GetHashCode();
-                hash = hash * PrimeTwo + arg5.GetHashCode();
-                hash = hash * PrimeTwo + arg6.GetHashCode();
-                hash = hash * PrimeTwo + arg7.GetHashCode();
-                hash = hash * PrimeTwo + arg8.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
+                hash = hash * PrimeTwo + arg3!.GetHashCode();
+                hash = hash * PrimeTwo + arg4!.GetHashCode();
+                hash = hash * PrimeTwo + arg5!.GetHashCode();
+                hash = hash * PrimeTwo + arg6!.GetHashCode();
+                hash = hash * PrimeTwo + arg7!.GetHashCode();
+                hash = hash * PrimeTwo + arg8!.GetHashCode();
 
                 return hash;
             }
@@ -158,13 +158,13 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
-                hash = hash * PrimeTwo + arg3.GetHashCode();
-                hash = hash * PrimeTwo + arg4.GetHashCode();
-                hash = hash * PrimeTwo + arg5.GetHashCode();
-                hash = hash * PrimeTwo + arg6.GetHashCode();
-                hash = hash * PrimeTwo + arg7.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
+                hash = hash * PrimeTwo + arg3!.GetHashCode();
+                hash = hash * PrimeTwo + arg4!.GetHashCode();
+                hash = hash * PrimeTwo + arg5!.GetHashCode();
+                hash = hash * PrimeTwo + arg6!.GetHashCode();
+                hash = hash * PrimeTwo + arg7!.GetHashCode();
 
                 return hash;
             }
@@ -191,12 +191,12 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
-                hash = hash * PrimeTwo + arg3.GetHashCode();
-                hash = hash * PrimeTwo + arg4.GetHashCode();
-                hash = hash * PrimeTwo + arg5.GetHashCode();
-                hash = hash * PrimeTwo + arg6.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
+                hash = hash * PrimeTwo + arg3!.GetHashCode();
+                hash = hash * PrimeTwo + arg4!.GetHashCode();
+                hash = hash * PrimeTwo + arg5!.GetHashCode();
+                hash = hash * PrimeTwo + arg6!.GetHashCode();
 
                 return hash;
             }
@@ -221,11 +221,11 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
-                hash = hash * PrimeTwo + arg3.GetHashCode();
-                hash = hash * PrimeTwo + arg4.GetHashCode();
-                hash = hash * PrimeTwo + arg5.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
+                hash = hash * PrimeTwo + arg3!.GetHashCode();
+                hash = hash * PrimeTwo + arg4!.GetHashCode();
+                hash = hash * PrimeTwo + arg5!.GetHashCode();
 
                 return hash;
             }
@@ -248,10 +248,10 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
-                hash = hash * PrimeTwo + arg3.GetHashCode();
-                hash = hash * PrimeTwo + arg4.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
+                hash = hash * PrimeTwo + arg3!.GetHashCode();
+                hash = hash * PrimeTwo + arg4!.GetHashCode();
 
                 return hash;
             }
@@ -272,9 +272,9 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
-                hash = hash * PrimeTwo + arg3.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
+                hash = hash * PrimeTwo + arg3!.GetHashCode();
 
                 return hash;
             }
@@ -293,8 +293,8 @@ namespace Softeq.XToolkit.Common.Helpers
             unchecked
             {
                 var hash = PrimeOne;
-                hash = hash * PrimeTwo + arg1.GetHashCode();
-                hash = hash * PrimeTwo + arg2.GetHashCode();
+                hash = hash * PrimeTwo + arg1!.GetHashCode();
+                hash = hash * PrimeTwo + arg2!.GetHashCode();
 
                 return hash;
             }

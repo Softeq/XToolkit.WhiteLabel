@@ -51,6 +51,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         public UIViewController GetView(object viewModel)
         {
             var controllerType = GetTargetType(viewModel.GetType());
+
             var storyboardName = controllerType.Name.Replace("ViewController", "Storyboard");
             var viewController = TryCreateViewController(storyboardName, controllerType);
 
@@ -59,12 +60,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 bindableViewController.SetDataContext(viewModel);
             }
 
+            if(viewController == null)
+            {
+                throw new Exception("view not found");
+            }
+
             return viewController;
         }
 
         private Type GetTargetType(Type type)
         {
-            if (_modelToControllerTypes.TryGetValue(type, out var targetType))
+            Type? targetType = default;
+
+            if (_modelToControllerTypes.TryGetValue(type, out targetType))
             {
                 return targetType;
             }
@@ -83,9 +91,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         }
 
         // TODO YP: export to another class
-        private UIViewController TryCreateViewController(string storyBoardName, Type targetType)
+        private UIViewController? TryCreateViewController(string storyBoardName, Type targetType)
         {
-            UIViewController newViewController = null;
+            UIViewController? newViewController = null;
 
             try
             {

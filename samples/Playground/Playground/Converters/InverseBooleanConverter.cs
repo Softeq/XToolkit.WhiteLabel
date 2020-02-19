@@ -7,12 +7,12 @@ namespace Playground.Converters
 {
     public class InverseBooleanConverter : IConverter<bool, bool>
     {
-        public bool ConvertValue(bool value, object parameter = null, string language = null)
+        public bool ConvertValue(bool value, object? parameter = null, string? language = null)
         {
             return !value;
         }
 
-        public bool ConvertValueBack(bool value, object parameter = null, string language = null)
+        public bool ConvertValueBack(bool value, object? parameter = null, string? language = null)
         {
             return !value;
         }

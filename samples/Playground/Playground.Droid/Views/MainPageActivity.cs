@@ -17,7 +17,7 @@ namespace Playground.Droid.Views
     [Activity]
     public class MainPageActivity : ActivityBase<MainPageViewModel>
     {
-        private ExpandableListView _listView;
+        private ExpandableListView? _listView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

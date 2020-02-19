@@ -5,6 +5,8 @@ using NSubstitute;
 using Softeq.XToolkit.Common.Interfaces;
 using Xunit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Common.Tests
 {
     public class ContractTests

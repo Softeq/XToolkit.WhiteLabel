@@ -17,10 +17,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
     [Register("com.softeq.xtoolkit.whitelabel.droid.NavigationBarView")]
     public class NavigationBarView : RelativeLayout
     {
-        private ImageView _centerImageView;
-        private ImageButton _leftButton;
-        private ImageButton _rightButton;
-        private TextView _titleTextView;
+        private ImageView _centerImageView = default!;
+        private ImageButton _leftButton = default!;
+        private ImageButton _rightButton = default!;
+        private TextView _titleTextView = default!;
 
         public NavigationBarView(Context context) : base(context)
         {
@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         {
         }
 
-        public Button RightTextButton { get; private set; }
+        public Button RightTextButton { get; private set; } = default!;
 
         public ImageButton RightImageButton => _rightButton;
 

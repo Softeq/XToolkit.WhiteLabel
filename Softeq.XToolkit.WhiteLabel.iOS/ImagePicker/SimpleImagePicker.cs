@@ -16,6 +16,8 @@ using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
     [Obsolete("Use IImagePickerService")]

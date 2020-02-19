@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             _iocContainer = iocContainer;
         }
 
-        public bool IsEmptyBackStack => !NavigationController.ViewControllers.Any();
+        public bool IsEmptyBackStack => !NavigationController!.ViewControllers.Any();
 
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
 
@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public virtual void NavigateToViewModel<TViewModel>(
             bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
+            IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
         {
             var viewModel = CreateViewModel<TViewModel>();
@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var controller = NavigationController
+                var controller = NavigationController!
                     .ChildViewControllers
                     .FirstOrDefault(x => x is ViewControllerBase<T>);
 

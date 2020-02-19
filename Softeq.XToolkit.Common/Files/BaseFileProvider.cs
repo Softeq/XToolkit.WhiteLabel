@@ -56,7 +56,7 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <inheritdoc />
-        public Task<string> CopyFileFromAsync(string path, string newPath)
+        public Task<string?> CopyFileFromAsync(string path, string newPath)
         {
             return Task.Run(() =>
             {

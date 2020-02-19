@@ -13,19 +13,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         public Platform Platform => Platform.iOS;
 
         /// <inheritdoc />
-        public string Name => GetBundleValue("CFBundleDisplayName") ?? GetBundleValue("CFBundleName");
+        public string Name => GetBundleValue("CFBundleDisplayName") ?? GetBundleValue("CFBundleName")!;
 
         /// <inheritdoc />
-        public string PackageName => GetBundleValue("CFBundleIdentifier");
+        public string PackageName => GetBundleValue("CFBundleIdentifier")!;
 
         /// <inheritdoc />
-        public string Version => GetBundleValue("CFBundleShortVersionString");
+        public string Version => GetBundleValue("CFBundleShortVersionString")!;
 
         /// <inheritdoc />
-        public string Build => GetBundleValue("CFBundleVersion");
+        public string Build => GetBundleValue("CFBundleVersion")!;
 
         public string GetVersion(bool withBuildNumber) => withBuildNumber ? $"{Version}.{Build}" : Version;
 
-        private static string GetBundleValue(string key) => NSBundle.MainBundle.ObjectForInfoDictionary(key)?.ToString();
+        private static string? GetBundleValue(string key) => NSBundle.MainBundle.ObjectForInfoDictionary(key)?.ToString();
     }
 }
