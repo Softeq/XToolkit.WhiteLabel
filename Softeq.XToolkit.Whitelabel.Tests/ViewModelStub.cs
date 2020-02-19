@@ -3,7 +3,7 @@
 
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.Whitelabel.Tests
+namespace Softeq.XToolkit.WhiteLabel.Tests
 {
     public class ViewModelStub: ViewModelBase
     {

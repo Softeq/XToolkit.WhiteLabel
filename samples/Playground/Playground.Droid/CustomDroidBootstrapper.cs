@@ -1,15 +1,15 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
-using Softeq.XToolkit.WhiteLabel.Droid.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Droid.Services;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Droid
@@ -30,7 +30,7 @@ namespace Playground.Droid
             builder.Singleton<PermissionsManager, IPermissionsManager>();
             builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
 
-            builder.Singleton<DroidImagePickerService, IImagePickerService>();
+            builder.Singleton<DroidImagePickerService, Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker.IImagePickerService>();
         }
     }
 }

@@ -10,11 +10,11 @@ using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 {
     [Obsolete("Use IImagePickerService")]
     public class ImagePicker
@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             _viewController = WeakReferenceEx.Create(viewController);
             _fileProvider = Dependencies.InternalStorageProvider;
-            _permissionManager = Dependencies.PermissionsManager;
+            _permissionManager = DependenciesEx.PermissionsManager;
 
             _imagePicker = new UIImagePickerController();
         }

@@ -3,7 +3,7 @@
 
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 {
     public class ImageOpenedEventArgs
     {

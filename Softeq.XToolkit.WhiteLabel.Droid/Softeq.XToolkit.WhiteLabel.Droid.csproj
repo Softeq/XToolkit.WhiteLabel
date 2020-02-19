@@ -64,7 +64,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\AvatarPlaceholderDrawable.cs" />
-    <Compile Include="Controls\ImagePicker.cs" />
     <Compile Include="Controls\ToolbarMenuComponent.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
     <Compile Include="Dialogs\DroidFragmentDialogService.cs" />
@@ -108,9 +107,6 @@
     <Compile Include="Controls\NonConsumingTouchesToolbar.cs" />
     <Compile Include="Controls\SwipeControlViewPager.cs" />
     <Compile Include="DroidBootstrapper.cs" />
-    <Compile Include="ImagePicker\DroidImagePickerService.cs" />
-    <Compile Include="ImagePicker\ImagePickerActivity.cs" />
-    <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
     <Compile Include="Extensions\FragmentExtensions.cs" />
     <Compile Include="Navigation\DroidFrameNavigationService.cs" />
     <Compile Include="Internal\ViewModelStore.cs" />
@@ -156,6 +152,9 @@
     <AndroidResource Include="Resources\layout\activity_bottom_navigation.axml" />
     <AndroidResource Include="Resources\layout\control_notification_badge.xml" />
     <AndroidResource Include="Resources\drawable\core_badge_background.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ImagePicker" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

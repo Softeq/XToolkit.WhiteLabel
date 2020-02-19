@@ -12,11 +12,11 @@ using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 {
     [Obsolete("Use IImagePickerService")]
     public class SimpleImagePicker : ObservableObject

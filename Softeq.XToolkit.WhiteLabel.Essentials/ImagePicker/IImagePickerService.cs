@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.WhiteLabel.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
 {
     /// <summary>
     ///     Service for getting images.

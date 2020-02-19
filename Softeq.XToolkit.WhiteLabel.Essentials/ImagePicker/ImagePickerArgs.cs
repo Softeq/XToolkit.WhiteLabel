@@ -5,7 +5,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.WhiteLabel.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
 {
     [Obsolete("Use IImagePickerService")]
     public class ImagePickerArgs

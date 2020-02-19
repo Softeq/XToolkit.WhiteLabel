@@ -4,10 +4,10 @@
 using System.IO;
 using System.Threading.Tasks;
 using Android.Graphics;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using static Android.Graphics.Bitmap;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     public class DroidImagePickerResult : ImagePickerResult
     {

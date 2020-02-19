@@ -7,11 +7,11 @@ using Android.Graphics;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
 using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
+namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
-    public class DroidImagePickerService : IImagePickerService
+    public class DroidImagePickerService : Essentials.ImagePicker.IImagePickerService
     {
         private readonly IPermissionsManager _permissionsManager;
 
@@ -60,12 +60,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
             var bitmap = await _taskCompletionSource.Task.ConfigureAwait(false);
 
-            return new DroidImagePickerResult
-            {
-                Quality = quality,
-                ImageObject = bitmap,
-                ImageExtension = ImageExtension.Jpg
-            };
+            return new DroidImagePickerResult { Quality = quality, ImageObject = bitmap, ImageExtension = ImageExtension.Jpg };
         }
 
         private void OnImagePicked(object sender, Bitmap e)

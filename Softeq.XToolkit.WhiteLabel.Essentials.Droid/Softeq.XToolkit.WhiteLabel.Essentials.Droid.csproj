@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+        <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProductVersion>8.0.30703</ProductVersion>
+        <SchemaVersion>2.0</SchemaVersion>
+        <ProjectGuid>{CAEA919A-5B4A-4D97-AB4C-33229484BD7A}</ProjectGuid>
+        <ProjectTypeGuids>{EFBA0AD7-5A72-4C68-AF49-83D382785DCF};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+        <OutputType>Library</OutputType>
+        <AppDesignerFolder>Properties</AppDesignerFolder>
+        <RootNamespace>Softeq.XToolkit.WhiteLabel.Essentials.Droid</RootNamespace>
+        <AssemblyName>Softeq.XToolkit.WhiteLabel.Essentials.Droid</AssemblyName>
+        <FileAlignment>512</FileAlignment>
+        <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
+        <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
+        <AndroidUseLatestPlatformSdk>False</AndroidUseLatestPlatformSdk>
+        <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+        <DebugSymbols>true</DebugSymbols>
+        <DebugType>full</DebugType>
+        <Optimize>false</Optimize>
+        <OutputPath>bin\Debug\</OutputPath>
+        <DefineConstants>DEBUG;TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+        <DebugType>pdbonly</DebugType>
+        <Optimize>true</Optimize>
+        <OutputPath>bin\Release\</OutputPath>
+        <DefineConstants>TRACE</DefineConstants>
+        <ErrorReport>prompt</ErrorReport>
+        <WarningLevel>4</WarningLevel>
+        <AndroidSupportedAbis>armeabi-v7a;x86;arm64-v8a;x86_64</AndroidSupportedAbis>
+    </PropertyGroup>
+    <ItemGroup>
+        <Reference Include="Mono.Android" />
+        <Reference Include="mscorlib" />
+        <Reference Include="System" />
+        <Reference Include="System.Core" />
+        <Reference Include="System.Xml.Linq" />
+        <Reference Include="System.Xml" />
+    </ItemGroup>
+    <ItemGroup>
+        <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
+        <Compile Include="ImagePicker\DroidImagePickerService.cs" />
+        <Compile Include="ImagePicker\ImagePicker.cs" />
+        <Compile Include="ImagePicker\ImagePickerActivity.cs" />
+        <Compile Include="Resources\Resource.Designer.cs" />
+        <Compile Include="Properties\AssemblyInfo.cs" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
+        <Project>{c8da5ea8-703b-481f-9ed8-ab3ad29e5409}</Project>
+        <Name>Softeq.XToolkit.Permissions</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj">
+        <Project>{887c6ce5-075b-420d-a88f-60479c4dc25a}</Project>
+        <Name>Softeq.XToolkit.WhiteLabel.Essentials</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
+        <Project>{98c3b9f4-4e4f-4c0b-baa6-c61685e0ac49}</Project>
+        <Name>Softeq.XToolkit.WhiteLabel</Name>
+      </ProjectReference>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Plugin.Permissions">
+        <Version>5.0.0-beta</Version>
+      </PackageReference>
+      <PackageReference Include="Xamarin.FFImageLoading">
+        <Version>2.4.11.982</Version>
+      </PackageReference>
+    </ItemGroup>
+    <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
+</Project>
