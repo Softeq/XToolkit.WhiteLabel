@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Common.Tasks
             }
             catch
             {
-                result = default;
+                result = default!;
             }
 
             while (_queue.Count != 0)

@@ -41,12 +41,12 @@ namespace Playground.iOS.ViewControllers.Components
 
         private class ColorConverter : IConverter<UIColor, bool>
         {
-            public UIColor ConvertValue(bool TIn, object parameter = null, string language = null)
+            public UIColor ConvertValue(bool TIn, object? parameter = null, string? language = null)
             {
                 return TIn ? UIColor.Green : UIColor.Red;
             }
 
-            public bool ConvertValueBack(UIColor value, object parameter = null, string language = null)
+            public bool ConvertValueBack(UIColor value, object? parameter = null, string? language = null)
             {
                 return value == UIColor.Green;
             }

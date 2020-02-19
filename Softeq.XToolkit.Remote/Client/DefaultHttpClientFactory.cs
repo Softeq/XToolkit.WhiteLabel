@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.Net.Http;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Auth;

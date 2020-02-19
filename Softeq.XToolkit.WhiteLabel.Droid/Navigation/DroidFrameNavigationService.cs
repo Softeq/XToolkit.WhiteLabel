@@ -83,7 +83,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public virtual void NavigateToViewModel<TViewModel>(
             bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
+            IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);

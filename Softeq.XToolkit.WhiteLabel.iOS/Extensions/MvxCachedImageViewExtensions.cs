@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
             string url,
             string name,
             AvatarStyles styles,
-            Action<TaskParameter> transform = null)
+            Action<TaskParameter>? transform = null)
         {
             imageView.Image = CreateAvatarWithTextPlaceholder(name, styles);
 

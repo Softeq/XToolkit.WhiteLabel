@@ -9,6 +9,8 @@ namespace Softeq.XToolkit.Common.Collections
 {
     public interface IObservableKeyGroupsCollection<TKey, TValue>
         : IEnumerable<IGrouping<TKey, TValue>>
+        where TKey : notnull
+        where TValue : notnull
     {
         /// <summary>
         ///     Add groups with specified keys and empty items.

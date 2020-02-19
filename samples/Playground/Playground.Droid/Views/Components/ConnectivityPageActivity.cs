@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Android.App;
+using Android.App;
 using Android.OS;
 using Android.Widget;
 using Playground.ViewModels.Components;
@@ -13,8 +13,8 @@ namespace Playground.Droid.Views.Components
     [Activity(Label = "Connectivity")]
     public class ConnectivityPageActivity : ActivityBase<ConnectivityPageViewModel>
     {
-        private TextView _connectionTextView;
-        private TextView _typesTextView;
+        private TextView? _connectionTextView;
+        private TextView? _typesTextView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -30,8 +30,8 @@ namespace Playground.Droid.Views.Components
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.ConnectionStatus, () => _connectionTextView.Text);
-            this.Bind(() => ViewModel.ConnectionTypes, () => _typesTextView.Text);
+            this.Bind(() => ViewModel.ConnectionStatus, () => _connectionTextView!.Text);
+            this.Bind(() => ViewModel.ConnectionTypes, () => _typesTextView!.Text);
         }
     }
 }

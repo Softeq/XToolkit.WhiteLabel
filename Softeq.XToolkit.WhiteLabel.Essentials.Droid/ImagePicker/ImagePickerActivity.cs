@@ -32,10 +32,10 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         private const string ImagesFolder = "Pictures";
         private const string CameraFileUriKey = "CameraFileUri";
 
-        private AUri _fileUri;
-        private Intent _pickIntent;
+        private AUri? _fileUri;
+        private Intent _pickIntent = default!;
 
-        public static event EventHandler<Bitmap> ImagePicked;
+        public static event EventHandler<Bitmap?>? ImagePicked;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -86,8 +86,8 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
-            AUri uri = null;
-            Bitmap bitmap = null;
+            AUri? uri = null;
+            Bitmap? bitmap = null;
 
             if (resultCode != Result.Ok)
             {
@@ -125,7 +125,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             OnImagePicked(bitmap);
         }
 
-        private void OnImagePicked(Bitmap bitmap)
+        private void OnImagePicked(Bitmap? bitmap)
         {
             ImagePicked?.Invoke(this, bitmap);
             Finish();
@@ -221,7 +221,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             return stream;
         }
 
-        private AUri GetOutputMediaFile(Context context, string subdir, string name)
+        private AUri GetOutputMediaFile(Context context, string subdir, string? name)
         {
             subdir = subdir ?? string.Empty;
 
@@ -248,7 +248,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                 }
 
                 return FileProvider.GetUriForFile(context, $"{context.PackageName}.fileprovider",
-                    new File(GetUniquePath(mediaStorageDir.Path, name)));
+                    new File(GetUniquePath(mediaStorageDir.Path, name!)));
             }
         }
 

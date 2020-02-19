@@ -7,7 +7,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
     public class SupportRotationAlertController : UIAlertController
     {
-        public SupportRotationAlertController(string title, string message, UIAlertControllerStyle controllerStyle)
+        public SupportRotationAlertController(string? title, string? message, UIAlertControllerStyle controllerStyle)
         {
             Title = title;
             Message = message;

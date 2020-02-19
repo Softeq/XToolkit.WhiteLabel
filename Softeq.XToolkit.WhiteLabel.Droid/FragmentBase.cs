@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     {
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public object DataContext { get; private set; }
+        public object DataContext { get; private set; } = default!;
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
 

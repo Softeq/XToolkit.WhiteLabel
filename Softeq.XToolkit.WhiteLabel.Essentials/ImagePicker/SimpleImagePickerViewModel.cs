@@ -7,9 +7,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
 {
     public class SimpleImagePickerViewModel : ObservableObject
     {
-        private string _imageCacheKey;
+        private string? _imageCacheKey;
 
-        public string ImageCacheKey
+        public string? ImageCacheKey
         {
             get => _imageCacheKey;
             set => Set(ref _imageCacheKey, value);

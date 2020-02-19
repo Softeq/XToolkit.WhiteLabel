@@ -10,6 +10,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         string Key { get; }
 
         void Attach(UIViewController controller);
-        void Detach(UIViewController controller = null);
+        void Detach(UIViewController? controller = null);
     }
 }

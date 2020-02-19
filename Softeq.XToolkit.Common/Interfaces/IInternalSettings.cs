@@ -112,7 +112,7 @@ namespace Softeq.XToolkit.Common.Interfaces
         /// <param name="key">Key for settings</param>
         /// <param name="defaultValue">default value if not set</param>
         /// <returns>Value or default</returns>
-        string GetValueOrDefault(string key, string defaultValue = default);
+        string GetValueOrDefault(string key, string? defaultValue = default);
 
         /// <summary>
         ///     Gets the current value or the default that you specify.

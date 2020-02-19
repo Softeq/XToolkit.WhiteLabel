@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     public abstract class ActivityBase<TViewModel> : ActivityBase, IBindingsOwner
         where TViewModel : ViewModelBase
     {
-        private Lazy<TViewModel> _viewModelLazy;
+        private Lazy<TViewModel>? _viewModelLazy;
         private readonly IBundleService _bundleService;
 
         protected ActivityBase()
@@ -78,6 +78,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 if (Handle == IntPtr.Zero)
                 {
                     throw new InvalidOperationException("Don't forget to detach last ViewModel bindings.");
+                }
+
+                if (_viewModelLazy == null)
+                {
+                    throw new InvalidOperationException("Activity has been destroyed");
                 }
 
                 return _viewModelLazy.Value;
@@ -146,7 +151,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         where TViewModel : ViewModelBase, TInterface
         where TInterface : IViewModelBase
     {
-        private TViewModel _viewModel;
+        private TViewModel? _viewModel;
 
         protected override TViewModel ViewModel =>
             _viewModel ?? (_viewModel = (TViewModel) Dependencies.Container.Resolve<TInterface>());

@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
                 _forbiddenCharacters = forbiddenCharacters;
             }
 
-            public ICharSequence FilterFormatted(ICharSequence source, int start, int end, ISpanned dest, int dstart, int dend)
+            public ICharSequence? FilterFormatted(ICharSequence source, int start, int end, ISpanned dest, int dstart, int dend)
             {
                 if (source != null && _forbiddenCharacters != null)
                 {

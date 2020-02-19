@@ -15,7 +15,7 @@ namespace Playground.ViewModels.Controls
     {
         private readonly IImagePickerService _imagePickerService;
 
-        private IDisposable _image;
+        private IDisposable? _image;
 
         public PhotoBrowserViewModel(IImagePickerService imagePickerService)
         {
@@ -29,7 +29,7 @@ namespace Playground.ViewModels.Controls
 
         public ICommand CameraCommand { get; }
 
-        public IDisposable Image
+        public IDisposable? Image
         {
             get => _image;
             set => Set(ref _image, value);
@@ -41,7 +41,7 @@ namespace Playground.ViewModels.Controls
 
             Execute.BeginOnUIThread(() =>
             {
-                Image = result.ImageObject;
+                Image = result?.ImageObject;
             });
         }
 
@@ -51,7 +51,7 @@ namespace Playground.ViewModels.Controls
 
             Execute.BeginOnUIThread(() =>
             {
-                Image = result.ImageObject;
+                Image = result?.ImageObject;
             });
         }
     }

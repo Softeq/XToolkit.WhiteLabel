@@ -11,6 +11,8 @@
         <RootNamespace>Softeq.XToolkit.WhiteLabel.Essentials.iOS</RootNamespace>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
         <AssemblyName>Softeq.XToolkit.WhiteLabel.Essentials.iOS</AssemblyName>
+        <LangVersion>8.0</LangVersion>
+        <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>

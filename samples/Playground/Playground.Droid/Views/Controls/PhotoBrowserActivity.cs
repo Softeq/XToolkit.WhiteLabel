@@ -12,12 +12,12 @@ using Softeq.XToolkit.Bindings.Extensions;
 
 namespace Playground.Droid.Views.Controls
 {
-    [Activity(Label = "PhotoBrowserActivity")]
+    [Activity(Label = "Photo Browser")]
     public class PhotoBrowserActivity : ActivityBase<PhotoBrowserViewModel>
     {
-        private Button _cameraButton;
-        private Button _galleryButton;
-        private ImageView _imageView;
+        private Button? _cameraButton;
+        private Button? _galleryButton;
+        private ImageView? _imageView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -40,9 +40,9 @@ namespace Playground.Droid.Views.Controls
             this.Bind(() => ViewModel.Image, OnImage);
         }
 
-        private void OnImage(IDisposable image)
+        private void OnImage(IDisposable? image)
         {
-            _imageView.SetImageBitmap((Android.Graphics.Bitmap)image);
+            _imageView!.SetImageBitmap((Android.Graphics.Bitmap) image!);
         }
     }
 }

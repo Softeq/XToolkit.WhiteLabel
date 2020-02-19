@@ -16,6 +16,7 @@ using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
+#nullable disable
 namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 {
     [Obsolete("Use IImagePickerService")]
@@ -251,3 +252,4 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
         }
     }
 }
+#nullable restore

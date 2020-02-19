@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using RemoteServices.Profile.Dtos;
 using RemoteServices.Profile.Models;
 

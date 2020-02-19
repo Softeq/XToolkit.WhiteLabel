@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
         ///     Default is 1 = 100%
         /// </param>
         /// <returns></returns>
-        Task<ImagePickerResult> PickPhotoAsync(float quality = 1);
+        Task<ImagePickerResult?> PickPhotoAsync(float quality = 1);
 
         /// <summary>
         ///     Take photo from camera.
@@ -30,6 +30,6 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
         ///     Default is 1 = 100%
         /// </param>
         /// <returns></returns>
-        Task<ImagePickerResult> TakePhotoAsync(float quality = 1);
+        Task<ImagePickerResult?> TakePhotoAsync(float quality = 1);
     }
 }

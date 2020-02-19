@@ -17,7 +17,7 @@ namespace Playground.ViewModels.Pages
             _dialogsService = dialogsService;
         }
 
-        public Person Person { get; set; }
+        public Person? Person { get; set; }
 
         public override void OnAppearing()
         {

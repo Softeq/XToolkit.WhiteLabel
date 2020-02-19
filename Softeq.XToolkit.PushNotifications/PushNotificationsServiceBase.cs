@@ -173,14 +173,15 @@ namespace Softeq.XToolkit.PushNotifications
             try
             {
                 result = PushNotificationParser.Parse(pushNotification);
+                return true;
             }
             catch (Exception ex)
             {
                 PushNotificationsHandler.HandleInvalidPushNotification(ex, pushNotification);
-                result = null;
             }
 
-            return result != null;
+            result = new PushNotificationModel();
+            return false;
         }
 
         private async Task OnRegisterSuccessInternal(string token)

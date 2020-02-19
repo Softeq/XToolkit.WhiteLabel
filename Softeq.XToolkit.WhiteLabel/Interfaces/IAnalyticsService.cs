@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.WhiteLabel.Interfaces
 {
     public interface IAnalyticsService
     {
-        void TrackEvent(string eventName, Dictionary<string, string> properties = null);
-        void TrackError(Exception exception, Dictionary<string, string> properties = null);
+        void TrackEvent(string eventName, Dictionary<string, string>? properties = null);
+        void TrackError(Exception exception, Dictionary<string, string>? properties = null);
     }
 }

@@ -103,7 +103,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             private readonly TaskCompletionSource<bool> _taskCompletionSource;
 
-            private CommandAction _commandAction;
+            private CommandAction? _commandAction;
 
             public SnackbarCallback(
                 TaskCompletionSource<bool> taskCompletionSource,
@@ -117,7 +117,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             {
                 base.OnDismissed(transientBottomBar, eventCode);
 
-                _commandAction?.Command?.Execute(this);
+                _commandAction?.Command.Execute(this);
                 _commandAction = null;
 
                 _taskCompletionSource.TrySetResult(true);
@@ -127,8 +127,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
     public class ToastModel
     {
+        public ToastModel(string label, CommandAction commandAction, CommandAction altCommandAction)
+        {
+            Label = label;
+            CommandAction = commandAction;
+            AltCommandAction = altCommandAction;
+        }
+
         public string Label { get; set; }
+
         public CommandAction CommandAction { get; set; }
+
         public CommandAction AltCommandAction { get; set; }
     }
 

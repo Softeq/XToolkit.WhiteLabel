@@ -15,10 +15,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
     public abstract class ObservableStackView<TModel, TView> : LinearLayout where TView : View
     {
-        private Action<TModel, TView> _bindAction;
-        private Action<TModel, TView> _refreshBindingAction;
+        private Action<TModel, TView>? _bindAction;
+        private Action<TModel, TView>? _refreshBindingAction;
 
-        protected ObservableRangeCollection<TModel> Collection;
+        protected ObservableRangeCollection<TModel>? Collection;
 
         protected ObservableStackView(Context context) : base(context)
         {
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public abstract TView GetView(TModel item);
 
-        public TView GetViewByIndex(int index)
+        public TView? GetViewByIndex(int index)
         {
             if (index < ChildCount)
             {
@@ -51,8 +51,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public void SetData(
             ObservableRangeCollection<TModel> items,
-            Action<TModel, TView> bindAction = null,
-            Action<TModel, TView> refreshBindingAction = null)
+            Action<TModel, TView>? bindAction = null,
+            Action<TModel, TView>? refreshBindingAction = null)
         {
             Collection = items;
             _bindAction = bindAction;

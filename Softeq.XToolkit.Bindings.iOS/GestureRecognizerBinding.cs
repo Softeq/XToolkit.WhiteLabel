@@ -4,7 +4,7 @@
 using System;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
 
-namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
+namespace Softeq.XToolkit.Bindings.iOS
 {
     public class GestureRecognizerBinding : Binding
     {
