@@ -9,14 +9,14 @@ using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Playground.ViewModels.BottomTabs
 {
-    public class BottomTabsPageViewModel : ToolbarViewModelBase
+    public class BottomTabsPageViewModel : ToolbarViewModelBase<string>
     {
         public BottomTabsPageViewModel()
         {
-            TabModels = new List<TabItem>
+            TabModels = new List<TabItem<string>>
             {
-                new TabItem<RedViewModel>("First", "Chat"),
-                new TabItem<BlueViewModel>("Second", "Settings")
+                new TabItem<RedViewModel, string>("First", "Chat"),
+                new TabItem<BlueViewModel, string>("Second", "Settings")
             };
         }
     }

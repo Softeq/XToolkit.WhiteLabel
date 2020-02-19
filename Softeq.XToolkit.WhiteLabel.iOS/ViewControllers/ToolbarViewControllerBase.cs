@@ -3,7 +3,9 @@
 
 using System;
 using System.Linq;
+using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Controls;
 using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
@@ -11,22 +13,16 @@ using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
+using Softeq.XToolkit.Common.Commands;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 {
-    public abstract class ToolbarViewControllerBase<TViewModel> : ViewControllerBase<TViewModel>
-        where TViewModel : ToolbarViewModelBase
+    public abstract class ToolbarViewControllerBase<TViewModel, TKey> : ViewControllerBase<TViewModel>
+        where TViewModel : ToolbarViewModelBase<TKey>
     {
         protected ToolbarViewControllerBase(IntPtr handle) : base(handle) { }
 
         protected ToolbarViewControllerBase() { }
-
-        public override void ViewDidLoad()
-        {
-            base.ViewDidLoad();
-
-            AddTabBarView();
-        }
 
         protected UITabBarController TabController { get; private set; }
 
@@ -34,23 +30,49 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 
         protected virtual Func<UITabBarController> TabBarControllerFactory { get; } = null;
 
+        protected abstract UIImage GetImageFromKey(TKey key);
+
+        public override void ViewDidLoad()
+        {
+            base.ViewDidLoad();
+
+            TabController = CreateTabBarController();
+            AddTabBarView();
+        }
+
+        protected override void DoAttachBindings()
+        {
+            base.DoAttachBindings();
+            this.Bind(() => ViewModel.SelectedIndex, OnSelectedIndexChanged);
+        }
+
         protected virtual void AddTabBarView()
         {
-            var tabBarItems = ViewModel.TabViewModels.Select(GetTabBarItem).ToArray();
-
-            TabController = UiTabBarControllerHelper.CreateForViewModels(
-                ViewModel.TabViewModels,
-                tabBarItems,
-                CreateRootViewController,
-                TabBarControllerFactory);
-
             TabController.AddAsChildWithConstraints(this);
         }
 
-        protected virtual UITabBarItem GetTabBarItem(TabViewModel viewModel)
+        protected virtual UITabBarController CreateTabBarController()
         {
-            var image = GetImageFromKey(viewModel.ImageKey);
-            var tabBarItem = new BindableTabBarItem(viewModel.Title, image, image);
+            var tabBarItems = ViewModel.TabViewModels.Select(GetTabBarItem).ToArray();
+
+            var tabController = UiTabBarControllerHelper.CreateForViewModels(
+                ViewModel.TabViewModels,
+                tabBarItems,
+                TryCreateRootViewController,
+                TabBarControllerFactory);
+
+            tabController.SelectedIndex = ViewModel.SelectedIndex;
+            tabController.SetCommandWithArgs(
+                nameof(tabController.ViewControllerSelected),
+                new RelayCommand<UITabBarSelectionEventArgs>(HandleItemClick));
+
+            return tabController;
+        }
+
+        protected virtual UITabBarItem GetTabBarItem(TabViewModel<TKey> viewModel)
+        {
+            var image = GetImageFromKey(viewModel.Key);
+            var tabBarItem = new BindableTabBarItem<TKey>(viewModel.Title, image, image);
 
             if (BadgeColor != null)
             {
@@ -62,35 +84,41 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             return tabBarItem;
         }
 
-        protected virtual UIImage GetImageFromKey(string key)
-        {
-            return UIImage.FromBundle(string.Concat("ic", key));
-        }
-
-        protected virtual UINavigationController CreateRootViewController(IViewModelBase viewModel)
-        {
-            if (viewModel is TabViewModel tabViewModel)
-            {
-                return CreateRootViewController(tabViewModel);
-            }
-            throw new InvalidOperationException($"{nameof(viewModel)} must be inherited of {nameof(TabViewModel)}");
-        }
-
         protected virtual UINavigationController CreateRootViewController<TFirstViewModel>(TFirstViewModel viewModel)
-            where TFirstViewModel : TabViewModel
+            where TFirstViewModel : TabViewModel<TKey>
         {
             var rootViewController = new RootFrameNavigationControllerBase<TFirstViewModel>();
 
             ((IBindable) rootViewController).SetDataContext(viewModel);
 
-            ConfigureRootViewController(rootViewController);
-
             return rootViewController;
         }
 
-        protected virtual void ConfigureRootViewController(UINavigationController rootViewController)
+        private UINavigationController TryCreateRootViewController(IViewModelBase viewModel)
         {
-            rootViewController.NavigationBarHidden = true;
+            if (viewModel is TabViewModel<TKey> tabViewModel)
+            {
+                return CreateRootViewController(tabViewModel);
+            }
+            throw new InvalidOperationException($"{nameof(viewModel)} must be inherited of {nameof(TabViewModel<TKey>)}");
+        }
+
+        private void HandleItemClick(UITabBarSelectionEventArgs e)
+        {
+            ViewModel.SelectedIndex = (int)TabController.SelectedIndex;
+        }
+
+        private void OnSelectedIndexChanged(int index)
+        {
+            if (TabController.ViewControllers == null || TabController.ViewControllers.Length == 0)
+            {
+                return;
+            }
+
+            if (TabController.SelectedIndex != index)
+            {
+                TabController.SelectedIndex = index;
+            }
         }
     }
 }

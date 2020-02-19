@@ -7,8 +7,8 @@ using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 {
-    public abstract class ToolbarActivityBase<TViewModel> : ActivityBase<TViewModel>
-        where TViewModel : ToolbarViewModelBase
+    public abstract class ToolbarActivityBase<TViewModel, TKey> : ActivityBase<TViewModel>
+        where TViewModel : ToolbarViewModelBase<TKey>
     {
         private int _oldSelectedIndex;
         protected abstract int NavigationContainer { get; }

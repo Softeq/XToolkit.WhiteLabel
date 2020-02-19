@@ -7,31 +7,31 @@ using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Model
 {
-    public abstract class TabItem
+    public abstract class TabItem<TKey>
     {
-        protected TabItem(string title, string imageName)
+        protected TabItem(string title, TKey key)
         {
             Title = title;
-            ImageKey = imageName;
+            Key = key;
         }
 
         public string Title { get; }
 
-        public string ImageKey { get; }
+        public TKey Key { get; }
 
-        public abstract TabViewModel CreateViewModel();
+        public abstract TabViewModel<TKey> CreateViewModel();
     }
 
-    public class TabItem<TFirstViewModel> : TabItem where TFirstViewModel : ViewModelBase
+    public class TabItem<TFirstViewModel, TKey> : TabItem<TKey> where TFirstViewModel : ViewModelBase
     {
-        public TabItem(string title, string imageName) : base(title, imageName)
+        public TabItem(string title, TKey imageName) : base(title, imageName)
         {
         }
 
-        public override TabViewModel CreateViewModel()
+        public override TabViewModel<TKey> CreateViewModel()
         {
             var frameNavigationService = Dependencies.Container.Resolve<IFrameNavigationService>();
-            var tabViewModel = new TabViewModel<TFirstViewModel>(frameNavigationService);
+            var tabViewModel = new TabViewModel<TFirstViewModel, TKey>(frameNavigationService);
             tabViewModel.Initialize(this);
             return tabViewModel;
         }
