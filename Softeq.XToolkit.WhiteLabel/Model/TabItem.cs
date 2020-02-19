@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.Model
 
     public class TabItem<TFirstViewModel, TKey> : TabItem<TKey> where TFirstViewModel : ViewModelBase
     {
-        public TabItem(string title, TKey imageName) : base(title, imageName)
+        public TabItem(string title, TKey key) : base(title, key)
         {
         }
 

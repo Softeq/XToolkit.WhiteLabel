@@ -52,9 +52,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             {
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
 
-                viewModelToViewControllerTypes.Add(viewModelType, type);
-
-                builder.PerDependency(viewModelType, IfRegistered.Keep);
+                if (!viewModelType.IsGenericType)
+                {
+                    viewModelToViewControllerTypes.Add(viewModelType, type);
+                    builder.PerDependency(viewModelType, IfRegistered.Keep);
+                }
             }
 
             return viewModelToViewControllerTypes;

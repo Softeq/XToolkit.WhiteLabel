@@ -84,10 +84,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             return tabBarItem;
         }
 
-        protected virtual UINavigationController CreateRootViewController<TFirstViewModel>(TFirstViewModel viewModel)
-            where TFirstViewModel : TabViewModel<TKey>
+        protected virtual UINavigationController CreateRootViewController<TTabViewModel>(TTabViewModel viewModel)
+            where TTabViewModel : TabViewModel<TKey>
         {
-            var rootViewController = new RootFrameNavigationControllerBase<TFirstViewModel>();
+            var rootViewController = new RootFrameNavigationControllerBase<TTabViewModel>();
 
             ((IBindable) rootViewController).SetDataContext(viewModel);
 
