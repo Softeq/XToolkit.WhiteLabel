@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.Threading.Tasks;
 using Refit;
 using RemoteServices.Auth.Dtos;
