@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Common.Commands
     /// </remarks>
     public class RelayCommand<T> : ICommand<T>
     {
-        private readonly WeakFunc<T, bool> _canExecute;
+        private readonly WeakFunc<T, bool>? _canExecute;
         private readonly WeakAction<T> _execute;
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
         /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
-        public RelayCommand(Action<T> execute, Func<T, bool> canExecute = null)
+        public RelayCommand(Action<T> execute, Func<T, bool>? canExecute = null)
         {
             if (execute == null)
             {
@@ -56,7 +56,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// <summary>
         ///     Occurs when changes occur that affect whether the command should execute.
         /// </summary>
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
         /// <inheritdoc />
         /// <summary>
@@ -67,7 +67,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     to be passed, this object can be set to a null reference
         /// </param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             if (_execute == null || !_execute.IsStatic && !_execute.IsAlive)
             {
@@ -83,12 +83,13 @@ namespace Softeq.XToolkit.Common.Commands
             {
                 if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
                 {
-                    return _canExecute.Execute(default);
+                    return _canExecute.Execute(default!);
                 }
 
                 if (parameter == null || parameter is T)
                 {
-                    return _canExecute.Execute((T) parameter);
+                    return _canExecute.Execute(parameter == null ?
+                        default : (T) parameter);
                 }
             }
 
@@ -103,14 +104,14 @@ namespace Softeq.XToolkit.Common.Commands
         ///     Data used by the command. If the command does not require data
         ///     to be passed, this object can be set to a null reference
         /// </param>
-        public virtual void Execute(object parameter)
+        public virtual void Execute(object? parameter)
         {
             if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
             {
                 throw new ArgumentException($"Relay Command wait parameter with type: {typeof(T)}", nameof(parameter));
             }
 
-            Execute((T) parameter);
+            Execute((T) parameter!);
         }
 
         public void Execute(T parameter)
@@ -123,7 +124,8 @@ namespace Softeq.XToolkit.Common.Commands
 
         public bool CanExecute(T parameter)
         {
-            return CanExecute((object) parameter);
+            return CanExecute(ReferenceEquals(parameter, null) ?
+                default : (object) parameter);
         }
 
         /// <summary>

@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void NavigateToViewModel(
             IViewModelBase viewModelBase,
             bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters)
+            IReadOnlyList<NavigationParameterModel>? parameters)
         {
             var type = _viewLocator.GetTargetType(viewModelBase.GetType(), ViewType.Activity);
             StartActivityImpl(type, clearBackStack, parameters);
@@ -70,7 +70,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private void StartActivityImpl(
             Type type,
             bool shouldClearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
+            IReadOnlyList<NavigationParameterModel>? parameters = null)
         {
             var activity = _currentActivity.Activity;
             var intent = new Intent(activity, type);

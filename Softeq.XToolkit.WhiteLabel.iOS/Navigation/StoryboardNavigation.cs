@@ -15,24 +15,30 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
     {
         protected readonly IViewLocator ViewLocator;
 
-        private WeakReferenceEx<UINavigationController> _navigationControllerRef;
+        private WeakReferenceEx<UINavigationController>? _navigationControllerRef;
 
         public StoryboardNavigation(IViewLocator viewLocator)
         {
             ViewLocator = viewLocator;
         }
 
-        protected UINavigationController NavigationController
+        protected UINavigationController? NavigationController
         {
             get => _navigationControllerRef?.Target;
-            set => _navigationControllerRef = WeakReferenceEx.Create(value);
+            set
+            {
+                if (value != null)
+                {
+                    _navigationControllerRef = WeakReferenceEx.Create(value);
+                }
+            }
         }
 
-        public bool CanGoBack => NavigationController.ViewControllers.Length > 1;
+        public bool CanGoBack => NavigationController!.ViewControllers.Length > 1;
 
         public void Initialize(object navigation)
         {
-            NavigationController = navigation as UINavigationController;
+            NavigationController = (UINavigationController) navigation;
         }
 
         public virtual void GoBack()
@@ -41,14 +47,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             {
                 ViewLocator.GetTopViewController()?.View.EndEditing(true);
 
-                NavigationController.PopViewController(true);
+                NavigationController!.PopViewController(true);
             });
         }
 
         public virtual void NavigateToViewModel(
             IViewModelBase viewModelBase,
             bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters)
+            IReadOnlyList<NavigationParameterModel>? parameters)
         {
             if (parameters != null)
             {
@@ -66,11 +72,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
                 if (clearBackStack)
                 {
-                    NavigationController.SetViewControllers(new[] { controller }, false);
+                    NavigationController!.SetViewControllers(new[] { controller }, false);
                     return;
                 }
 
-                NavigationController.PushViewController(controller, true);
+                NavigationController!.PushViewController(controller, true);
             });
         }
     }

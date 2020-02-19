@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             ExecuteCommand(e.Item.ItemId, null);
         }
 
-        public void ExecuteCommand(int menuItemId, object parameter)
+        public void ExecuteCommand(int menuItemId, object? parameter)
         {
             if (_commandActions.TryGetValue(menuItemId, out var commandAction))
             {

@@ -32,28 +32,28 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             string title,
             string message,
             string okButtonText,
-            string cancelButtonText = null,
-            OpenDialogOptions openDialogOptions = null)
+            string? cancelButtonText = null,
+            OpenDialogOptions? openDialogOptions = null)
         {
             return _alertBuilder.ShowAlertAsync(title, message, okButtonText, cancelButtonText);
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);
@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         }
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);
@@ -79,7 +79,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         }
 
         private TViewModel CreateViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();

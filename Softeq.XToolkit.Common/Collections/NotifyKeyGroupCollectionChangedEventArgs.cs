@@ -9,13 +9,13 @@ namespace Softeq.XToolkit.Common.Collections
 {
     public class NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> : NotifyGroupCollectionChangedArgs<TKey>
     {
-        public IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)> GroupEvents { get; private set; }
+        public IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)>? GroupEvents { get; private set; }
 
         public static NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> Create(
             NotifyCollectionChangedAction? action,
-            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> newItems,
-            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> oldItems,
-            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)> groupEvents)
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)>? newItems,
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)>? oldItems,
+            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)>? groupEvents)
         {
             return new NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>
             {
@@ -31,14 +31,14 @@ namespace Softeq.XToolkit.Common.Collections
     {
         public NotifyCollectionChangedAction? Action { get; protected set; }
 
-        public IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> NewItemRanges { get; protected set; }
+        public IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)>? NewItemRanges { get; protected set; }
 
-        public IReadOnlyList<(int Index, IReadOnlyList<T> OldItems)> OldItemRanges { get; protected set; }
+        public IReadOnlyList<(int Index, IReadOnlyList<T> OldItems)>? OldItemRanges { get; protected set; }
 
         public static NotifyGroupCollectionChangedArgs<T> Create(
             NotifyCollectionChangedAction action,
-            IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> newItems,
-            IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)> oldItems)
+            IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)>? newItems,
+            IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)>? oldItems)
         {
             return new NotifyGroupCollectionChangedArgs<T>
             {

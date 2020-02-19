@@ -15,10 +15,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
     internal class BadgeView<TKey> : FrameLayout
     {
-        private WeakReferenceEx<TabViewModel<TKey>> _viewModelRef;
-        private TextView _textView;
-        private Binding _textBinding;
-        private Binding _visibilityBinding;
+        private WeakReferenceEx<TabViewModel<TKey>>? _viewModelRef;
+        private TextView _textView = default!;
+        private Binding? _textBinding;
+        private Binding? _visibilityBinding;
 
         public BadgeView(Context context) :
             base(context)

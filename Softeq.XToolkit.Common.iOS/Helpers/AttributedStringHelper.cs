@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
         ///     Returns new instance of the default paragraph style.
         /// </summary>
         public static NSMutableParagraphStyle NewParagraphStyle =>
-            NSParagraphStyle.Default.MutableCopy() as NSMutableParagraphStyle;
+            (NSMutableParagraphStyle)NSParagraphStyle.Default.MutableCopy();
 
         public static NSUrl ToNSUrl(this string link)
         {

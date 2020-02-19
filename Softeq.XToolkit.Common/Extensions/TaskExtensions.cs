@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Extensions
                 return task.Result;
             }
 
-            return default;
+            return default!;
         }
 
         /// <summary>
@@ -183,7 +183,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="task">The task.</param>
         /// <param name="logger">Logger implementation.</param>
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-        public static async void FireAndForget(this Task task, ILogger logger = null)
+        public static async void FireAndForget(this Task task, ILogger? logger = null)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
         {
             try
@@ -196,7 +196,7 @@ namespace Softeq.XToolkit.Common.Extensions
             }
         }
 
-        private static void LogException(Exception exception, ILogger logger)
+        private static void LogException(Exception exception, ILogger? logger)
         {
             if (exception == null || logger == null)
             {

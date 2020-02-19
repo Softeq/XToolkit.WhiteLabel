@@ -12,9 +12,9 @@ namespace Playground.ViewModels.Collections.Products
 
         public int Id { get; set; }
 
-        public string Title { get; set; }
+        public string Title { get; set; } = string.Empty;
 
-        public string PhotoUrl { get; set; }
+        public string PhotoUrl { get; set; } = string.Empty;
 
         public bool IsAddedToBasket { get; set; }
 
@@ -24,6 +24,6 @@ namespace Playground.ViewModels.Collections.Products
             set => Set(ref _count, value);
         }
 
-        public ICommand<ProductViewModel> AddToBasketCommand { get; set; }
+        public ICommand<ProductViewModel>? AddToBasketCommand { get; set; }
     }
 }

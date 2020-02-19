@@ -28,11 +28,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected override int NavigationContainer => Resource.Id.activity_main_page_navigation_container;
 
-        protected BottomNavigationView BottomNavigationView { get; private set; }
+        protected BottomNavigationView BottomNavigationView { get; private set; } = default!;
 
-        protected virtual ColorStateList BadgeBackgroundColor { get; }
+        protected virtual ColorStateList? BadgeBackgroundColor { get; }
 
-        protected virtual ColorStateList BadgeTextColor { get; }
+        protected virtual ColorStateList? BadgeTextColor { get; }
 
         protected virtual void InflateMenu()
         {

@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -40,34 +38,20 @@
                                 <rect key="frame" x="0.0" y="94" width="414" height="768"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="7d6-Ez-DaW">
-                                <rect key="frame" x="0.0" y="94" width="414" height="768"/>
-                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstAttribute="trailing" secondItem="bO6-fC-l03" secondAttribute="trailing" id="0Zq-pz-8ii"/>
-                            <constraint firstItem="2nb-sz-GOF" firstAttribute="top" secondItem="7d6-Ez-DaW" secondAttribute="bottom" id="5UA-lB-DWU"/>
                             <constraint firstItem="Bvh-1e-UHx" firstAttribute="leading" secondItem="bDR-Xz-TQn" secondAttribute="leading" id="G7c-mb-VPJ"/>
                             <constraint firstItem="2nb-sz-GOF" firstAttribute="top" secondItem="bO6-fC-l03" secondAttribute="bottom" id="Pcd-KF-nJ1"/>
-                            <constraint firstItem="7d6-Ez-DaW" firstAttribute="leading" secondItem="bDR-Xz-TQn" secondAttribute="leading" id="WuR-gU-isb"/>
-                            <constraint firstItem="7d6-Ez-DaW" firstAttribute="top" secondItem="Bvh-1e-UHx" secondAttribute="bottom" id="X56-Q3-2hl"/>
                             <constraint firstAttribute="trailing" secondItem="Bvh-1e-UHx" secondAttribute="trailing" id="Ylu-2j-1Tl"/>
                             <constraint firstItem="Bvh-1e-UHx" firstAttribute="top" secondItem="VVV-TW-KzD" secondAttribute="bottom" id="cPa-sd-Upt"/>
-                            <constraint firstAttribute="trailing" secondItem="7d6-Ez-DaW" secondAttribute="trailing" id="dU7-y2-edt"/>
                             <constraint firstItem="bO6-fC-l03" firstAttribute="leading" secondItem="bDR-Xz-TQn" secondAttribute="leading" id="f4K-TY-uFc"/>
                             <constraint firstItem="bO6-fC-l03" firstAttribute="top" secondItem="Bvh-1e-UHx" secondAttribute="bottom" id="lqB-uI-7yM"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="7d6-Ez-DaW"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
                         <outlet property="AddButton" destination="qTY-yZ-aYg" id="QGv-Lf-Vdh"/>
-                        <outlet property="BusyView" destination="7d6-Ez-DaW" id="rQi-Vk-hMs"/>
                         <outlet property="GenerateButton" destination="Pp3-9d-QRD" id="dtl-R4-IcD"/>
                         <outlet property="TableView" destination="bO6-fC-l03" id="4nu-WQ-8iy"/>
                     </connections>

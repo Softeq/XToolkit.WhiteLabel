@@ -10,14 +10,14 @@ namespace Playground.Converters
     {
         public static PersonToStringConverter Create => new PersonToStringConverter();
 
-        public string ConvertValue(Person person, object parameter = null, string language = null)
+        public string ConvertValue(Person person, object? parameter = null, string? language = null)
         {
             return person?.FullName ?? "null";
         }
 
-        public Person ConvertValueBack(string value, object parameter = null, string language = null)
+        public Person ConvertValueBack(string value, object? parameter = null, string? language = null)
         {
-            return default;
+            return new Person();
         }
     }
 }

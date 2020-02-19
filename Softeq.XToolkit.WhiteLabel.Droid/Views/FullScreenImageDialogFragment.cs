@@ -15,8 +15,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 {
     public class FullScreenImageDialogFragment : DialogFragmentBase<FullScreenImageViewModel>
     {
-        private ImageButton _closeButton;
-        private ImageView _imageView;
+        private ImageButton _closeButton = default!;
+        private ImageView _imageView = default!;
 
         protected override int ThemeId => Resource.Style.CoreFullScreenImageTheme;
 

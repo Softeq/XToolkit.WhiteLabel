@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.Weak
     /// </typeparam>
     public class WeakFunc<TResult>
     {
-        private Func<TResult> _staticFunc;
+        private Func<TResult>? _staticFunc;
 
         /// <summary>
         ///     Initializes an empty instance of the WeakFunc class.
@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.Common.Weak
         /// </summary>
         /// <param name="func">The Func that will be associated to this instance.</param>
         public WeakFunc(Func<TResult> func)
-            : this(func?.Target, func)
+            : this(func.Target, func)
         {
         }
 
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.Common.Weak
             "CA1062:Validate arguments of public methods",
             MessageId = "1",
             Justification = "Method should fail with an exception if func is null.")]
-        public WeakFunc(object target, Func<TResult> func)
+        public WeakFunc(object? target, Func<TResult> func)
         {
             if (func.GetMethodInfo().IsStatic)
             {
@@ -70,7 +70,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     Gets or sets the <see cref="MethodInfo" /> corresponding to this WeakFunc's
         ///     method passed in the constructor.
         /// </summary>
-        protected MethodInfo Method { get; set; }
+        protected MethodInfo? Method { get; set; }
 
         /// <summary>
         ///     Get a value indicating whether the WeakFunc is static or not.
@@ -80,7 +80,7 @@ namespace Softeq.XToolkit.Common.Weak
         /// <summary>
         ///     Gets the name of the method that this WeakFunc represents.
         /// </summary>
-        public virtual string MethodName => _staticFunc != null ? _staticFunc.GetMethodInfo().Name : Method.Name;
+        public virtual string MethodName => _staticFunc != null ? _staticFunc.GetMethodInfo().Name : Method!.Name;
 
         /// <summary>
         ///     Gets or sets a WeakReference to this WeakFunc's action's target.
@@ -88,7 +88,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     <see cref="Reference" />, for example if the
         ///     method is anonymous.
         /// </summary>
-        protected WeakReference FuncReference { get; set; }
+        protected WeakReference? FuncReference { get; set; }
 
         /// <summary>
         ///     Gets or sets a WeakReference to the target passed when constructing
@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     <see cref="FuncReference" />, for example if the
         ///     method is anonymous.
         /// </summary>
-        protected WeakReference Reference { get; set; }
+        protected WeakReference? Reference { get; set; }
 
         /// <summary>
         ///     Gets a value indicating whether the Func's owner is still alive, or if it was collected
@@ -117,7 +117,7 @@ namespace Softeq.XToolkit.Common.Weak
                     return Reference == null || Reference.IsAlive;
                 }
 
-                return Reference.IsAlive;
+                return Reference!.IsAlive;
             }
         }
 
@@ -125,7 +125,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     Gets the Func's owner. This object is stored as a
         ///     <see cref="WeakReference" />.
         /// </summary>
-        public object Target => Reference?.Target;
+        public object? Target => Reference?.Target;
 
         /// <summary>
         ///     Gets the owner of the Func that was passed as parameter.
@@ -133,7 +133,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     <see cref="Target" />, for example if the
         ///     method is anonymous.
         /// </summary>
-        protected object FuncTarget => FuncReference?.Target;
+        protected object? FuncTarget => FuncReference?.Target;
 
         /// <summary>
         ///     Executes the action. This only happens if the Func's owner
@@ -159,7 +159,7 @@ namespace Softeq.XToolkit.Common.Weak
                 }
             }
 
-            return default;
+            return default!;
         }
 
         /// <summary>
@@ -182,14 +182,14 @@ namespace Softeq.XToolkit.Common.Weak
     /// <typeparam name="TResult">The type of the Func's return value.</typeparam>
     public class WeakFunc<T, TResult> : WeakFunc<TResult>, IExecuteWithObjectAndResult
     {
-        private Func<T, TResult> _staticFunc;
+        private Func<T, TResult>? _staticFunc;
 
         /// <summary>
         ///     Initializes a new instance of the WeakFunc class.
         /// </summary>
         /// <param name="func">The Func that will be associated to this instance.</param>
         public WeakFunc(Func<T, TResult> func)
-            : this(func?.Target, func)
+            : this(func.Target, func)
         {
         }
 
@@ -227,7 +227,7 @@ namespace Softeq.XToolkit.Common.Weak
         /// <summary>
         ///     Gets or sets the name of the method that this WeakFunc represents.
         /// </summary>
-        public override string MethodName => _staticFunc != null ? _staticFunc.GetMethodInfo().Name : Method.Name;
+        public override string MethodName => _staticFunc != null ? _staticFunc.GetMethodInfo().Name : Method!.Name;
 
         /// <summary>
         ///     Gets a value indicating whether the Func's owner is still alive, or if it was collected
@@ -248,7 +248,7 @@ namespace Softeq.XToolkit.Common.Weak
                     return Reference == null || Reference.IsAlive;
                 }
 
-                return Reference.IsAlive;
+                return Reference!.IsAlive;
             }
         }
 
@@ -263,7 +263,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     being casted to T.
         /// </param>
         /// <returns>The result of the execution as object, to be casted to T.</returns>
-        public object ExecuteWithObject(object parameter)
+        public object? ExecuteWithObject(object parameter)
         {
             var parameterCasted = (T) parameter;
             return Execute(parameterCasted);
@@ -276,7 +276,7 @@ namespace Softeq.XToolkit.Common.Weak
         /// <returns>The result of the Func stored as reference.</returns>
         public new TResult Execute()
         {
-            return Execute(default);
+            return Execute(default!);
         }
 
         /// <summary>
@@ -302,11 +302,11 @@ namespace Softeq.XToolkit.Common.Weak
                 {
                     return (TResult) Method.Invoke(
                         funcTarget,
-                        new object[] { parameter });
+                        new object?[] { parameter });
                 }
             }
 
-            return default;
+            return default!;
         }
 
         /// <summary>
@@ -336,6 +336,6 @@ namespace Softeq.XToolkit.Common.Weak
         ///     to be casted to the appropriate type.
         /// </param>
         /// <returns>The result of the operation.</returns>
-        object ExecuteWithObject(object parameter);
+        object? ExecuteWithObject(object parameter);
     }
 }

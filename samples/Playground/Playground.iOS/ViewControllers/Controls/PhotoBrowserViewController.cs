@@ -31,9 +31,9 @@ namespace Playground.iOS.ViewControllers.Controls
             this.Bind(() => ViewModel.Image, OnImage);
         }
 
-        private void OnImage(IDisposable image)
+        private void OnImage(IDisposable? image)
         {
-            ImageView.Image = (UIImage)image;
+            ImageView.Image = (UIImage) image!;
         }
     }
 }
