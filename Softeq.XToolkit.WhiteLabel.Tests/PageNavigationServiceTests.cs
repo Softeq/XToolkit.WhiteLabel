@@ -34,7 +34,9 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         public void NavigateToViewModel_BackStackShouldCleared()
         {
             //Action
-            _pageNavigationService.NavigateToViewModel<ViewModelStub>(true);
+            _pageNavigationService
+                .For<ViewModelStub>()
+                .Navigate(true);
 
             //Assert
             _platformNavService.Received(1).NavigateToViewModel(Arg.Any<ViewModelBase>(), Arg.Any<bool>(),
@@ -47,7 +49,9 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         public void NavigateToViewModel_BackStackShouldNotBeCleared()
         {
             //Action
-            _pageNavigationService.NavigateToViewModel<ViewModelStub>();
+            _pageNavigationService
+                .For<ViewModelStub>()
+                .Navigate();
 
             //Assert
             _platformNavService.Received(1).NavigateToViewModel(Arg.Any<ViewModelBase>(), Arg.Any<bool>(),

@@ -18,6 +18,8 @@ namespace Playground.iOS
     {
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
+            base.ConfigureIoc(builder);
+
             // core
             CustomBootstrapper.Configure(builder);
 
