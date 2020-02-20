@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Threading;

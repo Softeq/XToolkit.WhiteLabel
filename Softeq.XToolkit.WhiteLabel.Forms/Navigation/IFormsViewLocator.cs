@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 {
-    public interface IViewLocator
+    public interface IFormsViewLocator
     {
         Page GetPage(object viewModel);
     }

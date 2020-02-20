@@ -3,12 +3,13 @@
 
 using Playground.Forms.ViewModels;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Forms;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Xamarin.Forms;
 
 namespace Playground.Forms
 {
-    public abstract class Bootstrapper : Softeq.XToolkit.WhiteLabel.Forms.Bootstrapper
+    public abstract class Bootstrapper : FormsBootstrapper
     {
         protected override void ConfigureIoc(IContainerBuilder builder)
         {

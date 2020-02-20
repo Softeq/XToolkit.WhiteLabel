@@ -13,13 +13,13 @@ using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms
 {
-    public abstract class Bootstrapper : BootstrapperBase
+    public abstract class FormsBootstrapper : BootstrapperBase
     {
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
             base.RegisterInternalServices(builder);
 
-            builder.PerDependency<ViewLocator, IViewLocator>();
+            builder.PerDependency<FormsViewLocator, IFormsViewLocator>();
 
             builder.Singleton<FormsPageNavigationService, IPageNavigationService>(IfRegistered.Replace);
         }

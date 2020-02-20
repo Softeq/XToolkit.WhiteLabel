@@ -15,7 +15,7 @@ namespace Playground.Forms.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             Xamarin.Forms.Forms.Init();
-            LoadApplication(new App(new Bootstrapper(), () => new List<Assembly>
+            LoadApplication(new App(new IosBootstrapper(), () => new List<Assembly>
             {
                 GetType().Assembly,
                 typeof(App).Assembly

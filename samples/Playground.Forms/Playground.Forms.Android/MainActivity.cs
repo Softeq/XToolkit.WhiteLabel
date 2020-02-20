@@ -23,7 +23,7 @@ namespace Playground.Forms.Droid
             base.OnCreate(savedInstanceState);
 
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
-            LoadApplication(new App(new Bootstrapper(), () => new List<Assembly> { GetType().Assembly, typeof(App).Assembly }));
+            LoadApplication(new App(new DroidBootstrapper(), () => new List<Assembly> { GetType().Assembly, typeof(App).Assembly }));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,

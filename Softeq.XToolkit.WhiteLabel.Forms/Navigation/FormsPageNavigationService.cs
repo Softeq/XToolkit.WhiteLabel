@@ -18,16 +18,16 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
     {
         private readonly IContainer _container;
         private readonly ILogger _logger;
-        private readonly IViewLocator _viewLocator;
+        private readonly IFormsViewLocator _formsViewLocator;
 
         private INavigation _navigation;
 
         public FormsPageNavigationService(
             ILogManager logManager,
-            IViewLocator viewLocator,
+            IFormsViewLocator formsViewLocator,
             IContainer container)
         {
-            _viewLocator = viewLocator;
+            _formsViewLocator = formsViewLocator;
             _container = container;
             _logger = logManager.GetLogger<FormsPageNavigationService>();
         }
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             var viewModel = _container.Resolve<T>();
             viewModel.ApplyParameters(parameters);
 
-            var page = _viewLocator.GetPage(viewModel);
+            var page = _formsViewLocator.GetPage(viewModel);
 
             if (clearBackStack)
             {
