@@ -3,12 +3,12 @@
 
 using Xamarin.Forms.Xaml;
 
-namespace Playground.Forms.Views
+namespace Playground.Forms.Views.SimpleNavigation
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SecondPage
+    public partial class SecondLevel
     {
-        public SecondPage()
+        public SecondLevel()
         {
             InitializeComponent();
         }

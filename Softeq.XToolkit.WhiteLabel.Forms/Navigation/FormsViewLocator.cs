@@ -11,14 +11,20 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         public Page GetPage(object viewModel)
         {
             var type = viewModel.GetType();
-            var targetTypeName = type.FullName.Replace(".ViewModels.", ".Views.");
-            targetTypeName = targetTypeName.Replace("ViewModel", string.Empty);
-            var targetType = Type.GetType(targetTypeName)
-                             ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+
+            var viewTypeName = BuildViewTypeName(type.FullName);
+            viewTypeName = viewTypeName.Replace("ViewModel", string.Empty);
+            var targetType = Type.GetType(viewTypeName)
+                             ?? AssemblySource.FindTypeByNames(new[] { viewTypeName });
 
             var page = (Page) Activator.CreateInstance(targetType);
             page.BindingContext = viewModel;
             return page;
+        }
+
+        protected virtual string BuildViewTypeName(string viewModelTypeName)
+        {
+            return viewModelTypeName.Replace(".ViewModels.", ".Forms.Views.");
         }
     }
 }

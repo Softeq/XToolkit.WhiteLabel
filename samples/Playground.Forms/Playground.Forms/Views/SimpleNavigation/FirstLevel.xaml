@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:simpleNavigation="clr-namespace:Playground.Forms.ViewModels.SimpleNavigation;assembly=Playground.Forms"
+             x:Class="Playground.Forms.Views.SimpleNavigation.FirstLevel"
+             x:DataType="simpleNavigation:FirstLevelViewModel"
+             BackgroundColor="Bisque">
+    <ContentPage.Content>
+        <StackLayout>
+            <Button
+                Command="{Binding NextLevelCommand}"
+                Text="Next level" />
+            <Entry
+                Placeholder="Write navigation parameter here..."
+                Text="{Binding Text, Mode=TwoWay}"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

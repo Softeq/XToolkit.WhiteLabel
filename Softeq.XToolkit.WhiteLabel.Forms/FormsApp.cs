@@ -13,8 +13,8 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
 {
     public abstract class FormsApp : Application
     {
-        private IBootstrapper _bootstrapper;
-        private Func<List<Assembly>> _getAssembliesFunc;
+        private IBootstrapper? _bootstrapper;
+        private Func<List<Assembly>>? _getAssembliesFunc;
 
         protected FormsApp(IBootstrapper bootstrapper, Func<List<Assembly>> getAssembliesFunc)
         {
@@ -28,9 +28,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
 
             Task.Run(() =>
             {
-                _bootstrapper.Init(_getAssembliesFunc());
-                _bootstrapper = null;
-                _getAssembliesFunc = null;
+                if (_bootstrapper != null && _getAssembliesFunc != null)
+                {
+                    _bootstrapper.Init(_getAssembliesFunc());
+                    _bootstrapper = null;
+                    _getAssembliesFunc = null;
+                }
             }).FireAndForget();
         }
     }

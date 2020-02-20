@@ -19,8 +19,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
         {
             base.RegisterInternalServices(builder);
 
-            builder.PerDependency<FormsViewLocator, IFormsViewLocator>();
-
+            builder.Singleton<FormsViewLocator, IFormsViewLocator>(IfRegistered.Replace);
             builder.Singleton<FormsPageNavigationService, IPageNavigationService>(IfRegistered.Replace);
         }
 
