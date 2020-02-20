@@ -8,28 +8,31 @@ using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
+    /// <summary>
+    /// This class supports only xamarin native navigation
+    /// </summary>
     public class PageNavigationService : IPageNavigationService
     {
         private readonly IBackStackManager _backStackManager;
-        private readonly IContainer _iocContainer;
-        private readonly IPlatformNavigationService _pageNavigationService;
+        private readonly IContainer _container;
+        private readonly IPlatformNavigationService _platformNavigationService;
 
         public PageNavigationService(
-            IPlatformNavigationService pageNavigationService,
+            IPlatformNavigationService platformNavigationService,
             IBackStackManager backStackManager,
-            IContainer iocContainer)
+            IContainer container)
         {
-            _pageNavigationService = pageNavigationService;
+            _platformNavigationService = platformNavigationService;
             _backStackManager = backStackManager;
-            _iocContainer = iocContainer;
+            _container = container;
         }
 
         public void Initialize(object navigation)
         {
-            _pageNavigationService.Initialize(navigation);
+            _platformNavigationService.Initialize(navigation);
         }
 
-        public bool CanGoBack => _pageNavigationService.CanGoBack;
+        public bool CanGoBack => _platformNavigationService.CanGoBack;
 
         public void GoBack()
         {
@@ -38,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
                 _backStackManager.PopViewModel();
             }
 
-            _pageNavigationService.GoBack();
+            _platformNavigationService.GoBack();
         }
 
         public PageFluentNavigator<T> For<T>() where T : IViewModelBase
@@ -46,13 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             return new PageFluentNavigator<T>(this);
         }
 
-        public void NavigateToViewModel<T>(bool clearBackStack = false)
-            where T : IViewModelBase
-        {
-            NavigateToViewModel<T>(clearBackStack, null);
-        }
-
-        internal void NavigateToViewModel<T>(
+        public void NavigateToViewModel<T>(
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
             where T : IViewModelBase
@@ -62,11 +59,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
                 _backStackManager.Clear();
             }
 
-            var viewModel = _iocContainer.Resolve<T>();
+            var viewModel = _container.Resolve<T>();
 
             viewModel.ApplyParameters(parameters);
 
-            _pageNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
+            _platformNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
 
             _backStackManager.PushViewModel(viewModel);
         }
