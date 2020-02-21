@@ -6,6 +6,8 @@ using Softeq.XToolkit.Common.Tests.Helpers;
 using Softeq.XToolkit.Common.Weak;
 using Xunit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
     public class WeakActionNestedTest

@@ -18,10 +18,10 @@ namespace Softeq.XToolkit.Common.Commands
     /// </summary>
     public abstract class AsyncCommandBase : ICommand
     {
-        private readonly WeakFunc<bool> _canExecute;
+        private readonly WeakFunc<bool>? _canExecute;
         private bool _isRunning;
 
-        protected AsyncCommandBase(Func<bool> canExecute)
+        protected AsyncCommandBase(Func<bool>? canExecute)
         {
             if (canExecute != null)
             {
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     to be passed, this object can be set to a null reference
         /// </param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             var canExecute = _canExecute == null
                              || (_canExecute.IsStatic || _canExecute.IsAlive)
@@ -52,12 +52,12 @@ namespace Softeq.XToolkit.Common.Commands
         ///     Data used by the command. If the command does not require data
         ///     to be passed, this object can be set to a null reference
         /// </param>
-        public virtual void Execute(object parameter)
+        public virtual void Execute(object? parameter)
         {
             ExecuteAsync(parameter).FireAndForget();
         }
 
-        public async Task ExecuteAsync(object parameter)
+        public async Task ExecuteAsync(object? parameter)
         {
             if (!CanExecute(parameter))
             {
@@ -77,9 +77,9 @@ namespace Softeq.XToolkit.Common.Commands
             }
         }
 
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
-        protected abstract Func<Task> ExecuteAsyncImpl(object parameter);
+        protected abstract Func<Task> ExecuteAsyncImpl(object? parameter);
     }
 
     public class AsyncCommand : AsyncCommandBase
@@ -98,12 +98,12 @@ namespace Softeq.XToolkit.Common.Commands
         ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </exception>
-        public AsyncCommand(Func<Task> myAsyncFunction, Func<bool> canExecute = null) : base(canExecute)
+        public AsyncCommand(Func<Task> myAsyncFunction, Func<bool>? canExecute = null) : base(canExecute)
         {
             _action = myAsyncFunction;
         }
 
-        protected override Func<Task> ExecuteAsyncImpl(object parameter)
+        protected override Func<Task> ExecuteAsyncImpl(object? parameter)
         {
             return _action;
         }
@@ -126,7 +126,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </exception>
-        public AsyncCommand(Func<T, Task> myAsyncFunction, Func<bool> canExecute = null) : base(canExecute)
+        public AsyncCommand(Func<T, Task> myAsyncFunction, Func<bool>? canExecute = null) : base(canExecute)
         {
             _action = myAsyncFunction;
         }
@@ -141,19 +141,19 @@ namespace Softeq.XToolkit.Common.Commands
             base.Execute(parameter);
         }
 
-        public override void Execute(object parameter)
+        public override void Execute(object? parameter)
         {
             if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
             {
                 throw new ArgumentException($"Async command wait parameter with type: {typeof(T)}", nameof(parameter));
             }
 
-            Execute((T) parameter);
+            Execute(parameter == null ? default : (T) parameter);
         }
 
-        protected override Func<Task> ExecuteAsyncImpl(object parameter)
+        protected override Func<Task> ExecuteAsyncImpl(object? parameter)
         {
-            return () => _action((T) parameter);
+            return () => _action(parameter == null ? default : (T) parameter);
         }
     }
 }

@@ -15,8 +15,8 @@ namespace Playground.Droid.Views.BottomTabs.First
     [Activity]
     public class YellowActivity : ActivityBase<YellowViewModel>
     {
-        private Button _incrementButton;
-        private TextView _incrementLabel;
+        private Button? _incrementButton;
+        private TextView? _incrementLabel;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -35,7 +35,7 @@ namespace Playground.Droid.Views.BottomTabs.First
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.Count, () => _incrementButton.Text, IntToStringConverter.Instance);
+            this.Bind(() => ViewModel.Count, () => _incrementButton!.Text, IntToStringConverter.Instance);
         }
     }
 }

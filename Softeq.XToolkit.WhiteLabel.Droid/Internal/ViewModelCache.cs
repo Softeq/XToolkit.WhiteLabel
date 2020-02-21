@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
             _cache = new Dictionary<string, Dictionary<string, IViewModelBase>>();
         }
 
-        internal static TViewModel Get<TViewModel>(string containerId, string key)
+        internal static TViewModel? Get<TViewModel>(string containerId, string key)
             where TViewModel : class, IViewModelBase
         {
             var container = _cache.GetValueOrDefault(containerId);

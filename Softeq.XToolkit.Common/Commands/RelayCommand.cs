@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.Common.Commands
     /// </remarks>
     public class RelayCommand : ICommand
     {
-        private readonly WeakFunc<bool> _canExecute;
+        private readonly WeakFunc<bool>? _canExecute;
         private readonly WeakAction _execute;
 
         /// <summary>
@@ -51,11 +51,11 @@ namespace Softeq.XToolkit.Common.Commands
         ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </exception>
-        public RelayCommand(Action execute, Func<bool> canExecute)
+        public RelayCommand(Action execute, Func<bool>? canExecute)
         {
             if (execute == null)
             {
-                throw new ArgumentNullException("execute");
+                throw new ArgumentNullException(nameof(execute));
             }
 
             _execute = new WeakAction(execute);
@@ -69,14 +69,14 @@ namespace Softeq.XToolkit.Common.Commands
         /// <summary>
         ///     Occurs when changes occur that affect whether the command should execute.
         /// </summary>
-        public event EventHandler CanExecuteChanged;
+        public event EventHandler? CanExecuteChanged;
 
         /// <summary>
         ///     Defines the method that determines whether the command can execute in its current state.
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object? parameter)
         {
             return _canExecute == null
                    || (_canExecute.IsStatic || _canExecute.IsAlive)
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     Defines the method to be called when the command is invoked.
         /// </summary>
         /// <param name="parameter">This parameter will always be ignored.</param>
-        public virtual void Execute(object parameter)
+        public virtual void Execute(object? parameter)
         {
             if (CanExecute(parameter)
                 && _execute != null

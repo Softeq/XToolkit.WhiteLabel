@@ -14,7 +14,7 @@ namespace Playground.Droid.Views.Collections
     [Activity(Theme = "@style/AppTheme")]
     public class CollectionPageActivity : ActivityBase<CollectionPageViewModel>
     {
-        private RecyclerView _recyclerView;
+        private RecyclerView? _recyclerView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

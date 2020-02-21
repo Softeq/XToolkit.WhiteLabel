@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.WhiteLabel.Helpers
 {
     public static class AvatarPlaceholderBuilder
     {
-        public static (string Text, string Color) Build(string name, string[] colors = null)
+        public static (string Text, string Color) Build(string name, string[]? colors = null)
         {
             if (colors == null)
             {

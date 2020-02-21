@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Permissions.iOS
 
         private readonly IPermissionsService _permissionsService;
 
-        private IPermissionsDialogService _permissionsDialogService;
+        private IPermissionsDialogService? _permissionsDialogService;
 
         public PermissionsManager(
             IPermissionsService permissionsService)
@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.Permissions.iOS
 
         private async Task<PermissionStatus> NotificationsCheckWithRequestAsync()
         {
-            if (!IsNotificationsPermissionRequested)
+            if (!IsNotificationsPermissionRequested && _permissionsDialogService != null)
             {
                 var isConfirmed = await _permissionsDialogService.ConfirmPermissionAsync<NotificationsPermission>()
                     .ConfigureAwait(false);

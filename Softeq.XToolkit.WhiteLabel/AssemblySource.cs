@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel
         /// <summary>
         ///     Finds a type which matches one of the elements in the sequence of names.
         /// </summary>
-        public static Func<IEnumerable<string>, Type> FindTypeByNames = names =>
+        public static Func<IEnumerable<string>, Type?> FindTypeByNames = names =>
         {
             if (names == null)
             {

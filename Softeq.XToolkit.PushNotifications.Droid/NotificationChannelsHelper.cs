@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <param name="channelImportance">Channel importance</param>
         /// <param name="configureChannelAction">Action to additionally configure channel before registration (set description, group, etc.)</param>
         public static void CreateNotificationChannel(string channelId, string channelName, NotificationImportance channelImportance,
-            Action configureChannelAction = null)
+            Action? configureChannelAction = null)
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {
@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <param name="groupId">Id for the group</param>
         /// <param name="groupName">Name for the group (should be localized)</param>
         /// <param name="description">Optional parameter to specify Description for this group</param>
-        public static void CreateNotificationChannelGroup(string groupId, string groupName, string description = null)
+        public static void CreateNotificationChannelGroup(string groupId, string groupName, string? description = null)
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.O)
             {

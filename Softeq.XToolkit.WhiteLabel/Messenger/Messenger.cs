@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
 namespace Softeq.XToolkit.WhiteLabel.Messenger
 {
     /// <summary>
@@ -675,3 +676,4 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
         #endregion
     }
 }
+#nullable restore

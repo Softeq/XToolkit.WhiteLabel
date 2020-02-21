@@ -5,7 +5,14 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class NavigationParameterModel
     {
-        public PropertyInfoModel PropertyInfo { get; set; }
-        public object Value { get; set; }
+        public NavigationParameterModel(object? value, PropertyInfoModel propertyInfo)
+        {
+            Value = value;
+            PropertyInfo = propertyInfo;
+        }
+
+        public object? Value { get; }
+
+        public PropertyInfoModel PropertyInfo { get; }
     }
 }

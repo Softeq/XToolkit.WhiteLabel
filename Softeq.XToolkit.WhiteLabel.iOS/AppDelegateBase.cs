@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 {
     public abstract class AppDelegateBase : UIApplicationDelegate
     {
-        public override UIWindow Window { get; set; }
+        public override UIWindow Window { get; set; } = default!;
 
         protected abstract IBootstrapper Bootstrapper { get; }
 

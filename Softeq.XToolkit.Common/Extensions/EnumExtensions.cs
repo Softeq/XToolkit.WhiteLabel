@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <param name="value">Enum.</param>
         /// <returns>String of description.</returns>
-        public static string GetDescription(this Enum value)
+        public static string? GetDescription(this Enum value)
         {
             var type = value.GetType();
             var name = Enum.GetName(type, value);

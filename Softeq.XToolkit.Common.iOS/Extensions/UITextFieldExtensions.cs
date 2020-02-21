@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         /// <param name="maxLength">Maximum length of text allowed. Ignored when 0 or negative</param>
         /// <param name="forbiddenCharacters">Char array of characters not allowed in the input. Ignored when null</param>
         public static bool OnChangeCharactersWithLengthAndCharsLimit(this UITextField textField,
-            NSRange range, string replacementString, int maxLength = 0, char[] forbiddenCharacters = null)
+            NSRange range, string replacementString, int maxLength = 0, char[]? forbiddenCharacters = null)
         {
             if (range.Length + range.Location > textField.Text.Length)
             {

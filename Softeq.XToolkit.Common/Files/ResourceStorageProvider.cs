@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.Common.Files
         /// <param name="newPath"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task<string> CopyFileFromAsync(string path, string newPath)
+        public Task<string?> CopyFileFromAsync(string path, string newPath)
         {
             throw new NotImplementedException();
         }

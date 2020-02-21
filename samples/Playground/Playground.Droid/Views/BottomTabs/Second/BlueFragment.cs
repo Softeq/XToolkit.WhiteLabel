@@ -14,9 +14,9 @@ namespace Playground.Droid.Views.BottomTabs.Second
 {
     public class BlueFragment : FragmentBase<BlueViewModel>
     {
-        private Button _navigateButton;
-        private Button _incrementButton;
-        private TextView _incrementLabel;
+        private Button? _navigateButton;
+        private Button? _incrementButton;
+        private TextView? _incrementLabel;
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
@@ -41,7 +41,7 @@ namespace Playground.Droid.Views.BottomTabs.Second
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.Count, () => _incrementButton.Text, IntToStringConverter.Instance);
+            this.Bind(() => ViewModel.Count, () => _incrementButton!.Text, IntToStringConverter.Instance);
         }
     }
 }

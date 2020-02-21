@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// <param name="dict">NSDictionary object</param>
         /// <param name="key">Key string</param>
         /// <returns>Object stored under the specified key or null</returns>
-        public static NSObject GetObjectByKey(this NSDictionary dict, string key)
+        public static NSObject? GetObjectByKey(this NSDictionary dict, string key)
         {
             var nsKey = new NSString(key);
             if (dict != null && dict.ContainsKey(nsKey))
@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// <param name="dict">NSDictionary object</param>
         /// <param name="key">Key string</param>
         /// <returns>NSDictionary stored under the specified key or null</returns>
-        public static NSDictionary GetDictionaryByKey(this NSDictionary dict, string key)
+        public static NSDictionary? GetDictionaryByKey(this NSDictionary dict, string key)
         {
             return GetObjectByKey(dict, key) as NSDictionary;
         }

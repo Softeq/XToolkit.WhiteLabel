@@ -9,6 +9,8 @@ using System.Linq;
 using Softeq.XToolkit.Common.Collections;
 using Xunit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionNew
 {
     public class ObservableKeyGroupsCollectionNewTests

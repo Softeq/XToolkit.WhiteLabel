@@ -10,17 +10,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
     public abstract class ObservableStackViewBase<TItem, TView> : UIStackView where TView : UIView
     {
-        private Action<TItem, TView> _bindAction;
-        private Action<TItem, TView> _refreshBindingAction;
+        private Action<TItem, TView>? _bindAction;
+        private Action<TItem, TView>? _refreshBindingAction;
 
-        protected ObservableRangeCollection<TItem> Collection;
+        protected ObservableRangeCollection<TItem>? Collection;
 
         protected ObservableStackViewBase(IntPtr handle) : base(handle)
         {
         }
 
-        public void SetData(ObservableRangeCollection<TItem> items, Action<TItem, TView> bindAction = null,
-            Action<TItem, TView> refreshBindingAction = null)
+        public void SetData(ObservableRangeCollection<TItem> items, Action<TItem, TView>? bindAction = null,
+            Action<TItem, TView>? refreshBindingAction = null)
         {
             Collection = items;
             _bindAction = bindAction;
@@ -102,7 +102,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
                 return (TView) ArrangedSubviews[index];
             }
 
-            return null;
+            return default!;
         }
 
         private void ActionAdd(NotifyCollectionChangedEventArgs e)

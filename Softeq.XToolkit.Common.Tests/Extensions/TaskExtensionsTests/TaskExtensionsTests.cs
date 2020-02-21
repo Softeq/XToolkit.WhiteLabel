@@ -10,6 +10,8 @@ using Softeq.XToolkit.Common.Logger;
 using Xunit;
 using TaskExt = Softeq.XToolkit.Common.Extensions.TaskExtensions;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 {
     public class TaskExtensionsTests

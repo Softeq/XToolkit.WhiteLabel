@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public interface IBundleService
     {
-        void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel> parameters);
+        void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel>? parameters);
 
         /// <summary>
         ///
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _jsonSerializer = jsonSerializer;
         }
 
-        public void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel> parameters)
+        public void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel>? parameters)
         {
             if (parameters != null && parameters.Any())
             {
@@ -84,8 +84,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             var property = parameter.PropertyInfo.ToProperty();
 
-            object GetValue(object value)
+            object? GetValue(object? value)
             {
+                if(value == null)
+                {
+                    return null;
+                }
+
                 if (property.PropertyType.IsEnum)
                 {
                     return Enum.ToObject(property.PropertyType, value);

@@ -8,16 +8,19 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class PropertyInfoModel
     {
-        public string PropertyName;
-        public string TypeName;
+        public PropertyInfoModel(string propertyName, string typeName)
+        {
+            PropertyName = propertyName;
+            TypeName = typeName;
+        }
+
+        public string PropertyName { get; }
+        
+        public string TypeName { get; }
 
         public static PropertyInfoModel FromProperty(MemberInfo memberInfo)
         {
-            return new PropertyInfoModel
-            {
-                TypeName = memberInfo.DeclaringType.AssemblyQualifiedName,
-                PropertyName = memberInfo.Name
-            };
+            return new PropertyInfoModel(memberInfo.Name, memberInfo.DeclaringType.AssemblyQualifiedName);
         }
 
         public PropertyInfo ToProperty()

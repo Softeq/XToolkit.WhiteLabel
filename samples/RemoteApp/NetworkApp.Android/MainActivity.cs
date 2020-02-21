@@ -1,3 +1,6 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.Runtime;

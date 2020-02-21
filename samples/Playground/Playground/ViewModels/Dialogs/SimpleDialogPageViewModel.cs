@@ -20,9 +20,9 @@ namespace Playground.ViewModels.Dialogs
 
         public ICommand DoneCommand { get; }
 
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty;
 
-        public string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty;
 
         private void Done()
         {
