@@ -3,6 +3,7 @@
 
 using Playground.Forms.Services;
 using Playground.Forms.ViewModels;
+using Playground.Forms.ViewModels.MasterDetailNavigation;
 using Playground.Forms.ViewModels.SimpleNavigation;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Forms;
@@ -19,6 +20,10 @@ namespace Playground.Forms
             builder.PerDependency<MainPageViewModel>();
             builder.PerDependency<FirstLevelViewModel>();
             builder.PerDependency<SecondLevelViewModel>();
+            builder.PerDependency<RootMasterViewModel>();
+            builder.PerDependency<MasterViewModel>();
+            builder.PerDependency<DetailViewModel>();
+            builder.PerDependency<SelectedItemViewModel>();
 
             builder.Singleton<PlaygroundViewLocator, IFormsViewLocator>(IfRegistered.Replace);
 

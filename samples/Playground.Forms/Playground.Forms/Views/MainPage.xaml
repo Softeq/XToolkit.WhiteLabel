@@ -11,6 +11,9 @@
             <Button
                 Command="{Binding SimpleNavigationCommand}"
                 Text="Simple Navigation" />
+            <Button
+                Command="{Binding MasterDetailNavigationCommand}"
+                Text="Master Detail Navigation" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
