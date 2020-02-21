@@ -3,12 +3,12 @@
 
 using Xamarin.Forms.Xaml;
 
-namespace Playground.Forms.Views
+namespace Playground.Forms.Views.MasterDetailNavigation
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SecondPage
+    public partial class SelectedItem
     {
-        public SecondPage()
+        public SelectedItem()
         {
             InitializeComponent();
         }

@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Softeq.XToolkit.Common.Extensions;
@@ -20,7 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         private readonly ILogger _logger;
         private readonly IFormsViewLocator _formsViewLocator;
 
-        private INavigation _navigation;
+        private INavigation? _navigation;
 
         public FormsPageNavigationService(
             ILogManager logManager,
@@ -32,16 +33,29 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             _logger = logManager.GetLogger<FormsPageNavigationService>();
         }
 
+        private INavigation Navigation
+        {
+            get
+            {
+                if (_navigation == null)
+                {
+                    throw new Exception("Navigation service hasn't initialized");
+                }
+
+                return _navigation;
+            }
+        }
+
         public void Initialize(object navigation)
         {
             _navigation = (INavigation) navigation;
         }
 
-        public bool CanGoBack => _navigation.NavigationStack.Count > 0;
+        public bool CanGoBack => Navigation.NavigationStack.Count > 0;
 
         public void GoBack()
         {
-            _navigation.PopAsync().FireAndForget(_logger);
+            Navigation.PopAsync().FireAndForget(_logger);
         }
 
         public PageFluentNavigator<T> For<T>() where T : IViewModelBase
@@ -49,7 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             return new PageFluentNavigator<T>(this);
         }
 
-        public void NavigateToViewModel<T>(bool clearBackStack, IReadOnlyList<NavigationParameterModel> parameters)
+        public void NavigateToViewModel<T>(bool clearBackStack, IReadOnlyList<NavigationParameterModel>? parameters)
             where T : IViewModelBase
         {
             var viewModel = _container.Resolve<T>();
@@ -61,13 +75,13 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             {
                 Execute.BeginOnUIThread(() =>
                 {
-                    _navigation.InsertPageBefore(page, _navigation.NavigationStack.First());
-                    _navigation.PopToRootAsync(false).FireAndForget(_logger);
+                    Navigation.InsertPageBefore(page, Navigation.NavigationStack.First());
+                    Navigation.PopToRootAsync(false).FireAndForget(_logger);
                 });
                 return;
             }
 
-            Execute.BeginOnUIThread(() => { _navigation.PushAsync(page).FireAndForget(_logger); });
+            Execute.BeginOnUIThread(() => { Navigation.PushAsync(page).FireAndForget(_logger); });
         }
     }
 }

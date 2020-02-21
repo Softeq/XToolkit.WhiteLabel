@@ -4,12 +4,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:viewModels="clr-namespace:Playground.Forms.ViewModels;assembly=Playground.Forms"
              x:Class="Playground.Forms.Views.MainPage"
-             x:DataType="viewModels:MainPageViewModel">
+             x:DataType="viewModels:MainPageViewModel"
+             Title="{Binding Title}">
     <ContentPage.Content>
         <StackLayout>
             <Button
-                Command="{Binding GoNextCommand}"
-                Text="{Binding Title}"/>
+                Command="{Binding SimpleNavigationCommand}"
+                Text="Simple Navigation" />
+            <Button
+                Command="{Binding MasterDetailNavigationCommand}"
+                Text="Master Detail Navigation" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
