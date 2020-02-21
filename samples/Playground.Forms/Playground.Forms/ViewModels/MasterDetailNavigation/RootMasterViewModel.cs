@@ -2,33 +2,33 @@
 // http://www.softeq.com
 
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.Forms.ViewModels.MasterDetailNavigation
 {
-    public class RootMasterViewModel : ViewModelBase, IMasterDetailViewModel
+    public sealed class RootMasterViewModel : ViewModelBase, IMasterDetailViewModel
     {
         private readonly MasterViewModel _masterViewModel;
-        private ViewModelBase _detailViewModel;
-        private readonly IContainer _container;
+        private readonly MasterDetailViewModelFactory _viewModelFactory;
+
+        private IViewModelBase _detailViewModel;
 
         public RootMasterViewModel(
             MasterViewModel masterViewModel,
-            DetailViewModel detailViewModel,
-            IContainer container)
+            IViewModelFactoryService viewModelFactoryService)
         {
             _masterViewModel = masterViewModel;
             _masterViewModel.ItemSelectedCommand = new RelayCommand<string>(OnMasterItemSelected);
 
-            _detailViewModel = detailViewModel;
-            _container = container;
+            _viewModelFactory = new MasterDetailViewModelFactory(viewModelFactoryService);
+            _detailViewModel = _viewModelFactory.GetViewModelByKey(_masterViewModel.Items[0]);
         }
 
-        public ViewModelBase MasterViewModel => _masterViewModel;
+        public IViewModelBase MasterViewModel => _masterViewModel;
 
-        public ViewModelBase DetailViewModel
+        public IViewModelBase DetailViewModel
         {
             get => _detailViewModel;
             set => Set(ref _detailViewModel, value);
@@ -36,16 +36,7 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation
 
         private void OnMasterItemSelected(string item)
         {
-            if (item == "root")
-            {
-                var detail = _container.Resolve<DetailViewModel>();
-                DetailViewModel = detail;
-                return;
-            }
-
-            var viewModel = _container.Resolve<SelectedItemViewModel>();
-            viewModel.Title = item;
-            DetailViewModel = viewModel;
+            DetailViewModel = _viewModelFactory.GetViewModelByKey(item);
         }
     }
 }

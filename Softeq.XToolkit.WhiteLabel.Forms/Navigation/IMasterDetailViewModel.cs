@@ -7,7 +7,6 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 {
     public interface IMasterDetailViewModel
     {
-        ViewModelBase MasterViewModel { get; }
-        ViewModelBase DetailViewModel { get; }
+        IViewModelBase MasterViewModel { get; }
     }
 }

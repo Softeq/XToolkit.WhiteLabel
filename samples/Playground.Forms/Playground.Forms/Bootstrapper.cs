@@ -8,6 +8,8 @@ using Playground.Forms.ViewModels.SimpleNavigation;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Forms;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Xamarin.Forms;
 
@@ -24,6 +26,8 @@ namespace Playground.Forms
             builder.PerDependency<MasterViewModel>();
             builder.PerDependency<DetailViewModel>();
             builder.PerDependency<SelectedItemViewModel>();
+
+            builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 
             builder.Singleton<PlaygroundViewLocator, IFormsViewLocator>(IfRegistered.Replace);
 

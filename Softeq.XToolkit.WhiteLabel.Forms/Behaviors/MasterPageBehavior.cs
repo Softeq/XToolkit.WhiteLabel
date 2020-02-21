@@ -12,13 +12,13 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
     {
         public static readonly BindableProperty SelectedDetailProperty = BindableProperty.Create(
             nameof(SelectedDetail),
-            typeof(ViewModelBase),
+            typeof(IViewModelBase),
             typeof(MasterPageBehavior));
 
         private WeakReferenceEx<MasterDetailPage>? _parentRef;
         private IFormsViewLocator? _viewLocator;
 
-        public ViewModelBase SelectedDetail
+        public IViewModelBase SelectedDetail
         {
             get => (ViewModelBase) GetValue(SelectedDetailProperty);
             set => SetValue(SelectedDetailProperty, value);

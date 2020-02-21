@@ -11,11 +11,11 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation
     {
         public ObservableCollection<string> Items { get; } = new ObservableCollection<string>
         {
+            "root",
             "page 1",
             "page 2",
             "page 3",
-            "page 4",
-            "root"
+            "page 4"
         };
 
         public RelayCommand<string>? ItemSelectedCommand { get; set; }
