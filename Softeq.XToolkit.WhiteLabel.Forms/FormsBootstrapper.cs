@@ -21,6 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
 
             builder.Singleton<FormsViewLocator, IFormsViewLocator>(IfRegistered.Replace);
             builder.Singleton<FormsPageNavigationService, IPageNavigationService>(IfRegistered.Replace);
+            builder.Singleton<FormsDialogsService, IDialogsService>(IfRegistered.Replace);
         }
 
         protected override IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
@@ -30,6 +31,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
             AssemblySourceCache.ExtractTypes = assembly =>
                 assembly.GetExportedTypes()
                     .Where(t => typeof(Page).IsAssignableFrom(t));
+            AssemblySource.Instance.Clear();
             AssemblySource.Instance.AddRange(assemblies);
 
             //init ui thread helper

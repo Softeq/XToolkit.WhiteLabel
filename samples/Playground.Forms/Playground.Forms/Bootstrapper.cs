@@ -3,6 +3,8 @@
 
 using Playground.Forms.Services;
 using Playground.Forms.ViewModels;
+using Playground.Forms.ViewModels.Dialogs;
+using Playground.Forms.ViewModels.Dialogs.Modal;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
 using Playground.Forms.ViewModels.SimpleNavigation;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -26,6 +28,9 @@ namespace Playground.Forms
             builder.PerDependency<MasterViewModel>();
             builder.PerDependency<DetailViewModel>();
             builder.PerDependency<SelectedItemViewModel>();
+            builder.PerDependency<DialogsRootViewModel>();
+            builder.PerDependency<ModalPageViewModel>();
+            builder.PerDependency<SecondModalPageViewModel>();
 
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 
