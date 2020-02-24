@@ -45,5 +45,10 @@
   <ItemGroup>
     <PackageReference Include="docfx.console" Version="2.47.0" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="articles\contributing-workflow.md" />
+    <Content Include="articles\contributing.md" />
+    <Content Include="articles\developer-guide.md" />
+  </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>
