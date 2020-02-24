@@ -45,8 +45,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Controls
 
         private void RaiseCloseCommand()
         {
-            var vm = BindingContext as IDialogViewModel;
-            vm?.DialogComponent.CloseCommand.Execute(null);
+            if (BindingContext is IDialogViewModel dialogViewModel)
+            {
+                dialogViewModel.DialogComponent.CloseCommand.Execute(null);
+            }
         }
     }
 }

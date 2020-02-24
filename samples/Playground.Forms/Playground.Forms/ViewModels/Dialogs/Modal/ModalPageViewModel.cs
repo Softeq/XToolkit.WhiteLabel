@@ -42,7 +42,7 @@ namespace Playground.Forms.ViewModels.Dialogs.Modal
         {
             await _dialogsService
                 .For<SecondModalPageViewModel>()
-                .Navigate().ConfigureAwait(false);
+                .Navigate();
             Text = "second page closed";
         }
     }
