@@ -12,8 +12,6 @@ using Softeq.XToolkit.WhiteLabel.Forms;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation;
-using Xamarin.Forms;
 
 namespace Playground.Forms
 {
@@ -35,18 +33,6 @@ namespace Playground.Forms
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 
             builder.Singleton<PlaygroundViewLocator, IFormsViewLocator>(IfRegistered.Replace);
-
-            builder.RegisterBuildCallback(OnContainerReady);
-        }
-
-        private static void OnContainerReady(IContainer container)
-        {
-            var navigationService = container.Resolve<IPageNavigationService>();
-            navigationService.Initialize(Application.Current.MainPage.Navigation);
-            navigationService
-                .For<MainPageViewModel>()
-                .WithParam(x => x.Title, "Main Page")
-                .Navigate(true);
         }
     }
 }
