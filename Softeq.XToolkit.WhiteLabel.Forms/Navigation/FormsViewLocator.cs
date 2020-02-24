@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
@@ -13,7 +14,6 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             var type = viewModel.GetType();
 
             var viewTypeName = BuildViewTypeName(type.FullName);
-            viewTypeName = viewTypeName.Replace("ViewModel", string.Empty);
 
             var targetType = Type.GetType(viewTypeName)
                              ?? AssemblySource.FindTypeByNames(new[] { viewTypeName });
@@ -38,7 +38,9 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         protected virtual string BuildViewTypeName(string viewModelTypeName)
         {
-            return viewModelTypeName.Replace(".ViewModels.", ".Forms.Views.");
+            var name = viewModelTypeName.Replace(".ViewModels.", ".Forms.Views.");
+            name = name.Replace("ViewModel", string.Empty);
+            return name;
         }
     }
 }

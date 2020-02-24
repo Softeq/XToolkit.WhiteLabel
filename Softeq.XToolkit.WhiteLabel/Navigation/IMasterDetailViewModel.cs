@@ -3,7 +3,7 @@
 
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
+namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IMasterDetailViewModel
     {

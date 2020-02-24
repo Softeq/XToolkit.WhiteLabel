@@ -7,6 +7,7 @@ using System.Reflection;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Threading;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms
@@ -33,8 +34,13 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
                     _bootstrapper.Init(_getAssembliesFunc());
                     _bootstrapper = null;
                     _getAssembliesFunc = null;
+                    Execute.BeginOnUIThread(OnStarted);
                 }
             }).FireAndForget();
+        }
+
+        protected virtual void OnStarted()
+        {
         }
     }
 }
