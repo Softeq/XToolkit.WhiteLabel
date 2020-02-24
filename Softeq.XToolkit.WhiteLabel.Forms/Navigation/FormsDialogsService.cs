@@ -28,10 +28,18 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         }
 
 
-        public Task<bool> ShowDialogAsync(string title, string message, string okButtonText, string? cancelButtonText = null,
+        public async Task<bool> ShowDialogAsync(string title, string message, string okButtonText, string? cancelButtonText = null,
             OpenDialogOptions? options = null)
         {
-            throw new NotImplementedException();
+            var page = GetLastPageInModalStack();
+            if (string.IsNullOrEmpty(cancelButtonText))
+            {
+                await page.DisplayAlert(title, message, okButtonText).ConfigureAwait(false);
+                return true;
+            }
+
+            var result = await page.DisplayAlert(title, message, okButtonText, cancelButtonText).ConfigureAwait(false);
+            return result;
         }
 
         public Task ShowForViewModel<TViewModel>(IEnumerable<NavigationParameterModel>? parameters = null)

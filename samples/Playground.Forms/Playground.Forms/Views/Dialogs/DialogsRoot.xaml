@@ -13,6 +13,12 @@
             <Button
                 Command="{Binding ShowModalScreenWithoutWaitCommand}"
                 Text="Show modal without wait" />
+            <Button
+                Command="{Binding AlertWithTwoButtonsCommand}"
+                Text="Display alert with 2 buttons" />
+            <Button
+                Command="{Binding AlertCommand}"
+                Text="Display alert with 1 button" />
             <Label
                 HorizontalOptions="Center"
                 Text="{Binding DialogResult}" />

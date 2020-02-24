@@ -2,8 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.Diagnostics;
-using System.Reflection;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.Forms.ViewModels.Dialogs.Modal;
@@ -24,11 +22,17 @@ namespace Playground.Forms.ViewModels.Dialogs
             _dialogsService = dialogsService;
             ShowModalScreenCommand = new AsyncCommand(ShowModalScreenAsync);
             ShowModalScreenWithoutWaitCommand = new AsyncCommand(ShowModalScreenWithoutWait);
+            AlertCommand = new AsyncCommand(AlertAsync);
+            AlertWithTwoButtonsCommand = new AsyncCommand(AlertWithTwoButtonsAsync);
         }
 
         public ICommand ShowModalScreenCommand { get; }
 
         public ICommand ShowModalScreenWithoutWaitCommand { get; }
+
+        public ICommand AlertCommand { get; }
+
+        public ICommand AlertWithTwoButtonsCommand { get; }
 
         public string DialogResult
         {
@@ -59,6 +63,18 @@ namespace Playground.Forms.ViewModels.Dialogs
                 .ConfigureAwait(false);
 
             DialogResult = result == null ? "result: null" : $"result: {result.Text}";
+        }
+
+        private Task AlertAsync()
+        {
+            return _dialogsService.ShowDialogAsync("simple title", "simple message", "ok");
+        }
+
+        private async Task AlertWithTwoButtonsAsync()
+        {
+            var result = await _dialogsService.ShowDialogAsync("simple title", "simple message", "ok", "cancel")
+                .ConfigureAwait(false);
+            DialogResult = $"result: {result}";
         }
     }
 }
