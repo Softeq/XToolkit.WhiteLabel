@@ -23,7 +23,7 @@
   </metadata>
   <files>
     <!-- Core -->
-    <file src="../Softeq.XToolkit.Remote/bin/Release/netstandard2.0/Softeq.XToolkit.Remote.dll" target="lib\netstandard2.0" />
-    <file src="../Softeq.XToolkit.Remote/bin/Release/netstandard2.0/Softeq.XToolkit.Remote.pdb" target="lib\netstandard2.0" />
+    <file src="../Softeq.XToolkit.Remote/bin/Release/netstandard2.1/Softeq.XToolkit.Remote.dll" target="lib\netstandard2.1" />
+    <file src="../Softeq.XToolkit.Remote/bin/Release/netstandard2.1/Softeq.XToolkit.Remote.pdb" target="lib\netstandard2.1" />
   </files>
 </package>
