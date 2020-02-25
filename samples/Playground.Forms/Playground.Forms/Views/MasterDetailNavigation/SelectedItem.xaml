@@ -7,9 +7,10 @@
              x:DataType="masterDetailNavigation:SelectedItemViewModel">
     <ContentPage.Content>
         <StackLayout>
-            <Label Text="{Binding Title}"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
+            <Label
+                Text="{Binding Title}"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

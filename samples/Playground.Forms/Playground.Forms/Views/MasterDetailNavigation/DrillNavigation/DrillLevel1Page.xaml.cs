@@ -3,12 +3,12 @@
 
 using Xamarin.Forms.Xaml;
 
-namespace Playground.Forms.Views.MasterDetailNavigation
+namespace Playground.Forms.Views.MasterDetailNavigation.DrillNavigation
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RootMaster
+    public partial class DrillLevel1Page
     {
-        public RootMaster()
+        public DrillLevel1Page()
         {
             InitializeComponent();
         }

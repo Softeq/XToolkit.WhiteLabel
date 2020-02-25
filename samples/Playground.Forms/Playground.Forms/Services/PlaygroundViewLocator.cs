@@ -9,7 +9,9 @@ namespace Playground.Forms.Services
     {
         protected override string BuildViewTypeName(string viewModelTypeName)
         {
-            return viewModelTypeName.Replace(".ViewModels.", ".Views.");
+            var name = viewModelTypeName.Replace(".ViewModels.", ".Views.");
+            name = name.Replace("ViewModel", string.Empty);
+            return name;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace Playground.Forms.ViewModels
         private void PerformMasterDetailNavigation()
         {
             _pageNavigationService
-                .For<RootMasterViewModel>()
+                .For<RootMasterDetailViewModel>()
                 .Navigate(true);
         }
 

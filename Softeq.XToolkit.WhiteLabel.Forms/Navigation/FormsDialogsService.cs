@@ -27,7 +27,6 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             _container = container;
         }
 
-
         public async Task<bool> ShowDialogAsync(string title, string message, string okButtonText, string? cancelButtonText = null,
             OpenDialogOptions? options = null)
         {
@@ -58,7 +57,8 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
-            var result = await ShowForViewModelAsync<TViewModel, object>(parameters).ConfigureAwait(false);
+            var result = await ShowForViewModelAsync<TViewModel, object>(parameters)
+                .ConfigureAwait(false);
             return result;
         }
 
@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             var viewModel = _container.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
 
-            var view = _viewLocator.GetPage(viewModel);
+            var view = await _viewLocator.GetPageAsync(viewModel);
 
             await GetModalNavigation()
                 .PushModalAsync(view)
