@@ -72,7 +72,8 @@
     "dest": "_site",
     "template": [
       "statictoc",
-      "templates/material"
+      "templates/material",
+      "templates/custom_template"
     ]
   }
 }
