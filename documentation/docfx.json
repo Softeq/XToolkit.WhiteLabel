@@ -10,6 +10,7 @@
           "exclude": [
             "**/obj/**",
             "**/bin/**",
+            "**/*.Tests.csproj",
             "_site/**"
           ]
         }
