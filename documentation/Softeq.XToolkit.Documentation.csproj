@@ -43,7 +43,7 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="docfx.console" Version="2.47.0" />
+    <PackageReference Include="docfx.console" Version="2.49.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="articles\contributing-workflow.md" />
