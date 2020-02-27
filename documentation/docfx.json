@@ -15,17 +15,15 @@
           ]
         }
       ],
-      "dest": "obj/api",
-      "filter": "filter.yml"
+      "dest": "obj/docfxapi"
     }
   ],
   "build": {
     "content": [
       {
-        "files": [
-          "api/**.yml"
-        ],
-        "cwd": "obj"
+        "files": [ "**/*.yml" ],
+        "src": "obj/docfxapi",
+        "dest": "api"
       },
       {
         "files": [
