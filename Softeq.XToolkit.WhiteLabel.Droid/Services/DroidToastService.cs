@@ -4,8 +4,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.Support.Design.Widget;
 using Android.Views;
+using Google.Android.Material.Snackbar;
 using Java.Lang;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Extensions;

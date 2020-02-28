@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using System;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 {
