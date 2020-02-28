@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.Forms.ViewModels.Dialogs.Modal;
@@ -14,12 +13,14 @@ namespace Playground.Forms.ViewModels.Dialogs
     public class DialogsRootViewModel : ViewModelBase
     {
         private readonly IDialogsService _dialogsService;
-        private string _dialogResult = String.Empty;
+
+        private string _dialogResult = string.Empty;
 
         public DialogsRootViewModel(
             IDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
+
             ShowModalScreenCommand = new AsyncCommand(ShowModalScreenAsync);
             ShowModalScreenWithoutWaitCommand = new AsyncCommand(ShowModalScreenWithoutWait);
             AlertCommand = new AsyncCommand(AlertAsync);
@@ -46,10 +47,11 @@ namespace Playground.Forms.ViewModels.Dialogs
                 .For<ModalPageViewModel>()
                 .WithParam(x => x.Title, "With")
                 .WithParam(x => x.Message, "Wait")
-                .Navigate<ModalPageDialogResult>()
-                .ConfigureAwait(false);
+                .Navigate<ModalPageDialogResult>();
 
-            DialogResult = result == null ? "result: null" : $"result: {result.Text}";
+            DialogResult = result == null
+                ? "result: null"
+                : $"result: {result.Text}";
         }
 
         private async Task ShowModalScreenWithoutWait()
@@ -59,10 +61,11 @@ namespace Playground.Forms.ViewModels.Dialogs
                 .WithParam(x => x.Title, "Without")
                 .WithParam(x => x.Message, "Wait")
                 .WithAwaitResult()
-                .Navigate<ModalPageDialogResult>()
-                .ConfigureAwait(false);
+                .Navigate<ModalPageDialogResult>();
 
-            DialogResult = result == null ? "result: null" : $"result: {result.Text}";
+            DialogResult = result == null
+                ? "result: null"
+                : $"result: {result.Text}";
         }
 
         private Task AlertAsync()
@@ -72,8 +75,8 @@ namespace Playground.Forms.ViewModels.Dialogs
 
         private async Task AlertWithTwoButtonsAsync()
         {
-            var result = await _dialogsService.ShowDialogAsync("simple title", "simple message", "ok", "cancel")
-                .ConfigureAwait(false);
+            var result = await _dialogsService.ShowDialogAsync("simple title", "simple message", "ok", "cancel");
+
             DialogResult = $"result: {result}";
         }
     }

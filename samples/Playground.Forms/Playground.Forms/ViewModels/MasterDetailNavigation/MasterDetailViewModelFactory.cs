@@ -15,28 +15,37 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation
         public MasterDetailViewModelFactory(IViewModelFactoryService viewModelFactoryService)
         {
             _viewModelFactoryService = viewModelFactoryService;
+
+            Keys = new List<string>
+            {
+                MasterDetailItems.Root,
+                MasterDetailItems.Drill,
+                MasterDetailItems.Item
+            };
         }
 
-        public IReadOnlyList<string> Keys { get; } = new List<string>
-        {
-            "root",
-            "drill-navigation",
-            "item"
-        };
+        public IReadOnlyList<string> Keys { get; }
 
         public IViewModelBase GetViewModelByKey(string key)
         {
             switch (key)
             {
-                case "root":
+                case MasterDetailItems.Root:
                     return _viewModelFactoryService.ResolveViewModel<DetailViewModel>();
-                case "drill-navigation":
+                case MasterDetailItems.Drill:
                     return _viewModelFactoryService.ResolveViewModel<DrillRootPageViewModel>();
                 default:
                     var vm = _viewModelFactoryService.ResolveViewModel<SelectedItemViewModel>();
                     vm.Title = key;
                     return vm;
             }
+        }
+
+        private static class MasterDetailItems
+        {
+            public const string Root = "Root";
+            public const string Drill = "Drill Navigation";
+            public const string Item = "Item";
         }
     }
 }

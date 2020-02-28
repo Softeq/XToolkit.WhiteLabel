@@ -1,9 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.ObjectModel;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -34,7 +32,7 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation
         public IViewModelBase DetailViewModel
         {
             get => _detailViewModel;
-            set => Set(ref _detailViewModel, value);
+            private set => Set(ref _detailViewModel, value);
         }
 
         private void OnMasterItemSelected(string item)

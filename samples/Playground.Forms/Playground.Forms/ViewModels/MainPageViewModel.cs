@@ -15,7 +15,7 @@ namespace Playground.Forms.ViewModels
     {
         private readonly IPageNavigationService _pageNavigationService;
 
-        private string? _title;
+        private string _title;
 
         public MainPageViewModel(IPageNavigationService pageNavigationService)
         {
@@ -32,7 +32,7 @@ namespace Playground.Forms.ViewModels
 
         public ICommand DialogsCommand { get; }
 
-        public string? Title
+        public string Title
         {
             get => _title;
             set => Set(ref _title, value);

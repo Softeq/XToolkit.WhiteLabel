@@ -23,7 +23,9 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation
 
         private void ToMainPage()
         {
-            _pageNavigationService.For<MainPageViewModel>().Navigate(true);
+            _pageNavigationService
+                .For<MainPageViewModel>()
+                .Navigate(true);
         }
     }
 }

@@ -6,24 +6,33 @@ using System.Reflection;
 using System.Windows.Input;
 using Xamarin.Forms;
 
-#nullable disable
 namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
 {
     public class EventToCommandBehavior : BehaviorBase<VisualElement>
     {
         private Delegate _eventHandler;
 
-        public static readonly BindableProperty EventNameProperty = BindableProperty.Create(nameof(EventName), typeof(string),
-            typeof(EventToCommandBehavior), null, propertyChanged: OnEventNameChanged);
+        public static readonly BindableProperty EventNameProperty = BindableProperty.Create(
+            nameof(EventName),
+            typeof(string),
+            typeof(EventToCommandBehavior),
+            null,
+            propertyChanged: OnEventNameChanged);
 
-        public static readonly BindableProperty CommandProperty =
-            BindableProperty.Create(nameof(Command), typeof(ICommand), typeof(EventToCommandBehavior));
+        public static readonly BindableProperty CommandProperty = BindableProperty.Create(
+            nameof(Command),
+            typeof(ICommand),
+            typeof(EventToCommandBehavior));
 
-        public static readonly BindableProperty CommandParameterProperty =
-            BindableProperty.Create(nameof(CommandParameter), typeof(object), typeof(EventToCommandBehavior));
+        public static readonly BindableProperty CommandParameterProperty = BindableProperty.Create(
+            nameof(CommandParameter),
+            typeof(object),
+            typeof(EventToCommandBehavior));
 
-        public static readonly BindableProperty InputConverterProperty =
-            BindableProperty.Create(nameof(Converter), typeof(IValueConverter), typeof(EventToCommandBehavior));
+        public static readonly BindableProperty InputConverterProperty = BindableProperty.Create(
+            nameof(Converter),
+            typeof(IValueConverter),
+            typeof(EventToCommandBehavior));
 
         public string EventName
         {
@@ -63,7 +72,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
 
         private void RegisterEvent(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) return;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
 
             var eventInfo = AssociatedObject.GetType().GetRuntimeEvent(name);
             if (eventInfo == null)
@@ -77,9 +89,15 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
 
         private void DeregisterEvent(string name)
         {
-            if (string.IsNullOrWhiteSpace(name)) return;
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                return;
+            }
+            if (_eventHandler == null)
+            {
+                return;
+            }
 
-            if (_eventHandler == null) return;
             var eventInfo = AssociatedObject.GetType().GetRuntimeEvent(name);
             if (eventInfo == null)
             {
@@ -92,23 +110,38 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
         // ReSharper disable once UnusedParameter.Local
         private void OnEvent(object sender, object eventArgs)
         {
-            if (Command == null) return;
+            if (Command == null)
+            {
+                return;
+            }
 
             object resolvedParameter;
             if (CommandParameter != null)
+            {
                 resolvedParameter = CommandParameter;
+            }
             else if (Converter != null)
+            {
                 resolvedParameter = Converter.Convert(eventArgs, typeof(object), null, null);
+            }
             else
+            {
                 resolvedParameter = eventArgs;
+            }
 
-            if (Command.CanExecute(resolvedParameter)) Command.Execute(resolvedParameter);
+            if (Command.CanExecute(resolvedParameter))
+            {
+                Command.Execute(resolvedParameter);
+            }
         }
 
         private static void OnEventNameChanged(BindableObject bindable, object oldValue, object newValue)
         {
             var behavior = (EventToCommandBehavior)bindable;
-            if (behavior.AssociatedObject == null) return;
+            if (behavior.AssociatedObject == null)
+            {
+                return;
+            }
 
             var oldEventName = (string)oldValue;
             var newEventName = (string)newValue;
