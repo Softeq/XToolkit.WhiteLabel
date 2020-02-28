@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
+<controls:FormsModalPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:controls="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Controls;assembly=Softeq.XToolkit.WhiteLabel.Forms"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Dialogs.Modal;assembly=Playground.Forms"
+    x:Class="Playground.Forms.Views.Dialogs.Modal.SecondModalPage"
+    x:DataType="vm:SecondModalPageViewModel">
 
-<controls:FormsModalPage xmlns="http://xamarin.com/schemas/2014/forms"
-                         xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                         xmlns:controls="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Controls;assembly=Softeq.XToolkit.WhiteLabel.Forms"
-                         xmlns:modal="clr-namespace:Playground.Forms.ViewModels.Dialogs.Modal;assembly=Playground.Forms"
-                         x:Class="Playground.Forms.Views.Dialogs.Modal.SecondModalPage"
-                         x:DataType="modal:SecondModalPageViewModel">
-    <ContentPage.Content>
-        <StackLayout>
-            <Button
-                CommandParameter="{x:Null}"
-                Command="{Binding DialogComponent.CloseCommand}"
-                Text="Close" />
-        </StackLayout>
-    </ContentPage.Content>
+    <StackLayout>
+        <Button
+            CommandParameter="{x:Null}"
+            Command="{Binding DialogComponent.CloseCommand}"
+            Text="Close" />
+    </StackLayout>
+
 </controls:FormsModalPage>

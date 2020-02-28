@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
+<MasterDetailPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation;assembly=Playground.Forms"
+    xmlns:behaviors="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Behaviors;assembly=Softeq.XToolkit.WhiteLabel.Forms"
+    x:Class="Playground.Forms.Views.MasterDetailNavigation.RootMasterDetail"
+    x:DataType="vm:RootMasterDetailViewModel"
+    x:Name="This"
+    NavigationPage.HasNavigationBar="False">
 
-<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
-                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-                  xmlns:viewModels="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation;assembly=Playground.Forms"
-                  xmlns:behaviors="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Behaviors;assembly=Softeq.XToolkit.WhiteLabel.Forms"
-                  x:Class="Playground.Forms.Views.MasterDetailNavigation.RootMasterDetail"
-                  x:DataType="viewModels:RootMasterDetailViewModel"
-                  x:Name="This"
-                  NavigationPage.HasNavigationBar="False">
     <MasterDetailPage.Behaviors>
         <behaviors:MasterPageBehavior
             BindingContext="{Binding BindingContext, Source={x:Reference This}}"
             SelectedDetail="{Binding Path=DetailViewModel}" />
     </MasterDetailPage.Behaviors>
+
 </MasterDetailPage>

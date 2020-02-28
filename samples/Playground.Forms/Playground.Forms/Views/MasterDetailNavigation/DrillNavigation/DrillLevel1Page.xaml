@@ -1,17 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation;assembly=Playground.Forms"
+    x:Class="Playground.Forms.Views.MasterDetailNavigation.DrillNavigation.DrillLevel1Page"
+    x:DataType="vm:DrillLevel1PageViewModel">
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:drillNavigation="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation;assembly=Playground.Forms"
-             x:Class="Playground.Forms.Views.MasterDetailNavigation.DrillNavigation.DrillLevel1Page"
-             x:DataType="drillNavigation:DrillLevel1PageViewModel">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label Text="First level"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
-            <Button Text="Navigate"
-                    Command="{Binding NavigateCommand}"/>
-        </StackLayout>
-    </ContentPage.Content>
+    <StackLayout>
+        <Label
+            Text="First level"
+            VerticalOptions="CenterAndExpand"
+            HorizontalOptions="CenterAndExpand" />
+        <Button
+            Text="Navigate"
+            Command="{Binding NavigateCommand}" />
+    </StackLayout>
+
 </ContentPage>

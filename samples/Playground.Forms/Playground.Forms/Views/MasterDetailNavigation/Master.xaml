@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation;assembly=Playground.Forms"
+    xmlns:behaviors="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Behaviors;assembly=Softeq.XToolkit.WhiteLabel.Forms"
+    x:Class="Playground.Forms.Views.MasterDetailNavigation.Master"
+    x:DataType="vm:MasterViewModel">
 
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:masterDetailNavigation="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation;assembly=Playground.Forms"
-             xmlns:behaviors="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Behaviors;assembly=Softeq.XToolkit.WhiteLabel.Forms"
-             x:Class="Playground.Forms.Views.MasterDetailNavigation.Master"
-             x:DataType="masterDetailNavigation:MasterViewModel">
-    <ContentPage.Content>
-        <ListView
-            x:Name="ListView"
-            BackgroundColor="Gold"
-            ItemsSource="{Binding Items}">
-            <ListView.Behaviors>
-                <behaviors:EventToCommandBehavior
-                    EventName="ItemSelected"
-                    Command="{Binding ItemSelectedCommand}"
-                    CommandParameter="{Binding SelectedItem, Source={x:Reference ListView}}"/>
-            </ListView.Behaviors>
-        </ListView>
-    </ContentPage.Content>
+    <ListView
+        x:Name="ListView"
+        BackgroundColor="Gold"
+        ItemsSource="{Binding Items}">
+        <ListView.Behaviors>
+            <behaviors:EventToCommandBehavior
+                EventName="ItemSelected"
+                Command="{Binding ItemSelectedCommand}"
+                CommandParameter="{Binding SelectedItem, Source={x:Reference ListView}}" />
+        </ListView.Behaviors>
+    </ListView>
+
 </ContentPage>
