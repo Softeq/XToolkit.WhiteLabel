@@ -50,7 +50,6 @@
     <Content Include="articles\contributing.md" />
     <Content Include="articles\developer-guide.md" />
     <Content Include="build.sh" />
-    <Content Include="templates\custom_template\ManagedReference.extension.js" />
     <Content Include="templates\material\partials\head.tmpl.partial" />
     <Content Include="templates\material\styles\main.css" />
   </ItemGroup>
