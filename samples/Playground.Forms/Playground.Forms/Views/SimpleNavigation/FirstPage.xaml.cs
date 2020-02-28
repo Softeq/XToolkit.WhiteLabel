@@ -1,14 +1,13 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-namespace Playground.Forms.Views.MasterDetailNavigation
+namespace Playground.Forms.Views.SimpleNavigation
 {
-    public partial class Detail
+    public partial class FirstPage
     {
-        public Detail()
+        public FirstPage()
         {
             InitializeComponent();
         }
     }
 }
-

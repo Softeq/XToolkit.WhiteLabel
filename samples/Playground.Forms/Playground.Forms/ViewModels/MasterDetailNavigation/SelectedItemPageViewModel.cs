@@ -5,7 +5,7 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.Forms.ViewModels.MasterDetailNavigation
 {
-    public class SelectedItemViewModel : ViewModelBase
+    public class SelectedItemPageViewModel : ViewModelBase
     {
         public string? Title { get; set; }
     }

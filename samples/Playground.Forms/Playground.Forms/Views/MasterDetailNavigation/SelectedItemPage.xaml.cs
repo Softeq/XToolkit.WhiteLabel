@@ -1,11 +1,11 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-namespace Playground.Forms.Views.Dialogs
+namespace Playground.Forms.Views.MasterDetailNavigation
 {
-    public partial class DialogsRoot
+    public partial class SelectedItemPage
     {
-        public DialogsRoot()
+        public SelectedItemPage()
         {
             InitializeComponent();
         }

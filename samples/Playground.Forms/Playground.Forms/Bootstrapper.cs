@@ -21,13 +21,13 @@ namespace Playground.Forms
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
             builder.PerDependency<MainPageViewModel>();
-            builder.PerDependency<FirstLevelViewModel>();
-            builder.PerDependency<SecondLevelViewModel>();
-            builder.PerDependency<RootMasterDetailViewModel>();
-            builder.PerDependency<MasterViewModel>();
-            builder.PerDependency<DetailViewModel>();
-            builder.PerDependency<SelectedItemViewModel>();
-            builder.PerDependency<DialogsRootViewModel>();
+            builder.PerDependency<FirstPageViewModel>();
+            builder.PerDependency<SecondPageViewModel>();
+            builder.PerDependency<RootMasterDetailPageViewModel>();
+            builder.PerDependency<MasterPageViewModel>();
+            builder.PerDependency<DetailPageViewModel>();
+            builder.PerDependency<SelectedItemPageViewModel>();
+            builder.PerDependency<DialogsRootPageViewModel>();
             builder.PerDependency<ModalPageViewModel>();
             builder.PerDependency<SecondModalPageViewModel>();
             builder.PerDependency<DrillRootPageViewModel>();

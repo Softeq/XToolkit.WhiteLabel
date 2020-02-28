@@ -31,11 +31,11 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation
             switch (key)
             {
                 case MasterDetailItems.Root:
-                    return _viewModelFactoryService.ResolveViewModel<DetailViewModel>();
+                    return _viewModelFactoryService.ResolveViewModel<DetailPageViewModel>();
                 case MasterDetailItems.Drill:
                     return _viewModelFactoryService.ResolveViewModel<DrillRootPageViewModel>();
                 default:
-                    var vm = _viewModelFactoryService.ResolveViewModel<SelectedItemViewModel>();
+                    var vm = _viewModelFactoryService.ResolveViewModel<SelectedItemPageViewModel>();
                     vm.Title = key;
                     return vm;
             }

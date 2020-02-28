@@ -3,8 +3,8 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.SimpleNavigation;assembly=Playground.Forms"
-    x:Class="Playground.Forms.Views.SimpleNavigation.FirstLevel"
-    x:DataType="vm:FirstLevelViewModel"
+    x:Class="Playground.Forms.Views.SimpleNavigation.FirstPage"
+    x:DataType="vm:FirstPageViewModel"
     BackgroundColor="Bisque">
 
     <StackLayout>

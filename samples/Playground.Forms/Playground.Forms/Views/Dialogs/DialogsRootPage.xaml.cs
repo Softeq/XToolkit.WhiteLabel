@@ -1,11 +1,11 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-namespace Playground.Forms.Views.SimpleNavigation
+namespace Playground.Forms.Views.Dialogs
 {
-    public partial class SecondLevel
+    public partial class DialogsRootPage
     {
-        public SecondLevel()
+        public DialogsRootPage()
         {
             InitializeComponent();
         }

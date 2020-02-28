@@ -41,21 +41,21 @@ namespace Playground.Forms.ViewModels
         private void PerformSimpleNavigation()
         {
             _pageNavigationService
-                .For<FirstLevelViewModel>()
+                .For<FirstPageViewModel>()
                 .Navigate();
         }
 
         private void PerformMasterDetailNavigation()
         {
             _pageNavigationService
-                .For<RootMasterDetailViewModel>()
+                .For<RootMasterDetailPageViewModel>()
                 .Navigate(true);
         }
 
         private void Dialogs()
         {
             _pageNavigationService
-                .For<DialogsRootViewModel>()
+                .For<DialogsRootPageViewModel>()
                 .Navigate();
         }
     }

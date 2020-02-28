@@ -3,9 +3,9 @@
 
 namespace Playground.Forms.Views.MasterDetailNavigation
 {
-    public partial class RootMasterDetail
+    public partial class RootMasterDetailPage
     {
-        public RootMasterDetail()
+        public RootMasterDetailPage()
         {
             InitializeComponent();
         }

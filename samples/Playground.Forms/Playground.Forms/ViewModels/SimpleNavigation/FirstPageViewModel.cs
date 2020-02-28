@@ -8,12 +8,13 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Forms.ViewModels.SimpleNavigation
 {
-    public class FirstLevelViewModel : ViewModelBase
+    public class FirstPageViewModel : ViewModelBase
     {
         private readonly IPageNavigationService _pageNavigationService;
-        private string? _text;
 
-        public FirstLevelViewModel(IPageNavigationService pageNavigationService)
+        private string _text = string.Empty;
+
+        public FirstPageViewModel(IPageNavigationService pageNavigationService)
         {
             _pageNavigationService = pageNavigationService;
 
@@ -22,7 +23,7 @@ namespace Playground.Forms.ViewModels.SimpleNavigation
 
         public ICommand NextLevelCommand { get; }
 
-        public string? Text
+        public string Text
         {
             get => _text;
             set => Set(ref _text, value);
@@ -31,7 +32,7 @@ namespace Playground.Forms.ViewModels.SimpleNavigation
         private void NextLevel()
         {
             _pageNavigationService
-                .For<SecondLevelViewModel>()
+                .For<SecondPageViewModel>()
                 .WithParam(x => x.NavigationParameter, Text)
                 .Navigate();
         }

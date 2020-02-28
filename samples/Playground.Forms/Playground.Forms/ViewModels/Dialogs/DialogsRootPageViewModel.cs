@@ -10,13 +10,13 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Forms.ViewModels.Dialogs
 {
-    public class DialogsRootViewModel : ViewModelBase
+    public class DialogsRootPageViewModel : ViewModelBase
     {
         private readonly IDialogsService _dialogsService;
 
         private string _dialogResult = string.Empty;
 
-        public DialogsRootViewModel(
+        public DialogsRootPageViewModel(
             IDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
@@ -28,11 +28,8 @@ namespace Playground.Forms.ViewModels.Dialogs
         }
 
         public ICommand ShowModalScreenCommand { get; }
-
         public ICommand ShowModalScreenWithoutWaitCommand { get; }
-
         public ICommand AlertCommand { get; }
-
         public ICommand AlertWithTwoButtonsCommand { get; }
 
         public string DialogResult

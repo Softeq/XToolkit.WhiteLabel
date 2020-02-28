@@ -1,11 +1,11 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-namespace Playground.Forms.Views.MasterDetailNavigation
+namespace Playground.Forms.Views.SimpleNavigation
 {
-    public partial class SelectedItem
+    public partial class SecondPage
     {
-        public SelectedItem()
+        public SecondPage()
         {
             InitializeComponent();
         }

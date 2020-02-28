@@ -8,7 +8,7 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.Forms.ViewModels.MasterDetailNavigation
 {
-    public class MasterViewModel : ViewModelBase
+    public class MasterPageViewModel : ViewModelBase
     {
         public ObservableCollection<string> Items { get; private set; } = new ObservableCollection<string>();
 
