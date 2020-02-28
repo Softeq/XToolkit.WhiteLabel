@@ -8,7 +8,8 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation
 {
     public class DrillRootPageViewModel : RootFrameNavigationViewModelBase
     {
-        public DrillRootPageViewModel(IFrameNavigationService frameNavigationService) : base(frameNavigationService)
+        public DrillRootPageViewModel(IFrameNavigationService frameNavigationService)
+            : base(frameNavigationService)
         {
         }
 

@@ -7,10 +7,11 @@ namespace Playground.Forms.Services
 {
     public class PlaygroundViewLocator : FormsViewLocator
     {
-        protected override string BuildViewTypeName(string viewModelTypeName)
+        protected override string BuildPageTypeName(string viewModelTypeName)
         {
-            var name = viewModelTypeName.Replace(".ViewModels.", ".Views.");
-            name = name.Replace("ViewModel", string.Empty);
+            var name = viewModelTypeName
+                .Replace(".ViewModels.", ".Views.")
+                .Replace("ViewModel", string.Empty);
             return name;
         }
     }

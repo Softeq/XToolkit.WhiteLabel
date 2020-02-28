@@ -13,36 +13,8 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
     {
         public async Task<Page> GetPageAsync(object viewModel)
         {
-            var type = viewModel.GetType();
-
-            var viewTypeName = BuildViewTypeName(type.FullName);
-
-            var targetType = Type.GetType(viewTypeName)
-                             ?? AssemblySource.FindTypeByNames(new[] { viewTypeName });
-
-            var page = (Page) Activator.CreateInstance(targetType);
-            page.BindingContext = viewModel;
-
-            if (viewModel is RootFrameNavigationViewModelBase rootFrameNavigationViewModelBase)
-            {
-                var navigationPage = (NavigationPage) page;
-                await navigationPage.PushAsync(new Page(), false);
-                rootFrameNavigationViewModelBase.FrameNavigationService.Initialize(page.Navigation);
-                rootFrameNavigationViewModelBase.NavigateToFirstPage();
-            }
-
-            if (viewModel is IMasterDetailViewModel masterDetailViewModel)
-            {
-                var masterDetailPage = (MasterDetailPage) page;
-                var masterPage = await GetPageAsync(masterDetailViewModel.MasterViewModel);
-                masterPage.Title = "Master Page";
-                masterDetailPage.Master = masterPage;
-                if (masterDetailPage.Detail == null)
-                {
-                    masterDetailPage.Detail = new Page();
-                }
-            }
-
+            var page = CreatePage(viewModel);
+            await SetupPage(page, viewModel);
             return page;
         }
 
@@ -50,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         {
             foreach (var page in navigation.NavigationStack)
             {
-                if (viewModel == page.BindingContext)
+                if (page.BindingContext == viewModel)
                 {
                     return page.Navigation;
                 }
@@ -64,11 +36,57 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             return null;
         }
 
-        protected virtual string BuildViewTypeName(string viewModelTypeName)
+        protected virtual Page CreatePage(object viewModel)
         {
-            var name = viewModelTypeName.Replace(".ViewModels.", ".Forms.Views.");
-            name = name.Replace("ViewModel", string.Empty);
+            var viewModelType = viewModel.GetType();
+            var pageTypeName = BuildPageTypeName(viewModelType.FullName);
+            var pageType = Type.GetType(pageTypeName) ?? AssemblySource.FindTypeByNames(new[] { pageTypeName });
+            return (Page) Activator.CreateInstance(pageType);
+        }
+
+        protected virtual async Task SetupPage(Page page, object viewModel)
+        {
+            page.BindingContext = viewModel;
+
+            switch (viewModel)
+            {
+                case RootFrameNavigationViewModelBase rootFrameNavigationViewModelBase:
+                    await SetupFrameNavigationPage((NavigationPage) page, rootFrameNavigationViewModelBase);
+                    break;
+                case IMasterDetailViewModel masterDetailViewModel:
+                    await SetupMasterDetailsPage((MasterDetailPage) page, masterDetailViewModel);
+                    break;
+            }
+        }
+
+        protected virtual string BuildPageTypeName(string viewModelTypeName)
+        {
+            var name = viewModelTypeName
+                .Replace(".ViewModels.", ".Forms.Views.")
+                .Replace("ViewModel", string.Empty);
             return name;
+        }
+
+        protected virtual async Task SetupFrameNavigationPage(
+            NavigationPage navigationPage,
+            RootFrameNavigationViewModelBase rootFrameNavigationViewModelBase)
+        {
+            await navigationPage.PushAsync(new Page(), false);
+            rootFrameNavigationViewModelBase.InitializeNavigation(navigationPage.Navigation);
+            rootFrameNavigationViewModelBase.NavigateToFirstPage();
+        }
+
+        protected virtual async Task SetupMasterDetailsPage(
+            MasterDetailPage masterDetailsPage,
+            IMasterDetailViewModel masterDetailsViewModel)
+        {
+            var masterPage = await GetPageAsync(masterDetailsViewModel.MasterViewModel);
+            masterPage.Title = "Master Page";
+            masterDetailsPage.Master = masterPage;
+            if (masterDetailsPage.Detail == null)
+            {
+                masterDetailsPage.Detail = new Page();
+            }
         }
     }
 }
