@@ -3,8 +3,8 @@
 
 using Android.App;
 using Android.OS;
-using Android.Support.V7.Widget;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid;
