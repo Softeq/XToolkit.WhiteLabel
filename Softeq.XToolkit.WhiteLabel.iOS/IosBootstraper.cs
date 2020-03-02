@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -16,21 +15,9 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
-    public class IosBootstrapper : BootstrapperBase
+    public class IosBootstrapper : BootstrapperWithViewModelLookup
     {
-        protected override IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
-        {
-            var viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(builder, assemblies);
-
-            builder.Singleton<IViewLocator>(container =>
-            {
-                var viewLocator = container.Resolve<StoryboardViewLocator>();
-                viewLocator.Initialize(viewModelToViewControllerDictionary);
-                return viewLocator;
-            }, IfRegistered.Keep);
-
-            return base.BuildContainer(builder, assemblies);
-        }
+        protected override ViewModelFinderBase ViewModelFinder { get; } = new IosViewModelFinder();
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
@@ -43,27 +30,26 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
         }
 
-        private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(IContainerBuilder builder,
-            IEnumerable<Assembly> assemblies)
+        protected override void RegisterViewLocator(IContainerBuilder builder, Dictionary<Type, Type> viewModelToViewDictionary)
         {
-            var viewModelToViewControllerTypes = new Dictionary<Type, Type>();
-
-            foreach (var type in assemblies.SelectMany(x => x.GetTypes().View(typeof(UIViewController))))
+            builder.Singleton<IViewLocator>(container =>
             {
-                var viewModelType = type.BaseType.GetGenericArguments()[0];
-
-                if (!viewModelType.IsAbstract)
-                {
-                    viewModelToViewControllerTypes.Add(viewModelType, type);
-                    builder.PerDependency(viewModelType, IfRegistered.Keep);
-                }
-            }
-
-            return viewModelToViewControllerTypes;
+                var viewLocator = container.Resolve<StoryboardViewLocator>();
+                viewLocator.Initialize(viewModelToViewDictionary);
+                return viewLocator;
+            }, IfRegistered.Keep);
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
+        }
+    }
+
+    public class IosViewModelFinder : ViewModelFinderBase
+    {
+        protected override IEnumerable<Type> SelectViewModelTypes(Assembly assembly)
+        {
+            return assembly.GetTypes().View(typeof(UIViewController));
         }
     }
 }

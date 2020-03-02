@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Android.Support.V4.App;
 using Android.Support.V7.App;
@@ -16,21 +15,9 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
-    public class DroidBootstrapper : BootstrapperBase
+    public class DroidBootstrapper : BootstrapperWithViewModelLookup
     {
-        protected override IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
-        {
-            var viewModelToViewControllerDictionary = CreateAndRegisterMissedViewModels(builder, assemblies);
-
-            builder.Singleton<IViewLocator>(container =>
-            {
-                var viewLocator = container.Resolve<DroidViewLocator>();
-                viewLocator.Initialize(viewModelToViewControllerDictionary);
-                return viewLocator;
-            }, IfRegistered.Keep);
-
-            return base.BuildContainer(builder, assemblies);
-        }
+        protected override ViewModelFinderBase ViewModelFinder { get; } = new DroidViewModelFinder();
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
@@ -46,31 +33,26 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
         }
 
-        private static Dictionary<Type, Type> CreateAndRegisterMissedViewModels(
-            IContainerBuilder builder,
-            IEnumerable<Assembly> assemblies)
+        protected override void RegisterViewLocator(IContainerBuilder builder, Dictionary<Type, Type> viewModelToViewMapping)
         {
-            var viewModelToViewTypes = new Dictionary<Type, Type>();
-            var targetTypes = assemblies
-                .SelectMany(assembly => assembly.GetTypes()
-                    .View(typeof(AppCompatActivity), typeof(Fragment), typeof(DialogFragment)));
-
-            foreach (var type in targetTypes)
+            builder.Singleton<IViewLocator>(container =>
             {
-                var viewModelType = type.BaseType.GetGenericArguments()[0];
-
-                if (!viewModelType.IsAbstract)
-                {
-                    viewModelToViewTypes.Add(viewModelType, type);
-                    builder.PerDependency(viewModelType, IfRegistered.Keep);
-                }
-            }
-
-            return viewModelToViewTypes;
+                var viewLocator = container.Resolve<DroidViewLocator>();
+                viewLocator.Initialize(viewModelToViewMapping);
+                return viewLocator;
+            }, IfRegistered.Keep);
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
+        }
+    }
+
+    public class DroidViewModelFinder : ViewModelFinderBase
+    {
+        protected override IEnumerable<Type> SelectViewModelTypes(Assembly assembly)
+        {
+            return assembly.GetTypes().View(typeof(AppCompatActivity), typeof(Fragment), typeof(DialogFragment));
         }
     }
 }
