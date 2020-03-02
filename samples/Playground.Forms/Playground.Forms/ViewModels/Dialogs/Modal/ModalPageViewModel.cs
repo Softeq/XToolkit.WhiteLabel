@@ -12,11 +12,13 @@ namespace Playground.Forms.ViewModels.Dialogs.Modal
     public class ModalPageViewModel : DialogViewModelBase
     {
         private readonly IDialogsService _dialogsService;
+
         private string _text = string.Empty;
 
         public ModalPageViewModel(IDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
+
             OpenDialogCommand = new AsyncCommand(OpenDialogAsync);
             SaveCommand = new RelayCommand(() =>
             {
@@ -28,21 +30,22 @@ namespace Playground.Forms.ViewModels.Dialogs.Modal
 
         public string Message { get; set; } = string.Empty;
 
-        public ICommand OpenDialogCommand { get; }
-
-        public ICommand SaveCommand { get; }
-
         public string Text
         {
             get => _text;
             set => Set(ref _text, value);
         }
 
+        public ICommand OpenDialogCommand { get; }
+
+        public ICommand SaveCommand { get; }
+
         private async Task OpenDialogAsync()
         {
             await _dialogsService
                 .For<SecondModalPageViewModel>()
                 .Navigate();
+
             Text = "second page closed";
         }
     }

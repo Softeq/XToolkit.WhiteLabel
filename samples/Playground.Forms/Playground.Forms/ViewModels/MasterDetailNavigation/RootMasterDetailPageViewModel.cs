@@ -1,40 +1,38 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.ObjectModel;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Forms.ViewModels.MasterDetailNavigation
 {
-    public sealed class RootMasterDetailViewModel : ViewModelBase, IMasterDetailViewModel
+    public sealed class RootMasterDetailPageViewModel : ViewModelBase, IMasterDetailViewModel
     {
-        private readonly MasterViewModel _masterViewModel;
+        private readonly MasterPageViewModel _masterPageViewModel;
         private readonly MasterDetailViewModelFactory _viewModelFactory;
 
         private IViewModelBase _detailViewModel;
 
-        public RootMasterDetailViewModel(
-            MasterViewModel masterViewModel,
+        public RootMasterDetailPageViewModel(
+            MasterPageViewModel masterPageViewModel,
             IViewModelFactoryService viewModelFactoryService)
         {
             _viewModelFactory = new MasterDetailViewModelFactory(viewModelFactoryService);
 
-            _masterViewModel = masterViewModel;
-            _masterViewModel.Initialize(_viewModelFactory.Keys, new RelayCommand<string>(OnMasterItemSelected));
+            _masterPageViewModel = masterPageViewModel;
+            _masterPageViewModel.Initialize(_viewModelFactory.Keys, new RelayCommand<string>(OnMasterItemSelected));
 
-            _detailViewModel = _viewModelFactory.GetViewModelByKey(_masterViewModel.Items[0]);
+            _detailViewModel = _viewModelFactory.GetViewModelByKey(_masterPageViewModel.Items[0]);
         }
 
-        public IViewModelBase MasterViewModel => _masterViewModel;
+        public IViewModelBase MasterViewModel => _masterPageViewModel;
 
         public IViewModelBase DetailViewModel
         {
             get => _detailViewModel;
-            set => Set(ref _detailViewModel, value);
+            private set => Set(ref _detailViewModel, value);
         }
 
         private void OnMasterItemSelected(string item)

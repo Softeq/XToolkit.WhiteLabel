@@ -8,11 +8,11 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Forms.ViewModels.SimpleNavigation
 {
-    public class SecondLevelViewModel : ViewModelBase
+    public class SecondPageViewModel : ViewModelBase
     {
         private readonly IPageNavigationService _pageNavigationService;
 
-        public SecondLevelViewModel(IPageNavigationService pageNavigationService)
+        public SecondPageViewModel(IPageNavigationService pageNavigationService)
         {
             _pageNavigationService = pageNavigationService;
 

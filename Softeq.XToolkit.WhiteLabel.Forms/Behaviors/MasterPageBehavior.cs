@@ -13,14 +13,14 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
 {
     public class MasterPageBehavior : Behavior<MasterDetailPage>
     {
+        private WeakReferenceEx<MasterDetailPage>? _parentRef;
+        private IFormsViewLocator? _viewLocator;
+        private ILogger? _logger;
+
         public static readonly BindableProperty SelectedDetailProperty = BindableProperty.Create(
             nameof(SelectedDetail),
             typeof(IViewModelBase),
             typeof(MasterPageBehavior));
-
-        private WeakReferenceEx<MasterDetailPage>? _parentRef;
-        private IFormsViewLocator? _viewLocator;
-        private ILogger? _logger;
 
         public IViewModelBase SelectedDetail
         {

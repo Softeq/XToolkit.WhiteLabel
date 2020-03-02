@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Dialogs;assembly=Playground.Forms"
+    x:Class="Playground.Forms.Views.Dialogs.DialogsRootPage"
+    x:DataType="vm:DialogsRootPageViewModel">
+
+    <StackLayout>
+        <Button
+            Command="{Binding ShowModalScreenCommand}"
+            Text="Show modal and wait until screen close" />
+        <Button
+            Command="{Binding ShowModalScreenWithoutWaitCommand}"
+            Text="Show modal without wait" />
+        <Button
+            Command="{Binding AlertWithTwoButtonsCommand}"
+            Text="Display alert with 2 buttons" />
+        <Button
+            Command="{Binding AlertCommand}"
+            Text="Display alert with 1 button" />
+        <Label
+            HorizontalOptions="Center"
+            Text="{Binding DialogResult}" />
+    </StackLayout>
+
+</ContentPage>

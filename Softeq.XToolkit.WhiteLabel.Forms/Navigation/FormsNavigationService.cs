@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             {
                 if (_navigation == null)
                 {
-                    throw new InvalidOperationException("Navigation service hasn't initialized");
+                    throw new InvalidOperationException($"{nameof(FormsNavigationService)} hasn't initialized");
                 }
 
                 return _navigation;
@@ -58,16 +58,17 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         public void Initialize(object initParameter)
         {
-            if (initParameter is INavigation navigation)
+            switch (initParameter)
             {
-                _navigation = navigation;
-                return;
-            }
-
-            if (initParameter is IViewModelBase viewModelBase)
-            {
-                _navigation = _formsViewLocator.FindNavigationForViewModel(
-                    Application.Current.MainPage.Navigation, viewModelBase);
+                case INavigation navigation:
+                    _navigation = navigation;
+                    return;
+                case IViewModelBase viewModelBase:
+                    var mainNavigation = Application.Current.MainPage.Navigation;
+                    _navigation = _formsViewLocator.FindNavigationForViewModel(mainNavigation, viewModelBase);
+                    return;
+                default:
+                    throw new InvalidOperationException($"{nameof(FormsNavigationService)} was not initialized");
             }
         }
 
@@ -83,19 +84,21 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         {
             viewModelBase.ApplyParameters(parameters);
 
-            var page = await _formsViewLocator.GetPageAsync(viewModelBase);
+            var targetPage = await _formsViewLocator.GetPageAsync(viewModelBase);
 
-            if (clearBackStack)
+            Execute.BeginOnUIThread(() =>
             {
-                Execute.BeginOnUIThread(() =>
+                if (clearBackStack)
                 {
-                    Navigation.InsertPageBefore(page, Navigation.NavigationStack.First());
+                    var currentPage = Navigation.NavigationStack.First();
+                    Navigation.InsertPageBefore(targetPage, currentPage);
                     Navigation.PopToRootAsync(false).FireAndForget(_logger);
-                });
-                return;
-            }
-
-            Execute.BeginOnUIThread(() => { Navigation.PushAsync(page).FireAndForget(_logger); });
+                }
+                else
+                {
+                    Navigation.PushAsync(targetPage).FireAndForget(_logger);
+                }
+            });
         }
     }
 }

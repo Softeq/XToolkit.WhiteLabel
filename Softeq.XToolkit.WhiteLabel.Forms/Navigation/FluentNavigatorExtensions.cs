@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
