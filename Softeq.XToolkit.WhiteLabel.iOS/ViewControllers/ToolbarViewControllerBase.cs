@@ -6,6 +6,7 @@ using System.Linq;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Controls;
 using Softeq.XToolkit.WhiteLabel.iOS.Helpers;
@@ -13,7 +14,6 @@ using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
-using Softeq.XToolkit.Common.Commands;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 {
