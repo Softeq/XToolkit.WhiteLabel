@@ -61,12 +61,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             var targetTypeName = viewModelTypeName.Replace(".ViewModels.", ".Droid.Views.");
             targetTypeName = targetTypeName.Replace("ViewModel", viewType.ToString());
 
-            var targetType = Type.GetType(targetTypeName)
-                             ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+            var targetType = Type.GetType(targetTypeName) ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
 
             if (targetType == null)
             {
-                throw new DllNotFoundException($"Can't find target type: {targetTypeName}");
+                throw new InvalidOperationException($"Can't find target type: {targetTypeName}");
             }
 
             return targetType;

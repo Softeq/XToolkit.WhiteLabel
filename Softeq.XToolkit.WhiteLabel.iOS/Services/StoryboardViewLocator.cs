@@ -55,14 +55,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             var storyboardName = controllerType.Name.Replace("ViewController", "Storyboard");
             var viewController = TryCreateViewController(storyboardName, controllerType);
 
+            if (viewController == null)
+            {
+                throw new InvalidOperationException("view not found");
+            }
+
             if (viewController is IBindable bindableViewController)
             {
                 bindableViewController.SetDataContext(viewModel);
-            }
-
-            if(viewController == null)
-            {
-                throw new Exception("view not found");
             }
 
             return viewController;
@@ -70,21 +70,18 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         private Type GetTargetType(Type type)
         {
-            Type? targetType = default;
-
-            if (_modelToControllerTypes.TryGetValue(type, out targetType))
+            if (_modelToControllerTypes.TryGetValue(type, out var targetType))
             {
                 return targetType;
             }
 
             var targetTypeName = type.FullName.Replace(".ViewModels.", ".iOS.ViewControllers.");
             targetTypeName = targetTypeName.Replace("ViewModel", "ViewController");
-            targetType = Type.GetType(targetTypeName)
-                         ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+            targetType = Type.GetType(targetTypeName) ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
 
             if (targetType == null)
             {
-                throw new Exception($"Can't find target type: {targetTypeName}");
+                throw new InvalidOperationException($"Can't find target type: {targetTypeName}");
             }
 
             return targetType;

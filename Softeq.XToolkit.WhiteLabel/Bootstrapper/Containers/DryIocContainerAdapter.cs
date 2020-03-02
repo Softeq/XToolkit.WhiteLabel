@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 {
     internal class DryIocContainerAdapter : IContainer
     {
-        private IDryContainer _container = default!;
+        private IDryContainer _container;
 
         internal void Initialize(IDryContainer container)
         {
