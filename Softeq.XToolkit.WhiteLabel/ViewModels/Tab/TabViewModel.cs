@@ -70,7 +70,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         }
     }
 
-    public class TabViewModel<TFirstViewModel, TKey> : TabViewModel<TKey> where TFirstViewModel : ViewModelBase
+    public class TabViewModel<TFirstViewModel, TKey> : TabViewModel<TKey> where TFirstViewModel : IViewModelBase
     {
         public TabViewModel(IFrameNavigationService frameNavigationService)
             : base(frameNavigationService)
