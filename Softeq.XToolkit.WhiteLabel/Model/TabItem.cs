@@ -25,13 +25,16 @@ namespace Softeq.XToolkit.WhiteLabel.Model
 
     public class TabItem<TFirstViewModel, TKey> : TabItem<TKey> where TFirstViewModel : ViewModelBase
     {
-        public TabItem(string title, TKey key) : base(title, key)
+        public TabItem(string title, TKey key, IContainer container) : base(title, key)
         {
+            Container = container;
         }
+
+        protected IContainer Container { get; }
 
         public override TabViewModel<TKey> CreateViewModel()
         {
-            var frameNavigationService = Dependencies.Container.Resolve<IFrameNavigationService>();
+            var frameNavigationService = Container.Resolve<IFrameNavigationService>();
             var tabViewModel = new TabViewModel<TFirstViewModel, TKey>(frameNavigationService);
             tabViewModel.Initialize(this);
             return tabViewModel;
