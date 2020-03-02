@@ -6,6 +6,7 @@ using Playground.Forms.ViewModels;
 using Playground.Forms.ViewModels.Dialogs;
 using Playground.Forms.ViewModels.Dialogs.Modal;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
+using Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation;
 using Playground.Forms.ViewModels.SimpleNavigation;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Forms;
@@ -20,15 +21,18 @@ namespace Playground.Forms
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
             builder.PerDependency<MainPageViewModel>();
-            builder.PerDependency<FirstLevelViewModel>();
-            builder.PerDependency<SecondLevelViewModel>();
-            builder.PerDependency<RootMasterViewModel>();
-            builder.PerDependency<MasterViewModel>();
-            builder.PerDependency<DetailViewModel>();
-            builder.PerDependency<SelectedItemViewModel>();
-            builder.PerDependency<DialogsRootViewModel>();
+            builder.PerDependency<FirstPageViewModel>();
+            builder.PerDependency<SecondPageViewModel>();
+            builder.PerDependency<RootMasterDetailPageViewModel>();
+            builder.PerDependency<MasterPageViewModel>();
+            builder.PerDependency<DetailPageViewModel>();
+            builder.PerDependency<SelectedItemPageViewModel>();
+            builder.PerDependency<DialogsRootPageViewModel>();
             builder.PerDependency<ModalPageViewModel>();
             builder.PerDependency<SecondModalPageViewModel>();
+            builder.PerDependency<DrillRootPageViewModel>();
+            builder.PerDependency<DrillLevel1PageViewModel>();
+            builder.PerDependency<DrillLevel2PageViewModel>();
 
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 
