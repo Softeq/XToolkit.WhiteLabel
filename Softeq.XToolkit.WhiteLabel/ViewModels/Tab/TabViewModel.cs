@@ -35,10 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         {
             get
             {
-                if (_tab == null)
-                {
-                    throw new Exception("ViewModel is not initialized");
-                }
+                EnsureInitialization();
                 return _tab.Title;
             }
         }
@@ -47,10 +44,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         {
             get
             {
-                if (_tab == null)
-                {
-                    throw new Exception("ViewModel is not initialized");
-                }
+                EnsureInitialization();
                 return _tab.Key;
             }
         }
@@ -65,6 +59,14 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         public void Initialize(TabItem<TKey> tab)
         {
             _tab = tab;
+        }
+
+        private void EnsureInitialization()
+        {
+            if (_tab == null)
+            {
+                throw new InvalidOperationException("ViewModel is not initialized");
+            }
         }
     }
 
