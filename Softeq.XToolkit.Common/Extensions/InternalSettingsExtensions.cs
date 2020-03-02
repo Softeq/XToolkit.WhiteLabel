@@ -11,13 +11,13 @@ namespace Softeq.XToolkit.Common.Extensions
             IJsonSerializer jsonSerializer, string key, T value)
             where T : notnull
         {
-            var json = jsonSerializer.Serialize(value);
-            if (json == "null")
+            if (value == null)
             {
                 internalSettings.Remove(key);
                 return;
             }
 
+            var json = jsonSerializer.Serialize(value);
             internalSettings.AddOrUpdateValue(key, json);
         }
 
