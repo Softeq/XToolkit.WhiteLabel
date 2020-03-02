@@ -10,10 +10,10 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
-    internal class BindableTabBarItem : UITabBarItem, IBindable
+    internal class BindableTabBarItem<TKey> : UITabBarItem, IBindable
     {
         private Binding _textBinding;
-        private WeakReferenceEx<TabViewModel> _viewModelRef;
+        private WeakReferenceEx<TabViewModel<TKey>> _viewModelRef;
         private Binding _visibilityBinding;
 
         internal BindableTabBarItem(string title, UIImage image, UIImage selectedImage)
@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
         public void SetDataContext(object dataContext)
         {
-            _viewModelRef = new WeakReferenceEx<TabViewModel>((TabViewModel) dataContext);
+            _viewModelRef = new WeakReferenceEx<TabViewModel<TKey>>((TabViewModel<TKey>) dataContext);
 
             _textBinding?.Detach();
             _textBinding = this.SetBinding(() => _viewModelRef.Target.BadgeText).WhenSourceChanges(UpdateBadge);

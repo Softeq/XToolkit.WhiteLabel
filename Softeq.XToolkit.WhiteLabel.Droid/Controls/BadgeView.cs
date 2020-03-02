@@ -13,9 +13,9 @@ using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
-    internal class BadgeView : FrameLayout
+    internal class BadgeView<TKey> : FrameLayout
     {
-        private WeakReferenceEx<TabViewModel>? _viewModelRef;
+        private WeakReferenceEx<TabViewModel<TKey>>? _viewModelRef;
         private TextView _textView = default!;
         private Binding? _textBinding;
         private Binding? _visibilityBinding;
@@ -50,9 +50,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             set => _textView.SetTextColor(value);
         }
 
-        internal void SetViewModel(TabViewModel viewModel)
+        internal void SetViewModel(TabViewModel<TKey> viewModel)
         {
-            _viewModelRef = new WeakReferenceEx<TabViewModel>(viewModel);
+            _viewModelRef = new WeakReferenceEx<TabViewModel<TKey>>(viewModel);
 
             _textBinding?.Detach();
             _textBinding = this.SetBinding(() => _viewModelRef.Target.BadgeText, () => _textView.Text);

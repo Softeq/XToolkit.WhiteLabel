@@ -58,9 +58,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             foreach (var type in targetTypes)
             {
                 var viewModelType = type.BaseType.GetGenericArguments()[0];
-                viewModelToViewTypes.Add(viewModelType, type);
 
-                builder.PerDependency(viewModelType, IfRegistered.Keep);
+                if (!viewModelType.IsAbstract)
+                {
+                    viewModelToViewTypes.Add(viewModelType, type);
+                    builder.PerDependency(viewModelType, IfRegistered.Keep);
+                }
             }
 
             return viewModelToViewTypes;
