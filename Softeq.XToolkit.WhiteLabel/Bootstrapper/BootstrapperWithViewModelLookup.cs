@@ -11,11 +11,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
     {
         protected abstract ViewModelFinderBase ViewModelFinder { get; }
 
-        protected override IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
+        protected override void RegisterTypesFromAssemblies(IContainerBuilder builder, IList<Assembly> assemblies)
         {
-            FindAndRegisterViewModels(builder, assemblies);
+            base.RegisterTypesFromAssemblies(builder, assemblies);
 
-            return base.BuildContainer(builder, assemblies);
+            FindAndRegisterViewModels(builder, assemblies);
         }
 
         protected virtual void FindAndRegisterViewModels(IContainerBuilder builder, IList<Assembly> assemblies)
