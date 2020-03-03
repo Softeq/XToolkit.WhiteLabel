@@ -29,18 +29,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             // navigation
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
             builder.Singleton<BundleService, IBundleService>(IfRegistered.Keep);
-            builder.Singleton<DroidViewLocator>(IfRegistered.Keep);
+            builder.Singleton<DroidViewLocator, IViewLocator>(IfRegistered.Keep);
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-        }
-
-        protected override void RegisterViewLocator(IContainerBuilder builder, Dictionary<Type, Type> viewModelToViewMapping)
-        {
-            builder.Singleton<IViewLocator>(container =>
-            {
-                var viewLocator = container.Resolve<DroidViewLocator>();
-                viewLocator.Initialize(viewModelToViewMapping);
-                return viewLocator;
-            }, IfRegistered.Keep);
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)
@@ -50,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
     public class DroidViewModelFinder : ViewModelFinderBase
     {
-        protected override IEnumerable<Type> SelectViewModelTypes(Assembly assembly)
+        protected override IEnumerable<Type> SelectViewsTypes(Assembly assembly)
         {
             return assembly.GetTypes().View(typeof(AppCompatActivity), typeof(Fragment), typeof(DialogFragment));
         }

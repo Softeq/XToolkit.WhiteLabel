@@ -4,27 +4,18 @@
 using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class DroidViewLocator : IViewLocator
     {
-        private Dictionary<Type, Type> _modelToViewTypes;
+        private readonly ViewModelToViewMap _viewModelToViewMap;
 
-        public DroidViewLocator()
+        public DroidViewLocator(ViewModelToViewMap viewModelToViewMap)
         {
-            _modelToViewTypes = new Dictionary<Type, Type>();
-        }
-
-        public void Initialize(Dictionary<Type, Type> viewModelToView)
-        {
-            if (viewModelToView == null)
-            {
-                return;
-            }
-
-            _modelToViewTypes = viewModelToView;
+            _viewModelToViewMap = viewModelToViewMap;
         }
 
         public Type GetTargetType<TViewModel>(ViewType viewType)
@@ -32,18 +23,26 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return GetTargetType(typeof(TViewModel), viewType);
         }
 
-        public Type GetTargetType(Type viewModelType, ViewType viewType)
+        // TODO YP: export to base, looks the same as iOS impl.
+        public virtual Type GetTargetType(Type viewModelType, ViewType viewType)
         {
-            if (_modelToViewTypes.TryGetValue(viewModelType, out var typeOfView))
+            if (_viewModelToViewMap.TryGetValue(viewModelType, out var targetViewType))
             {
-                return typeOfView;
+                return targetViewType;
             }
 
-            var typeName = viewModelType.FullName;
-            return GetTargetType(typeName, viewType);
+            var targetViewTypeName = BuildViewTypeName(viewModelType, viewType);
+            targetViewType = Type.GetType(targetViewTypeName) ?? AssemblySource.FindTypeByNames(new[] { targetViewTypeName });
+
+            if (targetViewType == null)
+            {
+                throw new InvalidOperationException($"Can't find target view type: {targetViewTypeName}");
+            }
+
+            return targetViewType;
         }
 
-        public object GetView(IViewModelBase viewModel, ViewType viewType)
+        public virtual object GetView(IViewModelBase viewModel, ViewType viewType)
         {
             var targetType = GetTargetType(viewModel.GetType(), viewType);
             var view = Activator.CreateInstance(targetType);
@@ -56,19 +55,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return view;
         }
 
-        private Type GetTargetType(string viewModelTypeName, ViewType viewType)
+        protected virtual string BuildViewTypeName(Type viewModelType, ViewType viewType)
         {
-            var targetTypeName = viewModelTypeName.Replace(".ViewModels.", ".Droid.Views.");
-            targetTypeName = targetTypeName.Replace("ViewModel", viewType.ToString());
-
-            var targetType = Type.GetType(targetTypeName) ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
-
-            if (targetType == null)
+            if (viewModelType == null)
             {
-                throw new InvalidOperationException($"Can't find target type: {targetTypeName}");
+                throw new ArgumentNullException(nameof(viewModelType));
             }
 
-            return targetType;
+            return viewModelType.FullName?
+                .Replace(".ViewModels.", ".Droid.Views.")
+                .Replace("ViewModel", viewType.ToString());
         }
     }
 }

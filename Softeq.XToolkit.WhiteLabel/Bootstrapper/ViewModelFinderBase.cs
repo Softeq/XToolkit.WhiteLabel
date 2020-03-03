@@ -10,23 +10,27 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
     public abstract class ViewModelFinderBase
     {
-        public virtual Dictionary<Type, Type> GetViewModelToViewMapping(IEnumerable<Assembly> assemblies)
+        public virtual ViewModelToViewMap GetViewModelToViewMapping(IEnumerable<Assembly> assemblies)
         {
-            var viewModelToViewDictionary = new Dictionary<Type, Type>();
+            var viewModelToViewMap = new ViewModelToViewMap();
 
-            foreach (var type in assemblies.SelectMany(SelectViewModelTypes))
+            foreach (var viewType in assemblies.SelectMany(SelectViewsTypes))
             {
-                var viewModelType = type.BaseType.GetGenericArguments()[0];
+                var viewModelType = viewType.BaseType.GetGenericArguments()[0];
 
                 if (!viewModelType.IsAbstract)
                 {
-                    viewModelToViewDictionary.Add(viewModelType, type);
+                    viewModelToViewMap.Add(viewModelType, viewType);
                 }
             }
 
-            return viewModelToViewDictionary;
+            return viewModelToViewMap;
         }
 
-        protected abstract IEnumerable<Type> SelectViewModelTypes(Assembly assembly);
+        protected abstract IEnumerable<Type> SelectViewsTypes(Assembly assembly);
+    }
+
+    public class ViewModelToViewMap : Dictionary<Type, Type>
+    {
     }
 }

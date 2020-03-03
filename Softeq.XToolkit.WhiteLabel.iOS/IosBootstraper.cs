@@ -25,19 +25,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
             // navigation
             builder.Singleton<ViewControllerProvider, IViewControllerProvider>(IfRegistered.Keep);
-            builder.Singleton<StoryboardViewLocator>(IfRegistered.Keep);
+            builder.Singleton<StoryboardViewLocator, IViewLocator>(IfRegistered.Keep);
             builder.Singleton<StoryboardNavigation, IPlatformNavigationService>(IfRegistered.Keep);
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
-        }
-
-        protected override void RegisterViewLocator(IContainerBuilder builder, Dictionary<Type, Type> viewModelToViewDictionary)
-        {
-            builder.Singleton<IViewLocator>(container =>
-            {
-                var viewLocator = container.Resolve<StoryboardViewLocator>();
-                viewLocator.Initialize(viewModelToViewDictionary);
-                return viewLocator;
-            }, IfRegistered.Keep);
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)
@@ -47,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
     public class IosViewModelFinder : ViewModelFinderBase
     {
-        protected override IEnumerable<Type> SelectViewModelTypes(Assembly assembly)
+        protected override IEnumerable<Type> SelectViewsTypes(Assembly assembly)
         {
             return assembly.GetTypes().View(typeof(UIViewController));
         }
