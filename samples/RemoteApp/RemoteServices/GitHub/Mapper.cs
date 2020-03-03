@@ -14,7 +14,7 @@ namespace RemoteServices.GitHub
         public static User Map(UserDetailsResponse x)
         {
             return x == null
-                ? null
+                ? new User()
                 : new User
                 {
                     Name = x.Name
@@ -24,7 +24,7 @@ namespace RemoteServices.GitHub
         public static User Map(UserResponse x)
         {
             return x == null
-                ? null
+                ? new User()
                 : new User
                 {
                     Name = x.Login
@@ -33,7 +33,7 @@ namespace RemoteServices.GitHub
 
         public static IList<TTo> MapAll<TFrom, TTo>(IList<TFrom> list, Func<TFrom, TTo> converter)
         {
-            return list?.Select(converter).ToList();
+            return list?.Select(converter).ToList()!;
         }
     }
 }

@@ -8,8 +8,8 @@ namespace RemoteServices.Auth
 {
     public class InMemoryTokenManager : ITokenManager
     {
-        public string AccessToken { get; private set; }
-        public string RefreshToken { get; private set; }
+        public string AccessToken { get; private set; }= string.Empty;
+        public string RefreshToken { get; private set; }= string.Empty;
 
         public Task SaveAsync(string accessToken, string refreshToken)
         {
