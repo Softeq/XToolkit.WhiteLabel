@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TagsHelperTests
 
             var result = TagsHelper.ExtractTagsRanges(input);
 
-            Assert.Equal(1, result.Length);
+            Assert.Single(result);
             Assert.Equal(textRange.Position, result[0].Position);
             Assert.Equal(textRange.Length, result[0].Length);
         }
@@ -89,7 +89,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TagsHelperTests
         {
             var result = TagsHelper.ExtractTags(input);
 
-            Assert.Equal(1, result.Length);
+            Assert.Single(result);
             Assert.Equal(tag, result[0]);
         }
 

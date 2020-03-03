@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             var targetViewTypeName = BuildViewTypeName(viewModelType, viewType);
-            targetViewType = Type.GetType(targetViewTypeName) ?? AssemblySource.FindTypeByNames(new[] { targetViewTypeName });
+            targetViewType = Type.GetType(targetViewTypeName)! ?? AssemblySource.FindTypeByNames(new[] { targetViewTypeName })!;
 
             if (targetViewType == null)
             {
@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             return viewModelType.FullName?
                 .Replace(".ViewModels.", ".Droid.Views.")
-                .Replace("ViewModel", viewType.ToString());
+                .Replace("ViewModel", viewType.ToString()) ?? string.Empty;
         }
     }
 }

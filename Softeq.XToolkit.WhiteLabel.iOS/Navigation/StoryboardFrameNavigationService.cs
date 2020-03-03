@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
                 if (controller != null)
                 {
-                    ViewLocator.GetTopViewController()?.View.EndEditing(true);
+                    ViewLocator.GetTopViewController().View.EndEditing(true);
 
                     NavigationController.PopToViewController(controller, false);
                 }
@@ -78,6 +78,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         }
 
         protected virtual IViewModelBase CreateViewModel<TViewModel>()
+            where TViewModel : notnull
         {
             if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
             {
