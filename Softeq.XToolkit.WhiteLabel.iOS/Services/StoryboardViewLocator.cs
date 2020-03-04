@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return UIApplication.SharedApplication.Windows
                 .Where(window => window.RootViewController != null)
                 .Select(window => _viewControllerProvider.GetTopViewController(window.RootViewController))
-                .FirstOrDefault();
+                .First();
         }
 
         public UIViewController GetView(object viewModel)
@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
 
             var targetTypeName = BuildViewTypeName(viewModelType);
-            targetViewType = Type.GetType(targetTypeName) ?? AssemblySource.FindTypeByNames(new[] { targetTypeName });
+            targetViewType = Type.GetType(targetTypeName)! ?? AssemblySource.FindTypeByNames(new[] { targetTypeName })!;
 
             if (targetViewType == null)
             {
@@ -84,7 +84,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
             return viewType.FullName?
                 .Replace(".ViewModels.", ".iOS.ViewControllers.")
-                .Replace("ViewModel", "ViewController");
+                .Replace("ViewModel", "ViewController") ?? string.Empty;
         }
 
         protected virtual string BuildStoryboardName(Type viewControllerType)

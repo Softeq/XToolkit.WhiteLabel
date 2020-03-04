@@ -32,7 +32,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
         }
 
-        /// <inheritdoc />
+#pragma warning disable 67, CS0067
         public override event EventHandler ValueChanged;
+#pragma warning restore
     }
 }

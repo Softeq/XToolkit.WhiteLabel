@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.PushNotifications
         protected readonly IPushTokenStorageService PushTokenStorageService;
         protected readonly IRemotePushNotificationsService RemotePushNotificationsService;
 
-        private TaskCompletionSource<PushNotificationRegistrationResult> _registrationCompletionSource;
+        private TaskCompletionSource<PushNotificationRegistrationResult>? _registrationCompletionSource;
 
         protected PushNotificationsServiceBase(
             IRemotePushNotificationsService remotePushNotificationsService,

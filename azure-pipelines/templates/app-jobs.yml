@@ -2,7 +2,7 @@ parameters: # defaults for any parameters that aren't specified
   SolutionPath: ''
 
 jobs:
-- job: macos_1014
+- job: macos_1015
   pool:
     name: Hosted macOS
   steps:

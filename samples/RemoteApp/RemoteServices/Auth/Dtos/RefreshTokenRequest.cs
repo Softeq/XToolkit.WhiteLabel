@@ -14,6 +14,6 @@ namespace RemoteServices.Auth.Dtos
         }
 
         [AliasAs("refresh_token")]
-        public string RefreshToken { get; set; }
+        public string RefreshToken { get; set; } = string.Empty;
     }
 }

@@ -12,16 +12,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
     internal class BindableTabBarItem<TKey> : UITabBarItem, IBindable
     {
-        private Binding _textBinding;
-        private WeakReferenceEx<TabViewModel<TKey>> _viewModelRef;
-        private Binding _visibilityBinding;
+        private Binding? _textBinding;
+        private WeakReferenceEx<TabViewModel<TKey>>? _viewModelRef;
+        private Binding? _visibilityBinding;
 
         internal BindableTabBarItem(string title, UIImage image, UIImage selectedImage)
             : base(title, image, selectedImage)
         {
         }
 
-        public object DataContext => _viewModelRef?.Target;
+        public object DataContext => _viewModelRef?.Target!;
 
         public List<Binding> Bindings => throw new System.NotImplementedException();
 
@@ -38,6 +38,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
         private void UpdateBadge()
         {
+            if (_viewModelRef == null)
+            {
+                return;
+            }
+
             if (_viewModelRef.Target.IsBadgeVisible)
             {
                 BadgeValue = _viewModelRef.Target.BadgeText;
