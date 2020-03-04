@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Android.App;
 using Android.Content;
-using Android.Support.V4.App;
+using AndroidX.Core.App;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {

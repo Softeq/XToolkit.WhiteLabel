@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Gms.Extensions;
-using Android.Support.V4.App;
+using AndroidX.Core.App;
 using AndroidX.Lifecycle;
 using Firebase;
 using Firebase.Iid;
