@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
 {
     public class IosConnectivityService : IConnectivityService
     {
-        private readonly NWPathMonitor _ceccularMonitor;
+        private readonly NWPathMonitor _cellularMonitor;
         private readonly NWPathMonitor _wifiMonitor;
         private readonly NWPathMonitor _wiredMonitor;
         private readonly NWPathMonitor _loopbackMonitor;
@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
         {
             _connectionStatuses = new Dictionary<NWInterfaceType, bool>();
 
-            _ceccularMonitor = CreateMonitor(NWInterfaceType.Cellular, UpdateCeccularSnapshot);
+            _cellularMonitor = CreateMonitor(NWInterfaceType.Cellular, UpdateCeccularSnapshot);
             _wifiMonitor = CreateMonitor(NWInterfaceType.Wifi, UpdateWiFiSnapshot);
             _wiredMonitor = CreateMonitor(NWInterfaceType.Wired, UpdateWiredSnapshot);
             _loopbackMonitor = CreateMonitor(NWInterfaceType.Loopback, UpdateLoopbackSnapshot);
@@ -68,13 +68,13 @@ namespace Softeq.XToolkit.Connectivity.iOS
         {
             if (disposing)
             {
-                _ceccularMonitor.Cancel();
+                _cellularMonitor.Cancel();
                 _wifiMonitor.Cancel();
                 _wiredMonitor.Cancel();
                 _loopbackMonitor.Cancel();
                 _otherMonitor.Cancel();
 
-                _ceccularMonitor.Dispose();
+                _cellularMonitor.Dispose();
                 _wifiMonitor.Dispose();
                 _wiredMonitor.Dispose();
                 _loopbackMonitor.Dispose();
@@ -137,15 +137,12 @@ namespace Softeq.XToolkit.Connectivity.iOS
             return networkInterfaceTypes
                 .Select(x =>
                 {
-                    switch (x)
+                    return x switch
                     {
-                        case NWInterfaceType.Cellular:
-                            return ConnectionType.Cellular;
-                        case NWInterfaceType.Wifi:
-                            return ConnectionType.WiFi;
-                        default:
-                            return ConnectionType.Other;
-                    }
+                        NWInterfaceType.Cellular => ConnectionType.Cellular,
+                        NWInterfaceType.Wifi => ConnectionType.WiFi,
+                        _ => ConnectionType.Other
+                    };
                 });
         }
 
@@ -155,7 +152,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
 
             var monitor = new NWPathMonitor(type);
             monitor.SetQueue(DispatchQueue.GetGlobalQueue(DispatchQueuePriority.Background));
-            monitor.SetUpdatedSnapshotHandler(action);
+            monitor.SnapshotHandler = action;
             monitor.Start();
             return monitor;
         }

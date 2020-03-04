@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// <summary>
         ///     Gets or sets the primary <see cref="HttpMessageHandler"/>.
         /// </summary>
-        public virtual HttpMessageHandler PrimaryHandler { get; set; }
+        public virtual HttpMessageHandler? PrimaryHandler { get; set; }
 
         /// <summary>
         ///     Gets a list of additional <see cref="DelegatingHandler"/> instances used to configure an
@@ -98,8 +98,8 @@ namespace Softeq.XToolkit.Remote.Client
             return next;
         }
 
-        private static HttpMessageHandler _cachedNativeHttpMessageHandler;
-        protected static HttpMessageHandler CreateDefaultHandler()
+        private static HttpMessageHandler? _cachedNativeHttpMessageHandler;
+        protected static HttpMessageHandler? CreateDefaultHandler()
         {
             if (_cachedNativeHttpMessageHandler == null)
             {

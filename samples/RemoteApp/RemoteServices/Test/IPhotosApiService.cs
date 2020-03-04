@@ -1,11 +1,11 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Refit;
-using RemoteServices.Photos.Dtos;
+using RemoteServices.Test.Dtos;
 using Softeq.XToolkit.Remote.Primitives;
 
 namespace RemoteServices.Test

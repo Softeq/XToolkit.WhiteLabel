@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Threading;
 
 namespace Softeq.XToolkit.Remote.Primitives
@@ -21,12 +21,12 @@ namespace Softeq.XToolkit.Remote.Primitives
         /// <summary>
         ///     Default RequestOptions object. If defined, it will be used when no options are specified.
         /// </summary>
-        public static RequestOptions DefaultRequestOptions { get; set; }
+        public static RequestOptions? DefaultRequestOptions { get; set; }
 
         /// <summary>
         ///     Default should retry condition. Default value is null.
         /// </summary>
-        public static Func<Exception, bool> DefaultShouldRetry { get; }
+        public static Func<Exception, bool> DefaultShouldRetry { get; } = _ => true;
 
         /// <summary>
         ///     Default cancellation token. Default value is None.

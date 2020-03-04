@@ -25,9 +25,9 @@ namespace Softeq.XToolkit.Remote
 
         public virtual async Task MakeRequest(
             Func<TApiService, CancellationToken, Task> operation,
-            RequestOptions options = null)
+            RequestOptions? options = null)
         {
-            options = options ?? RequestOptions.GetDefaultOptions();
+            options ??= RequestOptions.GetDefaultOptions();
 
             await CreatePolicy(options)
                 .ExecuteAsync(ct => operation(_apiService, ct), options.CancellationToken)
@@ -36,9 +36,9 @@ namespace Softeq.XToolkit.Remote
 
         public virtual async Task<TResult> MakeRequest<TResult>(
             Func<TApiService, CancellationToken, Task<TResult>> operation,
-            RequestOptions options = null)
+            RequestOptions? options = null)
         {
-            options = options ?? RequestOptions.GetDefaultOptions();
+            options ??= RequestOptions.GetDefaultOptions();
 
             return await CreatePolicy(options)
                 .AsAsyncPolicy<TResult>()

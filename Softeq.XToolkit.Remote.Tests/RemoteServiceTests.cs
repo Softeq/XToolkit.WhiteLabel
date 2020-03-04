@@ -69,9 +69,6 @@ namespace Softeq.XToolkit.Remote.Tests
 
         public void Dispose()
         {
-            _apiService = null;
-            _executorBuilder = null;
-            _remoteService = null;
         }
     }
 

@@ -21,11 +21,11 @@ namespace NetworkApp
 {
     public partial class App : Application
     {
-        private string _authUrl;
-        private string _clientId;
-        private string _clientSecret;
-        private string _profileUrl;
-        private string _githubPersonalToken;
+        private readonly string _authUrl;
+        private readonly string _clientId;
+        private readonly string _clientSecret;
+        private readonly string _profileUrl;
+        private readonly string _githubPersonalToken;
 
         private readonly IContainer _container;
 
@@ -40,8 +40,12 @@ namespace NetworkApp
 
             InitializeComponent();
 
-
-
+            // YP: add credentials
+            _authUrl = "";
+            _clientId = "";
+            _clientSecret = "";
+            _profileUrl = "";
+            _githubPersonalToken = "";
 
             // ==== Begin configuration
 

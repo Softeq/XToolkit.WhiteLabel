@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Net.Http;
 
@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Remote.Client
         {
         }
 
-        public DefaultHttpMessageHandlerBuilder(HttpMessageHandler primaryHandler)
+        public DefaultHttpMessageHandlerBuilder(HttpMessageHandler? primaryHandler)
         {
             PrimaryHandler = primaryHandler;
         }

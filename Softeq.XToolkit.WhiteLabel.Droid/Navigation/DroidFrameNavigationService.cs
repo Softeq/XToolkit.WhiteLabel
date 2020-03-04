@@ -142,7 +142,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return fragment.GetType().Name;
         }
 
-        protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel> parameters)
+        protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel>? parameters)
+            where TViewModel : notnull
         {
             if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
             {
