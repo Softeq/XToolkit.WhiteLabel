@@ -154,7 +154,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             return viewModels;
         }
 
-        protected virtual Task<PagingModel<TModel>> LoadAsync(int pageNumber, int pageSize)
+        protected virtual Task<PagingModel<TModel>?> LoadAsync(int pageNumber, int pageSize)
         {
             return Task.FromResult(default(PagingModel<TModel>));
         }

@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         /// <param name="view">View.</param>
         /// <param name="borderWidth">Border width.</param>
         /// <param name="borderColor">Border color. UIColor.White is default color.</param>
-        public static UIView WithBorder(this UIView view, nfloat borderWidth, CGColor borderColor = null)
+        public static UIView WithBorder(this UIView view, nfloat borderWidth, CGColor? borderColor = null)
         {
             view.Layer.BorderWidth = borderWidth;
             view.Layer.BorderColor = borderColor ?? UIColor.White.CGColor;
@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         }
 
         public static void WithShadow(this UIView view, CGSize offset, UIColor color, double opacity, double radius,
-            UIBezierPath shadowPath = null)
+            UIBezierPath? shadowPath = null)
         {
             view.Layer.MasksToBounds = false;
             view.Layer.ShadowColor = color.CGColor;

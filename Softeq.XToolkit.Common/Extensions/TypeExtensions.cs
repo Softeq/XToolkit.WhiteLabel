@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="type">Destination type.</param>
         /// <param name="value">Provided value.</param>
         /// <returns></returns>
-        public static object CoerceValue(this Type type, object value)
+        public static object? CoerceValue(this Type type, object value)
         {
             if (value == null)
             {
@@ -99,7 +99,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <param name="type">Type.</param>
         /// <returns>Default value.</returns>
-        public static object GetDefaultValue(this Type type)
+        public static object? GetDefaultValue(this Type type)
         {
             if (type.IsValueType)
             {

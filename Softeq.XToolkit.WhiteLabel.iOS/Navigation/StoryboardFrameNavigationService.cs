@@ -8,6 +8,7 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
@@ -23,31 +24,18 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             _iocContainer = iocContainer;
         }
 
-        public bool IsEmptyBackStack => !NavigationController.ViewControllers.Any();
+        public bool IsEmptyBackStack => !NavigationController!.ViewControllers.Any();
 
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
 
         bool IFrameNavigationService.CanGoBack => CanGoBack;
 
-        public void NavigateToViewModel<TViewModel>(
+        public virtual void NavigateToViewModel<TViewModel>(
             bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
+            IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
         {
-            NavigateToViewModel(typeof(TViewModel), clearBackStack, parameters);
-        }
-
-        public void NavigateToViewModel(
-            Type viewModelType,
-            bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
-        {
-            if (!typeof(IViewModelBase).IsAssignableFrom(viewModelType))
-            {
-                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
-            }
-
-            var viewModel = (IViewModelBase) _iocContainer.Resolve(viewModelType);
+            var viewModel = CreateViewModel<TViewModel>();
 
             NavigateToViewModel(viewModel, clearBackStack, parameters);
         }
@@ -61,12 +49,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var controller = NavigationController
+                var controller = NavigationController!
                     .ChildViewControllers
                     .FirstOrDefault(x => x is ViewControllerBase<T>);
 
                 if (controller != null)
                 {
+                    ViewLocator.GetTopViewController().View.EndEditing(true);
+
                     NavigationController.PopToViewController(controller, false);
                 }
             });
@@ -85,6 +75,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         void IFrameNavigationService.NavigateToFirstPage()
         {
             throw new InvalidOperationException();
+        }
+
+        protected virtual IViewModelBase CreateViewModel<TViewModel>()
+            where TViewModel : notnull
+        {
+            if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
+            {
+                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
+            }
+
+            return (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
         }
     }
 }

@@ -11,7 +11,7 @@
     <RootNamespace>Softeq.XToolkit.Bindings.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Softeq.XToolkit.Bindings.iOS</AssemblyName>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,7 +60,6 @@
     <Compile Include="Bindable\BindableTableViewHeaderFooterView.cs" />
     <Compile Include="Bindable\BindableTableViewCell.cs" />
     <Compile Include="Bindable\Abstract\BindableExtensions.cs" />
-    <Compile Include="Bindable\Abstract\GestureRecognizerBinding.cs" />
     <Compile Include="Gestures\PanGestureRecognizerBehaviour.cs" />
     <Compile Include="Bindable\BindableTableViewSource.cs" />
     <Compile Include="Bindable\BindableGroupCollectionViewSource.cs" />
@@ -68,6 +67,7 @@
     <Compile Include="Extensions\NSThreadExtensions.cs" />
     <Compile Include="Handlers\IosCollectionObservableKeyGroupCollectionHandler.cs" />
     <Compile Include="Handlers\IosTableObservableKeyGroupCollectionHandler.cs" />
+    <Compile Include="GestureRecognizerBinding.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">

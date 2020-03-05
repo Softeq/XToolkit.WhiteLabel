@@ -7,9 +7,10 @@ using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 {
-    public abstract class ToolbarActivityBase<TViewModel> : ActivityBase<TViewModel>
-        where TViewModel : ToolbarViewModelBase
+    public abstract class ToolbarActivityBase<TViewModel, TKey> : ActivityBase<TViewModel>
+        where TViewModel : ToolbarViewModelBase<TKey>
     {
+        private int _oldSelectedIndex;
         protected abstract int NavigationContainer { get; }
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -28,20 +29,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
                 tabViewModel.InitializeNavigation(NavigationContainer);
             }
 
-            var selectedTabViewModel = ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex);
-
-            selectedTabViewModel.NavigateToFirstPage();
+            var selectedTabViewModel = ViewModel.TabViewModels.FirstOrDefault();
+            selectedTabViewModel?.NavigateToFirstPage();
         }
 
         protected void TabSelected(int newSelectedIndex)
         {
-            var oldSelectedIndex = ViewModel.SelectedIndex;
+            var selectedTabViewModel = ViewModel.TabViewModels.ElementAt(newSelectedIndex);
 
-            ViewModel.SelectionChangedCommand?.Execute(newSelectedIndex);
-
-            var selectedTabViewModel = ViewModel.TabViewModels.ElementAt(ViewModel.SelectedIndex);
-
-            if (newSelectedIndex == oldSelectedIndex) // fast-backward nav
+            if (newSelectedIndex == _oldSelectedIndex) // fast-backward nav
             {
                 selectedTabViewModel.NavigateToFirstPage();
             }
@@ -49,13 +45,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             {
                 selectedTabViewModel.RestoreState();
             }
+
+            _oldSelectedIndex = newSelectedIndex;
         }
 
         public override void OnBackPressed()
         {
-            if (ViewModel.CanGoBack)
+            var viewModel = ViewModel.TabViewModels[_oldSelectedIndex];
+            if (viewModel.CanGoBack)
             {
-                ViewModel.GoBackCommand.Execute(null);
+                viewModel.GoBack();
             }
             else
             {

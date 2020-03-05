@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             return AppSettings.GetValueOrDefault(key, defaultValue);
         }
 
-        public string GetValueOrDefault(string key, string defaultValue = null)
+        public string GetValueOrDefault(string key, string? defaultValue = null)
         {
             return AppSettings.GetValueOrDefault(key, defaultValue);
         }

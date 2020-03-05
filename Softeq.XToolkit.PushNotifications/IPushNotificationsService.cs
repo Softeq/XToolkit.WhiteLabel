@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.PushNotifications
@@ -37,7 +38,7 @@ namespace Softeq.XToolkit.PushNotifications
 
         /// <summary>
         /// Set specific value for the app Badge number manually. Negative or zero value will remove the badge
-        /// NOTE: not implemented on Android for now
+        /// NOTE: on Android <see cref="https://github.com/wcoder/ShortcutBadger"/> library is used. See wiki for details, not all devices are supported
         /// </summary>
         /// <param name="badgeNumber">Number to be displayed on the Badge</param>
         void SetBadgeNumber(int badgeNumber);
@@ -50,6 +51,12 @@ namespace Softeq.XToolkit.PushNotifications
         ///     Registers application for push notifications
         /// </summary>
         void RegisterForPushNotifications();
+
+        /// <summary>
+        ///     Registers application for push notifications asynchronously
+        /// </summary>
+        /// <returns>Task with <see cref="PushNotificationRegistrationResult" /> about registration status in system and on server.</returns>
+        Task<PushNotificationRegistrationResult> RegisterForPushNotificationsAsync();
 
         /// <summary>
         ///     Callback to notify the service that registration for push notifications finished successfully.
@@ -77,7 +84,19 @@ namespace Softeq.XToolkit.PushNotifications
         ///     On Android unsubscribing in system will only work when there is Internet Connection
         /// </param>
         /// <returns>Task with <see cref="PushNotificationsUnregisterResult" /> about unregistration status on server and in system as well.</returns>
+        [Obsolete("Use UnregisterFromPushNotifications with PushNotificationsUnregisterOptions param instead.")]
         Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(bool unregisterInSystem = false);
+
+        /// <summary>
+        ///     Unregisters application from push notifications
+        /// </summary>
+        /// <param name="options">
+        ///     Defines if we should unregister in system and if we should unregister on server
+        ///     It is not very recommended to unsubscribe in system by Apple and Firebase documentation, but it might be useful on logout.
+        ///     On Android unsubscribing in system will only work when there is Internet Connection
+        /// </param>
+        /// <returns>Task with <see cref="PushNotificationsUnregisterResult" /> about unregistration status on server and in system as well.</returns>
+        Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(PushNotificationsUnregisterOptions options);
 
         #endregion
 

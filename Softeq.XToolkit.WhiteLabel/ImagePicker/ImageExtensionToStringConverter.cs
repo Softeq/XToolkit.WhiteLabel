@@ -6,9 +6,9 @@ using Softeq.XToolkit.Common.Converters;
 
 namespace Softeq.XToolkit.WhiteLabel.ImagePicker
 {
-    public class ImageExtensionToStringConverter : IConverter<string, ImageExtension>
+    public class ImageExtensionToStringConverter : IConverter<string?, ImageExtension>
     {
-        public string ConvertValue(ImageExtension extension, object parameter = null, string language = null)
+        public string? ConvertValue(ImageExtension extension, object? parameter = null, string? language = null)
         {
             switch (extension)
             {
@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
             }
         }
 
-        public ImageExtension ConvertValueBack(string value, object parameter = null, string language = null)
+        public ImageExtension ConvertValueBack(string? value, object? parameter = null, string? language = null)
         {
             if (string.IsNullOrEmpty(value))
             {

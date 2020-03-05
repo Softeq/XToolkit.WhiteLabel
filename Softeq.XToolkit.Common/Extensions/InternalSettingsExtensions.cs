@@ -9,21 +9,22 @@ namespace Softeq.XToolkit.Common.Extensions
     {
         public static void AddOrUpdateJsonValue<T>(this IInternalSettings internalSettings,
             IJsonSerializer jsonSerializer, string key, T value)
+            where T : notnull
         {
-            var json = jsonSerializer.Serialize(value);
-            if (json == "null")
+            if (value == null)
             {
                 internalSettings.Remove(key);
                 return;
             }
 
+            var json = jsonSerializer.Serialize(value);
             internalSettings.AddOrUpdateValue(key, json);
         }
 
         public static T GetJsonValueOrDefault<T>(this IInternalSettings internalSettings,
             IJsonSerializer jsonSerializer, string key, T defaultValue = default)
         {
-            var json = internalSettings.GetValueOrDefault(key, default(string));
+            var json = internalSettings.GetValueOrDefault(key, default(string)!);
             return string.IsNullOrEmpty(json)
                 ? defaultValue
                 : jsonSerializer.Deserialize<T>(json);

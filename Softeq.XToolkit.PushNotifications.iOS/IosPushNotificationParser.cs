@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using Foundation;
 
 namespace Softeq.XToolkit.PushNotifications.iOS
@@ -47,11 +48,15 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             var pushNotification = new PushNotificationModel();
 
             var aps = dictionary.GetDictionaryByKey(ApsKey);
+            if (aps == null)
+            {
+                throw new NullReferenceException($"{nameof(aps)} dictionary is null");
+            }
 
             var alertObject = aps.GetObjectByKey(AlertKey);
 
-            string title = null;
-            string body = null;
+            var title = string.Empty;
+            var body = string.Empty;
 
             if (alertObject is NSDictionary alertDictionary)
             {

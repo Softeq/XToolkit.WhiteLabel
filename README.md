@@ -8,11 +8,12 @@ XToolkit.WhiteLabel is a modular, cross-platform MVVM framework from "lego" comp
 
 Component | NuGet
 ----------|--------
-Common    | [![Softeq.XToolkit.Common](https://img.shields.io/nuget/v/Softeq.XToolkit.Common.svg)](https://www.nuget.org/packages/Softeq.XToolkit.Common)
-Bindings  | [![Softeq.XToolkit.Bindings](https://img.shields.io/nuget/v/Softeq.XToolkit.Bindings.svg)](https://www.nuget.org/packages/Softeq.XToolkit.Bindings)
-Permissions | [![Softeq.XToolkit.Permissions](https://img.shields.io/nuget/v/Softeq.XToolkit.Permissions.svg)](https://www.nuget.org/packages/Softeq.XToolkit.Permissions)
-PushNotifications | [![Softeq.XToolkit.PushNotifications](https://img.shields.io/nuget/v/Softeq.XToolkit.PushNotifications.svg)](https://www.nuget.org/packages/Softeq.XToolkit.PushNotifications)
-WhiteLabel  | [![Softeq.XToolkit.WhiteLabel](https://img.shields.io/nuget/v/Softeq.XToolkit.WhiteLabel.svg)](https://www.nuget.org/packages/Softeq.XToolkit.WhiteLabel)
+Common    | [![Softeq.XToolkit.Common](https://buildstats.info/nuget/Softeq.XToolkit.Common?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Common)
+Bindings  | [![Softeq.XToolkit.Bindings](https://buildstats.info/nuget/Softeq.XToolkit.Bindings?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Bindings)
+Permissions | [![Softeq.XToolkit.Permissions](https://buildstats.info/nuget/Softeq.XToolkit.Permissions?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Permissions)
+PushNotifications | [![Softeq.XToolkit.PushNotifications](https://buildstats.info/nuget/Softeq.XToolkit.PushNotifications?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.PushNotifications)
+WhiteLabel  | [![Softeq.XToolkit.WhiteLabel](https://buildstats.info/nuget/Softeq.XToolkit.WhiteLabel?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.WhiteLabel)
+Remote  | [![Softeq.XToolkit.Remote](https://buildstats.info/nuget/Softeq.XToolkit.Remote?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Remote)
 
 ## Documentation
 

@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.Converters
         /// <param name="parameter">The parameter to be used in the converter logic.</param>
         /// <param name="language">The language to be used in the converter.</param>
         /// <returns>A converted value. If the method returns <c>null</c>, the valid <c>null</c> value is used.</returns>
-        TOut ConvertValue(TIn value, object parameter = null, string language = null);
+        TOut ConvertValue(TIn value, object? parameter = null, string? language = null);
 
         /// <summary>
         ///     Modifies the target value before passing it to the source object.
@@ -26,6 +26,6 @@ namespace Softeq.XToolkit.Common.Converters
         /// <param name="parameter">The parameter to be used in the converter logic.</param>
         /// <param name="language">The language to be used in the converter.</param>
         /// <returns>A converted value. If the method returns <c>null</c>, the valid <c>null</c> value is used.</returns>
-        TIn ConvertValueBack(TOut value, object parameter = null, string language = null);
+        TIn ConvertValueBack(TOut value, object? parameter = null, string? language = null);
     }
 }

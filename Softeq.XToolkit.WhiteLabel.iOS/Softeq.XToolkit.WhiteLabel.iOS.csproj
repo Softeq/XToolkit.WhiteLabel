@@ -11,7 +11,8 @@
     <RootNamespace>Softeq.XToolkit.WhiteLabel.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Softeq.XToolkit.WhiteLabel.iOS</AssemblyName>
-    <LangVersion>7.3</LangVersion>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -60,6 +61,7 @@
     <Compile Include="Helpers\AvatarImageHelpers.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
+    <Compile Include="Helpers\ViewControllerHelper.cs" />
     <Compile Include="ImagePicker\SimpleImagePicker.cs" />
     <Compile Include="Interfaces\IViewControllerProvider.cs" />
     <Compile Include="IosPlatformProvider.cs" />
@@ -89,7 +91,6 @@
       <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
     </Compile>
     <Compile Include="Services\KeyboardService.cs" />
-    <Compile Include="ViewControllers\Tab\RootFrameNavigationViewController.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
     <Compile Include="Controls\BindableTabBarItem.cs" />
     <Compile Include="IosBootstraper.cs" />

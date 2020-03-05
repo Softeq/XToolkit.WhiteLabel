@@ -5,8 +5,8 @@ using System.Collections.Generic;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
+using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
@@ -15,41 +15,47 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
     {
         protected readonly IViewLocator ViewLocator;
 
-        private WeakReferenceEx<UINavigationController> _navigationControllerRef;
+        private WeakReferenceEx<UINavigationController>? _navigationControllerRef;
 
         public StoryboardNavigation(IViewLocator viewLocator)
         {
             ViewLocator = viewLocator;
         }
 
-        protected UINavigationController NavigationController
+        protected UINavigationController? NavigationController
         {
             get => _navigationControllerRef?.Target;
-            set => _navigationControllerRef = WeakReferenceEx.Create(value);
+            set
+            {
+                if (value != null)
+                {
+                    _navigationControllerRef = WeakReferenceEx.Create(value);
+                }
+            }
         }
 
-        public bool CanGoBack => NavigationController.ViewControllers.Length > 1;
+        public bool CanGoBack => NavigationController!.ViewControllers.Length > 1;
 
         public void Initialize(object navigation)
         {
-            NavigationController = navigation as UINavigationController;
+            NavigationController = (UINavigationController) navigation;
         }
 
-        public void GoBack()
+        public virtual void GoBack()
         {
-            Execute.BeginOnUIThread(() => { NavigationController.PopViewController(true); });
+            Execute.BeginOnUIThread(() =>
+            {
+                ViewLocator.GetTopViewController()?.View.EndEditing(true);
+
+                NavigationController!.PopViewController(true);
+            });
         }
 
-        public void NavigateToViewModel(
+        public virtual void NavigateToViewModel(
             IViewModelBase viewModelBase,
             bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters)
+            IReadOnlyList<NavigationParameterModel>? parameters)
         {
-            if (viewModelBase is IFrameViewModel frameViewModel)
-            {
-                frameViewModel.FrameNavigationService = this as IFrameNavigationService;
-            }
-
             if (parameters != null)
             {
                 viewModelBase.ApplyParameters(parameters);
@@ -62,13 +68,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
+                ViewLocator.GetTopViewController()?.View.EndEditing(true);
+
                 if (clearBackStack)
                 {
-                    NavigationController.SetViewControllers(new[] { controller }, true);
+                    NavigationController!.SetViewControllers(new[] { controller }, true);
                     return;
                 }
 
-                NavigationController.PushViewController(controller, true);
+                NavigationController!.PushViewController(controller, true);
             });
         }
     }

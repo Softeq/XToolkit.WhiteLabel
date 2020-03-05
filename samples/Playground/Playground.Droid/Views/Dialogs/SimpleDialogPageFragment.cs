@@ -12,8 +12,8 @@ namespace Playground.Droid.Views.Dialogs
 {
     public class SimpleDialogPageFragment : DialogFragmentBase<SimpleDialogPageViewModel>
     {
-        private Button _closeButton;
-        private Button _doneButton;
+        private Button? _closeButton;
+        private Button? _doneButton;
 
         // TODO YP: move inflate to WL
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

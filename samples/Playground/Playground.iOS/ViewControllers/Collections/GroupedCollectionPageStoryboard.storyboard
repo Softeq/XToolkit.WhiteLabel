@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15505" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15509"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -47,16 +45,10 @@
                                 </collectionViewFlowLayout>
                                 <cells/>
                             </collectionView>
-                            <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="VZq-MF-Q3W">
-                                <rect key="frame" x="188.5" y="429.5" width="37" height="37"/>
-                                <color key="color" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                            </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
                             <constraint firstItem="GvW-FL-L4i" firstAttribute="top" secondItem="ZJg-LX-5MA" secondAttribute="bottom" id="31q-qL-TQy"/>
-                            <constraint firstItem="VZq-MF-Q3W" firstAttribute="centerX" secondItem="I7e-It-LjG" secondAttribute="centerX" id="6La-mw-X34"/>
-                            <constraint firstItem="VZq-MF-Q3W" firstAttribute="centerY" secondItem="I7e-It-LjG" secondAttribute="centerY" id="L6x-s0-4KI"/>
                             <constraint firstItem="VfP-Th-SzX" firstAttribute="top" secondItem="Lsj-2D-wv7" secondAttribute="bottom" id="Rqv-qd-QoD"/>
                             <constraint firstAttribute="trailing" secondItem="Lsj-2D-wv7" secondAttribute="trailing" id="U75-vu-N8Y"/>
                             <constraint firstItem="Lsj-2D-wv7" firstAttribute="leading" secondItem="I7e-It-LjG" secondAttribute="leading" id="Vwl-tW-dB3"/>
@@ -64,29 +56,14 @@
                             <constraint firstItem="GvW-FL-L4i" firstAttribute="leading" secondItem="I7e-It-LjG" secondAttribute="leadingMargin" id="s9M-yP-eTl"/>
                             <constraint firstAttribute="trailingMargin" secondItem="GvW-FL-L4i" secondAttribute="trailing" id="uwJ-8S-l5q"/>
                         </constraints>
-                        <variation key="default">
-                            <mask key="subviews">
-                                <exclude reference="VZq-MF-Q3W"/>
-                            </mask>
-                        </variation>
                     </view>
                     <connections>
-                        <outlet property="ActivityIndicatorView" destination="VZq-MF-Q3W" id="SLF-ix-7ry"/>
                         <outlet property="AddButton" destination="38y-Ou-uGQ" id="aIC-Mz-amx"/>
                         <outlet property="CollectionView" destination="Lsj-2D-wv7" id="QHJ-Hn-6QZ"/>
                         <outlet property="GenerateButton" destination="KEH-zm-Jhj" id="olh-V3-0sv"/>
-                        <outlet property="searchDisplayController" destination="5uS-Bm-k7R" id="gh6-N0-h6N"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="O1N-DJ-RLQ" userLabel="First Responder" sceneMemberID="firstResponder"/>
-                <searchDisplayController id="5uS-Bm-k7R">
-                    <connections>
-                        <outlet property="delegate" destination="jwe-91-B8l" id="1eB-IY-sYy"/>
-                        <outlet property="searchContentsController" destination="jwe-91-B8l" id="fol-zl-zV3"/>
-                        <outlet property="searchResultsDataSource" destination="jwe-91-B8l" id="hO9-rn-chx"/>
-                        <outlet property="searchResultsDelegate" destination="jwe-91-B8l" id="5G5-AL-Fri"/>
-                    </connections>
-                </searchDisplayController>
             </objects>
             <point key="canvasLocation" x="166.66666666666669" y="83.705357142857139"/>
         </scene>

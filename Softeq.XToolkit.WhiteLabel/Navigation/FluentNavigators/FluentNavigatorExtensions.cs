@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
     public static class FluentNavigatorExtensions
     {
         public static void ApplyParameters(this IViewModelBase viewmodel,
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel>? parameters)
         {
             parameters?.Apply(p => p.PropertyInfo.ToProperty().SetValue(viewmodel, p.Value));
         }

@@ -1,4 +1,4 @@
-﻿// Developed by Softeq Development Corporation
+// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -8,21 +8,17 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static DateTime NSDateToDateTime(this NSDate date)
+        public static DateTime ToDateTime(this NSDate date)
         {
-            var reference = TimeZone.CurrentTimeZone.ToLocalTime(
-                new DateTime(2001, 1, 1, 0, 0, 0));
-            return reference.AddSeconds(date.SecondsSinceReferenceDate);
+            return ((DateTime) date).ToLocalTime();
         }
 
-        public static NSDate DateTimeToNSDate(this DateTime date)
+        public static NSDate ToNsDate(this DateTime date)
         {
-            var reference = new DateTime(2001, 1, 1, 0, 0, 0);
-            return NSDate.FromTimeIntervalSinceReferenceDate(
-                (date - reference).TotalSeconds);
+            return (NSDate) DateTime.SpecifyKind(date, DateTimeKind.Utc);
         }
 
-        public static NSDate ToNSDateLocal(this DateTimeOffset dateTimeOffset)
+        public static NSDate ToNsDateLocal(this DateTimeOffset dateTimeOffset)
         {
             var timeSpan = dateTimeOffset - new DateTimeOffset(2001, 1, 1, 0, 0, 0, DateTimeOffset.UtcNow.Offset);
             var nsDate = NSDate.FromTimeIntervalSinceReferenceDate(timeSpan.TotalSeconds);

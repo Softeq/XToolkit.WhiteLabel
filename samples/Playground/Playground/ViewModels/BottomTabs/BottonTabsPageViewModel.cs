@@ -6,22 +6,18 @@ using Playground.ViewModels.BottomTabs.First;
 using Playground.ViewModels.BottomTabs.Second;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Navigation.Tab;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Playground.ViewModels.BottomTabs
 {
-    public class BottomTabsPageViewModel : ToolbarViewModelBase
+    public class BottomTabsPageViewModel : ToolbarViewModelBase<string>
     {
-        public BottomTabsPageViewModel(
-            ITabNavigationService tabNavigationService,
-            IContainer container)
-            : base(tabNavigationService, container)
+        public BottomTabsPageViewModel(IContainer container)
         {
-            TabModels = new List<TabItem>
+            TabModels = new List<TabItem<string>>
             {
-                TabItem.CreateFor<RedViewModel>("First", "Chat"),
-                TabItem.CreateFor<BlueViewModel>("Second", "Settings")
+                new TabItem<RedViewModel, string>("First", "Chat", container),
+                new TabItem<BlueViewModel, string>("Second", "Settings", container)
             };
         }
     }

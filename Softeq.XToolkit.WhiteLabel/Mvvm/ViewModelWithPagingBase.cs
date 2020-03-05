@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
             else if (model == null && CurrentPage == 0)
             {
                 CurrentPage = -1;
-                await AddPage(default(List<T>), shouldReset).ConfigureAwait(false);
+                await AddPage(default(List<T>)!, shouldReset).ConfigureAwait(false);
                 Execute.BeginOnUIThread(() => { CanLoadMoreRecords = false; });
             }
 

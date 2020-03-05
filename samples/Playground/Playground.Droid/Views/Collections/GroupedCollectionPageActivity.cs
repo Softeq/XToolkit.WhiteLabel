@@ -18,10 +18,10 @@ namespace Playground.Droid.Views.Collections
     {
         private const int ColumnsCount = 3;
 
-        private ProgressBar _progress;
-        private RecyclerView _recyclerView;
-        private Button _generateButton;
-        private Button _addButton;
+        private ProgressBar? _progress;
+        private RecyclerView? _recyclerView;
+        private Button? _generateButton;
+        private Button? _addButton;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -61,7 +61,7 @@ namespace Playground.Droid.Views.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => SupportActionBar.Title);
-            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress.Visibility, new BoolToVisibilityConverter());
+            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress!.Visibility, new BoolToVisibilityConverter());
         }
     }
 }

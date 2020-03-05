@@ -5,6 +5,8 @@ using System;
 using NSubstitute;
 using Xunit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Common.Tests
 {
     public class GenericEventArgsTest

@@ -1,28 +1,43 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Model
 {
-    public class TabItem
+    public abstract class TabItem<TKey>
     {
-        public TabItem(string title, string imageName, Type firstViewModelType)
+        protected TabItem(string title, TKey key)
         {
             Title = title;
-            ImageKey = imageName;
-            FirstViewModelType = firstViewModelType;
+            Key = key;
         }
 
         public string Title { get; }
 
-        public string ImageKey { get; }
+        public TKey Key { get; }
 
-        public Type FirstViewModelType { get; }
+        public abstract TabViewModel<TKey> CreateViewModel();
+    }
 
-        public static TabItem CreateFor<TViewModel>(string title, string imageName)
+    public class TabItem<TFirstViewModel, TKey> : TabItem<TKey> where TFirstViewModel : ViewModelBase
+    {
+        public TabItem(string title, TKey key, IContainer container) : base(title, key)
         {
-            return new TabItem(title, imageName, typeof(TViewModel));
+            Container = container;
+        }
+
+        protected IContainer Container { get; }
+
+        public override TabViewModel<TKey> CreateViewModel()
+        {
+            var frameNavigationService = Container.Resolve<IFrameNavigationService>();
+            var tabViewModel = new TabViewModel<TFirstViewModel, TKey>(frameNavigationService);
+            tabViewModel.Initialize(this);
+            return tabViewModel;
         }
     }
 }

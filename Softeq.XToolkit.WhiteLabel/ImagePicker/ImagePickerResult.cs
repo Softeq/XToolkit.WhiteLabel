@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
         /// <summary>
         ///     Platform-specific object of the image.
         /// </summary>
-        public IDisposable ImageObject { get; set; }
+        public IDisposable? ImageObject { get; set; }
 
         /// <summary>
         ///     Extension of image.
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.ImagePicker
         /// <summary>
         ///     File extension for image.
         /// </summary>
-        public string Extension
+        public string? Extension
         {
             get
             {

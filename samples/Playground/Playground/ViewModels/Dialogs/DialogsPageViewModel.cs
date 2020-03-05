@@ -19,8 +19,8 @@ namespace Playground.ViewModels.Dialogs
         private readonly ILogger _logger;
 
         private string _alertResult = "-";
-        private Person _dialogUntilDismissResult;
-        private Person _dialogUntilResult;
+        private Person? _dialogUntilDismissResult;
+        private Person? _dialogUntilResult;
 
         public DialogsPageViewModel(
             IDialogsService dialogsService,
@@ -53,13 +53,13 @@ namespace Playground.ViewModels.Dialogs
 
         public Person DialogUntilDismissResult
         {
-            get => _dialogUntilDismissResult;
+            get => _dialogUntilDismissResult!;
             set => Set(ref _dialogUntilDismissResult, value);
         }
 
         public Person DialogUntilResult
         {
-            get => _dialogUntilResult;
+            get => _dialogUntilResult!;
             set => Set(ref _dialogUntilResult, value);
         }
 

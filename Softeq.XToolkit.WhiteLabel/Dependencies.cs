@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.WhiteLabel
             IsInitialized = true;
         }
 
-        public static IContainer Container { get; private set; }
+        public static IContainer Container { get; private set; } = default!;
 
         public static IPageNavigationService PageNavigationService => Container.Resolve<IPageNavigationService>();
 

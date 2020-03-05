@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.Common.Files
         /// <param name="path">Source file path</param>
         /// <param name="newPath">Destination file path</param>
         /// <returns>Return destination path if file copied, overwise null</returns>
-        Task<string> CopyFileFromAsync(string path, string newPath);
+        Task<string?> CopyFileFromAsync(string path, string newPath);
 
         /// <summary>
         ///     Delete all files from directory

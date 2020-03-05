@@ -10,24 +10,19 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 {
     internal class DryIocContainerAdapter : IContainer
     {
-        private IDryContainer _container;
+        private IDryContainer _container = default!;
 
         internal void Initialize(IDryContainer container)
         {
             _container = container;
         }
 
-        public TService Resolve<TService>()
+        public TService Resolve<TService>(params object[] parameters) where TService : notnull
         {
-            return _container.Resolve<TService>();
+            return _container.Resolve<TService>(parameters);
         }
 
-        public object Resolve(Type type)
-        {
-            return _container.Resolve(type);
-        }
-
-        public Lazy<TService> ResolveLazy<TService>()
+        public Lazy<TService> ResolveLazy<TService>() where TService : notnull
         {
             return new Lazy<TService>(() => _container.Resolve<TService>());
         }

@@ -16,6 +16,8 @@ namespace Softeq.XToolkit.PushNotifications
         protected readonly IPushTokenStorageService PushTokenStorageService;
         protected readonly IRemotePushNotificationsService RemotePushNotificationsService;
 
+        private TaskCompletionSource<PushNotificationRegistrationResult>? _registrationCompletionSource;
+
         protected PushNotificationsServiceBase(
             IRemotePushNotificationsService remotePushNotificationsService,
             IPushTokenStorageService pushTokenStorageService,
@@ -36,10 +38,20 @@ namespace Softeq.XToolkit.PushNotifications
 
         public abstract void RegisterForPushNotifications();
 
-        public async Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(bool unregisterInSystem = false)
+        public Task<PushNotificationRegistrationResult> RegisterForPushNotificationsAsync()
+        {
+            if (_registrationCompletionSource == null || _registrationCompletionSource.Task.IsCompleted)
+            {
+                _registrationCompletionSource = new TaskCompletionSource<PushNotificationRegistrationResult>();
+                RegisterForPushNotifications();
+            }
+            return _registrationCompletionSource.Task;
+        }
+
+        public async Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(PushNotificationsUnregisterOptions options)
         {
             // Unregister in system if needed
-            if (unregisterInSystem && PushTokenStorageService.IsTokenRegisteredInSystem)
+            if (options.ShouldUnregisterInSystem() && PushTokenStorageService.IsTokenRegisteredInSystem)
             {
                 var tokenRemovedFromSystem = await UnregisterFromPushTokenInSystem();
                 if (!tokenRemovedFromSystem)
@@ -56,20 +68,31 @@ namespace Softeq.XToolkit.PushNotifications
                 return PushNotificationsUnregisterResult.Success;
             }
 
-            // Unregister on server
-            var tokenRemovedFromServer = await RemotePushNotificationsService
-                .RemovePushNotificationsToken(token).ConfigureAwait(false);
-            if (!tokenRemovedFromServer)
+            // Unregister on server if needed
+            if (options.ShouldUnregisterOnServer() && PushTokenStorageService.IsTokenSavedOnServer)
             {
-                return PushNotificationsUnregisterResult.ServerFailed;
-            }
+                var tokenRemovedFromServer = await RemotePushNotificationsService
+                    .RemovePushNotificationsToken(token).ConfigureAwait(false);
+                if (!tokenRemovedFromServer)
+                {
+                    return PushNotificationsUnregisterResult.ServerFailed;
+                }
 
-            PushTokenStorageService.IsTokenSavedOnServer = false;
+                PushTokenStorageService.IsTokenSavedOnServer = false;
+            }
 
             // Clear token if it is unregistered both in the system (optional) and on server
             PushTokenStorageService.PushToken = string.Empty;
 
             return PushNotificationsUnregisterResult.Success;
+        }
+
+        [Obsolete("Use UnregisterFromPushNotifications with PushNotificationsUnregisterOptions param instead.")]
+        public async Task<PushNotificationsUnregisterResult> UnregisterFromPushNotifications(bool unregisterInSystem = false)
+        {
+            return await UnregisterFromPushNotifications(unregisterInSystem
+                ? PushNotificationsUnregisterOptions.InSystemAndOnServer
+                : PushNotificationsUnregisterOptions.OnServerOnly);
         }
 
         public virtual void OnRegisteredForPushNotifications(string token)
@@ -150,14 +173,15 @@ namespace Softeq.XToolkit.PushNotifications
             try
             {
                 result = PushNotificationParser.Parse(pushNotification);
+                return true;
             }
             catch (Exception ex)
             {
                 PushNotificationsHandler.HandleInvalidPushNotification(ex, pushNotification);
-                result = null;
             }
 
-            return result != null;
+            result = new PushNotificationModel();
+            return false;
         }
 
         private async Task OnRegisterSuccessInternal(string token)
@@ -178,17 +202,23 @@ namespace Softeq.XToolkit.PushNotifications
             PushNotificationsHandler.OnPushRegistrationCompleted(
                 PushTokenStorageService.IsTokenRegisteredInSystem,
                 PushTokenStorageService.IsTokenSavedOnServer);
+
+            _registrationCompletionSource?.TrySetResult(new PushNotificationRegistrationResult(
+                PushTokenStorageService.IsTokenRegisteredInSystem, PushTokenStorageService.IsTokenSavedOnServer));
         }
 
         private async Task OnRegisterFailedInternal()
         {
             PushTokenStorageService.IsTokenRegisteredInSystem = false;
 
-            await UnregisterFromPushNotifications();
+            await UnregisterFromPushNotifications(PushNotificationsUnregisterOptions.OnServerOnly);
 
             PushNotificationsHandler.OnPushRegistrationCompleted(
                 PushTokenStorageService.IsTokenRegisteredInSystem,
                 PushTokenStorageService.IsTokenSavedOnServer);
+
+            _registrationCompletionSource?.TrySetResult(new PushNotificationRegistrationResult(
+                PushTokenStorageService.IsTokenRegisteredInSystem, PushTokenStorageService.IsTokenSavedOnServer));
         }
     }
 }
