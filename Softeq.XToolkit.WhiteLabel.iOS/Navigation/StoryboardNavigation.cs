@@ -68,16 +68,31 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                ViewLocator.GetTopViewController()?.View.EndEditing(true);
+                var topViewController = ViewLocator.GetTopViewController();
+
+                topViewController.View.EndEditing(true);
 
                 if (clearBackStack)
                 {
-                    NavigationController!.SetViewControllers(new[] { controller }, true);
+                    var animated = IsAnimatedWhenNavigateWithClear(NavigationController!, topViewController);
+                    NavigationController!.SetViewControllers(new[] { controller }, animated);
                     return;
                 }
 
                 NavigationController!.PushViewController(controller, true);
             });
+        }
+
+        protected virtual bool IsAnimatedWhenNavigateWithClear(
+            UINavigationController navigationController,
+            UIViewController topViewController)
+        {
+            // YP: Workaround for iOS 13 issue, looks related to https://stackoverflow.com/a/23912009
+            if (navigationController.ViewControllers.Length > 0)
+            {
+                return navigationController.ViewControllers[0] == topViewController;
+            }
+            return false;
         }
     }
 }
