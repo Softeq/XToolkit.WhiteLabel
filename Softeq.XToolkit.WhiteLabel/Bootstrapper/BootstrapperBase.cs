@@ -18,9 +18,10 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             var containerBuilder = CreateContainerBuilder();
 
             RegisterInternalServices(containerBuilder);
+            RegisterTypesFromAssemblies(containerBuilder, assemblies);
             ConfigureIoc(containerBuilder);
 
-            var container = BuildContainer(containerBuilder, assemblies);
+            var container = BuildContainer(containerBuilder);
 
             Dependencies.Initialize(container);
         }
@@ -43,9 +44,13 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             builder.Singleton<Services.JsonSerializer, IJsonSerializer>();
         }
 
+        protected virtual void RegisterTypesFromAssemblies(IContainerBuilder builder, IList<Assembly> assemblies)
+        {
+        }
+
         protected abstract void ConfigureIoc(IContainerBuilder builder);
 
-        protected virtual IContainer BuildContainer(IContainerBuilder builder, IList<Assembly> assemblies)
+        protected virtual IContainer BuildContainer(IContainerBuilder builder)
         {
             return builder.Build();
         }

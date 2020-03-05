@@ -1,8 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Collections.Generic;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
@@ -12,7 +10,5 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         UIViewController GetView(object viewModel);
 
         UIViewController GetTopViewController();
-
-        void Initialize(Dictionary<Type, Type> viewmodelToView);
     }
 }

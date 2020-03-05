@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.Common.Extensions
                 initials = Regex.Replace(initials.Trim(), @"\s+(?:[JS]R|I{1,3}|I[VX]|VI{0,3})$", "", RegexOptions.IgnoreCase);
 
                 // Extract up to 2 initials from the remaining cleaned name.
-                initials = Regex.Replace(initials, @"^(\p{L})[^\s]*(?:\s+(?:\p{L}+\s+(?=\p{L}))?(?:(\p{L})\p{L}*)?)?$", "$1$2")
+                initials = Regex.Replace(initials, @"^(\p{L})[^\s]*(?:\s+(?:\p{L}+\s+(?=\p{L}))*(?:(\p{L})\p{L}*)?)?$", "$1$2")
                     .Trim();
 
                 if (initials.Length > 2)
@@ -100,7 +100,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>True when parsing was successful.</returns>
         public static bool TryParseDouble(this string text, out double? result)
         {
-            if (double.TryParse(text, NumberStyles.Number, CultureInfo.CurrentCulture, out var number))
+            if (double.TryParse(text, NumberStyles.Number | NumberStyles.AllowExponent, CultureInfo.CurrentCulture, out var number))
             {
                 result = number;
                 return true;

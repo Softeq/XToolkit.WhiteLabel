@@ -61,6 +61,8 @@
     <Compile Include="Helpers\AvatarImageHelpers.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
+    <Compile Include="Helpers\ViewControllerHelper.cs" />
+    <Compile Include="ImagePicker\SimpleImagePicker.cs" />
     <Compile Include="Interfaces\IViewControllerProvider.cs" />
     <Compile Include="IosPlatformProvider.cs" />
     <Compile Include="IViewControllerComponent.cs" />

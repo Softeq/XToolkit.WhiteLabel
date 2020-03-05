@@ -9,11 +9,19 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
 {
-    public abstract class ToolbarViewModelBase : ViewModelBase
+    public abstract class ToolbarViewModelBase<TKey> : ViewModelBase
     {
-        public IList<TabItem> TabModels { get; protected set; }
+        private int _selectedIndex;
 
-        public IList<TabViewModel> TabViewModels { get; protected set; } = default!;
+        public IList<TabItem<TKey>> TabModels { get; protected set; } = default!;
+
+        public IList<TabViewModel<TKey>> TabViewModels { get; protected set; } = default!;
+
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set => Set(ref _selectedIndex, value);
+        }
 
         public override void OnInitialize()
         {

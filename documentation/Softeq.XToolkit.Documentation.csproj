@@ -43,7 +43,15 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="docfx.console" Version="2.47.0" />
+    <PackageReference Include="docfx.console" Version="2.49.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="articles\contributing-workflow.md" />
+    <Content Include="articles\contributing.md" />
+    <Content Include="articles\developer-guide.md" />
+    <Content Include="build.sh" />
+    <Content Include="templates\material\partials\head.tmpl.partial" />
+    <Content Include="templates\material\styles\main.css" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

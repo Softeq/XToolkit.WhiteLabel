@@ -16,7 +16,7 @@ namespace NetworkApp.ViewModels
 
         private string _name;
         private bool _isBusy;
-        private string _resultData;
+        private string _resultData = string.Empty;
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
         public WorkItemViewModel(

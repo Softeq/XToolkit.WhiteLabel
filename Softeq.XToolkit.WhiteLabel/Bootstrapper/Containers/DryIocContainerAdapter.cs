@@ -17,12 +17,12 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             _container = container;
         }
 
-        public TService Resolve<TService>(params object[] parameters)
+        public TService Resolve<TService>(params object[] parameters) where TService : notnull
         {
             return _container.Resolve<TService>(parameters);
         }
 
-        public Lazy<TService> ResolveLazy<TService>()
+        public Lazy<TService> ResolveLazy<TService>() where TService : notnull
         {
             return new Lazy<TService>(() => _container.Resolve<TService>());
         }
