@@ -3,18 +3,30 @@ name: Feature request
 about: Suggest an idea for this project
 title: ''
 labels: enhancement
-assignees: wcoder
+assignees: ``
 
 ---
 
-**Is your feature request related to a problem? Please describe.**
-A clear and concise description of what the problem is. Ex. I'm always frustrated when [...] 
+<!--- Provide a general summary of the issue in the Title above -->
 
-**Describe the solution you'd like**
-A clear and concise description of what you want to happen.
+## Detailed Description
+<!--- Provide a detailed description of the change or addition you are proposing -->
 
-**Describe alternatives you've considered**
-A clear and concise description of any alternative solutions or features you've considered.
+## Context
+<!--- Why is this change important to you? How would you use it? -->
+<!--- How can it benefit other users? -->
 
-**Additional context**
-Add any other context or screenshots about the feature request here.
+## Possible Implementation
+<!--- Not obligatory, but suggest an idea for implementing addition or change -->
+
+## Basic Information
+
+<!--- Include as many relevant details about the environment you experienced the feature in -->
+
+- Component which need this feature:
+- Version which need this feature:
+- Platform Target Frameworks: <!-- All that apply -->
+  - iOS:  <!-- The version of the iOS SDK you are compiling against, e.g. 11.1 -->
+  - Android: <!-- The version of the Android SDK you are compiling against, e.g. 7.1 --> 
+- Android Support Library Version: <!-- if applicable -->
+- Nuget Packages:
