@@ -15,7 +15,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
-    public class IosBootstrapper : BootstrapperWithViewModelLookup
+    public abstract class IosBootstrapperBase : BootstrapperWithViewModelLookup
     {
         protected override ViewModelFinderBase ViewModelFinder { get; } = new IosViewModelFinder();
 
@@ -30,8 +30,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
         }
 
-        protected override void ConfigureIoc(IContainerBuilder builder)
+        protected override IList<Assembly> SelectAssemblies()
         {
+            return new List<Assembly>
+            {
+                typeof(IosBootstrapperBase).Assembly
+            };
+        }
+
+        protected override bool IsExtractToAssembliesCache(Type type)
+        {
+            return typeof(UIViewController).IsAssignableFrom(type);
         }
     }
 

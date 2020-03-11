@@ -15,7 +15,7 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
-    public class DroidBootstrapper : BootstrapperWithViewModelLookup
+    public abstract class DroidBootstrapperBase : BootstrapperWithViewModelLookup
     {
         protected override ViewModelFinderBase ViewModelFinder { get; } = new DroidViewModelFinder();
 
@@ -33,8 +33,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
         }
 
-        protected override void ConfigureIoc(IContainerBuilder builder)
+        protected override IList<Assembly> SelectAssemblies()
         {
+            return new List<Assembly>
+            {
+                typeof(DroidBootstrapperBase).Assembly
+            };
+        }
+
+        protected override bool IsExtractToAssembliesCache(Type type)
+        {
+            return typeof(FragmentActivity).IsAssignableFrom(type)
+                || typeof(DialogFragment).IsAssignableFrom(type)
+                || typeof(Fragment).IsAssignableFrom(type);
         }
     }
 
@@ -42,7 +53,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     {
         protected override IEnumerable<Type> SelectViewsTypes(Assembly assembly)
         {
-            return assembly.GetTypes().View(typeof(AppCompatActivity), typeof(Fragment), typeof(DialogFragment));
+            return assembly.GetTypes().View(
+                typeof(FragmentActivity),
+                typeof(DialogFragment),
+                typeof(Fragment));
         }
     }
 }
