@@ -10,17 +10,13 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
     {
         public string? ConvertValue(ImageExtension extension, object? parameter = null, string? language = null)
         {
-            switch (extension)
+            return extension switch
             {
-                case ImageExtension.Png:
-                    return ".png";
-                case ImageExtension.Jpg:
-                    return ".jpg";
-                case ImageExtension.Unknown:
-                    return null;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(extension), extension, null);
-            }
+                ImageExtension.Png => ".png",
+                ImageExtension.Jpg => ".jpg",
+                ImageExtension.Unknown => null,
+                _ => throw new ArgumentOutOfRangeException(nameof(extension), extension, null)
+            };
         }
 
         public ImageExtension ConvertValueBack(string? value, object? parameter = null, string? language = null)
