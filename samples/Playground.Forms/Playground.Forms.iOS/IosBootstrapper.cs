@@ -3,7 +3,7 @@
 
 namespace Playground.Forms.iOS
 {
-    public class IosBootstrapper : Bootstrapper
+    public class IosBootstrapper : CoreBootstrapper
     {
     }
 }

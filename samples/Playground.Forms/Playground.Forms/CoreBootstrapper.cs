@@ -16,7 +16,7 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.Forms
 {
-    public abstract class Bootstrapper : FormsBootstrapper
+    public abstract class CoreBootstrapper : FormsBootstrapper
     {
         protected override void ConfigureIoc(IContainerBuilder builder)
         {

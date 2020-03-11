@@ -3,7 +3,7 @@
 
 namespace Playground.Forms.Droid
 {
-    public class DroidBootstrapper : Bootstrapper
+    public class DroidBootstrapper : CoreBootstrapper
     {
     }
 }
