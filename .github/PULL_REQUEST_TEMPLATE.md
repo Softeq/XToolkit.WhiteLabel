@@ -48,6 +48,7 @@ Not applicable
 
 ### PR Checklist
 <!-- To be completed by reviewers -->
+<!-- Go over all the following points, and put an `x` in all the boxes that apply. -->
 
 - [ ] I have read the [CONTRIBUTING](https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/.github/CONTRIBUTING.md) document
 - [ ] My code follows the [code styles](https://github.com/Softeq/dotnet-guidelines)
