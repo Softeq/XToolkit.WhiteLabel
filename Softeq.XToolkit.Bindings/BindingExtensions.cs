@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>

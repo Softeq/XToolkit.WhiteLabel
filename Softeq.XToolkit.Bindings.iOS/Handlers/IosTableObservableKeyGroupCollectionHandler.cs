@@ -9,6 +9,8 @@ using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Weak;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS.Handlers
 {
     internal sealed class IosTableObservableKeyGroupCollectionHandler<TKey, TItem>

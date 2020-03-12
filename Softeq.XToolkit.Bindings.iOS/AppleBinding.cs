@@ -5,6 +5,8 @@ using System;
 using System.Linq.Expressions;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     // Partial class for Apple only.

@@ -8,6 +8,8 @@ using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     public class AppleBindingFactory : IBindingFactory
