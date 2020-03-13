@@ -6,6 +6,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Disposables;
 
 namespace Softeq.XToolkit.Bindings
 {
@@ -521,6 +522,23 @@ namespace Softeq.XToolkit.Bindings
             e.AddEventHandler(element, handler);
 
             // TODO YP: was skipped ? HandleEnabledProperty(element, t, command);
+        }
+
+        public static IDisposable SetCommandWithDisposing(
+            this object element,
+            string eventName,
+            ICommand command)
+        {
+            var t = element.GetType();
+            var e = t.GetEventInfoForControl(eventName);
+
+            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command);
+
+            e.AddEventHandler(element, handler);
+
+            HandleEnabledProperty(element, t, command);
+
+            return Disposable.Create(() => e.RemoveEventHandler(element, handler));
         }
 
         public static void SetCommand<T>(
