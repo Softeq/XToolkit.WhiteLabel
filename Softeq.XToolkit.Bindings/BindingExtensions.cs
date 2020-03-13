@@ -344,30 +344,16 @@ namespace Softeq.XToolkit.Bindings
 
             var castedBinding = (Binding<T, T>) commandParameterBinding;
 
-            //var handler = e.GetCommandHandler(eventName, t, command, castedBinding);
             var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command, castedBinding);
-            e.AddEventHandler(
-                element,
-                handler);
+
+            e.AddEventHandler(element, handler);
 
             if (commandParameterBinding == null)
             {
                 return;
             }
 
-            var enabledProperty = t.GetRuntimeProperty("Enabled");
-            if (enabledProperty != null)
-            {
-                enabledProperty.SetValue(element, command.CanExecute(castedBinding.Value));
-
-                command.CanExecuteChanged += (s, args) => enabledProperty.SetValue(
-                    element,
-                    command.CanExecute(castedBinding.Value));
-
-                commandParameterBinding.ValueChanged += (s, args) => enabledProperty.SetValue(
-                    element,
-                    command.CanExecute(castedBinding.Value));
-            }
+            HandleEnabledProperty(element, t, command, castedBinding);
         }
 
         /// <summary>
@@ -401,28 +387,14 @@ namespace Softeq.XToolkit.Bindings
                 command.Execute(param);
             };
 
-            e.AddEventHandler(
-                element,
-                handler);
+            e.AddEventHandler(element, handler);
 
             if (commandParameterBinding == null)
             {
                 return;
             }
 
-            var enabledProperty = t.GetRuntimeProperty("Enabled");
-            if (enabledProperty != null)
-            {
-                enabledProperty.SetValue(element, command.CanExecute(castedBinding.Value));
-
-                commandParameterBinding.ValueChanged += (s, args) => enabledProperty.SetValue(
-                    element,
-                    command.CanExecute(castedBinding.Value));
-
-                command.CanExecuteChanged += (s, args) => enabledProperty.SetValue(
-                    element,
-                    command.CanExecute(castedBinding.Value));
-            }
+            HandleEnabledProperty(element, t, command, castedBinding);
         }
 
         /// <summary>
@@ -442,24 +414,9 @@ namespace Softeq.XToolkit.Bindings
 
             var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command);
 
-            e.AddEventHandler(
-                element,
-                handler);
+            e.AddEventHandler(element, handler);
 
-            var enabledProperty = t.GetRuntimeProperty("Enabled");
-            if (enabledProperty != null)
-            {
-                enabledProperty.SetValue(element, command.CanExecute(null));
-
-                command.CanExecuteChanged += (s, args) => enabledProperty.SetValue(
-                    element,
-                    command.CanExecute(null));
-            }
-        }
-
-        public static void SetCommand(this object element, string eventName, Action action)
-        {
-            SetCommand(element, eventName, new RelayCommand(action));
+            HandleEnabledProperty(element, t, command);
         }
 
         /// <summary>
@@ -486,19 +443,9 @@ namespace Softeq.XToolkit.Bindings
                 }
             };
 
-            e.AddEventHandler(
-                element,
-                handler);
+            e.AddEventHandler(element, handler);
 
-            var enabledProperty = t.GetRuntimeProperty("Enabled");
-            if (enabledProperty != null)
-            {
-                enabledProperty.SetValue(element, command.CanExecute(null));
-
-                command.CanExecuteChanged += (s, args) => enabledProperty.SetValue(
-                    element,
-                    command.CanExecute(null));
-            }
+            HandleEnabledProperty(element, t, command);
         }
 
         /// <summary>
@@ -525,19 +472,9 @@ namespace Softeq.XToolkit.Bindings
 
             var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command, commandParameter);
 
-            e.AddEventHandler(
-                element,
-                handler);
+            e.AddEventHandler(element, handler);
 
-            var enabledProperty = t.GetRuntimeProperty("Enabled");
-            if (enabledProperty != null)
-            {
-                enabledProperty.SetValue(element, command.CanExecute(commandParameter));
-
-                command.CanExecuteChanged += (s, args) => enabledProperty.SetValue(
-                    element,
-                    command.CanExecute(commandParameter));
-            }
+            HandleEnabledProperty(element, t, command);
         }
 
         /// <summary>
@@ -563,21 +500,27 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            EventHandler<TEventArgs> handler = (s, args) => command.Execute(commandParameter);
+            var handler = new EventHandler<TEventArgs>((s, args) => command.Execute(commandParameter));
 
-            e.AddEventHandler(
-                element,
-                handler);
+            e.AddEventHandler(element, handler);
 
-            var enabledProperty = t.GetRuntimeProperty("Enabled");
-            if (enabledProperty != null)
-            {
-                enabledProperty.SetValue(element, command.CanExecute(commandParameter));
+            HandleEnabledProperty(element, t, command);
+        }
 
-                command.CanExecuteChanged += (s, args) => enabledProperty.SetValue(
-                    element,
-                    command.CanExecute(commandParameter));
-            }
+        // TODO YP: refactor
+        public static void SetCommandWithArgs<T>(
+            this object element,
+            string eventName,
+            ICommand<T> command)
+        {
+            var t = element.GetType();
+            var e = t.GetEventInfoForControl(eventName);
+
+            var handler = _bindingFactory.GetCommandHandlerWithArgs(e, eventName, t, command);
+
+            e.AddEventHandler(element, handler);
+
+            // TODO YP: was skipped ? HandleEnabledProperty(element, t, command);
         }
 
         public static void SetCommand<T>(
@@ -626,19 +569,16 @@ namespace Softeq.XToolkit.Bindings
             SetCommand<T, TEventArgs>(element, string.Empty, command, commandParameter);
         }
 
-        public static void SetCommandWithArgs<T>(
-            this object element,
-            string eventName,
-            ICommand<T> command)
+        /// <summary>
+        ///     Sets a generic <see cref="RelayCommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
+        /// </summary>
+        /// <param name="element">The element to which the command is added.</param>
+        /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
+        /// <param name="action">The delegate that must be added to the element as <see cref="RelayCommand"/>.</param>
+        public static void SetCommand(this object element, string eventName, Action action)
         {
-            var t = element.GetType();
-            var e = t.GetEventInfoForControl(eventName);
-
-            var handler = _bindingFactory.GetCommandHandlerWithArgs(e, eventName, t, command);
-
-            e.AddEventHandler(
-                element,
-                handler);
+            SetCommand(element, eventName, new RelayCommand(action));
         }
 
         internal static EventInfo GetEventInfoForControl(this Type type, string eventName)
@@ -661,6 +601,47 @@ namespace Softeq.XToolkit.Bindings
             }
 
             return info;
+        }
+
+        private static void HandleEnabledProperty(
+            object element,
+            Type elementType,
+            ICommand command)
+        {
+            HandleEnabledProperty<object>(element, elementType, command);
+        }
+
+        private static void HandleEnabledProperty<T>(
+            object element,
+            Type elementType,
+            ICommand command,
+            Binding<T,T>? commandParameterBinding = null)
+        {
+            var enabledProperty = elementType.GetRuntimeProperty("Enabled");
+
+            if (enabledProperty == null)
+            {
+                return;
+            }
+
+            var commandParameter = commandParameterBinding == null ? default : commandParameterBinding.Value;
+
+            enabledProperty.SetValue(element, command.CanExecute(commandParameter));
+
+            // set by CanExecute
+            command.CanExecuteChanged += (s, args) =>
+            {
+                enabledProperty.SetValue(element, command.CanExecute(commandParameter));
+            };
+
+            // set by bindable command parameter
+            if (commandParameterBinding != null)
+            {
+                commandParameterBinding.ValueChanged += (s, args) =>
+                {
+                    enabledProperty.SetValue(element, command.CanExecute(commandParameterBinding.Value));
+                };
+            }
         }
     }
 }
