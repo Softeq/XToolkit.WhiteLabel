@@ -508,8 +508,7 @@ namespace Softeq.XToolkit.Bindings
             HandleEnabledProperty(element, t, command);
         }
 
-        // TODO YP: refactor
-        public static void SetCommandWithArgs<T>(
+        public static void SetCommand<T>(
             this object element,
             string eventName,
             ICommand<T> command)
@@ -517,11 +516,11 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = _bindingFactory.GetCommandHandlerWithArgs(e, eventName, t, command);
+            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command);
 
             e.AddEventHandler(element, handler);
 
-            // TODO YP: was skipped ? HandleEnabledProperty(element, t, command);
+            HandleEnabledProperty(element, t, command);
         }
 
         public static IDisposable SetCommandWithDisposing(

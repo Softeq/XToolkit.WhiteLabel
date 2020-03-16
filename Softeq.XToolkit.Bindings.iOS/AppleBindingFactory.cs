@@ -3,16 +3,13 @@
 
 using System;
 using System.Linq.Expressions;
-using System.Reflection;
-using System.Windows.Input;
-using Softeq.XToolkit.Common.Commands;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS
 {
-    public class AppleBindingFactory : IBindingFactory
+    public class AppleBindingFactory : BindingFactoryBase
     {
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             bool? resolveTopField,
@@ -33,7 +30,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                 targetNullValue);
         }
 
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             object target = null,
@@ -52,7 +49,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                 targetNullValue);
         }
 
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             string sourcePropertyName,
             object target = null,
@@ -71,71 +68,24 @@ namespace Softeq.XToolkit.Bindings.iOS
                 targetNullValue);
         }
 
-        public Delegate GetCommandHandler(EventInfo info, string eventName, Type elementType, ICommand command)
+        public override string GetDefaultEventNameForControl(Type type)
         {
-            // At the moment, all supported controls with default events
-            // in iOS are using EventHandler, and not EventHandler<...>.
-            EventHandler handler = (s, args) =>
+            if (type == typeof(UIButton) || typeof(UIButton).IsAssignableFrom(type))
             {
-                if (command.CanExecute(null))
-                {
-                    command.Execute(null);
-                }
-            };
-            return handler;
-        }
-
-        public Delegate GetCommandHandler<T>(EventInfo info, string eventName, Type elementType,
-            ICommand command,
-            Binding<T, T> castedBinding)
-        {
-            // At the moment, all supported controls with default events
-            // in iOS are using EventHandler, and not EventHandler<...>.
-            EventHandler handler = (s, args) =>
-            {
-                var param = castedBinding == null ? default : castedBinding.Value;
-                command.Execute(param);
-            };
-            return handler;
-        }
-
-        public Delegate GetCommandHandler(EventInfo info, string eventName, Type elementType,
-            ICommand command,
-            object commandParameter)
-        {
-            // At the moment, all supported controls with default events
-            // in iOS are using EventHandler, and not EventHandler<...>.
-            EventHandler handler = (s, args) => command.Execute(commandParameter);
-            return handler;
-        }
-
-        public Delegate GetCommandHandlerWithArgs<T>(EventInfo e, string eventName, Type t, ICommand<T> command)
-        {
-            EventHandler<T> handler = (s, args) => command.Execute(args);
-            return handler;
-        }
-
-        public string GetDefaultEventNameForControl(Type type)
-        {
-            string eventName = null;
-
-            if (type == typeof(UIButton)
-                || typeof(UIButton).IsAssignableFrom(type))
-            {
-                eventName = "TouchUpInside";
-            }
-            else if (type == typeof(UIBarButtonItem)
-                     || typeof(UIBarButtonItem).IsAssignableFrom(type))
-            {
-                eventName = "Clicked";
-            }
-            else if (type == typeof(UISwitch)
-                     || typeof(UISwitch).IsAssignableFrom(type))
-            {
-                eventName = "ValueChanged";
+                return "TouchUpInside";
             }
 
-            return eventName;
+            if (type == typeof(UIBarButtonItem) || typeof(UIBarButtonItem).IsAssignableFrom(type))
+            {
+                return "Clicked";
+            }
+
+            if (type == typeof(UISwitch) || typeof(UISwitch).IsAssignableFrom(type))
+            {
+                return "ValueChanged";
+            }
+
+            return null;
         }
     }
 }

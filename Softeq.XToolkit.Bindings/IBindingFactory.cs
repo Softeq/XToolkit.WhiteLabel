@@ -39,10 +39,12 @@ namespace Softeq.XToolkit.Bindings
             TSource fallbackValue = default,
             TSource targetNullValue = default);
 
-        Delegate GetCommandHandler(EventInfo info,
+        Delegate GetCommandHandler(
+            EventInfo info,
             string eventName,
             Type elementType,
-            ICommand command);
+            ICommand command,
+            object commandParameter = null);
 
         Delegate GetCommandHandler<T>(
             EventInfo info,
@@ -51,17 +53,10 @@ namespace Softeq.XToolkit.Bindings
             ICommand command,
             Binding<T, T> castedBinding);
 
-        Delegate GetCommandHandler(
+        Delegate GetCommandHandler<T>(
             EventInfo info,
             string eventName,
             Type elementType,
-            ICommand command,
-            object commandParameter);
-
-        Delegate GetCommandHandlerWithArgs<T>(
-            EventInfo e,
-            string eventName,
-            Type t,
             ICommand<T> command);
 
         string GetDefaultEventNameForControl(Type type);
