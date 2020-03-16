@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.Connectivity.iOS;
 using Softeq.XToolkit.Permissions;
@@ -20,9 +21,8 @@ namespace Playground.iOS
     {
         protected override IList<Assembly> SelectAssemblies()
         {
-            var assemblies = base.SelectAssemblies(); // Softeq.XToolkit.WhiteLabel.iOS
-            assemblies.Add(GetType().Assembly);       // Playground.iOS
-            return assemblies;
+            return base.SelectAssemblies()     // Softeq.XToolkit.WhiteLabel.iOS
+                .AddItem(GetType().Assembly);  // Playground.iOS
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)

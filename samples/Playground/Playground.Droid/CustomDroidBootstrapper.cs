@@ -4,6 +4,7 @@
 using Softeq.XToolkit.Connectivity;
 using System.Collections.Generic;
 using System.Reflection;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -20,9 +21,8 @@ namespace Playground.Droid
     {
         protected override IList<Assembly> SelectAssemblies()
         {
-            var assemblies = base.SelectAssemblies(); // Softeq.XToolkit.WhiteLabel.Droid
-            assemblies.Add(GetType().Assembly);       // Playground.Droid
-            return assemblies;
+            return base.SelectAssemblies()     // Softeq.XToolkit.WhiteLabel.Droid
+                .AddItem(GetType().Assembly);  // Playground.Droid
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)
