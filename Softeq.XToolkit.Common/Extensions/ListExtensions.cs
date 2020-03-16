@@ -42,5 +42,18 @@ namespace Softeq.XToolkit.Common.Extensions
                 i++;
             }
         }
+
+        /// <summary>
+        ///     Adds the element to the end of the collection in a fluent manner.
+        /// </summary>
+        /// <param name="list">Initial collection.</param>
+        /// <param name="item">Item to add.</param>
+        /// <typeparam name="T">Type of item.</typeparam>
+        /// <returns>Initial collection with an added item.</returns>
+        public static IList<T> AddItem<T>(this IList<T> list, T item)
+        {
+            list.Add(item);
+            return list;
+        }
     }
 }
