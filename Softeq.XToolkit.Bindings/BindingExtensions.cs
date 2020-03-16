@@ -438,9 +438,9 @@ namespace Softeq.XToolkit.Bindings
 
             EventHandler<TEventArgs> handler = (s, args) =>
             {
-                if (command.CanExecute(null))
+                if (command.CanExecute(args))
                 {
-                    command.Execute(null);
+                    command.Execute(args);
                 }
             };
 
