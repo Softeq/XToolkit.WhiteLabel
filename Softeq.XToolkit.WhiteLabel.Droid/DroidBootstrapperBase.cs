@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Android.Support.V4.App;
-using Android.Support.V7.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -33,6 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
         }
 
+        /// <inheritdoc />
         protected override IList<Assembly> SelectAssemblies()
         {
             return new List<Assembly>
@@ -40,17 +40,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 typeof(DroidBootstrapperBase).Assembly
             };
         }
+    }
 
-        protected override bool IsExtractToAssembliesCache(Type type)
+    public class DroidViewModelFinder : ViewModelFinderBase
+    {
+        public override bool IsViewType(Type type)
         {
             return typeof(FragmentActivity).IsAssignableFrom(type)
                 || typeof(DialogFragment).IsAssignableFrom(type)
                 || typeof(Fragment).IsAssignableFrom(type);
         }
-    }
 
-    public class DroidViewModelFinder : ViewModelFinderBase
-    {
         protected override IEnumerable<Type> SelectViewsTypes(Assembly assembly)
         {
             return assembly.GetTypes().View(

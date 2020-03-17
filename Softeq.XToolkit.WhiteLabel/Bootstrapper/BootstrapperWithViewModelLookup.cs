@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -33,6 +34,12 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             {
                 builder.PerDependency(viewModelType, IfRegistered.Keep);
             }
+        }
+
+        /// <inheritdoc />
+        protected override bool IsExtractToAssembliesCache(Type type)
+        {
+            return ViewModelFinder.IsViewType(type);
         }
     }
 }

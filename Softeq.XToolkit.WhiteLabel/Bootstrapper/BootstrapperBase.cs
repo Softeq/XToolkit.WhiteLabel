@@ -27,12 +27,9 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 
             var containerBuilder = CreateContainerBuilder();
 
+            // framework level
             RegisterInternalServices(containerBuilder);
-
-            // assemblies
-            var assemblies = SelectAssemblies();
-            InitializeAssemblySource(assemblies);
-            RegisterTypesFromAssemblies(containerBuilder, assemblies);
+            RegisterFromAssemblies(containerBuilder);
 
             // application level
             ConfigureIoc(containerBuilder);
@@ -57,6 +54,13 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             builder.Singleton<BackStackManager, IBackStackManager>(IfRegistered.Keep);
         }
 
+        protected virtual void RegisterFromAssemblies(IContainerBuilder builder)
+        {
+            var assemblies = SelectAssemblies();
+            InitializeAssemblySource(assemblies);
+            RegisterTypesFromAssemblies(builder, assemblies);
+        }
+
         /// <summary>
         ///     Override to tell the framework where to find assemblies to inspect for views, etc.
         /// </summary>
@@ -77,9 +81,9 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         }
 
         /// <summary>
-        ///     The predicate of extracting type for storing in the cache
+        ///     The predicate of extracting type for storing in the cache.
         /// </summary>
-        /// <param name="type"></param>
+        /// <param name="type"><see cref="Type"/> of the object.</param>
         /// <returns></returns>
         protected abstract bool IsExtractToAssembliesCache(Type type);
 

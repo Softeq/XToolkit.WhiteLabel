@@ -27,6 +27,8 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             return viewModelToViewMap;
         }
 
+        public abstract bool IsViewType(Type type);
+
         protected abstract IEnumerable<Type> SelectViewsTypes(Assembly assembly);
     }
 

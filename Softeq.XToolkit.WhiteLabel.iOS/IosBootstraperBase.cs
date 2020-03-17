@@ -30,6 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
         }
 
+        /// <inheritdoc />
         protected override IList<Assembly> SelectAssemblies()
         {
             return new List<Assembly>
@@ -37,15 +38,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
                 typeof(IosBootstrapperBase).Assembly
             };
         }
-
-        protected override bool IsExtractToAssembliesCache(Type type)
-        {
-            return typeof(UIViewController).IsAssignableFrom(type);
-        }
     }
 
     public class IosViewModelFinder : ViewModelFinderBase
     {
+        public override bool IsViewType(Type type)
+        {
+            return typeof(UIViewController).IsAssignableFrom(type);
+        }
+
         protected override IEnumerable<Type> SelectViewsTypes(Assembly assembly)
         {
             return assembly.GetTypes().View(typeof(UIViewController));
