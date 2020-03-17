@@ -14,17 +14,17 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 {
     public class StoryboardFrameNavigationService : StoryboardNavigation, IFrameNavigationService
     {
-        private readonly IContainer _iocContainer;
-
         public StoryboardFrameNavigationService(
             IViewLocator viewLocator,
             IContainer iocContainer)
             : base(viewLocator)
         {
-            _iocContainer = iocContainer;
+            IocContainer = iocContainer;
         }
 
         public bool IsEmptyBackStack => !NavigationController!.ViewControllers.Any();
+
+        protected IContainer IocContainer { get; }
 
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
 
@@ -77,6 +77,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             throw new InvalidOperationException();
         }
 
+        protected virtual IFrameNavigationService GetFrameNavigationService()
+        {
+            return this;
+        }
+
         protected virtual IViewModelBase CreateViewModel<TViewModel>()
         {
             if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
@@ -84,7 +89,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
                 throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
             }
 
-            return (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
+            return (IViewModelBase) IocContainer.Resolve<TViewModel>(GetFrameNavigationService())!;
         }
     }
 }
