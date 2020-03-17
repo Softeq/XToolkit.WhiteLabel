@@ -1,12 +1,10 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
@@ -17,7 +15,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 {
     public abstract class IosBootstrapperBase : BootstrapperWithViewModelLookup
     {
-        protected override ViewModelFinderBase ViewModelFinder { get; } = new IosViewModelFinder();
+        protected override IViewModelFinder ViewModelFinder { get; } =
+            new DefaultViewModelFinder(typeof(UIViewController));
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
@@ -37,19 +36,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             {
                 typeof(IosBootstrapperBase).Assembly
             };
-        }
-    }
-
-    public class IosViewModelFinder : ViewModelFinderBase
-    {
-        public override bool IsViewType(Type type)
-        {
-            return typeof(UIViewController).IsAssignableFrom(type);
-        }
-
-        protected override IEnumerable<Type> SelectViewsTypes(Assembly assembly)
-        {
-            return assembly.GetTypes().View(typeof(UIViewController));
         }
     }
 }

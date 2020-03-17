@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Android.Support.V4.App;
@@ -9,14 +8,17 @@ using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     public abstract class DroidBootstrapperBase : BootstrapperWithViewModelLookup
     {
-        protected override ViewModelFinderBase ViewModelFinder { get; } = new DroidViewModelFinder();
+        protected override IViewModelFinder ViewModelFinder { get; } =
+            new DefaultViewModelFinder(
+                typeof(FragmentActivity),
+                typeof(DialogFragment),
+                typeof(Fragment));
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
@@ -39,24 +41,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 typeof(DroidBootstrapperBase).Assembly
             };
-        }
-    }
-
-    public class DroidViewModelFinder : ViewModelFinderBase
-    {
-        public override bool IsViewType(Type type)
-        {
-            return typeof(FragmentActivity).IsAssignableFrom(type)
-                || typeof(DialogFragment).IsAssignableFrom(type)
-                || typeof(Fragment).IsAssignableFrom(type);
-        }
-
-        protected override IEnumerable<Type> SelectViewsTypes(Assembly assembly)
-        {
-            return assembly.GetTypes().View(
-                typeof(FragmentActivity),
-                typeof(DialogFragment),
-                typeof(Fragment));
         }
     }
 }

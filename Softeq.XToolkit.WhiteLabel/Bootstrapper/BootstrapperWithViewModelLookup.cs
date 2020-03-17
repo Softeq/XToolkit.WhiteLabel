@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
     public abstract class BootstrapperWithViewModelLookup : BootstrapperBase
     {
-        protected abstract ViewModelFinderBase ViewModelFinder { get; }
+        protected abstract IViewModelFinder ViewModelFinder { get; }
 
         protected override void RegisterTypesFromAssemblies(IContainerBuilder builder, IList<Assembly> assemblies)
         {
