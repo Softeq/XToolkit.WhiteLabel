@@ -27,7 +27,6 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 
         public bool IsInitialized { get; private set; }
 
-        // TODO YP: Review using lifetime methods here
         public virtual void OnInitialize()
         {
             IsInitialized = true;
