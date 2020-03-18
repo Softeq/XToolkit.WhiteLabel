@@ -8,6 +8,8 @@ using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Weak;
 using Object = Java.Lang.Object;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid
 {
     public class ObservableGroupAdapter<TKey, TValue> : BaseExpandableListAdapter

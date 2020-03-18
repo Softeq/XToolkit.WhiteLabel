@@ -8,6 +8,8 @@ using System.Windows.Input;
 using Android.Widget;
 using Softeq.XToolkit.Common.Commands;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid
 {
     public class DroidBindingFactory : IBindingFactory

@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Converters;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>
