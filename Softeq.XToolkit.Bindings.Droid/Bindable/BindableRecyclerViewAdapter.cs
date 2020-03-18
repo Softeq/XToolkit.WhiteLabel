@@ -14,6 +14,8 @@ using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {
     public abstract class BindableRecyclerViewAdapterBase<TItem, TItemHolder> : RecyclerView.Adapter

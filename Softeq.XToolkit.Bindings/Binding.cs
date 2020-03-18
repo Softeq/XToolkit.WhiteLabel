@@ -13,12 +13,12 @@ namespace Softeq.XToolkit.Bindings
         /// <summary>
         ///     The source at the "top" of the property chain.
         /// </summary>
-        protected WeakReference TopSource;
+        protected WeakReference? TopSource;
 
         /// <summary>
         ///     The target at the "top" of the property chain.
         /// </summary>
-        protected WeakReference TopTarget;
+        protected WeakReference? TopTarget;
 
         /// <summary>
         ///     The mode of the binding. OneTime means that the target property will be set once (when the binding is
@@ -34,14 +34,14 @@ namespace Softeq.XToolkit.Bindings
         /// <summary>
         ///     Gets the source object for the binding.
         /// </summary>
-        public object Source => TopSource == null || !TopSource.IsAlive
+        public object? Source => TopSource == null || !TopSource.IsAlive
             ? null
             : TopSource.Target;
 
         /// <summary>
         ///     Gets the target object for the binding.
         /// </summary>
-        public object Target => TopTarget == null || !TopTarget.IsAlive
+        public object? Target => TopTarget == null || !TopTarget.IsAlive
             ? null
             : TopTarget.Target;
 

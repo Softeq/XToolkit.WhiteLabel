@@ -7,6 +7,8 @@ using System.Reflection;
 using System.Windows.Input;
 using Android.Widget;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid
 {
     public class DroidBindingFactory : BindingFactoryBase

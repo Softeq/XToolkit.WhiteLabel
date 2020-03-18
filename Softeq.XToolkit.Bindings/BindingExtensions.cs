@@ -8,6 +8,8 @@ using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Disposables;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>

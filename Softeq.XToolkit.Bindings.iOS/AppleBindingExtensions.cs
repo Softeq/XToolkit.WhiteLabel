@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using Foundation;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     /// <summary>

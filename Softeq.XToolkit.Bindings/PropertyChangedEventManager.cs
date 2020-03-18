@@ -8,6 +8,8 @@ using System.Linq;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>
@@ -24,8 +26,7 @@ namespace Softeq.XToolkit.Bindings
         /// <summary>
         ///     Get the current instance of <see cref="PropertyChangedEventManager" />
         /// </summary>
-        private static PropertyChangedEventManager Instance => _manager ??
-                                                               (_manager = new PropertyChangedEventManager());
+        private static PropertyChangedEventManager Instance => _manager ??= new PropertyChangedEventManager();
 
         /// <summary>
         ///     Adds the specified listener to the list of listeners on the specified source.

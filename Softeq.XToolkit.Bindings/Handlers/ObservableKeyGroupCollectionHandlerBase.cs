@@ -5,6 +5,8 @@ using System;
 using System.Collections.Specialized;
 using Softeq.XToolkit.Common.Collections;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Handlers
 {
     public abstract class ObservableKeyGroupCollectionHandlerBase<TKey, TItem>

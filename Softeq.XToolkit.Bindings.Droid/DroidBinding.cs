@@ -7,6 +7,8 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid
 {
     public class DroidBinding<TSource, TTarget> : Binding<TSource, TTarget>
