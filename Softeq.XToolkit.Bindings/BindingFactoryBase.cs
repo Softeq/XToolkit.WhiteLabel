@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.Bindings
             ICommand command,
             object? commandParameter = null)
         {
-            EventHandler handler = (s, args) =>
+            EventHandler handler = (_, __) =>
             {
                 if (command.CanExecute(commandParameter))
                 {
@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.Bindings
             ICommand command,
             Binding<T, T> castedBinding)
         {
-            EventHandler handler = (s, args) =>
+            EventHandler handler = (_, __) =>
             {
                 object param = (castedBinding == null ? default : castedBinding.Value)!;
 
@@ -82,7 +82,7 @@ namespace Softeq.XToolkit.Bindings
             Type elementType,
             ICommand<T> command)
         {
-            EventHandler<T> handler = (s, args) =>
+            EventHandler<T> handler = (_, args) =>
             {
                 if (command.CanExecute(args))
                 {
