@@ -14,8 +14,8 @@ namespace Softeq.XToolkit.Bindings
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
-            object target = null,
-            Expression<Func<TTarget>> targetPropertyExpression = null,
+            object? target = null,
+            Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default,
             TSource targetNullValue = default);
@@ -23,8 +23,8 @@ namespace Softeq.XToolkit.Bindings
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
-            object target = null,
-            Expression<Func<TTarget>> targetPropertyExpression = null,
+            object? target = null,
+            Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default,
             TSource targetNullValue = default);
@@ -32,8 +32,8 @@ namespace Softeq.XToolkit.Bindings
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             string sourcePropertyName,
-            object target = null,
-            string targetPropertyName = null,
+            object? target = null,
+            string? targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default,
             TSource targetNullValue = default);
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.Bindings
             string eventName,
             Type elementType,
             ICommand command,
-            object commandParameter = null)
+            object? commandParameter = null)
         {
             EventHandler handler = (s, args) =>
             {
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.Bindings
         {
             EventHandler handler = (s, args) =>
             {
-                object param = castedBinding == null ? default : castedBinding.Value;
+                object param = (castedBinding == null ? default : castedBinding.Value)!;
 
                 if (command.CanExecute(param))
                 {

@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.Bindings
             string eventName,
             Type elementType,
             ICommand command,
-            object commandParameter = null);
+            object? commandParameter = null);
 
         Delegate GetCommandHandler<T>(
             EventInfo info,

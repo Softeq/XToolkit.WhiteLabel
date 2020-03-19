@@ -634,7 +634,7 @@ namespace Softeq.XToolkit.Bindings
             object element,
             Type elementType,
             ICommand command,
-            Binding<T,T>? commandParameterBinding = null)
+            Binding<T,T> commandParameterBinding = null)
         {
             var enabledProperty = elementType.GetRuntimeProperty("Enabled");
 
