@@ -438,13 +438,7 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            EventHandler<TEventArgs> handler = (s, args) =>
-            {
-                if (command.CanExecute(args))
-                {
-                    command.Execute(args);
-                }
-            };
+            var handler = _bindingFactory.GetCommandHandler<TEventArgs>(e, eventName, t, command);
 
             e.AddEventHandler(element, handler);
 
@@ -503,22 +497,22 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = new EventHandler<TEventArgs>((s, args) => command.Execute(commandParameter));
+            var handler = _bindingFactory.GetCommandHandler<T, TEventArgs>(e, eventName, t, command, commandParameter);
 
             e.AddEventHandler(element, handler);
 
             HandleEnabledProperty(element, t, command);
         }
 
-        public static void SetCommand<T>(
+        public static void SetCommand<TEventArgs>(
             this object element,
             string eventName,
-            ICommand<T> command)
+            ICommand<TEventArgs> command)
         {
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command);
+            var handler = _bindingFactory.GetCommandHandler<TEventArgs>(e, eventName, t, command);
 
             e.AddEventHandler(element, handler);
 

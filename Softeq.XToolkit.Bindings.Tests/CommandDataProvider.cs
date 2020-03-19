@@ -3,9 +3,9 @@
 
 using System.Collections.Generic;
 
-namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
+namespace Softeq.XToolkit.Bindings.Tests
 {
-    internal class BindingFactoryBaseDataProvider
+    internal class CommandDataProvider
     {
         private const string CommandParameter = "TEST_PARAMETER";
 

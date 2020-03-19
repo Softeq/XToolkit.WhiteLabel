@@ -76,17 +76,34 @@ namespace Softeq.XToolkit.Bindings
             return handler;
         }
 
-        public virtual Delegate GetCommandHandler<T>(
+        public virtual Delegate GetCommandHandler<TEventArgs>(
             EventInfo info,
             string eventName,
             Type elementType,
-            ICommand<T> command)
+            ICommand command)
         {
-            EventHandler<T> handler = (_, args) =>
+            EventHandler<TEventArgs> handler = (_, args) =>
             {
                 if (command.CanExecute(args))
                 {
                     command.Execute(args);
+                }
+            };
+            return handler;
+        }
+
+        public virtual Delegate GetCommandHandler<T, TEventArgs>(
+            EventInfo info,
+            string eventName,
+            Type elementType,
+            ICommand command,
+            T commandParameter)
+        {
+            EventHandler<TEventArgs> handler = (_, __) =>
+            {
+                if (command.CanExecute(commandParameter))
+                {
+                    command.Execute(commandParameter);
                 }
             };
             return handler;

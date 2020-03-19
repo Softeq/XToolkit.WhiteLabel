@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         }
 
         [Theory]
-        [MemberData(nameof(BindingFactoryBaseDataProvider.Data), MemberType = typeof(BindingFactoryBaseDataProvider))]
+        [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
         public void GetCommandHandler_CommandParameter_ReturnsCorrectHandler(bool canExecute, object commandParameter)
         {
             // arrange
@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         }
 
         [Theory]
-        [MemberData(nameof(BindingFactoryBaseDataProvider.Data), MemberType = typeof(BindingFactoryBaseDataProvider))]
+        [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
         public void GetCommandHandler_NullEventInfo_ReturnsCorrectHandler(bool canExecute, object commandParameter)
         {
             // arrange
@@ -56,7 +56,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         }
 
         [Theory]
-        [MemberData(nameof(BindingFactoryBaseDataProvider.Data), MemberType = typeof(BindingFactoryBaseDataProvider))]
+        [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
         public void GetCommandHandler_NullEventName_ReturnsCorrectHandler(bool canExecute, object commandParameter)
         {
             // arrange
@@ -70,7 +70,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         }
 
         [Theory]
-        [MemberData(nameof(BindingFactoryBaseDataProvider.Data), MemberType = typeof(BindingFactoryBaseDataProvider))]
+        [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
         public void GetCommandHandler_NullElementType_ReturnsCorrectHandler(bool canExecute, object commandParameter)
         {
             // arrange
@@ -84,7 +84,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         }
 
         [Theory]
-        [MemberData(nameof(BindingFactoryBaseDataProvider.Data), MemberType = typeof(BindingFactoryBaseDataProvider))]
+        [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
         public void GetCommandHandler_NullCommand_ReturnsHandlerWithNullRefException(bool canExecute, object commandParameter)
         {
             // arrange
