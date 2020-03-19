@@ -13,12 +13,12 @@ namespace Softeq.XToolkit.Bindings.Tests
         private const string CommandParameter = "TEST_PARAMETER";
 
         private readonly ICommand _command;
-        private readonly MockProducer _obj;
+        private readonly StubProducer _obj;
 
         public BindingExtensionsTests()
         {
             _command = Substitute.For<ICommand>();
-            _obj = new MockProducer();
+            _obj = new StubProducer();
 
             BindingExtensions.Initialize(new MockBindingFactory());
         }

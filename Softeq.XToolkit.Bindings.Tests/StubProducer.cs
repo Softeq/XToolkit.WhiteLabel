@@ -5,7 +5,7 @@ using System;
 
 namespace Softeq.XToolkit.Bindings.Tests
 {
-    public class MockProducer
+    public class StubProducer
     {
         public event EventHandler SimpleEvent;
         public event EventHandler<string> GenericStringEvent;
