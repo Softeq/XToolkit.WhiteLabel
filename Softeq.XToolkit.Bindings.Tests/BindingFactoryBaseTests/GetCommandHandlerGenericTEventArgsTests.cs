@@ -10,13 +10,13 @@ using Xunit;
 namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 {
     [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
-    public class GetCommandHandlerGenericTests: IDisposable
+    public class GetCommandHandlerGenericTEventArgsTests: IDisposable
     {
         private readonly BindingFactoryBase _factory;
         private readonly ICommand<string> _command;
         private readonly StubEvent _e;
 
-        public GetCommandHandlerGenericTests()
+        public GetCommandHandlerGenericTEventArgsTests()
         {
             _factory = new MockBindingFactory();
             _command = Substitute.For<ICommand<string>>();
@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 
         [Theory]
         [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
-        public void GetCommandHandlerGeneric_EventArgs_ReturnsCorrectHandler(bool canExecute, string eventArgs)
+        public void GetCommandHandler_NotNullEventArgs_ReturnsCorrectHandler(bool canExecute, string eventArgs)
         {
             // arrange
             _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
@@ -40,12 +40,12 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, _e.ElementType, _command);
 
             // assert
-            AssertHelpers.CommandHandler((EventHandler<string>) handler, eventArgs, _command, canExecute, eventArgs);
+            AssertHelpers.CommandHandler<string>(handler, eventArgs, _command, canExecute, eventArgs);
         }
 
         [Theory]
         [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
-        public void GetCommandHandlerGeneric_NullEventInfo_ReturnsCorrectHandler(bool canExecute, string eventArgs)
+        public void GetCommandHandler_NullEventInfo_ReturnsCorrectHandler(bool canExecute, string eventArgs)
         {
             // arrange
             _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
@@ -54,12 +54,12 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             var handler = _factory.GetCommandHandler<string>(null, _e.EventName, _e.ElementType, _command);
 
             // assert
-            AssertHelpers.CommandHandler((EventHandler<string>) handler, eventArgs, _command, canExecute, eventArgs);
+            AssertHelpers.CommandHandler<string>(handler, eventArgs, _command, canExecute, eventArgs);
         }
 
         [Theory]
         [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
-        public void GetCommandHandlerGeneric_NullEventName_ReturnsCorrectHandler(bool canExecute, string eventArgs)
+        public void GetCommandHandler_NullEventName_ReturnsCorrectHandler(bool canExecute, string eventArgs)
         {
             // arrange
             _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
@@ -68,12 +68,12 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             var handler = _factory.GetCommandHandler<string>(_e.EventInfo, null, _e.ElementType, _command);
 
             // assert
-            AssertHelpers.CommandHandler((EventHandler<string>) handler, eventArgs, _command, canExecute, eventArgs);
+            AssertHelpers.CommandHandler<string>(handler, eventArgs, _command, canExecute, eventArgs);
         }
 
         [Theory]
         [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
-        public void GetCommandHandlerGeneric_NullElementType_ReturnsCorrectHandler(bool canExecute, string eventArgs)
+        public void GetCommandHandler_NullElementType_ReturnsCorrectHandler(bool canExecute, string eventArgs)
         {
             // arrange
             _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
@@ -82,12 +82,12 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, null, _command);
 
             // assert
-            AssertHelpers.CommandHandler((EventHandler<string>) handler, eventArgs, _command, canExecute, eventArgs);
+            AssertHelpers.CommandHandler<string>(handler, eventArgs, _command, canExecute, eventArgs);
         }
 
         [Theory]
         [MemberData(nameof(CommandDataProvider.Data), MemberType = typeof(CommandDataProvider))]
-        public void GetCommandHandlerGeneric_NullCommand_ReturnsHandlerWithNullRefException(bool canExecute, string eventArgs)
+        public void GetCommandHandler_NullCommand_ReturnsHandlerWithNullRefException(bool canExecute, string eventArgs)
         {
             // arrange
             _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
@@ -97,7 +97,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 
             // assert
             Assert.Throws<NullReferenceException>(() =>
-                AssertHelpers.CommandHandler((EventHandler<string>) handler, eventArgs, _command, canExecute, eventArgs));
+                AssertHelpers.CommandHandler<string>(handler, eventArgs, _command, canExecute, eventArgs));
         }
     }
 }

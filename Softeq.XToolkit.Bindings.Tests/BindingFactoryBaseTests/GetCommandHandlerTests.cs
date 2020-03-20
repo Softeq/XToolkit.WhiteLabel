@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             var handler = _factory.GetCommandHandler(_e.EventInfo, _e.EventName, _e.ElementType, _command, commandParameter);
 
             // assert
-            AssertHelpers.CommandHandler((EventHandler)handler, EventArgs.Empty, _command, canExecute, commandParameter);
+            AssertHelpers.CommandHandler(handler, EventArgs.Empty, _command, canExecute, commandParameter);
         }
 
         [Theory]
@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             var handler = _factory.GetCommandHandler(null, _e.EventName, _e.ElementType, _command, commandParameter);
 
             // assert
-            AssertHelpers.CommandHandler((EventHandler)handler, EventArgs.Empty, _command, canExecute, commandParameter);
+            AssertHelpers.CommandHandler(handler, EventArgs.Empty, _command, canExecute, commandParameter);
         }
 
         [Theory]
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             var handler = _factory.GetCommandHandler(_e.EventInfo, null, _e.ElementType, _command, commandParameter);
 
             // assert
-            AssertHelpers.CommandHandler((EventHandler)handler, EventArgs.Empty, _command, canExecute, commandParameter);
+            AssertHelpers.CommandHandler(handler, EventArgs.Empty, _command, canExecute, commandParameter);
         }
 
         [Theory]
@@ -80,7 +80,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             var handler = _factory.GetCommandHandler(_e.EventInfo, _e.EventName, null, _command, commandParameter);
 
             // assert
-            AssertHelpers.CommandHandler((EventHandler)handler, EventArgs.Empty, _command, canExecute, commandParameter);
+            AssertHelpers.CommandHandler(handler, EventArgs.Empty, _command, canExecute, commandParameter);
         }
 
         [Theory]
@@ -95,7 +95,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 
             // assert
             Assert.Throws<NullReferenceException>(() =>
-                AssertHelpers.CommandHandler((EventHandler) handler, EventArgs.Empty, _command, canExecute, commandParameter));
+                AssertHelpers.CommandHandler(handler, EventArgs.Empty, _command, canExecute, commandParameter));
         }
     }
 }
