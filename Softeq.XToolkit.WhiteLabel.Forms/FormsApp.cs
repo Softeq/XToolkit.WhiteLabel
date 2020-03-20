@@ -16,12 +16,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
     public abstract class FormsApp : Application
     {
         private IBootstrapper? _bootstrapper;
-        private Func<List<Assembly>>? _getAssembliesFunc;
 
-        protected FormsApp(IBootstrapper bootstrapper, Func<List<Assembly>> getAssembliesFunc)
+        protected FormsApp(IBootstrapper bootstrapper)
         {
             _bootstrapper = bootstrapper;
-            _getAssembliesFunc = getAssembliesFunc;
 
             // Init UI thread helper
             PlatformProvider.Current = new FormsPlatformProvider();
@@ -41,40 +39,18 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
         {
         }
 
-        /// <summary>
-        ///     The predicate of extracting type for storing in the cache
-        /// </summary>
-        /// <param name="type"></param>
-        /// <returns></returns>
-        protected virtual bool IsMatchedToExtract(Type type)
-        {
-            return typeof(Page).IsAssignableFrom(type);
-        }
-
         private void InitializeBootstrapper()
         {
             Task.Run(() =>
             {
-                if (_bootstrapper != null && _getAssembliesFunc != null)
+                if (_bootstrapper != null)
                 {
-                    var assemblies = _getAssembliesFunc();
-
-                    InitAssemblySource(assemblies);
-                    _bootstrapper.Init(assemblies);
-
+                    _bootstrapper.Initialize();
                     _bootstrapper = null;
-                    _getAssembliesFunc = null;
 
                     Execute.BeginOnUIThread(OnStarted);
                 }
             }).FireAndForget();
-        }
-
-        private void InitAssemblySource(List<Assembly> assemblies)
-        {
-            AssemblySourceCache.Install();
-            AssemblySourceCache.ExtractTypes = assembly => assembly.GetExportedTypes().Where(IsMatchedToExtract);
-            AssemblySource.Instance.ReplaceRange(assemblies);
         }
     }
 }

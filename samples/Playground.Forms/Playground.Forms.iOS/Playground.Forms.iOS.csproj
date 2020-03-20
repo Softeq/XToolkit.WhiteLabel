@@ -129,6 +129,10 @@
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{24588814-b93d-4528-8917-9c2a3c4e85ca}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Forms\Softeq.XToolkit.WhiteLabel.Forms.csproj">
       <Project>{ee5e06cb-17b2-4eca-bc82-dd06d60eab6d}</Project>
       <Name>Softeq.XToolkit.WhiteLabel.Forms</Name>
