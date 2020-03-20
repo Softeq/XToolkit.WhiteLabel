@@ -10,7 +10,7 @@ using Xunit;
 namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 {
     [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
-    public class GetCommandHandlerGenericTEventArgsTests: IDisposable
+    public class GetCommandHandlerGenericTEventArgsTests
     {
         private readonly BindingFactoryBase _factory;
         private readonly ICommand<string> _command;
@@ -23,10 +23,6 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 
             var obj = new StubProducer();
             _e = new StubEvent(obj, nameof(obj.GenericStringEvent));
-        }
-
-        public void Dispose()
-        {
         }
 
         [Theory]

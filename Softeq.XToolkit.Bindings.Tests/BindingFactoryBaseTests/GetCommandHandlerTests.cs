@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 {
-    public class GetCommandHandlerTests : IDisposable
+    public class GetCommandHandlerTests
     {
         private readonly BindingFactoryBase _factory;
         private readonly ICommand _command;
@@ -21,10 +21,6 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 
             var obj = new StubProducer();
             _e = new StubEvent(obj, nameof(obj.SimpleEvent));
-        }
-
-        public void Dispose()
-        {
         }
 
         [Theory]

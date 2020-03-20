@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Common.Disposables
     /// <summary>
     ///    Provides a set of static methods for creating <see cref="IDisposable"/> objects.
     /// </summary>
-    public class Disposable
+    public static class Disposable
     {
         /// <summary>
         ///     Creates a disposable object that invokes the specified action when disposed.

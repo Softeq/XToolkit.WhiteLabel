@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.Bindings.Tests
 
         public static void ReceivedCommandInterface(ICommand command, bool canExecute, object commandParameter)
         {
-            command.Received(1).CanExecute(Arg.Is(commandParameter));
+            command.Received(1).CanExecute(commandParameter);
 
             if (canExecute)
             {
@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.Bindings.Tests
             }
             else
             {
-                command.DidNotReceive().Execute(Arg.Is(commandParameter));
+                command.DidNotReceive().Execute(Arg.Any<object>());
             }
         }
     }

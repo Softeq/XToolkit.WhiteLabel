@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Bindings.Tests.BindingExtensionsTests
 {
-    public class BindingExtensionsTests : IDisposable
+    public class BindingExtensionsTests
     {
         private readonly ICommand _command;
         private readonly StubProducer _obj;
@@ -19,10 +19,6 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingExtensionsTests
             _obj = new StubProducer();
 
             BindingExtensions.Initialize(new MockBindingFactory());
-        }
-
-        public void Dispose()
-        {
         }
 
         [Theory]
@@ -49,7 +45,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingExtensionsTests
             _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
 
             // act
-            _obj.SetCommand<string>(nameof(_obj.SimpleEvent), _command, commandParameter);
+            _obj.SetCommand(nameof(_obj.SimpleEvent), _command, commandParameter);
 
             // assert
             _obj.RaiseSimpleEvent();
@@ -154,14 +150,12 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingExtensionsTests
 
             // act
             var result = _obj.SetCommandWithDisposing(nameof(_obj.SimpleEvent), _command);
-
-            // assert
             result.Dispose();
 
+            // assert
             _obj.RaiseSimpleEvent();
-
             _command.DidNotReceive().CanExecute(Arg.Any<object>());
-            _command.DidNotReceive().CanExecute(Arg.Any<object>());
+            _command.DidNotReceive().Execute(Arg.Any<object>());
         }
     }
 }

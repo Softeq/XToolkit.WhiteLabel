@@ -3,10 +3,11 @@
 
 using System;
 using System.Linq.Expressions;
+using NSubstitute;
 
 namespace Softeq.XToolkit.Bindings.Tests
 {
-    public class MockBindingFactory : BindingFactoryBase
+    internal class MockBindingFactory : BindingFactoryBase
     {
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source, Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
@@ -14,15 +15,7 @@ namespace Softeq.XToolkit.Bindings.Tests
             BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default)
         {
-            return new MockBinding<TSource, TTarget>(
-                source,
-                sourcePropertyExpression,
-                resolveTopField,
-                target,
-                targetPropertyExpression,
-                mode,
-                fallbackValue,
-                targetNullValue);
+            return Substitute.For<Binding<TSource, TTarget>>();
         }
 
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
@@ -31,14 +24,7 @@ namespace Softeq.XToolkit.Bindings.Tests
             BindingMode mode = BindingMode.Default, TSource fallbackValue = default,
             TSource targetNullValue = default)
         {
-            return new MockBinding<TSource, TTarget>(
-                source,
-                sourcePropertyExpression,
-                target,
-                targetPropertyExpression,
-                mode,
-                fallbackValue,
-                targetNullValue);
+            return Substitute.For<Binding<TSource, TTarget>>();
         }
 
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
@@ -47,14 +33,7 @@ namespace Softeq.XToolkit.Bindings.Tests
             TSource fallbackValue = default,
             TSource targetNullValue = default)
         {
-            return new MockBinding<TSource, TTarget>(
-                source,
-                sourcePropertyName,
-                target,
-                targetPropertyName,
-                mode,
-                fallbackValue,
-                targetNullValue);
+            return Substitute.For<Binding<TSource, TTarget>>();
         }
 
         public override string GetDefaultEventNameForControl(Type type)
