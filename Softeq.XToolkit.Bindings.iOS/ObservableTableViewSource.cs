@@ -11,6 +11,8 @@ using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Common;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     /// <summary>

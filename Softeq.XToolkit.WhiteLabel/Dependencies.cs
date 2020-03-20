@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel
         {
             if (IsInitialized)
             {
-                throw new ArgumentException($"{nameof(Dependencies)} already initialized");
+                throw new InvalidOperationException($"{nameof(Dependencies)} already initialized");
             }
 
             Container = iocContainer;

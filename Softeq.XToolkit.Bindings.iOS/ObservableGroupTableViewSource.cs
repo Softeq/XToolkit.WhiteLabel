@@ -13,6 +13,8 @@ using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Weak;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     public class ObservableGroupTableViewSource<TKey, TItem> : UITableViewSource

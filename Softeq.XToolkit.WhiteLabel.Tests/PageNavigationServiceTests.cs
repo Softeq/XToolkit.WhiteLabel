@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         public void InitializePageNavigationService_ShouldExecutePlatformInitialization()
         {
             //Action
-            _pageNavigationService.Initialize(null);
+            _pageNavigationService.Initialize(new object());
 
             //Assert
             _platformNavService.Received(1).Initialize(Arg.Any<object>());

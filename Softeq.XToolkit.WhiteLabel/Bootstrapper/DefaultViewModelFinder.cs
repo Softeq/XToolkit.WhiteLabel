@@ -5,11 +5,26 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Softeq.XToolkit.WhiteLabel.Extensions;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
-    public abstract class ViewModelFinderBase
+    public interface IViewModelFinder
     {
+        ViewModelToViewMap GetViewModelToViewMapping(IEnumerable<Assembly> assemblies);
+
+        bool IsViewType(Type type);
+    }
+
+    public class DefaultViewModelFinder : IViewModelFinder
+    {
+        private readonly Type[] _viewsTypes;
+
+        public DefaultViewModelFinder(params Type[] viewsTypes)
+        {
+            _viewsTypes = viewsTypes;
+        }
+
         public virtual ViewModelToViewMap GetViewModelToViewMapping(IEnumerable<Assembly> assemblies)
         {
             var viewModelToViewMap = new ViewModelToViewMap();
@@ -27,7 +42,15 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             return viewModelToViewMap;
         }
 
-        protected abstract IEnumerable<Type> SelectViewsTypes(Assembly assembly);
+        public virtual bool IsViewType(Type type)
+        {
+            return _viewsTypes.Any(t => t.IsAssignableFrom(type));
+        }
+
+        protected virtual IEnumerable<Type> SelectViewsTypes(Assembly assembly)
+        {
+            return assembly.GetTypes().View(_viewsTypes);
+        }
     }
 
     public class ViewModelToViewMap : Dictionary<Type, Type>
