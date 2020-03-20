@@ -16,12 +16,13 @@ using Softeq.XToolkit.Common.Weak;
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>
-    ///     Creates a binding between two properties. If the source implements INotifyPropertyChanged, the source property
-    ///     raises the PropertyChanged event
-    ///     and the BindingMode is OneWay or TwoWay, the target property will be synchronized with the source property. If
-    ///     the target implements INotifyPropertyChanged, the target property raises the PropertyChanged event and the
-    ///     BindingMode is
-    ///     TwoWay, the source property will also be synchronized with the target property.
+    ///     Creates a binding between two properties.
+    ///
+    ///     If the source implements <see cref="INotifyPropertyChanged"/>, the source property raises the PropertyChanged event and
+    ///     the <see cref="BindingMode"/> is OneWay or TwoWay, the target property will be synchronized with the source property.
+    ///
+    ///     If the target implements <see cref="INotifyPropertyChanged"/>, the target property raises the PropertyChanged event
+    ///     and the <see cref="BindingMode"/> is TwoWay, the source property will also be synchronized with the target property.
     /// </summary>
     /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
     /// <typeparam name="TTarget">
@@ -292,8 +293,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Instructs the Binding instance to stop listening to value changes and to
-        ///     remove all listeneners.
+        ///     Instructs the <see cref="Binding"/> instance to stop listening to value changes and to remove all listeners.
         /// </summary>
         public override void Detach()
         {
@@ -309,8 +309,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Forces the Binding's value to be reevaluated. The target value will
-        ///     be set to the source value.
+        ///     Forces the Binding's value to be reevaluated. The target value will be set to the source value.
         /// </summary>
         public override void ForceUpdateValueFromSourceToTarget()
         {
@@ -364,8 +363,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Forces the Binding's value to be reevaluated. The source value will
-        ///     be set to the target value.
+        ///     Forces the Binding's value to be reevaluated. The source value will be set to the target value.
         /// </summary>
         public override void ForceUpdateValueFromTargetToSource()
         {
@@ -402,23 +400,19 @@ namespace Softeq.XToolkit.Bindings
         ///     use this method to define which of the control's events should be observed.
         /// </summary>
         /// <param name="eventName">
-        ///     The name of the event that should be observed
-        ///     to update the binding's value.
+        ///     The name of the event that should be observed to update the binding's value.
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="InvalidOperationException">
-        ///     When this method is called
-        ///     on a OneTime binding. Such bindings cannot be updated. This exception can
-        ///     also be thrown when the source object is null or has already been
+        ///     When this method is called on a OneTime binding. Such bindings cannot be updated.
+        ///     This exception can also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     When the eventName parameter is null
-        ///     or is an empty string.
+        ///     When the eventName parameter is null or is an empty string.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     When the requested event does not exist on the
-        ///     source control.
+        ///     When the requested event does not exist on the source control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveSourceEvent(string eventName)
         {
@@ -506,12 +500,10 @@ namespace Softeq.XToolkit.Bindings
         ///     garbage collected before this method is called.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     When the eventName parameter is null
-        ///     or is an empty string.
+        ///     When the eventName parameter is null or is an empty string.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     When the requested event does not exist on the
-        ///     source control.
+        ///     When the requested event does not exist on the source control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveSourceEvent<TEventArgs>(string eventName)
             where TEventArgs : EventArgs
@@ -596,12 +588,10 @@ namespace Softeq.XToolkit.Bindings
         ///     garbage collected before this method is called.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     When the eventName parameter is null
-        ///     or is an empty string.
+        ///     When the eventName parameter is null or is an empty string.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     When the requested event does not exist on the
-        ///     target control.
+        ///     When the requested event does not exist on the target control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveTargetEvent(string eventName)
         {
@@ -699,12 +689,10 @@ namespace Softeq.XToolkit.Bindings
         ///     garbage collected before this method is called.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     When the eventName parameter is null
-        ///     or is an empty string.
+        ///     When the eventName parameter is null or is an empty string.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     When the requested event does not exist on the
-        ///     target control.
+        ///     When the requested event does not exist on the target control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveTargetEvent<TEventArgs>(string eventName)
             where TEventArgs : EventArgs
@@ -781,8 +769,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Defines an action that will be executed every time that the binding value
-        ///     changes.
+        ///     Defines an action that will be executed every time that the binding value changes.
         /// </summary>
         /// <param name="callback">
         ///     The action that will be executed when the binding changes.
@@ -791,8 +778,7 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="InvalidOperationException">
-        ///     When WhenSourceChanges is called on
-        ///     a binding which already has a target property set.
+        ///     When <see cref="WhenSourceChanges(System.Action)"/> is called on a binding which already has a target property set.
         /// </exception>
         public Binding<TSource, TTarget> WhenSourceChanges(Action callback)
         {
