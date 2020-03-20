@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         public void GetCommandHandler_NotNullEventArgs_ReturnsCorrectHandler(bool canExecute, string eventArgs)
         {
             // arrange
-            _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
+            _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
             var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, _e.ElementType, _command);
@@ -48,7 +48,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         public void GetCommandHandler_NullEventInfo_ReturnsCorrectHandler(bool canExecute, string eventArgs)
         {
             // arrange
-            _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
+            _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
             var handler = _factory.GetCommandHandler<string>(null, _e.EventName, _e.ElementType, _command);
@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         public void GetCommandHandler_NullEventName_ReturnsCorrectHandler(bool canExecute, string eventArgs)
         {
             // arrange
-            _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
+            _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
             var handler = _factory.GetCommandHandler<string>(_e.EventInfo, null, _e.ElementType, _command);
@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         public void GetCommandHandler_NullElementType_ReturnsCorrectHandler(bool canExecute, string eventArgs)
         {
             // arrange
-            _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
+            _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
             var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, null, _command);
@@ -90,7 +90,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
         public void GetCommandHandler_NullCommand_ReturnsHandlerWithNullRefException(bool canExecute, string eventArgs)
         {
             // arrange
-            _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
+            _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
             var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, _e.ElementType, null);
