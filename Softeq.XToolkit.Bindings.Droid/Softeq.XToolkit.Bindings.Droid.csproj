@@ -51,7 +51,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DroidBinding.cs" />
-    <Compile Include="DroidBindingExtensions.cs" />
     <Compile Include="DroidBindingFactory.cs" />
     <Compile Include="ObservableAdapter.cs" />
     <Compile Include="ObservableAdapterExtended.cs" />
