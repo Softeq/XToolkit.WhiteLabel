@@ -862,12 +862,9 @@ namespace Softeq.XToolkit.Bindings
             {
                 foreach (var instance in sourceChain)
                 {
-                    var inpc = instance.Instance as INotifyPropertyChanged;
-                    if (inpc != null)
+                    if (instance.Instance is INotifyPropertyChanged inpc)
                     {
-                        var listener = new ObjectSwappedEventListener(
-                            this,
-                            inpc);
+                        var listener = new ObjectSwappedEventListener(this, inpc);
                         _listeners.Add(listener);
                         PropertyChangedEventManager.AddListener(inpc, listener, instance.Name);
                     }
@@ -894,12 +891,9 @@ namespace Softeq.XToolkit.Bindings
                 {
                     foreach (var instance in targetChain)
                     {
-                        var inpc = instance.Instance as INotifyPropertyChanged;
-                        if (inpc != null)
+                        if (instance.Instance is INotifyPropertyChanged inpc)
                         {
-                            var listener = new ObjectSwappedEventListener(
-                                this,
-                                inpc);
+                            var listener = new ObjectSwappedEventListener(this, inpc);
                             _listeners.Add(listener);
                             PropertyChangedEventManager.AddListener(inpc, listener, instance.Name);
                         }
@@ -994,11 +988,7 @@ namespace Softeq.XToolkit.Bindings
 
             if (PropertySource.Target is INotifyPropertyChanged inpc)
             {
-                var listener = new PropertyChangedEventListener(
-                    this,
-                    inpc,
-                    true);
-
+                var listener = new PropertyChangedEventListener(this, inpc, true);
                 _listeners.Add(listener);
                 PropertyChangedEventManager.AddListener(inpc, listener, _sourcePropertyName);
             }
@@ -1022,11 +1012,7 @@ namespace Softeq.XToolkit.Bindings
             {
                 if (PropertyTarget.Target is INotifyPropertyChanged inpc2)
                 {
-                    var listener = new PropertyChangedEventListener(
-                        this,
-                        inpc2,
-                        false);
-
+                    var listener = new PropertyChangedEventListener(this, inpc2, false);
                     _listeners.Add(listener);
                     PropertyChangedEventManager.AddListener(inpc2, listener, _targetPropertyName);
                 }
@@ -1162,11 +1148,7 @@ namespace Softeq.XToolkit.Bindings
                 {
                     try
                     {
-                        var newInstance = prop.GetMethod.Invoke(
-                            lastInstance.Instance,
-                            new object[]
-                            {
-                            });
+                        var newInstance = prop.GetMethod.Invoke(lastInstance.Instance, new object[] {});
 
                         lastInstance.Name = prop.Name;
 
