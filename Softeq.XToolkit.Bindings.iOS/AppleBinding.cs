@@ -9,9 +9,10 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS
 {
-    // Partial class for Apple only.
+    /// <inheritdoc />
     public class AppleBinding<TSource, TTarget> : Binding<TSource, TTarget>
     {
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public AppleBinding(object source, string sourcePropertyName, object target = null,
             string targetPropertyName = null, BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
@@ -19,6 +20,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
         }
 
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public AppleBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null, BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
@@ -26,6 +28,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
         }
 
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public AppleBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
             object target = null, Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default, TSource fallbackValue = default,

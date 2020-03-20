@@ -11,6 +11,7 @@ namespace Softeq.XToolkit.Bindings
 {
     public abstract class BindingFactoryBase : IBindingFactory
     {
+        /// <inheritdoc />
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
@@ -20,6 +21,7 @@ namespace Softeq.XToolkit.Bindings
             TSource fallbackValue = default,
             TSource targetNullValue = default);
 
+        /// <inheritdoc />
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
@@ -29,6 +31,7 @@ namespace Softeq.XToolkit.Bindings
             TSource fallbackValue = default,
             TSource targetNullValue = default);
 
+        /// <inheritdoc />
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             string sourcePropertyName,
@@ -38,8 +41,10 @@ namespace Softeq.XToolkit.Bindings
             TSource fallbackValue = default,
             TSource targetNullValue = default);
 
+        /// <inheritdoc />
         public abstract string GetDefaultEventNameForControl(Type type);
 
+        /// <inheritdoc />
         public virtual Delegate GetCommandHandler(
             EventInfo info,
             string eventName,
@@ -57,6 +62,7 @@ namespace Softeq.XToolkit.Bindings
             return handler;
         }
 
+        /// <inheritdoc />
         public virtual Delegate GetCommandHandler<T>(
             EventInfo info,
             string eventName,
@@ -76,6 +82,7 @@ namespace Softeq.XToolkit.Bindings
             return handler;
         }
 
+        /// <inheritdoc />
         public virtual Delegate GetCommandHandler<TEventArgs>(
             EventInfo info,
             string eventName,
@@ -92,6 +99,7 @@ namespace Softeq.XToolkit.Bindings
             return handler;
         }
 
+        /// <inheritdoc />
         public virtual Delegate GetCommandHandler<T, TEventArgs>(
             EventInfo info,
             string eventName,

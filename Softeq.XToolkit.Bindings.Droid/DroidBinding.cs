@@ -11,8 +11,10 @@ using Android.Widget;
 
 namespace Softeq.XToolkit.Bindings.Droid
 {
+    /// <inheritdoc />
     public class DroidBinding<TSource, TTarget> : Binding<TSource, TTarget>
     {
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public DroidBinding(object source, string sourcePropertyName, object target = null,
             string targetPropertyName = null, BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
@@ -20,6 +22,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         {
         }
 
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public DroidBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null, BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
@@ -27,6 +30,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         {
         }
 
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public DroidBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
             object target = null, Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default, TSource fallbackValue = default,

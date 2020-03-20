@@ -11,6 +11,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 {
     public class AppleBindingFactory : BindingFactoryBase
     {
+        /// <inheritdoc />
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
@@ -32,6 +33,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                 targetNullValue);
         }
 
+        /// <inheritdoc />
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
@@ -51,6 +53,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                 targetNullValue);
         }
 
+        /// <inheritdoc />
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             string sourcePropertyName,

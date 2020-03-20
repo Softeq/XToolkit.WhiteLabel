@@ -13,6 +13,7 @@ namespace Softeq.XToolkit.Bindings.Droid
 {
     public class DroidBindingFactory : BindingFactoryBase
     {
+        /// <inheritdoc />
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
@@ -34,6 +35,7 @@ namespace Softeq.XToolkit.Bindings.Droid
                 targetNullValue);
         }
 
+        /// <inheritdoc />
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
@@ -53,6 +55,7 @@ namespace Softeq.XToolkit.Bindings.Droid
                 targetNullValue);
         }
 
+        /// <inheritdoc />
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             string sourcePropertyName,
