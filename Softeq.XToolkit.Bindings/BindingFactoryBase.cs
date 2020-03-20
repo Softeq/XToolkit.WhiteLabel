@@ -14,7 +14,8 @@ namespace Softeq.XToolkit.Bindings
         /// <inheritdoc />
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
-            Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            bool? resolveTopField,
             object? target = null,
             Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
@@ -112,6 +113,26 @@ namespace Softeq.XToolkit.Bindings
                 if (command.CanExecute(commandParameter))
                 {
                     command.Execute(commandParameter);
+                }
+            };
+            return handler;
+        }
+
+        /// <inheritdoc />
+        public virtual Delegate GetCommandHandler<T, TEventArgs>(
+            EventInfo info,
+            string eventName,
+            Type elementType,
+            ICommand command,
+            Binding<T, T> castedBinding)
+        {
+            EventHandler<TEventArgs> handler = (_, __) =>
+            {
+                object param = (castedBinding == null ? default : castedBinding.Value)!;
+
+                if (command.CanExecute(param))
+                {
+                    command.Execute(param);
                 }
             };
             return handler;

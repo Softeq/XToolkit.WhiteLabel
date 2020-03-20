@@ -346,85 +346,6 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method can only be used when the event uses a standard <see cref="EventHandler"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
-        /// <param name="element">The element to which the command is added.</param>
-        /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
-        /// <param name="command">The command that must be added to the element.</param>
-        /// <param name="commandParameterBinding">
-        ///     A <see cref="Binding{T, T}" /> instance subscribed to the CommandParameter
-        ///     that will passed to the <see cref="ICommand"/>.
-        ///     Depending on the <see cref="Binding"/>, the CommandParameter will be observed and changes
-        ///     will be passed to the command, for example to update the CanExecute.
-        /// </param>
-        public static void SetCommand<T>(
-            this object element,
-            string eventName,
-            ICommand command,
-            Binding commandParameterBinding)
-        {
-            var t = element.GetType();
-            var e = t.GetEventInfoForControl(eventName);
-
-            var castedBinding = (Binding<T, T>) commandParameterBinding;
-
-            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command, castedBinding);
-
-            e.AddEventHandler(element, handler);
-
-            if (commandParameterBinding == null)
-            {
-                return;
-            }
-
-            HandleEnabledProperty(element, t, command, castedBinding);
-        }
-
-        /// <summary>
-        ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
-        /// </summary>
-        /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
-        /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
-        /// <param name="element">The element to which the command is added.</param>
-        /// <param name="command">The command that must be added to the element.</param>
-        /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
-        /// <param name="commandParameterBinding">
-        ///     A <see cref="Binding{TSource, TTarget}" /> instance subscribed to the CommandParameter
-        ///     that will passed to the <see cref="ICommand"/>.
-        ///     Depending on the <see cref="Binding"/>, the CommandParameter will be observed and changes
-        ///     will be passed to the command, for example to update the CanExecute.
-        /// </param>
-        public static void SetCommand<T, TEventArgs>(
-            this object element,
-            string eventName,
-            ICommand command,
-            Binding commandParameterBinding)
-        {
-            var castedBinding = (Binding<T, T>) commandParameterBinding;
-
-            var t = element.GetType();
-            var e = t.GetEventInfoForControl(eventName);
-
-            EventHandler<TEventArgs> handler = (s, args) =>
-            {
-                var param = castedBinding == null ? default : castedBinding.Value;
-                command.Execute(param);
-            };
-
-            e.AddEventHandler(element, handler);
-
-            if (commandParameterBinding == null)
-            {
-                return;
-            }
-
-            HandleEnabledProperty(element, t, command, castedBinding);
-        }
-
-        /// <summary>
         ///     Sets a non-generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
         ///     This method can only be used when the event uses a standard <see cref="EventHandler"/>.
         /// </summary>
@@ -440,29 +361,6 @@ namespace Softeq.XToolkit.Bindings
             var e = t.GetEventInfoForControl(eventName);
 
             var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command);
-
-            e.AddEventHandler(element, handler);
-
-            HandleEnabledProperty(element, t, command);
-        }
-
-        /// <summary>
-        ///     Sets a non-generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
-        /// </summary>
-        /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
-        /// <param name="element">The element to which the command is added.</param>
-        /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
-        /// <param name="command">The command that must be added to the element.</param>
-        public static void SetCommand<TEventArgs>(
-            this object element,
-            string eventName,
-            ICommand command)
-        {
-            var t = element.GetType();
-            var e = t.GetEventInfoForControl(eventName);
-
-            var handler = _bindingFactory.GetCommandHandler<TEventArgs>(e, eventName, t, command);
 
             e.AddEventHandler(element, handler);
 
@@ -500,6 +398,66 @@ namespace Softeq.XToolkit.Bindings
 
         /// <summary>
         ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method can only be used when the event uses a standard <see cref="EventHandler"/>.
+        /// </summary>
+        /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
+        /// <param name="element">The element to which the command is added.</param>
+        /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
+        /// <param name="command">The command that must be added to the element.</param>
+        /// <param name="commandParameterBinding">
+        ///     A <see cref="Binding{T, T}" /> instance subscribed to the CommandParameter
+        ///     that will passed to the <see cref="ICommand"/>.
+        ///     Depending on the <see cref="Binding"/>, the CommandParameter will be observed and changes
+        ///     will be passed to the command, for example to update the CanExecute.
+        /// </param>
+        public static void SetCommand<T>(
+            this object element,
+            string eventName,
+            ICommand command,
+            Binding commandParameterBinding)
+        {
+            var t = element.GetType();
+            var e = t.GetEventInfoForControl(eventName);
+
+            var castedBinding = (Binding<T, T>) commandParameterBinding;
+
+            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command, castedBinding);
+
+            e.AddEventHandler(element, handler);
+
+            if (commandParameterBinding == null)
+            {
+                return;
+            }
+
+            HandleEnabledProperty(element, t, command, castedBinding);
+        }
+
+        /// <summary>
+        ///     Sets a non-generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
+        /// </summary>
+        /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
+        /// <param name="element">The element to which the command is added.</param>
+        /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
+        /// <param name="command">The command that must be added to the element.</param>
+        public static void SetCommand<TEventArgs>(
+            this object element,
+            string eventName,
+            ICommand command)
+        {
+            var t = element.GetType();
+            var e = t.GetEventInfoForControl(eventName);
+
+            var handler = _bindingFactory.GetCommandHandler<TEventArgs>(e, eventName, t, command);
+
+            e.AddEventHandler(element, handler);
+
+            HandleEnabledProperty(element, t, command);
+        }
+
+        /// <summary>
+        ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
         ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
         /// </summary>
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
@@ -529,26 +487,41 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a <see cref="ICommand{TEventArgs}"/> to an object and actuates the command when a specific event is raised.
+        ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
         ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
         /// </summary>
-        /// <typeparam name="TEventArgs">The type of the event's arguments that will be passed to the command.</typeparam>
+        /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
+        /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
         /// <param name="element">The element to which the command is added.</param>
-        /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="command">The command that must be added to the element.</param>
-        public static void SetCommand<TEventArgs>(
+        /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
+        /// <param name="commandParameterBinding">
+        ///     A <see cref="Binding{TSource, TTarget}" /> instance subscribed to the CommandParameter
+        ///     that will passed to the <see cref="ICommand"/>.
+        ///     Depending on the <see cref="Binding"/>, the CommandParameter will be observed and changes
+        ///     will be passed to the command, for example to update the CanExecute.
+        /// </param>
+        public static void SetCommand<T, TEventArgs>(
             this object element,
             string eventName,
-            ICommand<TEventArgs> command)
+            ICommand command,
+            Binding commandParameterBinding)
         {
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = _bindingFactory.GetCommandHandler<TEventArgs>(e, eventName, t, command);
+            var castedBinding = (Binding<T, T>) commandParameterBinding;
+
+            var handler = _bindingFactory.GetCommandHandler<T, TEventArgs>(e, eventName, t, command, castedBinding);
 
             e.AddEventHandler(element, handler);
 
-            HandleEnabledProperty(element, t, command);
+            if (commandParameterBinding == null)
+            {
+                return;
+            }
+
+            HandleEnabledProperty(element, t, command, castedBinding);
         }
 
         /// <summary>

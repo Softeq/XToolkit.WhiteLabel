@@ -65,6 +65,13 @@ namespace Softeq.XToolkit.Bindings
             ICommand command,
             T commandParameter);
 
+        Delegate GetCommandHandler<T, TEventArgs>(
+            EventInfo info,
+            string eventName,
+            Type elementType,
+            ICommand command,
+            Binding<T, T> castedBinding);
+
         string GetDefaultEventNameForControl(Type type);
     }
 }
