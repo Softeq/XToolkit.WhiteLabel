@@ -497,9 +497,8 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="commandParameterBinding">
         ///     A <see cref="Binding{TSource, TTarget}" /> instance subscribed to the CommandParameter
-        ///     that will passed to the <see cref="ICommand"/>.
-        ///     Depending on the <see cref="Binding"/>, the CommandParameter will be observed and changes
-        ///     will be passed to the command, for example to update the CanExecute.
+        ///     that will passed to the <see cref="ICommand"/>. Depending on the Binding, the CommandParameter will be observed
+        ///     and changes will be passed to the command, for example to update the CanExecute.
         /// </param>
         public static void SetCommand<T, TEventArgs>(
             this object element,
@@ -549,7 +548,7 @@ namespace Softeq.XToolkit.Bindings
             return Disposable.Create(() => e.RemoveEventHandler(element, handler));
         }
 
-        /// <inheritdoc cref="SetCommand(object,string,System.Windows.Input.ICommand)" />
+        /// <inheritdoc cref="SetCommand(object,string,ICommand)" />
         public static void SetCommand(
             this object element,
             ICommand command)
@@ -557,7 +556,7 @@ namespace Softeq.XToolkit.Bindings
             SetCommand(element, string.Empty, command);
         }
 
-        /// <inheritdoc cref="SetCommand{TEventArgs}(object,string,System.Windows.Input.ICommand)" />
+        /// <inheritdoc cref="SetCommand{TEventArgs}(object,string,ICommand)" />
         public static void SetCommand<TEventArgs>(
             this object element,
             ICommand command)
@@ -565,7 +564,7 @@ namespace Softeq.XToolkit.Bindings
             SetCommand<TEventArgs>(element, string.Empty, command);
         }
 
-        /// <inheritdoc cref="SetCommand{T}(object,string,System.Windows.Input.ICommand,T)" />
+        /// <inheritdoc cref="SetCommand{T}(object,string,ICommand,T)" />
         public static void SetCommand<T>(
             this object element,
             ICommand command,
@@ -574,7 +573,7 @@ namespace Softeq.XToolkit.Bindings
             SetCommand(element, string.Empty, command, commandParameter);
         }
 
-        /// <inheritdoc cref="SetCommand{T}(object,string,System.Windows.Input.ICommand,Softeq.XToolkit.Bindings.Binding)" />
+        /// <inheritdoc cref="SetCommand{T}(object,string,ICommand,Binding)" />
         public static void SetCommand<T>(
             this object element,
             ICommand command,
@@ -583,7 +582,7 @@ namespace Softeq.XToolkit.Bindings
             SetCommand<T>(element, string.Empty, command, commandParameterBinding);
         }
 
-        /// <inheritdoc cref="SetCommand{T,TEventArgs}(object,string,System.Windows.Input.ICommand,T)" />
+        /// <inheritdoc cref="SetCommand{T,TEventArgs}(object,string,ICommand,T)" />
         public static void SetCommand<T, TEventArgs>(
             this object element,
             ICommand command,
@@ -592,7 +591,7 @@ namespace Softeq.XToolkit.Bindings
             SetCommand<T, TEventArgs>(element, string.Empty, command, commandParameter);
         }
 
-        /// <inheritdoc cref="SetCommand{T,TEventArgs}(object,string,System.Windows.Input.ICommand,Softeq.XToolkit.Bindings.Binding)" />
+        /// <inheritdoc cref="SetCommand{T,TEventArgs}(object,string,ICommand,Binding)" />
         public static void SetCommand<T, TEventArgs>(
             this object element,
             ICommand command,

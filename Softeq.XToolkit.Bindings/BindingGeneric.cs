@@ -123,8 +123,8 @@ namespace Softeq.XToolkit.Bindings
         ///     are located in different objects.
         /// </summary>
         /// <param name="source">
-        ///     The source of the binding. If this object implements INotifyPropertyChanged and the
-        ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
+        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">
         ///     An expression pointing to the source property. It can be
@@ -141,16 +141,18 @@ namespace Softeq.XToolkit.Bindings
         ///     [target].SomeObject.SomeOtherObject.SomeProperty".
         /// </param>
         /// <param name="mode">
-        ///     The mode of the binding. OneTime means that the target property will be set once (when the binding is
-        ///     created) but that subsequent changes will be ignored. OneWay means that the target property will be set, and
-        ///     if the PropertyChanged event is raised by the source, the target property will be updated. TwoWay means that the
-        ///     source
-        ///     property will also be updated if the target raises the PropertyChanged event. Default means OneWay if only the
-        ///     source
-        ///     implements INPC, and TwoWay if both the source and the target implement INPC.
+        ///     The mode of the binding.
+        ///
+        ///     OneTime means that the target property will be set once (when the binding is created) but that subsequent changes
+        ///     will be ignored. OneWay means that the target property will be set, and if the PropertyChanged event is raised
+        ///     by the source, the target property will be updated.
+        ///
+        ///     TwoWay means that the source property will also be updated if the target raises the PropertyChanged event.
+        ///     Default means OneWay if only the source implements <see cref="INotifyPropertyChanged"/>,
+        ///     and TwoWay if both the source and the target implement <see cref="INotifyPropertyChanged"/>.
         /// </param>
         /// <param name="fallbackValue">
-        ///     Tthe value to use when the binding is unable to return a value. This can happen if one of the
+        ///     The value to use when the binding is unable to return a value. This can happen if one of the
         ///     items on the Path (except the source property itself) is null, or if the Converter throws an exception.
         /// </param>
         /// <param name="targetNullValue">
