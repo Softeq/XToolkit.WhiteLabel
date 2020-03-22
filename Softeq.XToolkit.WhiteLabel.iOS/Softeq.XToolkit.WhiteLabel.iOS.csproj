@@ -55,6 +55,7 @@
     <Compile Include="Controls\SelectorModel.cs" />
     <Compile Include="Controls\SupportRotationViewController.cs" />
     <Compile Include="Dialogs\IosAlertDialog.cs" />
+    <Compile Include="Extensions\CommandActionStyleExtensions.cs" />
     <Compile Include="Extensions\NavigationItemExtensions.cs" />
     <Compile Include="Extensions\UiViewExtensions.cs" />
     <Compile Include="Helpers\AvatarImageHelpers.cs" />

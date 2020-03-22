@@ -4,6 +4,7 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
     {
     }
 
+    // ReSharper disable once UnusedTypeParameter
     public interface IDialogConfig<T> : IDialogConfig
     {
     }
@@ -52,8 +53,43 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
         /// <summary>
         ///     Text to be displayed on the 'Cancel' button.
         /// </summary>
-        public string? CancelButtonText { get; set; } = null;
+        public string? CancelButtonText { get; set; }
 
+        /// <summary>
+        ///     Declares that 'Accept' button should be looks destructive on UI.
+        /// </summary>
         public bool IsDestructive { get; set; }
     }
+
+
+    /// <summary>
+    ///     Displays a native platform action sheet,
+    ///     allowing the application user to choose from several buttons.
+    /// </summary>
+    public class ActionSheetDialogConfig : IDialogConfig<string>
+    {
+        /// <summary>
+        ///     Title of the displayed action sheet.
+        /// </summary>
+        public string? Title { get; set; }
+
+        /// <summary>
+        ///     Text to be displayed in the 'Cancel' button.
+        ///     Can be null to hide the cancel action.
+        /// </summary>
+        public string? CancelButtonText { get; set; }
+
+        /// <summary>
+        ///     Text to be displayed in the 'Destruct' button.
+        ///     Can be null to hide the destructive option.
+        /// </summary>
+        public string? DestructButtonText { get; set; }
+
+        /// <summary>
+        ///     Text labels for additional buttons.
+        /// </summary>
+        public string[] OptionButtons { get; set; }
+    }
+
+
 }

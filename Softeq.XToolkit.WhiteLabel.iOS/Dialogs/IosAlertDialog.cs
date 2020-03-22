@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
@@ -13,20 +12,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
     {
         private readonly IViewLocator _viewLocator;
         private UIAlertController? _alertController; // TODO YP: can be move to use local
-        private readonly List<(string, UIAlertActionStyle, Action<UIAlertAction>)> _actions;
+        private readonly List<(string, UIAlertActionStyle, Action)> _actions;
 
         protected ViewControllerDialogBase(IViewLocator viewLocator)
         {
             _viewLocator = viewLocator;
-            _actions = new List<(string, UIAlertActionStyle, Action<UIAlertAction>)>();
+            _actions = new List<(string, UIAlertActionStyle, Action)>();
 
             Title = string.Empty;
-            Message = string.Empty;
+            Message = null;
             Style = UIAlertControllerStyle.Alert;
         }
 
-        protected string Title { get; set; }
-        protected string Message { get; set; }
+        protected string? Title { get; set; }
+        protected string? Message { get; set; }
         protected UIAlertControllerStyle Style { get; set; }
 
         public void Dispose()
@@ -34,7 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
             _alertController?.Dispose();
         }
 
-        protected virtual void Show()
+        protected virtual void Present()
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -47,16 +46,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
             });
         }
 
-        protected virtual void ApplyActions(UIAlertController? alertController, List<(string, UIAlertActionStyle, Action<UIAlertAction>)> actions)
+        protected virtual void ApplyActions(UIAlertController? alertController, List<(string, UIAlertActionStyle, Action)> actions)
         {
             foreach (var (text, style, action) in actions)
             {
-                alertController.AddAction(UIAlertAction.Create(text, style, action));
+                alertController.AddAction(
+                    UIAlertAction.Create(text, style, x => action?.Invoke()));
             }
         }
 
-        protected virtual void AddAction(string text,
-            Action<UIAlertAction> action,
+        protected virtual void AddAction(string text, Action action,
             UIAlertActionStyle style = UIAlertActionStyle.Default)
         {
             _actions.Add((text, style, action));
@@ -82,10 +81,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 
             AddAction(
                 _config.CancelButtonText,
-                _ => dialogResult.TrySetResult(true),
+                () => dialogResult.TrySetResult(true),
                 UIAlertActionStyle.Cancel);
 
-            Show();
+            Present();
 
             return dialogResult.Task;
         }
@@ -110,7 +109,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 
             AddAction(
                 _config.AcceptButtonText,
-                _ => dialogResult.TrySetResult(true),
+                () => dialogResult.TrySetResult(true),
                 _config.IsDestructive
                     ? UIAlertActionStyle.Destructive
                     : UIAlertActionStyle.Default);
@@ -119,11 +118,60 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
             {
                 AddAction(
                     _config.CancelButtonText,
-                    _ => dialogResult.TrySetResult(false),
+                    () => dialogResult.TrySetResult(false),
                     UIAlertActionStyle.Cancel);
             }
 
-            Show();
+            Present();
+
+            return dialogResult.Task;
+        }
+    }
+
+    public class IosActionSheetDialog : ViewControllerDialogBase
+    {
+        private readonly ActionSheetDialogConfig _config;
+
+        public IosActionSheetDialog(IViewLocator viewLocator, ActionSheetDialogConfig config)
+            : base(viewLocator)
+        {
+            _config = config;
+
+            Title = config.Title;
+            Message = null;
+            Style = UIAlertControllerStyle.ActionSheet;
+        }
+
+        public Task<string> ShowAsync()
+        {
+            if (_config.OptionButtons == null)
+            {
+                throw new ArgumentNullException(nameof(_config.OptionButtons));
+            }
+
+            var dialogResult = new TaskCompletionSource<string>();
+
+            if (_config.DestructButtonText != null)
+            {
+                AddAction(
+                    _config.DestructButtonText,
+                    () => dialogResult.TrySetResult(_config.DestructButtonText),
+                    UIAlertActionStyle.Destructive);
+            }
+
+            foreach (var button in _config.OptionButtons)
+            {
+                AddAction(button, () => dialogResult.TrySetResult(button));
+            }
+
+            if (_config.CancelButtonText != null)
+            {
+                AddAction(_config.CancelButtonText,
+                    () => dialogResult.TrySetResult(_config.CancelButtonText),
+                    UIAlertActionStyle.Cancel);
+            }
+
+            Present();
 
             return dialogResult.Task;
         }

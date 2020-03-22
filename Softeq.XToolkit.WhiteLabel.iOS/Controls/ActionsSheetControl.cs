@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
+    [Obsolete("Use IDialogService.ShowDialogAsync(IosActionSheetDialog) instead.")]
     public class ActionsSheetControl : IActionSheet
     {
         private readonly IViewLocator _viewLocator;
@@ -51,7 +53,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
             foreach (var action in _actions)
             {
-                controller.AddAction(UIAlertAction.Create(action.Title, Convert(action.CommandActionStyle),
+                controller.AddAction(UIAlertAction.Create(action.Title,
+                    action.CommandActionStyle.ToNative(),
                     action.Command.Execute));
             }
 
@@ -65,21 +68,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
             if (!Equals(TintColor, UIColor.Clear))
             {
                 controller.View.TintColor = TintColor;
-            }
-        }
-
-        private static UIAlertActionStyle Convert(CommandActionStyle actionStyle)
-        {
-            switch (actionStyle)
-            {
-                case CommandActionStyle.Default:
-                    return UIAlertActionStyle.Default;
-                case CommandActionStyle.Cancel:
-                    return UIAlertActionStyle.Cancel;
-                case CommandActionStyle.Destructive:
-                    return UIAlertActionStyle.Destructive;
-                default:
-                    throw new ArgumentOutOfRangeException();
             }
         }
     }

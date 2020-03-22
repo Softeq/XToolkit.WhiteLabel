@@ -88,11 +88,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public virtual Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
         {
-            if (config is ConfirmDialogConfig confirmConfig)
+            switch (config)
             {
-                 var alertDialog = new IosConfirmDialog(_viewLocator, confirmConfig);
+                case ConfirmDialogConfig confirmConfig:
+                {
+                    var alertDialog = new IosConfirmDialog(_viewLocator, confirmConfig);
 
-                 return alertDialog.ShowAsync() as Task<T>;
+                    return alertDialog.ShowAsync() as Task<T>;
+                }
+                case ActionSheetDialogConfig asConfig:
+                {
+                    var asDialog = new IosActionSheetDialog(_viewLocator, asConfig);
+                    return asDialog.ShowAsync() as Task<T>;
+                }
             }
 
             throw new NotSupportedException($"This type of dialog config ({config.GetType()}) not supported");
