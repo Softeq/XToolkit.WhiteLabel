@@ -4,18 +4,23 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IDialogsService
     {
+        [Obsolete("Use ShowDialogAsync(IDialogConfig) instead!")]
         Task<bool> ShowDialogAsync(
             string title,
             string message,
             string okButtonText,
             string? cancelButtonText = null,
             OpenDialogOptions? options = null);
+
+        Task ShowDialogAsync(IDialogConfig config);
+        Task<T> ShowDialogAsync<T>(IDialogConfig<T> config);
 
         [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task ShowForViewModel<TViewModel>(

@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
@@ -70,6 +72,30 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             });
 
             return dialogResult.Task;
+        }
+
+        public virtual Task ShowDialogAsync(IDialogConfig config)
+        {
+            if (config is AlertDialogConfig alertConfig)
+            {
+                var alertDialog = new IosAlertDialog(_viewLocator, alertConfig);
+
+                return alertDialog.ShowAsync();
+            }
+
+            throw new NotSupportedException($"This type of dialog config ({config.GetType()}) not supported");
+        }
+
+        public virtual Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
+        {
+            if (config is ConfirmDialogConfig confirmConfig)
+            {
+                 var alertDialog = new IosConfirmDialog(_viewLocator, confirmConfig);
+
+                 return alertDialog.ShowAsync() as Task<T>;
+            }
+
+            throw new NotSupportedException($"This type of dialog config ({config.GetType()}) not supported");
         }
 
         public Task ShowForViewModel<TViewModel>(

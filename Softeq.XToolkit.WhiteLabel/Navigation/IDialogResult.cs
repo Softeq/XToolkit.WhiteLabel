@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         Task WaitDismissAsync { get; }
     }
 
-    public interface IDialogResult<T> : IDialogResult
+    public interface IDialogResult<out T> : IDialogResult
     {
         T Value { get; }
     }
