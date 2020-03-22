@@ -94,12 +94,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 {
                     var alertDialog = new IosConfirmDialog(_viewLocator, confirmConfig);
 
-                    return alertDialog.ShowAsync() as Task<T>;
+                    return (alertDialog.ShowAsync() as Task<T>)!;
                 }
                 case ActionSheetDialogConfig asConfig:
                 {
                     var asDialog = new IosActionSheetDialog(_viewLocator, asConfig);
-                    return asDialog.ShowAsync() as Task<T>;
+                    return (asDialog.ShowAsync() as Task<T>)!;
                 }
             }
 

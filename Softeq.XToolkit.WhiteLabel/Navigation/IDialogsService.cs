@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IDialogsService
     {
-        [Obsolete("Use ShowDialogAsync(IDialogConfig) instead!")]
+        [Obsolete("Use ShowDialogAsync(new ConfirmDialogConfig()) instead!")]
         Task<bool> ShowDialogAsync(
             string title,
             string message,

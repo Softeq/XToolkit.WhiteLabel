@@ -1,0 +1,51 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+// ReSharper disable UnusedAutoPropertyAccessor.Global
+namespace Softeq.XToolkit.WhiteLabel.Dialogs
+{
+    /// <summary>
+    ///     Presents an alert dialog to the application user with an accept and a cancel button.
+    /// </summary>
+    public class ConfirmDialogConfig : IDialogConfig<bool>
+    {
+        public ConfirmDialogConfig()
+        {
+        }
+
+        public ConfirmDialogConfig(
+            string title, string message,
+            string acceptButtonText, string cancelButtonText)
+        {
+            Title = title;
+            Message = message;
+            AcceptButtonText = acceptButtonText;
+            CancelButtonText = cancelButtonText;
+        }
+
+        /// <summary>
+        ///     The title of the alert dialog.
+        /// </summary>
+        public string Title { get; set; } = string.Empty;
+
+        /// <summary>
+        ///     The body text of the alert dialog.
+        /// </summary>
+        public string Message { get; set; } = string.Empty;
+
+        /// <summary>
+        ///     Text to be displayed on the 'Accept' button.
+        /// </summary>
+        public string AcceptButtonText { get; set; } = "OK";
+
+        /// <summary>
+        ///     Text to be displayed on the 'Cancel' button.
+        /// </summary>
+        public string? CancelButtonText { get; set; }
+
+        /// <summary>
+        ///     Declares that 'Accept' button should be looks destructive on UI.
+        /// </summary>
+        public bool IsDestructive { get; set; }
+    }
+}

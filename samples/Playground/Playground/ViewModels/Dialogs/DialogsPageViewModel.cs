@@ -7,6 +7,7 @@ using Playground.Converters;
 using Playground.Models;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -67,7 +68,8 @@ namespace Playground.ViewModels.Dialogs
 
         private async Task OpenAlert()
         {
-            var result = await _dialogsService.ShowDialogAsync("~title", "~message", "~ok", "~cancel");
+            var config = new ConfirmDialogConfig("~title", "~message", "~ok", "~cancel");
+            var result = await _dialogsService.ShowDialogAsync(config);
 
             AlertResult = result.ToString();
         }

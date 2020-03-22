@@ -54,7 +54,11 @@
     <Compile Include="Controls\ObservableStackViewBase.cs" />
     <Compile Include="Controls\SelectorModel.cs" />
     <Compile Include="Controls\SupportRotationViewController.cs" />
+    <Compile Include="Dialogs\AlertAction.cs" />
+    <Compile Include="Dialogs\IosActionSheetDialog.cs" />
     <Compile Include="Dialogs\IosAlertDialog.cs" />
+    <Compile Include="Dialogs\IosConfirmDialog.cs" />
+    <Compile Include="Dialogs\ViewControllerDialogBase.cs" />
     <Compile Include="Extensions\CommandActionStyleExtensions.cs" />
     <Compile Include="Extensions\NavigationItemExtensions.cs" />
     <Compile Include="Extensions\UiViewExtensions.cs" />
