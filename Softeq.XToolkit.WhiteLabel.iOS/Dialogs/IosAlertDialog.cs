@@ -7,7 +7,7 @@ using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 {
-    public class IosAlertDialog : ViewControllerDialogBase
+    public class IosAlertDialog : ViewControllerDialogBase, IDialog<object>
     {
         private readonly AlertDialogConfig _config;
 
@@ -20,14 +20,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
             Message = config.Message;
         }
 
-        public Task ShowAsync()
+        public Task<object> ShowAsync()
         {
-            var dialogResult = new TaskCompletionSource<bool>();
+            var dialogResult = new TaskCompletionSource<object>();
 
             AddAction(
                 AlertAction.Cancel(
                     _config.CancelButtonText,
-                    () => dialogResult.TrySetResult(true)));
+                    () => dialogResult.TrySetResult(null)));
 
             Present();
 

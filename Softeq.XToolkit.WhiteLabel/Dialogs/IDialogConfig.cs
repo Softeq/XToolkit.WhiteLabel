@@ -1,14 +1,17 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Threading.Tasks;
+
 namespace Softeq.XToolkit.WhiteLabel.Dialogs
 {
-    public interface IDialogConfig
+    // ReSharper disable once UnusedTypeParameter
+    public interface IDialogConfig<T>
     {
     }
 
-    // ReSharper disable once UnusedTypeParameter
-    public interface IDialogConfig<T> : IDialogConfig
+    public interface IDialog<T>
     {
+        Task<T> ShowAsync();
     }
 }

@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using Playground.Models;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -26,7 +27,8 @@ namespace Playground.ViewModels.Pages
             var title = Person?.FullName ?? string.Empty;
             var message = Person == null ? "You navigated without parameter" : "You navigated with parameter:";
 
-            _dialogsService.ShowDialogAsync(title, message, "OK");
+            var config = new AlertDialogConfig(title, message, "OK");
+            _dialogsService.ShowDialogAsync(config);
         }
     }
 }

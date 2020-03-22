@@ -7,7 +7,7 @@ using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 {
-    public class IosConfirmDialog : ViewControllerDialogBase
+    public class IosConfirmDialog : ViewControllerDialogBase, IDialog<bool>
     {
         private readonly ConfirmDialogConfig _config;
 

@@ -74,36 +74,33 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return dialogResult.Task;
         }
 
-        public virtual Task ShowDialogAsync(IDialogConfig config)
-        {
-            if (config is AlertDialogConfig alertConfig)
-            {
-                var alertDialog = new IosAlertDialog(_viewLocator, alertConfig);
-
-                return alertDialog.ShowAsync();
-            }
-
-            throw new NotSupportedException($"This type of dialog config ({config.GetType()}) not supported");
-        }
-
         public virtual Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
         {
+            IDialog<T> dialog;
+
+            // TODO YP: refactor
             switch (config)
             {
+                case AlertDialogConfig alertConfig:
+                {
+                    dialog = new IosAlertDialog(_viewLocator, alertConfig) as IDialog<T>;
+                    break;
+                }
                 case ConfirmDialogConfig confirmConfig:
                 {
-                    var alertDialog = new IosConfirmDialog(_viewLocator, confirmConfig);
-
-                    return (alertDialog.ShowAsync() as Task<T>)!;
+                    dialog = new IosConfirmDialog(_viewLocator, confirmConfig) as IDialog<T>;
+                    break;
                 }
                 case ActionSheetDialogConfig asConfig:
                 {
-                    var asDialog = new IosActionSheetDialog(_viewLocator, asConfig);
-                    return (asDialog.ShowAsync() as Task<T>)!;
+                    dialog = new IosActionSheetDialog(_viewLocator, asConfig) as IDialog<T>;
+                    break;
                 }
+                default:
+                    throw new NotSupportedException($"This type of dialog config ({config.GetType()}) not supported");
             }
 
-            throw new NotSupportedException($"This type of dialog config ({config.GetType()}) not supported");
+            return dialog?.ShowAsync();
         }
 
         public Task ShowForViewModel<TViewModel>(
