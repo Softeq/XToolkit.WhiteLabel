@@ -8,6 +8,7 @@ using Playground.Models;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -50,7 +51,7 @@ namespace Playground.ViewModels.Collections.Base
 
         private async Task SelectItem(ItemViewModel viewModel)
         {
-            await _dialogsService.ShowDialogAsync("Selected", viewModel.Title, "OK");
+            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("Selected", viewModel.Title));
         }
 
         public List<ItemModel> GetMovies()

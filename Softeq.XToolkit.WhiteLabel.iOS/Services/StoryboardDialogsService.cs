@@ -83,24 +83,24 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 case AlertDialogConfig alertConfig:
                 {
-                    dialog = new IosAlertDialog(_viewLocator, alertConfig) as IDialog<T>;
+                    dialog = (new IosAlertDialog(_viewLocator, alertConfig) as IDialog<T>)!;
                     break;
                 }
                 case ConfirmDialogConfig confirmConfig:
                 {
-                    dialog = new IosConfirmDialog(_viewLocator, confirmConfig) as IDialog<T>;
+                    dialog = (new IosConfirmDialog(_viewLocator, confirmConfig) as IDialog<T>)!;
                     break;
                 }
                 case ActionSheetDialogConfig asConfig:
                 {
-                    dialog = new IosActionSheetDialog(_viewLocator, asConfig) as IDialog<T>;
+                    dialog = (new IosActionSheetDialog(_viewLocator, asConfig) as IDialog<T>)!;
                     break;
                 }
                 default:
                     throw new NotSupportedException($"This type of dialog config ({config.GetType()}) not supported");
             }
 
-            return dialog?.ShowAsync();
+            return dialog?.ShowAsync()!;
         }
 
         public Task ShowForViewModel<TViewModel>(

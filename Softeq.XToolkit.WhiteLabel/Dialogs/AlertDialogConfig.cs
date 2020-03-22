@@ -6,32 +6,28 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
     /// <summary>
     ///     Presents an alert dialog to the application user with a single cancel button.
     /// </summary>
-    public class AlertDialogConfig : IDialogConfig<object>
+    public class AlertDialogConfig : IDialogConfig<object?>
     {
-        public AlertDialogConfig()
+        public AlertDialogConfig(string title, string message, string cancelButtonText = "OK")
         {
-        }
-
-        public AlertDialogConfig(string title, string message, string cancelButtonText)
-        {
-            Title = title;
-            Message = message;
+            Title = title ?? string.Empty;
+            Message = message ?? string.Empty;
             CancelButtonText = cancelButtonText;
         }
 
         /// <summary>
         ///     The title of the alert dialog.
         /// </summary>
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; }
 
         /// <summary>
         ///     The body text of the alert dialog.
         /// </summary>
-        public string Message { get; set; } = string.Empty;
+        public string Message { get; }
 
         /// <summary>
         ///     Text to be displayed on the close button.
         /// </summary>
-        public string CancelButtonText { get; set; } = "OK";
+        public string CancelButtonText { get; }
     }
 }

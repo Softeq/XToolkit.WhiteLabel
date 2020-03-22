@@ -8,6 +8,7 @@ using Playground.Services;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -88,7 +89,7 @@ namespace Playground.ViewModels.Collections.Base
 
         private async Task GroupInfo(ProductHeaderViewModel groupHeader)
         {
-            await _dialogsService.ShowDialogAsync("Info", $"{groupHeader.Category}th section.", "OK");
+            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("Info", $"{groupHeader.Category}th section."));
         }
 
         private void GenerateItem(ProductHeaderViewModel groupHeader)
