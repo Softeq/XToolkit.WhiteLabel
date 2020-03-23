@@ -1,9 +1,11 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Model;
@@ -36,6 +38,33 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             OpenDialogOptions? openDialogOptions = null)
         {
             return _alertBuilder.ShowAlertAsync(title, message, okButtonText, cancelButtonText);
+        }
+
+        public Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
+        {
+            IDialog<T> dialog;
+
+            // TODO YP: refactor
+            switch (config)
+            {
+                case AlertDialogConfig alertConfig:
+                {
+                    dialog = (new DroidAlertDialog(alertConfig) as IDialog<T>)!;
+                    break;
+                }
+                case ConfirmDialogConfig confirmConfig:
+                {
+                    dialog = (new DroidConfirmDialog(confirmConfig) as IDialog<T>)!;
+                    break;
+                }
+                case ActionSheetDialogConfig asConfig:
+                    dialog = (new DroidActionSheetDialog(asConfig) as IDialog<T>)!;
+                    break;
+                default:
+                    throw new NotSupportedException();
+            }
+
+            return dialog?.ShowAsync()!;
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(

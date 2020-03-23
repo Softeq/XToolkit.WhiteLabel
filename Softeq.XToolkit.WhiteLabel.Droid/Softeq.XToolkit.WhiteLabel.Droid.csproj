@@ -65,7 +65,12 @@
     <Compile Include="Controls\AvatarPlaceholderDrawable.cs" />
     <Compile Include="Controls\ImagePicker.cs" />
     <Compile Include="Controls\ToolbarMenuComponent.cs" />
+    <Compile Include="Dialogs\AlertDialogBase.cs" />
+    <Compile Include="Dialogs\DefaultAlertBuilder.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
+    <Compile Include="Dialogs\DroidActionSheetDialog.cs" />
+    <Compile Include="Dialogs\DroidAlertDialog.cs" />
+    <Compile Include="Dialogs\DroidConfirmDialog.cs" />
     <Compile Include="Dialogs\DroidFragmentDialogService.cs" />
     <Compile Include="Dialogs\IAlertBuilder.cs" />
     <Compile Include="Controls\ObservableStackView.cs" />
@@ -88,7 +93,6 @@
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Navigation\ActivityPageNavigationService.cs" />
     <Compile Include="Navigation\FrameNavigationService.cs" />
-    <Compile Include="Services\DefaultAlertBuilder.cs" />
     <Compile Include="Controls\NavigationBarView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />

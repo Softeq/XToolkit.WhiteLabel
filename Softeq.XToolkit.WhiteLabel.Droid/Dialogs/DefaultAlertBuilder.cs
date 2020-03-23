@@ -1,17 +1,18 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
-using Android.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using AlertDialog = Android.Support.V7.App.AlertDialog;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.Services
+namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
-    public class DefaultAlertBuilder : IAlertBuilder
+    [Obsolete("Use DroidAlertDialog or DroidConfirmDialog instead.")]
+    public class DefaultAlertBuilder : AlertDialogBase, IAlertBuilder
     {
         public Task<bool> ShowAlertAsync(string title, string message, string okButtonText,
             string? cancelButtonText = null)
@@ -24,22 +25,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
                 var builder = new AlertDialog.Builder(context)
                     .SetTitle(title)
-                    .SetMessage(message)
-                    .SetPositiveButton(okButtonText, (o, e) =>
-                    {
-                        tcs.TrySetResult(true);
-                        var alertDialog = (AlertDialog) o;
-                        alertDialog.Dismiss();
-                    });
+                    .SetMessage(message);
+
+                SetPositiveButton(builder, okButtonText, tcs, true);
 
                 if (!string.IsNullOrEmpty(cancelButtonText))
                 {
-                    builder.SetNegativeButton(cancelButtonText, (o, e) =>
-                    {
-                        tcs.TrySetResult(false);
-                        var alertDialog = (AlertDialog) o;
-                        alertDialog.Dismiss();
-                    });
+                    SetNegativeButton(builder, cancelButtonText, tcs, false);
                 }
 
                 var dialog = builder.Create();
