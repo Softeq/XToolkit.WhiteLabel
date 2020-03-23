@@ -1,8 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.Generic;
-using System.Reflection;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -24,14 +22,7 @@ namespace Playground.Forms.Droid
 
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
-            LoadApplication(new App(
-                new DroidBootstrapper(),
-                () => new List<Assembly>
-                {
-                    GetType().Assembly,
-                    typeof(App).Assembly
-                })
-            );
+            LoadApplication(new App(new DroidBootstrapper()));
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions,

@@ -10,6 +10,8 @@ using Android.Views;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid
 {
     public class ObservableRecyclerGroupViewAdapter<TKey, TItem> : RecyclerView.Adapter

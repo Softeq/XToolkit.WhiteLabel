@@ -15,8 +15,6 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -107,7 +105,7 @@
     <Compile Include="Controls\ColoredClickableSpan.cs" />
     <Compile Include="Controls\NonConsumingTouchesToolbar.cs" />
     <Compile Include="Controls\SwipeControlViewPager.cs" />
-    <Compile Include="DroidBootstrapper.cs" />
+    <Compile Include="DroidBootstrapperBase.cs" />
     <Compile Include="Extensions\FragmentExtensions.cs" />
     <Compile Include="Navigation\DroidFrameNavigationService.cs" />
     <Compile Include="Internal\ViewModelStore.cs" />

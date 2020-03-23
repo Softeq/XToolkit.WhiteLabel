@@ -1,6 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Playground.Forms.Services;
 using Playground.Forms.ViewModels;
 using Playground.Forms.ViewModels.Dialogs;
@@ -13,11 +16,25 @@ using Softeq.XToolkit.WhiteLabel.Forms;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Xamarin.Forms;
 
 namespace Playground.Forms
 {
     public abstract class CoreBootstrapper : FormsBootstrapper
     {
+        protected override IList<Assembly> SelectAssemblies()
+        {
+            return new List<Assembly>
+            {
+                typeof(App).Assembly
+            };
+        }
+
+        protected override bool IsExtractToAssembliesCache(Type type)
+        {
+            return typeof(Page).IsAssignableFrom(type);
+        }
+
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
             builder.PerDependency<MainPageViewModel>();
