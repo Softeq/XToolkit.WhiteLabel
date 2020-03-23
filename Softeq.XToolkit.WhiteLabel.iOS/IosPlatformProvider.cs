@@ -41,9 +41,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         /// <param name="action">The action to execute.</param>
         public Task OnUIThreadAsync(Action action)
         {
+            if (CheckAccess())
+            {
+                action();
+                return Task.CompletedTask;
+            }
             var completionSource = new TaskCompletionSource<bool>();
 
-            UIApplication.SharedApplication.InvokeOnMainThread(() =>
+            UIApplication.SharedApplication.BeginInvokeOnMainThread(() =>
             {
                 try
                 {
