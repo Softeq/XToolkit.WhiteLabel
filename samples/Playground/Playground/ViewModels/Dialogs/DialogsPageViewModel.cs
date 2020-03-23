@@ -20,6 +20,8 @@ namespace Playground.ViewModels.Dialogs
         private readonly ILogger _logger;
 
         private string _alertResult = "-";
+        private string _confirmResult = "-";
+        private string _actionSheetResult = "-";
         private Person? _dialogUntilDismissResult;
         private Person? _dialogUntilResult;
 
@@ -33,12 +35,18 @@ namespace Playground.ViewModels.Dialogs
             PersonConverter = new PersonToStringConverter();
 
             OpenAlertCommand = new AsyncCommand(OpenAlert);
+            OpenConfirmCommand = new AsyncCommand(OpenConfirm);
+            OpenActionSheetCommand = new AsyncCommand(OpenActionSheet);
             OpenDialogUntilDismissCommand = new RelayCommand(OpenDialogUntilDismiss);
             OpenDialogUntilResultCommand = new AsyncCommand(OpenDialogUntilResult);
             OpenTwoDialogsCommand = new AsyncCommand(OpenTwoDialogs);
         }
 
         public ICommand OpenAlertCommand { get; }
+
+        public ICommand OpenConfirmCommand { get; }
+
+        public ICommand OpenActionSheetCommand { get; }
 
         public ICommand OpenDialogUntilDismissCommand { get; }
 
@@ -49,29 +57,71 @@ namespace Playground.ViewModels.Dialogs
         public string AlertResult
         {
             get => _alertResult;
-            set => Set(ref _alertResult, value);
+            private set => Set(ref _alertResult, value);
+        }
+
+        public string ConfirmResult
+        {
+            get => _confirmResult;
+            private set => Set(ref _confirmResult, value);
+        }
+
+        public string ActionSheetResult
+        {
+            get => _actionSheetResult;
+            private set => Set(ref _actionSheetResult, value);
         }
 
         public Person DialogUntilDismissResult
         {
             get => _dialogUntilDismissResult!;
-            set => Set(ref _dialogUntilDismissResult, value);
+            private set => Set(ref _dialogUntilDismissResult, value);
         }
 
         public Person DialogUntilResult
         {
             get => _dialogUntilResult!;
-            set => Set(ref _dialogUntilResult, value);
+            private set => Set(ref _dialogUntilResult, value);
         }
 
         public PersonToStringConverter PersonConverter { get; }
 
         private async Task OpenAlert()
         {
-            var config = new ConfirmDialogConfig("~title", "~message", "~ok", "~cancel");
+            var config = new AlertDialogConfig("~title", "~message", "~ok");
+            await _dialogsService.ShowDialogAsync(config);
+
+            AlertResult = "Closed";
+        }
+
+        private async Task OpenConfirm()
+        {
+            var config = new ConfirmDialogConfig("~title - remove?", "~message", "~yes", "~no")
+            {
+                IsDestructive = true
+            };
             var result = await _dialogsService.ShowDialogAsync(config);
 
-            AlertResult = result.ToString();
+            ConfirmResult = result ? "Removed" : "Declined";
+        }
+
+        private async Task OpenActionSheet()
+        {
+            var config = new ActionSheetDialogConfig
+            {
+                Title = "~title",
+                OptionButtons = new []
+                {
+                    "~option 1",
+                    "~option 2",
+                    "~option 3"
+                },
+                CancelButtonText = "~cancel",
+                DestructButtonText = "~destruct"
+            };
+            var result = await _dialogsService.ShowDialogAsync(config);
+
+            ActionSheetResult = result;
         }
 
         private void OpenDialogUntilDismiss()

@@ -20,6 +20,8 @@ namespace Playground.iOS.ViewControllers.Dialogs
             base.ViewDidLoad();
 
             ShowAlertButton.SetCommand(ViewModel.OpenAlertCommand);
+            ShowConfirmButton.SetCommand(ViewModel.OpenConfirmCommand);
+            ShowActionSheetButton.SetCommand(ViewModel.OpenActionSheetCommand);
             ShowDialogUntilDismissButton.SetCommand(ViewModel.OpenDialogUntilDismissCommand);
             ShowDialogUntilResultButton.SetCommand(ViewModel.OpenDialogUntilResultCommand);
             OpenTwoDialogsButton.SetCommand(ViewModel.OpenTwoDialogsCommand);
@@ -30,6 +32,8 @@ namespace Playground.iOS.ViewControllers.Dialogs
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.AlertResult, () => AlertResultLabel.Text);
+            this.Bind(() => ViewModel.ConfirmResult, () => ConfirmResultLabel.Text);
+            this.Bind(() => ViewModel.ActionSheetResult, () => ActionSheetResultLabel.Text);
             this.Bind(() => ViewModel.DialogUntilDismissResult, () => DialogUntilDismissResultLabel.Text, ViewModel.PersonConverter);
             this.Bind(() => ViewModel.DialogUntilResult, () => ShowDialogUntilResultLabel.Text, ViewModel.PersonConverter);
         }

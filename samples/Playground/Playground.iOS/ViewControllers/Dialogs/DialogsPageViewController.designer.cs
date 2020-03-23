@@ -1,7 +1,8 @@
-// WARNING
+﻿// WARNING
 //
-// This file has been generated automatically by Visual Studio to store outlets and
-// actions made in the UI designer. If it is removed, they will be lost.
+// This file has been generated automatically by Rider IDE
+//   to store outlets and actions made in Xcode.
+// If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
 using Foundation;
@@ -13,7 +14,13 @@ namespace Playground.iOS.ViewControllers.Dialogs
 	partial class DialogsPageViewController
 	{
 		[Outlet]
+		UIKit.UILabel ActionSheetResultLabel { get; set; }
+
+		[Outlet]
 		UIKit.UILabel AlertResultLabel { get; set; }
+
+		[Outlet]
+		UIKit.UILabel ConfirmResultLabel { get; set; }
 
 		[Outlet]
 		UIKit.UILabel DialogUntilDismissResultLabel { get; set; }
@@ -22,7 +29,13 @@ namespace Playground.iOS.ViewControllers.Dialogs
 		UIKit.UIButton OpenTwoDialogsButton { get; set; }
 
 		[Outlet]
+		UIKit.UIButton ShowActionSheetButton { get; set; }
+
+		[Outlet]
 		UIKit.UIButton ShowAlertButton { get; set; }
+
+		[Outlet]
+		UIKit.UIButton ShowConfirmButton { get; set; }
 
 		[Outlet]
 		UIKit.UIButton ShowDialogUntilDismissButton { get; set; }
@@ -32,7 +45,7 @@ namespace Playground.iOS.ViewControllers.Dialogs
 
 		[Outlet]
 		UIKit.UILabel ShowDialogUntilResultLabel { get; set; }
-		
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (AlertResultLabel != null) {
@@ -69,6 +82,27 @@ namespace Playground.iOS.ViewControllers.Dialogs
 				ShowDialogUntilResultLabel.Dispose ();
 				ShowDialogUntilResultLabel = null;
 			}
+
+			if (ShowConfirmButton != null) {
+				ShowConfirmButton.Dispose ();
+				ShowConfirmButton = null;
+			}
+
+			if (ShowActionSheetButton != null) {
+				ShowActionSheetButton.Dispose ();
+				ShowActionSheetButton = null;
+			}
+
+			if (ConfirmResultLabel != null) {
+				ConfirmResultLabel.Dispose ();
+				ConfirmResultLabel = null;
+			}
+
+			if (ActionSheetResultLabel != null) {
+				ActionSheetResultLabel.Dispose ();
+				ActionSheetResultLabel = null;
+			}
+
 		}
 	}
 }
