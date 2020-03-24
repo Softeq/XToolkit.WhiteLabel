@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics;
 using Android.OS;
 using Android.Runtime;
+using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;

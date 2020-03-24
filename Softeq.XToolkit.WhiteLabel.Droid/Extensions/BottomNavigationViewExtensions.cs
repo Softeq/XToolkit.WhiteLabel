@@ -2,8 +2,8 @@
 // http://www.softeq.com
 
 using System;
-using Android.Support.Design.Widget;
 using Android.Views;
+using Google.Android.Material.BottomNavigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Extensions
 {

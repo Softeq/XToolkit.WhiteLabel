@@ -2,9 +2,9 @@
 // http://www.softeq.com
 
 using Android.Content;
-using Android.Support.V4.View;
 using Android.Util;
 using Android.Views;
+using AndroidX.ViewPager.Widget;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {

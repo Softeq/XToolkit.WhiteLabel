@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Android.OS;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal

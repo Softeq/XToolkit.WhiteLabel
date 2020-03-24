@@ -17,9 +17,9 @@
      <group targetFramework="netstandard2.1">
         <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta4]" />
       </group>
-     <group targetFramework="MonoAndroid10">
+     <group targetFramework="MonoAndroid9.0">
         <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta4]" />
-        <dependency id="Xamarin.Android.Support.v7.RecyclerView" version="28.0.0.3" />
+        <dependency id="Xamarin.AndroidX.RecyclerView" version="1.1.0" />
       </group>
      <group targetFramework="Xamarin.iOS10">
         <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta4]" />
