@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Android.Content;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -15,16 +14,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     public class ActivityPageNavigationService : IPlatformNavigationService
     {
         private readonly IBundleService _bundleService;
-        private readonly ICurrentActivity _currentActivity;
         private readonly IViewLocator _viewLocator;
 
         public ActivityPageNavigationService(
             IBundleService bundleService,
-            ICurrentActivity currentActivity,
             IViewLocator viewLocator)
         {
             _bundleService = bundleService;
-            _currentActivity = currentActivity;
             _viewLocator = viewLocator;
         }
 
@@ -36,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             get
             {
-                var memberInfo = _currentActivity.Activity.GetType();
+                var memberInfo = MainApplicationBase.CurrentActivity.GetType();
                 return memberInfo.GetCustomAttribute(typeof(StartActivityAttribute)) == null;
             }
         }
@@ -45,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var activity = _currentActivity.Activity;
+                var activity = MainApplicationBase.CurrentActivity;
 
                 if (CanGoBack)
                 {
@@ -72,7 +68,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             bool shouldClearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
         {
-            var activity = _currentActivity.Activity;
+            var activity = MainApplicationBase.CurrentActivity;
             var intent = new Intent(activity, type);
 
             _bundleService.TryToSetParams(intent, parameters);

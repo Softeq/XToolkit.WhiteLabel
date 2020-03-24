@@ -4,7 +4,6 @@
 using Android.Content;
 using Android.Views;
 using Android.Views.InputMethods;
-using Plugin.CurrentActivity;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
@@ -36,7 +35,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
         public static void HideSoftKeyboard()
         {
-            HideSoftKeyboard(CrossCurrentActivity.Current.Activity.FindViewById(Android.Resource.Id.Content));
+            var currentActivity = MainApplicationBase.CurrentActivity;
+            var activityContentView = currentActivity.FindViewById(Android.Resource.Id.Content);
+            HideSoftKeyboard(activityContentView);
         }
     }
 }

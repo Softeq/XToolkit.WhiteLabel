@@ -7,7 +7,6 @@ using Android.Content;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Location;
 using Object = Java.Lang.Object;
@@ -23,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             _locationManagerLazy = new Lazy<LocationManager>(() =>
             {
-                var currentActivity = CrossCurrentActivity.Current.Activity;
+                var currentActivity = MainApplicationBase.CurrentActivity;
                 return (LocationManager) currentActivity.GetSystemService(Context.LocationService);
             });
         }

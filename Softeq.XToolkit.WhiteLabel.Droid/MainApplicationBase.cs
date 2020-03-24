@@ -5,8 +5,6 @@ using System;
 using System.Diagnostics;
 using Android.OS;
 using Android.Runtime;
-using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
@@ -21,6 +19,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             : base(handle, transfer)
         {
         }
+
+        public static Android.App.Activity CurrentActivity => Xamarin.Essentials.Platform.CurrentActivity;
 
         public override void OnCreate()
         {
@@ -60,7 +60,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void InitializeExternalDependencies()
         {
-            CrossCurrentActivity.Current.Init(this);
+            Xamarin.Essentials.Platform.Init(this);
         }
 
         protected virtual void InitializeWhiteLabelRuntime()

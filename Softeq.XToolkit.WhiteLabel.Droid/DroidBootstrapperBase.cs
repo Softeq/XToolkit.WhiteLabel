@@ -3,9 +3,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
@@ -24,9 +22,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
             base.RegisterInternalServices(builder);
-
-            // common
-            builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
 
             // navigation
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);

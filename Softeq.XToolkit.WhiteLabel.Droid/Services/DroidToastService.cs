@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using Android.Views;
 using Google.Android.Material.Snackbar;
 using Java.Lang;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
@@ -66,7 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             {
                 var toastContainerComponent = default(ToastContainerComponent);
 
-                var activity = CrossCurrentActivity.Current.Activity;
+                var activity = MainApplicationBase.CurrentActivity;
 
                 if (activity is ActivityBase activityBase)
                 {

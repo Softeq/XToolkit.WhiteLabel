@@ -4,7 +4,6 @@
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
-using Plugin.CurrentActivity;
 using Plugin.Permissions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
@@ -48,7 +47,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
         private async Task<ImagePickerResult> GetImageAsync(int mode, float quality)
         {
-            var intent = new Intent(CrossCurrentActivity.Current.Activity, typeof(ImagePickerActivity));
+            var activity = MainApplicationBase.CurrentActivity;
+            var intent = new Intent(activity, typeof(ImagePickerActivity));
 
             intent.PutExtra(ImagePickerActivity.ModeKey, mode);
 
@@ -56,7 +56,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
             ImagePickerActivity.ImagePicked += OnImagePicked;
 
-            CrossCurrentActivity.Current.Activity.StartActivity(intent);
+            activity.StartActivity(intent);
 
             var bitmap = await _taskCompletionSource.Task.ConfigureAwait(false);
 

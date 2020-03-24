@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using Android.Content;
 using Android.OS;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -64,7 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public void Show()
         {
             SetStyle(StyleNoFrame, ThemeId);
-            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
+            var baseActivity = (ActivityBase) MainApplicationBase.CurrentActivity;
             Show(baseActivity.SupportFragmentManager, null);
         }
 

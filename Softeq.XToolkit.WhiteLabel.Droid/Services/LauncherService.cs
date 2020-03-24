@@ -4,20 +4,21 @@
 using Android.Content;
 using Android.Net;
 using Android.Provider;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
     public class LauncherService : ILauncherService
     {
+        protected Android.App.Activity CurrentActivity => MainApplicationBase.CurrentActivity;
+
         public void OpenUrl(string url)
         {
             var aUri = Uri.Parse(new System.Uri(url).ToString());
             var intent = new Intent(Intent.ActionView, aUri);
-            if (intent.ResolveActivity(CrossCurrentActivity.Current.Activity.PackageManager) != null)
+            if (intent.ResolveActivity(CurrentActivity.PackageManager) != null)
             {
-                CrossCurrentActivity.Current.Activity.StartActivity(intent);
+                CurrentActivity.StartActivity(intent);
             }
         }
 
@@ -35,16 +36,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             var intent = new Intent(Intent.ActionView);
             intent.SetDataAndType(Uri.Parse(videoUrl), "video/*");
-            CrossCurrentActivity.Current.Activity.StartActivity(intent);
+            CurrentActivity.StartActivity(intent);
         }
 
         public void OpenEmail(string email)
         {
             var intent = new Intent(Intent.ActionSendto);
             intent.SetData(Uri.Parse($"mailto:{email}"));
-            if (intent.ResolveActivity(CrossCurrentActivity.Current.Activity.PackageManager) != null)
+            if (intent.ResolveActivity(CurrentActivity.PackageManager) != null)
             {
-                CrossCurrentActivity.Current.Activity.StartActivity(Intent.CreateChooser(intent, string.Empty));
+                CurrentActivity.StartActivity(Intent.CreateChooser(intent, string.Empty));
             }
         }
 
@@ -52,9 +53,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             var intent = new Intent(Intent.ActionDial);
             intent.SetData(Uri.Parse($"tel:{number}"));
-            if (intent.ResolveActivity(CrossCurrentActivity.Current.Activity.PackageManager) != null)
+            if (intent.ResolveActivity(CurrentActivity.PackageManager) != null)
             {
-                CrossCurrentActivity.Current.Activity.StartActivity(intent);
+                CurrentActivity.StartActivity(intent);
             }
         }
 
@@ -62,8 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             var intent = new Intent(settings);
             intent.AddFlags(ActivityFlags.NewTask);
-
-            CrossCurrentActivity.Current.Activity.StartActivity(intent);
+            CurrentActivity.StartActivity(intent);
         }
     }
 }

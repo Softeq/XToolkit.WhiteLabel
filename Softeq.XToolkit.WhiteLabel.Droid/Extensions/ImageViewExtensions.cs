@@ -17,7 +17,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Extensions
             AvatarPlaceholderDrawable.AvatarStyles styles,
             Action<TaskParameter>? transform = null)
         {
-            imageView.SetImageDrawable(new AvatarPlaceholderDrawable(name, styles));
+            var context = MainApplicationBase.CurrentActivity;
+            imageView.SetImageDrawable(new AvatarPlaceholderDrawable(context, name, styles));
 
             if (string.IsNullOrEmpty(url))
             {

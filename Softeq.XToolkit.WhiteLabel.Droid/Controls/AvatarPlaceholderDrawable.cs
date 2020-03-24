@@ -3,9 +3,9 @@
 
 using System;
 using System.Drawing;
+using Android.Content;
 using Android.Graphics;
 using Android.Graphics.Drawables;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.Helpers;
 using Color = Android.Graphics.Color;
@@ -21,13 +21,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         private readonly int _size;
 
         private readonly Paint _textPaint;
-
+        private readonly Context _context;
         private RectF? _placeholderBounds;
         private float _textStartXPoint;
         private float _textStartYPoint;
 
-        public AvatarPlaceholderDrawable(string name, AvatarStyles styles)
+        public AvatarPlaceholderDrawable(Context context, string name, AvatarStyles styles)
         {
+            _context = context;
+
             var info = AvatarPlaceholderBuilder.Build(name, styles.BackgroundHexColors);
 
             _avatarText = info.Text;
@@ -55,8 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             if (_placeholderBounds == null)
             {
                 var centerPoint = new PointF(canvas.Width / 2f, canvas.Height / 2f);
-                var context = CrossCurrentActivity.Current.AppContext;
-                var width = context.ToPixels(_size);
+                var width = _context.ToPixels(_size);
                 var sizeInPixels = new SizeF(width, width);
                 var x = centerPoint.X - sizeInPixels.Width / 2f;
                 var y = centerPoint.Y - sizeInPixels.Height / 2f;

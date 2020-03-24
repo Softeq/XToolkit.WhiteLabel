@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Linq;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -166,7 +165,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private void ReplaceFragment(Fragment fragment)
         {
-            var activity = (AppCompatActivity) CrossCurrentActivity.Current.Activity;
+            var activity = (AppCompatActivity) MainApplicationBase.CurrentActivity;
             var manager = activity.SupportFragmentManager;
 
             manager.BeginTransaction()
