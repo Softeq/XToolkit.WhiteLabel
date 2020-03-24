@@ -29,10 +29,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
             return new AlertAction(text, UIAlertActionStyle.Cancel, action);
         }
 
-        public static AlertAction Destructive(string text, Action action, bool isDestructive = true)
+        public static AlertAction Destructive(string text, Action action)
         {
-            var style = isDestructive ? UIAlertActionStyle.Destructive : UIAlertActionStyle.Default;
-            return new AlertAction(text, style, action);
+            return new AlertAction(text, UIAlertActionStyle.Destructive, action);
         }
     }
 }

@@ -24,11 +24,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
         {
             var dialogResult = new TaskCompletionSource<bool>();
 
-            AddAction(
-                AlertAction.Destructive(
-                    _config.AcceptButtonText,
-                    () => dialogResult.TrySetResult(true),
-                    _config.IsDestructive));
+            if (_config.IsDestructive)
+            {
+                AddAction(
+                    AlertAction.Destructive(
+                        _config.AcceptButtonText,
+                        () => dialogResult.TrySetResult(true)));
+            }
+            else
+            {
+                AddAction(
+                    AlertAction.Default(
+                        _config.AcceptButtonText,
+                        () => dialogResult.TrySetResult(true)));
+            }
 
             if (_config.CancelButtonText != null)
             {

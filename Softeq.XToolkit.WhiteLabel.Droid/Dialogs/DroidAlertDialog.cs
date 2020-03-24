@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             _config = config;
         }
-        
+
         public Task<object?> ShowAsync()
         {
             var dialogResult = new TaskCompletionSource<object?>();
@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
                     .SetTitle(_config.Title)
                     .SetMessage(_config.Message);
 
-                SetPositiveButton(builder, _config.CancelButtonText, dialogResult, null);
+                SetPositiveButton(builder, _config.CloseButtonText, dialogResult, null);
 
                 Present(builder);
             });

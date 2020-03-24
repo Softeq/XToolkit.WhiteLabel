@@ -8,26 +8,26 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
     /// </summary>
     public class AlertDialogConfig : IDialogConfig<object?>
     {
-        public AlertDialogConfig(string title, string message, string cancelButtonText = "OK")
+        public AlertDialogConfig(string title, string message, string closeButtonText)
         {
-            Title = title ?? string.Empty;
-            Message = message ?? string.Empty;
-            CancelButtonText = cancelButtonText;
+            Title = title;
+            Message = message;
+            CloseButtonText = closeButtonText;
         }
 
         /// <summary>
         ///     The title of the alert dialog.
         /// </summary>
-        public string Title { get; }
+        public string Title { get; set; }
 
         /// <summary>
         ///     The body text of the alert dialog.
         /// </summary>
-        public string Message { get; }
+        public string Message { get; set; }
 
         /// <summary>
         ///     Text to be displayed on the close button.
         /// </summary>
-        public string CancelButtonText { get; }
+        public string CloseButtonText { get; set; }
     }
 }

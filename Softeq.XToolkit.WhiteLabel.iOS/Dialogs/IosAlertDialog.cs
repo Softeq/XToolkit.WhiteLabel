@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 
             AddAction(
                 AlertAction.Cancel(
-                    _config.CancelButtonText,
+                    _config.CloseButtonText,
                     () => dialogResult.TrySetResult(null)));
 
             Present();

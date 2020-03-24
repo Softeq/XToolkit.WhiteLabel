@@ -51,7 +51,7 @@ namespace Playground.ViewModels.Collections.Base
 
         private async Task SelectItem(ItemViewModel viewModel)
         {
-            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("Selected", viewModel.Title));
+            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("Selected", viewModel.Title, "OK"));
         }
 
         public List<ItemModel> GetMovies()

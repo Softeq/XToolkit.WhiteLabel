@@ -9,13 +9,11 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
     /// </summary>
     public class ConfirmDialogConfig : IDialogConfig<bool>
     {
-        public ConfirmDialogConfig()
-        {
-        }
-
         public ConfirmDialogConfig(
-            string title, string message,
-            string acceptButtonText, string cancelButtonText)
+            string title,
+            string message,
+            string acceptButtonText,
+            string cancelButtonText)
         {
             Title = title;
             Message = message;
@@ -26,17 +24,17 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
         /// <summary>
         ///     The title of the alert dialog.
         /// </summary>
-        public string Title { get; set; } = string.Empty;
+        public string Title { get; set; }
 
         /// <summary>
         ///     The body text of the alert dialog.
         /// </summary>
-        public string Message { get; set; } = string.Empty;
+        public string Message { get; set; }
 
         /// <summary>
         ///     Text to be displayed on the 'Accept' button.
         /// </summary>
-        public string AcceptButtonText { get; set; } = "OK";
+        public string AcceptButtonText { get; set; }
 
         /// <summary>
         ///     Text to be displayed on the 'Cancel' button.

@@ -27,7 +27,7 @@ namespace Playground.ViewModels.Pages
             var title = Person?.FullName ?? string.Empty;
             var message = Person == null ? "You navigated without parameter" : "You navigated with parameter:";
 
-            _dialogsService.ShowDialogAsync(new AlertDialogConfig(title, message));
+            _dialogsService.ShowDialogAsync(new AlertDialogConfig(title, message, "OK"));
         }
     }
 }

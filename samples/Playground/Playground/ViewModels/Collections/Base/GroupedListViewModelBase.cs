@@ -89,7 +89,7 @@ namespace Playground.ViewModels.Collections.Base
 
         private async Task GroupInfo(ProductHeaderViewModel groupHeader)
         {
-            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("Info", $"{groupHeader.Category}th section."));
+            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("Info", $"{groupHeader.Category}th section.", "OK"));
         }
 
         private void GenerateItem(ProductHeaderViewModel groupHeader)
