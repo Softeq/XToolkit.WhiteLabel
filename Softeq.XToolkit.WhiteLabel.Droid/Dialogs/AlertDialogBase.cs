@@ -4,6 +4,8 @@
 using System.Threading.Tasks;
 using AndroidX.AppCompat.App;
 using Plugin.CurrentActivity;
+using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Bindings;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
@@ -62,6 +64,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
                 var dialog = (AlertDialog) sender;
                 dialog.Dismiss();
             });
+        }
+
+        protected virtual void HandleDismiss<T>(
+            AlertDialog dialog,
+            TaskCompletionSource<T> dialogResult,
+            T value)
+        {
+            var dismissCommand = new RelayCommand<TaskCompletionSource<T>>(x =>
+            {
+                x.TrySetResult(value);
+            });
+            dialog.SetCommand(nameof(dialog.DismissEvent), dismissCommand, dialogResult);
         }
     }
 }

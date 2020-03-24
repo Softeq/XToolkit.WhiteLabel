@@ -110,7 +110,7 @@ namespace Playground.ViewModels.Dialogs
             var config = new ActionSheetDialogConfig
             {
                 Title = "~title",
-                OptionButtons = new []
+                OptionButtons = new[]
                 {
                     "~option 1",
                     "~option 2",

@@ -37,10 +37,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
                 if (_config.CancelButtonText != null)
                 {
+                    builder.SetCancelable(true);
+
                     SetPositiveButton(builder, _config.CancelButtonText, dialogResult, _config.CancelButtonText);
                 }
 
-                Present(builder);
+                var dialog = builder.Create();
+
+                if (_config.CancelButtonText != null)
+                {
+                    HandleDismiss(dialog, dialogResult, _config.CancelButtonText);
+                }
+
+                dialog.Show();
             });
 
             return dialogResult.Task;
