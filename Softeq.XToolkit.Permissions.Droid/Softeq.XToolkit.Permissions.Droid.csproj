@@ -51,7 +51,7 @@
     <Compile Include="RequestResultHandler.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Plugin.Permissions" Version="5.0.0-beta" />
+    <PackageReference Include="Plugin.Permissions" Version="6.0.0-beta" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
   </ItemGroup>
   <ItemGroup>

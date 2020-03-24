@@ -57,12 +57,8 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Xam.Plugins.Settings">
-          <Version>3.1.1</Version>
-        </PackageReference>
-        <PackageReference Include="Plugin.Permissions">
-          <Version>5.0.0-beta</Version>
-        </PackageReference>
+        <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+        <PackageReference Include="Plugin.Permissions" Version="6.0.0-beta" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
