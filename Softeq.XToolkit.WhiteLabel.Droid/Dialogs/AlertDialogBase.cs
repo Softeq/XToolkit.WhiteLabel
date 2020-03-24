@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
-using Android.Support.V7.App;
+using AndroidX.AppCompat.App;
 using Plugin.CurrentActivity;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs

@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
+using AndroidX.AppCompat.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Threading;
-using AlertDialog = Android.Support.V7.App.AlertDialog;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
