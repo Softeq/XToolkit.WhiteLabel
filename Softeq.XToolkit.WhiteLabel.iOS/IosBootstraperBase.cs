@@ -1,12 +1,10 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
@@ -15,9 +13,10 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
-    public class IosBootstrapper : BootstrapperWithViewModelLookup
+    public abstract class IosBootstrapperBase : BootstrapperWithViewModelLookup
     {
-        protected override ViewModelFinderBase ViewModelFinder { get; } = new IosViewModelFinder();
+        protected override IViewModelFinder ViewModelFinder { get; } =
+            new DefaultViewModelFinder(typeof(UIViewController));
 
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
@@ -30,16 +29,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             builder.PerDependency<StoryboardFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);
         }
 
-        protected override void ConfigureIoc(IContainerBuilder builder)
+        /// <inheritdoc />
+        protected override IList<Assembly> SelectAssemblies()
         {
-        }
-    }
-
-    public class IosViewModelFinder : ViewModelFinderBase
-    {
-        protected override IEnumerable<Type> SelectViewsTypes(Assembly assembly)
-        {
-            return assembly.GetTypes().View(typeof(UIViewController));
+            return new List<Assembly>
+            {
+                typeof(IosBootstrapperBase).Assembly
+            };
         }
     }
 }

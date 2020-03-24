@@ -9,6 +9,8 @@ using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {
     public abstract class BindableViewHolder<TViewModel>

@@ -10,6 +10,8 @@ using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid.Handlers
 {
     internal class DroidRecyclerDataSourceHandler

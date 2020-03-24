@@ -10,6 +10,8 @@ using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid
 {
     public class ObservableRecyclerViewAdapter<T> : RecyclerView.Adapter

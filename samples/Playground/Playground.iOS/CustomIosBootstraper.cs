@@ -1,6 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Collections.Generic;
+using System.Reflection;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.Connectivity.iOS;
 using Softeq.XToolkit.Permissions;
@@ -14,8 +17,14 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.iOS
 {
-    internal class CustomIosBootstrapper : IosBootstrapper
+    internal class CustomIosBootstrapper : IosBootstrapperBase
     {
+        protected override IList<Assembly> SelectAssemblies()
+        {
+            return base.SelectAssemblies()     // Softeq.XToolkit.WhiteLabel.iOS
+                .AddItem(GetType().Assembly);  // Playground.iOS
+        }
+
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
             // core
@@ -29,7 +38,7 @@ namespace Playground.iOS
 
             // image picker
             builder.Singleton<IosImagePickerService, IImagePickerService>();
-            
+
             // connectivity
             builder.Singleton<IosConnectivityService, IConnectivityService>();
         }

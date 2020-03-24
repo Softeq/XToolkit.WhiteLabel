@@ -1,8 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.Generic;
-using System.Reflection;
 using Foundation;
 using Playground.ViewModels;
 using Softeq.XToolkit.WhiteLabel;
@@ -35,12 +33,6 @@ namespace Playground.iOS
         }
 
         protected override IBootstrapper Bootstrapper => new CustomIosBootstrapper();
-
-        protected override IList<Assembly> SelectAssemblies() => new List<Assembly>
-        {
-            GetType().Assembly,              // Playground.iOS
-            typeof(AppDelegateBase).Assembly // Softeq.XToolkit.WhiteLabel.iOS
-        };
 
         private void InitNavigation()
         {

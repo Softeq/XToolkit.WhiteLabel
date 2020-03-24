@@ -12,6 +12,8 @@ using System.Threading;
 using Foundation;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     /// <summary>
