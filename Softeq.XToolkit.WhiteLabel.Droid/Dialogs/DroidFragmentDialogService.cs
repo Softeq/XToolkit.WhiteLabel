@@ -42,29 +42,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         public Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
         {
-            IDialog<T> dialog;
-
-            // TODO YP: refactor
-            switch (config)
+            return config switch
             {
-                case AlertDialogConfig alertConfig:
-                {
-                    dialog = (new DroidAlertDialog(alertConfig) as IDialog<T>)!;
-                    break;
-                }
-                case ConfirmDialogConfig confirmConfig:
-                {
-                    dialog = (new DroidConfirmDialog(confirmConfig) as IDialog<T>)!;
-                    break;
-                }
-                case ActionSheetDialogConfig asConfig:
-                    dialog = (new DroidActionSheetDialog(asConfig) as IDialog<T>)!;
-                    break;
-                default:
-                    throw new NotSupportedException();
-            }
-
-            return dialog?.ShowAsync()!;
+                AlertDialogConfig alertConfig => new DroidAlertDialog(alertConfig).ShowAsync<T>(),
+                ConfirmDialogConfig confirmConfig => new DroidConfirmDialog(confirmConfig).ShowAsync<T>(),
+                ActionSheetDialogConfig asConfig => new DroidActionSheetDialog(asConfig).ShowAsync<T>(),
+                null => throw new ArgumentNullException(nameof(config)),
+                { } => throw new ArgumentException($"Type of dialog config ({config.GetType()}) not supported", nameof(config)),
+            };
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(

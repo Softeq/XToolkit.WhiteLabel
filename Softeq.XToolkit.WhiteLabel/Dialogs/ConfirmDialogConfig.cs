@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
         public string? CancelButtonText { get; set; }
 
         /// <summary>
-        ///     Declares that 'Accept' button should be looks destructive on UI.
+        ///     Declares that 'Accept' button should look destructive on UI.
         /// </summary>
         public bool IsDestructive { get; set; }
     }
