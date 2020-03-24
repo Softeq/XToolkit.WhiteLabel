@@ -12,7 +12,7 @@ using Android.Media;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
-using Android.Support.V4.Content;
+using AndroidX.Core.Content;
 using Java.IO;
 using Plugin.CurrentActivity;
 using AUri = Android.Net.Uri;

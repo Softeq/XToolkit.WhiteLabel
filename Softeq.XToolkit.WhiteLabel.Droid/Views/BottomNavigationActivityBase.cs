@@ -3,9 +3,8 @@
 
 using Android.Content.Res;
 using Android.OS;
-using Android.Support.Design.Internal;
-using Android.Support.Design.Widget;
 using Android.Views;
+using Google.Android.Material.BottomNavigation;
 using Softeq.XToolkit.WhiteLabel.Droid.Controls;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;

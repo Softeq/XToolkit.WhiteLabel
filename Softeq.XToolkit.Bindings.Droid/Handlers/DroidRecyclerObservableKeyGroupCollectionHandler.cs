@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Android.Support.V7.Widget;
+using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
 using Softeq.XToolkit.Bindings.Handlers;
 using Softeq.XToolkit.Common.Collections;
