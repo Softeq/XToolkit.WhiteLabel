@@ -22,15 +22,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         private readonly ILogger _logger;
         private readonly IViewLocator _viewLocator;
-        private readonly IContainer _iocContainer;
+        private readonly IContainer _container;
 
         public StoryboardDialogsService(
             IViewLocator viewLocator,
             ILogManager logManager,
-            IContainer iocContainer)
+            IContainer container)
         {
             _viewLocator = viewLocator;
-            _iocContainer = iocContainer;
+            _container = container;
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
@@ -146,7 +146,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             IEnumerable<NavigationParameterModel>? parameters)
             where TViewModel : IDialogViewModel
         {
-            var viewModel = _iocContainer.Resolve<TViewModel>();
+            var viewModel = _container.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
             var presentedViewController = await PresentModalViewControllerAsync(viewModel).ConfigureAwait(false);
             try

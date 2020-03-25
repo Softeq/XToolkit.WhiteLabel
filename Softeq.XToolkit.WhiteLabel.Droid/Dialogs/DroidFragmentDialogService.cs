@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             return _alertBuilder.ShowAlertAsync(title, message, okButtonText, cancelButtonText);
         }
 
-        public Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
+        public virtual Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
         {
             return config switch
             {
@@ -48,7 +48,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
                 ConfirmDialogConfig confirmConfig => new DroidConfirmDialog(confirmConfig).ShowAsync<T>(),
                 ActionSheetDialogConfig asConfig => new DroidActionSheetDialog(asConfig).ShowAsync<T>(),
                 null => throw new ArgumentNullException(nameof(config)),
-                { } => throw new ArgumentException($"Type of dialog config ({config.GetType()}) not supported", nameof(config)),
+                _ => throw new ArgumentException($"Type of dialog config ({config.GetType()}) not supported", nameof(config)),
             };
         }
 

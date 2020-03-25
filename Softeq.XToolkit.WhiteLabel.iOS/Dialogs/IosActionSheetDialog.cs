@@ -9,7 +9,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 {
-    public class IosActionSheetDialog : ViewControllerDialogBase, IDialog<string>
+    public class IosActionSheetDialog : AlertViewControllerBase, IDialog<string>
     {
         private readonly ActionSheetDialogConfig _config;
 

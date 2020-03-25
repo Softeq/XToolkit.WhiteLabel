@@ -8,12 +8,12 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 {
-    public abstract class ViewControllerDialogBase
+    public abstract class AlertViewControllerBase
     {
         private readonly IViewLocator _viewLocator;
         protected readonly IList<AlertAction> Actions;
 
-        protected ViewControllerDialogBase(IViewLocator viewLocator)
+        protected AlertViewControllerBase(IViewLocator viewLocator)
         {
             _viewLocator = viewLocator;
             Actions = new List<AlertAction>();

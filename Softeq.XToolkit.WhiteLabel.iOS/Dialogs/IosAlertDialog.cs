@@ -8,7 +8,7 @@ using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 {
-    public class IosAlertDialog : ViewControllerDialogBase, IDialog<object?>
+    public class IosAlertDialog : AlertViewControllerBase, IDialog<object?>
     {
         private readonly AlertDialogConfig _config;
 
