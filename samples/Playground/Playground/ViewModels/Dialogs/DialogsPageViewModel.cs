@@ -1,6 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.Converters;
@@ -88,10 +90,17 @@ namespace Playground.ViewModels.Dialogs
 
         private async Task OpenAlert()
         {
-            var config = new AlertDialogConfig("~title", "~message", "~ok");
-            await _dialogsService.ShowDialogAsync(config);
+            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("~title", "~message", "~ok"));
 
-            AlertResult = "Closed";
+            var config = new ChooseBetterDateDialogConfig
+            {
+                Title = "Please choose the date:",
+                First = DateTime.Now.AddDays(1),
+                Second = DateTime.Now.AddDays(4)
+            };
+            var result = await _dialogsService.ShowDialogAsync(config);
+
+            AlertResult = result.ToString(CultureInfo.CurrentCulture);
         }
 
         private async Task OpenConfirm()

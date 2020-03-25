@@ -178,6 +178,8 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extended\IosChooseBetterDateDialog.cs" />
+    <Compile Include="Extended\IosExtendedDialogsService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Views\MovieCollectionViewCell.cs" />

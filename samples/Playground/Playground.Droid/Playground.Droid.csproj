@@ -69,6 +69,8 @@
     </PackageReference>
 </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extended\DroidChooseBetterDateDialog.cs" />
+    <Compile Include="Extended\DroidExtendedDialogsService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
