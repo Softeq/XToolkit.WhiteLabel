@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         public void GoBack<T>() where T : IViewModelBase
         {
-            throw new NotImplementedException();
+            _platformNavigationService.GoBack<T>();
         }
 
         public void NavigateToViewModel<TViewModel>(
@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         public void NavigateToFirstPage()
         {
-            throw new NotImplementedException();
+            _platformNavigationService.GoToRoot();
         }
 
         public void RestoreNavigation()
