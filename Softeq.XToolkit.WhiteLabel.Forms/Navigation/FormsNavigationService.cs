@@ -77,6 +77,16 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             Navigation.PopAsync().FireAndForget(_logger);
         }
 
+        public void GoToRoot()
+        {
+            Navigation.PopToRootAsync().FireAndForget(_logger);
+        }
+
+        public void GoBack<TViewModel>() where TViewModel : IViewModelBase
+        {
+            throw new NotImplementedException();
+        }
+
         private async Task NavigateTask(
             IViewModelBase viewModelBase,
             bool clearBackStack,

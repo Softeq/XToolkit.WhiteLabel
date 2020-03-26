@@ -36,6 +36,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             return this;
         }
 
+        public void NavigateBack<TViewModelBack>() where TViewModelBack : IViewModelBase
+        {
+            _frameNavigationService.GoBack<TViewModelBack>();
+        }
+
         public void NavigateBack()
         {
             _frameNavigationService.GoBack();
@@ -44,6 +49,12 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         public void Navigate(bool clearBackStack = false)
         {
             _frameNavigationService.NavigateToViewModel<TViewModel>(clearBackStack, Parameters);
+        }
+
+        public void NavigateBackToRoot()
+        {
+            _frameNavigationService.NavigateToFirstPage();
+
         }
     }
 }
