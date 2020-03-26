@@ -85,44 +85,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         public void GoBack<TViewModel>() where TViewModel : IViewModelBase
         {
             throw new NotImplementedException();
-
-            //var removeSize = "ViewModel".Count();
-            //var nameViewModel = typeof(TViewModel).Name;
-            //var name = nameViewModel.Remove(nameViewModel.Length - removeSize, removeSize);
-
-            //var page = Navigation.NavigationStack.FirstOrDefault(p => p.GetType().Name.Contains(name));
-
-            //PopToAsync(page).FireAndForget(_logger);
         }
-
-        //private async Task PopToAsync(Page page)
-        //{
-        //    if (page != null)
-        //    {
-        //        Console.WriteLine(page.GetType().Name);
-
-        //        while (Navigation.NavigationStack.Last() != page && Navigation.NavigationStack.Count > 1)
-        //        {
-        //            //Console.WriteLine(Navigation.NavigationStack.Last().GetType().Name);
-
-        //            //Device.BeginInvokeOnMainThread(async () =>
-        //            //{
-        //            try
-        //            {
-        //                Navigation.i
-        //                await Navigation.PopAsync(false);
-        //            }
-        //            catch (Exception exc)
-        //            {
-        //                Console.WriteLine(exc.Message);
-        //            }
-        //            //});
-        //        }
-
-        //        Console.WriteLine(Navigation.NavigationStack.Last().GetType().Name);
-        //        Console.WriteLine(Navigation.NavigationStack.Count);
-        //    }
-        //}
 
         private async Task NavigateTask(
             IViewModelBase viewModelBase,
