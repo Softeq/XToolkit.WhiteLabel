@@ -73,7 +73,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
             var result = resultObject is TResult convertedResult
                 ? convertedResult
-                : default;
+                : default!;
 
             return new DialogResult<TResult>(result, Task.FromResult(true));
         }

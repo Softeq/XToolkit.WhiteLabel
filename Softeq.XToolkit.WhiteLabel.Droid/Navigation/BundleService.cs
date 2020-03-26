@@ -7,6 +7,7 @@ using System.Linq;
 using Android.Content;
 using Android.OS;
 using Newtonsoft.Json.Linq;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -65,7 +66,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             var parametersObject = intent.GetStringExtra(ParametersKey);
-            var parameters = _jsonSerializer.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
+            var parameters = _jsonSerializer
+                .Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject)
+                .EmptyIfNull();
 
             foreach (var parameter in parameters)
             {
