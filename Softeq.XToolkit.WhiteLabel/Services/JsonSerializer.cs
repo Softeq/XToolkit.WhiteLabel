@@ -50,6 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
         }
 
         /// <inheritdoc />
+        [return:MaybeNull]
         public Task<T> DeserializeAsync<T>(Stream stream)
         {
             return Task.Run(() =>

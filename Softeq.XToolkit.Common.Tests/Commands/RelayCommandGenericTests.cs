@@ -11,8 +11,6 @@ namespace Softeq.XToolkit.Common.Tests.Commands
 {
     public class RelayCommandGenericTests
     {
-        private const string DefaultParameter = "CanExecute";
-
         [Fact]
         public void Constructor_Default_ReturnsICommand()
         {
@@ -45,23 +43,35 @@ namespace Softeq.XToolkit.Common.Tests.Commands
             var _ = new RelayCommand<string>(__ => {}, null);
         }
 
-        [Fact]
-        public void CanExecute_WithoutCanExecuteAction_ReturnsTrue()
+        [Theory]
+        [InlineData(CommandsDataProvider.DefaultParameter)]
+        [InlineData(null)]
+        public void CanExecute_ForObjectCommandWithoutCanExecuteAction_ReturnsTrue(string parameter)
         {
             var command = new RelayCommand<string>(_ => {});
 
-            var result = command.CanExecute("Hello");
+            var result = command.CanExecute(parameter);
 
             Assert.True(result);
         }
 
         [Theory]
-        [InlineData(DefaultParameter, true)]
-        [InlineData(123, false)]
-        [InlineData(null, false)]
+        [InlineData(1234)]
+        [InlineData(null)]
+        public void CanExecute_ForStructCommandWithoutCanExecuteAction_ReturnsTrue(object parameter)
+        {
+            var command = new RelayCommand<int>(_ => {});
+
+            var result = command.CanExecute(parameter);
+
+            Assert.True(result);
+        }
+
+        [Theory]
+        [MemberData(nameof(CommandsDataProvider.Data), MemberType = typeof(CommandsDataProvider))]
         public void CanExecute_WithCanExecuteAction_ReturnsCorrectValue(object parameter, bool expectedResult)
         {
-            var command = new RelayCommand<string>(_ => {}, p => p == DefaultParameter);
+            var command = new RelayCommand<string>(_ => {}, p => p == CommandsDataProvider.DefaultParameter);
 
             var result = command.CanExecute(parameter);
 
@@ -69,21 +79,26 @@ namespace Softeq.XToolkit.Common.Tests.Commands
         }
 
         [Theory]
-        [InlineData(DefaultParameter, true)]
-        [InlineData(123, false)]
-        [InlineData(null, false)]
-        public void Execute_StaticCanExecuteAction_Executes(object canExecuteParameter, bool expectedResult)
+        [MemberData(nameof(CommandsDataProvider.Data), MemberType = typeof(CommandsDataProvider))]
+        public void CanExecute_StaticCanExecuteAction_Executes(object parameter, bool expectedResult)
         {
-            var command = new RelayCommand<string>(_ => { }, CanExecuteWhenNotNull);
+            var command = new RelayCommand<string>(_ => {}, CommandsDataProvider.CanExecuteWhenNotNull);
 
-            var result = command.CanExecute(canExecuteParameter);
+            var result = command.CanExecute(parameter);
 
             Assert.Equal(expectedResult, result);
         }
 
-        private static bool CanExecuteWhenNotNull(object parameter)
+        [Theory]
+        [InlineData(1234, true)]
+        [InlineData(null, false)]
+        public void CanExecute_ForStructCommandAndStaticCanExecuteAction_ReturnsTrue(object parameter, bool expectedResult)
         {
-            return parameter != null;
+            var command = new RelayCommand<int>(_ => {}, CommandsDataProvider.CanExecuteWhenPositive);
+
+            var result = command.CanExecute(parameter);
+
+            Assert.Equal(expectedResult, result);
         }
     }
 }

@@ -63,7 +63,12 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
         {
-            if (_execute == null || !_execute.IsStatic && !_execute.IsAlive)
+            if (_execute == null)
+            {
+                return false;
+            }
+
+            if (!_execute.IsStatic && !_execute.IsAlive)
             {
                 return false;
             }
