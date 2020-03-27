@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using Playground.Extended;
 using Playground.iOS.Extended;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
@@ -13,7 +14,6 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.iOS
 {
@@ -30,7 +30,7 @@ namespace Playground.iOS
             // core
             CustomBootstrapper.Configure(builder);
 
-            builder.PerDependency<IosExtendedDialogsService, IDialogsService>();
+            builder.Singleton<IosExtendedDialogsService, IExtendedDialogsService>();
 
             // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();

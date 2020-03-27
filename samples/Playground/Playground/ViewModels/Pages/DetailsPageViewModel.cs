@@ -1,19 +1,19 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Playground.Extended;
 using Playground.Models;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Pages
 {
     public class DetailsPageViewModel : ViewModelBase
     {
-        private readonly IDialogsService _dialogsService;
+        private readonly IExtendedDialogsService _dialogsService;
 
         public DetailsPageViewModel(
-            IDialogsService dialogsService)
+            IExtendedDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
         }

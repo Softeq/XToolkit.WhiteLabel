@@ -1,18 +1,18 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
+using Playground.Extended;
 using Playground.ViewModels.Dialogs;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.Dialogs;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
 
 namespace Playground.iOS.Extended
 {
-    public class IosExtendedDialogsService : StoryboardDialogsService
+    public class IosExtendedDialogsService : StoryboardDialogsService, IExtendedDialogsService
     {
         private readonly IViewLocator _viewLocator;
 
@@ -22,15 +22,9 @@ namespace Playground.iOS.Extended
             _viewLocator = viewLocator;
         }
 
-        public override Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
+        public Task<DateTime> ShowDialogAsync(ChooseBetterDateDialogConfig config)
         {
-            return config switch
-            {
-                ChooseBetterDateDialogConfig bestConfig =>
-                    new IosChooseBetterDateDialog(_viewLocator, bestConfig).ShowAsync<T>(),
-
-                _ => base.ShowDialogAsync(config)
-            };
+            return new IosChooseBetterDateDialog(_viewLocator, config).ShowAsync();
         }
     }
 }

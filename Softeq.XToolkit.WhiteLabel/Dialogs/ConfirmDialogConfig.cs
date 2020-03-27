@@ -7,7 +7,7 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
     /// <summary>
     ///     Presents an alert dialog to the application user with an accept and a cancel button.
     /// </summary>
-    public class ConfirmDialogConfig : IDialogConfig<bool>
+    public class ConfirmDialogConfig
     {
         public ConfirmDialogConfig(
             string title,
@@ -19,6 +19,13 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
             Message = message;
             AcceptButtonText = acceptButtonText;
             CancelButtonText = cancelButtonText;
+        }
+
+        public ConfirmDialogConfig()
+        {
+            Title = string.Empty;
+            Message = string.Empty;
+            AcceptButtonText = string.Empty;
         }
 
         /// <summary>

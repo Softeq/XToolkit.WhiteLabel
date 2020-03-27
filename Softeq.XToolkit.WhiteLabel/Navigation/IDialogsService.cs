@@ -19,7 +19,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             string? cancelButtonText = null,
             OpenDialogOptions? options = null);
 
-        Task<T> ShowDialogAsync<T>(IDialogConfig<T> config);
+        Task ShowDialogAsync(AlertDialogConfig config);
+
+        Task<bool> ShowDialogAsync(ConfirmDialogConfig config);
+
+        Task<string> ShowDialogAsync(ActionSheetDialogConfig config);
 
         [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task ShowForViewModel<TViewModel>(

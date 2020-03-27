@@ -34,6 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
+        [Obsolete("Use ShowDialogAsync(new ConfirmDialogConfig()) instead.")]
         public Task<bool> ShowDialogAsync(
             string title,
             string message,
@@ -41,49 +42,29 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             string? cancelButtonText = null,
             OpenDialogOptions? options = null)
         {
-            var dialogResult = new TaskCompletionSource<bool>();
-
-            Execute.BeginOnUIThread(() =>
+            return ShowDialogAsync(new ConfirmDialogConfig
             {
-                var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-
-                var okActionStyle = options?.DialogType == DialogType.Destructive
-                    ? UIAlertActionStyle.Destructive
-                    : UIAlertActionStyle.Default;
-
-                alertController.AddAction(UIAlertAction.Create(okButtonText, okActionStyle,
-                    action => { dialogResult.TrySetResult(true); }));
-
-                if (cancelButtonText != null)
-                {
-                    alertController.AddAction(UIAlertAction.Create(cancelButtonText, UIAlertActionStyle.Cancel,
-                        action => { dialogResult.TrySetResult(false); }));
-                }
-
-                var topViewController = _viewLocator.GetTopViewController();
-                if (topViewController == null)
-                {
-                    _logger.Error("can't find top ViewController");
-                    dialogResult.TrySetResult(false);
-                    return;
-                }
-
-                topViewController.PresentViewController(alertController, true, null);
+                Title = title,
+                Message = message,
+                AcceptButtonText = okButtonText,
+                CancelButtonText = cancelButtonText,
+                IsDestructive = options?.DialogType == DialogType.Destructive
             });
-
-            return dialogResult.Task;
         }
 
-        public virtual Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
+        public virtual Task ShowDialogAsync(AlertDialogConfig config)
         {
-            return config switch
-            {
-                null => throw new ArgumentNullException(nameof(config)),
-                AlertDialogConfig alertConfig => new IosAlertDialog(_viewLocator, alertConfig).ShowAsync<T>(),
-                ConfirmDialogConfig confirmConfig => new IosConfirmDialog(_viewLocator, confirmConfig).ShowAsync<T>(),
-                ActionSheetDialogConfig asConfig => new IosActionSheetDialog(_viewLocator, asConfig).ShowAsync<T>(),
-                _ => throw new ArgumentException($"Type of dialog config ({config.GetType()}) not supported", nameof(config))
-            };
+            return new IosAlertDialog(_viewLocator, config).ShowAsync();
+        }
+
+        public virtual Task<bool> ShowDialogAsync(ConfirmDialogConfig config)
+        {
+            return new IosConfirmDialog(_viewLocator, config).ShowAsync();
+        }
+
+        public virtual Task<string> ShowDialogAsync(ActionSheetDialogConfig config)
+        {
+            return new IosActionSheetDialog(_viewLocator, config).ShowAsync();
         }
 
         public Task ShowForViewModel<TViewModel>(

@@ -6,6 +6,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.Converters;
+using Playground.Extended;
 using Playground.Models;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Logger;
@@ -18,7 +19,7 @@ namespace Playground.ViewModels.Dialogs
 {
     public class DialogsPageViewModel : ViewModelBase
     {
-        private readonly IDialogsService _dialogsService;
+        private readonly IExtendedDialogsService _dialogsService;
         private readonly ILogger _logger;
 
         private string _alertResult = "-";
@@ -28,7 +29,7 @@ namespace Playground.ViewModels.Dialogs
         private Person? _dialogUntilResult;
 
         public DialogsPageViewModel(
-            IDialogsService dialogsService,
+            IExtendedDialogsService dialogsService,
             ILogManager logManager)
         {
             _dialogsService = dialogsService;

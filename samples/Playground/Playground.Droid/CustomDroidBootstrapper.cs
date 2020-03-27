@@ -5,15 +5,14 @@ using Softeq.XToolkit.Connectivity;
 using System.Collections.Generic;
 using System.Reflection;
 using Playground.Droid.Extended;
+using Playground.Extended;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
-using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Droid
 {
@@ -30,16 +29,18 @@ namespace Playground.Droid
             // core
             CustomBootstrapper.Configure(builder);
 
-            builder.Singleton<DroidExtendedDialogsService, IDialogsService>();
-            builder.Singleton<DefaultAlertBuilder, IAlertBuilder>();
-            builder.Singleton<ConnectivityService, IConnectivityService>();
+            builder.Singleton<DroidExtendedDialogsService, IExtendedDialogsService>();
 
             // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
             builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
 
+            // image picker
             builder.Singleton<DroidImagePickerService, IImagePickerService>();
+
+            // connectivity
+            builder.Singleton<ConnectivityService, IConnectivityService>();
         }
     }
 }

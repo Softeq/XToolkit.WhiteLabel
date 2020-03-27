@@ -7,7 +7,7 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
     ///     Displays a native platform action sheet,
     ///     allowing the application user to choose from several buttons.
     /// </summary>
-    public class ActionSheetDialogConfig : IDialogConfig<string>
+    public class ActionSheetDialogConfig
     {
         /// <summary>
         ///     Title of the displayed action sheet.

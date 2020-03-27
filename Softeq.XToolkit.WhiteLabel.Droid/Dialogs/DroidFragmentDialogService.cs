@@ -16,20 +16,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public class DroidFragmentDialogService : IDialogsService
     {
-        private readonly IAlertBuilder _alertBuilder;
-        private readonly IContainer _iocContainer;
+        private readonly IContainer _container;
         private readonly IViewLocator _viewLocator;
 
         public DroidFragmentDialogService(
             IViewLocator viewLocator,
-            IAlertBuilder alertBuilder,
-            IContainer iocContainer)
+            IContainer container)
         {
             _viewLocator = viewLocator;
-            _alertBuilder = alertBuilder;
-            _iocContainer = iocContainer;
+            _container = container;
         }
 
+        [Obsolete("Use ShowDialogAsync(new ConfirmDialogConfig()) instead.")]
         public Task<bool> ShowDialogAsync(
             string title,
             string message,
@@ -37,19 +35,28 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             string? cancelButtonText = null,
             OpenDialogOptions? openDialogOptions = null)
         {
-            return _alertBuilder.ShowAlertAsync(title, message, okButtonText, cancelButtonText);
+            return ShowDialogAsync(new ConfirmDialogConfig
+            {
+                Title = title,
+                Message = message,
+                AcceptButtonText = okButtonText,
+                CancelButtonText = cancelButtonText
+            });
         }
 
-        public virtual Task<T> ShowDialogAsync<T>(IDialogConfig<T> config)
+        public Task ShowDialogAsync(AlertDialogConfig config)
         {
-            return config switch
-            {
-                AlertDialogConfig alertConfig => new DroidAlertDialog(alertConfig).ShowAsync<T>(),
-                ConfirmDialogConfig confirmConfig => new DroidConfirmDialog(confirmConfig).ShowAsync<T>(),
-                ActionSheetDialogConfig asConfig => new DroidActionSheetDialog(asConfig).ShowAsync<T>(),
-                null => throw new ArgumentNullException(nameof(config)),
-                _ => throw new ArgumentException($"Type of dialog config ({config.GetType()}) not supported", nameof(config)),
-            };
+            return new DroidAlertDialog(config).ShowAsync();
+        }
+
+        public Task<bool> ShowDialogAsync(ConfirmDialogConfig config)
+        {
+            return new DroidConfirmDialog(config).ShowAsync();
+        }
+
+        public Task<string> ShowDialogAsync(ActionSheetDialogConfig config)
+        {
+            return new DroidActionSheetDialog(config).ShowAsync();
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
@@ -96,7 +103,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
-            var viewModel = _iocContainer.Resolve<TViewModel>();
+            var viewModel = _container.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
             return viewModel;
         }
