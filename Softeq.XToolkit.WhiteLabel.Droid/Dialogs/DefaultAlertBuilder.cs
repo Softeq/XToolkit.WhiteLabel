@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
                 SetPositiveButton(builder, okButtonText, tcs, true);
 
-                if (!string.IsNullOrEmpty(cancelButtonText))
+                if (cancelButtonText != null)
                 {
                     SetNegativeButton(builder, cancelButtonText, tcs, false);
                 }

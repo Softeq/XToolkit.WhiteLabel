@@ -18,8 +18,8 @@ namespace Playground.Droid.Views.Dialogs
         private Button? _openConfirmButton;
         private Button? _openActionSheetButton;
         private TextView? _alertResultTextView;
-        private TextView _confirmResultTextView;
-        private TextView _actionSheetResultTextView;
+        private TextView? _confirmResultTextView;
+        private TextView? _actionSheetResultTextView;
         private Button? _openDialogUntilDismissButton;
         private TextView? _dialogDismissResultTextView;
         private Button? _openDialogUntilResultButton;
