@@ -110,7 +110,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
                 var result = presentationResult.Result is TResult convertedResult
                     ? convertedResult
-                    : default;
+                    : default!;
 
                 var dismissionTask = DismissViewControllerAsync(presentationResult.ViewController);
 

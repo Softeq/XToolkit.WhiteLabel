@@ -40,7 +40,7 @@
     <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     <PackageReference Include="Plugin.CurrentActivity" Version="2.1.0.4" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.1.0" />
-    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.1.0-rc2" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.1.0-rc3" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
