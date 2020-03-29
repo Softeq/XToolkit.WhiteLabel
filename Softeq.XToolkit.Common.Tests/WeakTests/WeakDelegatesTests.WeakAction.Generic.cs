@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute(testParameter);
 
-            _callCounter.Received(1).RunAnanimousAction(testParameter);
+            _callCounter.Received(1).RunAnonymousAction(testParameter);
 
             GC.Collect();
 
@@ -115,7 +115,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute(testParameter);
 
-            _callCounter.Received(1).RunAnanimousAction(testParameter);
+            _callCounter.Received(1).RunAnonymousAction(testParameter);
 
             GC.Collect();
 
@@ -191,7 +191,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute(testParameter);
 
-            _callCounter.Received(1).RunAnanimousAction(testParameter);
+            _callCounter.Received(1).RunAnonymousAction(testParameter);
 
             GC.Collect();
 
@@ -265,7 +265,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute(testParameter);
 
-            _callCounter.Received(1).RunAnanimousAction(testParameter);
+            _callCounter.Received(1).RunAnonymousAction(testParameter);
 
             GC.Collect();
 
@@ -339,7 +339,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute(testParameter);
 
-            _callCounter.Received(1).RunAnanimousAction(testParameter);
+            _callCounter.Received(1).RunAnonymousAction(testParameter);
 
             GC.Collect();
 
@@ -415,7 +415,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute(testParameter);
 
-            _callCounter.Received(1).RunAnanimousAction(testParameter);
+            _callCounter.Received(1).RunAnonymousAction(testParameter);
 
             GC.Collect();
 
@@ -489,7 +489,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute(testParameter);
 
-            _callCounter.Received(1).RunAnanimousAction(testParameter);
+            _callCounter.Received(1).RunAnonymousAction(testParameter);
 
             GC.Collect();
 
@@ -563,7 +563,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute(testParameter);
 
-            _callCounter.Received(1).RunAnanimousAction(testParameter);
+            _callCounter.Received(1).RunAnonymousAction(testParameter);
 
             GC.Collect();
 

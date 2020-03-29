@@ -38,23 +38,23 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
 
         #region WeakDelegate providers
 #pragma warning disable RECS0002 // Convert anonymous method to method group
-        public WeakAction GetWeakAnonymousAction() => new WeakAction(() => CallCounter.RunAnanymousAction());
+        public WeakAction GetWeakAnonymousAction() => new WeakAction(() => CallCounter.RunAnonymousAction());
 #pragma warning restore RECS0002 // Convert anonymous method to method group
         public WeakAction GetWeakPrivateAction() => new WeakAction(PrivateStaticAction);
         public WeakAction GetWeakInternalAction() => new WeakAction(InternalStaticAction);
         public WeakAction GetWeakPublicAction() => new WeakAction(PublicStaticAction);
 
-        public WeakAction<T> GetWeakAnonymousAction<T>() => new WeakAction<T>(x => CallCounter.RunAnanimousAction(x));
+        public WeakAction<T> GetWeakAnonymousAction<T>() => new WeakAction<T>(x => CallCounter.RunAnonymousAction(x));
         public WeakAction<T> GetWeakPrivateAction<T>() => new WeakAction<T>(PrivateStaticAction);
         public WeakAction<T> GetWeakInternalAction<T>() => new WeakAction<T>(InternalStaticAction);
         public WeakAction<T> GetWeakPublicAction<T>() => new WeakAction<T>(PublicStaticAction);
 
-        public WeakFunc<TOut> GetWeakAnonymousFunc<TOut>() => new WeakFunc<TOut>(() => CallCounter.RunAnanimousFunc<TOut>());
+        public WeakFunc<TOut> GetWeakAnonymousFunc<TOut>() => new WeakFunc<TOut>(() => CallCounter.RunAnonymousFunc<TOut>());
         public WeakFunc<TOut> GetWeakPrivateFunc<TOut>() => new WeakFunc<TOut>(PrivateStaticFunc<TOut>);
         public WeakFunc<TOut> GetWeakInternalFunc<TOut>() => new WeakFunc<TOut>(InternalStaticFunc<TOut>);
         public WeakFunc<TOut> GetWeakPublicFunc<TOut>() => new WeakFunc<TOut>(PublicStaticFunc<TOut>);
 
-        public WeakFunc<TIn, TOut> GetWeakAnonymousFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(x => CallCounter.RunAnanimousFunc<TIn, TOut>(x));
+        public WeakFunc<TIn, TOut> GetWeakAnonymousFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(x => CallCounter.RunAnonymousFunc<TIn, TOut>(x));
         public WeakFunc<TIn, TOut> GetWeakPrivateFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(PrivateStaticFunc<TIn, TOut>);
         public WeakFunc<TIn, TOut> GetWeakInternalFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(InternalStaticFunc<TIn, TOut>);
         public WeakFunc<TIn, TOut> GetWeakPublicFunc<TIn, TOut>() => new WeakFunc<TIn, TOut>(PublicStaticFunc<TIn, TOut>);

@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             var testResult = Substitute.For<ITestType>();
             var weakFunc = GetAnonimousWeakFunc<ITestType>(CreateInternalWeakDelegateProvider);
 
-            _callCounter.RunAnanimousFunc<ITestType>().Returns(testResult);
+            _callCounter.RunAnonymousFunc<ITestType>().Returns(testResult);
 
             Assert.True(weakFunc.IsAlive);
             Assert.False(weakFunc.IsStatic);
@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             var result = weakFunc.Execute();
 
             Assert.True(ReferenceEquals(result, testResult));
-            _callCounter.Received(1).RunAnanimousFunc<ITestType>();
+            _callCounter.Received(1).RunAnonymousFunc<ITestType>();
 
             GC.Collect();
 

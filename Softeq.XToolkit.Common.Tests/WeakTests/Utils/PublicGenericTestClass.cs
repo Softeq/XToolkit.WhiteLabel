@@ -42,26 +42,26 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
 
         #region WeakDelegate providers
 #pragma warning disable RECS0002 // Convert anonymous method to method group
-        public WeakAction GetWeakAnonymousAction() => new WeakAction(() => _callCounter.RunAnanymousAction());
+        public WeakAction GetWeakAnonymousAction() => new WeakAction(() => _callCounter.RunAnonymousAction());
 #pragma warning restore RECS0002 // Convert anonymous method to method group
         public WeakAction GetWeakPrivateAction() => new WeakAction(PrivateInstanceAction);
         public WeakAction GetWeakInternalAction() => new WeakAction(InternalInstanceAction);
         public WeakAction GetWeakPublicAction() => new WeakAction(PublicInstanceAction);
 
 #pragma warning disable RECS0002 // Convert anonymous method to method group
-        public WeakAction<T> GetWeakAnonymousGenericAction() => new WeakAction<T>(x => _callCounter.RunAnanimousAction(x));
+        public WeakAction<T> GetWeakAnonymousGenericAction() => new WeakAction<T>(x => _callCounter.RunAnonymousAction(x));
 #pragma warning restore RECS0002 // Convert anonymous method to method group
         public WeakAction<T> GetWeakPrivateGenericAction() => new WeakAction<T>(PrivateInstanceAction);
         public WeakAction<T> GetWeakInternalGenericAction() => new WeakAction<T>(InternalInstanceAction);
         public WeakAction<T> GetWeakPublicGenericAction() => new WeakAction<T>(PublicInstanceAction);
 
-        public WeakFunc<T> GetWeakAnonymousFunc() => new WeakFunc<T>(() => _callCounter.RunAnanimousFunc<T>());
+        public WeakFunc<T> GetWeakAnonymousFunc() => new WeakFunc<T>(() => _callCounter.RunAnonymousFunc<T>());
         public WeakFunc<T> GetWeakPrivateFunc() => new WeakFunc<T>(PrivateInstanceFunc);
         public WeakFunc<T> GetWeakInternalFunc() => new WeakFunc<T>(InternalInstanceFunc);
         public WeakFunc<T> GetWeakPublicFunc() => new WeakFunc<T>(PublicInstanceFunc);
 
 #pragma warning disable RECS0002 // Convert anonymous method to method group
-        public WeakFunc<T, TOut> GetWeakAnonymousFunc<TOut>() => new WeakFunc<T, TOut>(x => _callCounter.RunAnanimousFunc<T, TOut>(x));
+        public WeakFunc<T, TOut> GetWeakAnonymousFunc<TOut>() => new WeakFunc<T, TOut>(x => _callCounter.RunAnonymousFunc<T, TOut>(x));
 #pragma warning restore RECS0002 // Convert anonymous method to method group
         public WeakFunc<T, TOut> GetWeakPrivateFunc<TOut>() => new WeakFunc<T, TOut>(PrivateInstanceFunc<TOut>);
         public WeakFunc<T, TOut> GetWeakInternalFunc<TOut>() => new WeakFunc<T, TOut>(InternalInstanceFunc<TOut>);

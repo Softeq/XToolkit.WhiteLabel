@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnanymousAction();
+            _callCounter.Received(1).RunAnonymousAction();
 
             GC.Collect();
 
@@ -110,7 +110,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnanymousAction();
+            _callCounter.Received(1).RunAnonymousAction();
 
             GC.Collect();
 
@@ -182,7 +182,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnanymousAction();
+            _callCounter.Received(1).RunAnonymousAction();
 
             GC.Collect();
 
@@ -252,7 +252,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnanymousAction();
+            _callCounter.Received(1).RunAnonymousAction();
 
             GC.Collect();
 
@@ -322,7 +322,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnanymousAction();
+            _callCounter.Received(1).RunAnonymousAction();
 
             GC.Collect();
 
@@ -394,7 +394,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnanymousAction();
+            _callCounter.Received(1).RunAnonymousAction();
 
             GC.Collect();
 
@@ -464,7 +464,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnanymousAction();
+            _callCounter.Received(1).RunAnonymousAction();
 
             GC.Collect();
 
@@ -534,7 +534,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnanymousAction();
+            _callCounter.Received(1).RunAnonymousAction();
 
             GC.Collect();
 
