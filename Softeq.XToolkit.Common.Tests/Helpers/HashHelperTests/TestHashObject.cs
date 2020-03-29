@@ -5,7 +5,7 @@ using Xunit.Abstractions;
 
 namespace Softeq.XToolkit.Common.Tests.Helpers.HashHelperTests
 {
-    internal class TestHashObject : IXunitSerializable
+    public class TestHashObject : IXunitSerializable
     {
         private static readonly string _key = $"{nameof(TestHashObject)}_{nameof(_value)}";
         private int _value;

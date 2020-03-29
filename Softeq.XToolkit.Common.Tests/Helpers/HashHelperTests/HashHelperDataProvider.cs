@@ -230,5 +230,37 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.HashHelperTests
                 }; // mixed
             }
         }
+
+        public static IEnumerable<object[]> HashValueTypeArgumentsData
+        {
+            get { yield return new object[] { 1, 1.0, 1f, DateTime.MinValue, '1', true }; }
+        }
+
+        public static IEnumerable<object[]> HashNullableValueTypeArgumentsData
+        {
+            get
+            {
+                yield return new object[] { null, 1.0, 1f, DateTime.MinValue, '1', true };
+                yield return new object[] { 1, null, 1f, DateTime.MinValue, '1', true };
+                yield return new object[] { 1, 1.0, null, DateTime.MinValue, '1', true };
+                yield return new object[] { 1, 1.0, 1f, null, '1', true };
+                yield return new object[] { 1, 1.0, 1f, DateTime.MinValue, null, true };
+                yield return new object[] { 1, 1.0, 1f, DateTime.MinValue, '1', null };
+                yield return new object[] { null, null, null, null, null, null };
+            }
+        }
+
+        public static IEnumerable<object[]> HashReferenceTypeArgumentsData
+        {
+            get
+            {
+                yield return new object[] {"42", new object(), new object[]{}, new TestHashObject(0)};
+                yield return new object[] {null, new object(), new object[]{}, new TestHashObject(0)};
+                yield return new object[] {"42", null, new object[]{}, new TestHashObject(0)};
+                yield return new object[] {"42", new object(), null, new TestHashObject(0)};
+                yield return new object[] {"42", new object(), new object[]{}, null};
+                yield return new object[] {null, null, null, null};
+            }
+        }
     }
 }

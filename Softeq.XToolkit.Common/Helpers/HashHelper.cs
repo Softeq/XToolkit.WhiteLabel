@@ -1,12 +1,13 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Linq;
 
 namespace Softeq.XToolkit.Common.Helpers
 {
     /// <summary>
-    /// Class helps to get a hash code for a number of objects combined (2-10)
+    /// Class helps to get a hash code for a number of objects combined
     /// </summary>
     public static class HashHelper
     {
@@ -19,6 +20,7 @@ namespace Softeq.XToolkit.Common.Helpers
         /// <returns>The hash code.</returns>
         /// <param name="arg1">Mandatory argument</param>
         /// <param name="otherArgs">Optional arguments</param>
+        [Obsolete("This implementation causes boxing of value types on each call. Please use Hash.Get() instead")]
         public static int GetHashCode(object? arg1, params object?[] otherArgs)
         {
             unchecked
