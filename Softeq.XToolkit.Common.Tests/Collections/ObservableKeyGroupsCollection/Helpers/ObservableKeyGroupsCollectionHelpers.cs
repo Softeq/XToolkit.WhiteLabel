@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.Common.Collections;
 
-namespace Softeq.XToolkit.Tests.Core.Common.Collections.ObservableKeyGroupsCollection.Helpers
+#nullable disable
+
+namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection.Helpers
 {
     public static class ObservableKeyGroupsCollectionHelpers
     {
@@ -52,10 +54,12 @@ namespace Softeq.XToolkit.Tests.Core.Common.Collections.ObservableKeyGroupsColle
             {
                 return false;
             }
+
             if (ReferenceEquals(this, other))
             {
                 return true;
             }
+
             return Body == other.Body && DateTime == other.DateTime;
         }
     }

@@ -12,6 +12,7 @@ namespace Softeq.XToolkit.WhiteLabel.Model
     public class OpenDialogOptions
     {
         public bool ShouldShowBackgroundOverlay { get; set; }
+
         public DialogType DialogType { get; set; }
     }
 }

@@ -3,7 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
@@ -14,6 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         public DialogViewModelComponent()
         {
             _withResultCompletionSource = new TaskCompletionSource<object>();
+
             CloseCommand = new RelayCommand<object>(Close);
         }
 
@@ -21,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 
         public Task<object> Task => _withResultCompletionSource.Task;
 
-        public event EventHandler Closed;
+        public event EventHandler? Closed;
 
         private void Close(object result)
         {

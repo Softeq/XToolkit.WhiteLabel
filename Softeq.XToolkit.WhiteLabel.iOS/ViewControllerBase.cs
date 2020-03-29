@@ -4,17 +4,15 @@
 using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
-using Softeq.XToolkit.Bindings.Abstract;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
     public abstract class ViewControllerBase : UIViewController
     {
-        public abstract void SetExistingViewModel(object viewModel);
-
         protected ViewControllerBase()
         {
         }
@@ -26,24 +24,28 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
     }
 
-    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase, IBindableOwner
+    public abstract class ViewControllerBase<TViewModel> : ViewControllerBase, IBindable
         where TViewModel : IViewModelBase
     {
         protected ViewControllerBase()
         {
+            InitViewController();
         }
 
         protected internal ViewControllerBase(IntPtr handle) : base(handle)
         {
+            InitViewController();
         }
-
-        public TViewModel ViewModel { get; private set; }
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public override void SetExistingViewModel(object viewModel)
+        public object DataContext { get; private set; } = default!;
+
+        public TViewModel ViewModel => (TViewModel) DataContext;
+
+        void IBindable.SetDataContext(object dataContext)
         {
-            ViewModel = (TViewModel) viewModel;
+            DataContext = dataContext;
         }
 
         public override void ViewDidLoad()
@@ -66,6 +68,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             ViewModel.OnDisappearing();
         }
 
+        public override void ViewDidDisappear(bool animated)
+        {
+            base.ViewDidDisappear(animated);
+
+            CloseDialogIfNeeded();
+        }
+
         protected virtual void DoAttachBindings()
         {
         }
@@ -81,8 +90,24 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         private void DetachBindings()
         {
-            Bindings.DetachAllAndClear();
+            BindableExtensions.DetachBindings(this);
             DoDetachBindings();
+        }
+
+        private void InitViewController()
+        {
+            ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
+        }
+
+        private void CloseDialogIfNeeded()
+        {
+            if (ViewModel is DialogViewModelBase dialogViewModel)
+            {
+                if (IsBeingDismissed || IsMovingFromParentViewController)
+                {
+                    dialogViewModel.DialogComponent.CloseCommand.Execute(null);
+                }
+            }
         }
     }
 }

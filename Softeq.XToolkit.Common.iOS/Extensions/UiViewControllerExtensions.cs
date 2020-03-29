@@ -7,7 +7,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
 {
     public static class UiViewControllerExtensions
     {
-        public static void AddAsChild(this UIViewController child, UIViewController parent, UIView targetView = null)
+        public static void AddAsChild(this UIViewController child, UIViewController parent, UIView? targetView = null)
         {
             parent.AddChildViewController(child);
             if (targetView == null)
@@ -38,15 +38,22 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             var top = view.TopAnchor.ConstraintEqualTo(parent.TopAnchor);
             var bottom = view.BottomAnchor.ConstraintEqualTo(parent.BottomAnchor);
 
-            NSLayoutConstraint.ActivateConstraints(new[] {right, left, top, bottom});
+            NSLayoutConstraint.ActivateConstraints(new[] { right, left, top, bottom });
         }
 
         public static void AddAsChildWithConstraints(this UIViewController child, UIViewController parent,
-            UIView targetView = null)
+            UIView? targetView = null)
         {
             parent.AddChildViewController(child);
             child.View.AddAsSubviewWithParentSize(targetView ?? parent.View);
             child.DidMoveToParentViewController(parent);
+        }
+
+        public static void RemoveFromParent(this UIViewController child, UIViewController parent)
+        {
+            child.WillMoveToParentViewController(parent);
+            child.View.RemoveFromSuperview();
+            child.RemoveFromParentViewController();
         }
     }
 }

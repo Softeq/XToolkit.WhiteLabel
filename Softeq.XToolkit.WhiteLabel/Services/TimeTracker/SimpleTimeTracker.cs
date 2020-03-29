@@ -22,6 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services.TimeTracker
                 {
                     throw new Exception(WasNotStopped);
                 }
+
                 return _summaryTime;
             }
         }
@@ -36,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services.TimeTracker
             }
 
             _isWorking = true;
-            _summaryTime = default(TimeSpan);
+            _summaryTime = default;
             _startTime = DateTime.UtcNow;
         }
 
@@ -48,15 +49,15 @@ namespace Softeq.XToolkit.WhiteLabel.Services.TimeTracker
             }
 
             _summaryTime = CurrentTime;
-            _startTime = default(DateTime);
+            _startTime = default;
             _isWorking = false;
         }
 
         public void Reset()
         {
             _isWorking = false;
-            _startTime = default(DateTime);
-            _summaryTime = default(TimeSpan);
+            _startTime = default;
+            _summaryTime = default;
         }
     }
 }

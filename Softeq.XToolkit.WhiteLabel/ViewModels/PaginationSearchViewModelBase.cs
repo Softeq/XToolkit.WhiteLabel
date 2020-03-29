@@ -5,18 +5,18 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.Common.Models;
+using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Softeq.XToolkit.WhiteLabel.ViewModels
 {
     public abstract class PaginationSearchViewModelBase<TViewModel, TModel>
         : PaginationViewModelBase<TViewModel, TModel>
     {
-        private CancellationTokenSource _lastSearchCancelSource = new CancellationTokenSource();
-        private string _searchQuery = string.Empty;
         private bool _hasContent;
         private bool _isBusy;
+        private CancellationTokenSource _lastSearchCancelSource = new CancellationTokenSource();
+        private string? _searchQuery = string.Empty;
 
         protected PaginationSearchViewModelBase()
         {
@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
 
         public ICommand SearchCommand { get; }
 
-        public string SearchQuery
+        public string? SearchQuery
         {
             get => _searchQuery;
             set
@@ -72,9 +72,9 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
 
         protected override CancellationToken CancellationToken => _lastSearchCancelSource.Token;
 
-        protected abstract Task<PagingModel<TModel>> LoadAsync(string query, int pageNumber, int pageSize);
+        protected abstract Task<PagingModel<TModel>> LoadAsync(string? query, int pageNumber, int pageSize);
 
-        protected override async Task<PagingModel<TModel>> LoadAsync(int pageNumber, int pageSize)
+        protected override async Task<PagingModel<TModel>?> LoadAsync(int pageNumber, int pageSize)
         {
             try
             {
@@ -85,7 +85,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
                 HandleException(ex);
             }
 
-            return default(PagingModel<TModel>);
+            return default;
         }
 
         protected override void ItemsWillLoad()

@@ -5,10 +5,9 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
-using FFImageLoading.Views;
 using FFImageLoading.Work;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.ViewModels;
 
@@ -16,8 +15,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 {
     public class FullScreenImageDialogFragment : DialogFragmentBase<FullScreenImageViewModel>
     {
-        private ImageButton _closeButton;
-        private ImageViewAsync _imageView;
+        private ImageButton _closeButton = default!;
+        private ImageView _imageView = default!;
 
         protected override int ThemeId => Resource.Style.CoreFullScreenImageTheme;
 
@@ -38,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
                 }));
             _closeButton.SetImageResource(Resource.Drawable.core_ic_close);
 
-            _imageView = View.FindViewById<ImageViewAsync>(Resource.Id.dialog_full_screen_image_image);
+            _imageView = View.FindViewById<ImageView>(Resource.Id.dialog_full_screen_image_image);
 
             LoadImage();
         }

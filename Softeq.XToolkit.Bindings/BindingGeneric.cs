@@ -8,18 +8,21 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Converters;
+using Softeq.XToolkit.Common.Weak;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>
-    ///     Creates a binding between two properties. If the source implements INotifyPropertyChanged, the source property
-    ///     raises the PropertyChanged event
-    ///     and the BindingMode is OneWay or TwoWay, the target property will be synchronized with the source property. If
-    ///     the target implements INotifyPropertyChanged, the target property raises the PropertyChanged event and the
-    ///     BindingMode is
-    ///     TwoWay, the source property will also be synchronized with the target property.
+    ///     Creates a binding between two properties.
+    ///
+    ///     If the source implements <see cref="INotifyPropertyChanged"/>, the source property raises the PropertyChanged event and
+    ///     the <see cref="BindingMode"/> is OneWay or TwoWay, the target property will be synchronized with the source property.
+    ///
+    ///     If the target implements <see cref="INotifyPropertyChanged"/>, the target property raises the PropertyChanged event
+    ///     and the <see cref="BindingMode"/> is TwoWay, the source property will also be synchronized with the target property.
     /// </summary>
     /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
     /// <typeparam name="TTarget">
@@ -33,6 +36,7 @@ namespace Softeq.XToolkit.Bindings
         private readonly SimpleConverter _converter = new SimpleConverter();
         private readonly List<IWeakEventListener> _listeners = new List<IWeakEventListener>();
         private readonly Expression<Func<TSource>> _sourcePropertyExpression;
+        private readonly Func<TSource> _sourcePropertyFunc;
         private readonly string _sourcePropertyName;
         private readonly Expression<Func<TTarget>> _targetPropertyExpression;
         private readonly string _targetPropertyName;
@@ -40,17 +44,16 @@ namespace Softeq.XToolkit.Bindings
         public readonly Dictionary<string, DelegateInfo> TargetHandlers = new Dictionary<string, DelegateInfo>();
         private bool _isFallbackValueActive;
         private WeakAction _onSourceUpdate;
+        private WeakAction<TSource> _onSourceUpdateWithParameter;
         private bool _resolveTopField;
         private bool _settingSourceToTarget;
         private bool _settingTargetToSource;
         private PropertyInfo _sourceProperty;
+        private WeakFunc<TSource, Task> _sourceUpdateFunctionWithParameter;
         private PropertyInfo _targetProperty;
+        private IConverter<TTarget, TSource> _valueConverter;
         protected WeakReference PropertySource;
         protected WeakReference PropertyTarget;
-        private IConverter<TTarget, TSource> _valueConverter;
-        private WeakAction<TSource> _onSourceUpdateWithParameter;
-        private readonly Func<TSource> _sourcePropertyFunc;
-        private WeakFunc<TSource, Task> _sourceUpdateFunctionWithParameter;
 
         /// <summary>
         ///     Initializes a new instance of the Binding class for which the source and target properties
@@ -89,8 +92,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             string targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             Mode = mode;
             FallbackValue = fallbackValue;
@@ -120,8 +123,8 @@ namespace Softeq.XToolkit.Bindings
         ///     are located in different objects.
         /// </summary>
         /// <param name="source">
-        ///     The source of the binding. If this object implements INotifyPropertyChanged and the
-        ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
+        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">
         ///     An expression pointing to the source property. It can be
@@ -138,16 +141,18 @@ namespace Softeq.XToolkit.Bindings
         ///     [target].SomeObject.SomeOtherObject.SomeProperty".
         /// </param>
         /// <param name="mode">
-        ///     The mode of the binding. OneTime means that the target property will be set once (when the binding is
-        ///     created) but that subsequent changes will be ignored. OneWay means that the target property will be set, and
-        ///     if the PropertyChanged event is raised by the source, the target property will be updated. TwoWay means that the
-        ///     source
-        ///     property will also be updated if the target raises the PropertyChanged event. Default means OneWay if only the
-        ///     source
-        ///     implements INPC, and TwoWay if both the source and the target implement INPC.
+        ///     The mode of the binding.
+        ///
+        ///     OneTime means that the target property will be set once (when the binding is created) but that subsequent changes
+        ///     will be ignored. OneWay means that the target property will be set, and if the PropertyChanged event is raised
+        ///     by the source, the target property will be updated.
+        ///
+        ///     TwoWay means that the source property will also be updated if the target raises the PropertyChanged event.
+        ///     Default means OneWay if only the source implements <see cref="INotifyPropertyChanged"/>,
+        ///     and TwoWay if both the source and the target implement <see cref="INotifyPropertyChanged"/>.
         /// </param>
         /// <param name="fallbackValue">
-        ///     Tthe value to use when the binding is unable to return a value. This can happen if one of the
+        ///     The value to use when the binding is unable to return a value. This can happen if one of the
         ///     items on the Path (except the source property itself) is null, or if the Converter throws an exception.
         /// </param>
         /// <param name="targetNullValue">
@@ -160,8 +165,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
             : this(
                 source,
                 sourcePropertyExpression,
@@ -181,8 +186,8 @@ namespace Softeq.XToolkit.Bindings
             object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default(TSource),
-            TSource targetNullValue = default(TSource))
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
         {
             Mode = mode;
             FallbackValue = fallbackValue;
@@ -225,7 +230,7 @@ namespace Softeq.XToolkit.Bindings
                 if (PropertySource == null
                     || !PropertySource.IsAlive)
                 {
-                    return default(TTarget);
+                    return default;
                 }
 
                 var type = PropertySource.Target.GetType();
@@ -290,8 +295,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Instructs the Binding instance to stop listening to value changes and to
-        ///     remove all listeneners.
+        ///     Instructs the <see cref="Binding"/> instance to stop listening to value changes and to remove all listeners.
         /// </summary>
         public override void Detach()
         {
@@ -307,8 +311,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Forces the Binding's value to be reevaluated. The target value will
-        ///     be set to the source value.
+        ///     Forces the Binding's value to be reevaluated. The target value will be set to the source value.
         /// </summary>
         public override void ForceUpdateValueFromSourceToTarget()
         {
@@ -362,8 +365,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Forces the Binding's value to be reevaluated. The source value will
-        ///     be set to the target value.
+        ///     Forces the Binding's value to be reevaluated. The source value will be set to the target value.
         /// </summary>
         public override void ForceUpdateValueFromTargetToSource()
         {
@@ -400,23 +402,19 @@ namespace Softeq.XToolkit.Bindings
         ///     use this method to define which of the control's events should be observed.
         /// </summary>
         /// <param name="eventName">
-        ///     The name of the event that should be observed
-        ///     to update the binding's value.
+        ///     The name of the event that should be observed to update the binding's value.
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="InvalidOperationException">
-        ///     When this method is called
-        ///     on a OneTime binding. Such bindings cannot be updated. This exception can
-        ///     also be thrown when the source object is null or has already been
+        ///     When this method is called on a OneTime binding. Such bindings cannot be updated.
+        ///     This exception can also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     When the eventName parameter is null
-        ///     or is an empty string.
+        ///     When the eventName parameter is null or is an empty string.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     When the requested event does not exist on the
-        ///     source control.
+        ///     When the requested event does not exist on the source control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveSourceEvent(string eventName)
         {
@@ -504,12 +502,10 @@ namespace Softeq.XToolkit.Bindings
         ///     garbage collected before this method is called.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     When the eventName parameter is null
-        ///     or is an empty string.
+        ///     When the eventName parameter is null or is an empty string.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     When the requested event does not exist on the
-        ///     source control.
+        ///     When the requested event does not exist on the source control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveSourceEvent<TEventArgs>(string eventName)
             where TEventArgs : EventArgs
@@ -594,12 +590,10 @@ namespace Softeq.XToolkit.Bindings
         ///     garbage collected before this method is called.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     When the eventName parameter is null
-        ///     or is an empty string.
+        ///     When the eventName parameter is null or is an empty string.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     When the requested event does not exist on the
-        ///     target control.
+        ///     When the requested event does not exist on the target control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveTargetEvent(string eventName)
         {
@@ -697,12 +691,10 @@ namespace Softeq.XToolkit.Bindings
         ///     garbage collected before this method is called.
         /// </exception>
         /// <exception cref="ArgumentNullException">
-        ///     When the eventName parameter is null
-        ///     or is an empty string.
+        ///     When the eventName parameter is null or is an empty string.
         /// </exception>
         /// <exception cref="ArgumentException">
-        ///     When the requested event does not exist on the
-        ///     target control.
+        ///     When the requested event does not exist on the target control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveTargetEvent<TEventArgs>(string eventName)
             where TEventArgs : EventArgs
@@ -779,8 +771,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Defines an action that will be executed every time that the binding value
-        ///     changes.
+        ///     Defines an action that will be executed every time that the binding value changes.
         /// </summary>
         /// <param name="callback">
         ///     The action that will be executed when the binding changes.
@@ -789,8 +780,7 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="InvalidOperationException">
-        ///     When WhenSourceChanges is called on
-        ///     a binding which already has a target property set.
+        ///     When <see cref="WhenSourceChanges(System.Action)"/> is called on a binding which already has a target property set.
         /// </exception>
         public Binding<TSource, TTarget> WhenSourceChanges(Action callback)
         {
@@ -874,12 +864,9 @@ namespace Softeq.XToolkit.Bindings
             {
                 foreach (var instance in sourceChain)
                 {
-                    var inpc = instance.Instance as INotifyPropertyChanged;
-                    if (inpc != null)
+                    if (instance.Instance is INotifyPropertyChanged inpc)
                     {
-                        var listener = new ObjectSwappedEventListener(
-                            this,
-                            inpc);
+                        var listener = new ObjectSwappedEventListener(this, inpc);
                         _listeners.Add(listener);
                         PropertyChangedEventManager.AddListener(inpc, listener, instance.Name);
                     }
@@ -906,12 +893,9 @@ namespace Softeq.XToolkit.Bindings
                 {
                     foreach (var instance in targetChain)
                     {
-                        var inpc = instance.Instance as INotifyPropertyChanged;
-                        if (inpc != null)
+                        if (instance.Instance is INotifyPropertyChanged inpc)
                         {
-                            var listener = new ObjectSwappedEventListener(
-                                this,
-                                inpc);
+                            var listener = new ObjectSwappedEventListener(this, inpc);
                             _listeners.Add(listener);
                             PropertyChangedEventManager.AddListener(inpc, listener, instance.Name);
                         }
@@ -1006,11 +990,7 @@ namespace Softeq.XToolkit.Bindings
 
             if (PropertySource.Target is INotifyPropertyChanged inpc)
             {
-                var listener = new PropertyChangedEventListener(
-                    this,
-                    inpc,
-                    true);
-
+                var listener = new PropertyChangedEventListener(this, inpc, true);
                 _listeners.Add(listener);
                 PropertyChangedEventManager.AddListener(inpc, listener, _sourcePropertyName);
             }
@@ -1032,15 +1012,9 @@ namespace Softeq.XToolkit.Bindings
                 && PropertyTarget.IsAlive
                 && PropertyTarget.Target != null)
             {
-                var inpc2 = PropertyTarget.Target as INotifyPropertyChanged;
-
-                if (inpc2 != null)
+                if (PropertyTarget.Target is INotifyPropertyChanged inpc2)
                 {
-                    var listener = new PropertyChangedEventListener(
-                        this,
-                        inpc2,
-                        false);
-
+                    var listener = new PropertyChangedEventListener(this, inpc2, false);
                     _listeners.Add(listener);
                     PropertyChangedEventManager.AddListener(inpc2, listener, _targetPropertyName);
                 }
@@ -1176,11 +1150,7 @@ namespace Softeq.XToolkit.Bindings
                 {
                     try
                     {
-                        var newInstance = prop.GetMethod.Invoke(
-                            lastInstance.Instance,
-                            new object[]
-                            {
-                            });
+                        var newInstance = prop.GetMethod.Invoke(lastInstance.Instance, new object[] {});
 
                         lastInstance.Name = prop.Name;
 
@@ -1261,7 +1231,7 @@ namespace Softeq.XToolkit.Bindings
         {
             if (_sourceProperty == null)
             {
-                return default(TTarget);
+                return default;
             }
 
             var sourceValue = (TSource) _sourceProperty.GetValue(PropertySource.Target, null);
@@ -1386,7 +1356,7 @@ namespace Softeq.XToolkit.Bindings
         {
             if (_isFallbackValueActive)
             {
-                _targetProperty.SetValue(PropertyTarget.Target, FallbackValue, null);
+                _targetProperty.SetValue(PropertyTarget.Target, _converter.Convert(FallbackValue), null);
                 return true;
             }
 
@@ -1546,11 +1516,11 @@ namespace Softeq.XToolkit.Bindings
 
                 try
                 {
-                    return (TTarget) System.Convert.ChangeType(value, typeof(TTarget));
+                    return ConvertSafely<TSource, TTarget>(value);
                 }
                 catch (Exception)
                 {
-                    return default(TTarget);
+                    return default;
                 }
             }
 
@@ -1564,11 +1534,11 @@ namespace Softeq.XToolkit.Bindings
 
                 try
                 {
-                    return (TSource) System.Convert.ChangeType(value, typeof(TSource));
+                    return ConvertSafely<TTarget, TSource>(value);
                 }
                 catch (Exception)
                 {
-                    return default(TSource);
+                    return default;
                 }
             }
 
@@ -1580,6 +1550,31 @@ namespace Softeq.XToolkit.Bindings
             public void SetConvertBack(Func<TTarget, TSource> convertBack)
             {
                 _convertBack = new WeakFunc<TTarget, TSource>(convertBack);
+            }
+
+            private TTo ConvertSafely<TFrom, TTo>(TFrom value)
+            {
+                try
+                {
+                    var notNullableFromType = Nullable.GetUnderlyingType(typeof(TFrom));
+                    object notNullableValue = value;
+                    if (notNullableFromType != null)
+                    {
+                        if (value == null)
+                        {
+                            return default;
+                        }
+
+                        notNullableValue = System.Convert.ChangeType(value, notNullableFromType);
+                    }
+
+                    var notNullableToType = Nullable.GetUnderlyingType(typeof(TTo)) ?? typeof(TTo);
+                    return (TTo) System.Convert.ChangeType(notNullableValue, notNullableToType);
+                }
+                catch (Exception)
+                {
+                    return default;
+                }
             }
         }
     }

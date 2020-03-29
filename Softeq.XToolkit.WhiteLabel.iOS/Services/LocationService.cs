@@ -15,19 +15,21 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public bool IsLocationServiceEnabled => CLLocationManager.LocationServicesEnabled;
 
-        public Task<LocationModel> GetCurrentLocation()
+        public Task<LocationModel?> GetCurrentLocation()
         {
+            LocationModel? result = default;
+
             var location = _locationManagerLazy.Value.Location;
-            if (location == null)
+            if (location != null)
             {
-                return Task.FromResult(default(LocationModel));
+                result = new LocationModel
+                {
+                    Latitude = location.Coordinate.Latitude,
+                    Longitude = location.Coordinate.Longitude
+                };
             }
 
-            return Task.FromResult(new LocationModel
-            {
-                Latitude = location.Coordinate.Latitude,
-                Longitude = location.Coordinate.Longitude
-            });
+            return Task.FromResult(result);
         }
     }
 }

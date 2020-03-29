@@ -1,21 +1,17 @@
 resources:
 - repo: self
+trigger:
+  - release/*
+pr: none
+
 queue:
   name: Hosted macOS
   demands: Xamarin.iOS
 
 variables:
-  BuildConfiguration: 'Release'
+- template: templates/vars.yml
+
 steps:
-- script: 'msbuild Softeq.XToolkit.WhiteLabel.sln /t:Clean /p:Configuration="Release" /p:Platform="Any CPU"'
-- script: 'nuget restore Softeq.XToolkit.WhiteLabel.sln'
-- script: 'msbuild Softeq.XToolkit.WhiteLabel.sln /t:Restore /p:Configuration="Release" /p:Platform="Any CPU"'
-- script: 'msbuild Softeq.XToolkit.WhiteLabel.sln /p:Configuration="Release" /p:Platform="Any CPU"'
-- script: 'nuget pack Softeq.XToolkit.WhiteLabel.nuspec'
-- task: CopyFiles@2
-  inputs:
-    contents: 'Softeq.XToolkit.WhiteLabel*.nupkg'
-    targetFolder: $(Build.ArtifactStagingDirectory)
-- task: PublishBuildArtifacts@1
-  inputs:
-    ArtifactName: 'drop'
+- template: templates/nuget-steps.yml
+  parameters:
+    ProjectName: 'Softeq.XToolkit.WhiteLabel'

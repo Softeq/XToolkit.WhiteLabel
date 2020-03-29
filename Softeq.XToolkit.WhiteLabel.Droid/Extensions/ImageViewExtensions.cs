@@ -2,8 +2,8 @@
 // http://www.softeq.com
 
 using System;
+using Android.Widget;
 using FFImageLoading;
-using FFImageLoading.Views;
 using FFImageLoading.Work;
 using Softeq.XToolkit.WhiteLabel.Droid.Controls;
 
@@ -11,11 +11,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Extensions
 {
     public static class ImageExtensions
     {
-        public static void LoadImageWithTextPlaceholder(this ImageViewAsync imageView,
+        public static void LoadImageWithTextPlaceholder(this ImageView imageView,
             string url,
             string name,
             AvatarPlaceholderDrawable.AvatarStyles styles,
-            Action<TaskParameter> transform = null)
+            Action<TaskParameter>? transform = null)
         {
             imageView.SetImageDrawable(new AvatarPlaceholderDrawable(name, styles));
 

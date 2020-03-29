@@ -1,6 +1,6 @@
 ﻿using NSubstitute;
 using Softeq.XToolkit.Common.Tests.Helpers;
-using Softeq.XToolkit.Tests.Core.Common.Helpers;
+using Softeq.XToolkit.Common.Tests.WeakTests.Utils;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests
 {

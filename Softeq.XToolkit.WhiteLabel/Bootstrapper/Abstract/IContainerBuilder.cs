@@ -7,15 +7,29 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
 {
     public interface IContainerBuilder
     {
-        void PerDependency<T1, T2>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation) where T1 : T2;
-        void PerDependency<T1>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
-        void PerDependency<T1>(Func<IContainer, T1> func, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
-        void PerDependency(Type type, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
-        void PerDependency<T1>(Func<IContainer, object> func, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
-        void Singleton<T1, T2>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation) where T1 : T2;
-        void Singleton<T1>(IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
-        void Singleton<T1>(Func<IContainer, T1> func, IfRegistered ifRegistered = IfRegistered.AppendNewImplementation);
+        void PerDependency<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
+            where TImplementation : TService;
+
+        void PerDependency<TService>(IfRegistered ifRegistered = IfRegistered.AppendNew);
+
+        void PerDependency<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew);
+
+        void PerDependency(Type type, IfRegistered ifRegistered = IfRegistered.AppendNew);
+
+        void PerDependency<TService>(Func<IContainer, object> func, IfRegistered ifRegistered = IfRegistered.AppendNew);
+
+        void Singleton<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
+            where TImplementation : TService;
+
+        void Singleton<TService>(IfRegistered ifRegistered = IfRegistered.AppendNew);
+
+        void Singleton<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew);
+
         void RegisterBuildCallback(Action<IContainer> action);
+
+        void Decorator<TImplementation, TService>()
+            where TImplementation : TService;
+
         IContainer Build();
     }
 }

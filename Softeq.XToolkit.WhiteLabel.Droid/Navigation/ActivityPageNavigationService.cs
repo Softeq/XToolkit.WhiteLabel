@@ -3,11 +3,9 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
 using Android.Content;
 using Plugin.CurrentActivity;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -16,31 +14,22 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class ActivityPageNavigationService : IPlatformNavigationService
     {
-        private readonly IViewLocator _viewLocator;
-        private readonly IJsonSerializer _jsonSerializer;
+        private readonly IBundleService _bundleService;
         private readonly ICurrentActivity _currentActivity;
-
-        private bool _isParamsSerializationEnabled;
+        private readonly IViewLocator _viewLocator;
 
         public ActivityPageNavigationService(
-            IViewLocator viewLocator,
-            IJsonSerializer jsonSerializer,
-            ICurrentActivity currentActivity)
+            IBundleService bundleService,
+            ICurrentActivity currentActivity,
+            IViewLocator viewLocator)
         {
-            _viewLocator = viewLocator;
-            _jsonSerializer = jsonSerializer;
+            _bundleService = bundleService;
             _currentActivity = currentActivity;
-
-            _isParamsSerializationEnabled = true;
+            _viewLocator = viewLocator;
         }
 
-        public void Initialize(object navigation) { }
-
-        public ActivityPageNavigationService DisableParameterSerialization()
+        public void Initialize(object navigation)
         {
-            _isParamsSerializationEnabled = false;
-
-            return this;
         }
 
         public bool CanGoBack
@@ -56,44 +45,44 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
+                var activity = _currentActivity.Activity;
+
                 if (CanGoBack)
                 {
-                    _currentActivity.Activity.Finish();
+                    activity.Finish();
                 }
                 else
                 {
-                    _currentActivity.Activity.OnBackPressed();
+                    activity.OnBackPressed();
                 }
             });
         }
 
-        public void NavigateToViewModel(IViewModelBase viewModelBase, bool clearBackStack,
-            IReadOnlyList<NavigationParameterModel> parameters)
+        public void NavigateToViewModel(
+            IViewModelBase viewModelBase,
+            bool clearBackStack,
+            IReadOnlyList<NavigationParameterModel>? parameters)
         {
             var type = _viewLocator.GetTargetType(viewModelBase.GetType(), ViewType.Activity);
             StartActivityImpl(type, clearBackStack, parameters);
         }
 
-        private void StartActivityImpl(Type type, bool shouldClearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
+        private void StartActivityImpl(
+            Type type,
+            bool shouldClearBackStack = false,
+            IReadOnlyList<NavigationParameterModel>? parameters = null)
         {
-            var intent = new Intent(CrossCurrentActivity.Current.Activity, type);
-            TryToSetParameters(intent, parameters);
+            var activity = _currentActivity.Activity;
+            var intent = new Intent(activity, type);
+
+            _bundleService.TryToSetParams(intent, parameters);
 
             if (shouldClearBackStack)
             {
                 intent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
             }
 
-            _currentActivity.Activity.StartActivity(intent);
-        }
-
-        private void TryToSetParameters(Intent intent, IReadOnlyList<NavigationParameterModel> parameters)
-        {
-            if (_isParamsSerializationEnabled && parameters != null && parameters.Any())
-            {
-                intent.PutExtra(Constants.ParametersKey, _jsonSerializer.Serialize(parameters));
-            }
+            activity.StartActivity(intent);
         }
     }
 }

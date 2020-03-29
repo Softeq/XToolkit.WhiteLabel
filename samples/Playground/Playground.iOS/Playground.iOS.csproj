@@ -12,6 +12,9 @@
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -25,6 +28,7 @@
     <MtouchArch>x86_64</MtouchArch>
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
+    <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>none</DebugType>
@@ -35,6 +39,7 @@
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>x86_64</MtouchArch>
     <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
@@ -72,7 +77,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="Plugin.Permissions">
       <Version>5.0.0-beta</Version>
@@ -85,6 +90,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.Connectivity">
+      <Version>3.2.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -138,68 +146,151 @@
     <ImageAsset Include="Assets.xcassets\icSettings.imageset\icSettings%403x.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Resources\" />
-    <Folder Include="ViewControllers\" />
-    <Folder Include="Views\" />
-    <Folder Include="ViewControllers\Pages\Temp\" />
-  </ItemGroup>
-  <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Pages\CollectionPageStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Pages\MainPageStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
-    <InterfaceDefinition Include="ViewControllers\Pages\Temp\RedStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Pages\Temp\YellowStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Pages\Temp\GreenStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Pages\Temp\BlueStoryboard.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\Pages\PermissionsPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\MainPageGroupHeaderViewCell.xib" />
+    <InterfaceDefinition Include="Views\MainPageItemViewCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\Pages\DetailsPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\MainPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Components\PermissionsPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Collections\CollectionPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\BottomTabs\Second\BlueStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\BottomTabs\First\RedStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\BottomTabs\First\YellowStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\BottomTabs\Second\GreenStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\EmptyPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Dialogs\DialogsPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Dialogs\SimpleDialogPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Collections\GroupedCollectionPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\Collections\ProductViewCell.xib" />
+    <InterfaceDefinition Include="Views\Collections\GroupedHeaderView.xib" />
+    <InterfaceDefinition Include="ViewControllers\Collections\GroupedListPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\Table\ProductTableViewCell.xib" />
+    <InterfaceDefinition Include="Views\Table\GroupedTableHeaderView.xib" />
+    <InterfaceDefinition Include="ViewControllers\Collections\TablePageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\MovieTableViewCell.xib" />
+    <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Components\GesturesPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extended\IosChooseBetterDateDialog.cs" />
+    <Compile Include="Extended\IosExtendedDialogsService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="ViewControllers\Pages\CollectionPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\CollectionPageViewController.designer.cs">
-      <DependentUpon>CollectionPageViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\Pages\MainPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\MainPageViewController.designer.cs">
-      <DependentUpon>MainPageViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\Pages\StartPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\StartPageViewController.designer.cs">
-      <DependentUpon>StartPageViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="ViewControllers\Pages\Temp\RedViewController.cs" />
-    <Compile Include="ViewControllers\Pages\Temp\RedViewController.designer.cs">
-      <DependentUpon>RedViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\Pages\Temp\YellowViewController.cs" />
-    <Compile Include="ViewControllers\Pages\Temp\YellowViewController.designer.cs">
-      <DependentUpon>YellowViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\Pages\Temp\GreenViewController.cs" />
-    <Compile Include="ViewControllers\Pages\Temp\GreenViewController.designer.cs">
-      <DependentUpon>GreenViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ViewControllers\Pages\Temp\BlueViewController.cs" />
-    <Compile Include="ViewControllers\Pages\Temp\BlueViewController.designer.cs">
-      <DependentUpon>BlueViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="CustomIosBootstraper.cs" />
-    <Compile Include="ViewControllers\Pages\PermissionsPageViewController.cs" />
-    <Compile Include="ViewControllers\Pages\PermissionsPageViewController.designer.cs">
-      <DependentUpon>PermissionsPageViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Helpers\Settings.cs" />
+    <Compile Include="Views\MainPageGroupHeaderViewCell.cs" />
+    <Compile Include="Views\MainPageGroupHeaderViewCell.designer.cs">
+      <DependentUpon>MainPageGroupHeaderViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MainPageItemViewCell.cs" />
+    <Compile Include="Views\MainPageItemViewCell.designer.cs">
+      <DependentUpon>MainPageItemViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Pages\DetailsPageViewController.cs" />
+    <Compile Include="ViewControllers\Pages\DetailsPageViewController.designer.cs">
+      <DependentUpon>DetailsPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\MainPageViewController.cs" />
+    <Compile Include="ViewControllers\MainPageViewController.designer.cs">
+      <DependentUpon>MainPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\StartPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\PermissionsPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\PermissionsPageViewController.designer.cs">
+      <DependentUpon>PermissionsPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Collections\CollectionPageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CollectionPageViewController.designer.cs">
+      <DependentUpon>CollectionPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\BottomTabs\BottomTabsPageViewController.cs" />
+    <Compile Include="ViewControllers\BottomTabs\Second\BlueViewController.cs" />
+    <Compile Include="ViewControllers\BottomTabs\Second\BlueViewController.designer.cs">
+      <DependentUpon>BlueViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\BottomTabs\First\RedViewController.cs" />
+    <Compile Include="ViewControllers\BottomTabs\First\RedViewController.designer.cs">
+      <DependentUpon>RedViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\BottomTabs\First\YellowViewController.cs" />
+    <Compile Include="ViewControllers\BottomTabs\First\YellowViewController.designer.cs">
+      <DependentUpon>YellowViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\BottomTabs\Second\GreenViewController.cs" />
+    <Compile Include="ViewControllers\BottomTabs\Second\GreenViewController.designer.cs">
+      <DependentUpon>GreenViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\EmptyPageViewController.cs" />
+    <Compile Include="ViewControllers\EmptyPageViewController.designer.cs">
+      <DependentUpon>EmptyPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\DialogsPageViewController.cs" />
+    <Compile Include="ViewControllers\Dialogs\DialogsPageViewController.designer.cs">
+      <DependentUpon>DialogsPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\SimpleDialogPageViewController.cs" />
+    <Compile Include="ViewControllers\Dialogs\SimpleDialogPageViewController.designer.cs">
+      <DependentUpon>SimpleDialogPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Collections\GroupedCollectionPageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\GroupedCollectionPageViewController.designer.cs">
+      <DependentUpon>GroupedCollectionPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Collections\ProductViewCell.cs" />
+    <Compile Include="Views\Collections\ProductViewCell.designer.cs">
+      <DependentUpon>ProductViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Collections\GroupedCollectionViewDelegateFlowLayout.cs" />
+    <Compile Include="Views\Collections\GroupedHeaderView.cs" />
+    <Compile Include="Views\Collections\GroupedHeaderView.designer.cs">
+      <DependentUpon>GroupedHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Collections\GroupedFooterView.cs" />
+    <Compile Include="ViewControllers\Collections\GroupedListPageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\GroupedListPageViewController.designer.cs">
+      <DependentUpon>GroupedListPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Table\ProductTableViewCell.cs" />
+    <Compile Include="Views\Table\ProductTableViewCell.designer.cs">
+      <DependentUpon>ProductTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Table\GroupedTableFooterView.cs" />
+    <Compile Include="Views\Table\GroupedTableHeaderView.cs" />
+    <Compile Include="Views\Table\GroupedTableHeaderView.designer.cs">
+      <DependentUpon>GroupedTableHeaderView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Collections\TablePageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\TablePageViewController.designer.cs">
+      <DependentUpon>TablePageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MovieTableViewCell.cs" />
+    <Compile Include="Views\MovieTableViewCell.designer.cs">
+      <DependentUpon>MovieTableViewCell.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Controls\PhotoBrowserViewController.cs" />
+    <Compile Include="ViewControllers\Controls\PhotoBrowserViewController.designer.cs">
+      <DependentUpon>PhotoBrowserViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Components\ConnectivityPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\ConnectivityPageViewController.designer.cs">
+      <DependentUpon>ConnectivityPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Dialogs\CustomTransitioningDelegate.cs" />
+    <Compile Include="ViewControllers\Components\GesturesPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\GesturesPageViewController.designer.cs">
+      <DependentUpon>GesturesPageViewController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
@@ -238,6 +329,17 @@
       <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
+      <Project>{044152C1-3B2A-45A6-B233-80A51C511129}</Project>
+      <Name>Softeq.XToolkit.Connectivity</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity.iOS\Softeq.XToolkit.Connectivity.iOS.csproj">
+      <Project>{E3CCEEA3-C0B0-47B0-B414-2D6C18AC100A}</Project>
+      <Name>Softeq.XToolkit.Connectivity.iOS</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

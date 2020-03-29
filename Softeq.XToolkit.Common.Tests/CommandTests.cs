@@ -2,10 +2,10 @@
 // http://www.softeq.com
 
 using System;
-using Softeq.XToolkit.Common.Command;
+using Softeq.XToolkit.Common.Commands;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class CommandTests
     {
@@ -17,10 +17,10 @@ namespace Softeq.XToolkit.Tests.Core.Common
             }
 
             _command = new RelayCommand(TestAction, CanExecuteCommandFunc);
-            _command.CanExecuteChanged += CommandOnCanExecuteChanged;
+            _command.CanExecuteChanged += CommandOnCanExecuteChanged!;
 
             _genericCommand = new RelayCommand<string>(TestAction, CanExecuteGeneric);
-            _genericCommand.CanExecuteChanged += CommandOnCanExecuteChanged;
+            _genericCommand.CanExecuteChanged += CommandOnCanExecuteChanged!;
         }
 
         private readonly RelayCommand _command;
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.Tests.Core.Common
             _genericCommand.RaiseCanExecuteChanged();
             _genericCommand.Execute(PatameterValue);
 
-            Assert.Equal(_callTestMethodCount, 12);
+            Assert.Equal(12, _callTestMethodCount);
         }
     }
 }

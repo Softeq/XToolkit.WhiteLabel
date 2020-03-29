@@ -37,8 +37,8 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 return sourceImage;
             }
 
-            var width = (float)(maxResizeFactor * sourceSize.Width);
-            var height = (float)(maxResizeFactor * sourceSize.Height);
+            var width = (float) (maxResizeFactor * sourceSize.Width);
+            var height = (float) (maxResizeFactor * sourceSize.Height);
 
             UIGraphics.BeginImageContext(new SizeF(width, height));
             sourceImage.Draw(new RectangleF(0, 0, width, height));
@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 return image;
             }
 
-            int degree = 0;
+            var degree = 0;
             switch (orientation)
             {
                 case UIImageOrientation.Down:
@@ -78,20 +78,20 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 : new CGRect(0, 0, image.Size.Height, image.Size.Width);
             var view = new UIView(rect);
 
-            var radians = degree * (float)Math.PI / 180;
+            var radians = degree * (float) Math.PI / 180;
             var t = CGAffineTransform.MakeRotation(radians);
             view.Transform = t;
 
-            CGSize size = view.Frame.Size;
+            var size = view.Frame.Size;
             UIGraphics.BeginImageContext(size);
-            CGContext context = UIGraphics.GetCurrentContext();
+            var context = UIGraphics.GetCurrentContext();
 
             context.TranslateCTM(size.Width / 2, size.Height / 2);
             context.RotateCTM(radians);
             context.ScaleCTM(1, -1);
             context.DrawImage(new CGRect(-rect.Width / 2, -rect.Height / 2, rect.Width, rect.Height), image.CGImage);
 
-            UIImage imageCopy = UIGraphics.GetImageFromCurrentImageContext();
+            var imageCopy = UIGraphics.GetImageFromCurrentImageContext();
             UIGraphics.EndImageContext();
 
             return imageCopy;

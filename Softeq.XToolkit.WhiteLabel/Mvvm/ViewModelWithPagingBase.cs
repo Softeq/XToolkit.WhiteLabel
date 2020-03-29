@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Models;
+using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
             else if (model == null && CurrentPage == 0)
             {
                 CurrentPage = -1;
-                await AddPage(default(List<T>), shouldReset).ConfigureAwait(false);
+                await AddPage(default(List<T>)!, shouldReset).ConfigureAwait(false);
                 Execute.BeginOnUIThread(() => { CanLoadMoreRecords = false; });
             }
 

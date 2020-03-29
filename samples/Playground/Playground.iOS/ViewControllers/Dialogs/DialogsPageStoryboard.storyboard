@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Dialogs Page View Controller-->
+        <scene sceneID="mcm-JP-Zn1">
+            <objects>
+                <viewController storyboardIdentifier="DialogsPageViewController" id="yjL-CQ-rZZ" customClass="DialogsPageViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="bWY-St-6ms"/>
+                        <viewControllerLayoutGuide type="bottom" id="l25-Lu-y4E"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="bRA-4i-Lg6">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="center" spacing="20" translatesAutoresizingMaskIntoConstraints="NO" id="Vyg-JL-hV4">
+                                <rect key="frame" x="20" y="52" width="374" height="482.5"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eHG-NU-tdS">
+                                        <rect key="frame" x="149.5" y="0.0" width="75" height="30"/>
+                                        <state key="normal" title="Show Alert"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="click above" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Nkm-J1-2QI">
+                                        <rect key="frame" x="144.5" y="50" width="85.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iIW-8J-zzx">
+                                        <rect key="frame" x="138.5" y="90.5" width="97" height="30"/>
+                                        <state key="normal" title="Show Confirm"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="click above" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qCH-uG-I7c">
+                                        <rect key="frame" x="144.5" y="140.5" width="85.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="p0N-Jc-APd">
+                                        <rect key="frame" x="124" y="181" width="126" height="30"/>
+                                        <state key="normal" title="Show ActionSheet"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="click above" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="C2W-ld-iHJ">
+                                        <rect key="frame" x="144.5" y="231" width="85.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="so1-cY-Jua">
+                                        <rect key="frame" x="92.5" y="271.5" width="189" height="30"/>
+                                        <state key="normal" title="Show Dialog - Until Dismiss"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="click above" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gjE-B8-4p1">
+                                        <rect key="frame" x="144.5" y="321.5" width="85.5" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iFx-vF-jYP">
+                                        <rect key="frame" x="98" y="362" width="178" height="30"/>
+                                        <state key="normal" title="Show Dialog - Until Result"/>
+                                    </button>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Wyf-xA-eIW">
+                                        <rect key="frame" x="166" y="412" width="42" height="20.5"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fNs-jM-7fJ">
+                                        <rect key="frame" x="125" y="452.5" width="124" height="30"/>
+                                        <state key="normal" title="Open Two Dialogs"/>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Vyg-JL-hV4" secondAttribute="trailing" constant="20" symbolic="YES" id="0rI-Oe-Ypr"/>
+                            <constraint firstItem="Vyg-JL-hV4" firstAttribute="leading" secondItem="bRA-4i-Lg6" secondAttribute="leading" constant="20" symbolic="YES" id="F0S-pl-12U"/>
+                            <constraint firstItem="Vyg-JL-hV4" firstAttribute="top" secondItem="bWY-St-6ms" secondAttribute="bottom" constant="8" symbolic="YES" id="IdD-6w-iwc"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="ActionSheetResultLabel" destination="C2W-ld-iHJ" id="2lX-Od-T0S"/>
+                        <outlet property="AlertResultLabel" destination="Nkm-J1-2QI" id="TWq-Rh-l5p"/>
+                        <outlet property="ConfirmResultLabel" destination="qCH-uG-I7c" id="16P-Vv-k69"/>
+                        <outlet property="DialogUntilDismissResultLabel" destination="gjE-B8-4p1" id="sPx-y4-wWz"/>
+                        <outlet property="OpenTwoDialogsButton" destination="fNs-jM-7fJ" id="mdx-Sd-NYd"/>
+                        <outlet property="ShowActionSheetButton" destination="p0N-Jc-APd" id="nlE-f8-l6D"/>
+                        <outlet property="ShowAlertButton" destination="eHG-NU-tdS" id="1nZ-SR-UKV"/>
+                        <outlet property="ShowConfirmButton" destination="iIW-8J-zzx" id="WEU-up-rUZ"/>
+                        <outlet property="ShowDialogUntilDismissButton" destination="so1-cY-Jua" id="WnY-OG-cfE"/>
+                        <outlet property="ShowDialogUntilResultButton" destination="iFx-vF-jYP" id="poJ-Zr-zCR"/>
+                        <outlet property="ShowDialogUntilResultLabel" destination="Wyf-xA-eIW" id="udp-Fu-jT0"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gzV-wq-8rw" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="8.6956521739130448" y="30.803571428571427"/>
+        </scene>
+    </scenes>
+</document>

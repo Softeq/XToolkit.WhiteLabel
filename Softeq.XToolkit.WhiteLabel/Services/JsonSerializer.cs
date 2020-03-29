@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -11,52 +12,54 @@ namespace Softeq.XToolkit.WhiteLabel.Services
 {
     public class JsonSerializer : IJsonSerializer
     {
-        private readonly JsonSerializerSettings _jsonSerializerSettings = new JsonSerializerSettings
+        protected virtual JsonSerializerSettings Settings { get; } = new JsonSerializerSettings
         {
             Formatting = Formatting.None,
             TypeNameHandling = TypeNameHandling.None,
             NullValueHandling = NullValueHandling.Ignore,
-            ContractResolver = new DefaultContractResolver {NamingStrategy = new CamelCaseNamingStrategy()},
+            ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateTimeZoneHandling = DateTimeZoneHandling.Utc
         };
 
+        /// <inheritdoc />
         public string Serialize(object value)
         {
-            return JsonConvert.SerializeObject(value, _jsonSerializerSettings);
+            return JsonConvert.SerializeObject(value, Settings);
         }
 
+        /// <inheritdoc />
+        [return:MaybeNull]
         public T Deserialize<T>(string value)
         {
-            return JsonConvert.DeserializeObject<T>(value, _jsonSerializerSettings);
+            return JsonConvert.DeserializeObject<T>(value, Settings);
         }
-        
-        public Task<T> DeserializeAsync<T>(Stream stream)
+
+        /// <inheritdoc />
+        public Task SerializeAsync(object value, Stream stream)
         {
-            return Task.Run(() => 
+            return Task.Run(() =>
             {
-                var serializer = Newtonsoft.Json.JsonSerializer.Create(_jsonSerializerSettings);
-                using (var streamReader = new StreamReader(stream))
+                using (var streamWriter = new StreamWriter(stream))
+                using (var jsonTextWriter = new JsonTextWriter(streamWriter))
                 {
-                    using (var jsonTextReader = new JsonTextReader(streamReader))
-                    {
-                        return serializer.Deserialize<T>(jsonTextReader);
-                    }
+                    var serializer = Newtonsoft.Json.JsonSerializer.Create(Settings);
+                    serializer.Serialize(jsonTextWriter, value);
                 }
             });
         }
 
-        public Task SerializeAsync(object obj, Stream stream)
+        /// <inheritdoc />
+        [return:MaybeNull]
+        public Task<T> DeserializeAsync<T>(Stream stream)
         {
             return Task.Run(() =>
             {
-                var serializer = Newtonsoft.Json.JsonSerializer.Create(_jsonSerializerSettings);
-                using (var streamWriter = new StreamWriter(stream))
+                using (var streamReader = new StreamReader(stream))
+                using (var jsonTextReader = new JsonTextReader(streamReader))
                 {
-                    using (var jsonTextWriter = new JsonTextWriter(streamWriter))
-                    {
-                        serializer.Serialize(jsonTextWriter, obj);
-                    }
+                    var serializer = Newtonsoft.Json.JsonSerializer.Create(Settings);
+                    return serializer.Deserialize<T>(jsonTextReader)!;
                 }
             });
         }

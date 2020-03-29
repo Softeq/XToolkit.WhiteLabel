@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 using CoreGraphics;
 using FFImageLoading;
 using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
-using Softeq.XToolkit.Common;
-using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Files;
+using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
+#nullable disable
 namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
+    [Obsolete("Use IImagePickerService")]
     public class ImagePicker
     {
         private readonly UIImagePickerController _imagePicker;
@@ -67,7 +68,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             Unsubscribe();
 
             var imageKey = _options.AllowEditing ? UIImagePickerController.EditedImage : UIImagePickerController.OriginalImage;
-            var image = ToUpImageOrientation((UIImage)e.Info[imageKey]);
+            var image = ToUpImageOrientation((UIImage) e.Info[imageKey]);
 
             var name = $"{Guid.NewGuid()}.png";
 
@@ -99,7 +100,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         private async Task<bool> IsPermissionGranted()
         {
             Permissions.PermissionStatus status;
-            if(_options.ImagePickerOpenType == ImagePickerOpenTypes.Camera)
+            if (_options.ImagePickerOpenType == ImagePickerOpenTypes.Camera)
             {
                 status = await _permissionManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
             }
@@ -162,7 +163,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
                 view = new UIView(rect);
             });
 
-            var radians = degree * (float)Math.PI / 180;
+            var radians = degree * (float) Math.PI / 180;
             var transformRotate = CGAffineTransform.MakeRotation(radians);
 
             var size = new CGSize();
@@ -188,3 +189,4 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         }
     }
 }
+#nullable restore

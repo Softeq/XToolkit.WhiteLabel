@@ -9,23 +9,22 @@ using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.Helpers;
 using Color = Android.Graphics.Color;
+using PointF = Android.Graphics.PointF;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
     public class AvatarPlaceholderDrawable : Drawable
     {
         private const float TextSizePercentage = 40;
-
-        private readonly Paint _textPaint;
-        private readonly Paint _backgroundPaint;
         private readonly string _avatarText;
+        private readonly Paint _backgroundPaint;
         private readonly int _size;
 
-        private RectF _placeholderBounds;
+        private readonly Paint _textPaint;
+
+        private RectF? _placeholderBounds;
         private float _textStartXPoint;
         private float _textStartYPoint;
-
-        public override int Opacity => 1;
 
         public AvatarPlaceholderDrawable(string name, AvatarStyles styles)
         {
@@ -49,11 +48,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             _size = Math.Min(styles.Size.Width, styles.Size.Height);
         }
 
+        public override int Opacity => 1;
+
         public override void Draw(Canvas canvas)
         {
             if (_placeholderBounds == null)
             {
-                var centerPoint = new Android.Graphics.PointF(canvas.Width / 2f, canvas.Height / 2f);
+                var centerPoint = new PointF(canvas.Width / 2f, canvas.Height / 2f);
                 var context = CrossCurrentActivity.Current.AppContext;
                 var width = context.ToPixels(_size);
                 var sizeInPixels = new SizeF(width, width);
@@ -64,7 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
                     x,
                     y,
                     x + sizeInPixels.Width,
-                    y + sizeInPixels.Height); 
+                    y + sizeInPixels.Height);
 
                 SetAvatarTextValues();
             }
@@ -99,22 +100,28 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         private float CalculateTextStartXPoint()
         {
-            float stringWidth = _textPaint.MeasureText(_avatarText);
-            return (Bounds.Width() / 2f) - (stringWidth / 2f);
+            var stringWidth = _textPaint.MeasureText(_avatarText);
+            return Bounds.Width() / 2f - stringWidth / 2f;
         }
 
         private float CalculateTextStartYPoint()
         {
-            return (Bounds.Height() / 2f) - ((_textPaint.Ascent() + _textPaint.Descent()) / 2f);
+            return Bounds.Height() / 2f - (_textPaint.Ascent() + _textPaint.Descent()) / 2f;
         }
 
         private float CalculateTextSize()
         {
-            return _placeholderBounds.Height() * TextSizePercentage / 100;
+            return _placeholderBounds!.Height() * TextSizePercentage / 100;
         }
 
         public class AvatarStyles
         {
+            public AvatarStyles(Size size, string[] backgroundHexColors)
+            {
+                Size = size;
+                BackgroundHexColors = backgroundHexColors;
+            }
+
             public Size Size { get; set; }
             public string[] BackgroundHexColors { get; set; }
         }

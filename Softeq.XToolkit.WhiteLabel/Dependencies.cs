@@ -5,15 +5,14 @@ using System;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Permissions;
-using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel
 {
     /// <summary>
-    /// Please, avoid extending this class.
-    /// Use it only if you don't have another options to add reference on service.
+    ///     Please, avoid extending this class.
+    ///     Use it only if you don't have another options to add reference on service.
     /// </summary>
     public static class Dependencies
     {
@@ -23,14 +22,14 @@ namespace Softeq.XToolkit.WhiteLabel
         {
             if (IsInitialized)
             {
-                throw new ArgumentException($"{nameof(Dependencies)} already initialized");
+                throw new InvalidOperationException($"{nameof(Dependencies)} already initialized");
             }
 
             Container = iocContainer;
             IsInitialized = true;
         }
 
-        public static IContainer Container { get; private set; }
+        public static IContainer Container { get; private set; } = default!;
 
         public static IPageNavigationService PageNavigationService => Container.Resolve<IPageNavigationService>();
 

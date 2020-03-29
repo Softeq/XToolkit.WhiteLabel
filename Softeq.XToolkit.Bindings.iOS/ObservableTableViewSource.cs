@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
 using Foundation;
-using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Bindings.iOS.Extensions;
+using Softeq.XToolkit.Common;
 using UIKit;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings.iOS
 {
@@ -26,8 +28,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         public const string SelectedItemPropertyName = "SelectedItem";
 
-        private readonly NSString _defaultReuseId = new NSString("C");
-        private readonly Thread _mainThread;
+        protected const string DefaultReuseId = "C";
 
         private IList<TItem> _dataSource;
         private INotifyCollectionChanged _notifier;
@@ -35,24 +36,11 @@ namespace Softeq.XToolkit.Bindings.iOS
         private TItem _selectedItem;
         private UITableView _view;
 
-        public event EventHandler LastItemRequested;
-
-        /// <summary>
-        /// Called when item was selected
-        /// </summary>
-        public event EventHandler<GenericEventArgs<TItem>> ItemSelected;
-
-        /// <summary>
-        /// Called every time when user clicked by item (select/deselect)
-        /// </summary>
-        public event EventHandler<GenericEventArgs<TItem>> ItemTapped;
-
         /// <summary>
         ///     Constructs and initializes an instance of <see cref="ObservableTableViewSource{TItem}" />
         /// </summary>
         public ObservableTableViewSource()
         {
-            _mainThread = Thread.CurrentThread;
             AddAnimation = UITableViewRowAnimation.Automatic;
             DeleteAnimation = UITableViewRowAnimation.Automatic;
         }
@@ -75,8 +63,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         public Action<UITableViewCell, TItem, NSIndexPath> BindCellDelegate { get; set; }
 
         /// <summary>
-        /// A delegate to a method <see cref="CanEditRow" /> of <see cref="UITableViewSource" />.
-        /// This method determines whether a row can be edited in a UITableView.
+        ///     A delegate to a method <see cref="CanEditRow" /> of <see cref="UITableViewSource" />.
+        ///     This method determines whether a row can be edited in a UITableView.
         /// </summary>
         /// <value>The can edit cell delegate. </value>
         public Func<TItem, NSIndexPath, bool> CanEditCellDelegate { get; set; }
@@ -176,12 +164,32 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
         }
 
-        private NSString NsReuseId => _reuseId ?? _defaultReuseId;
+        protected NSString NsReuseId => _reuseId ?? new NSString(DefaultReuseId);
 
         /// <summary>
         ///     Occurs when a property of this instance changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        ///     Occurs when the last item gets requested in the list.
+        /// </summary>
+        public event EventHandler LastItemRequested;
+
+        /// <summary>
+        ///     Occurs when a new item gets selected in the list.
+        /// </summary>
+        public event EventHandler SelectionChanged;
+
+        /// <summary>
+        ///     Called when item was selected
+        /// </summary>
+        public event EventHandler<GenericEventArgs<TItem>> ItemSelected;
+
+        /// <summary>
+        ///     Called every time when user clicked by item (select/deselect)
+        /// </summary>
+        public event EventHandler<GenericEventArgs<TItem>> ItemTapped;
 
         public void SelectItem(TItem item)
         {
@@ -206,10 +214,10 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     Creates and returns a cell for the UITableView. Where needed, this method will
         ///     optimize the reuse of cells for a better performance.
         /// </summary>
-        /// <param name="view">The UITableView associated to this source.</param>
+        /// <param name="tableView">The UITableView associated to this source.</param>
         /// <param name="indexPath">The NSIndexPath pointing to the item for which the cell must be returned.</param>
         /// <returns>The created and initialised <see cref="UITableViewCell" />.</returns>
-        public override UITableViewCell GetCell(UITableView view, NSIndexPath indexPath)
+        public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             if (indexPath.Row + 1 == _dataSource.Count)
             {
@@ -218,9 +226,14 @@ namespace Softeq.XToolkit.Bindings.iOS
 
             if (_view == null)
             {
-                _view = view;
+                _view = tableView;
             }
 
+            return GetItemCell(tableView, indexPath);
+        }
+
+        protected virtual UITableViewCell GetItemCell(UITableView view, NSIndexPath indexPath)
+        {
             var cell = view.DequeueReusableCell(NsReuseId) ?? CreateCell(NsReuseId);
 
             try
@@ -282,7 +295,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         /// <param name="indexPath">The NSIndexPath pointing to the desired item.</param>
         /// <returns>The item selected by the NSIndexPath passed as parameter.</returns>
-        public TItem GetItem(NSIndexPath indexPath)
+        protected virtual TItem GetItem(NSIndexPath indexPath)
         {
             return _dataSource[indexPath.Row];
         }
@@ -342,8 +355,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// <param name="indexPath">The row's NSIndexPath.</param>
         public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
         {
-            var item = _dataSource != null ? _dataSource[indexPath.Row] : default(TItem);
-            SelectedItem = default(TItem);
+            var item = _dataSource != null ? _dataSource[indexPath.Row] : default;
+            SelectedItem = default;
             ItemTapped?.Invoke(this, new GenericEventArgs<TItem>(item));
         }
 
@@ -355,7 +368,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// <param name="indexPath">The row's NSIndexPath.</param>
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            var item = _dataSource != null ? _dataSource[indexPath.Row] : default(TItem);
+            var item = _dataSource != null ? _dataSource[indexPath.Row] : default;
             SelectedItem = item;
             ItemSelected?.Invoke(this, new GenericEventArgs<TItem>(item));
             ItemTapped?.Invoke(this, new GenericEventArgs<TItem>(item));
@@ -365,15 +378,15 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     Overrides the <see cref="UITableViewSource.RowsInSection" /> method
         ///     and returns the number of rows in the associated data source.
         /// </summary>
-        /// <param name="tableView">The active TableView.</param>
+        /// <param name="tableview">The active TableView.</param>
         /// <param name="section">The active section.</param>
         /// <returns>The number of rows in the data source.</returns>
         /// <remarks>In the current implementation, only one section is supported.</remarks>
-        public override nint RowsInSection(UITableView tableView, nint section)
+        public override nint RowsInSection(UITableView tableview, nint section)
         {
             if (_view == null)
             {
-                _view = tableView;
+                _view = tableview;
             }
 
             return _dataSource == null ? 0 : _dataSource.Count;
@@ -395,7 +408,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
             else
             {
-                BindCellDelegate(cell, (TItem)item, indexPath);
+                BindCellDelegate(cell, (TItem) item, indexPath);
             }
         }
 
@@ -436,7 +449,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                 return;
             }
 
-            Action act = () =>
+            NSThreadExtensions.ExecuteOnMainThread(() =>
             {
                 switch (e.Action)
                 {
@@ -468,7 +481,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                                 if (Equals(SelectedItem, item))
                                 {
-                                    SelectedItem = default(TItem);
+                                    SelectedItem = default;
                                 }
                             }
 
@@ -482,11 +495,13 @@ namespace Softeq.XToolkit.Bindings.iOS
                                 _view.ReloadData();
                                 break;
                             }
+
                             if (e.NewStartingIndex != e.OldStartingIndex)
                             {
                                 _view.MoveRow(NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
-                                              NSIndexPath.FromRowSection(e.NewStartingIndex, 0));
+                                    NSIndexPath.FromRowSection(e.NewStartingIndex, 0));
                             }
+
                             break;
                         }
 
@@ -494,23 +509,11 @@ namespace Softeq.XToolkit.Bindings.iOS
                         _view.ReloadData();
                         break;
                 }
-            };
-
-            var isMainThread = Thread.CurrentThread == _mainThread;
-
-            if (isMainThread)
-            {
-                act();
-            }
-            else
-            {
-                NSOperationQueue.MainQueue.AddOperation(act);
-                NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
-            }
+            });
         }
 
         /// <summary>
-        /// Cans the edit row.
+        ///     Cans the edit row.
         /// </summary>
         /// <returns><c>true</c>, if edit row was caned, <c>false</c> otherwise. Returns <c>true</c> by default.</returns>
         /// <param name="tableView">Table view.</param>
@@ -537,9 +540,5 @@ namespace Softeq.XToolkit.Bindings.iOS
             SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        /// <summary>
-        ///     Occurs when a new item gets selected in the list.
-        /// </summary>
-        public event EventHandler SelectionChanged;
     }
 }

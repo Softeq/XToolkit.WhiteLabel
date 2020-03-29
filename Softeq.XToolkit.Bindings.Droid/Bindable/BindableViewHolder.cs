@@ -1,12 +1,15 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Collections.Generic;
-using Android.Support.V7.Widget;
 using Android.Views;
+using AndroidX.RecyclerView.Widget;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.WeakSubscription;
+using Softeq.XToolkit.Common.Weak;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {
@@ -15,25 +18,27 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     {
         private IDisposable _itemViewClickSubscription;
 
-        public event EventHandler ItemClicked;
-
         protected BindableViewHolder(View itemView) : base(itemView)
         {
-            Bindings = new List<Binding>();
         }
+
+        public event EventHandler ItemClicked;
+
+        public List<Binding> Bindings { get; } = new List<Binding>();
+
+        public object DataContext { get; private set; }
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
-        public object DataContext { get; set; }
-        public List<Binding> Bindings { get; }
-
-        public abstract void SetBindings();
+        void IBindable.SetDataContext(object dataContext)
+        {
+            DataContext = dataContext;
+        }
 
         public virtual void OnAttachedToWindow()
         {
             if (_itemViewClickSubscription == null)
             {
-                // TODO YP: add event to linker ignore 
                 _itemViewClickSubscription = new WeakEventSubscription<View>(ItemView, nameof(ItemView.Click), OnItemViewClick);
             }
         }
@@ -48,12 +53,21 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         {
             DataContext = default(TViewModel);
 
-            Bindings.DetachAllAndClear();
+            DoDetachBindings();
         }
 
         protected virtual void OnItemViewClick(object sender, EventArgs e)
         {
             ItemClicked?.Invoke(this, e);
+        }
+
+        public virtual void DoAttachBindings()
+        {
+        }
+
+        public virtual void DoDetachBindings()
+        {
+            this.DetachBindings();
         }
     }
 }

@@ -4,34 +4,42 @@
 using System;
 using FFImageLoading;
 using Foundation;
-using UIKit;
-using Softeq.XToolkit.Bindings.iOS.Bindable;
-using Softeq.XToolkit.Bindings.Extensions;
 using Playground.Models;
+using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Bindings.iOS.Bindable;
+using UIKit;
 
 namespace Playground.iOS.Views
 {
     public partial class MovieCollectionViewCell : BindableCollectionViewCell<ItemViewModel>
     {
+        #region init
+
         public static readonly NSString Key = new NSString(nameof(MovieCollectionViewCell));
         public static readonly UINib Nib;
 
-        static MovieCollectionViewCell()
-        {
-            Nib = UINib.FromName(Key, NSBundle.MainBundle);
-        }
+        static MovieCollectionViewCell() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
         protected MovieCollectionViewCell(IntPtr handle) : base(handle)
         {
         }
 
-        public override void SetBindings()
+        #endregion
+
+        public override void DoAttachBindings()
         {
-            Poster.Image = null;
+            base.DoAttachBindings();
 
             ImageService.Instance.LoadUrl(ViewModel.IconUrl).Into(Poster);
 
             this.Bind(() => ViewModel.Title, () => Title.Text);
+        }
+
+        public override void DoDetachBindings()
+        {
+            base.DoDetachBindings();
+
+            Poster.Image = null;
         }
     }
 }

@@ -2,12 +2,10 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using Android.App;
+using System.Diagnostics;
+using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
@@ -17,7 +15,7 @@ using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
-    public abstract class MainApplicationBase : Application
+    public abstract class MainApplicationBase : Android.App.Application
     {
         protected MainApplicationBase(IntPtr handle, JniHandleOwnership transfer)
             : base(handle, transfer)
@@ -26,32 +24,55 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         public override void OnCreate()
         {
+            InitStrictMode();
+
             base.OnCreate();
 
-            CrossCurrentActivity.Current.Init(this);
+            InitializeExternalDependencies();
 
-            //init factory for bindings
-            BindingExtensions.Initialize(new DroidBindingFactory());
-
-            //init assembly sources for Activator.cs
-            AssemblySourceCache.Install();
-            AssemblySourceCache.ExtractTypes = assembly =>
-                assembly.GetExportedTypes()
-                    .Where(t => typeof(FragmentActivity).IsAssignableFrom(t)
-                                || typeof(Android.Support.V4.App.Fragment).IsAssignableFrom(t)
-                                || typeof(Android.Support.V4.App.DialogFragment).IsAssignableFrom(t));
-            var assemblies = SelectAssemblies();
-            AssemblySource.Instance.AddRange(assemblies);
-
-            //init dependencies
-            Bootstrapper.Init(assemblies);
-
-            //init ui thread helper
-            PlatformProvider.Current = new DroidPlatformProvider();
+            InitializeWhiteLabelRuntime();
         }
 
         protected abstract IBootstrapper Bootstrapper { get; }
 
-        protected abstract IList<Assembly> SelectAssemblies();
+        [Conditional("DEBUG")]
+        protected void InitStrictMode()
+        {
+            var builder = new StrictMode.ThreadPolicy.Builder()
+                    .DetectCustomSlowCalls()
+                    .DetectNetwork()
+                    .PenaltyLog();
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.M)
+            {
+                builder = builder.DetectResourceMismatches();
+            }
+
+            StrictMode.SetThreadPolicy(builder.Build());
+
+            StrictMode.SetVmPolicy(
+                new StrictMode.VmPolicy.Builder()
+                    .DetectActivityLeaks()
+                    .DetectLeakedClosableObjects()
+                    .PenaltyLog()
+                    .Build());
+        }
+
+        protected virtual void InitializeExternalDependencies()
+        {
+            CrossCurrentActivity.Current.Init(this);
+        }
+
+        protected virtual void InitializeWhiteLabelRuntime()
+        {
+            // Init Bindings
+            BindingExtensions.Initialize(new DroidBindingFactory());
+
+            // Init platform helpers
+            PlatformProvider.Current = new DroidPlatformProvider();
+
+            // Init dependencies
+            Bootstrapper.Initialize();
+        }
     }
 }

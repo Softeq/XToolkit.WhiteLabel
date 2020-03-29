@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
         public T SelectedValue { get; set; }
 
-        public event Action<T> ValueChanged;
+        public event Action<T>? ValueChanged;
 
         public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
         {

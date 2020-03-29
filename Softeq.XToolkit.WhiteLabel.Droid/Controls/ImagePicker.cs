@@ -13,18 +13,20 @@ using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
+    [Obsolete("Use WhiteLabel.ImagePicker.IImagePickerService")]
     public interface IImagePickerService
     {
         Task<string> PickImageAsync();
         Task<string> TakePhotoAsync();
     }
 
+    [Obsolete("Use IImagePickerService")]
     public class ImagePicker
     {
         private const string Png = ".png";
+        private readonly IImagePickerService _imagePickerService;
 
         private readonly IPermissionsManager _permissionsManager;
-        private readonly IImagePickerService _imagePickerService;
 
         public ImagePicker(
             IPermissionsManager permissionsManager,
@@ -38,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public int MaxImageWidth { get; set; } = 1125;
 
-        public async void OpenGallery()
+        public async Task OpenGallery()
         {
             var result = await _permissionsManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
             if (result != PermissionStatus.Granted)
@@ -50,7 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             Execute.BeginOnUIThread(() => { ViewModel.ImageCacheKey = key; });
         }
 
-        public async void OpenCamera()
+        public async Task OpenCamera()
         {
             var result = await _permissionsManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
             if (result != PermissionStatus.Granted)
@@ -69,18 +71,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         }
 
         // TODO YP: refactor
-        public Func<(Task<Stream>, string)> GetStreamFunc()
+        public Func<(Task<Stream?>?, string?)> GetStreamFunc()
         {
-            (Task<Stream>, string) getStreamFunc()
+            (Task<Stream?>?, string?) getStreamFunc()
             {
                 if (ViewModel.ImageCacheKey == null)
                 {
-                    return (Task.FromResult(default(Stream)), default(string));
+                    return (Task.FromResult(default(Stream)), default);
                 }
 
                 var imageExtension = GetImageExtension();
 
-                return (GetLoadTaskFunc(imageExtension)(), GetFileExtension(imageExtension));
+                var func = GetLoadTaskFunc(imageExtension);
+                return (func == null ? null : func(), GetFileExtension(imageExtension));
             }
 
             return getStreamFunc;
@@ -103,7 +106,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             };
         }
 
-        private Func<Task<Stream>> GetLoadTaskFunc(ImageExtension imageExtension)
+        private Func<Task<Stream?>>? GetLoadTaskFunc(ImageExtension imageExtension)
         {
             switch (imageExtension)
             {
@@ -112,7 +115,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
                 case ImageExtension.Jpg:
                     return CreateJpegLoadTask;
                 default:
-                    return default(Func<Task<Stream>>);
+                    return default;
             }
         }
 
@@ -141,7 +144,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             return imageExtension;
         }
 
-        private async Task<Stream> CreateJpegLoadTask()
+        private async Task<Stream?> CreateJpegLoadTask()
         {
             try
             {
@@ -151,10 +154,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             {
                 LogError(ex);
             }
-            return default(Stream);
+
+            return default;
         }
 
-        private async Task<Stream> CreatePngLoadTask()
+        private async Task<Stream?> CreatePngLoadTask()
         {
             try
             {
@@ -164,7 +168,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             {
                 LogError(ex);
             }
-            return default(Stream);
+
+            return default;
         }
 
         private TaskParameter CreateLoadTask()

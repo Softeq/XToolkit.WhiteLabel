@@ -1,11 +1,13 @@
 ﻿using Softeq.XToolkit.Common.Tests.Helpers;
+using Softeq.XToolkit.Common.Tests.WeakTests.Utils;
+using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
     public partial class WeakDelegatesTests
     {
-        public class NestedTestClass : IWeakActionProvider,
-        IGenericWeakActionProvider, IWeakFuncProvider, IGenericWeakFuncProvider
+        public class NestedTestClass :
+            IWeakActionProvider, IGenericWeakActionProvider, IWeakFuncProvider, IGenericWeakFuncProvider
         {
             private readonly IMethodRunner _callCounter;
 

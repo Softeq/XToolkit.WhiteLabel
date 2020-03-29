@@ -1,7 +1,9 @@
-﻿
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using System.IO;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
@@ -10,14 +12,18 @@ using Android.Media;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
-using Android.Support.V4.Content;
+using AndroidX.Core.Content;
+using Java.IO;
 using Plugin.CurrentActivity;
-using ImageOrientation = Android.Media.Orientation;
+using AUri = Android.Net.Uri;
 using Debug = System.Diagnostics.Debug;
+using ImageOrientation = Android.Media.Orientation;
+using IOException = System.IO.IOException;
+using Stream = System.IO.Stream;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 {
-    [Activity(Label = "ImagePickerActivity")]
+    [Activity]
     internal class ImagePickerActivity : Activity
     {
         public const string ModeKey = "Mode";
@@ -25,18 +31,31 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
         public const int GalleryMode = 2;
 
         private const string ImagesFolder = "Pictures";
+        private const string CameraFileUriKey = "CameraFileUri";
 
-        private Android.Net.Uri _fileUri;
-        private Intent _pickIntent;
+        private AUri? _fileUri;
+        private Intent _pickIntent = default!;
 
-        public static event EventHandler<Bitmap> ImagePicked;
+        public static event EventHandler<Bitmap?>? ImagePicked;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            // Activity is recreated after having been stopped by the system
+            if (savedInstanceState != null && !savedInstanceState.IsEmpty)
+            {
+                if (savedInstanceState.GetParcelable(CameraFileUriKey) is AUri fileUri)
+                {
+                    _fileUri = fileUri;
+                }
+
+                return;
+            }
+
             try
             {
-                switch (Intent.GetIntExtra(ModeKey, default(int)))
+                switch (Intent.GetIntExtra(ModeKey, default))
                 {
                     case CameraMode:
                         CaptureCamera();
@@ -56,31 +75,54 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             }
         }
 
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            if (_fileUri != null)
+            {
+                outState.PutParcelable(CameraFileUriKey, _fileUri);
+            }
+
+            base.OnSaveInstanceState(outState);
+        }
+
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
-            Android.Net.Uri uri = null;
-            Bitmap bitmap = null;
-            switch (requestCode)
+            Bitmap? bitmap = null;
+
+            if (resultCode != Result.Ok)
             {
-                case CameraMode:
-                    uri = _fileUri;
-                    break;
-                case GalleryMode:
-                    uri = data?.Data;
-                    break;
+                OnImagePicked(null);
+                return;
             }
+
+            var uri = requestCode switch
+            {
+                CameraMode => _fileUri,
+                GalleryMode => data?.Data,
+                _ => null
+            };
+
             if (uri != null)
             {
                 bitmap = MediaStore.Images.Media.GetBitmap(CrossCurrentActivity.Current.AppContext.ContentResolver, uri);
-                using (var stream = GetContentSrream(CrossCurrentActivity.Current.AppContext, uri))
+
+                if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
                 {
-                    bitmap = FixRotation(bitmap, new ExifInterface(stream)).Result;
+                    using (var stream = GetContentStream(CrossCurrentActivity.Current.AppContext, uri))
+                    {
+                        bitmap = FixRotation(bitmap, new ExifInterface(stream)).Result;
+                    }
+                }
+                else
+                {
+                    bitmap = FixRotation(bitmap, new ExifInterface(uri.ToString())).Result;
                 }
             }
+
             OnImagePicked(bitmap);
         }
 
-        private void OnImagePicked(Bitmap bitmap)
+        private void OnImagePicked(Bitmap? bitmap)
         {
             ImagePicked?.Invoke(this, bitmap);
             Finish();
@@ -112,62 +154,68 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                     return originalImage;
                 }
 
-                var matrix = new Matrix();
-                matrix.PostRotate(rotation);
-                var rotatedImage = Bitmap.CreateBitmap(originalImage, 0, 0, originalImage.Width, originalImage.Height, matrix, true);
-                originalImage.Recycle();
-                originalImage.Dispose();
-                GC.Collect();
-                return rotatedImage;
+                return RotateImage(originalImage, rotation);
             });
         }
 
+        [SuppressMessage("ReSharper", "RedundantCatchClause")]
         private int GetRotation(ExifInterface exif)
         {
             if (exif == null)
+            {
                 return 0;
+            }
+
             try
             {
-                var orientation = (ImageOrientation) exif.GetAttributeInt(ExifInterface.TagOrientation, (int) ImageOrientation.Normal);
+                var orientation =
+                    (ImageOrientation) exif.GetAttributeInt(ExifInterface.TagOrientation, (int) ImageOrientation.Normal);
 
-                switch (orientation)
+                return orientation switch
                 {
-                    case ImageOrientation.Rotate90:
-                        return 90;
-                    case ImageOrientation.Rotate180:
-                        return 180;
-                    case ImageOrientation.Rotate270:
-                        return 270;
-                    default:
-                        return 0;
-                }
+                    ImageOrientation.Rotate90 => 90,
+                    ImageOrientation.Rotate180 => 180,
+                    ImageOrientation.Rotate270 => 270,
+                    _ => 0
+                };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 #if DEBUG
-                throw ex;
+                throw;
 #else
                 return 0;
 #endif
             }
         }
 
-        private System.IO.Stream GetContentSrream(Context context, Android.Net.Uri uri)
+        private Bitmap RotateImage(Bitmap originalImage, float degrees)
         {
-            var stream = System.IO.Stream.Null;
+            var matrix = new Matrix();
+            matrix.PostRotate(degrees);
+            var rotatedImage = Bitmap.CreateBitmap(originalImage, 0, 0, originalImage.Width, originalImage.Height, matrix, true);
+            originalImage.Recycle();
+            originalImage.Dispose();
+            GC.Collect();
+            return rotatedImage;
+        }
+
+        private Stream GetContentStream(Context context, AUri uri)
+        {
+            var stream = Stream.Null;
             try
             {
                 stream = context.ContentResolver.OpenInputStream(uri);
             }
-            catch (Java.IO.FileNotFoundException fnfEx)
+            catch (FileNotFoundException ex)
             {
-                Debug.WriteLine("Unable to save picked file from disk " + fnfEx);
+                Debug.WriteLine("Unable to save picked file from disk " + ex);
             }
 
             return stream;
         }
 
-        private Android.Net.Uri GetOutputMediaFile(Context context, string subdir, string name)
+        private AUri GetOutputMediaFile(Context context, string subdir, string? name)
         {
             subdir = subdir ?? string.Empty;
 
@@ -178,7 +226,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             }
 
             var directory = context.CacheDir;
-            using (var mediaStorageDir = new Java.IO.File(directory, subdir))
+            using (var mediaStorageDir = new File(directory, subdir))
             {
                 if (!mediaStorageDir.Exists())
                 {
@@ -187,13 +235,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
                         throw new IOException("Couldn't create directory, have you added the WRITE_EXTERNAL_STORAGE permission?");
                     }
 
-                    using (var nomedia = new Java.IO.File(mediaStorageDir, ".nomedia"))
+                    using (var nomedia = new File(mediaStorageDir, ".nomedia"))
                     {
                         nomedia.CreateNewFile();
                     }
                 }
 
-                return FileProvider.GetUriForFile(context, $"{context.PackageName}.fileprovider", new Java.IO.File(GetUniquePath(mediaStorageDir.Path, name)));
+                return FileProvider.GetUriForFile(context, $"{context.PackageName}.fileprovider",
+                    new File(GetUniquePath(mediaStorageDir.Path, name!)));
             }
         }
 
@@ -209,13 +258,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
             var nname = name + ext;
             var i = 1;
-            while (File.Exists(System.IO.Path.Combine(folder, nname)))
+            while (System.IO.File.Exists(System.IO.Path.Combine(folder, nname)))
             {
                 nname = name + "_" + (i++) + ext;
             }
 
             return System.IO.Path.Combine(folder, nname);
         }
-
     }
 }

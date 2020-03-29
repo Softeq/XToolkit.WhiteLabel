@@ -1,11 +1,11 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using NSubstitute;
-using Softeq.XToolkit.Common.Interfaces;
+using NSubstitute;
+using Softeq.XToolkit.Common.Files;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common
+namespace Softeq.XToolkit.Common.Tests
 {
     public class FilesProviderTests
     {

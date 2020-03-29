@@ -4,12 +4,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.Support.Design.Widget;
 using Android.Views;
+using Google.Android.Material.Snackbar;
 using Java.Lang;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -19,9 +19,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
     public class DroidToastService
     {
-        private readonly ToastSettings _toastSettings;
         private readonly ILogger _logger;
         private readonly Queue<ToastModel> _queue;
+        private readonly ToastSettings _toastSettings;
 
         private bool _isBusy;
 
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         public void Enqueue(ToastModel model)
         {
             _queue.Enqueue(model);
-            StartHandleImp().SafeTaskWrapper(_logger);
+            StartHandleImp().FireAndForget(_logger);
         }
 
         private async Task StartHandleImp()
@@ -70,7 +70,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
                 if (activity is ActivityBase activityBase)
                 {
-                    toastContainerComponent = activityBase.ViewComponents.FirstOrDefault(x => x.Key == nameof(ToastContainerComponent)) as ToastContainerComponent;
+                    toastContainerComponent =
+                        activityBase.ViewComponents.FirstOrDefault(x => x.Key == nameof(ToastContainerComponent)) as
+                            ToastContainerComponent;
                 }
 
                 var view = toastContainerComponent == null
@@ -101,7 +103,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             private readonly TaskCompletionSource<bool> _taskCompletionSource;
 
-            private CommandAction _commandAction;
+            private CommandAction? _commandAction;
 
             public SnackbarCallback(
                 TaskCompletionSource<bool> taskCompletionSource,
@@ -115,18 +117,27 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             {
                 base.OnDismissed(transientBottomBar, eventCode);
 
-                _commandAction?.Command?.Execute(this);
+                _commandAction?.Command.Execute(this);
                 _commandAction = null;
 
                 _taskCompletionSource.TrySetResult(true);
             }
         }
     }
-    
+
     public class ToastModel
     {
+        public ToastModel(string label, CommandAction commandAction, CommandAction altCommandAction)
+        {
+            Label = label;
+            CommandAction = commandAction;
+            AltCommandAction = altCommandAction;
+        }
+
         public string Label { get; set; }
+
         public CommandAction CommandAction { get; set; }
+
         public CommandAction AltCommandAction { get; set; }
     }
 

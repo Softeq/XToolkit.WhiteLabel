@@ -6,10 +6,12 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Diagnostics;
-using System.Threading;
 using Foundation;
-using Softeq.XToolkit.Common.EventArguments;
+using Softeq.XToolkit.Bindings.iOS.Extensions;
+using Softeq.XToolkit.Common;
 using UIKit;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings.iOS
 {
@@ -32,8 +34,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         public const int InfiniteItemsCount = 100000;
 
-        private readonly NSString _defaultReuseId = new NSString("C");
-        private readonly Thread _mainThread;
+        protected const string DefaultReuseId = "C";
 
         private IList<TItem> _dataSource;
         private INotifyCollectionChanged _notifier;
@@ -41,14 +42,11 @@ namespace Softeq.XToolkit.Bindings.iOS
         private TItem _selectedItem;
         private UICollectionView _view;
 
-        public event EventHandler<GenericEventArgs<TItem>> ItemClicked;
-
         /// <summary>
         ///     Creates and initializes a new instance of <see cref="ObservableCollectionViewSource{TItem, TCell}" />
         /// </summary>
         public ObservableCollectionViewSource()
         {
-            _mainThread = Thread.CurrentThread;
         }
 
         /// <summary>
@@ -143,12 +141,22 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
         }
 
-        private NSString NsReuseId => _reuseId ?? _defaultReuseId;
+        protected NSString NsReuseId => _reuseId ?? new NSString(DefaultReuseId);
 
         /// <summary>
         ///     Occurs when a property of this instance changes.
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        ///     Occurs when a item was clicked in the UICollectionView.
+        /// </summary>
+        public event EventHandler<GenericEventArgs<TItem>> ItemClicked;
+
+        /// <summary>
+        ///     Occurs when a new item gets selected in the UICollectionView.
+        /// </summary>
+        public event EventHandler SelectionChanged;
 
         /// <summary>
         ///     Overrides the <see cref="UICollectionViewSource.GetCell" /> method.
@@ -160,7 +168,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// <returns>The created and initialised <see cref="UICollectionViewCell" />.</returns>
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            var cell = (TCell)collectionView.DequeueReusableCell(NsReuseId, indexPath);
+            var cell = (TCell) collectionView.DequeueReusableCell(NsReuseId, indexPath);
 
             try
             {
@@ -206,6 +214,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             {
                 return 0;
             }
+
             return IsInfiniteScroll ? InfiniteItemsCount : _dataSource.Count;
         }
 
@@ -247,7 +256,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// <param name="indexPath">The NSIndexPath pointing to the element.</param>
         public override void ItemDeselected(UICollectionView collectionView, NSIndexPath indexPath)
         {
-            SelectedItem = default(TItem);
+            SelectedItem = default;
         }
 
         /// <summary>
@@ -298,7 +307,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                     "BindCell was called but no BindCellDelegate was found");
             }
 
-            BindCellDelegate((TCell)cell, (TItem)item, indexPath);
+            BindCellDelegate((TCell) cell, (TItem) item, indexPath);
         }
 
         /// <summary>
@@ -322,13 +331,14 @@ namespace Softeq.XToolkit.Bindings.iOS
                 return;
             }
 
-            Action act = () =>
+            NSThreadExtensions.ExecuteOnMainThread(() =>
             {
                 if (IsInfiniteScroll)
                 {
                     _view.ReloadData();
                     return;
                 }
+
                 switch (e.Action)
                 {
                     case NotifyCollectionChangedAction.Add:
@@ -359,7 +369,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                                 if (Equals(SelectedItem, item))
                                 {
-                                    SelectedItem = default(TItem);
+                                    SelectedItem = default;
                                 }
                             }
 
@@ -371,19 +381,7 @@ namespace Softeq.XToolkit.Bindings.iOS
                         _view.ReloadData();
                         break;
                 }
-            };
-
-            var isMainThread = Thread.CurrentThread == _mainThread;
-
-            if (isMainThread)
-            {
-                act();
-            }
-            else
-            {
-                NSOperationQueue.MainQueue.AddOperation(act);
-                NSOperationQueue.MainQueue.WaitUntilAllOperationsAreFinished();
-            }
+            });
         }
 
         private void SetView(UICollectionView collectionView)
@@ -395,10 +393,5 @@ namespace Softeq.XToolkit.Bindings.iOS
 
             _view = collectionView;
         }
-
-        /// <summary>
-        ///     Occurs when a new item gets selected in the UICollectionView.
-        /// </summary>
-        public event EventHandler SelectionChanged;
     }
 }

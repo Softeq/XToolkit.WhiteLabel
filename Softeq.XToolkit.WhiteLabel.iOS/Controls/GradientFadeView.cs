@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
     public class GradientFadeView : GradientView
     {
         private bool _isFromTopToBottom;
-        private UIColor _mainColor;
+        private UIColor _mainColor = default!;
 
         public GradientFadeView(IntPtr handle) : base(handle)
         {
@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         {
             var topColor = IsFromTopToBottom ? _mainColor.CGColor : _mainColor.ColorWithAlpha(0).CGColor;
             var bottomColor = !IsFromTopToBottom ? _mainColor.CGColor : _mainColor.ColorWithAlpha(0).CGColor;
-            GradientLayer.Colors = new[] {topColor, bottomColor};
+            GradientLayer.Colors = new[] { topColor, bottomColor };
         }
     }
 }

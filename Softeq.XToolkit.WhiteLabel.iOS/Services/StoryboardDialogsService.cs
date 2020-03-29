@@ -4,14 +4,16 @@
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
@@ -20,119 +22,184 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         private readonly ILogger _logger;
         private readonly IViewLocator _viewLocator;
-        private readonly IContainer _iocContainer;
+        private readonly IContainer _container;
 
         public StoryboardDialogsService(
             IViewLocator viewLocator,
             ILogManager logManager,
-            IContainer iocContainer)
+            IContainer container)
         {
             _viewLocator = viewLocator;
-            _iocContainer = iocContainer;
+            _container = container;
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
-        public async Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
-            where TViewModel : IDialogViewModel
-        {
-            var result = default(TResult);
-
-            try
-            {
-                var viewModel = _iocContainer.Resolve<TViewModel>();
-                viewModel.ApplyParameters(parameters);
-                var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
-
-                var resultObject = await viewModel.DialogComponent.Task;
-
-                if (resultObject is TResult tResult)
-                {
-                    result = tResult;
-                }
-
-                await DismissViewController(viewController);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-            }
-
-            return result;
-        }
-
-        public async Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
-            where TViewModel : IDialogViewModel
-        {
-            try
-            {
-                var viewModel = _iocContainer.Resolve<TViewModel>();
-                viewModel.ApplyParameters(parameters);
-                var viewController = await PresentModalViewController(viewModel).ConfigureAwait(false);
-
-                await viewModel.DialogComponent.Task;
-                await DismissViewController(viewController);
-            }
-            catch (Exception e)
-            {
-                _logger.Error(e);
-            }
-        }
-
-        public Task<bool> ShowDialogAsync(string title,
+        [Obsolete("Use ShowDialogAsync(new ConfirmDialogConfig()) instead.")]
+        public Task<bool> ShowDialogAsync(
+            string title,
             string message,
             string okButtonText,
-            string cancelButtonText = null,
-            OpenDialogOptions options = null)
+            string? cancelButtonText = null,
+            OpenDialogOptions? options = null)
         {
-            var dialogResult = new TaskCompletionSource<bool>();
+            return ShowDialogAsync(new ConfirmDialogConfig
+            {
+                Title = title,
+                Message = message,
+                AcceptButtonText = okButtonText,
+                CancelButtonText = cancelButtonText,
+                IsDestructive = options?.DialogType == DialogType.Destructive
+            });
+        }
+
+        public virtual Task ShowDialogAsync(AlertDialogConfig config)
+        {
+            return new IosAlertDialog(_viewLocator, config).ShowAsync();
+        }
+
+        public virtual Task<bool> ShowDialogAsync(ConfirmDialogConfig config)
+        {
+            return new IosConfirmDialog(_viewLocator, config).ShowAsync();
+        }
+
+        public virtual Task<string> ShowDialogAsync(ActionSheetDialogConfig config)
+        {
+            return new IosActionSheetDialog(_viewLocator, config).ShowAsync();
+        }
+
+        public Task ShowForViewModel<TViewModel>(
+            IEnumerable<NavigationParameterModel>? parameters = null)
+            where TViewModel : IDialogViewModel
+        {
+            return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
+        }
+
+        public Task<TResult> ShowForViewModel<TViewModel, TResult>(
+            IEnumerable<NavigationParameterModel>? parameters = null)
+            where TViewModel : IDialogViewModel
+        {
+            return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
+        }
+
+        public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
+           IEnumerable<NavigationParameterModel>? parameters = null)
+           where TViewModel : IDialogViewModel
+        {
+            try
+            {
+                var presentationResult = await ShowViewModelForResultAsync<TViewModel>(parameters);
+
+                var dismissionTask = DismissViewControllerAsync(presentationResult.ViewController);
+
+                return new DialogResult(dismissionTask);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+            }
+            return default!;
+        }
+
+        public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
+           IEnumerable<NavigationParameterModel>? parameters = null)
+           where TViewModel : IDialogViewModel
+        {
+            try
+            {
+                var presentationResult = await ShowViewModelForResultAsync<TViewModel>(parameters);
+
+                var result = presentationResult.Result is TResult convertedResult
+                    ? convertedResult
+                    : default!;
+
+                var dismissionTask = DismissViewControllerAsync(presentationResult.ViewController);
+
+                return new DialogResult<TResult>(result, dismissionTask);
+            }
+            catch (Exception e)
+            {
+                _logger.Error(e);
+            }
+            return default!;
+        }
+
+        private async Task<PresentationResult> ShowViewModelForResultAsync<TViewModel>(
+            IEnumerable<NavigationParameterModel>? parameters)
+            where TViewModel : IDialogViewModel
+        {
+            var viewModel = _container.Resolve<TViewModel>();
+            viewModel.ApplyParameters(parameters);
+            var presentedViewController = await PresentModalViewControllerAsync(viewModel).ConfigureAwait(false);
+            try
+            {
+                var dialogResult = await viewModel.DialogComponent.Task;
+
+                return new PresentationResult(presentedViewController, dialogResult);
+            }
+            catch (Exception e)
+            {
+                _logger.Warn(e);
+            }
+            return new PresentationResult(presentedViewController, null);
+        }
+
+        private Task<PresentedViewController> PresentModalViewControllerAsync(object viewModel)
+        {
+            var tcs = new TaskCompletionSource<PresentedViewController>();
 
             Execute.BeginOnUIThread(() =>
             {
-                var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-                var okActionStyle = options?.DialogType == DialogType.Destructive
-                    ? UIAlertActionStyle.Destructive
-                    : UIAlertActionStyle.Default;
-                alertController.AddAction(UIAlertAction.Create(okButtonText, okActionStyle,
-                    action => { dialogResult.TrySetResult(true); }));
-
-                if (cancelButtonText != null)
-                {
-                    alertController.AddAction(UIAlertAction.Create(cancelButtonText, UIAlertActionStyle.Cancel,
-                        action => { dialogResult.TrySetResult(false); }));
-                }
-
-                var viewController = _viewLocator.GetTopViewController();
-                viewController.PresentViewController(alertController, true, null);
+                var targetViewController = _viewLocator.GetView(viewModel);
+                var topViewController = _viewLocator.GetTopViewController();
+                topViewController.View.EndEditing(true);
+                topViewController.PresentViewController(targetViewController, true, null);
+                tcs.TrySetResult(new PresentedViewController(topViewController, targetViewController));
             });
 
-            return dialogResult.Task;
+            return tcs.Task;
         }
 
-        private Task<UIViewController> PresentModalViewController(object viewModel)
-        {
-            var source = new TaskCompletionSource<UIViewController>();
-
-            Execute.BeginOnUIThread(() =>
-            {
-                var controller = _viewLocator.GetView(viewModel);
-                controller.ModalPresentationStyle = UIModalPresentationStyle.OverFullScreen;
-                var viewController = _viewLocator.GetTopViewController();
-                viewController.View.EndEditing(true);
-                viewController.PresentViewController(controller, true, null);
-                source.TrySetResult(viewController);
-            });
-
-            return source.Task;
-        }
-
-        private static async Task DismissViewController(UIViewController viewController)
+        private Task<bool> DismissViewControllerAsync(PresentedViewController controllerRequest)
         {
             var tcs = new TaskCompletionSource<bool>();
             Execute.BeginOnUIThread(() =>
-                viewController.DismissViewController(true, () => { tcs.TrySetResult(true); }));
-            await tcs.Task;
+            {
+                try
+                {
+                    controllerRequest.Modal.View.EndEditing(true);
+                    controllerRequest.Parent.DismissViewController(true, () => tcs.TrySetResult(true));
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex);
+                    tcs.TrySetResult(false);
+                }
+            });
+            return tcs.Task;
+        }
+
+        private class PresentationResult
+        {
+            public PresentationResult(PresentedViewController viewController, object? result)
+            {
+                ViewController = viewController;
+                Result = result;
+            }
+
+            public PresentedViewController ViewController { get; }
+            public object? Result { get; }
+        }
+
+        private class PresentedViewController
+        {
+            public PresentedViewController(UIViewController parent, UIViewController modal)
+            {
+                Parent = parent;
+                Modal = modal;
+            }
+
+            public UIViewController Parent { get; }
+            public UIViewController Modal { get; }
         }
     }
 }

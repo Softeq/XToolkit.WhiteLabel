@@ -1,4 +1,7 @@
-﻿using System.Threading.Tasks;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
 using Plugin.CurrentActivity;
@@ -12,14 +15,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
     {
         private readonly IPermissionsManager _permissionsManager;
 
+        private TaskCompletionSource<Bitmap?>? _taskCompletionSource;
+
         public DroidImagePickerService(IPermissionsManager permissionsManager)
         {
             _permissionsManager = permissionsManager;
         }
 
-        private TaskCompletionSource<Bitmap> _taskCompletionSource;
-
-        public async Task<ImagePickerResult> PickPhotoAsync(float quality)
+        public async Task<ImagePickerResult?> PickPhotoAsync(float quality)
         {
             var permissionStatus = await _permissionsManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
 
@@ -31,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             return await GetImageAsync(ImagePickerActivity.GalleryMode, quality).ConfigureAwait(false);
         }
 
-        public async Task<ImagePickerResult> TakePhotoAsync(float quality)
+        public async Task<ImagePickerResult?> TakePhotoAsync(float quality)
         {
             var permissionStatus = await _permissionsManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
 
@@ -49,7 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
 
             intent.PutExtra(ImagePickerActivity.ModeKey, mode);
 
-            _taskCompletionSource = new TaskCompletionSource<Bitmap>();
+            _taskCompletionSource = new TaskCompletionSource<Bitmap?>();
 
             ImagePickerActivity.ImagePicked += OnImagePicked;
 
@@ -65,10 +68,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ImagePicker
             };
         }
 
-        private void OnImagePicked(object sender, Bitmap e)
+        private void OnImagePicked(object sender, Bitmap? e)
         {
             ImagePickerActivity.ImagePicked -= OnImagePicked;
-            _taskCompletionSource.SetResult(e);
+            _taskCompletionSource!.SetResult(e);
         }
     }
 }

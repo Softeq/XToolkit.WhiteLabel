@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -17,11 +17,14 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -31,22 +34,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
-    <AndroidLinkMode>None</AndroidLinkMode>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
-    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -57,28 +55,49 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
-      <Version>28.0.0.1</Version>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat">
+      <Version>1.1.0</Version>
     </PackageReference>
     <PackageReference Include="Plugin.Permissions">
       <Version>5.0.0-beta</Version>
     </PackageReference>
-  </ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.Utils">
+      <Version>1.0.0</Version>
+    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData">
+      <Version>2.2.0</Version>
+    </PackageReference>
+</ItemGroup>
   <ItemGroup>
+    <Compile Include="Extended\DroidChooseBetterDateDialog.cs" />
+    <Compile Include="Extended\DroidExtendedDialogsService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
-    <Compile Include="Views\Pages\CollectionPageActivity.cs" />
-    <Compile Include="Views\Pages\MainPageActivity.cs" />
     <Compile Include="Views\SplashActivity.cs" />
-    <Compile Include="Views\Pages\StartPageActivity.cs" />
-    <Compile Include="Views\Pages\Temp\RedFragment.cs" />
-    <Compile Include="Views\Pages\Temp\BlueFragment.cs" />
-    <Compile Include="Views\Pages\Temp\GreenFragment.cs" />
-    <Compile Include="Views\Pages\Temp\YellowFragment.cs" />
     <Compile Include="CustomDroidBootstrapper.cs" />
-    <Compile Include="Views\Pages\PermissionsPageActivity.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
+    <Compile Include="Views\Pages\DetailsPageActivity.cs" />
+    <Compile Include="Views\BottomTabs\BottomTabsPageActivity.cs" />
+    <Compile Include="Views\BottomTabs\First\YellowActivity.cs" />
+    <Compile Include="Views\BottomTabs\Second\GreenFragment.cs" />
+    <Compile Include="Views\MainPageActivity.cs" />
+    <Compile Include="Views\StartPageActivity.cs" />
+    <Compile Include="Views\Components\PermissionsPageActivity.cs" />
+    <Compile Include="Views\Collections\CollectionPageActivity.cs" />
+    <Compile Include="Views\BottomTabs\First\RedFragment.cs" />
+    <Compile Include="Views\BottomTabs\Second\BlueFragment.cs" />
+    <Compile Include="Views\EmptyPageActivity.cs" />
+    <Compile Include="Views\Dialogs\DialogsPageActivity.cs" />
+    <Compile Include="Views\Dialogs\SimpleDialogPageFragment.cs" />
+    <Compile Include="Views\Collections\GroupedCollectionPageActivity.cs" />
+    <Compile Include="Views\Collections\ProductViewHolder.cs" />
+    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Views\Collections\MovieCollectionViewHolder.cs" />
+    <Compile Include="Views\Collections\GroupedTablePageActivity.cs" />
+    <Compile Include="Views\Collections\TablePageActivity.cs" />
+    <Compile Include="Views\Controls\PhotoBrowserActivity.cs" />
+    <Compile Include="Views\Components\ConnectivityPageActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -111,12 +130,26 @@
     <AndroidResource Include="Resources\drawable\background_splash.xml" />
     <AndroidResource Include="Resources\drawable\ic_chat.png" />
     <AndroidResource Include="Resources\drawable\ic_settings.png" />
-    <AndroidResource Include="Resources\layout\fragment_red.axml" />
-    <AndroidResource Include="Resources\layout\fragment_yellow.axml" />
-    <AndroidResource Include="Resources\layout\fragment_green.axml" />
-    <AndroidResource Include="Resources\layout\fragment_blue.axml" />
+    <AndroidResource Include="Resources\layout\fragment_red.xml" />
+    <AndroidResource Include="Resources\layout\activity_yellow.xml" />
+    <AndroidResource Include="Resources\layout\fragment_green.xml" />
+    <AndroidResource Include="Resources\layout\fragment_blue.xml" />
     <AndroidResource Include="Resources\layout\item_movie.xml" />
-    <AndroidResource Include="Resources\layout\activity_permissions.axml" />
+    <AndroidResource Include="Resources\layout\activity_permissions.xml" />
+    <AndroidResource Include="Resources\layout\activity_main.xml" />
+    <AndroidResource Include="Resources\layout\item_main.xml" />
+    <AndroidResource Include="Resources\layout\item_main_header.xml" />
+    <AndroidResource Include="Resources\layout\activity_details.xml" />
+    <AndroidResource Include="Resources\menu\main.xml" />
+    <AndroidResource Include="Resources\layout\activity_empty.xml" />
+    <AndroidResource Include="Resources\layout\activity_dialogs.xml" />
+    <AndroidResource Include="Resources\layout\dialog_simple_dialog.xml" />
+    <AndroidResource Include="Resources\layout\activity_group_collection.xml" />
+    <AndroidResource Include="Resources\layout\item_product.xml" />
+    <AndroidResource Include="Resources\layout\item_product_header.xml" />
+    <AndroidResource Include="Resources\layout\activity_imagepicker.xml" />
+    <AndroidResource Include="Resources\layout\activity_connectivity.xml" />
+    <AndroidResource Include="Resources\xml\file_paths.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
@@ -155,20 +188,10 @@
       <Project>{955A4101-4989-4764-9134-E621FC4D9C86}</Project>
       <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\" />
-    <Folder Include="Views\Pages\" />
-    <Folder Include="Resources\drawable\" />
-    <Folder Include="Resources\menu\" />
-    <Folder Include="Views\Pages\Temp\" />
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
+      <Project>{044152C1-3B2A-45A6-B233-80A51C511129}</Project>
+      <Name>Softeq.XToolkit.Connectivity</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-    Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-  -->
 </Project>

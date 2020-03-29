@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Android.OS;
-using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
-using Softeq.XToolkit.Common.WeakSubscription;
+using AndroidX.RecyclerView.Widget;
+using Softeq.XToolkit.Common.Weak;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings.Droid
 {
@@ -19,9 +21,6 @@ namespace Softeq.XToolkit.Bindings.Droid
         private IList<T> _dataSource;
         private INotifyCollectionChanged _notifier;
         private IDisposable _subscription;
-
-        public event EventHandler LastItemRequested;
-        public event EventHandler DataReloaded;
 
         public ObservableRecyclerViewAdapter(
             IList<T> items,
@@ -57,6 +56,9 @@ namespace Softeq.XToolkit.Bindings.Droid
 
         public override int ItemCount => _dataSource.Count;
 
+        public event EventHandler LastItemRequested;
+        public event EventHandler DataReloaded;
+
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
             if (_bindViewHolderAction == null)
@@ -67,15 +69,20 @@ namespace Softeq.XToolkit.Bindings.Droid
             var item = DataSource[position];
             _bindViewHolderAction.Invoke(holder, position, item);
 
-            if (position > 0 && position == DataSource.Count - 1)
-            {
-                LastItemRequested?.Invoke(this, EventArgs.Empty);
-            }
+            CheckIfLastItemRequested(position);
         }
 
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             return _getHolderFunc?.Invoke(parent, viewType);
+        }
+
+        protected virtual void CheckIfLastItemRequested(int position)
+        {
+            if (position > 0 && position == DataSource.Count - 1)
+            {
+                LastItemRequested?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -93,20 +100,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             NotifyCollectionChangedOnMainThread(e);
         }
 
-        private void NotifyCollectionChangedOnMainThread(NotifyCollectionChangedEventArgs e)
-        {
-            if (Looper.MainLooper == Looper.MyLooper())
-            {
-                NotifyAdapterSource(e);
-            }
-            else
-            {
-                var h = new Handler(Looper.MainLooper);
-                h.Post(() => NotifyAdapterSource(e));
-            }
-        }
-
-        private void NotifyAdapterSource(NotifyCollectionChangedEventArgs e)
+        protected virtual void NotifyAdapterSource(NotifyCollectionChangedEventArgs e)
         {
             if (ShouldNotifyByAction)
             {
@@ -123,7 +117,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             }
         }
 
-        private void NotifyCollectionChangedByAction(NotifyCollectionChangedEventArgs e)
+        protected virtual void NotifyCollectionChangedByAction(NotifyCollectionChangedEventArgs e)
         {
             try
             {
@@ -133,10 +127,11 @@ namespace Softeq.XToolkit.Bindings.Droid
                         NotifyItemRangeInserted(e.NewStartingIndex, e.NewItems.Count);
                         break;
                     case NotifyCollectionChangedAction.Move:
-                        for (int i = 0; i < e.NewItems.Count; i++)
+                        for (var i = 0; i < e.NewItems.Count; i++)
                         {
                             NotifyItemMoved(e.OldStartingIndex + i, e.NewStartingIndex + i);
                         }
+
                         break;
                     case NotifyCollectionChangedAction.Replace:
                         NotifyItemRangeChanged(e.NewStartingIndex, e.NewItems.Count);
@@ -152,8 +147,21 @@ namespace Softeq.XToolkit.Bindings.Droid
             catch (Exception exception)
             {
                 Log.Warn(nameof(ObservableRecyclerViewAdapter<T>),
-                        "Exception masked during Adapter RealNotifyDataSetChanged {0}. Are you trying to update your collection from a background task? See http://goo.gl/0nW0L6",
-                        exception.ToString());
+                    "Exception masked during Adapter RealNotifyDataSetChanged {0}. Are you trying to update your collection from a background task? See http://goo.gl/0nW0L6",
+                    exception.ToString());
+            }
+        }
+
+        private void NotifyCollectionChangedOnMainThread(NotifyCollectionChangedEventArgs e)
+        {
+            if (Looper.MainLooper == Looper.MyLooper())
+            {
+                NotifyAdapterSource(e);
+            }
+            else
+            {
+                var h = new Handler(Looper.MainLooper);
+                h.Post(() => NotifyAdapterSource(e));
             }
         }
     }

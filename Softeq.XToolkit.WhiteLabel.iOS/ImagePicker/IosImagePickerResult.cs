@@ -1,4 +1,6 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.IO;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
@@ -12,15 +14,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
         {
             if (ImageObject is UIImage image)
             {
-                if(ImageExtension == ImageExtension.Jpg)
+                switch (ImageExtension)
                 {
-                    return Task.FromResult(image.AsJPEG(Quality).AsStream());
-                }
-                else if (ImageExtension == ImageExtension.Png)
-                {
-                    return Task.FromResult(image.AsPNG().AsStream());
+                    case ImageExtension.Jpg:
+                        return Task.FromResult(image.AsJPEG(Quality).AsStream());
+                    case ImageExtension.Png:
+                        return Task.FromResult(image.AsPNG().AsStream());
                 }
             }
+
             return Task.FromResult(Stream.Null);
         }
     }

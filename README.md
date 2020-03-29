@@ -1,33 +1,34 @@
 # XToolkit.WhiteLabel
 
-XToolkit.WhiteLabel is a collection of "lego" components for fast create cross-platform mobile applications with Xamarin, based on [XToolkit](https://github.com/Softeq/XToolkit).
+[![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/Samples.Playground?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=39&branchName=master)
+
+XToolkit.WhiteLabel is a modular, cross-platform MVVM framework from "lego" components for fast create powerful cross-platform mobile applications with Xamarin.
 
 ## Installation
 
 Component | NuGet
 ----------|--------
-Common    | [![Softeq.XToolkit.Common](https://img.shields.io/nuget/v/Softeq.XToolkit.Common.svg)](https://www.nuget.org/packages/Softeq.XToolkit.Common)
-Bindings  | [![Softeq.XToolkit.Bindings](https://img.shields.io/nuget/v/Softeq.XToolkit.Bindings.svg)](https://www.nuget.org/packages/Softeq.XToolkit.Bindings)
-WhiteLabel  | [![Softeq.XToolkit.WhiteLabel](https://img.shields.io/nuget/v/Softeq.XToolkit.WhiteLabel.svg)](https://www.nuget.org/packages/Softeq.XToolkit.WhiteLabel)
-
-## Builds
-
-Component | Status    
-----------|-------
-Common    | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.Common?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=28&branchName=master)
-Bindings  | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.Bindings?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=31&branchName=master)
-Permissions | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.Bindings?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=31&branchName=master)
-WhiteLabel | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/XToolkit.Whitelabel?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=30&branchName=master)
-Samples.Playground | [![Build Status](https://dev.azure.com/SofteqDevelopment/Toolkit/_apis/build/status/Samples.Playground?branchName=master)](https://dev.azure.com/SofteqDevelopment/Toolkit/_build/latest?definitionId=39&branchName=master)
+Common    | [![Softeq.XToolkit.Common](https://buildstats.info/nuget/Softeq.XToolkit.Common?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Common)
+Bindings  | [![Softeq.XToolkit.Bindings](https://buildstats.info/nuget/Softeq.XToolkit.Bindings?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Bindings)
+Permissions | [![Softeq.XToolkit.Permissions](https://buildstats.info/nuget/Softeq.XToolkit.Permissions?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Permissions)
+PushNotifications | [![Softeq.XToolkit.PushNotifications](https://buildstats.info/nuget/Softeq.XToolkit.PushNotifications?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.PushNotifications)
+WhiteLabel  | [![Softeq.XToolkit.WhiteLabel](https://buildstats.info/nuget/Softeq.XToolkit.WhiteLabel?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.WhiteLabel)
+Remote  | [![Softeq.XToolkit.Remote](https://buildstats.info/nuget/Softeq.XToolkit.Remote?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Remote)
 
 ## Documentation
 
-Currently, documentation in progress, last version you can see on our [wiki](https://github.com/Softeq/XToolkit.WhiteLabel/wiki).
+- [Wiki](https://github.com/Softeq/XToolkit.WhiteLabel/wiki)
+- [API Documentation](https://softeq.github.io/XToolkit.WhiteLabel/api/)
 
 ## Contributing
 
-We welcome any contributions.
+As an open source project, we're excited to accept contributions to the code from outside of Softeq and are striving to make that as easy and clean as possible.
+
+- [How to Contribute](.github/CONTRIBUTING.md)
 
 ## License
 
-The XToolkit project is available for free use, as described by the [LICENSE](/LICENSE) (MIT).
+The XToolkit.WhiteLabel project is available for free use, as described by the [LICENSE](/LICENSE) (MIT).
+
+- Some bits of [MvvmLight](https://github.com/lbugnion/mvvmlight) are redistributed and modified under MIT License
+- Tiny bits of [MvvmCross](https://github.com/MvvmCross/MvvmCross) are redistributed and modified under MIT License

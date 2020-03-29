@@ -1,10 +1,16 @@
 resources:
 - repo: self
-queue:
-  name: Hosted macOS
-  demands: Xamarin.iOS
+trigger:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - release/*
 
 variables:
-  BuildConfiguration: 'Release'
-steps:
-- script: 'msbuild samples/Playground/Playground.sln /t:Clean /t:Restore /p:Configuration="Release" /p:Platform="Any CPU"'
+- template: templates/vars.yml
+
+jobs:
+- template: templates/app-jobs.yml
+  parameters:
+    SolutionPath: 'samples/Playground/Playground.sln'

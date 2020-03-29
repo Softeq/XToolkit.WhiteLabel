@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Softeq.XToolkit.Permissions</id>
+    <version>2.0.0-beta3</version>
+    <title>Softeq.XToolkit.Permissions</title>
+    <authors>Softeq Development Corp.</authors>
+    <owners>Softeq Development Corp.</owners>
+    <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Simple cross platform plugin to request and check permissions for Android and iOS.</description>
+    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
+    <tags>Softeq XToolkit Xamarin Permissions iOS Android</tags>
+    <releaseNotes/>
+    <dependencies>
+      <group targetFramework="netstandard2.1">
+        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
+        <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
+      </group>
+      <group targetFramework="MonoAndroid10">
+        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
+        <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
+      </group>
+      <group targetFramework="Xamarin.iOS10">
+        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
+        <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
+      </group>
+    </dependencies>
+  </metadata>
+  <files>
+    <!-- Core -->
+    <file src="../Softeq.XToolkit.Permissions/bin/Release/netstandard2.1/Softeq.XToolkit.Permissions.dll" target="lib\netstandard2.1"/>
+    <!-- Droid -->
+    <file src="../Softeq.XToolkit.Permissions/bin/Release/netstandard2.1/Softeq.XToolkit.Permissions.dll" target="lib\MonoAndroid10"/>
+    <file src="../Softeq.XToolkit.Permissions.Droid/bin/Release/Softeq.XToolkit.Permissions.Droid.dll" target="lib\MonoAndroid10"/>
+    <!-- iOS -->
+    <file src="../Softeq.XToolkit.Permissions/bin/Release/netstandard2.1/Softeq.XToolkit.Permissions.dll" target="lib\Xamarin.iOS10"/>
+    <file src="../Softeq.XToolkit.Permissions.iOS/bin/Release/Softeq.XToolkit.Permissions.iOS.dll" target="lib\Xamarin.iOS10"/>
+  </files>
+</package>

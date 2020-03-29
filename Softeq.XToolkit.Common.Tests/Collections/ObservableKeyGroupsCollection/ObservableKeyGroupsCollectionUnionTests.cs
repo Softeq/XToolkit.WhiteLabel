@@ -5,12 +5,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
-using Xunit;
 using Softeq.XToolkit.Common.Collections;
-using Softeq.XToolkit.Tests.Core.Common.Collections.ObservableKeyGroupsCollection.Helpers;
-using static Softeq.XToolkit.Tests.Core.Common.Collections.ObservableKeyGroupsCollection.Helpers.ObservableKeyGroupsCollectionHelpers;
+using Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection.Helpers;
+using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common.Collections.ObservableKeyGroupsCollection
+#nullable disable
+
+namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 {
     public class ObservableKeyGroupsCollectionUnionTests : IDisposable
     {
@@ -19,11 +20,11 @@ namespace Softeq.XToolkit.Tests.Core.Common.Collections.ObservableKeyGroupsColle
 
         public ObservableKeyGroupsCollectionUnionTests()
         {
-            var list1 = CreateRandList(4, 5, "Old");
-            _groupCollection1 = CreateSortedGroupCollection(list1);
+            var list1 = ObservableKeyGroupsCollectionHelpers.CreateRandList(4, 5, "Old");
+            _groupCollection1 = ObservableKeyGroupsCollectionHelpers.CreateSortedGroupCollection(list1);
 
-            var list2 = CreateRandList(17, 7, "New");
-            _groupCollection2 = CreateSortedGroupCollection(list2);
+            var list2 = ObservableKeyGroupsCollectionHelpers.CreateRandList(17, 7, "New");
+            _groupCollection2 = ObservableKeyGroupsCollectionHelpers.CreateSortedGroupCollection(list2);
         }
 
         public void Dispose()

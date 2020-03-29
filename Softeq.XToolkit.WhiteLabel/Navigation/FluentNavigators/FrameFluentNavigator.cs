@@ -1,4 +1,7 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -27,9 +30,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             return this;
         }
 
-        public void Navigate()
+        public void Navigate(bool clearBackStack = false)
         {
-            _frameNavigationService.NavigateToViewModel<TViewModel>(Parameters);
+            _frameNavigationService.NavigateToViewModel<TViewModel>(clearBackStack, Parameters);
         }
     }
 }

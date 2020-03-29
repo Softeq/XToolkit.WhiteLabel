@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BXq-no-Qnq">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Photo Browser View Controller-->
+        <scene sceneID="mB4-gE-Td9">
+            <objects>
+                <viewController storyboardIdentifier="PhotoBrowserViewController" id="BXq-no-Qnq" customClass="PhotoBrowserViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="KvN-2y-XOY"/>
+                        <viewControllerLayoutGuide type="bottom" id="idV-N2-fDq"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="sQ9-Z9-dUu">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="MF3-la-Fuh">
+                                <rect key="frame" x="20" y="20" width="374" height="826"/>
+                            </imageView>
+                            <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="rqJ-LL-rmF">
+                                <rect key="frame" x="20" y="846" width="374" height="50"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="P9h-zW-Idj">
+                                        <rect key="frame" x="0.0" y="0.0" width="187" height="50"/>
+                                        <state key="normal" title="Camera"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HHS-yz-HSP">
+                                        <rect key="frame" x="187" y="0.0" width="187" height="50"/>
+                                        <state key="normal" title="Gallery"/>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="M8I-az-Lc7"/>
+                                </constraints>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="rqJ-LL-rmF" firstAttribute="top" secondItem="MF3-la-Fuh" secondAttribute="bottom" id="KgX-HG-jcb"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="MF3-la-Fuh" secondAttribute="trailing" id="WnP-vi-UAW"/>
+                            <constraint firstItem="MF3-la-Fuh" firstAttribute="leading" secondItem="sQ9-Z9-dUu" secondAttribute="leadingMargin" id="gMW-R1-rve"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="rqJ-LL-rmF" secondAttribute="trailing" id="in5-sg-9SQ"/>
+                            <constraint firstItem="rqJ-LL-rmF" firstAttribute="leading" secondItem="sQ9-Z9-dUu" secondAttribute="leadingMargin" id="ld7-NV-8n7"/>
+                            <constraint firstItem="idV-N2-fDq" firstAttribute="top" secondItem="rqJ-LL-rmF" secondAttribute="bottom" id="qgt-3n-KcZ"/>
+                            <constraint firstItem="MF3-la-Fuh" firstAttribute="top" secondItem="KvN-2y-XOY" secondAttribute="bottom" id="rof-rc-FJE"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="CameraButton" destination="P9h-zW-Idj" id="name-outlet-P9h-zW-Idj"/>
+                        <outlet property="GalleryButton" destination="HHS-yz-HSP" id="name-outlet-HHS-yz-HSP"/>
+                        <outlet property="ImageView" destination="MF3-la-Fuh" id="name-outlet-MF3-la-Fuh"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="nrv-L4-9MZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-83" y="50"/>
+        </scene>
+    </scenes>
+</document>

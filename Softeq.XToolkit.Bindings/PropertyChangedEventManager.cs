@@ -5,7 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Weak;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings
 {
@@ -23,8 +26,7 @@ namespace Softeq.XToolkit.Bindings
         /// <summary>
         ///     Get the current instance of <see cref="PropertyChangedEventManager" />
         /// </summary>
-        private static PropertyChangedEventManager Instance => _manager ??
-                                                               (_manager = new PropertyChangedEventManager());
+        private static PropertyChangedEventManager Instance => _manager ??= new PropertyChangedEventManager();
 
         /// <summary>
         ///     Adds the specified listener to the list of listeners on the specified source.
@@ -182,6 +184,19 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         private void PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
+            if (string.IsNullOrEmpty(args.PropertyName))
+            {
+                _list.Values
+                    .Apply(x => x.Where(
+                            i => i.InstanceReference != null
+                                 && i.InstanceReference.IsAlive
+                                 && i.InstanceReference.Target == sender
+                                 && i.Listener != null)
+                        .ToList()
+                        .Apply(y => y.Listener.ReceiveWeakEvent(GetType(), sender, args)));
+                return;
+            }
+
             if (!_list.ContainsKey(args.PropertyName))
             {
                 return;

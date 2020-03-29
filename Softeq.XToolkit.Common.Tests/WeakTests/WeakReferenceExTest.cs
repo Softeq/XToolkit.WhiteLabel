@@ -2,11 +2,13 @@
 // http://www.softeq.com
 
 using System;
-using Softeq.XToolkit.Tests.Core.Common.Helpers;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Tests.Helpers;
+using Softeq.XToolkit.Common.Weak;
 using Xunit;
 
-namespace Softeq.XToolkit.Tests.Core.Common.WeakTests
+#nullable disable
+
+namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
     public class WeakReferenceExTest
     {

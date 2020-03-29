@@ -1,33 +1,24 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Android.App;
 using Android.Content;
 using Android.Content.Res;
 using Android.Graphics.Drawables;
-using Android.OS;
-using Android.Runtime;
 using Android.Util;
-using Android.Views;
 using Android.Widget;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Droid.Converters;
-using Softeq.XToolkit.WhiteLabel.Droid;
+using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
-namespace Softeq.XToolkit.WhiteLabel.Controls.Views
+namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
-    internal class BadgeView : FrameLayout
+    internal class BadgeView<TKey> : FrameLayout
     {
-        private WeakReferenceEx<RootFrameNavigationViewModel> _viewModelRef;
-        private TextView _textView;
-        private Binding _textBinding;
-        private Binding _visibilityBinding;
+        private WeakReferenceEx<TabViewModel<TKey>>? _viewModelRef;
+        private TextView _textView = default!;
+        private Binding? _textBinding;
+        private Binding? _visibilityBinding;
 
         public BadgeView(Context context) :
             base(context)
@@ -49,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Controls.Views
 
         public ColorStateList BackgroundColor
         {
-            get => ((GradientDrawable)_textView.Background).Color;
+            get => ((GradientDrawable) _textView.Background).Color;
             set => ((GradientDrawable) _textView.Background).SetColor(value);
         }
 
@@ -59,9 +50,9 @@ namespace Softeq.XToolkit.WhiteLabel.Controls.Views
             set => _textView.SetTextColor(value);
         }
 
-        internal void SetViewModel(RootFrameNavigationViewModel viewModel)
+        internal void SetViewModel(TabViewModel<TKey> viewModel)
         {
-            _viewModelRef = new WeakReferenceEx<RootFrameNavigationViewModel>(viewModel);
+            _viewModelRef = new WeakReferenceEx<TabViewModel<TKey>>(viewModel);
 
             _textBinding?.Detach();
             _textBinding = this.SetBinding(() => _viewModelRef.Target.BadgeText, () => _textView.Text);

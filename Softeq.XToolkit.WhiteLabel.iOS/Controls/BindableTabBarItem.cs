@@ -1,27 +1,33 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System.Collections.Generic;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
-    internal class BindableTabBarItem : UITabBarItem
+    internal class BindableTabBarItem<TKey> : UITabBarItem, IBindable
     {
-        private WeakReferenceEx<RootFrameNavigationViewModel> _viewModelRef;
-        private Binding _textBinding;
-        private Binding _visibilityBinding;
+        private Binding? _textBinding;
+        private WeakReferenceEx<TabViewModel<TKey>>? _viewModelRef;
+        private Binding? _visibilityBinding;
 
-        internal BindableTabBarItem(string title, UIImage image, UIImage selectedImage) : base(title, image, selectedImage)
+        internal BindableTabBarItem(string title, UIImage image, UIImage selectedImage)
+            : base(title, image, selectedImage)
         {
         }
 
-        internal void SetViewModel(RootFrameNavigationViewModel viewModel)
+        public object DataContext => _viewModelRef?.Target!;
+
+        public List<Binding> Bindings => throw new System.NotImplementedException();
+
+        public void SetDataContext(object dataContext)
         {
-            _viewModelRef = new WeakReferenceEx<RootFrameNavigationViewModel>(viewModel);
+            _viewModelRef = new WeakReferenceEx<TabViewModel<TKey>>((TabViewModel<TKey>) dataContext);
 
             _textBinding?.Detach();
             _textBinding = this.SetBinding(() => _viewModelRef.Target.BadgeText).WhenSourceChanges(UpdateBadge);
@@ -32,6 +38,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
         private void UpdateBadge()
         {
+            if (_viewModelRef == null)
+            {
+                return;
+            }
+
             if (_viewModelRef.Target.IsBadgeVisible)
             {
                 BadgeValue = _viewModelRef.Target.BadgeText;

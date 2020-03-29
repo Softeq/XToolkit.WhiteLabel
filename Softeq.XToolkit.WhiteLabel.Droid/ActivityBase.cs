@@ -6,18 +6,14 @@ using System.Collections.Generic;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.App;
-using Android.Support.V7.App;
-using Newtonsoft.Json.Linq;
+using AndroidX.AppCompat.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Permission = Android.Content.PM.Permission;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
@@ -31,7 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
-        public List<IViewComponent<ActivityBase>> ViewComponents { get; private set; }
+        public List<IViewComponent<ActivityBase>> ViewComponents { get; }
 
         public override void OnBackPressed()
         {
@@ -52,34 +48,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
-
-        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
-        {
-            var viewLocator = Dependencies.Container.Resolve<IViewLocator>();
-            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
-            SupportFragmentManager
-                .BeginTransaction()
-                .Add(containerId, fragment)
-                .Commit();
-        }
     }
 
-    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindableOwner
+    public abstract class ActivityBase<TViewModel> : ActivityBase, IBindingsOwner
         where TViewModel : ViewModelBase
     {
-        private const string ShouldRestoreStateKey = "shouldRestore";
-        private readonly IJsonSerializer _jsonSerializer;
-        private Lazy<TViewModel> _viewModelLazy;
+        private Lazy<TViewModel>? _viewModelLazy;
+        private readonly IBundleService _bundleService;
 
         protected ActivityBase()
         {
             Bindings = new List<Binding>();
-            _jsonSerializer = Dependencies.JsonSerializer;
+
             _viewModelLazy = new Lazy<TViewModel>(() =>
             {
                 var backStack = Dependencies.Container.Resolve<IBackStackManager>();
                 return backStack.GetExistingOrCreateViewModel<TViewModel>();
             });
+            _bundleService = Dependencies.Container.Resolve<IBundleService>();
         }
 
         public List<Binding> Bindings { get; }
@@ -90,24 +76,32 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 if (Handle == IntPtr.Zero)
                 {
-                    throw new Exception("Don't forget to detach last ViewModel bindings.");
+                    throw new InvalidOperationException("Don't forget to detach last ViewModel bindings.");
                 }
+
+                if (_viewModelLazy == null)
+                {
+                    throw new InvalidOperationException("Activity has been destroyed");
+                }
+
                 return _viewModelLazy.Value;
             }
         }
 
+        protected virtual ScreenOrientation DefaultScreenOrientation { get; } = ScreenOrientation.Portrait;
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(null);
+            base.OnCreate(savedInstanceState);
 
-            RequestedOrientation = ScreenOrientation.Portrait;
-#if DEBUG
-            var vmPolicy = new StrictMode.VmPolicy.Builder();
-            StrictMode.SetVmPolicy(vmPolicy.DetectActivityLeaks().PenaltyLog().Build());
-#endif
-            RestoreIfNeeded(savedInstanceState);
+            RequestedOrientation = DefaultScreenOrientation;
 
-            ViewModel.OnInitialize();
+            _bundleService.TryToRestoreParams(ViewModel, Intent, savedInstanceState);
+
+            if (!ViewModel.IsInitialized)
+            {
+                ViewModel.OnInitialize();
+            }
         }
 
         protected override void OnResume()
@@ -126,24 +120,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ViewModel.OnDisappearing();
         }
 
-        protected override void OnSaveInstanceState(Bundle outState)
-        {
-            outState.PutInt(ShouldRestoreStateKey, 0);
-            base.OnSaveInstanceState(outState);
-        }
-
         protected override void OnDestroy()
         {
             if (IsFinishing)
             {
                 _viewModelLazy = null;
-                base.OnDestroy();
-                Dispose();
             }
-            else
-            {
-                base.OnDestroy();
-            }
+            base.OnDestroy();
+        }
+
+        protected override void OnSaveInstanceState(Bundle outState)
+        {
+            _bundleService.SaveInstanceState(outState);
+
+            base.OnSaveInstanceState(outState);
         }
 
         protected virtual void DoAttachBindings()
@@ -152,49 +142,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void DoDetachBindings()
         {
-            Bindings.DetachAllAndClear();
-        }
-
-        private void RestoreIfNeeded(Bundle outState)
-        {
-            /* We skip restore if:
-                1) viewmodel was alive
-                2) activity never been destroyed
-                3) we don't have data to restore
-            */
-            if (ViewModel.IsInitialized || outState == null || !outState.ContainsKey(ShouldRestoreStateKey) ||
-                !Intent.HasExtra(Constants.ParametersKey))
-            {
-                return;
-            }
-
-            var parametersObject = Intent.GetStringExtra(Constants.ParametersKey);
-            var parameters =
-                _jsonSerializer.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
-
-            foreach (var parameter in parameters)
-            {
-                SetValueToProperty(parameter);
-            }
-
-            Intent.RemoveExtra(ShouldRestoreStateKey);
-        }
-
-        private void SetValueToProperty(NavigationParameterModel parameter)
-        {
-            var property = parameter.PropertyInfo.ToProperty();
-
-            object GetValue(object value)
-            {
-                if (property.PropertyType.IsEnum)
-                {
-                    return Enum.ToObject(property.PropertyType, value);
-                }
-
-                return ((JObject) value).ToObject(property.PropertyType);
-            }
-
-            property.SetValue(ViewModel, GetValue(parameter.Value), null);
+            this.DetachBindings();
         }
     }
 
@@ -202,7 +150,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         where TViewModel : ViewModelBase, TInterface
         where TInterface : IViewModelBase
     {
-        private TViewModel _viewModel;
+        private TViewModel? _viewModel;
 
         protected override TViewModel ViewModel =>
             _viewModel ?? (_viewModel = (TViewModel) Dependencies.Container.Resolve<TInterface>());

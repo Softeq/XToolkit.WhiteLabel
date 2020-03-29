@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Threading.Tasks;
 using MobileCoreServices;
 using Softeq.XToolkit.WhiteLabel.ImagePicker;
@@ -8,20 +11,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 {
     public class IosImagePickerService : IImagePickerService
     {
-        private TaskCompletionSource<UIImage> _taskCompletionSource;
-        private UIImagePickerController _pickerController;
+        private TaskCompletionSource<UIImage?>? _taskCompletionSource;
+        private UIImagePickerController? _pickerController;
 
-        public Task<ImagePickerResult> PickPhotoAsync(float quality)
+        public Task<ImagePickerResult?> PickPhotoAsync(float quality)
         {
             return GetImageAsync(UIImagePickerControllerSourceType.PhotoLibrary, quality);
         }
 
-        public Task<ImagePickerResult> TakePhotoAsync(float quality)
+        public Task<ImagePickerResult?> TakePhotoAsync(float quality)
         {
             return GetImageAsync(UIImagePickerControllerSourceType.Camera, quality);
         }
 
-        private async Task<ImagePickerResult> GetImageAsync(UIImagePickerControllerSourceType type, float quality)
+        private async Task<ImagePickerResult?> GetImageAsync(UIImagePickerControllerSourceType type, float quality)
         {
             _pickerController = new UIImagePickerController
             {
@@ -31,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
             _pickerController.FinishedPickingMedia += OnFinishedPickingMedia;
             _pickerController.Canceled += OnCanceled;
 
-            _taskCompletionSource = new TaskCompletionSource<UIImage>();
+            _taskCompletionSource = new TaskCompletionSource<UIImage?>();
 
             UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(_pickerController, true, null);
 
@@ -47,14 +50,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ImagePicker
 
         private void OnFinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
         {
-            _pickerController.FinishedPickingMedia -= OnFinishedPickingMedia;
-            _taskCompletionSource.SetResult(e.OriginalImage);
+            _pickerController!.FinishedPickingMedia -= OnFinishedPickingMedia;
+            _taskCompletionSource!.SetResult(e.OriginalImage);
             ReleaseImagePicker();
         }
 
         private void OnCanceled(object sender, EventArgs e)
         {
-            _pickerController.Canceled -= OnCanceled;
+            _pickerController!.Canceled -= OnCanceled;
+            _taskCompletionSource!.SetResult(null);
             ReleaseImagePicker();
         }
 

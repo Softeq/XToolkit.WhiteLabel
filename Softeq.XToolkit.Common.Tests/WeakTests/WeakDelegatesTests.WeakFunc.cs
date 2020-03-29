@@ -1,6 +1,8 @@
 ﻿using System;
 using NSubstitute;
 using Softeq.XToolkit.Common.Tests.Helpers;
+using Softeq.XToolkit.Common.Tests.WeakTests.Utils;
+using Softeq.XToolkit.Common.Weak;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests

@@ -1,4 +1,6 @@
-﻿using System;
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.Collections.Specialized;
 using System.Windows.Input;
 using CoreAnimation;

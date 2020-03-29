@@ -10,10 +10,10 @@ namespace Softeq.XToolkit.Permissions.Droid
 {
     public class PermissionsManager : IPermissionsManager
     {
-        private readonly IPermissionsService _permissionsService;
         private readonly ISettings _internalSettings;
+        private readonly IPermissionsService _permissionsService;
 
-        private IPermissionsDialogService _permissionsDialogService;
+        private IPermissionsDialogService? _permissionsDialogService;
 
         public PermissionsManager(
             IPermissionsService permissionsService)
@@ -78,7 +78,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             }
 
             var confirmationResult = _permissionsDialogService == null ||
-                await _permissionsDialogService.ConfirmPermissionAsync<T>().ConfigureAwait(false);
+                                     await _permissionsDialogService.ConfirmPermissionAsync<T>().ConfigureAwait(false);
             if (confirmationResult)
             {
                 permissionStatus = await _permissionsService.RequestPermissionsAsync<T>().ConfigureAwait(false);
@@ -93,8 +93,8 @@ namespace Softeq.XToolkit.Permissions.Droid
             where T : BasePermission
         {
             var openSettingsConfirmed = _permissionsDialogService == null ||
-                await _permissionsDialogService
-                .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);
+                                        await _permissionsDialogService
+                                            .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);
             if (openSettingsConfirmed)
             {
                 OpenSettings();

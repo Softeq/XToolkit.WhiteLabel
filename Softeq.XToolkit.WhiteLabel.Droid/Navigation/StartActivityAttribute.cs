@@ -1,7 +1,8 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
+
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     [AttributeUsage(AttributeTargets.Class)]

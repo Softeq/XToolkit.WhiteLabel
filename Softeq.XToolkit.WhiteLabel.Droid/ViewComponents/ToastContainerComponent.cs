@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
+namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 {
     public class ToastContainerComponent : IViewComponent<ActivityBase>
     {
@@ -10,15 +10,15 @@
             ContainerId = containerId;
         }
 
-        public string Key => nameof(ToastContainerComponent);
-
         public int ContainerId { get; }
+
+        public string Key => nameof(ToastContainerComponent);
 
         public void Attach(ActivityBase item)
         {
         }
 
-        public void Detach(ActivityBase item = null)
+        public void Detach(ActivityBase? item = null)
         {
         }
     }

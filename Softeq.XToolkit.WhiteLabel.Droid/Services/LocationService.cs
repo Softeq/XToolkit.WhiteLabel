@@ -8,7 +8,7 @@ using Android.Locations;
 using Android.OS;
 using Android.Runtime;
 using Plugin.CurrentActivity;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Location;
 using Object = Java.Lang.Object;
 
@@ -30,9 +30,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
         public bool IsLocationServiceEnabled => _locationManagerLazy.Value.IsProviderEnabled(_providerName);
 
-        public Task<LocationModel> GetCurrentLocation()
+        public Task<LocationModel?> GetCurrentLocation()
         {
-            var tcs = new TaskCompletionSource<LocationModel>();
+            var tcs = new TaskCompletionSource<LocationModel?>();
             _locationManagerLazy.Value.RequestLocationUpdates(_providerName, 0, 0,
                 new LocationListener(_locationManagerLazy.Value, tcs));
             return tcs.Task;
@@ -41,9 +41,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         private class LocationListener : Object, ILocationListener
         {
             private readonly WeakReferenceEx<LocationManager> _locationManagerRef;
-            private TaskCompletionSource<LocationModel> _tcs;
+            private TaskCompletionSource<LocationModel?>? _tcs;
 
-            public LocationListener(LocationManager locationManager, TaskCompletionSource<LocationModel> tcs)
+            public LocationListener(
+                LocationManager locationManager,
+                TaskCompletionSource<LocationModel?> tcs)
             {
                 _locationManagerRef = WeakReferenceEx.Create(locationManager);
                 _tcs = tcs;
@@ -58,7 +60,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
                 _tcs.TrySetResult(location == null
                     ? null
-                    : new LocationModel {Latitude = location.Latitude, Longitude = location.Longitude});
+                    : new LocationModel
+                    {
+                        Latitude = location.Latitude,
+                        Longitude = location.Longitude
+                    });
                 _locationManagerRef.Target.RemoveUpdates(this);
                 _tcs = null;
             }

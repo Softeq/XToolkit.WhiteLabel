@@ -6,8 +6,9 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Threading;
-using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
 namespace Softeq.XToolkit.WhiteLabel.Messenger
 {
     /// <summary>
@@ -158,7 +159,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
                 {
                     foreach (var item in lists[messageType])
                     {
-                        var weakAction = (IExecuteWithObject)item.Action;
+                        var weakAction = (IExecuteWithObject) item.Action;
 
                         if (weakAction != null
                             && recipient == weakAction.Target)
@@ -675,3 +676,4 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
         #endregion
     }
 }
+#nullable restore

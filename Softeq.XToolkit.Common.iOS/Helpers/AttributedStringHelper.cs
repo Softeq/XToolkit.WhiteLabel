@@ -1,17 +1,22 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.Generic;
-using Softeq.XToolkit.Common.Extensions;
-using System.Text.RegularExpressions;
-using Foundation;
-using UIKit;
 using System;
+using System.Collections.Generic;
+using Foundation;
+using Softeq.XToolkit.Common.Extensions;
+using UIKit;
 
 namespace Softeq.XToolkit.Common.iOS.Helpers
 {
     public static class AttributedStringHelper
     {
+        /// <summary>
+        ///     Returns new instance of the default paragraph style.
+        /// </summary>
+        public static NSMutableParagraphStyle NewParagraphStyle =>
+            (NSMutableParagraphStyle)NSParagraphStyle.Default.MutableCopy();
+
         public static NSUrl ToNSUrl(this string link)
         {
             var uri = new Uri(link);
@@ -24,29 +29,34 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
             return new NSMutableAttributedString(inputString);
         }
 
-        public static NSMutableAttributedString BuildAttributedStringFromHtml(this string inputString)
+
+        public static NSMutableAttributedString BuildAttributedStringFromHtml(this string inputString,
+            NSStringEncoding encoding = NSStringEncoding.UTF8)
         {
             var importParams = new NSAttributedStringDocumentAttributes
             {
                 DocumentType = NSDocumentType.HTML,
-
+                StringEncoding = encoding
             };
 
-            NSError error = new NSError();
+            var error = new NSError();
 
             var attributedString = new NSAttributedString(inputString, importParams, ref error);
             return new NSMutableAttributedString(attributedString);
         }
 
-        public static NSMutableAttributedString Font(this NSMutableAttributedString self, UIFont font)
+        public static NSMutableAttributedString Font(this NSMutableAttributedString self, UIFont font, NSRange? range = null)
         {
-            self.AddAttribute(UIStringAttributeKey.Font, font, new NSRange(0, self.Length));
+            self.AddAttribute(UIStringAttributeKey.Font, font, range ?? new NSRange(0, self.Length));
             return self;
         }
 
-        public static NSMutableAttributedString Underline(this NSMutableAttributedString self, NSUnderlineStyle underlineStyle = NSUnderlineStyle.Single)
+        public static NSMutableAttributedString Underline(this NSMutableAttributedString self,
+            NSUnderlineStyle underlineStyle = NSUnderlineStyle.Single,
+            NSRange? range = null)
         {
-            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int)underlineStyle), new NSRange(0, self.Length));
+            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int) underlineStyle),
+                range ?? new NSRange(0, self.Length));
             return self;
         }
 
@@ -65,6 +75,19 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
                 self.Foreground(color, r);
             }
 
+            return self;
+        }
+
+        /// <summary>
+        ///     Set paragraph style of attributed string.
+        /// </summary>
+        /// <param name="self">Attributed string.</param>
+        /// <param name="style">Paragraph style. Use <see cref="NewParagraphStyle" /> for create custom style.</param>
+        /// <returns></returns>
+        public static NSMutableAttributedString ParagraphStyle(this NSMutableAttributedString self,
+            NSMutableParagraphStyle style)
+        {
+            self.AddAttribute(UIStringAttributeKey.ParagraphStyle, style, new NSRange(0, self.Length));
             return self;
         }
 
@@ -107,7 +130,7 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
             string linkName, UIColor color, NSUnderlineStyle style, NSRange range)
         {
             self.AddAttribute(new NSString(linkName), url, range);
-            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int)style), range);
+            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int) style), range);
             self.AddAttribute(UIStringAttributeKey.UnderlineColor, color, range);
             return self;
         }

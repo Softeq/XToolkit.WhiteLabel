@@ -4,36 +4,30 @@
 using System.Collections.Generic;
 using Android.Content;
 using Android.OS;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Command;
-using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
-    public abstract class DialogFragmentBase<TViewModel> : DialogFragment
+    public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable
         where TViewModel : IDialogViewModel
     {
-        protected IList<Binding> Bindings { get; } = new List<Binding>();
+        public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public TViewModel ViewModel { get; private set; }
+        public object DataContext { get; private set; } = default!;
+
+        protected TViewModel ViewModel => (TViewModel) DataContext;
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
 
-        public void SetExistingViewModel(TViewModel viewModel)
+        void IBindable.SetDataContext(object dataContext)
         {
-            ViewModel = viewModel;
-        }
-
-        public void Show()
-        {
-            SetStyle(StyleNoFrame, ThemeId);
-            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
-            Show(baseActivity.SupportFragmentManager, null);
+            DataContext = dataContext;
         }
 
         public override void OnCreate(Bundle savedInstanceState)
@@ -63,17 +57,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public override void OnDismiss(IDialogInterface dialog)
         {
             base.OnDismiss(dialog);
+
             ViewModel.DialogComponent.CloseCommand.Execute(null);
         }
 
-        protected void AddViewForViewModel(ViewModelBase viewModel, int containerId)
+        public void Show()
         {
-            var viewLocator = Dependencies.Container.Resolve<IViewLocator>();
-            var fragment = (Fragment) viewLocator.GetView(viewModel, ViewType.Fragment);
-            ChildFragmentManager
-                .BeginTransaction()
-                .Add(containerId, fragment)
-                .Commit();
+            SetStyle(StyleNoFrame, ThemeId);
+            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
+            Show(baseActivity.SupportFragmentManager, null);
         }
 
         protected virtual void DoAttachBindings()
@@ -82,7 +74,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         protected virtual void DoDetachBindings()
         {
-            Bindings.DetachAllAndClear();
+            this.DetachBindings();
         }
     }
 }

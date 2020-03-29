@@ -12,29 +12,38 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
 {
     public static class UiTabBarControllerHelper
     {
+        private static readonly IViewLocator ViewLocator;
+
+        static UiTabBarControllerHelper()
+        {
+            ViewLocator = Dependencies.Container.Resolve<IViewLocator>();
+        }
+
         public static UITabBarController CreateForViewModels(
             IEnumerable<IViewModelBase> viewModels,
             IList<UITabBarItem> tabBarItems,
-            IViewLocator viewLocator,
-            Func<UITabBarController> tabBarControllerFactory = null)
+            Func<UITabBarController>? tabBarControllerFactory = null)
+        {
+            return CreateForViewModels(viewModels, tabBarItems, x => ViewLocator.GetView(x), tabBarControllerFactory);
+        }
+
+        public static UITabBarController CreateForViewModels(
+            IEnumerable<IViewModelBase> viewModels,
+            IList<UITabBarItem> tabBarItems,
+            Func<IViewModelBase, UIViewController> rootViewControllerFactory,
+            Func<UITabBarController>? tabBarControllerFactory = null)
         {
             var tabBarController = tabBarControllerFactory != null
                 ? tabBarControllerFactory.Invoke()
                 : new UITabBarController();
 
-            tabBarController.ViewControllers = viewModels.Select(x => Create(x, viewLocator)).ToArray();
+            tabBarController.ViewControllers = viewModels.Select(rootViewControllerFactory).ToArray();
             for (var i = 0; i < tabBarController.ViewControllers.Length; i++)
             {
                 tabBarController.ViewControllers[i].TabBarItem = tabBarItems[i];
             }
 
             return tabBarController;
-        }
-
-        private static UIViewController Create(IViewModelBase viewModel, IViewLocator viewLocator)
-        {
-            var root = viewLocator.GetView(viewModel);
-            return root;
         }
     }
 }

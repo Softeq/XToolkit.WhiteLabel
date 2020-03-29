@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Softeq.XToolkit.Common.Extensions
 {
@@ -15,10 +16,10 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="dictionary">The dictionary to call this method on.</param>
         /// <param name="key">The key to look up.</param>
         /// <returns>The key value. default(TValue) if this key is not in the dictionary.</returns>
+        [return:MaybeNull]
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key)
         {
-            TValue result;
-            return dictionary.TryGetValue(key, out result) ? result : default(TValue);
+            return dictionary.TryGetValue(key, out var result) ? result : default;
         }
     }
 }

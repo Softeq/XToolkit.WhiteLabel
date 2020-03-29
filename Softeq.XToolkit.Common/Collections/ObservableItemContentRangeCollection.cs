@@ -28,6 +28,7 @@ namespace Softeq.XToolkit.Common.Collections
                     ((INotifyPropertyChanged) item).PropertyChanged += ItemPropertyChanged;
                 }
             }
+
             if (e.OldItems != null)
             {
                 foreach (var item in e.OldItems)
@@ -39,7 +40,8 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender, IndexOf((T) sender));
+            var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender,
+                IndexOf((T) sender));
             OnCollectionChanged(args);
         }
     }

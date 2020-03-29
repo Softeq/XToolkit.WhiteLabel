@@ -5,18 +5,16 @@ using System.IO;
 using System.Threading.Tasks;
 using Android.OS;
 using Plugin.Permissions;
-using Softeq.XToolkit.Common.Exceptions;
 using Softeq.XToolkit.Common.Files;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Permissions;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
 {
     public class ExternalStorageProvider : IFilesProvider
     {
+        private readonly IPermissionsManager _permissionsManager;
         private readonly string _rootFolderPath;
         private readonly BaseFileProvider _storageProvider;
-        private readonly IPermissionsManager _permissionsManager;
 
         public ExternalStorageProvider(IPermissionsManager permissionsManager)
         {
@@ -32,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
             await _storageProvider.ClearFolderAsync(Path.Combine(_rootFolderPath, path)).ConfigureAwait(false);
         }
 
-        public async Task<string> CopyFileFromAsync(string path, string newPath)
+        public async Task<string?> CopyFileFromAsync(string path, string newPath)
         {
             await CheckPermission().ConfigureAwait(false);
 
