@@ -1,12 +1,16 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+using System.Globalization;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.Converters;
+using Playground.Extended;
 using Playground.Models;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -15,15 +19,17 @@ namespace Playground.ViewModels.Dialogs
 {
     public class DialogsPageViewModel : ViewModelBase
     {
-        private readonly IDialogsService _dialogsService;
+        private readonly IExtendedDialogsService _dialogsService;
         private readonly ILogger _logger;
 
         private string _alertResult = "-";
+        private string _confirmResult = "-";
+        private string _actionSheetResult = "-";
         private Person? _dialogUntilDismissResult;
         private Person? _dialogUntilResult;
 
         public DialogsPageViewModel(
-            IDialogsService dialogsService,
+            IExtendedDialogsService dialogsService,
             ILogManager logManager)
         {
             _dialogsService = dialogsService;
@@ -32,12 +38,18 @@ namespace Playground.ViewModels.Dialogs
             PersonConverter = new PersonToStringConverter();
 
             OpenAlertCommand = new AsyncCommand(OpenAlert);
+            OpenConfirmCommand = new AsyncCommand(OpenConfirm);
+            OpenActionSheetCommand = new AsyncCommand(OpenActionSheet);
             OpenDialogUntilDismissCommand = new RelayCommand(OpenDialogUntilDismiss);
             OpenDialogUntilResultCommand = new AsyncCommand(OpenDialogUntilResult);
             OpenTwoDialogsCommand = new AsyncCommand(OpenTwoDialogs);
         }
 
         public ICommand OpenAlertCommand { get; }
+
+        public ICommand OpenConfirmCommand { get; }
+
+        public ICommand OpenActionSheetCommand { get; }
 
         public ICommand OpenDialogUntilDismissCommand { get; }
 
@@ -48,28 +60,78 @@ namespace Playground.ViewModels.Dialogs
         public string AlertResult
         {
             get => _alertResult;
-            set => Set(ref _alertResult, value);
+            private set => Set(ref _alertResult, value);
+        }
+
+        public string ConfirmResult
+        {
+            get => _confirmResult;
+            private set => Set(ref _confirmResult, value);
+        }
+
+        public string ActionSheetResult
+        {
+            get => _actionSheetResult;
+            private set => Set(ref _actionSheetResult, value);
         }
 
         public Person DialogUntilDismissResult
         {
             get => _dialogUntilDismissResult!;
-            set => Set(ref _dialogUntilDismissResult, value);
+            private set => Set(ref _dialogUntilDismissResult, value);
         }
 
         public Person DialogUntilResult
         {
             get => _dialogUntilResult!;
-            set => Set(ref _dialogUntilResult, value);
+            private set => Set(ref _dialogUntilResult, value);
         }
 
         public PersonToStringConverter PersonConverter { get; }
 
         private async Task OpenAlert()
         {
-            var result = await _dialogsService.ShowDialogAsync("~title", "~message", "~ok", "~cancel");
+            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("~title", "~message", "~ok"));
 
-            AlertResult = result.ToString();
+            var config = new ChooseBetterDateDialogConfig
+            {
+                Title = "Please choose the date:",
+                First = DateTime.Now.AddDays(1),
+                Second = DateTime.Now.AddDays(4)
+            };
+            var result = await _dialogsService.ShowDialogAsync(config);
+
+            AlertResult = result.ToString(CultureInfo.CurrentCulture);
+        }
+
+        private async Task OpenConfirm()
+        {
+            var config = new ConfirmDialogConfig("~title - remove?", "~message", "~yes", "~no")
+            {
+                IsDestructive = true
+            };
+            var result = await _dialogsService.ShowDialogAsync(config);
+
+            ConfirmResult = result ? "Removed" : "Declined";
+        }
+
+        private async Task OpenActionSheet()
+        {
+            var config = new ActionSheetDialogConfig
+            {
+                Title = "~title",
+                OptionButtons = new[]
+                {
+                    "~option 1",
+                    "~option 2",
+                    "~option 3"
+                },
+                CancelButtonText = "~cancel",
+                DestructButtonText = "~destruct"
+            };
+            var result = await _dialogsService.ShowDialogAsync(config);
+
+            ActionSheetResult = result;
         }
 
         private void OpenDialogUntilDismiss()

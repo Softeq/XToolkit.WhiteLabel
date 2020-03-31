@@ -4,25 +4,26 @@
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Playground.Extended;
 using Playground.Services;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Collections.Base
 {
     public abstract class GroupedListViewModelBase : ViewModelBase
     {
-        private readonly IDialogsService _dialogsService;
+        private readonly IExtendedDialogsService _dialogsService;
         private readonly ICommand<ProductViewModel> _addToCartCommand;
         private readonly ICommand<ProductHeaderViewModel> _addGroupToCartCommand;
         private readonly ICommand<ProductHeaderViewModel> _groupInfoCommand;
         private readonly ICommand<ProductHeaderViewModel> _generateItemCommand;
 
         public GroupedListViewModelBase(
-            IDialogsService dialogsService,
+            IExtendedDialogsService dialogsService,
             IDataService dataService)
         {
             _dialogsService = dialogsService;
@@ -88,7 +89,7 @@ namespace Playground.ViewModels.Collections.Base
 
         private async Task GroupInfo(ProductHeaderViewModel groupHeader)
         {
-            await _dialogsService.ShowDialogAsync("Info", $"{groupHeader.Category}th section.", "OK");
+            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("Info", $"{groupHeader.Category}th section.", "OK"));
         }
 
         private void GenerateItem(ProductHeaderViewModel groupHeader)

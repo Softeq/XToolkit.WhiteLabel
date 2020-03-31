@@ -17,11 +17,11 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="items">Initial collection.</param>
         /// <param name="range">The collection whose elements should be added to the end of the list.</param>
         /// <typeparam name="T">The type of collection.</typeparam>
-        public static void AddRange<T>(this IList<T> items, IList<T> range)
+        public static void AddRange<T>(this IList<T> items, IEnumerable<T> range)
         {
-            for (var i = 0; i < range.Count; i++)
+            foreach (var item in range)
             {
-                items.Add(range[i]);
+                items.Add(item);
             }
         }
 
@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="index">The zero-based index at which the new elements should be inserted.</param>
         /// <param name="range">The collection whose elements should be added to the end of the list.</param>
         /// <typeparam name="T">The type of collection.</typeparam>
-        public static void InsertRange<T>(this IList<T> items, int index, IList<T> range)
+        public static void InsertRange<T>(this IList<T> items, int index, IEnumerable<T> range)
         {
             int i = index;
             foreach (var item in range)
