@@ -1,85 +1,85 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Droid", "Playground.Droid\Playground.Droid.csproj", "{EDFA0566-1772-4442-86F8-828E5EB98B16}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Droid", "samples\Playground\Playground.Droid\Playground.Droid.csproj", "{EDFA0566-1772-4442-86F8-828E5EB98B16}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground", "Playground\Playground.csproj", "{00250664-56DC-4B3D-93B9-7C1E8B381F5F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground", "samples\Playground\Playground\Playground.csproj", "{00250664-56DC-4B3D-93B9-7C1E8B381F5F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.iOS", "samples\Playground\Playground.iOS\Playground.iOS.csproj", "{6B7105F6-6F18-4999-BA4E-8069D92F3150}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WhiteLabel", "WhiteLabel", "{D8336B13-C835-4D52-A15A-D00A5C55D1DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{24588814-B93D-4528-8917-9C2A3C4E85CA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common", "Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj", "{24588814-B93D-4528-8917-9C2A3C4E85CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid", "..\..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj", "{18D3FDC1-B0A1-401E-87F2-1C43034E610C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid", "Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj", "{18D3FDC1-B0A1-401E-87F2-1C43034E610C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS", "..\..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj", "{6BCB2009-2E46-458C-BCAA-AFC27A631924}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS", "Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj", "{6BCB2009-2E46-458C-BCAA-AFC27A631924}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings", "..\..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj", "{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings", "Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj", "{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iOS", "..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj", "{2D399BA9-1878-43E2-AF05-6873EAE9151B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iOS", "Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj", "{2D399BA9-1878-43E2-AF05-6873EAE9151B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Droid", "..\..\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj", "{2B4A678B-63B4-49DB-99B1-BFE7793110C4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Droid", "Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj", "{2B4A678B-63B4-49DB-99B1-BFE7793110C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Tests", "..\..\Softeq.XToolkit.Bindings.Tests\Softeq.XToolkit.Bindings.Tests.csproj", "{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Tests", "Softeq.XToolkit.Bindings.Tests\Softeq.XToolkit.Bindings.Tests.csproj", "{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel", "..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj", "{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel", "Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj", "{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.iOS", "..\..\Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj", "{CC89DBC6-E68A-4C85-91C4-E276D3BC3C2E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.iOS", "Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj", "{CC89DBC6-E68A-4C85-91C4-E276D3BC3C2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Droid", "..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj", "{7F44F0F6-8396-42D0-8A1B-DC40CE8C478C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Droid", "Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj", "{7F44F0F6-8396-42D0-8A1B-DC40CE8C478C}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{2CC5305B-22A3-48B0-858A-98478AC14EF9}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Bindings", "Bindings", "{4C271D8F-4A71-4D1F-9715-BFBFB4805493}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Tests", "..\..\Softeq.XToolkit.Common.Tests\Softeq.XToolkit.Common.Tests.csproj", "{599F8C0C-3A3A-4CB7-ACEE-54780142077D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Tests", "Softeq.XToolkit.Common.Tests\Softeq.XToolkit.Common.Tests.csproj", "{599F8C0C-3A3A-4CB7-ACEE-54780142077D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Tests", "..\..\Softeq.XToolkit.WhiteLabel.Tests\Softeq.XToolkit.WhiteLabel.Tests.csproj", "{EA2EE367-20A6-4546-8516-75CCAF2CAFA6}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Tests", "Softeq.XToolkit.WhiteLabel.Tests\Softeq.XToolkit.WhiteLabel.Tests.csproj", "{EA2EE367-20A6-4546-8516-75CCAF2CAFA6}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Permissions", "Permissions", "{5AC8D4D8-2996-4A30-A738-F30A28744E03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions", "..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj", "{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions", "Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj", "{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions.iOS", "..\..\Softeq.XToolkit.Permissions.iOS\Softeq.XToolkit.Permissions.iOS.csproj", "{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions.iOS", "Softeq.XToolkit.Permissions.iOS\Softeq.XToolkit.Permissions.iOS.csproj", "{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions.Droid", "..\..\Softeq.XToolkit.Permissions.Droid\Softeq.XToolkit.Permissions.Droid.csproj", "{955A4101-4989-4764-9134-E621FC4D9C86}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Permissions.Droid", "Softeq.XToolkit.Permissions.Droid\Softeq.XToolkit.Permissions.Droid.csproj", "{955A4101-4989-4764-9134-E621FC4D9C86}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PushNotifications", "PushNotifications", "{D15708C3-17EB-4211-9B6D-05D53DED6264}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications", "..\..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj", "{E0C9CDE2-4C35-410A-AE95-A7871BEE0180}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications", "Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj", "{E0C9CDE2-4C35-410A-AE95-A7871BEE0180}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications.Droid", "..\..\Softeq.XToolkit.PushNotifications.Droid\Softeq.XToolkit.PushNotifications.Droid.csproj", "{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications.Droid", "Softeq.XToolkit.PushNotifications.Droid\Softeq.XToolkit.PushNotifications.Droid.csproj", "{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications.iOS", "..\..\Softeq.XToolkit.PushNotifications.iOS\Softeq.XToolkit.PushNotifications.iOS.csproj", "{0EAE7634-9497-4FB8-B62F-DDACF85985D2}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.PushNotifications.iOS", "Softeq.XToolkit.PushNotifications.iOS\Softeq.XToolkit.PushNotifications.iOS.csproj", "{0EAE7634-9497-4FB8-B62F-DDACF85985D2}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Connectivity", "Connectivity", "{9D45EECA-8CBD-4E56-B24F-1804F6313657}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Connectivity", "..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj", "{044152C1-3B2A-45A6-B233-80A51C511129}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Connectivity", "Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj", "{044152C1-3B2A-45A6-B233-80A51C511129}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Connectivity.iOS", "..\..\Softeq.XToolkit.Connectivity.iOS\Softeq.XToolkit.Connectivity.iOS.csproj", "{E3CCEEA3-C0B0-47B0-B414-2D6C18AC100A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Connectivity.iOS", "Softeq.XToolkit.Connectivity.iOS\Softeq.XToolkit.Connectivity.iOS.csproj", "{E3CCEEA3-C0B0-47B0-B414-2D6C18AC100A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Remote", "Remote", "{4AE486ED-042A-43D8-9E20-76EE99420232}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Remote", "..\..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj", "{B46B6D85-9CF7-4379-92D0-020491902173}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Remote", "Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj", "{B46B6D85-9CF7-4379-92D0-020491902173}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Remote.Tests", "..\..\Softeq.XToolkit.Remote.Tests\Softeq.XToolkit.Remote.Tests.csproj", "{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Remote.Tests", "Softeq.XToolkit.Remote.Tests\Softeq.XToolkit.Remote.Tests.csproj", "{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Essentials", "..\..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj", "{887C6CE5-075B-420D-A88F-60479C4DC25A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Essentials", "Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj", "{887C6CE5-075B-420D-A88F-60479C4DC25A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Essentials.iOS", "..\..\Softeq.XToolkit.WhiteLabel.Essentials.iOS\Softeq.XToolkit.WhiteLabel.Essentials.iOS.csproj", "{23AA0E71-BF8F-47A8-A915-C8AC4841E064}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Essentials.iOS", "Softeq.XToolkit.WhiteLabel.Essentials.iOS\Softeq.XToolkit.WhiteLabel.Essentials.iOS.csproj", "{23AA0E71-BF8F-47A8-A915-C8AC4841E064}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Essentials.Droid", "..\..\Softeq.XToolkit.WhiteLabel.Essentials.Droid\Softeq.XToolkit.WhiteLabel.Essentials.Droid.csproj", "{CAEA919A-5B4A-4D97-AB4C-33229484BD7A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Essentials.Droid", "Softeq.XToolkit.WhiteLabel.Essentials.Droid\Softeq.XToolkit.WhiteLabel.Essentials.Droid.csproj", "{CAEA919A-5B4A-4D97-AB4C-33229484BD7A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WhiteLabel.Essentials", "WhiteLabel.Essentials", "{E99D8F55-E428-4D94-947A-CC25E5B61BE6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms", "..\Playground.Forms\Playground.Forms\Playground.Forms.csproj", "{E8FAE67B-887D-4EEB-96BC-7C48A0ACACC8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms", "samples\Playground.Forms\Playground.Forms\Playground.Forms.csproj", "{E8FAE67B-887D-4EEB-96BC-7C48A0ACACC8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.iOS", "Playground.iOS\Playground.iOS.csproj", "{6B7105F6-6F18-4999-BA4E-8069D92F3150}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms.iOS", "samples\Playground.Forms\Playground.Forms.iOS\Playground.Forms.iOS.csproj", "{7923F495-A6D6-4D60-ACE0-0D5D61C1BC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms.iOS", "..\Playground.Forms\Playground.Forms.iOS\Playground.Forms.iOS.csproj", "{7923F495-A6D6-4D60-ACE0-0D5D61C1BC92}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms.Droid", "samples\Playground.Forms\Playground.Forms.Droid\Playground.Forms.Droid.csproj", "{29A0AC6F-B4E3-4183-8B29-FFC86B69419F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms.Droid", "..\Playground.Forms\Playground.Forms.Droid\Playground.Forms.Droid.csproj", "{29A0AC6F-B4E3-4183-8B29-FFC86B69419F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Forms", "..\..\Softeq.XToolkit.WhiteLabel.Forms\Softeq.XToolkit.WhiteLabel.Forms.csproj", "{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Forms", "Softeq.XToolkit.WhiteLabel.Forms\Softeq.XToolkit.WhiteLabel.Forms.csproj", "{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playground.Forms", "Playground.Forms", "{56850655-3264-43CE-AAE6-4A59F9CCB0EF}"
 EndProject
