@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.iO
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Droid", "..\..\Softeq.XToolkit.Bindings.Droid\Softeq.XToolkit.Bindings.Droid.csproj", "{2B4A678B-63B4-49DB-99B1-BFE7793110C4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Bindings.Tests", "..\..\Softeq.XToolkit.Bindings.Tests\Softeq.XToolkit.Bindings.Tests.csproj", "{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}"
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel", "..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj", "{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.iOS", "..\..\Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj", "{CC89DBC6-E68A-4C85-91C4-E276D3BC3C2E}"
@@ -224,6 +226,8 @@ Global
 		{EA2EE367-20A6-4546-8516-75CCAF2CAFA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA2EE367-20A6-4546-8516-75CCAF2CAFA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA2EE367-20A6-4546-8516-75CCAF2CAFA6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA2EE367-20A6-4546-8516-75CCAF2CAFA6}.Release|iPhone.Build.0 = Release|Any CPU
+		{EA2EE367-20A6-4546-8516-75CCAF2CAFA6}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
 		{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
 		{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
@@ -275,7 +279,6 @@ Global
 		{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
-		{FACBCCE2-C5F5-4AA8-9E19-8D61B4386EEA}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{0EAE7634-9497-4FB8-B62F-DDACF85985D2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0EAE7634-9497-4FB8-B62F-DDACF85985D2}.Debug|iPhone.ActiveCfg = Debug|Any CPU
 		{0EAE7634-9497-4FB8-B62F-DDACF85985D2}.Debug|iPhone.Build.0 = Debug|Any CPU
@@ -415,6 +418,20 @@ Global
 		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}.Release|iPhone.Build.0 = Release|Any CPU
 		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}.Release|iPhone.Build.0 = Release|Any CPU
+		{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Debug|iPhone.Build.0 = Debug|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Debug|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Release|iPhone.Build.0 = Release|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24588814-B93D-4528-8917-9C2A3C4E85CA} = {2CC5305B-22A3-48B0-858A-98478AC14EF9}
@@ -445,5 +462,6 @@ Global
 		{29A0AC6F-B4E3-4183-8B29-FFC86B69419F} = {56850655-3264-43CE-AAE6-4A59F9CCB0EF}
 		{7923F495-A6D6-4D60-ACE0-0D5D61C1BC92} = {56850655-3264-43CE-AAE6-4A59F9CCB0EF}
 		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D} = {56850655-3264-43CE-AAE6-4A59F9CCB0EF}
+		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4} = {4C271D8F-4A71-4D1F-9715-BFBFB4805493}
 	EndGlobalSection
 EndGlobal

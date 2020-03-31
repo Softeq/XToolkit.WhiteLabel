@@ -15,7 +15,7 @@ namespace Playground.Forms.ViewModels
     {
         private readonly IPageNavigationService _pageNavigationService;
 
-        private string _title;
+        private string _title = string.Empty;
 
         public MainPageViewModel(IPageNavigationService pageNavigationService)
         {

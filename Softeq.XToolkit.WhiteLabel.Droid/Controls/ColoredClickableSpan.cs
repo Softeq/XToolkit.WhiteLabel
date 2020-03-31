@@ -3,10 +3,10 @@
 
 using System;
 using Android.Content;
-using Android.Support.V4.Content;
 using Android.Text;
 using Android.Text.Style;
 using Android.Views;
+using AndroidX.Core.Content;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {

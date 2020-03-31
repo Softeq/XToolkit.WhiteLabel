@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using Android.Content;
 using Android.OS;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;

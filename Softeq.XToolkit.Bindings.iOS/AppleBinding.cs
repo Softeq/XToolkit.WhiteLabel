@@ -9,9 +9,10 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS
 {
-    // Partial class for Apple only.
+    /// <inheritdoc />
     public class AppleBinding<TSource, TTarget> : Binding<TSource, TTarget>
     {
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public AppleBinding(object source, string sourcePropertyName, object target = null,
             string targetPropertyName = null, BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
@@ -19,6 +20,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
         }
 
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public AppleBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null, BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
@@ -26,6 +28,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
         }
 
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public AppleBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
             object target = null, Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default, TSource fallbackValue = default,
@@ -34,12 +37,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
         }
 
-        public Binding<TSource, TTarget> ObserveSourceEvent()
-        {
-            return ObserveSourceEvent(UpdateTriggerMode.PropertyChanged);
-        }
-
-        public Binding<TSource, TTarget> ObserveSourceEvent(UpdateTriggerMode mode)
+        public Binding<TSource, TTarget> ObserveSourceEvent(UpdateTriggerMode mode = UpdateTriggerMode.PropertyChanged)
         {
             switch (mode)
             {
@@ -53,11 +51,6 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
 
             return this;
-        }
-
-        public Binding<TSource, TTarget> ObserveTargetEvent()
-        {
-            return ObserveTargetEvent(UpdateTriggerMode.PropertyChanged);
         }
 
         public Binding<TSource, TTarget> ObserveTargetEvent(UpdateTriggerMode mode)
@@ -78,28 +71,31 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         protected override Binding<TSource, TTarget> CheckControlSource()
         {
-            if (PropertySource.Target is UITextView textBox)
+            // ReSharper disable LocalNameCapturedOnly
+            // ReSharper disable RedundantAssignment
+            switch (PropertySource.Target)
             {
-                var binding = ObserveSourceEvent(nameof(textBox.Changed));
-                binding.SourceHandlers[nameof(textBox.Changed)].IsDefault = true;
-                return binding;
+                case UITextView textBox:
+                {
+                    var binding = ObserveSourceEvent(nameof(textBox.Changed));
+                    binding.SourceHandlers[nameof(textBox.Changed)].IsDefault = true;
+                    return binding;
+                }
+                case UITextField textField:
+                {
+                    var binding = ObserveSourceEvent(nameof(textField.EditingChanged));
+                    binding.SourceHandlers[nameof(textField.EditingChanged)].IsDefault = true;
+                    return binding;
+                }
+                case UISwitch checkbox:
+                {
+                    var binding = ObserveSourceEvent(nameof(checkbox.ValueChanged));
+                    binding.SourceHandlers[nameof(checkbox.ValueChanged)].IsDefault = true;
+                    return binding;
+                }
+                default:
+                    return this;
             }
-
-            if (PropertySource.Target is UITextField textField)
-            {
-                var binding = ObserveSourceEvent(nameof(textField.EditingChanged));
-                binding.SourceHandlers[nameof(textField.EditingChanged)].IsDefault = true;
-                return binding;
-            }
-
-            if (PropertySource.Target is UISwitch checkbox)
-            {
-                var binding = ObserveSourceEvent(nameof(checkbox.ValueChanged));
-                binding.SourceHandlers[nameof(checkbox.ValueChanged)].IsDefault = true;
-                return binding;
-            }
-
-            return this;
         }
 
         protected override Binding<TSource, TTarget> CheckControlTarget()
@@ -109,28 +105,31 @@ namespace Softeq.XToolkit.Bindings.iOS
                 return this;
             }
 
-            if (PropertyTarget.Target is UITextView textBox)
+            // ReSharper disable LocalNameCapturedOnly
+            // ReSharper disable RedundantAssignment
+            switch (PropertyTarget.Target)
             {
-                var binding = ObserveTargetEvent(nameof(textBox.Changed));
-                binding.TargetHandlers[nameof(textBox.Changed)].IsDefault = true;
-                return binding;
+                case UITextView textBox:
+                {
+                    var binding = ObserveTargetEvent(nameof(textBox.Changed));
+                    binding.TargetHandlers[nameof(textBox.Changed)].IsDefault = true;
+                    return binding;
+                }
+                case UITextField textField:
+                {
+                    var binding = ObserveTargetEvent(nameof(textField.EditingChanged));
+                    binding.TargetHandlers[nameof(textField.EditingChanged)].IsDefault = true;
+                    return binding;
+                }
+                case UISwitch checkbox:
+                {
+                    var binding = ObserveTargetEvent(nameof(checkbox.ValueChanged));
+                    binding.TargetHandlers[nameof(checkbox.ValueChanged)].IsDefault = true;
+                    return binding;
+                }
+                default:
+                    return this;
             }
-
-            if (PropertyTarget.Target is UITextField textField)
-            {
-                var binding = ObserveTargetEvent(nameof(textField.EditingChanged));
-                binding.TargetHandlers[nameof(textField.EditingChanged)].IsDefault = true;
-                return binding;
-            }
-
-            if (PropertyTarget.Target is UISwitch checkbox)
-            {
-                var binding = ObserveTargetEvent(nameof(checkbox.ValueChanged));
-                binding.TargetHandlers[nameof(checkbox.ValueChanged)].IsDefault = true;
-                return binding;
-            }
-
-            return this;
         }
     }
 }

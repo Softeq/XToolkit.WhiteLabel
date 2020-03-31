@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>Return IEnumerable if source is null otherwise return source.</returns>
         /// <param name="source">Source.</param>
         /// <typeparam name="T">Item type.</typeparam>
-        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T> source)
+        public static IEnumerable<T> EmptyIfNull<T>(this IEnumerable<T>? source)
         {
             return source ?? Enumerable.Empty<T>();
         }
