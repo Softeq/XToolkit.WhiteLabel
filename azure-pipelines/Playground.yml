@@ -13,4 +13,4 @@ variables:
 jobs:
 - template: templates/app-jobs.yml
   parameters:
-    SolutionPath: 'samples/Playground/Playground.sln'
+    SolutionPath: 'XToolkit.sln'
