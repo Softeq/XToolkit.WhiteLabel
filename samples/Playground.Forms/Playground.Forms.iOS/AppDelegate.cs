@@ -7,7 +7,7 @@ using Xamarin.Forms.Platform.iOS;
 
 namespace Playground.Forms.iOS
 {
-    [Register("AppDelegate")]
+    [Register(nameof(AppDelegate))]
     public class AppDelegate : FormsApplicationDelegate
     {
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)

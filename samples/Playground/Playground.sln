@@ -77,11 +77,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.iOS", "Playgroun
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms.iOS", "..\Playground.Forms\Playground.Forms.iOS\Playground.Forms.iOS.csproj", "{7923F495-A6D6-4D60-ACE0-0D5D61C1BC92}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms.Android", "..\Playground.Forms\Playground.Forms.Android\Playground.Forms.Android.csproj", "{29A0AC6F-B4E3-4183-8B29-FFC86B69419F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Forms.Droid", "..\Playground.Forms\Playground.Forms.Droid\Playground.Forms.Droid.csproj", "{29A0AC6F-B4E3-4183-8B29-FFC86B69419F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.WhiteLabel.Forms", "..\..\Softeq.XToolkit.WhiteLabel.Forms\Softeq.XToolkit.WhiteLabel.Forms.csproj", "{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Forms", "Forms", "{56850655-3264-43CE-AAE6-4A59F9CCB0EF}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playground.Forms", "Playground.Forms", "{56850655-3264-43CE-AAE6-4A59F9CCB0EF}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WhiteLabel.Forms", "WhiteLabel.Forms", "{0991B9DD-73BF-4A3E-9CF7-E417045FC889}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -335,6 +337,8 @@ Global
 		{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}.Release|iPhone.ActiveCfg = Release|Any CPU
 		{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
+		{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}.Release|iPhone.Build.0 = Release|Any CPU
+		{0A299AB1-4A6D-4FC3-A0BE-53A55C900E78}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 		{887C6CE5-075B-420D-A88F-60479C4DC25A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{887C6CE5-075B-420D-A88F-60479C4DC25A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{887C6CE5-075B-420D-A88F-60479C4DC25A}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -406,6 +410,8 @@ Global
 		{6B7105F6-6F18-4999-BA4E-8069D92F3150}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
 		{6B7105F6-6F18-4999-BA4E-8069D92F3150}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
 		{6B7105F6-6F18-4999-BA4E-8069D92F3150}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{6B7105F6-6F18-4999-BA4E-8069D92F3150}.Debug|iPhone.Build.0 = Debug|iPhone
+		{6B7105F6-6F18-4999-BA4E-8069D92F3150}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
 		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D}.Debug|iPhone.ActiveCfg = Debug|Any CPU
@@ -461,7 +467,7 @@ Global
 		{E8FAE67B-887D-4EEB-96BC-7C48A0ACACC8} = {56850655-3264-43CE-AAE6-4A59F9CCB0EF}
 		{29A0AC6F-B4E3-4183-8B29-FFC86B69419F} = {56850655-3264-43CE-AAE6-4A59F9CCB0EF}
 		{7923F495-A6D6-4D60-ACE0-0D5D61C1BC92} = {56850655-3264-43CE-AAE6-4A59F9CCB0EF}
-		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D} = {56850655-3264-43CE-AAE6-4A59F9CCB0EF}
+		{EE5E06CB-17B2-4ECA-BC82-DD06D60EAB6D} = {0991B9DD-73BF-4A3E-9CF7-E417045FC889}
 		{1CD42D28-1118-4FEF-8DA9-8C14A47098B4} = {4C271D8F-4A71-4D1F-9715-BFBFB4805493}
 	EndGlobalSection
 EndGlobal
