@@ -148,12 +148,12 @@ namespace Softeq.XToolkit.Common.Commands
                 throw new ArgumentException($"Async command wait parameter with type: {typeof(T)}", nameof(parameter));
             }
 
-            Execute(parameter == null ? default : (T) parameter);
+            Execute(parameter == null ? default! : (T) parameter);
         }
 
         protected override Func<Task> ExecuteAsyncImpl(object? parameter)
         {
-            return () => _action(parameter == null ? default : (T) parameter);
+            return () => _action(parameter == null ? default! : (T) parameter);
         }
     }
 }

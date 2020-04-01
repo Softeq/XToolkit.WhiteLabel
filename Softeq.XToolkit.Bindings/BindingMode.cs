@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Bindings
 
         /// <summary>
         ///     A one time binding. The binding's value will be set when the
-        ///     binding is created but subsequent changes will be ignored/
+        ///     binding is created but subsequent changes will be ignored.
         /// </summary>
         OneTime = 1,
 

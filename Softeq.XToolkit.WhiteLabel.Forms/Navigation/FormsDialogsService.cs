@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -39,6 +40,32 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
             var result = await page.DisplayAlert(title, message, okButtonText, cancelButtonText).ConfigureAwait(false);
             return result;
+        }
+
+        public Task ShowDialogAsync(AlertDialogConfig config)
+        {
+            var page = GetLastPageInModalStack();
+            return page.DisplayAlert(config.Title, config.Message, config.CloseButtonText);
+        }
+
+        public Task<bool> ShowDialogAsync(ConfirmDialogConfig config)
+        {
+            var page = GetLastPageInModalStack();
+            return page.DisplayAlert(
+                config.Title,
+                config.Message,
+                config.AcceptButtonText,
+                config.CancelButtonText);
+        }
+
+        public Task<string> ShowDialogAsync(ActionSheetDialogConfig config)
+        {
+            var page = GetLastPageInModalStack();
+            return page.DisplayActionSheet(
+                config.Title,
+                config.CancelButtonText,
+                config.DestructButtonText,
+                config.OptionButtons);
         }
 
         public Task ShowForViewModel<TViewModel>(IEnumerable<NavigationParameterModel>? parameters = null)

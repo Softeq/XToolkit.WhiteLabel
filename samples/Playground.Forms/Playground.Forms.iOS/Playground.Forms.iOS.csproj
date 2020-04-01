@@ -14,8 +14,7 @@
     <AssemblyName>Playground.Forms.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -142,7 +141,7 @@
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Playground.Forms\Playground.Forms.csproj">
-      <Project>{C06A134F-D7DB-482A-98AA-E339E400EF92}</Project>
+      <Project>{E8FAE67B-887D-4EEB-96BC-7C48A0ACACC8}</Project>
       <Name>Playground.Forms</Name>
     </ProjectReference>
   </ItemGroup>

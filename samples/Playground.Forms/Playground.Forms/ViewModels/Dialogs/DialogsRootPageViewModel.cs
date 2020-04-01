@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.Forms.ViewModels.Dialogs.Modal;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -67,12 +68,14 @@ namespace Playground.Forms.ViewModels.Dialogs
 
         private Task AlertAsync()
         {
-            return _dialogsService.ShowDialogAsync("simple title", "simple message", "ok");
+            var config = new AlertDialogConfig("simple title", "simple message", "ok");
+            return _dialogsService.ShowDialogAsync(config);
         }
 
         private async Task AlertWithTwoButtonsAsync()
         {
-            var result = await _dialogsService.ShowDialogAsync("simple title", "simple message", "ok", "cancel");
+            var config = new ConfirmDialogConfig("simple title", "simple message", "ok", "cancel");
+            var result = await _dialogsService.ShowDialogAsync(config);
 
             DialogResult = $"result: {result}";
         }

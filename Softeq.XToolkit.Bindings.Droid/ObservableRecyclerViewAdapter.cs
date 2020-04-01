@@ -5,9 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using Android.OS;
-using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
+using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Common.Weak;
 
 #nullable disable

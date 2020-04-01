@@ -1,18 +1,19 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Playground.Extended;
 using Playground.Models;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Pages
 {
     public class DetailsPageViewModel : ViewModelBase
     {
-        private readonly IDialogsService _dialogsService;
+        private readonly IExtendedDialogsService _dialogsService;
 
         public DetailsPageViewModel(
-            IDialogsService dialogsService)
+            IExtendedDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
         }
@@ -24,9 +25,11 @@ namespace Playground.ViewModels.Pages
             base.OnAppearing();
 
             var title = Person?.FullName ?? string.Empty;
-            var message = Person == null ? "You navigated without parameter" : "You navigated with parameter:";
+            var message = Person == null
+                ? "You navigated without parameter"
+                : $"You navigated with parameter: {Person.FullName}";
 
-            _dialogsService.ShowDialogAsync(title, message, "OK");
+            _dialogsService.ShowDialogAsync(new AlertDialogConfig(title, message, "OK"));
         }
     }
 }

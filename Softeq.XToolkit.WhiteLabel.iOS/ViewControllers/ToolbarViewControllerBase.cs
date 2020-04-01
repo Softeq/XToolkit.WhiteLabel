@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
                 TabBarControllerFactory);
 
             tabController.SelectedIndex = ViewModel.SelectedIndex;
-            tabController.SetCommandWithArgs(
+            tabController.SetCommand(
                 nameof(tabController.ViewControllerSelected),
                 new RelayCommand<UITabBarSelectionEventArgs>(HandleItemClick));
 

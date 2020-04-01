@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
 {
     public class EventToCommandBehavior : BehaviorBase<VisualElement>
     {
-        private Delegate _eventHandler;
+        private Delegate? _eventHandler;
 
         public static readonly BindableProperty EventNameProperty = BindableProperty.Create(
             nameof(EventName),
@@ -77,6 +77,11 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
                 return;
             }
 
+            if (AssociatedObject == null)
+            {
+                return;
+            }
+
             var eventInfo = AssociatedObject.GetType().GetRuntimeEvent(name);
             if (eventInfo == null)
             {
@@ -94,6 +99,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
                 return;
             }
             if (_eventHandler == null)
+            {
+                return;
+            }
+            if (AssociatedObject == null)
             {
                 return;
             }
