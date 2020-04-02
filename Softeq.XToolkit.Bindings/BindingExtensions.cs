@@ -11,8 +11,6 @@ using Softeq.XToolkit.Common.Disposables;
 
 #nullable disable
 
-#nullable disable
-
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>

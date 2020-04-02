@@ -9,8 +9,6 @@ using Android.Widget;
 
 #nullable disable
 
-#nullable disable
-
 namespace Softeq.XToolkit.Bindings.Droid
 {
     public class DroidBindingFactory : BindingFactoryBase
