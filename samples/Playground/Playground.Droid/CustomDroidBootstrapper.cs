@@ -8,19 +8,11 @@ using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
 using Playground.Droid.Extended;
 using Playground.Extended;
-using Softeq.XToolkit.Connectivity;
-using System.Collections.Generic;
-using System.Reflection;
-using Playground.Droid.Extended;
-using Playground.Extended;
-using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.Droid.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
 
 namespace Playground.Droid
 {
