@@ -10,7 +10,9 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.HashHelperTests
         private static readonly string _key = $"{nameof(TestHashObject)}_{nameof(_value)}";
         private int _value;
 
-        public TestHashObject() { }
+        public TestHashObject()
+        {
+        }
 
         public TestHashObject(int value)
         {

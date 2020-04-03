@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Threading.Tasks;
+using System.Threading.Tasks;
 using Softeq.XToolkit.Remote.Auth.Handlers;
 using Softeq.XToolkit.Remote.Client;
 

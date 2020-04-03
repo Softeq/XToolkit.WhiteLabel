@@ -62,9 +62,9 @@ namespace Softeq.XToolkit.Common.Tests.Helpers
             }
         }
 
-        public WeakFunc<T, string> Func { get; }
-
         public static string Result { get; private set; }
+
+        public WeakFunc<T, string> Func { get; }
 
         public string Execute()
         {

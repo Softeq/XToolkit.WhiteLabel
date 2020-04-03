@@ -19,12 +19,12 @@ namespace Softeq.XToolkit.Bindings
     /// </summary>
     public class PropertyChangedEventManager
     {
+        private static readonly object _syncLock = new object();
         private static PropertyChangedEventManager _manager;
-        private static readonly object SyncLock = new object();
         private Dictionary<string, List<ListenerInfo>> _list;
 
         /// <summary>
-        ///     Get the current instance of <see cref="PropertyChangedEventManager" />
+        ///     Gets the current instance of <see cref="PropertyChangedEventManager" />.
         /// </summary>
         private static PropertyChangedEventManager Instance => _manager ??= new PropertyChangedEventManager();
 
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.Bindings
                 return;
             }
 
-            lock (SyncLock)
+            lock (_syncLock)
             {
                 if (_list == null)
                 {
@@ -123,7 +123,7 @@ namespace Softeq.XToolkit.Bindings
         {
             if (_list != null)
             {
-                lock (SyncLock)
+                lock (_syncLock)
                 {
                     string propertyName = null;
                     ListenerInfo toRemove = null;

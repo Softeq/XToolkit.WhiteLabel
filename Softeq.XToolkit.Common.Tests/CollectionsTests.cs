@@ -17,24 +17,28 @@ namespace Softeq.XToolkit.Common.Tests
         private const string CollectionItemKey = "collection_item";
 
         [Theory]
-        [MemberData(nameof(ObservableKeyGroupsCollectionTestData.DataToAdd), MemberType =
-            typeof(ObservableKeyGroupsCollectionTestData))]
+        [MemberData(
+            nameof(ObservableKeyGroupsCollectionTestData.DataToAdd),
+            MemberType = typeof(ObservableKeyGroupsCollectionTestData))]
         public void AddToObservableKeyGroupsCollectionTest(
-            (Func<string, string> DefaultSelector, Func<string, string> CustomSelector, List<List<string>> ValuesToAdd)
-                input, string result)
+            (Func<string, string> defaultSelector,
+            Func<string, string> customSelector,
+            List<List<string>> valuesToAdd) input,
+            string result)
         {
-            var collection = new ObservableKeyGroupsCollection<string, string>(input.DefaultSelector);
-            foreach (var item in input.ValuesToAdd)
+            var collection = new ObservableKeyGroupsCollection<string, string>(input.defaultSelector);
+            foreach (var item in input.valuesToAdd)
             {
-                collection.AddRangeToGroups(item, input.CustomSelector);
+                collection.AddRangeToGroups(item, input.customSelector);
             }
 
             Assert.Equal(CollectionToString(collection), result);
         }
 
         [Theory]
-        [MemberData(nameof(CollectionSorterTestData.SortParams), MemberType =
-            typeof(CollectionSorterTestData))]
+        [MemberData(
+            nameof(CollectionSorterTestData.SortParams),
+            MemberType = typeof(CollectionSorterTestData))]
         public void CollectionSorterTest(bool isAsc, ObservableCollection<string> collection, string result)
         {
             var stringComparision = new Comparison<string>(
@@ -53,20 +57,21 @@ namespace Softeq.XToolkit.Common.Tests
         }
 
         [Theory]
-        [MemberData(nameof(ObservableKeyGroupsCollectionTestData.DataToRemove), MemberType =
-            typeof(ObservableKeyGroupsCollectionTestData))]
+        [MemberData(
+            nameof(ObservableKeyGroupsCollectionTestData.DataToRemove),
+            MemberType = typeof(ObservableKeyGroupsCollectionTestData))]
         public void RemoveFromObservableKeyGroupsCollectionTest(
-            (Func<string, string> DefaultSelector,
-                Func<string, string> CustomSelector,
-                ObservableKeyGroupsCollection<string, string> Collection,
-                List<string> Values) input, string result)
+            (Func<string, string> defaultSelector,
+                Func<string, string> customSelector,
+                ObservableKeyGroupsCollection<string, string> collection,
+                List<string> values) input, string result)
         {
-            foreach (var item in input.Values)
+            foreach (var item in input.values)
             {
-                input.Collection.RemoveFromGroups(item, input.CustomSelector);
+                input.collection.RemoveFromGroups(item, input.customSelector);
             }
 
-            Assert.Equal(CollectionToString(input.Collection), result);
+            Assert.Equal(CollectionToString(input.collection), result);
         }
 
         private static string CollectionToString(ObservableKeyGroupsCollection<string, string> collection)
@@ -88,7 +93,7 @@ namespace Softeq.XToolkit.Common.Tests
                 listOfFiredActions.Add(new Tuple<string, NotifyCollectionChangedAction>(CollectionKey, e.Action));
             };
 
-            collection.AddRangeToGroups(new[] {"aa", "ba", "ca"});
+            collection.AddRangeToGroups(new[] { "aa", "ba", "ca" });
 
             collection[0].CollectionChanged += (sender, e) =>
             {
@@ -108,12 +113,12 @@ namespace Softeq.XToolkit.Common.Tests
                     new Tuple<string, NotifyCollectionChangedAction>(CollectionItemKey, e.Action));
             };
 
-            collection.AddRangeToGroups(new[] {"ab", "ac", "ad", "bb", "bc"});
+            collection.AddRangeToGroups(new[] { "ab", "ac", "ad", "bb", "bc" });
             collection.RemoveFromGroups("ac");
             collection.RemoveFromGroups("bc");
             collection.RemoveFromGroups("ca");
-            collection.AddRangeToGroups(new[] {"ca", "bc"});
-            collection.ReplaceRangeGroup(new[] {"aa", "ab", "ba"});
+            collection.AddRangeToGroups(new[] { "ca", "bc" });
+            collection.ReplaceRangeGroup(new[] { "aa", "ab", "ba" });
 
             var collectionEvents = listOfFiredActions.Where(x => x.Item1 == CollectionKey).ToList();
             var addEvents = collectionEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Add);
@@ -124,7 +129,7 @@ namespace Softeq.XToolkit.Common.Tests
             var addItemEvents = itemEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Add);
             var removeItemEvents = itemEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Remove);
 
-            //assert
+            // assert
             Assert.Equal(2, addEvents);
             Assert.Equal(1, removeEvents);
             Assert.Equal(1, resetEvents);
@@ -147,9 +152,9 @@ namespace Softeq.XToolkit.Common.Tests
                 {
                     (GetFirstLatterLower, GetFirstLatterUpper, new List<List<string>>
                     {
-                        new List<string> {"aa", "ba"},
-                        new List<string> {"ca", "da"},
-                        new List<string> {"bb", "cb"},
+                        new List<string> { "aa", "ba" },
+                        new List<string> { "ca", "da" },
+                        new List<string> { "bb", "cb" },
                         new List<string>()
                     }),
                     "values:aa,ba,bb,ca,cb,da;keys:A,B,C,D;counts:4,1,2,2,1"
@@ -158,9 +163,9 @@ namespace Softeq.XToolkit.Common.Tests
                 {
                     (default(Func<string, string>), GetFirstLatterUpper, new List<List<string>>
                     {
-                        new List<string> {"aa", "ba"},
-                        new List<string> {"ca", "da"},
-                        new List<string> {"bb", "cb"},
+                        new List<string> { "aa", "ba" },
+                        new List<string> { "ca", "da" },
+                        new List<string> { "bb", "cb" },
                         new List<string>()
                     }),
                     "values:aa,ba,bb,ca,cb,da;keys:A,B,C,D;counts:4,1,2,2,1"
@@ -169,9 +174,9 @@ namespace Softeq.XToolkit.Common.Tests
                 {
                     (GetFirstLatterLower, GetFirstLatterUpper, new List<List<string>>
                     {
-                        new List<string> {"aa", "ba"},
-                        new List<string> {"ca", "da"},
-                        new List<string> {"bb", "cb"},
+                        new List<string> { "aa", "ba" },
+                        new List<string> { "ca", "da" },
+                        new List<string> { "bb", "cb" },
                         new List<string>()
                     }),
                     "values:aa,ba,bb,ca,cb,da;keys:A,B,C,D;counts:4,1,2,2,1"
@@ -216,8 +221,8 @@ namespace Softeq.XToolkit.Common.Tests
         private static ObservableKeyGroupsCollection<string, string> BuildCollection()
         {
             var result = new ObservableKeyGroupsCollection<string, string>(GetFirstLatterLower);
-            result.AddRangeToGroups(new[] {"aa", "ab", "ba"});
-            result.AddRangeToGroups(new[] {"aa", "ab", "ba"}, GetFirstLatterUpper);
+            result.AddRangeToGroups(new[] { "aa", "ab", "ba" });
+            result.AddRangeToGroups(new[] { "aa", "ab", "ba" }, GetFirstLatterUpper);
             return result;
         }
     }
@@ -231,13 +236,13 @@ namespace Softeq.XToolkit.Common.Tests
                 yield return new object[]
                 {
                     true,
-                    new ObservableCollection<string> {"a", "c", "b", "A"},
+                    new ObservableCollection<string> { "a", "c", "b", "A" },
                     "aAbc"
                 };
                 yield return new object[]
                 {
                     false,
-                    new ObservableCollection<string> {"a", "c", "b", "A"},
+                    new ObservableCollection<string> { "a", "c", "b", "A" },
                     "cbAa"
                 };
             }

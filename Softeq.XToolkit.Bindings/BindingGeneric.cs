@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
@@ -52,6 +53,7 @@ namespace Softeq.XToolkit.Bindings
         private WeakFunc<TSource, Task> _sourceUpdateFunctionWithParameter;
         private PropertyInfo _targetProperty;
         private IConverter<TTarget, TSource> _valueConverter;
+
         protected WeakReference PropertySource;
         protected WeakReference PropertyTarget;
 
@@ -1150,7 +1152,7 @@ namespace Softeq.XToolkit.Bindings
                 {
                     try
                     {
-                        var newInstance = prop.GetMethod.Invoke(lastInstance.Instance, new object[] {});
+                        var newInstance = prop.GetMethod.Invoke(lastInstance.Instance, new object[] { });
 
                         lastInstance.Name = prop.Name;
 

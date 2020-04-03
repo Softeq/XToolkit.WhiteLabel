@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Net;
 using System.Net.Http;
 using System.Threading;
@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.Remote.Auth.Handlers
                 case RefreshTokenExpired:
                     throw new ExpiredRefreshTokenException(result.Exception);
                 default:
-                    throw new InvalidOperationException($"Can't handle attempt number: {attempt.ToString()}", result.Exception);
+                    throw new InvalidOperationException($"Can't handle attempt number: {attempt}", result.Exception);
             }
         }
     }

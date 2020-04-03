@@ -10,7 +10,6 @@ namespace Softeq.XToolkit.Remote.Exceptions
         public ExpiredRefreshTokenException(Exception innerException)
             : base("Refresh Token was expired", innerException)
         {
-
         }
     }
 }

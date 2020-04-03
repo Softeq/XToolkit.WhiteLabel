@@ -292,7 +292,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             {
                 new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { }),
                 new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1" }),
-                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2"}),
+                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2" }),
                 new KeyValuePair<string, IList<string>>("newKey3", new Collection<string> { "newKey3value1", "newKey3value2", "newKey3value3" }),
             });
             groupCollection.ItemsChanged += (sender, args) =>
@@ -473,7 +473,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             {
                 new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { }),
                 new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1" }),
-                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2"}),
+                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2" }),
                 new KeyValuePair<string, IList<string>>("newKey3", new Collection<string> { "newKey3value1", "newKey3value2", "newKey3value3" }),
             });
             groupCollection.ItemsChanged += (sender, args) =>
@@ -501,7 +501,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             {
                 new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { "newKey0value0" }),
                 new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1" }),
-                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2"}),
+                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2" }),
                 new KeyValuePair<string, IList<string>>("newKey3", new Collection<string> { "newKey3value1", "newKey3value2", "newKey3value3" }),
             });
             groupCollection.ItemsChanged += (sender, args) =>
@@ -526,19 +526,22 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             groupCollection.AddGroups(new Collection<KeyValuePair<string, IList<string>>>
             {
                 new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { "newKey0value0" }),
-                new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2"}),
+                new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2" }),
             });
             groupCollection.ItemsChanged += (sender, args) =>
             {
                 listOfFiredActions.Add(args);
             };
 
-            groupCollection.AddItems(new Collection<(string, string)>
+            groupCollection.AddItems(
+                new Collection<(string, string)>
                 {
                     ("newKey0", "newKey0value1"),
                     ("newKey1", "newKey1value3"),
                     ("newKey1", "newKey1value4")
-                }, (item) => item.Item1, (item) => item.Item2);
+                },
+                (item) => item.Item1,
+                (item) => item.Item2);
 
             Assert.Single(listOfFiredActions);
 
@@ -588,20 +591,23 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             groupCollection.AddGroups(new Collection<KeyValuePair<string, IList<string>>>
             {
                 new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { "newKey0value0" }),
-                new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2"}),
+                new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2" }),
             });
             groupCollection.ItemsChanged += (sender, args) =>
             {
                 listOfFiredActions.Add(args);
             };
 
-            groupCollection.AddItems(new Collection<(string, string)>
+            groupCollection.AddItems(
+                new Collection<(string, string)>
                 {
                     ("newKey0", "newKey0value0"),
                     ("newKey1", "newKey1value3"),
                     ("newKey1", "newKey1value4"),
                     ("newKey2", "newKey2value0")
-                }, (item) => item.Item1, (item) => item.Item2);
+                },
+                (item) => item.Item1,
+                (item) => item.Item2);
 
             Assert.Single(listOfFiredActions);
 
@@ -659,14 +665,15 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             groupCollection.AddGroups(new Collection<KeyValuePair<string, IList<string>>>
             {
                 new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { "newKey0value0" }),
-                new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value4"}),
+                new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value4" }),
             });
             groupCollection.ItemsChanged += (sender, args) =>
             {
                 listOfFiredActions.Add(args);
             };
 
-            groupCollection.InsertItems(new Collection<(string, string, int)>
+            groupCollection.InsertItems(
+                new Collection<(string, string, int)>
                 {
                     ("newKey0", "newKey0value1", 0),
                     ("newKey1", "newKey1value0", 0),
@@ -730,19 +737,22 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             groupCollection.AddGroups(new Collection<KeyValuePair<string, IList<string>>>
             {
                 new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { "oldKey0value0" }),
-                new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2"}),
+                new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2" }),
             });
             groupCollection.ItemsChanged += (sender, args) =>
             {
                 listOfFiredActions.Add(args);
             };
 
-            groupCollection.ReplaceItems(new Collection<(string, string)>
+            groupCollection.ReplaceItems(
+                new Collection<(string, string)>
                 {
                     ("newKey0", "newKey0value0"),
                     ("newKey1", "newKey1value3"),
                     ("newKey1", "newKey1value4")
-                }, (item) => item.Item1, (item) => item.Item2);
+                },
+                (item) => item.Item1,
+                (item) => item.Item2);
 
             Assert.Single(listOfFiredActions);
 
@@ -775,7 +785,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             {
                 new KeyValuePair<string, IList<string>>("newKey0", new Collection<string> { "newKey0value0" }),
                 new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1", "newKey1value2" }),
-                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2"}),
+                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2" }),
                 new KeyValuePair<string, IList<string>>("newKey3", new Collection<string> { "newKey3value1", "newKey3value2", "newKey3value3", "newKey3value4" }),
             });
             groupCollection.ItemsChanged += (sender, args) =>
@@ -783,7 +793,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 listOfFiredActions.Add(args);
             };
 
-            groupCollection.RemoveItems(new Collection<(string, string)>
+            groupCollection.RemoveItems(
+                new Collection<(string, string)>
                 {
                     ("newKey1", "newKey1value1"),
                     ("newKey1", "newKey1value2"),
@@ -803,13 +814,14 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             return listOfFiredActions;
         }
 
-        private void RunAddGroupsTests(Action<Collection<KeyValuePair<string, IList<string>>>> action,
+        private void RunAddGroupsTests(
+            Action<Collection<KeyValuePair<string, IList<string>>>> action,
             IList<NotifyKeyGroupCollectionChangedEventArgs<string, string>> listOfFiredActions)
         {
             action.Invoke(new Collection<KeyValuePair<string, IList<string>>>
             {
                 new KeyValuePair<string, IList<string>>("newKey1", new Collection<string> { "newKey1value1" }),
-                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2"}),
+                new KeyValuePair<string, IList<string>>("newKey2", new Collection<string> { "newKey2value1", "newKey2value2" }),
                 new KeyValuePair<string, IList<string>>("newKey3", new Collection<string> { "newKey3value1", "newKey3value2", "newKey3value3" }),
                 new KeyValuePair<string, IList<string>>("newKey4", new Collection<string> { }),
             });
