@@ -289,7 +289,6 @@
     <Compile Include="ViewControllers\Components\GesturesPageViewController.designer.cs">
       <DependentUpon>GesturesPageViewController.cs</DependentUpon>
     </Compile>
-    <Compile Include="GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">

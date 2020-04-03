@@ -49,7 +49,6 @@
     <Compile Include="Helpers\AttributedStringHelper.cs" />
     <Compile Include="Extensions\UIViewExtensions.cs" />
     <Compile Include="Extensions\UITextFieldExtensions.cs" />
-    <Compile Include="GlobalSuppressions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
