@@ -193,17 +193,3 @@ dotnet_style_prefer_conditional_expression_over_assignment=true:suggestion
 csharp_prefer_simple_default_expression=true:suggestion
 
 csharp_style_deconstructed_variable_declaration=true:suggestion
-
-
-
-# SA1101: Prefix local calls with this
-dotnet_diagnostic.SA1101.severity = none
-
-# SA1309: Field names should not begin with underscore
-dotnet_diagnostic.SA1309.severity = none
-
-# SA1600: Elements should be documented
-dotnet_diagnostic.SA1600.severity = none
-
-# SA1128: Put constructor initializers on their own line
-dotnet_diagnostic.SA1128.severity = none
