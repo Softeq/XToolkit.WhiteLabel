@@ -9,6 +9,8 @@ namespace Softeq.XToolkit.Common.Tests
 {
     public class CommandTests
     {
+        private const string PatameterValue = "test";
+
         public CommandTests()
         {
             bool CanExecuteCommandFunc()
@@ -28,7 +30,6 @@ namespace Softeq.XToolkit.Common.Tests
 
         private bool _canExecuteCommand;
         private int _callTestMethodCount;
-        private const string PatameterValue = "test";
 
         private void CommandOnCanExecuteChanged(object sender, EventArgs eventArgs)
         {

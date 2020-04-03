@@ -9,12 +9,14 @@ using Softeq.XToolkit.Common.Logger;
 using UIKit;
 using UserNotifications;
 
+#pragma warning disable SA1300
 namespace Softeq.XToolkit.PushNotifications.iOS
+#pragma warning restore SA1300
 {
     public class IosPushNotificationsService : PushNotificationsServiceBase
     {
         /// <summary>
-        /// Default Dismiss Action identifier
+        ///     Default Dismiss Action identifier.
         /// </summary>
         public const string UNNotificationDismissActionIdentifier = "com.apple.UNNotificationDismissActionIdentifier";
 
@@ -31,7 +33,11 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             INotificationsPermissionsService permissionsService,
             INotificationCategoriesProvider notificationCategoriesProvider,
             ILogManager logManager)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
+            : base(
+                remotePushNotificationsService,
+                pushTokenStorageService,
+                pushNotificationsHandler,
+                pushNotificationParser,
                 logManager)
         {
             _permissionsService = permissionsService;

@@ -539,6 +539,5 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
             SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
-
     }
 }

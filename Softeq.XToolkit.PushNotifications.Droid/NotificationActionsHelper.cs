@@ -36,8 +36,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <param name="remoteInputResultKey">Result key for remote input (needed to obtain user reply)</param>
         /// <param name="remoteInputLabel">A label to be displayed in remote input field</param>
         /// <returns>A notification action with <see cref="RemoteInput"/> attached</returns>
-        public static NotificationCompat.Action CreateDirectReplyAction(int iconResId, string name, PendingIntent pendingIntent,
-            string remoteInputResultKey, string remoteInputLabel)
+        public static NotificationCompat.Action CreateDirectReplyAction(
+            int iconResId,
+            string name,
+            PendingIntent pendingIntent,
+            string remoteInputResultKey,
+            string remoteInputLabel)
         {
             var remoteInput = CreateRemoteInput(remoteInputResultKey, remoteInputLabel);
             return new NotificationCompat.Action.Builder(iconResId, name, pendingIntent)

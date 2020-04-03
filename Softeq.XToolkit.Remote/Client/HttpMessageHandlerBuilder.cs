@@ -55,7 +55,6 @@ namespace Softeq.XToolkit.Remote.Client
         {
             // This is similar to https://github.com/aspnet/AspNetWebStack/blob/master/src/System.Net.Http.Formatting/HttpClientFactory.cs#L58
             // but we don't want to take that package as a dependency.
-
             if (primaryHandler == null)
             {
                 throw new ArgumentNullException(nameof(primaryHandler));
@@ -98,14 +97,16 @@ namespace Softeq.XToolkit.Remote.Client
             return next;
         }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
         private static HttpMessageHandler? _cachedNativeHttpMessageHandler;
+#pragma warning restore SA1201 // Elements should appear in the correct order
+
         protected static HttpMessageHandler? CreateDefaultHandler()
         {
             if (_cachedNativeHttpMessageHandler == null)
             {
                 // HACK YP: need check, because linker can change assembly.
                 // Sources: https://github.com/mono/mono/blob/master/mcs/class/System.Net.Http/HttpClient.DefaultHandler.cs#L5
-
                 var createHandler = typeof(HttpClient).GetMethod("CreateDefaultHandler", BindingFlags.NonPublic | BindingFlags.Static);
                 var nativeHandler = createHandler?.Invoke(null, null);
                 _cachedNativeHttpMessageHandler = nativeHandler as HttpMessageHandler;

@@ -27,14 +27,18 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         public int Id { get; set; }
 
         /// <summary>
-        ///     If true, notification will be automatically removed when the user taps it
+        ///     If true, notification will be automatically removed when the user taps it.
         /// </summary>
         public bool AutoCancel { get; set; }
 
         public Uri SoundUri { get; set; }
+
         public NotificationPriority Priority { get; set; }
+
         public NotificationCompat.Style Style { get; set; }
+
         public int IconRes { get; set; }
+
         public int IconArgbColor { get; set; }
     }
 }

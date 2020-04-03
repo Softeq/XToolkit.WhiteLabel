@@ -5,7 +5,9 @@ namespace Softeq.XToolkit.WhiteLabel.Location
 {
     public class LocationModel
     {
-        public LocationModel() { }
+        public LocationModel()
+        {
+        }
 
         public LocationModel(double latitude, double longitude)
         {
@@ -14,6 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Location
         }
 
         public double Latitude { get; set; }
+
         public double Longitude { get; set; }
     }
 }

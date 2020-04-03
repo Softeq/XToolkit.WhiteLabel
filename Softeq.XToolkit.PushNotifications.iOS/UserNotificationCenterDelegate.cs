@@ -4,7 +4,9 @@
 using System;
 using UserNotifications;
 
+#pragma warning disable SA1300
 namespace Softeq.XToolkit.PushNotifications.iOS
+#pragma warning restore SA1300
 {
     public class UserNotificationCenterDelegate : UNUserNotificationCenterDelegate
     {
@@ -32,7 +34,9 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                     completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);
                     break;
                 case ForegroundNotificationOptions.ShowWithBadge:
-                    completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Badge);
+                    completionHandler(UNNotificationPresentationOptions.Alert
+                        | UNNotificationPresentationOptions.Sound
+                        | UNNotificationPresentationOptions.Badge);
                     break;
                 case ForegroundNotificationOptions.DoNotShow:
                     completionHandler(UNNotificationPresentationOptions.None);

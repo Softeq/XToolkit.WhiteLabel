@@ -37,7 +37,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             IPushNotificationParser pushNotificationParser,
             INotificationsSettingsProvider notificationsSettings,
             ILogManager logManager)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
+            : base(
+                remotePushNotificationsService,
+                pushTokenStorageService,
+                pushNotificationsHandler,
+                pushNotificationParser,
                 logManager)
         {
             _appContext = Application.Context;
@@ -96,7 +100,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             if (_appContext != null)
             {
                 var result = ShortcutBadger.ApplyCount(_appContext, badgeNumber);
-                Logger.Debug($"Badge count {badgeNumber} was" + (!result ? "NOT" : "") + "set");
+                Logger.Debug($"Badge count {badgeNumber} was" + (!result ? "NOT" : string.Empty) + "set");
             }
         }
 
@@ -201,7 +205,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             GC.SuppressFinalize(this);
         }
 
+#pragma warning disable SA1201 // Elements should appear in the correct order
         ~DroidPushNotificationsService()
+#pragma warning restore SA1201 // Elements should appear in the correct order
         {
             Dispose(false);
         }

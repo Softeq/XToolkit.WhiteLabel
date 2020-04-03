@@ -4,7 +4,9 @@
 using System;
 using Foundation;
 
+#pragma warning disable SA1300
 namespace Softeq.XToolkit.PushNotifications.iOS
+#pragma warning restore SA1300
 {
     public class IosPushNotificationParser : IPushNotificationParser
     {

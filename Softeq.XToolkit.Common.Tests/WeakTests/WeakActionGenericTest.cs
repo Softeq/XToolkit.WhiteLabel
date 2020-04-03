@@ -46,10 +46,6 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             _action = new WeakAction<string>(_common, DoStuffStatic);
         }
 
-        private static void DoStuffStatic(string p)
-        {
-        }
-
         private void DoStuff(string p)
         {
             _local = p;
@@ -485,6 +481,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             Reset();
             var action = new WeakAction<string>(null, DoStuffStatic);
             Assert.True(action.IsAlive);
+        }
+
+        private static void DoStuffStatic(string p)
+        {
         }
     }
 }

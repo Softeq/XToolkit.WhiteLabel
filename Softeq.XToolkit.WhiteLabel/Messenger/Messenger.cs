@@ -135,8 +135,8 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
                         && (messageTargetType == null
                             || item.Action.Target.GetType() == messageTargetType
                             || messageTargetType.IsAssignableFrom(item.Action.Target.GetType()))
-                        && (item.Token == null && token == null
-                            || item.Token != null && item.Token.Equals(token)))
+                        && ((item.Token == null && token == null)
+                            || (item.Token != null && item.Token.Equals(token))))
                     {
                         executeAction.ExecuteWithObject(message);
                     }

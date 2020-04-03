@@ -1037,8 +1037,7 @@ namespace Softeq.XToolkit.Bindings
             var sourceType = sourceProperty.PropertyType;
             var targetType = targetProperty.PropertyType;
 
-            return sourceType == targetType
-                   || IsValueType(sourceType) && IsValueType(targetType);
+            return sourceType == targetType || (IsValueType(sourceType) && IsValueType(targetType));
         }
 
         private void DetachSourceHandlers()

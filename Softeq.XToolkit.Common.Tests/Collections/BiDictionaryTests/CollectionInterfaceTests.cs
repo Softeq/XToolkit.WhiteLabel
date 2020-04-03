@@ -96,8 +96,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
             Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", collection.GetResult());
         }
 
-        //
-
         [Fact]
         public void Add_Reverse()
         {

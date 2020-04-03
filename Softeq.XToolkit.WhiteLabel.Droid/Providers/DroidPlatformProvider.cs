@@ -36,24 +36,25 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
         {
             var completionSource = new TaskCompletionSource<bool>();
 
-            Application.SynchronizationContext.Post(s =>
-            {
-                try
+            Application.SynchronizationContext.Post(
+                s =>
                 {
-                    action();
+                    try
+                    {
+                        action();
 
-                    completionSource.SetResult(true);
-                }
-                catch (TaskCanceledException)
-                {
-                    completionSource.SetCanceled();
-                }
-                catch (Exception ex)
-                {
-                    completionSource.SetException(ex);
-                }
-            }, null);
-
+                        completionSource.SetResult(true);
+                    }
+                    catch (TaskCanceledException)
+                    {
+                        completionSource.SetCanceled();
+                    }
+                    catch (Exception ex)
+                    {
+                        completionSource.SetException(ex);
+                    }
+                },
+                null);
 
             return completionSource.Task;
         }

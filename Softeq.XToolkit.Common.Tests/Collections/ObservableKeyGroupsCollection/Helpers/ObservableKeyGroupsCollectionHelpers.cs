@@ -46,6 +46,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
     public class TestItemModel
     {
         public DateTimeOffset DateTime { get; set; }
+
         public string Body { get; set; }
 
         public bool Equals(TestItemModel other)
