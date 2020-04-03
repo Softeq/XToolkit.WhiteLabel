@@ -13,6 +13,7 @@ using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker;
+using IImagePickerService = Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker.IImagePickerService;
 
 namespace Playground.Droid
 {
@@ -37,7 +38,7 @@ namespace Playground.Droid
             builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
 
             // image picker
-            builder.Singleton<DroidImagePickerService, Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker.IImagePickerService>();
+            builder.Singleton<DroidImagePickerService, IImagePickerService>();
 
             // connectivity
             builder.Singleton<ConnectivityService, IConnectivityService>();

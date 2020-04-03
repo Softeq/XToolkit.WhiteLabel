@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
 
         protected override void OnDetachingFrom(VisualElement bindable)
         {
-            DeregisterEvent(EventName);
+            UnregisterEvent(EventName);
             base.OnDetachingFrom(bindable);
         }
 
@@ -92,7 +92,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
             eventInfo.AddEventHandler(AssociatedObject, _eventHandler);
         }
 
-        private void DeregisterEvent(string name)
+        private void UnregisterEvent(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -110,7 +110,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
             var eventInfo = AssociatedObject.GetType().GetRuntimeEvent(name);
             if (eventInfo == null)
             {
-                throw new ArgumentException($"{nameof(EventToCommandBehavior)}: Can't de-register the '{EventName}' event.");
+                throw new ArgumentException($"{nameof(EventToCommandBehavior)}: Can't unregister the '{EventName}' event.");
             }
             eventInfo.RemoveEventHandler(AssociatedObject, _eventHandler);
             _eventHandler = null;
@@ -155,7 +155,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
             var oldEventName = (string)oldValue;
             var newEventName = (string)newValue;
 
-            behavior.DeregisterEvent(oldEventName);
+            behavior.UnregisterEvent(oldEventName);
             behavior.RegisterEvent(newEventName);
         }
     }
