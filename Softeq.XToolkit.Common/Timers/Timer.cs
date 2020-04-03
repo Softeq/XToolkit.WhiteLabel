@@ -76,7 +76,8 @@ namespace Softeq.XToolkit.Common.Timers
                 {
                     await _taskReference.RunAsync().ConfigureAwait(false);
                 }
-            } while (IsActive);
+            }
+            while (IsActive);
         }
     }
 }

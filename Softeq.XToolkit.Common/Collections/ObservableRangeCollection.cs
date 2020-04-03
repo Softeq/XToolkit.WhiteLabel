@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -18,16 +18,14 @@ namespace Softeq.XToolkit.Common.Collections
     public class ObservableRangeCollection<T> : ObservableCollection<T>
     {
         /// <summary>
-        ///     Initializes a new instance of the
-        ///     <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1" /> class.
+        ///     Initializes a new instance of the <see cref="ObservableRangeCollection{T}"/> class.
         /// </summary>
         public ObservableRangeCollection()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the
-        ///     <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1" /> class that contains
+        ///     Initializes a new instance of the <see cref="ObservableRangeCollection{T}"/> class that contains
         ///     elements copied from the specified collection.
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
@@ -82,8 +80,8 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnPropertyChanged(EventArgsCache.CountPropertyChanged);
             OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems,
-                startIndex));
+            OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
         }
 
         /// <summary>
@@ -115,17 +113,20 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnPropertyChanged(EventArgsCache.CountPropertyChanged);
             OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems,
-                startIndex));
+            OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
         }
 
         /// <summary>
         ///     Insert the elements of the specified collection and sort the collection.
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <param name="comparer">Method that compares <typeparamref name="T" /> objects</param>
+        /// <param name="comparer">Method that compares <typeparamref name="T" /> objects.</param>
+        /// <param name="notificationMode">Notification mode.</param>
         /// <returns>Inserted items indexes</returns>
-        public IList<int> InsertRangeSorted(IEnumerable<T> collection, Comparison<T> comparer,
+        public IList<int> InsertRangeSorted(
+            IEnumerable<T> collection,
+            Comparison<T> comparer,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
             if (notificationMode != NotifyCollectionChangedAction.Add &&
@@ -210,7 +211,7 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 if (!Items.Remove(changedItems[i]))
                 {
-                    changedItems.RemoveAt(i); //Can't use a foreach because changedItems is intended to be (carefully) modified
+                    changedItems.RemoveAt(i); // Can't use a foreach because changedItems is intended to be (carefully) modified
                     i--;
                 }
             }
@@ -224,7 +225,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <summary>
         ///     Clears the current collection and replaces it with the specified item.
         /// </summary>
-        /// <param name="item">Item that will added to collection</param>
+        /// <param name="item">Item that will added to collection.</param>
         public void Replace(T item)
         {
             ReplaceRange(new[] { item });

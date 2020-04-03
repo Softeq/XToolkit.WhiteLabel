@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -8,7 +8,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Permissions;
-using System.Text;
 
 namespace Softeq.XToolkit.Common.Collections
 {
@@ -201,8 +200,7 @@ namespace Softeq.XToolkit.Common.Collections
         IEnumerable<TSecond> IReadOnlyDictionary<TFirst, TSecond>.Values =>
             ((IReadOnlyDictionary<TFirst, TSecond>) _firstToSecond).Values;
 
-        [SecurityPermission(SecurityAction.LinkDemand,
-            Flags = SecurityPermissionFlag.SerializationFormatter)]
+        [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
             if (info == null)

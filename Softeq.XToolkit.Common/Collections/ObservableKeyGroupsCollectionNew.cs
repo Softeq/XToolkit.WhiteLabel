@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
-            if(insertedGroups == null)
+            if (insertedGroups == null)
             {
                 return;
             }
@@ -203,7 +203,6 @@ namespace Softeq.XToolkit.Common.Collections
                 default,
                 default,
                 groupEvents);
-
         }
 
         /// <inheritdoc />
@@ -242,9 +241,7 @@ namespace Softeq.XToolkit.Common.Collections
                         NotifyGroupCollectionChangedArgs<TValue>.Create(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
-                            default
-                        )
-                    ))
+                            default)))
                 .ToList();
 
             groupEvents = groupEvents.Count > 0 ? groupEvents : default;
@@ -282,8 +279,7 @@ namespace Softeq.XToolkit.Common.Collections
                         NotifyGroupCollectionChangedArgs<TValue>.Create(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
-                            default)
-                    ))
+                            default)))
                 .ToList();
 
             OnChanged(
@@ -334,8 +330,7 @@ namespace Softeq.XToolkit.Common.Collections
                         NotifyGroupCollectionChangedArgs<TValue>.Create(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
-                            default)
-                    ))
+                            default)))
                 .ToList();
 
             groupEvents = groupEvents.Count > 0 ? groupEvents : default;
@@ -396,7 +391,7 @@ namespace Softeq.XToolkit.Common.Collections
                     .Add(new KeyValuePair<TValue, int>(val, valIndex));
             }
 
-            foreach(var groupInfo in groupsInfos)
+            foreach (var groupInfo in groupsInfos)
             {
                 if (!rangesToRemove.ContainsKey(groupInfo.GroupIndex))
                 {

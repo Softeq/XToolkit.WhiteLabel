@@ -11,19 +11,20 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
 {
     public static class TextViewExtensions
     {
-        public static void HighlightStrings(this TextView textView,
-            IEnumerable<(int Start, int Length)> ranges,
+        public static void HighlightStrings(
+            this TextView textView,
+            IEnumerable<(int start, int length)> ranges,
             Color color)
         {
             var text = textView.Text;
             var spannedString = new SpannableString(text);
 
-            foreach (var (Start, Length) in ranges)
+            foreach (var (start, length) in ranges)
             {
                 spannedString.SetSpan(
                     new ForegroundColorSpan(color),
-                    Start,
-                    Start + Length,
+                    start,
+                    start + length,
                     SpanTypes.InclusiveInclusive);
             }
 

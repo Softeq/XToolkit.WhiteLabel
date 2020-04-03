@@ -5,7 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
+
 #nullable disable
+
 namespace Softeq.XToolkit.Common.Collections
 {
     public class ObservableKeyGroupsCollection<TKey, TValue> :
@@ -15,7 +17,8 @@ namespace Softeq.XToolkit.Common.Collections
         private readonly Func<TValue, TKey> _defaultSelector;
         private readonly Comparison<TValue> _defaultValueComparison;
 
-        public ObservableKeyGroupsCollection(Func<TValue, TKey> selector = null,
+        public ObservableKeyGroupsCollection(
+            Func<TValue, TKey> selector = null,
             Comparison<TKey> keyComparison = null,
             Comparison<TValue> valueComparison = null)
         {
@@ -31,7 +34,9 @@ namespace Softeq.XToolkit.Common.Collections
 
         public event EventHandler<NotifyKeyGroupsCollectionChangedEventArgs> ItemsChanged;
 
-        public void AddRangeToGroups<T>(IList<T> listItem, Func<T, TValue> itemSelector,
+        public void AddRangeToGroups<T>(
+            IList<T> listItem,
+            Func<T, TValue> itemSelector,
             Func<T, TKey> keySelector = null)
         {
             var keySelectorInstance = GetSelector(itemSelector, keySelector);
@@ -182,7 +187,8 @@ namespace Softeq.XToolkit.Common.Collections
             Keys.Remove(group.Key);
         }
 
-        public void AddRangeToGroupsSorted<T>(IEnumerable<T> items,
+        public void AddRangeToGroupsSorted<T>(
+            IEnumerable<T> items,
             Func<T, TValue> itemSelector,
             Comparison<TValue> valueComparison = null,
             Comparison<TKey> keyComparison = null,
@@ -230,7 +236,8 @@ namespace Softeq.XToolkit.Common.Collections
             ItemsChanged?.Invoke(this, eventArgs);
         }
 
-        public void AddRangeToGroupsSorted(IList<TValue> listItem,
+        public void AddRangeToGroupsSorted(
+            IList<TValue> listItem,
             Comparison<TValue> valueComparison = null,
             Comparison<TKey> keyComparison = null,
             Func<TValue, TKey> keySelector = null)

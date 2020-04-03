@@ -17,9 +17,13 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         public NotifyCollectionChangedAction Action { get; }
+
         public List<int> ModifiedSectionsIndexes { get; set; } = new List<int>();
+
         public IList<(int Section, IList<int> ModifiedIndexes)> ModifiedItemsIndexes { get; } = new List<(int, IList<int>)>();
+
         public int OldSectionsCount { get; }
+
         public IList<int> OldSectionsSizes { get; }
     }
 }

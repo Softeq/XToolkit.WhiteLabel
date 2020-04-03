@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -18,14 +18,14 @@ namespace Softeq.XToolkit.Common
     public class ObservableObject : INotifyPropertyChanged
     {
         /// <summary>
-        ///     Provides access to the PropertyChanged event handler to derived classes.
-        /// </summary>
-        protected PropertyChangedEventHandler? PropertyChangedHandler => PropertyChanged;
-
-        /// <summary>
         ///     Occurs after a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        ///     Gets access to the PropertyChanged event handler to derived classes.
+        /// </summary>
+        protected PropertyChangedEventHandler? PropertyChangedHandler => PropertyChanged;
 
         /// <summary>
         ///     Verifies that a property name exists in this ViewModel. This method
@@ -242,13 +242,10 @@ namespace Softeq.XToolkit.Common
 
             field = newValue;
 
-            // ReSharper disable ExplicitCallerInfoArgument
             RaisePropertyChanged(propertyName);
-            // ReSharper restore ExplicitCallerInfoArgument
 
             return true;
         }
-
 
         /// <summary>
         ///     Assigns a new value to the property. Then, raises the

@@ -5,6 +5,14 @@ using System;
 
 namespace Softeq.XToolkit.Common
 {
+    public static class GenericEventArgs
+    {
+        public static GenericEventArgs<T> From<T>(T item)
+        {
+            return new GenericEventArgs<T>(item);
+        }
+    }
+
     public class GenericEventArgs<T> : EventArgs
     {
         public GenericEventArgs(T t)
@@ -13,13 +21,5 @@ namespace Softeq.XToolkit.Common
         }
 
         public T Value { get; }
-    }
-
-    public static class GenericEventArgs
-    {
-        public static GenericEventArgs<T> From<T>(T item)
-        {
-            return new GenericEventArgs<T>(item);
-        }
     }
 }

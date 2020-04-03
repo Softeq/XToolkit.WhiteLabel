@@ -7,7 +7,7 @@ using System.Collections.Generic;
 namespace Softeq.XToolkit.Common.Helpers
 {
     /// <summary>
-    /// Helper class to find tags in a string. A tag is a sequance of letters, digits and underscore symbols starting with #
+    /// Helper class to find tags in a string. A tag is a sequance of letters, digits and underscore symbols starting with #.
     /// </summary>
     public static class TagsHelper
     {
@@ -59,7 +59,8 @@ namespace Softeq.XToolkit.Common.Helpers
 
                 var startIndex = range != null ? range.Position + range.Length : 0;
                 range = ExtractFirstTagRange(input, startIndex);
-            } while (range != null);
+            }
+            while (range != null);
 
             return result.ToArray();
         }
