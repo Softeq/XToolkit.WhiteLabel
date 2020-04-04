@@ -92,17 +92,23 @@ namespace Playground.ViewModels
                 (Category.Collections,
                     new CommandAction(new RelayCommand(() =>
                         {
-                            _pageNavigationService.NavigateToViewModel<GroupedTablePageViewModel>();
+                            _pageNavigationService
+                                .For<GroupedTablePageViewModel>()
+                                .Navigate();
                         }), "Observable grouped list")),
                 (Category.Collections,
                     new CommandAction(new RelayCommand(() =>
                         {
-                            _pageNavigationService.NavigateToViewModel<GroupedCollectionPageViewModel>();
+                            _pageNavigationService
+                                .For<GroupedCollectionPageViewModel>()
+                                .Navigate();
                         }), "Observable grouped collection")),
                 (Category.Controls,
                     new CommandAction(new RelayCommand(() =>
                         {
-                            _pageNavigationService.NavigateToViewModel<PhotoBrowserViewModel>();
+                            _pageNavigationService
+                                .For<PhotoBrowserViewModel>()
+                                .Navigate();
                         }), "Photo browser")),
                 (Category.Components,
                     new CommandAction(new RelayCommand(() =>
@@ -119,12 +125,16 @@ namespace Playground.ViewModels
                 (Category.Components,
                     new CommandAction(new RelayCommand(() =>
                         {
-                            _pageNavigationService.NavigateToViewModel<ConnectivityPageViewModel>();
+                            _pageNavigationService
+                                .For<ConnectivityPageViewModel>()
+                                .Navigate();
                         }), "Connectivity")),
                 (Category.Components,
                     new CommandAction(new RelayCommand(() =>
                         {
-                            _pageNavigationService.NavigateToViewModel<GesturesPageViewModel>();
+                            _pageNavigationService
+                                .For<GesturesPageViewModel>()
+                                .Navigate();
                         }), "Gestures"))
             };
 

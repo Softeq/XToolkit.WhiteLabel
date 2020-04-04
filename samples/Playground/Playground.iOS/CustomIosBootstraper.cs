@@ -11,9 +11,9 @@ using Softeq.XToolkit.Connectivity.iOS;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.iOS;
-using Softeq.XToolkit.WhiteLabel.iOS.ImagePicker;
 
 namespace Playground.iOS
 {

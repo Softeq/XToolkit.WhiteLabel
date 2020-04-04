@@ -4,6 +4,7 @@
 using Android.Content.PM;
 using Android.Runtime;
 using Plugin.Permissions;
+using Softeq.XToolkit.Common.Droid.Permissions;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {

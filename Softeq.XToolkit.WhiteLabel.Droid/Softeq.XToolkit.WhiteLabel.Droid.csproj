@@ -50,7 +50,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\AvatarPlaceholderDrawable.cs" />
-    <Compile Include="Controls\ImagePicker.cs" />
     <Compile Include="Controls\ToolbarMenuComponent.cs" />
     <Compile Include="Dialogs\AlertDialogBase.cs" />
     <Compile Include="Dialogs\DefaultAlertBuilder.cs" />
@@ -98,9 +97,6 @@
     <Compile Include="Controls\NonConsumingTouchesToolbar.cs" />
     <Compile Include="Controls\SwipeControlViewPager.cs" />
     <Compile Include="DroidBootstrapperBase.cs" />
-    <Compile Include="ImagePicker\DroidImagePickerService.cs" />
-    <Compile Include="ImagePicker\ImagePickerActivity.cs" />
-    <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
     <Compile Include="Extensions\FragmentExtensions.cs" />
     <Compile Include="Navigation\DroidFrameNavigationService.cs" />
     <Compile Include="Internal\ViewModelStore.cs" />

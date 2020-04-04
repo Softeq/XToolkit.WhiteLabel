@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers;
@@ -52,6 +53,9 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             // navigation
             builder.Singleton<PageNavigationService, IPageNavigationService>(IfRegistered.Keep);
             builder.Singleton<BackStackManager, IBackStackManager>(IfRegistered.Keep);
+
+            // json
+            builder.Singleton<Services.JsonSerializer, IJsonSerializer>();
         }
 
         protected virtual void RegisterFromAssemblies(IContainerBuilder builder)
