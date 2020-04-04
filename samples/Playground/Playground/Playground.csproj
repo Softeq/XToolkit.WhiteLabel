@@ -5,22 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ViewModels\" />
-    <Folder Include="ViewModels\Pages\" />
-    <Folder Include="ViewModels\BottomTabs\" />
-    <Folder Include="ViewModels\Collections\" />
-    <Folder Include="ViewModels\Components\" />
-    <Folder Include="ViewModels\BottomTabs\First\" />
-    <Folder Include="ViewModels\BottomTabs\Second\" />
-    <Folder Include="ViewModels\Dialogs\" />
-    <Folder Include="Converters\" />
-    <Folder Include="ViewModels\Collections\Products\" />
-    <Folder Include="Services\" />
-    <Folder Include="Utils\" />
-    <Folder Include="ViewModels\Collections\Base\" />
-    <Folder Include="ViewModels\Controls\" />
-  </ItemGroup>
-  <ItemGroup>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj" />
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj" />
   </ItemGroup>

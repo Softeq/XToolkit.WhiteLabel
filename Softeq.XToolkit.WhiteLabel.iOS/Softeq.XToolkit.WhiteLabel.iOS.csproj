@@ -66,7 +66,6 @@
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
     <Compile Include="Helpers\ViewControllerHelper.cs" />
-    <Compile Include="ImagePicker\SimpleImagePicker.cs" />
     <Compile Include="Interfaces\IViewControllerProvider.cs" />
     <Compile Include="IosPlatformProvider.cs" />
     <Compile Include="IViewControllerComponent.cs" />
@@ -87,9 +86,6 @@
     <Compile Include="Controls\GradientFadeView.cs" />
     <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
-    <Compile Include="ImagePicker\ImageOpenedEventArgs.cs" />
-    <Compile Include="ImagePicker\ImagePickerOptions.cs" />
-    <Compile Include="ImagePicker\ImagePicker.cs" />
     <Compile Include="ViewControllers\FullScreenImageViewController.cs" />
     <Compile Include="ViewControllers\FullScreenImageViewController.designer.cs">
       <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
@@ -99,8 +95,6 @@
     <Compile Include="Controls\BindableTabBarItem.cs" />
     <Compile Include="IosBootstraperBase.cs" />
     <Compile Include="Services\ViewControllerProvider.cs" />
-    <Compile Include="ImagePicker\IosImagePickerService.cs" />
-    <Compile Include="ImagePicker\IosImagePickerResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">

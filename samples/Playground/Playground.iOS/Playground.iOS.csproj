@@ -295,6 +295,14 @@
       <Project>{2d399ba9-1878-43e2-af05-6873eae9151b}</Project>
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials.iOS\Softeq.XToolkit.WhiteLabel.Essentials.iOS.csproj">
+      <Project>{23aa0e71-bf8f-47a8-a915-c8ac4841e064}</Project>
+      <Name>Softeq.XToolkit.WhiteLabel.Essentials.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj">
+      <Project>{887c6ce5-075b-420d-a88f-60479c4dc25a}</Project>
+      <Name>Softeq.XToolkit.WhiteLabel.Essentials</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj">
       <Project>{CC89DBC6-E68A-4C85-91C4-E276D3BC3C2E}</Project>
       <Name>Softeq.XToolkit.WhiteLabel.iOS</Name>
@@ -335,9 +343,6 @@
       <Project>{E3CCEEA3-C0B0-47B0-B414-2D6C18AC100A}</Project>
       <Name>Softeq.XToolkit.Connectivity.iOS</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
