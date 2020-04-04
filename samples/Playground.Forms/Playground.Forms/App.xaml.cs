@@ -12,7 +12,8 @@ namespace Playground.Forms
 {
     public partial class App
     {
-        public App(IBootstrapper bootstrapper) : base(bootstrapper)
+        public App(IBootstrapper bootstrapper)
+            : base(bootstrapper)
         {
             InitializeComponent();
             MainPage = new NavigationPage(new StartPage());
