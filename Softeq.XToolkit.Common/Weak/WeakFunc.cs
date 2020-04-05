@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Weak
     ///     The type of the result of the Func that will be stored
     ///     by this weak reference.
     /// </typeparam>
-    public class WeakFunc<TResult> : WeakDelegate<Func<TResult>>
+    public sealed class WeakFunc<TResult> : WeakDelegate<Func<TResult>>
     {
         /// <summary>
         ///     Initializes a new instance of the WeakFunc class.
@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.Common.Weak
     /// </summary>
     /// <typeparam name="T">The type of the Func's parameter.</typeparam>
     /// <typeparam name="TResult">The type of the Func's return value.</typeparam>
-    public class WeakFunc<T, TResult> : WeakDelegate<Func<T, TResult>>, IExecuteWithObjectAndResult
+    public sealed class WeakFunc<T, TResult> : WeakDelegate<Func<T, TResult>>, IExecuteWithObjectAndResult
     {
         /// <summary>
         ///     Initializes a new instance of the WeakFunc class.

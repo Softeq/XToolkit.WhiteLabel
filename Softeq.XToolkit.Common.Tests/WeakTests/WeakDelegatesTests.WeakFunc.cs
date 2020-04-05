@@ -1,118 +1,345 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using NSubstitute;
-using Softeq.XToolkit.Common.Tests.Helpers;
 using Softeq.XToolkit.Common.Tests.WeakTests.Utils;
-using Softeq.XToolkit.Common.Weak;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
     public partial class WeakDelegatesTests
     {
-        private static WeakFunc<T> GetAnonimousWeakFunc<T>(Func<IWeakFuncProvider> weakActionProvider)
+        #region WeakInstanceFunc
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_NotStatic<TOut>(TOut outputParameter)
         {
-            return weakActionProvider.Invoke().GetWeakAnonymousFunc<T>();
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakInstanceFunc<TOut>());
+
+            Assert.False(weakFunc.IsStatic);
         }
 
-        private static WeakFunc<T> GetPrivateWeakFunc<T>(Func<IWeakFuncProvider> weakActionProvider)
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_AfterGarbageCollection_WithStrongReference_IsAlive<TOut>(TOut outputParameter)
         {
-            return weakActionProvider.Invoke().GetWeakPrivateFunc<T>();
-        }
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakInstanceFunc<TOut>());
 
-        private static WeakFunc<T> GetInternalWeakFunc<T>(Func<IWeakFuncProvider> weakActionProvider)
-        {
-            return weakActionProvider.Invoke().GetWeakInternalFunc<T>();
-        }
-
-        private static WeakFunc<T> GetPublicWeakFunc<T>(Func<IWeakFuncProvider> weakActionProvider)
-        {
-            return weakActionProvider.Invoke().GetWeakPublicFunc<T>();
-        }
-
-        #region Internal
-        [Fact]
-        public void WeakFunc_InternalClass_AnonymousMethod_IsAlive()
-        {
-            var testResult = Substitute.For<ITestType>();
-            var weakFunc = GetAnonimousWeakFunc<ITestType>(CreateInternalWeakDelegateProvider);
-
-            _callCounter.RunAnonymousFunc<ITestType>().Returns(testResult);
+            GC.Collect();
 
             Assert.True(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_WhenAlive_InvokesFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakInstanceFunc<TOut>());
+
+            weakFunc.Execute();
+
+            callCounter.Received(1).OnFuncCalled<TOut>();
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_AfterGarbageCollection_WithoutStrongReference_NotAlive<TOut>(TOut outputParameter)
+        {
+            var (reference, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakInstanceFunc<TOut>());
+
+            reference.Dispose();
+            GC.Collect();
+
+            Assert.False(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_WhenNotAlive_DoesNotInvokeFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (reference, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakInstanceFunc<TOut>());
+
+            reference.Dispose();
+            GC.Collect();
+
+            weakFunc.Execute();
+
+            callCounter.DidNotReceive().OnFuncCalled<TOut>();
+        }
+
+        #endregion
+
+        #region WeakAnonymousFuncWithoutReferences
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithoutReferences_NotStatic<TOut>(TOut outputParameter)
+        {
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TOut>());
+
             Assert.False(weakFunc.IsStatic);
+        }
 
-            var result = weakFunc.Execute();
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_WithStrongReference_IsAlive<TOut>(TOut outputParameter)
+        {
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TOut>());
 
-            Assert.True(ReferenceEquals(result, testResult));
-            _callCounter.Received(1).RunAnonymousFunc<ITestType>();
+            GC.Collect();
+
+            Assert.True(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
+        public void WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_WithoutStrongReference_StillAlive<TOut>(TOut outputParameter)
+        {
+            var (reference, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TOut>());
+
+            reference.Dispose();
+            GC.Collect();
+
+            Assert.True(weakFunc.IsAlive);
+        }
+
+        #endregion
+
+        #region WeakAnonymousFuncWithInstanceReference
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithInstanceReference_NotStatic<TOut>(TOut outputParameter)
+        {
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TOut>());
+
+            Assert.False(weakFunc.IsStatic);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithInstanceReference_AfterGarbageCollection_WithStrongReference_IsAlive<TOut>(TOut outputParameter)
+        {
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TOut>());
+
+            GC.Collect();
+
+            Assert.True(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithInstanceReference_WhenAlive_InvokesFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TOut>());
+
+            weakFunc.Execute();
+
+            callCounter.Received(1).OnFuncCalled<TOut>();
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithInstanceReference_AfterGarbageCollection_WithoutStrongReference_NotAlive<TOut>(TOut outputParameter)
+        {
+            var (reference, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TOut>());
+
+            reference.Dispose();
+            GC.Collect();
+
+            Assert.False(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithInstanceReference_WhenNotAlive_DoesNotInvokeFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (reference, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TOut>());
+
+            reference.Dispose();
+            GC.Collect();
+
+            weakFunc.Execute();
+
+            callCounter.DidNotReceive().OnFuncCalled<TOut>();
+        }
+
+        #endregion
+
+        #region WeakAnonymousFuncWithLocalReference
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithLocalReference_NotStatic<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter));
+
+            Assert.False(weakFunc.IsStatic);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        // This test shows why WeakDelegate for lambdas with local variable references doesn't work:
+        // compiler creates instance of inner class, that could be garbage collected as soon as method ends
+        public void WeakAnonymousFuncWithLocalReference_AfterGarbageCollection_WithStrongReference_IsAlive<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter));
 
             GC.Collect();
 
             Assert.False(weakFunc.IsAlive);
         }
 
-        [Fact]
-        public void WeakFunc_InternalClass_PrivateMethod_IsAlive()
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithLocalReference_WhenAlive_InvokesFunc<TOut>(TOut outputParameter)
         {
-            var testResult = Substitute.For<ITestType>();
-            var weakFunc = GetPrivateWeakFunc<ITestType>(CreateInternalWeakDelegateProvider);
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter));
 
-            _callCounter.RunPrivateFunc<ITestType>().Returns(testResult);
+            weakFunc.Execute();
+
+            callCounter.Received(1).OnFuncCalled<TOut>();
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithLocalReference_WhenNotAlive_DoesNotInvokeFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakFunc) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter));
+
+            GC.Collect();
+
+            weakFunc.Execute();
+
+            callCounter.DidNotReceive().OnFuncCalled<TOut>();
+        }
+
+        #endregion
+
+        #region WeakStaticInstance
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakStaticFunc_IsStatic<TOut>(TOut outputParameter)
+        {
+            var weakFunc = StaticWeakDelegatesCallCounter.GetWeakStaticFunc<TOut>();
+
+            Assert.True(weakFunc.IsStatic);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakStaticFunc_AfterGarbageCollection_IsAlive<TOut>(TOut outputParameter)
+        {
+            var weakFunc = StaticWeakDelegatesCallCounter.GetWeakStaticFunc<TOut>();
+
+            GC.Collect();
 
             Assert.True(weakFunc.IsAlive);
-            Assert.False(weakFunc.IsStatic);
-
-            var result = weakFunc.Execute();
-
-            Assert.True(ReferenceEquals(result, testResult));
-            _callCounter.Received(1).RunPrivateFunc<ITestType>();
-
-            GC.Collect();
-
-            Assert.False(weakFunc.IsAlive);
         }
 
-        [Fact]
-        public void WeakFunc_InternalClass_InternalMethod_IsAlive()
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakStaticFunc_WhenExecuted_InvokesFunc<TOut>(TOut outputParameter)
         {
-            var testResult = Substitute.For<ITestType>();
-            var weakFunc = GetInternalWeakFunc<ITestType>(CreateInternalWeakDelegateProvider);
+            var callCounter = Substitute.For<ICallCounter>();
 
-            _callCounter.RunInternalFunc<ITestType>().Returns(testResult);
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var weakFunc = StaticWeakDelegatesCallCounter.GetWeakStaticFunc<TOut>();
+
+                weakFunc.Execute();
+
+                callCounter.Received(1).OnFuncCalled<TOut>();
+            }
+        }
+
+        #endregion
+
+        #region WeakAnonymousFuncWithStaticReference
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithStaticReference_NotStatic<TOut>(TOut outputParameter)
+        {
+            var weakFunc = StaticWeakDelegatesCallCounter.GetWeakAnonymousFuncWithStaticReference<TOut>();
+
+            Assert.False(weakFunc.IsStatic);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        // This test shows that even if lambdas has only static references - compiler creates singleton for each one of them!
+        public void WeakAnonymousFuncWithStaticReference_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
+        {
+            var weakFunc = StaticWeakDelegatesCallCounter.GetWeakAnonymousFuncWithStaticReference<TOut>();
+
+            GC.Collect();
 
             Assert.True(weakFunc.IsAlive);
-            Assert.False(weakFunc.IsStatic);
-
-            var result = weakFunc.Execute();
-
-            Assert.True(ReferenceEquals(result, testResult));
-            _callCounter.Received(1).RunInternalFunc<ITestType>();
-
-            GC.Collect();
-
-            Assert.False(weakFunc.IsAlive);
         }
 
-        [Fact]
-        public void WeakFunc_InternalClass_PublicMethod_IsAlive()
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakAnonymousFuncWithStaticReference_WhenExecuted_InvokesFunc<TOut>(TOut outputParameter)
         {
-            var testResult = Substitute.For<ITestType>();
-            var weakAction = GetPublicWeakFunc<ITestType>(CreateInternalWeakDelegateProvider);
+            var callCounter = Substitute.For<ICallCounter>();
 
-            _callCounter.RunPublicFunc<ITestType>().Returns(testResult);
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var weakFunc = StaticWeakDelegatesCallCounter.GetWeakAnonymousFuncWithStaticReference<TOut>();
 
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
+                weakFunc.Execute();
 
-            var result = weakAction.Execute();
-
-            Assert.True(ReferenceEquals(result, testResult));
-            _callCounter.Received(1).RunPublicFunc<ITestType>();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
+                callCounter.Received(1).OnFuncCalled<TOut>();
+            }
         }
+
         #endregion
     }
 }

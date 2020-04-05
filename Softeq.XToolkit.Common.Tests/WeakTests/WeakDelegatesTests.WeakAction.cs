@@ -1,188 +1,141 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using NSubstitute;
-using Softeq.XToolkit.Common.Tests.Helpers;
 using Softeq.XToolkit.Common.Tests.WeakTests.Utils;
-using Softeq.XToolkit.Common.Weak;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
     public partial class WeakDelegatesTests
     {
-        private static WeakAction GetAnonimousWeakAction(Func<IWeakActionProvider> weakActionProvider)
-        {
-            return weakActionProvider.Invoke().GetWeakAnonymousAction();
-        }
+        #region WeakInstanceAction
 
-        private static WeakAction GetPrivateWeakAction(Func<IWeakActionProvider> weakActionProvider)
-        {
-            return weakActionProvider.Invoke().GetWeakPrivateAction();
-        }
-
-        private static WeakAction GetInternalWeakAction(Func<IWeakActionProvider> weakActionProvider)
-        {
-            return weakActionProvider.Invoke().GetWeakInternalAction();
-        }
-
-        private static WeakAction GetPublicWeakAction(Func<IWeakActionProvider> weakActionProvider)
-        {
-            return weakActionProvider.Invoke().GetWeakPublicAction();
-        }
-
-        #region Internal
         [Fact]
-        public void WeakAction_InternalClass_AnonymousMethod_IsAlive()
+        public void WeakInstanceAction_NotStatic()
         {
-            var weakAction = GetAnonimousWeakAction(CreateInternalWeakDelegateProvider);
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakInstanceAction());
+
+            Assert.False(weakAction.IsStatic);
+        }
+
+        [Fact]
+        public void WeakInstanceAction_AfterGarbageCollection_WithStrongReference_IsAlive()
+        {
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakInstanceAction());
+
+            GC.Collect();
 
             Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
+        }
+
+        [Fact]
+        public void WeakInstanceAction_WhenAlive_InvokesAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakInstanceAction());
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunAnonymousAction();
+            callCounter.Received(1).OnActionCalled();
+        }
 
+        [Fact]
+        public void WeakInstanceAction_AfterGarbageCollection_WithoutStrongReference_NotAlive()
+        {
+            var (reference, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakInstanceAction());
+
+            reference.Dispose();
             GC.Collect();
 
             Assert.False(weakAction.IsAlive);
         }
 
         [Fact]
-        public void WeakAction_InternalClass_PrivateMethod_IsAlive()
+        public void WeakInstanceAction_WhenNotAlive_DoesNotInvokeAction()
         {
-            var weakAction = GetPrivateWeakAction(CreateInternalWeakDelegateProvider);
+            var callCounter = Substitute.For<ICallCounter>();
+            var (reference, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakInstanceAction());
 
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
+            reference.Dispose();
+            GC.Collect();
 
             weakAction.Execute();
 
-            _callCounter.Received(1).RunPrivateAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
+            callCounter.DidNotReceive().OnActionCalled();
         }
 
-        [Fact]
-        public void WeakAction_InternalClass_InternalMethod_IsAlive()
-        {
-            var weakAction = GetInternalWeakAction(CreateInternalWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunInternalAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_InternalClass_PublicMethod_IsAlive()
-        {
-            var weakAction = GetPublicWeakAction(CreateInternalWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPublicAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
         #endregion
 
-        #region InternalGeneric
+        #region WeakAnonymousActionWithoutReferences
+
         [Fact]
-        public void WeakAction_InternalGenericClass_AnonymousMethod_IsAlive()
+        public void WeakAnonymousActionWithoutReferences_NotStatic()
         {
-            var weakAction = GetAnonimousWeakAction(CreateInternalGenericWeakDelegateProvider);
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences());
 
-            Assert.True(weakAction.IsAlive);
             Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunAnonymousAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
         }
 
         [Fact]
-        public void WeakAction_InternalGenericClass_PrivateMethod_IsAlive()
+        public void WeakAnonymousActionWithoutReferences_AfterGarbageCollection_WithStrongReference_IsAlive()
         {
-            var weakAction = GetPrivateWeakAction(CreateInternalGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPrivateAction();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences());
 
             GC.Collect();
 
-            Assert.False(weakAction.IsAlive);
+            Assert.True(weakAction.IsAlive);
         }
 
         [Fact]
-        public void WeakAction_InternalGenericClass_InternalMethod_IsAlive()
+        // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
+        public void WeakAnonymousActionWithoutReferences_AfterGarbageCollection_WithoutStrongReference_StillAlive()
         {
-            var weakAction = GetInternalWeakAction(CreateInternalGenericWeakDelegateProvider);
+            var (reference, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences());
 
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunInternalAction();
-
+            reference.Dispose();
             GC.Collect();
 
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_InternalGenericClass_PublicMethod_IsAlive()
-        {
-            var weakAction = GetPublicWeakAction(CreateInternalGenericWeakDelegateProvider);
-
             Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPublicAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
         }
+
         #endregion
 
-        #region InternalStatic
+        #region WeakAnonymousActionWithInstanceReference
+
         [Fact]
-        // Test shows why lambdas without catching execution context are evil. Roslyn compile anonymous
-        // lambdas with no captured context into singletones, which will never get garbage collected
-        public void WeakAction_InternalStaticClass_AnonymousMethod_IsAlive()
+        public void WeakAnonymousActionWithInstanceReference_NotStatic()
         {
-            var weakAction = GetAnonimousWeakAction(CreateInternalStaticWeakDelegateProvider);
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakAnonymousActionWithInstanceReference());
 
-            Assert.True(weakAction.IsAlive);
             Assert.False(weakAction.IsStatic);
+        }
 
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunAnonymousAction();
+        [Fact]
+        public void WeakAnonymousActionWithInstanceReference_AfterGarbageCollection_WithStrongReference_IsAlive()
+        {
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakAnonymousActionWithInstanceReference());
 
             GC.Collect();
 
@@ -190,16 +143,121 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        public void WeakAction_InternalStaticClass_PrivateMethod_IsAlive()
+        public void WeakAnonymousActionWithInstanceReference_WhenAlive_InvokesAction()
         {
-            var weakAction = GetPrivateWeakAction(CreateInternalStaticWeakDelegateProvider);
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakAnonymousActionWithInstanceReference());
 
-            Assert.True(weakAction.IsAlive);
+            weakAction.Execute();
+
+            callCounter.Received(1).OnActionCalled();
+        }
+
+        [Fact]
+        public void WeakAnonymousActionWithInstanceReference_AfterGarbageCollection_WithoutStrongReference_NotAlive()
+        {
+            var (reference, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakAnonymousActionWithInstanceReference());
+
+            reference.Dispose();
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Fact]
+        public void WeakAnonymousActionWithInstanceReference_WhenNotAlive_DoesNotInvokeAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (reference, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakAnonymousActionWithInstanceReference());
+
+            reference.Dispose();
+            GC.Collect();
+
+            weakAction.Execute();
+
+            callCounter.DidNotReceive().OnActionCalled();
+        }
+
+        #endregion
+
+        #region WeakAnonymousActionWithLocalReference
+
+        [Fact]
+        public void WeakAnonymousActionWithLocalReference_NotStatic()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference(callCounter));
+
+            Assert.False(weakAction.IsStatic);
+        }
+
+        [Fact]
+        // This test shows why WeakDelegate for lambdas with local variable references doesn't work:
+        // compiler creates instance of inner class, that could be garbage collected as soon as method ends
+        public void WeakAnonymousActionWithLocalReference_AfterGarbageCollection_WithStrongReference_IsAlive()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference(callCounter));
+
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Fact]
+        public void WeakAnonymousActionWithLocalReference_WhenAlive_InvokesAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference(callCounter));
+
+            weakAction.Execute();
+
+            callCounter.Received(1).OnActionCalled();
+        }
+
+        [Fact]
+        public void WeakAnonymousActionWithLocalReference_WhenNotAlive_DoesNotInvokeAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegateInstanceTestClass(),
+                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference(callCounter));
+
+            GC.Collect();
+
+            weakAction.Execute();
+
+            callCounter.DidNotReceive().OnActionCalled();
+        }
+
+        #endregion
+
+        #region WeakStaticInstance
+
+        [Fact]
+        public void WeakStaticAction_IsStatic()
+        {
+            var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
+
             Assert.True(weakAction.IsStatic);
+        }
 
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPrivateAction();
+        [Fact]
+        public void WeakStaticAction_AfterGarbageCollection_IsAlive()
+        {
+            var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
 
             GC.Collect();
 
@@ -207,194 +265,37 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        public void WeakAction_InternalStaticClass_InternalMethod_IsAlive()
+        public void WeakStaticAction_WhenExecuted_InvokesAction()
         {
-            var weakAction = GetInternalWeakAction(CreateInternalStaticWeakDelegateProvider);
+            var callCounter = Substitute.For<ICallCounter>();
 
-            Assert.True(weakAction.IsAlive);
-            Assert.True(weakAction.IsStatic);
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
 
-            weakAction.Execute();
+                weakAction.Execute();
 
-            _callCounter.Received(1).RunInternalAction();
-
-            GC.Collect();
-
-            Assert.True(weakAction.IsAlive);
+                callCounter.Received(1).OnActionCalled();
+            }
         }
 
-        [Fact]
-        public void WeakAction_InternalStaticClass_PublicMethod_IsAlive()
-        {
-            var weakAction = GetPublicWeakAction(CreateInternalStaticWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.True(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPublicAction();
-
-            GC.Collect();
-
-            Assert.True(weakAction.IsAlive);
-        }
         #endregion
 
-        #region Public
-        [Fact]
-        public void WeakAction_PublicClass_AnonymousMethod_IsAlive()
-        {
-            var weakAction = GetAnonimousWeakAction(CreatePublicWeakDelegateProvider);
+        #region WeakAnonymousActionWithStaticReference
 
-            Assert.True(weakAction.IsAlive);
+        [Fact]
+        public void WeakAnonymousActionWithStaticReference_NotStatic()
+        {
+            var weakAction = StaticWeakDelegatesCallCounter.GetWeakAnonymousActionWithStaticReference();
+
             Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunAnonymousAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
         }
 
         [Fact]
-        public void WeakAction_PublicClass_PrivateMethod_IsAlive()
+        // This test shows that even if lambdas has only static references - compiler creates singleton for each one of them!
+        public void WeakAnonymousActionWithStaticReference_AfterGarbageCollection_StillAlive()
         {
-            var weakAction = GetPrivateWeakAction(CreatePublicWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPrivateAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_PublicClass_InternalMethod_IsAlive()
-        {
-            var weakAction = GetInternalWeakAction(CreatePublicWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunInternalAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_PublicClass_PublicMethod_IsAlive()
-        {
-            var weakAction = GetPublicWeakAction(CreatePublicWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPublicAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-        #endregion
-
-        #region PublicGeneric
-        [Fact]
-        public void WeakAction_PublicGenericClass_AnonymousMethod_IsAlive()
-        {
-            var weakAction = GetAnonimousWeakAction(CreatePublicGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunAnonymousAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_PublicGenericClass_PrivateMethod_IsAlive()
-        {
-            var weakAction = GetPrivateWeakAction(CreatePublicGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPrivateAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_PublicGenericClass_InternalMethod_IsAlive()
-        {
-            var weakAction = GetInternalWeakAction(CreatePublicGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunInternalAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_PublicGenericClass_PublicMethod_IsAlive()
-        {
-            var weakAction = GetPublicWeakAction(CreatePublicGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPublicAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-        #endregion
-
-        #region PublicStatic
-        [Fact]
-        // Test shows why lambdas without catching execution context are evil. Roslyn compile anonymous
-        // lambdas with no captured context into singletones, which will never get garbage collected
-        public void WeakAction_PublicStaticClass_AnonymousMethod_IsAlive()
-        {
-            var weakAction = GetAnonimousWeakAction(CreatePublicStaticWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);  // since C# 6 lambdas are never static
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunAnonymousAction();
+            var weakAction = StaticWeakDelegatesCallCounter.GetWeakAnonymousActionWithStaticReference();
 
             GC.Collect();
 
@@ -402,195 +303,20 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        public void WeakAction_PublicStaticClass_PrivateMethod_IsAlive()
+        public void WeakAnonymousActionWithStaticReference_WhenExecuted_InvokesAction()
         {
-            var weakAction = GetPrivateWeakAction(CreatePublicStaticWeakDelegateProvider);
+            var callCounter = Substitute.For<ICallCounter>();
 
-            Assert.True(weakAction.IsAlive);
-            Assert.True(weakAction.IsStatic);
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var weakAction = StaticWeakDelegatesCallCounter.GetWeakAnonymousActionWithStaticReference();
 
-            weakAction.Execute();
+                weakAction.Execute();
 
-            _callCounter.Received(1).RunPrivateAction();
-
-            GC.Collect();
-
-            Assert.True(weakAction.IsAlive);
+                callCounter.Received(1).OnActionCalled();
+            }
         }
 
-        [Fact]
-        public void WeakAction_PublicStaticClass_InternalMethod_IsAlive()
-        {
-            var weakAction = GetInternalWeakAction(CreatePublicStaticWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.True(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunInternalAction();
-
-            GC.Collect();
-
-            Assert.True(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_PublicStaticClass_PublicMethod_IsAlive()
-        {
-            var weakAction = GetPublicWeakAction(CreatePublicStaticWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.True(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPublicAction();
-
-            GC.Collect();
-
-            Assert.True(weakAction.IsAlive);
-        }
-        #endregion
-
-        #region Nested
-        [Fact]
-        public void WeakAction_NestedClass_AnonymousMethod_IsAlive()
-        {
-            var weakAction = GetAnonimousWeakAction(CreateNestedWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunAnonymousAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_NestedClass_PrivateMethod_IsAlive()
-        {
-            var weakAction = GetPrivateWeakAction(CreateNestedWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPrivateAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_NestedClass_InternalMethod_IsAlive()
-        {
-            var weakAction = GetInternalWeakAction(CreateNestedWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunInternalAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_NestedClass_PublicMethod_IsAlive()
-        {
-            var weakAction = GetPublicWeakAction(CreateNestedWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPublicAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-        #endregion
-
-        #region NestedGeneric
-        [Fact]
-        public void WeakAction_NestedGenericClass_AnonymousMethod_IsAlive()
-        {
-            var weakAction = GetAnonimousWeakAction(CreateNestedGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunAnonymousAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_NestedGenericClass_PrivateMethod_IsAlive()
-        {
-            var weakAction = GetPrivateWeakAction(CreateNestedGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPrivateAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_NestedGenericClass_InternalMethod_IsAlive()
-        {
-            var weakAction = GetInternalWeakAction(CreateNestedGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunInternalAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
-
-        [Fact]
-        public void WeakAction_NestedGenericClass_PublicMethod_IsAlive()
-        {
-            var weakAction = GetPublicWeakAction(CreateNestedGenericWeakDelegateProvider);
-
-            Assert.True(weakAction.IsAlive);
-            Assert.False(weakAction.IsStatic);
-
-            weakAction.Execute();
-
-            _callCounter.Received(1).RunPublicAction();
-
-            GC.Collect();
-
-            Assert.False(weakAction.IsAlive);
-        }
         #endregion
     }
 }

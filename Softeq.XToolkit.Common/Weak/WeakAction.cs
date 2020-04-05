@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Softeq.XToolkit.Common.Weak
 {
-    public class WeakAction : WeakDelegate<Action>
+    public sealed class WeakAction : WeakDelegate<Action>
     {
         /// <summary>
         ///     Initializes a new instance of the <see cref="WeakAction" /> class.
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.Common.Weak
     /// </summary>
     /// <typeparam name="T">The type of the Action's parameter.</typeparam>
     ////[ClassInfo(typeof(WeakAction))]
-    public class WeakAction<T> : WeakDelegate<Action<T>>, IExecuteWithObject
+    public sealed class WeakAction<T> : WeakDelegate<Action<T>>, IExecuteWithObject
     {
         /// <summary>
         ///     Initializes a new instance of the WeakAction class.

@@ -1,58 +1,36 @@
-﻿using NSubstitute;
-using Softeq.XToolkit.Common.Tests.Helpers;
-using Softeq.XToolkit.Common.Tests.WeakTests.Utils;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
+    [SuppressMessage("ReSharper", "xUnit1026", Justification = "Some generic parameters used just for test case generation")]
     public partial class WeakDelegatesTests
     {
-        private readonly IMethodRunner _callCounter;
-
-        public WeakDelegatesTests()
+        private static (IDisposable, TWeakDelegate) CreateWeakDelegate<TInstance, TWeakDelegate>(
+            Func<TInstance> instanceFactory,
+            Func<TInstance, TWeakDelegate> weakDelegateFactory)
+            where TInstance : class
         {
-            _callCounter = Substitute.For<IMethodRunner>();
+            var instance = instanceFactory.Invoke();
+            return (new DisposableReference(instance), weakDelegateFactory.Invoke(instance));
         }
 
-        private InternalTestClass CreateInternalWeakDelegateProvider()
+        private sealed class DisposableReference : IDisposable
         {
-            return new InternalTestClass(_callCounter);
-        }
+            private object _instance;
 
-        private InternalGenericWeakDelegateProvider CreateInternalGenericWeakDelegateProvider()
-        {
-            return new InternalGenericWeakDelegateProvider(_callCounter);
-        }
+            public DisposableReference(object instance)
+            {
+                _instance = instance;
+            }
 
-        private InternalStaticTestClass CreateInternalStaticWeakDelegateProvider()
-        {
-            InternalStaticTestClass.CallCounter = _callCounter;
-            return new InternalStaticTestClass();
-        }
-
-        private PublicTestClass CreatePublicWeakDelegateProvider()
-        {
-            return new PublicTestClass(_callCounter);
-        }
-
-        private PublicGenericWeakDelegateProvider CreatePublicGenericWeakDelegateProvider()
-        {
-            return new PublicGenericWeakDelegateProvider(_callCounter);
-        }
-
-        private PublicStaticTestClass CreatePublicStaticWeakDelegateProvider()
-        {
-            PublicStaticTestClass.CallCounter = _callCounter;
-            return new PublicStaticTestClass();
-        }
-
-        private NestedTestClass CreateNestedWeakDelegateProvider()
-        {
-            return new NestedTestClass(_callCounter);
-        }
-
-        private NestedGenericWeakDelegateProvider CreateNestedGenericWeakDelegateProvider()
-        {
-            return new NestedGenericWeakDelegateProvider(_callCounter);
+            public void Dispose()
+            {
+                _instance = null;
+            }
         }
     }
 }
