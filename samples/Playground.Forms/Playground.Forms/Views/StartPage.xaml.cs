@@ -25,4 +25,3 @@ namespace Playground.Forms.Views
         }
     }
 }
-

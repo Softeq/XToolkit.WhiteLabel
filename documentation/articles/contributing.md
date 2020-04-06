@@ -8,7 +8,7 @@ General contribution guidance is included in this document. Additional guidance 
 
 ## Coding Style Changes
 
-Follow the style used by the [.NET Foundation](https://github.com/dotnet/corefx/blob/master/Documentation/coding-guidelines/coding-style.md).
+Follow the style used by the [C# Coding Guidelines](https://github.com/Softeq/dotnet-guidelines/tree/xamarin_guidelines).
 
 Also:
 
@@ -61,7 +61,7 @@ Also do your best to factor commits appropriately, not too large with unrelated 
 
 ## File Headers
 
-The following file header is the used for Xtoolkit. Please use it for new files:
+The following file header is the used for XToolkit. Please use it for new files:
 
     // Developed by Softeq Development Corporation
     // http://www.softeq.com
