@@ -4,6 +4,7 @@
 using System;
 using System.Windows.Input;
 using NSubstitute;
+using Softeq.XToolkit.Common.Commands;
 using Xunit;
 
 namespace Softeq.XToolkit.Bindings.Tests.BindingExtensionsTests
@@ -11,11 +12,13 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingExtensionsTests
     public class BindingExtensionsTests
     {
         private readonly ICommand _command;
+        private readonly ICommand<string> _commandGeneric;
         private readonly StubProducer _obj;
 
         public BindingExtensionsTests()
         {
             _command = Substitute.For<ICommand>();
+            _commandGeneric = Substitute.For<ICommand<string>>();
             _obj = new StubProducer();
 
             BindingExtensions.Initialize(new MockBindingFactory());
@@ -73,14 +76,15 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingExtensionsTests
         public void SetCommand_GenericWithEventArgs_Executes(bool canExecute, object commandParameter)
         {
             // arrange
-            _command.CanExecute(Arg.Any<string>()).Returns(canExecute);
+            _commandGeneric.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
-            _obj.SetCommand<string>(nameof(_obj.GenericStringEvent), _command);
+            // ReSharper disable once RedundantTypeArgumentsOfMethod
+            _obj.SetCommand<string>(nameof(_obj.GenericStringEvent), _commandGeneric);
 
             // assert
             _obj.RaiseGenericStringEvent((string)commandParameter);
-            AssertHelpers.ReceivedCommandInterface(_command, canExecute, commandParameter);
+            AssertHelpers.ReceivedCommandInterface(_commandGeneric, canExecute, commandParameter);
         }
 
         [Theory]
