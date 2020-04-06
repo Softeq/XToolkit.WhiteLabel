@@ -444,7 +444,7 @@ namespace Softeq.XToolkit.Bindings
         public static void SetCommand<TEventArgs>(
             this object element,
             string eventName,
-            ICommand command)
+            ICommand<TEventArgs> command)
         {
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
@@ -556,12 +556,12 @@ namespace Softeq.XToolkit.Bindings
             SetCommand(element, string.Empty, command);
         }
 
-        /// <inheritdoc cref="SetCommand{TEventArgs}(object,string,ICommand)" />
+        /// <inheritdoc cref="SetCommand{TEventArgs}(object,string,ICommand{TEventArgs})" />
         public static void SetCommand<TEventArgs>(
             this object element,
-            ICommand command)
+            ICommand<TEventArgs> command)
         {
-            SetCommand<TEventArgs>(element, string.Empty, command);
+            SetCommand(element, string.Empty, command);
         }
 
         /// <inheritdoc cref="SetCommand{T}(object,string,ICommand,T)" />
