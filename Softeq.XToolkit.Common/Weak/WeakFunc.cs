@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.Weak
     public sealed class WeakFunc<TResult> : WeakDelegate<Func<TResult>>
     {
         /// <summary>
-        ///     Initializes a new instance of the WeakFunc class.
+        /// Initializes a new instance of the <see cref="WeakFunc{TResult}"/> class.
         /// </summary>
         /// <param name="func">The Func that will be associated to this instance.</param>
         public WeakFunc(Func<TResult> func)
@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.Common.Weak
         }
 
         /// <summary>
-        ///     Initializes a new instance of the WeakFunc class.
+        /// Initializes a new instance of the <see cref="WeakFunc{TResult}"/> class.
         /// </summary>
         /// <param name="target">The Func's owner.</param>
         /// <param name="func">The Func that will be associated to this instance.</param>
@@ -35,7 +35,8 @@ namespace Softeq.XToolkit.Common.Weak
             "CA1062:Validate arguments of public methods",
             MessageId = "1",
             Justification = "Method should fail with an exception if func is null.")]
-        public WeakFunc(object? target, Func<TResult> func) : base(target, func)
+        public WeakFunc(object? target, Func<TResult> func)
+            : base(target, func)
         {
         }
 
@@ -44,6 +45,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     is still alive.
         /// </summary>
         /// <returns>The result of the Func stored as reference.</returns>
+        [return: MaybeNull]
         public TResult Execute()
         {
             if (StaticDelegate != null)
@@ -66,7 +68,7 @@ namespace Softeq.XToolkit.Common.Weak
     public sealed class WeakFunc<T, TResult> : WeakDelegate<Func<T, TResult>>, IExecuteWithObjectAndResult
     {
         /// <summary>
-        ///     Initializes a new instance of the WeakFunc class.
+        /// Initializes a new instance of the <see cref="WeakFunc{T, TResult}"/> class.
         /// </summary>
         /// <param name="func">The Func that will be associated to this instance.</param>
         public WeakFunc(Func<T, TResult> func)
@@ -75,7 +77,7 @@ namespace Softeq.XToolkit.Common.Weak
         }
 
         /// <summary>
-        ///     Initializes a new instance of the WeakFunc class.
+        /// Initializes a new instance of the <see cref="WeakFunc{T, TResult}"/> class.
         /// </summary>
         /// <param name="target">The Func's owner.</param>
         /// <param name="func">The Func that will be associated to this instance.</param>
@@ -84,7 +86,8 @@ namespace Softeq.XToolkit.Common.Weak
             "CA1062:Validate arguments of public methods",
             MessageId = "1",
             Justification = "Method should fail with an exception if func is null.")]
-        public WeakFunc(object? target, Func<T, TResult> func) : base(target, func)
+        public WeakFunc(object? target, Func<T, TResult> func)
+            : base(target, func)
         {
         }
 
@@ -111,6 +114,7 @@ namespace Softeq.XToolkit.Common.Weak
         /// </summary>
         /// <param name="parameter">A parameter to be passed to the action.</param>
         /// <returns>The result of the Func stored as reference.</returns>
+        [return: MaybeNull]
         public TResult Execute(T parameter)
         {
             if (StaticDelegate != null)

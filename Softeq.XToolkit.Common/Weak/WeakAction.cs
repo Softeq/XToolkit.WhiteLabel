@@ -27,7 +27,8 @@ namespace Softeq.XToolkit.Common.Weak
             "CA1062:Validate arguments of public methods",
             MessageId = "1",
             Justification = "Method should fail with an exception if action is null.")]
-        public WeakAction(object? target, Action action) : base(target, action)
+        public WeakAction(object? target, Action action)
+            : base(target, action)
         {
         }
 
@@ -35,6 +36,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     Executes the action. This only happens if the action's owner
         ///     is still alive.
         /// </summary>
+        [return: MaybeNull]
         public void Execute()
         {
             if (StaticDelegate != null)
@@ -60,7 +62,7 @@ namespace Softeq.XToolkit.Common.Weak
     public sealed class WeakAction<T> : WeakDelegate<Action<T>>, IExecuteWithObject
     {
         /// <summary>
-        ///     Initializes a new instance of the WeakAction class.
+        /// Initializes a new instance of the <see cref="WeakAction{T}"/> class.
         /// </summary>
         /// <param name="action">The action that will be associated to this instance.</param>
         public WeakAction(Action<T> action)
@@ -69,7 +71,7 @@ namespace Softeq.XToolkit.Common.Weak
         }
 
         /// <summary>
-        ///     Initializes a new instance of the WeakAction class.
+        /// Initializes a new instance of the <see cref="WeakAction{T}"/> class.
         /// </summary>
         /// <param name="target">The action's owner.</param>
         /// <param name="action">The action that will be associated to this instance.</param>
@@ -78,7 +80,8 @@ namespace Softeq.XToolkit.Common.Weak
             "CA1062:Validate arguments of public methods",
             MessageId = "1",
             Justification = "Method should fail with an exception if action is null.")]
-        public WeakAction(object? target, Action<T> action) : base(target, action)
+        public WeakAction(object? target, Action<T> action)
+            : base(target, action)
         {
         }
 
@@ -103,6 +106,7 @@ namespace Softeq.XToolkit.Common.Weak
         ///     is still alive.
         /// </summary>
         /// <param name="parameter">A parameter to be passed to the action.</param>
+        [return: MaybeNull]
         public void Execute(T parameter)
         {
             if (StaticDelegate != null)
@@ -133,14 +137,14 @@ namespace Softeq.XToolkit.Common.Weak
         public bool IsAlive { get; }
 
         /// <summary>
-        ///     The target of the WeakAction.
+        ///     Gets the target of the WeakAction.
         /// </summary>
         object? Target { get; }
 
         /// <summary>
         ///     Gets the name of the method that this WeakDelegate represents.
         /// </summary>
-        public string MethodName { get; }
+        public string? MethodName { get; }
 
         /// <summary>
         ///     Executes an action.

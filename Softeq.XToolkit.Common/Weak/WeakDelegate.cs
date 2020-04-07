@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Softeq.XToolkit.Common.Weak
@@ -40,7 +41,7 @@ namespace Softeq.XToolkit.Common.Weak
         private MethodInfo? Method { get; set; }
 
         /// <summary>
-        ///     Gets or sets the <see cref="TDelegate" /> reference to this WeakDelegate's
+        ///     Gets the <see cref="TDelegate" /> reference to this WeakDelegate's
         ///     method passed in the constructor if method is static.
         /// </summary>
         protected TDelegate? StaticDelegate { get; private set; }
@@ -62,14 +63,14 @@ namespace Softeq.XToolkit.Common.Weak
         private WeakReference? CustomTargetReference { get; set; }
 
         /// <summary>
-        ///     Get a value indicating whether the WeakDelegate is static or not.
+        ///     Gets a value indicating whether the WeakDelegate is static or not.
         /// </summary>
         public bool IsStatic => StaticDelegate != null;
 
         /// <summary>
         ///     Gets the name of the method that this WeakDelegate represents.
         /// </summary>
-        public string MethodName => Method.Name;
+        public string? MethodName => Method?.Name;
 
         /// <summary>
         ///     Gets the Delegate's owner. This object is stored as a
@@ -111,7 +112,8 @@ namespace Softeq.XToolkit.Common.Weak
             StaticDelegate = null;
         }
 
-        protected T TryExecuteWeakDelegate<T>(params object[] parameters)
+        [return: MaybeNull]
+        protected T TryExecuteWeakDelegate<T>(params object?[] parameters)
         {
             var delegateTarget = GetExecutionTarget();
 
