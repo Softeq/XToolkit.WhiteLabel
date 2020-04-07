@@ -303,5 +303,257 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         #endregion
+
+        #region WeakInstanceAction_WithCustomTarget
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceAction_CustomTargetAlive_OriginalTargetAlive_AfterGarbageCollection_StillAlive<TIn>(TIn inputParameter)
+        {
+            var (_, _, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceAction<TIn>(y));
+
+            GC.Collect();
+
+            Assert.True(weakAction.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceAction_CustomTargetAlive_OriginalTargetAlive_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, _, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(callCounter),
+                (x, y) => x.GetWeakInstanceAction<TIn>(y));
+
+            GC.Collect();
+
+            weakAction.Execute(inputParameter);
+
+            callCounter.Received(1).OnActionCalled(inputParameter);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceAction_CustomTargetDead_OriginalTargetAlive_AfterGarbageCollection_NotAlive<TIn>(TIn inputParameter)
+        {
+            var (customTarget, _, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceAction<TIn>(y));
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceAction_CustomTargetDead_OriginalTargetAlive_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (customTarget, _, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(callCounter),
+                (x, y) => x.GetWeakInstanceAction<TIn>(y));
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            weakAction.Execute(inputParameter);
+
+            callCounter.DidNotReceive().OnActionCalled(Arg.Any<TIn>());
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceAction_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_NotAlive<TIn>(TIn inputParameter)
+        {
+            var (_, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceAction<TIn>(y));
+
+            originalTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceAction_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceAction<TIn>(y));
+
+            originalTarget.Dispose();
+            GC.Collect();
+
+            weakAction.Execute(inputParameter);
+
+            callCounter.DidNotReceive().OnActionCalled(Arg.Any<TIn>());
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceAction_CustomTargetDead_OriginalTargetDead_AfterGarbageCollection_NotAlive<TIn>(TIn inputParameter)
+        {
+            var (customTarget, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceAction<TIn>(y));
+
+            customTarget.Dispose();
+            originalTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceAction_CustomTargetDead_OriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (customTarget, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceAction<TIn>(y));
+
+            customTarget.Dispose();
+            originalTarget.Dispose();
+            GC.Collect();
+
+            weakAction.Execute(inputParameter);
+
+            callCounter.DidNotReceive().OnActionCalled(Arg.Any<TIn>());
+        }
+
+        #endregion
+
+        #region WeakStaticAction_WithCustomTarget
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakStaticAction_CustomTargetAlive_AfterGarbageCollection_StillAlive<TIn>(TIn inputParameter)
+        {
+            var (_, weakAction) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>);
+
+            GC.Collect();
+
+            Assert.True(weakAction.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakStaticAction_CustomTargetAlive_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var (_, weakAction) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>);
+
+                GC.Collect();
+
+                weakAction.Execute(inputParameter);
+
+                callCounter.Received(1).OnActionCalled(inputParameter);
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakStaticAction_CustomTargetDead_AfterGarbageCollection_NotAlive<TIn>(TIn inputParameter)
+        {
+            var (customTarget, weakAction) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>);
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakStaticAction_CustomTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var (customTarget, weakAction) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>);
+
+                customTarget.Dispose();
+                GC.Collect();
+
+                weakAction.Execute(inputParameter);
+
+                callCounter.DidNotReceive().OnActionCalled(Arg.Any<TIn>());
+            }
+        }
+
+        #endregion
+
+        #region MarkForDeletion
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceDelegate_WhenMarkedForDeletion_NotAlive<TIn>(TIn inputParameter)
+        {
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakInstanceAction<TIn>());
+
+            weakAction.MarkForDeletion();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakInstanceDelegate_WhenMarkedForDeletion_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakInstanceAction<TIn>());
+
+            weakAction.MarkForDeletion();
+            weakAction.Execute(inputParameter);
+
+            callCounter.DidNotReceive().OnActionCalled(Arg.Any<TIn>());
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakStaticDelegate_WhenMarkedForDeletion_NotAlive<TIn>(TIn inputParameter)
+        {
+            var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>();
+
+            weakAction.MarkForDeletion();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakActionInputParameters))]
+        public void Generic_WeakStaticDelegate_WhenMarkedForDeletion_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>();
+
+                weakAction.MarkForDeletion();
+                weakAction.Execute(inputParameter);
+
+                callCounter.DidNotReceive().OnActionCalled(Arg.Any<TIn>());
+            }
+        }
+
+        #endregion
     }
 }

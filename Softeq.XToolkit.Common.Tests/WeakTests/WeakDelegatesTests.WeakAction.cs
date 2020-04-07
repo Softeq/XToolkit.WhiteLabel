@@ -342,7 +342,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        public void WeakInstanceAction_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_StillAlive()
+        public void WeakInstanceAction_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_NotAlive()
         {
             var (_, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -351,11 +351,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             originalTarget.Dispose();
             GC.Collect();
 
-            Assert.True(weakAction.IsAlive);
+            Assert.False(weakAction.IsAlive);
         }
 
         [Fact]
-        // We shouldn't probably allow to do this!
         public void WeakInstanceAction_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
@@ -445,8 +444,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        // Seems like a flaw in our implementation!
-        public void WeakStaticAction_CustomTargetDead_AfterGarbageCollection_StillInvokesAction()
+        public void WeakStaticAction_CustomTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
 
@@ -459,7 +457,63 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
                 weakAction.Execute();
 
-                callCounter.Received(1).OnActionCalled();
+                callCounter.DidNotReceive().OnActionCalled();
+            }
+        }
+
+        #endregion
+
+        #region MarkForDeletion
+
+        [Fact]
+        public void WeakInstanceDelegate_WhenMarkedForDeletion_NotAlive()
+        {
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(),
+                x => x.GetWeakInstanceAction());
+
+            weakAction.MarkForDeletion();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Fact]
+        public void WeakInstanceDelegate_WhenMarkedForDeletion_DoesNotInvokeAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, weakAction) = CreateWeakDelegate(
+                () => new WeakDelegatesCallCounter(callCounter),
+                x => x.GetWeakInstanceAction());
+
+            weakAction.MarkForDeletion();
+            weakAction.Execute();
+
+            callCounter.DidNotReceive().OnActionCalled();
+        }
+
+        [Fact]
+        public void WeakStaticDelegate_WhenMarkedForDeletion_NotAlive()
+        {
+            var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
+
+            weakAction.MarkForDeletion();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Fact]
+        public void WeakStaticDelegate_WhenMarkedForDeletion_DoesNotInvokeAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
+
+                weakAction.MarkForDeletion();
+                weakAction.Execute();
+
+                callCounter.DidNotReceive().OnActionCalled();
             }
         }
 

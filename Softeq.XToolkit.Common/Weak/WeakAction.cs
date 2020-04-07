@@ -39,7 +39,11 @@ namespace Softeq.XToolkit.Common.Weak
         {
             if (StaticDelegate != null)
             {
-                StaticDelegate.Invoke();
+                if (IsCustomTargetAlive)
+                {
+                    StaticDelegate.Invoke();
+                }
+
                 return;
             }
 
@@ -103,7 +107,11 @@ namespace Softeq.XToolkit.Common.Weak
         {
             if (StaticDelegate != null)
             {
-                StaticDelegate.Invoke(parameter);
+                if (IsCustomTargetAlive)
+                {
+                    StaticDelegate.Invoke(parameter);
+                }
+
                 return;
             }
 
@@ -119,9 +127,20 @@ namespace Softeq.XToolkit.Common.Weak
     public interface IExecuteWithObject
     {
         /// <summary>
+        ///     Gets a value indicating whether the Delegate's owner is still alive, or if it was collected
+        ///     by the Garbage Collector already.
+        /// </summary>
+        public bool IsAlive { get; }
+
+        /// <summary>
         ///     The target of the WeakAction.
         /// </summary>
         object? Target { get; }
+
+        /// <summary>
+        ///     Gets the name of the method that this WeakDelegate represents.
+        /// </summary>
+        public string MethodName { get; }
 
         /// <summary>
         ///     Executes an action.

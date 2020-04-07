@@ -46,9 +46,14 @@ namespace Softeq.XToolkit.Common.Weak
         /// <returns>The result of the Func stored as reference.</returns>
         public TResult Execute()
         {
-            return StaticDelegate != null
-                ? StaticDelegate.Invoke()
-                : TryExecuteWeakDelegate<TResult>();
+            if (StaticDelegate != null)
+            {
+                return IsCustomTargetAlive
+                    ? StaticDelegate.Invoke()
+                    : default;
+            }
+
+            return TryExecuteWeakDelegate<TResult>();
         }
     }
 
@@ -108,9 +113,14 @@ namespace Softeq.XToolkit.Common.Weak
         /// <returns>The result of the Func stored as reference.</returns>
         public TResult Execute(T parameter)
         {
-            return StaticDelegate != null
-                ? StaticDelegate.Invoke(parameter)
-                : TryExecuteWeakDelegate<TResult>(parameter);
+            if (StaticDelegate != null)
+            {
+                return IsCustomTargetAlive
+                    ? StaticDelegate.Invoke(parameter)
+                    : default;
+            }
+
+            return TryExecuteWeakDelegate<TResult>(parameter);
         }
     }
 

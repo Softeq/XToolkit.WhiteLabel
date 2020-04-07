@@ -20,14 +20,17 @@ namespace Softeq.XToolkit.Common.Weak
                 {
                     // Keep a reference to the target to control the
                     // WeakDelegate's lifetime.
-                    Reference = new WeakReference(target);
+                    CustomTargetReference = new WeakReference(target);
                 }
 
                 return;
             }
 
-            DelegateReference = new WeakReference(@delegate.Target);
-            Reference = new WeakReference(target);
+            DelegateTargetReference = new WeakReference(@delegate.Target);
+            if (!ReferenceEquals(@delegate.Target, target))
+            {
+                CustomTargetReference = new WeakReference(target);
+            }
         }
 
         /// <summary>
@@ -45,18 +48,18 @@ namespace Softeq.XToolkit.Common.Weak
         /// <summary>
         ///     Gets or sets a WeakReference to this WeakDelegate's action's target.
         ///     This is not necessarily the same as
-        ///     <see cref="Reference" />, for example if the
+        ///     <see cref="CustomTargetReference" />, for example if the
         ///     method is anonymous.
         /// </summary>
-        private WeakReference? DelegateReference { get; set; }
+        private WeakReference? DelegateTargetReference { get; set; }
 
         /// <summary>
         ///     Gets or sets a WeakReference to the target passed when constructing
         ///     the WeakDelegate. This is not necessarily the same as
-        ///     <see cref="DelegateReference" />, for example if the
+        ///     <see cref="DelegateTargetReference" />, for example if the
         ///     method is anonymous.
         /// </summary>
-        private WeakReference? Reference { get; set; }
+        private WeakReference? CustomTargetReference { get; set; }
 
         /// <summary>
         ///     Get a value indicating whether the WeakDelegate is static or not.
@@ -72,7 +75,11 @@ namespace Softeq.XToolkit.Common.Weak
         ///     Gets the Delegate's owner. This object is stored as a
         ///     <see cref="WeakReference" />.
         /// </summary>
-        public object? Target => Reference?.Target;
+        public object? Target => CustomTargetReference != null
+            ? CustomTargetReference.Target
+            : DelegateTargetReference?.Target;
+
+        protected bool IsCustomTargetAlive => CustomTargetReference == null || CustomTargetReference.IsAlive;
 
         /// <summary>
         ///     Gets a value indicating whether the Delegate's owner is still alive, or if it was collected
@@ -84,10 +91,12 @@ namespace Softeq.XToolkit.Common.Weak
             {
                 if (IsStatic)
                 {
-                    return Reference == null || Reference.IsAlive;
+                    return IsCustomTargetAlive && StaticDelegate != null;
                 }
 
-                return Reference != null && Reference.IsAlive;
+                return IsCustomTargetAlive
+                       && DelegateTargetReference != null
+                       && DelegateTargetReference.IsAlive;
             }
         }
 
@@ -96,17 +105,17 @@ namespace Softeq.XToolkit.Common.Weak
         /// </summary>
         public void MarkForDeletion()
         {
-            Reference = null;
-            DelegateReference = null;
+            CustomTargetReference = null;
+            DelegateTargetReference = null;
             Method = null;
             StaticDelegate = null;
         }
 
         protected T TryExecuteWeakDelegate<T>(params object[] parameters)
         {
-            var delegateTarget = DelegateReference?.Target;
+            var delegateTarget = GetExecutionTarget();
 
-            if (CanExecuteForTarget(delegateTarget))
+            if (delegateTarget != null && Method != null)
             {
                 return (T) Method.Invoke(delegateTarget, parameters);
             }
@@ -114,9 +123,11 @@ namespace Softeq.XToolkit.Common.Weak
             return default;
         }
 
-        private bool CanExecuteForTarget(object? target)
+        private object? GetExecutionTarget()
         {
-            return IsAlive && Method != null && target != null;
+            return IsCustomTargetAlive
+                ? DelegateTargetReference?.Target
+                : null;
         }
     }
 }

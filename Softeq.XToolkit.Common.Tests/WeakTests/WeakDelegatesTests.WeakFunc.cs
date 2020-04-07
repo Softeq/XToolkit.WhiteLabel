@@ -303,5 +303,197 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         #endregion
+
+        #region WeakInstanceFunc_WithCustomTarget
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_CustomTargetAlive_OriginalTargetAlive_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
+        {
+            var (_, _, weakFunc) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceFunc<TOut>(y));
+
+            GC.Collect();
+
+            Assert.True(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_CustomTargetAlive_OriginalTargetAlive_AfterGarbageCollection_InvokesFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, _, weakFunc) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(callCounter),
+                (x, y) => x.GetWeakInstanceFunc<TOut>(y));
+
+            GC.Collect();
+
+            weakFunc.Execute();
+
+            callCounter.Received(1).OnFuncCalled<TOut>();
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_CustomTargetDead_OriginalTargetAlive_AfterGarbageCollection_NotAlive<TOut>(TOut outputParameter)
+        {
+            var (customTarget, _, weakFunc) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceFunc<TOut>(y));
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_CustomTargetDead_OriginalTargetAlive_AfterGarbageCollection_DoesNotInvokeFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (customTarget, _, weakFunc) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(callCounter),
+                (x, y) => x.GetWeakInstanceFunc<TOut>(y));
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            weakFunc.Execute();
+
+            callCounter.DidNotReceive().OnFuncCalled<TOut>();
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_NotAlive<TOut>(TOut outputParameter)
+        {
+            var (_, originalTarget, weakFunc) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceFunc<TOut>(y));
+
+            originalTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_DoesNotInvokeFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, originalTarget, weakFunc) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceFunc<TOut>(y));
+
+            originalTarget.Dispose();
+            GC.Collect();
+
+            weakFunc.Execute();
+
+            callCounter.DidNotReceive().OnFuncCalled<TOut>();
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_CustomTargetDead_OriginalTargetDead_AfterGarbageCollection_NotAlive<TOut>(TOut outputParameter)
+        {
+            var (customTarget, originalTarget, weakFunc) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceFunc<TOut>(y));
+
+            customTarget.Dispose();
+            originalTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakInstanceFunc_CustomTargetDead_OriginalTargetDead_AfterGarbageCollection_DoesNotInvokeFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (customTarget, originalTarget, weakFunc) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceFunc<TOut>(y));
+
+            customTarget.Dispose();
+            originalTarget.Dispose();
+            GC.Collect();
+
+            weakFunc.Execute();
+
+            callCounter.DidNotReceive().OnFuncCalled<TOut>();
+        }
+
+        #endregion
+
+        #region WeakStaticFunc_WithCustomTarget
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakStaticFunc_CustomTargetAlive_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
+        {
+            var (_, weakFunc) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticFunc<TOut>);
+
+            GC.Collect();
+
+            Assert.True(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakStaticFunc_CustomTargetAlive_AfterGarbageCollection_InvokesFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var (_, weakFunc) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticFunc<TOut>);
+
+                GC.Collect();
+
+                weakFunc.Execute();
+
+                callCounter.Received(1).OnFuncCalled<TOut>();
+            }
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakStaticFunc_CustomTargetDead_AfterGarbageCollection_NotAlive<TOut>(TOut outputParameter)
+        {
+            var (customTarget, weakFunc) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticFunc<TOut>);
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakFunc.IsAlive);
+        }
+
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
+        public void WeakStaticFunc_CustomTargetDead_AfterGarbageCollection_DoesNotInvokeFunc<TOut>(TOut outputParameter)
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var (customTarget, weakFunc) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticFunc<TOut>);
+
+                customTarget.Dispose();
+                GC.Collect();
+
+                weakFunc.Execute();
+
+                callCounter.DidNotReceive().OnFuncCalled<TOut>();
+            }
+        }
+
+        #endregion
     }
 }
