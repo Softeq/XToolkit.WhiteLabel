@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using CoreGraphics;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
@@ -14,7 +14,8 @@ namespace Playground.iOS.Views.Table
     {
         private readonly UILabel _label;
 
-        public GroupedTableFooterView(IntPtr handle) : base(handle)
+        public GroupedTableFooterView(IntPtr handle)
+            : base(handle)
         {
             BackgroundColor = "#60d5c9".UIColorFromHex();
 

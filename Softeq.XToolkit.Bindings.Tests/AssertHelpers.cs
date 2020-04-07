@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Bindings.Tests
 
             if (canExecute)
             {
-                command.Received(1).Execute(Arg.Is(commandParameter));
+                command.Received(1).Execute(commandParameter);
             }
             else
             {

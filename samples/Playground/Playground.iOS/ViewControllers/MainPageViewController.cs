@@ -15,7 +15,8 @@ namespace Playground.iOS.ViewControllers
 {
     public partial class MainPageViewController : ViewControllerBase<MainPageViewModel>
     {
-        public MainPageViewController(IntPtr handle) : base(handle)
+        public MainPageViewController(IntPtr handle)
+            : base(handle)
         {
         }
 
@@ -41,7 +42,7 @@ namespace Playground.iOS.ViewControllers
 
             // Use simple table
 
-            //var source = new BindableTableViewSource<CommandAction, MainPageItemViewCell>(
+            // var source = new BindableTableViewSource<CommandAction, MainPageItemViewCell>(
             //    ViewModel.Items.Values.ToList());
 
             // Use group table

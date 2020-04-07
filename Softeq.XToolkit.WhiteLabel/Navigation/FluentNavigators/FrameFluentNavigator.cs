@@ -30,6 +30,17 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             return this;
         }
 
+        public FrameFluentNavigator<TViewModel> Initialize(object initParameter)
+        {
+            _frameNavigationService.Initialize(initParameter);
+            return this;
+        }
+
+        public void NavigateBack()
+        {
+            _frameNavigationService.GoBack();
+        }
+
         public void Navigate(bool clearBackStack = false)
         {
             _frameNavigationService.NavigateToViewModel<TViewModel>(clearBackStack, Parameters);

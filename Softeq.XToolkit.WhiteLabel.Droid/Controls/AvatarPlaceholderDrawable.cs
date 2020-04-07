@@ -58,8 +58,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
                 var context = CrossCurrentActivity.Current.AppContext;
                 var width = context.ToPixels(_size);
                 var sizeInPixels = new SizeF(width, width);
-                var x = centerPoint.X - sizeInPixels.Width / 2f;
-                var y = centerPoint.Y - sizeInPixels.Height / 2f;
+                var x = centerPoint.X - (sizeInPixels.Width / 2f);
+                var y = centerPoint.Y - (sizeInPixels.Height / 2f);
 
                 _placeholderBounds = new RectF(
                     x,
@@ -101,12 +101,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         private float CalculateTextStartXPoint()
         {
             var stringWidth = _textPaint.MeasureText(_avatarText);
-            return Bounds.Width() / 2f - stringWidth / 2f;
+            return (Bounds.Width() / 2f) - (stringWidth / 2f);
         }
 
         private float CalculateTextStartYPoint()
         {
-            return Bounds.Height() / 2f - (_textPaint.Ascent() + _textPaint.Descent()) / 2f;
+            return (Bounds.Height() / 2f) - ((_textPaint.Ascent() + _textPaint.Descent()) / 2f);
         }
 
         private float CalculateTextSize()

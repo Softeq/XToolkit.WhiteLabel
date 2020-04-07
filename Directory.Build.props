@@ -6,4 +6,6 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <Import Project="$(MSBuildThisFileDirectory)\CodeStyles.targets" />
+
 </Project>

@@ -249,7 +249,6 @@ namespace Softeq.XToolkit.Common
             return true;
         }
 
-
         /// <summary>
         ///     Assigns a new value to the property. Then, raises the
         ///     PropertyChanged event if needed.
