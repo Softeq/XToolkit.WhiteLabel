@@ -14,26 +14,26 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakInstanceFunc_NotStatic<TIn, TOut>(
+        public void Generic_WeakInstanceFunc_NotStatic<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var (_, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
-                x => x.GetWeakInstanceFunc<TIn, TOut>());
+                x => x.GetWeakInstanceFunc<TIn,TOut>());
 
             Assert.False(weakFunc.IsStatic);
         }
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakInstanceFunc_AfterGarbageCollection_WithStrongReference_IsAlive<TIn, TOut>(
+        public void Generic_WeakInstanceFunc_AfterGarbageCollection_WithStrongReference_StillAlive<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var (_, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
-                x => x.GetWeakInstanceFunc<TIn, TOut>());
+                x => x.GetWeakInstanceFunc<TIn,TOut>());
 
             GC.Collect();
 
@@ -42,29 +42,29 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakInstanceFunc_WhenAlive_InvokesFunc<TIn, TOut>(
+        public void Generic_WeakInstanceFunc_WhenAlive_InvokesFunc<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(callCounter),
-                x => x.GetWeakInstanceFunc<TIn, TOut>());
+                x => x.GetWeakInstanceFunc<TIn,TOut>());
 
             weakFunc.Execute(inputParameter);
 
-            callCounter.Received(1).OnFuncCalled<TIn, TOut>(inputParameter);
+            callCounter.Received(1).OnFuncCalled<TIn,TOut>(inputParameter);
         }
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakInstanceFunc_AfterGarbageCollection_WithoutStrongReference_NotAlive<TIn, TOut>(
+        public void Generic_WeakInstanceFunc_AfterGarbageCollection_WithoutStrongReference_NotAlive<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var (reference, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
-                x => x.GetWeakInstanceFunc<TIn, TOut>());
+                x => x.GetWeakInstanceFunc<TIn,TOut>());
 
             reference.Dispose();
             GC.Collect();
@@ -74,21 +74,21 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakInstanceFunc_WhenNotAlive_DoesNotInvokeFunc<TIn, TOut>(
+        public void Generic_WeakInstanceFunc_WhenNotAlive_DoesNotInvokeFunc<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (reference, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(callCounter),
-                x => x.GetWeakInstanceFunc<TIn, TOut>());
+                x => x.GetWeakInstanceFunc<TIn,TOut>());
 
             reference.Dispose();
             GC.Collect();
 
             weakFunc.Execute(inputParameter);
 
-            callCounter.DidNotReceive().OnFuncCalled<TIn, TOut>(Arg.Any<TIn>());
+            callCounter.DidNotReceive().OnFuncCalled<TIn,TOut>(Arg.Any<TIn>());
         }
 
         #endregion
@@ -97,44 +97,24 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithoutReferences_NotStatic<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithoutReferences_NotStatic<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TIn, TOut>());
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithoutReferences<TIn,TOut>();
 
             Assert.False(weakFunc.IsStatic);
         }
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_WithStrongReference_IsAlive<TIn, TOut>(
-            TIn inputParameter,
-            TOut outputParameter)
-        {
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TIn, TOut>());
-
-            GC.Collect();
-
-            Assert.True(weakFunc.IsAlive);
-        }
-
-        [Theory]
-        [MemberData(nameof(WeakFuncInputOutputParameters))]
         // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
-        public void Generic_WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_WithoutStrongReference_StillAlive<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_StillAlive<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
-            var (reference, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TIn, TOut>());
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithoutReferences<TIn,TOut>();
 
-            reference.Dispose();
             GC.Collect();
 
             Assert.True(weakFunc.IsAlive);
@@ -146,26 +126,26 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithInstanceReference_NotStatic<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithInstanceReference_NotStatic<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var (_, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
-                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn, TOut>());
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn,TOut>());
 
             Assert.False(weakFunc.IsStatic);
         }
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithInstanceReference_AfterGarbageCollection_WithStrongReference_IsAlive<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithInstanceReference_AfterGarbageCollection_WithStrongReference_StillAlive<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var (_, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
-                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn, TOut>());
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn,TOut>());
 
             GC.Collect();
 
@@ -174,14 +154,14 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithInstanceReference_WhenAlive_InvokesFunc<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithInstanceReference_WhenAlive_InvokesFunc<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(callCounter),
-                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn, TOut>());
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn,TOut>());
 
             weakFunc.Execute(inputParameter);
 
@@ -190,13 +170,13 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithInstanceReference_AfterGarbageCollection_WithoutStrongReference_NotAlive<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithInstanceReference_AfterGarbageCollection_WithoutStrongReference_NotAlive<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var (reference, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
-                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn, TOut>());
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn,TOut>());
 
             reference.Dispose();
             GC.Collect();
@@ -206,21 +186,21 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithInstanceReference_WhenNotAlive_DoesNotInvokeFunc<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithInstanceReference_WhenNotAlive_DoesNotInvokeFunc<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (reference, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(callCounter),
-                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn, TOut>());
+                x => x.GetWeakAnonymousFuncWithInstanceReference<TIn,TOut>());
 
             reference.Dispose();
             GC.Collect();
 
             weakFunc.Execute(inputParameter);
 
-            callCounter.DidNotReceive().OnFuncCalled<TIn, TOut>(Arg.Any<TIn>());
+            callCounter.DidNotReceive().OnFuncCalled<TIn,TOut>(Arg.Any<TIn>());
         }
 
         #endregion
@@ -229,14 +209,12 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithLocalReference_NotStatic<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithLocalReference_NotStatic<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TIn, TOut>(callCounter));
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithLocalReference<TIn,TOut>(callCounter);
 
             Assert.False(weakFunc.IsStatic);
         }
@@ -245,14 +223,12 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         [MemberData(nameof(WeakFuncInputOutputParameters))]
         // This test shows why WeakDelegate for lambdas with local variable references doesn't work:
         // compiler creates instance of inner class, that could be garbage collected as soon as method ends
-        public void Generic_WeakAnonymousFuncWithLocalReference_AfterGarbageCollection_WithStrongReference_IsAlive<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithLocalReference_AfterGarbageCollection_StillAlive<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TIn, TOut>(callCounter));
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithLocalReference<TIn,TOut>(callCounter);
 
             GC.Collect();
 
@@ -261,36 +237,32 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithLocalReference_WhenAlive_InvokesFunc<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithLocalReference_WhenAlive_InvokesFunc<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TIn, TOut>(callCounter));
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithLocalReference<TIn,TOut>(callCounter);
 
             weakFunc.Execute(inputParameter);
 
-            callCounter.Received(1).OnFuncCalled<TIn, TOut>(inputParameter);
+            callCounter.Received(1).OnFuncCalled<TIn,TOut>(inputParameter);
         }
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakAnonymousFuncWithLocalReference_WhenNotAlive_DoesNotInvokeFunc<TIn, TOut>(
+        public void Generic_WeakAnonymousFuncWithLocalReference_WhenNotAlive_DoesNotInvokeFunc<TIn,TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TIn, TOut>(callCounter));
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithLocalReference<TIn,TOut>(callCounter);
 
             GC.Collect();
 
             weakFunc.Execute(inputParameter);
 
-            callCounter.DidNotReceive().OnFuncCalled<TIn, TOut>(Arg.Any<TIn>());
+            callCounter.DidNotReceive().OnFuncCalled<TIn,TOut>(Arg.Any<TIn>());
         }
 
         #endregion
@@ -310,7 +282,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncInputOutputParameters))]
-        public void Generic_WeakStaticFunc_AfterGarbageCollection_IsAlive<TIn, TOut>(
+        public void Generic_WeakStaticFunc_AfterGarbageCollection_StillAlive<TIn, TOut>(
             TIn inputParameter,
             TOut outputParameter)
         {

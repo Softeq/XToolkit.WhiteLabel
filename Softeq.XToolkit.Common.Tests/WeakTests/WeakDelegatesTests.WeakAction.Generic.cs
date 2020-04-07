@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakActionInputParameters))]
-        public void Generic_WeakInstanceAction_AfterGarbageCollection_WithStrongReference_IsAlive<TIn>(TIn inputParameter)
+        public void Generic_WeakInstanceAction_AfterGarbageCollection_WithStrongReference_StillAlive<TIn>(TIn inputParameter)
         {
             var (_, weakAction) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -89,36 +89,18 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         [MemberData(nameof(WeakActionInputParameters))]
         public void Generic_WeakAnonymousActionWithoutReferences_NotStatic<TIn>(TIn inputParameter)
         {
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences<TIn>());
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithoutReferences<TIn>();
 
             Assert.False(weakAction.IsStatic);
         }
 
         [Theory]
         [MemberData(nameof(WeakActionInputParameters))]
-        public void Generic_WeakAnonymousActionWithoutReferences_AfterGarbageCollection_WithStrongReference_IsAlive<TIn>(TIn inputParameter)
-        {
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences<TIn>());
-
-            GC.Collect();
-
-            Assert.True(weakAction.IsAlive);
-        }
-
-        [Theory]
-        [MemberData(nameof(WeakActionInputParameters))]
         // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
-        public void Generic_WeakAnonymousActionWithoutReferences_AfterGarbageCollection_WithoutStrongReference_StillAlive<TIn>(TIn inputParameter)
+        public void Generic_WeakAnonymousActionWithoutReferences_AfterGarbageCollection_StillAlive<TIn>(TIn inputParameter)
         {
-            var (reference, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences<TIn>());
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithoutReferences<TIn>();
 
-            reference.Dispose();
             GC.Collect();
 
             Assert.True(weakAction.IsAlive);
@@ -141,7 +123,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakActionInputParameters))]
-        public void Generic_WeakAnonymousActionWithInstanceReference_AfterGarbageCollection_WithStrongReference_IsAlive<TIn>(TIn inputParameter)
+        public void Generic_WeakAnonymousActionWithInstanceReference_AfterGarbageCollection_WithStrongReference_StillAlive<TIn>(TIn inputParameter)
         {
             var (_, weakAction) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -206,9 +188,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         public void Generic_WeakAnonymousActionWithLocalReference_NotStatic<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter));
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter);
 
             Assert.False(weakAction.IsStatic);
         }
@@ -217,12 +197,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         [MemberData(nameof(WeakActionInputParameters))]
         // This test shows why WeakDelegate for lambdas with local variable references doesn't work:
         // compiler creates instance of inner class, that could be garbage collected as soon as method ends
-        public void Generic_WeakAnonymousActionWithLocalReference_AfterGarbageCollection_WithStrongReference_IsAlive<TIn>(TIn inputParameter)
+        public void Generic_WeakAnonymousActionWithLocalReference_AfterGarbageCollection_StillAlive<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter));
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter);
 
             GC.Collect();
 
@@ -231,26 +209,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakActionInputParameters))]
-        public void Generic_WeakAnonymousActionWithLocalReference_WhenAlive_InvokesAction<TIn>(TIn inputParameter)
-        {
-            var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter));
-
-            weakAction.Execute(inputParameter);
-
-            callCounter.Received(1).OnActionCalled(inputParameter);
-        }
-
-        [Theory]
-        [MemberData(nameof(WeakActionInputParameters))]
         public void Generic_WeakAnonymousActionWithLocalReference_WhenNotAlive_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter));
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter);
 
             GC.Collect();
 
@@ -274,7 +236,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakActionInputParameters))]
-        public void Generic_WeakStaticAction_AfterGarbageCollection_IsAlive<TIn>(TIn inputParameter)
+        public void Generic_WeakStaticAction_AfterGarbageCollection_StillAlive<TIn>(TIn inputParameter)
         {
             var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>();
 

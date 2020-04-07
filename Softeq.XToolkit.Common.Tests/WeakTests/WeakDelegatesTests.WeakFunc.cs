@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncOutputParameters))]
-        public void WeakInstanceFunc_AfterGarbageCollection_WithStrongReference_IsAlive<TOut>(TOut outputParameter)
+        public void WeakInstanceFunc_AfterGarbageCollection_WithStrongReference_StillAlive<TOut>(TOut outputParameter)
         {
             var (_, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -89,36 +89,18 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         [MemberData(nameof(WeakFuncOutputParameters))]
         public void WeakAnonymousFuncWithoutReferences_NotStatic<TOut>(TOut outputParameter)
         {
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TOut>());
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithoutReferences<TOut>();
 
             Assert.False(weakFunc.IsStatic);
         }
 
         [Theory]
         [MemberData(nameof(WeakFuncOutputParameters))]
-        public void WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_WithStrongReference_IsAlive<TOut>(TOut outputParameter)
-        {
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TOut>());
-
-            GC.Collect();
-
-            Assert.True(weakFunc.IsAlive);
-        }
-
-        [Theory]
-        [MemberData(nameof(WeakFuncOutputParameters))]
         // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
-        public void WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_WithoutStrongReference_StillAlive<TOut>(TOut outputParameter)
+        public void WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
         {
-            var (reference, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithoutReferences<TOut>());
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithoutReferences<TOut>();
 
-            reference.Dispose();
             GC.Collect();
 
             Assert.True(weakFunc.IsAlive);
@@ -141,7 +123,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncOutputParameters))]
-        public void WeakAnonymousFuncWithInstanceReference_AfterGarbageCollection_WithStrongReference_IsAlive<TOut>(TOut outputParameter)
+        public void WeakAnonymousFuncWithInstanceReference_AfterGarbageCollection_WithStrongReference_StillAlive<TOut>(TOut outputParameter)
         {
             var (_, weakFunc) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -206,9 +188,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         public void WeakAnonymousFuncWithLocalReference_NotStatic<TOut>(TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter));
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter);
 
             Assert.False(weakFunc.IsStatic);
         }
@@ -217,12 +197,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         [MemberData(nameof(WeakFuncOutputParameters))]
         // This test shows why WeakDelegate for lambdas with local variable references doesn't work:
         // compiler creates instance of inner class, that could be garbage collected as soon as method ends
-        public void WeakAnonymousFuncWithLocalReference_AfterGarbageCollection_WithStrongReference_IsAlive<TOut>(TOut outputParameter)
+        public void WeakAnonymousFuncWithLocalReference_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter));
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter);
 
             GC.Collect();
 
@@ -231,26 +209,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncOutputParameters))]
-        public void WeakAnonymousFuncWithLocalReference_WhenAlive_InvokesFunc<TOut>(TOut outputParameter)
-        {
-            var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter));
-
-            weakFunc.Execute();
-
-            callCounter.Received(1).OnFuncCalled<TOut>();
-        }
-
-        [Theory]
-        [MemberData(nameof(WeakFuncOutputParameters))]
         public void WeakAnonymousFuncWithLocalReference_WhenNotAlive_DoesNotInvokeFunc<TOut>(TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakFunc) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter));
+            var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithLocalReference<TOut>(callCounter);
 
             GC.Collect();
 
@@ -274,7 +236,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         [Theory]
         [MemberData(nameof(WeakFuncOutputParameters))]
-        public void WeakStaticFunc_AfterGarbageCollection_IsAlive<TOut>(TOut outputParameter)
+        public void WeakStaticFunc_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
         {
             var weakFunc = StaticWeakDelegatesCallCounter.GetWeakStaticFunc<TOut>();
 

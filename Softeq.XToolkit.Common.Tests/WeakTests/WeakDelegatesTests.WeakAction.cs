@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        public void WeakInstanceAction_AfterGarbageCollection_WithStrongReference_IsAlive()
+        public void WeakInstanceAction_AfterGarbageCollection_WithStrongReference_StillAlive()
         {
             var (_, weakAction) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -83,34 +83,17 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         [Fact]
         public void WeakAnonymousActionWithoutReferences_NotStatic()
         {
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences());
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithoutReferences();
 
             Assert.False(weakAction.IsStatic);
         }
 
         [Fact]
-        public void WeakAnonymousActionWithoutReferences_AfterGarbageCollection_WithStrongReference_IsAlive()
-        {
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences());
-
-            GC.Collect();
-
-            Assert.True(weakAction.IsAlive);
-        }
-
-        [Fact]
         // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
-        public void WeakAnonymousActionWithoutReferences_AfterGarbageCollection_WithoutStrongReference_StillAlive()
+        public void WeakAnonymousActionWithoutReferences_AfterGarbageCollection_StillAlive()
         {
-            var (reference, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithoutReferences());
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithoutReferences();
 
-            reference.Dispose();
             GC.Collect();
 
             Assert.True(weakAction.IsAlive);
@@ -131,7 +114,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        public void WeakAnonymousActionWithInstanceReference_AfterGarbageCollection_WithStrongReference_IsAlive()
+        public void WeakAnonymousActionWithInstanceReference_AfterGarbageCollection_WithStrongReference_StillAlive()
         {
             var (_, weakAction) = CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -192,9 +175,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         public void WeakAnonymousActionWithLocalReference_NotStatic()
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference(callCounter));
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference(callCounter);
 
             Assert.False(weakAction.IsStatic);
         }
@@ -202,12 +183,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         [Fact]
         // This test shows why WeakDelegate for lambdas with local variable references doesn't work:
         // compiler creates instance of inner class, that could be garbage collected as soon as method ends
-        public void WeakAnonymousActionWithLocalReference_AfterGarbageCollection_WithStrongReference_IsAlive()
+        public void WeakAnonymousActionWithLocalReference_AfterGarbageCollection_StillAlive()
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference(callCounter));
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference(callCounter);
 
             GC.Collect();
 
@@ -215,25 +194,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        public void WeakAnonymousActionWithLocalReference_WhenAlive_InvokesAction()
-        {
-            var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference(callCounter));
-
-            weakAction.Execute();
-
-            callCounter.Received(1).OnActionCalled();
-        }
-
-        [Fact]
         public void WeakAnonymousActionWithLocalReference_WhenNotAlive_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
-            var (_, weakAction) = CreateWeakDelegate(
-                () => new WeakDelegateInstanceTestClass(),
-                x => WeakDelegateInstanceTestClass.GetWeakAnonymousActionWithLocalReference(callCounter));
+            var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference(callCounter);
 
             GC.Collect();
 
@@ -255,7 +219,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         }
 
         [Fact]
-        public void WeakStaticAction_AfterGarbageCollection_IsAlive()
+        public void WeakStaticAction_AfterGarbageCollection_StillAlive()
         {
             var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
 
@@ -310,6 +274,188 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
             {
                 var weakAction = StaticWeakDelegatesCallCounter.GetWeakAnonymousActionWithStaticReference();
+
+                weakAction.Execute();
+
+                callCounter.Received(1).OnActionCalled();
+            }
+        }
+
+        #endregion
+
+        #region WeakInstanceAction_WithCustomTarget
+
+        [Fact]
+        public void WeakInstanceAction_CustomTargetAlive_OriginalTargetAlive_AfterGarbageCollection_StillAlive()
+        {
+            var (_, _, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceAction(y));
+
+            GC.Collect();
+
+            Assert.True(weakAction.IsAlive);
+        }
+
+        [Fact]
+        public void WeakInstanceAction_CustomTargetAlive_OriginalTargetAlive_AfterGarbageCollection_InvokesAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, _, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(callCounter),
+                (x, y) => x.GetWeakInstanceAction(y));
+
+            GC.Collect();
+
+            weakAction.Execute();
+
+            callCounter.Received(1).OnActionCalled();
+        }
+
+        [Fact]
+        public void WeakInstanceAction_CustomTargetDead_OriginalTargetAlive_AfterGarbageCollection_NotAlive()
+        {
+            var (customTarget, _, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceAction(y));
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Fact]
+        public void WeakInstanceAction_CustomTargetDead_OriginalTargetAlive_AfterGarbageCollection_DoesNotInvokeAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (customTarget, _, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(callCounter),
+                (x, y) => x.GetWeakInstanceAction(y));
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            weakAction.Execute();
+
+            callCounter.DidNotReceive().OnActionCalled();
+        }
+
+        [Fact]
+        public void WeakInstanceAction_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_StillAlive()
+        {
+            var (_, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceAction(y));
+
+            originalTarget.Dispose();
+            GC.Collect();
+
+            Assert.True(weakAction.IsAlive);
+        }
+
+        [Fact]
+        // We shouldn't probably allow to do this!
+        public void WeakInstanceAction_CustomTargetAlive_OriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (_, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x, y) => x.GetWeakInstanceAction(y));
+
+            originalTarget.Dispose();
+            GC.Collect();
+
+            weakAction.Execute();
+
+            callCounter.DidNotReceive().OnActionCalled();
+        }
+
+        [Fact]
+        public void WeakInstanceAction_CustomTargetDead_OriginalTargetDead_AfterGarbageCollection_NotAlive()
+        {
+            var (customTarget, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceAction(y));
+
+            customTarget.Dispose();
+            originalTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Fact]
+        public void WeakInstanceAction_CustomTargetDead_OriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+            var (customTarget, originalTarget, weakAction) = CreateWeakDelegateWithCustomTarget(
+                () => new WeakDelegatesCallCounter(),
+                (x,y) => x.GetWeakInstanceAction(y));
+
+            customTarget.Dispose();
+            originalTarget.Dispose();
+            GC.Collect();
+
+            weakAction.Execute();
+
+            callCounter.DidNotReceive().OnActionCalled();
+        }
+
+        #endregion
+
+        #region WeakStaticAction_WithCustomTarget
+
+        [Fact]
+        public void WeakStaticAction_CustomTargetAlive_AfterGarbageCollection_StillAlive()
+        {
+            var (_, weakAction) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction);
+
+            GC.Collect();
+
+            Assert.True(weakAction.IsAlive);
+        }
+
+        [Fact]
+        public void WeakStaticAction_CustomTargetAlive_AfterGarbageCollection_InvokesAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var (_, weakAction) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction);
+
+                GC.Collect();
+
+                weakAction.Execute();
+
+                callCounter.Received(1).OnActionCalled();
+            }
+        }
+
+        [Fact]
+        public void WeakStaticAction_CustomTargetDead_AfterGarbageCollection_NotAlive()
+        {
+            var (customTarget, weakAction) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction);
+
+            customTarget.Dispose();
+            GC.Collect();
+
+            Assert.False(weakAction.IsAlive);
+        }
+
+        [Fact]
+        // Seems like a flaw in our implementation!
+        public void WeakStaticAction_CustomTargetDead_AfterGarbageCollection_StillInvokesAction()
+        {
+            var callCounter = Substitute.For<ICallCounter>();
+
+            using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
+            {
+                var (customTarget, weakAction) = CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction);
+
+                customTarget.Dispose();
+                GC.Collect();
 
                 weakAction.Execute();
 
