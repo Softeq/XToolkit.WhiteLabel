@@ -56,7 +56,6 @@ namespace Softeq.XToolkit.Common.Extensions
             //     https://devblogs.microsoft.com/pfxteam/crafting-a-task-timeoutafter-method/
             // Source:
             //     https://github.com/microsoft/vs-threading/blob/master/src/Microsoft.VisualStudio.Threading/TplExtensions.cs#L73
-
             if (task == null)
             {
                 throw new ArgumentNullException(nameof(task));

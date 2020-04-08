@@ -21,7 +21,6 @@ namespace Softeq.XToolkit.Common.Extensions
         public static DateTime FirstDayOfWeek(this DateTime date, DayOfWeek startDayOfWeek = System.DayOfWeek.Sunday)
         {
             int diff = (DaysInWeek + (date.DayOfWeek - startDayOfWeek)) % DaysInWeek;
-
             return date.AddDays(-diff).Date;
         }
 
@@ -34,7 +33,6 @@ namespace Softeq.XToolkit.Common.Extensions
         public static DateTime LastDayOfWeek(this DateTime date, DayOfWeek endDayOfWeek = System.DayOfWeek.Saturday)
         {
             int diff = (DaysInWeek + (endDayOfWeek - date.DayOfWeek)) % DaysInWeek;
-
             return date.AddDays(diff).Date;
         }
 
@@ -56,7 +54,6 @@ namespace Softeq.XToolkit.Common.Extensions
         public static DateTime LastDayOfMonth(this DateTime date)
         {
             var nextMonthDate = date.AddMonths(1);
-
             return nextMonthDate.AddDays(-nextMonthDate.Day).Date;
         }
 
@@ -92,7 +89,6 @@ namespace Softeq.XToolkit.Common.Extensions
         public static bool IsInCurrentWeek(this DateTime date, DayOfWeek startDayOfWeek = System.DayOfWeek.Sunday, int weekLength = DaysInWeek)
         {
             var startOfWeek = DateTime.Today.FirstDayOfWeek(startDayOfWeek);
-
             return date.Date >= startOfWeek && date.Date < startOfWeek.AddDays(weekLength);
         }
 
@@ -106,7 +102,6 @@ namespace Softeq.XToolkit.Common.Extensions
         public static int DayOfWeek(this DateTime date, DayOfWeek startDayOfWeek = System.DayOfWeek.Sunday, int weekLength = DaysInWeek)
         {
             var dayOfWeek = ((int) date.DayOfWeek - (int) startDayOfWeek + weekLength) % weekLength;
-
             return dayOfWeek;
         }
     }

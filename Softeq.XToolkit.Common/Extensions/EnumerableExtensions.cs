@@ -8,7 +8,7 @@ using System.Linq;
 namespace Softeq.XToolkit.Common.Extensions
 {
     /// <summary>
-    ///     Extension methods for <see cref="T:System.Collections.Generic.IEnumerable`1" />.
+    ///     Extension methods for <see cref="T:System.Collections.Generic.IEnumerable`1"/>.
     /// </summary>
     public static class EnumerableExtensions
     {
