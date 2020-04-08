@@ -8,7 +8,7 @@ using System.Linq;
 namespace Softeq.XToolkit.Common.Extensions
 {
     /// <summary>
-    ///     Extension methods for <see cref="T:System.Collections.Generic.IEnumerable`1" />
+    ///     Extension methods for <see cref="T:System.Collections.Generic.IEnumerable`1" />.
     /// </summary>
     public static class EnumerableExtensions
     {
@@ -43,8 +43,8 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="source">IEnumerable instance.</param>
         /// <param name="size">Chunk size.</param>
         /// <typeparam name="T">Item type.</typeparam>
-        public static IEnumerable<T[]> Chunkify<T>(
-            this IEnumerable<T> source, int size)
+        /// <returns>Collection of arrays. Each array is a chunk of the source collection and will have the specified size.</returns>
+        public static IEnumerable<T[]> Chunkify<T>(this IEnumerable<T> source, int size)
         {
             if (source == null)
             {
