@@ -8,9 +8,11 @@ namespace Softeq.XToolkit.Common.Extensions
 {
     public static class InternalSettingsExtensions
     {
-        public static void AddOrUpdateJsonValue<T>(this IInternalSettings internalSettings,
-            IJsonSerializer jsonSerializer, string key, T value)
-            where T : notnull
+        public static void AddOrUpdateJsonValue<T>(
+            this IInternalSettings internalSettings,
+            IJsonSerializer jsonSerializer,
+            string key,
+            T value) where T : notnull
         {
             if (value == null)
             {
@@ -22,9 +24,12 @@ namespace Softeq.XToolkit.Common.Extensions
             internalSettings.AddOrUpdateValue(key, json);
         }
 
-        [return:MaybeNull]
-        public static T GetJsonValueOrDefault<T>(this IInternalSettings internalSettings,
-            IJsonSerializer jsonSerializer, string key, T defaultValue = default)
+        [return: MaybeNull]
+        public static T GetJsonValueOrDefault<T>(
+            this IInternalSettings internalSettings,
+            IJsonSerializer jsonSerializer,
+            string key,
+            T defaultValue = default)
         {
             var json = internalSettings.GetValueOrDefault(key, default(string)!);
             return string.IsNullOrEmpty(json)
