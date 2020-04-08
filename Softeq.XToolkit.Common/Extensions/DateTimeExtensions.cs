@@ -18,13 +18,8 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>DateTime of the first day in required week</returns>
         public static DateTime FirstDayOfWeek(this DateTime date, DayOfWeek startDayOfWeek = System.DayOfWeek.Sunday)
         {
-            var firstDay = date;
-            while (firstDay.DayOfWeek != startDayOfWeek)
-            {
-                firstDay = firstDay.AddDays(-1);
-            }
-
-            return firstDay;
+            int diff = (DaysInWeek + (date.DayOfWeek - startDayOfWeek)) % DaysInWeek;
+            return date.AddDays(-diff).Date;
         }
 
         /// <summary> Finds the date of the last day in week of the given date </summary>
@@ -33,13 +28,29 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>DateTime of the last day in required week</returns>
         public static DateTime LastDayOfWeek(this DateTime date, DayOfWeek endDayOfWeek = System.DayOfWeek.Saturday)
         {
-            var lastDay = date;
-            while (lastDay.DayOfWeek != endDayOfWeek)
-            {
-                lastDay = lastDay.AddDays(1);
-            }
+            int diff = (DaysInWeek + (endDayOfWeek - date.DayOfWeek)) % DaysInWeek;
+            return date.AddDays(diff).Date;
+        }
 
-            return lastDay;
+        /// <summary>
+        /// Finds the date of the first day in month of the given date
+        /// </summary>
+        /// <param name="date">Date for which the start of the month is calculated</param>
+        /// <returns>DateTime of the first day in required month</returns>
+        public static DateTime FirstDayOfMonth(this DateTime dateTime)
+        {
+            return dateTime.AddDays(-dateTime.Day + 1).Date;
+        }
+
+        /// <summary>
+        /// Finds the date of the last day in month of the given date
+        /// </summary>
+        /// <param name="date">Date for which the end of the month is calculated</param>
+        /// <returns>DateTime of the last day in required month</returns>
+        public static DateTime LastDayOfMonth(this DateTime dateTime)
+        {
+            var nextMonthDate = dateTime.AddMonths(1);
+            return nextMonthDate.AddDays(-nextMonthDate.Day).Date;
         }
 
         /// <summary> Determines if the given date is today </summary>
