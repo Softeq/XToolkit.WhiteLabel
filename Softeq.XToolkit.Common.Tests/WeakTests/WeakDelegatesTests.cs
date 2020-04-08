@@ -9,9 +9,10 @@ using System.Diagnostics.CodeAnalysis;
 namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
     [SuppressMessage("ReSharper", "xUnit1026", Justification = "Some generic parameters used just for test case generation")]
+    [SuppressMessage("ReSharper", "SA1124", Justification = "Regions improve test structure and readability")]
     public partial class WeakDelegatesTests
     {
-        private static (IDisposable, TWeakDelegate) CreateWeakDelegate<TInstance, TWeakDelegate>(
+        private static (IDisposable target, TWeakDelegate weakDelegate) CreateWeakDelegate<TInstance, TWeakDelegate>(
             Func<TInstance> instanceFactory,
             Func<TInstance, TWeakDelegate> weakDelegateFactory)
             where TInstance : class
@@ -20,14 +21,14 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             return (new DisposableReference(instance), weakDelegateFactory.Invoke(instance));
         }
 
-        private static (IDisposable, TWeakDelegate) CreateWeakDelegateWithCustomTarget<TWeakDelegate>(
+        private static (IDisposable target, TWeakDelegate weakDelegate) CreateWeakDelegateWithCustomTarget<TWeakDelegate>(
             Func<object, TWeakDelegate> weakDelegateFactory)
         {
             var customTarget = new object();
             return (new DisposableReference(customTarget), weakDelegateFactory.Invoke(customTarget));
         }
 
-        private static (IDisposable, IDisposable, TWeakDelegate) CreateWeakDelegateWithCustomTarget<TInstance, TWeakDelegate>(
+        private static (IDisposable customTarget, IDisposable originalTarget, TWeakDelegate weakDelegate) CreateWeakDelegateWithCustomTarget<TInstance, TWeakDelegate>(
             Func<TInstance> instanceFactory,
             Func<TInstance, object, TWeakDelegate> weakDelegateFactory)
             where TInstance : class

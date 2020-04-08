@@ -94,9 +94,9 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             Assert.False(weakFunc.IsStatic);
         }
 
+        // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
         [Theory]
         [MemberData(nameof(WeakFuncOutputParameters))]
-        // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
         public void WeakAnonymousFuncWithoutReferences_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
         {
             var weakFunc = WeakDelegatesCallCounter.GetWeakAnonymousFuncWithoutReferences<TOut>();
@@ -193,10 +193,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             Assert.False(weakFunc.IsStatic);
         }
 
-        [Theory]
-        [MemberData(nameof(WeakFuncOutputParameters))]
         // This test shows why WeakDelegate for lambdas with local variable references doesn't work:
         // compiler creates instance of inner class, that could be garbage collected as soon as method ends
+        [Theory]
+        [MemberData(nameof(WeakFuncOutputParameters))]
         public void WeakAnonymousFuncWithLocalReference_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
@@ -274,9 +274,9 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             Assert.False(weakFunc.IsStatic);
         }
 
+        // This test shows that even if lambdas has only static references - compiler creates singleton for each one of them!
         [Theory]
         [MemberData(nameof(WeakFuncOutputParameters))]
-        // This test shows that even if lambdas has only static references - compiler creates singleton for each one of them!
         public void WeakAnonymousFuncWithStaticReference_AfterGarbageCollection_StillAlive<TOut>(TOut outputParameter)
         {
             var weakFunc = StaticWeakDelegatesCallCounter.GetWeakAnonymousFuncWithStaticReference<TOut>();
@@ -312,7 +312,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         {
             var (_, _, weakFunc) = CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
-                (x,y) => x.GetWeakInstanceFunc<TOut>(y));
+                (x, y) => x.GetWeakInstanceFunc<TOut>(y));
 
             GC.Collect();
 
@@ -403,7 +403,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
         {
             var (customTarget, originalTarget, weakFunc) = CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
-                (x,y) => x.GetWeakInstanceFunc<TOut>(y));
+                (x, y) => x.GetWeakInstanceFunc<TOut>(y));
 
             customTarget.Dispose();
             originalTarget.Dispose();
@@ -419,7 +419,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             var callCounter = Substitute.For<ICallCounter>();
             var (customTarget, originalTarget, weakFunc) = CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
-                (x,y) => x.GetWeakInstanceFunc<TOut>(y));
+                (x, y) => x.GetWeakInstanceFunc<TOut>(y));
 
             customTarget.Dispose();
             originalTarget.Dispose();
