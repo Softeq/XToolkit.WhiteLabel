@@ -4,7 +4,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-#nullable enable
+#nullable disable
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests
 {
@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         private sealed class DisposableReference : IDisposable
         {
-            private object? _instance;
+            private object _instance;
 
             public DisposableReference(object instance)
             {
