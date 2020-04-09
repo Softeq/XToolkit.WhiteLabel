@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Commands
     ///     method is 'true'.  This class does not allow you to accept command parameters in the
     ///     Execute and CanExecute callback methods.
     /// </summary>
-    public class RelayCommand : ICommand
+    public class RelayCommand : ICommand, IRaisableCanExecute
     {
         private readonly WeakFunc<bool>? _canExecute;
         private readonly WeakAction _execute;

@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Commands
     ///     method is 'true'.  This class does not allow you to accept command parameters in the
     ///     Execute and CanExecute callback methods.
     /// </summary>
-    public abstract class AsyncCommandBase : ICommand
+    public abstract class AsyncCommandBase : ICommand, IRaisableCanExecute
     {
         private readonly WeakFunc<bool>? _canExecute;
         private bool _isRunning;
@@ -73,13 +73,18 @@ namespace Softeq.XToolkit.Common.Commands
             finally
             {
                 _isRunning = false;
-                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+                RaiseCanExecuteChanged();
             }
         }
 
         public event EventHandler? CanExecuteChanged;
 
         protected abstract Func<Task> ExecuteAsyncImpl(object? parameter);
+
+        public void RaiseCanExecuteChanged()
+        {
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
     }
 
     public class AsyncCommand : AsyncCommandBase
