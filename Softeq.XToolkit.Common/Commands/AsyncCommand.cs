@@ -94,7 +94,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.AsyncCommand" /> class.
         /// </summary>
-        /// <param name="myAsyncFunction">
+        /// <param name="action">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
@@ -103,9 +103,9 @@ namespace Softeq.XToolkit.Common.Commands
         ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </exception>
-        public AsyncCommand(Func<Task> myAsyncFunction, Func<bool>? canExecute = null) : base(canExecute)
+        public AsyncCommand(Func<Task> action, Func<bool>? canExecute = null) : base(canExecute)
         {
-            _action = myAsyncFunction;
+            _action = action;
         }
 
         protected override Func<Task> ExecuteAsyncImpl(object? parameter)
@@ -122,7 +122,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// <summary>
         ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.AsyncCommand" /> class.
         /// </summary>
-        /// <param name="myAsyncFunction">
+        /// <param name="action">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
@@ -131,9 +131,9 @@ namespace Softeq.XToolkit.Common.Commands
         ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </exception>
-        public AsyncCommand(Func<T, Task> myAsyncFunction, Func<bool>? canExecute = null) : base(canExecute)
+        public AsyncCommand(Func<T, Task> action, Func<bool>? canExecute = null) : base(canExecute)
         {
-            _action = myAsyncFunction;
+            _action = action;
         }
 
         public bool CanExecute(T parameter)

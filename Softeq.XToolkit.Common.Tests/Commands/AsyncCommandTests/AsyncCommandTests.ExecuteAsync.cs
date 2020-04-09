@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
-    public partial class AsyncCommandGenericTests
+    public partial class AsyncCommandTests
     {
         [Theory]
         [InlineData(null)]
@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
             await command.ExecuteAsync(parameter);
 
-            await _func.Received(1).Invoke(parameter);
+            await _func.Received(1).Invoke();
         }
 
         [Theory]

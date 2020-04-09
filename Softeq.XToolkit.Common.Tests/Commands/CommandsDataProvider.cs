@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 
 namespace Softeq.XToolkit.Common.Tests.Commands
@@ -17,6 +16,15 @@ namespace Softeq.XToolkit.Common.Tests.Commands
                 yield return new object[] { DefaultParameter, true };
                 yield return new object[] { 123, false };
                 yield return new object[] { null, false };
+            }
+        }
+
+        public static IEnumerable<object[]> Parameters
+        {
+            get
+            {
+                yield return new object[] { DefaultParameter };
+                yield return new object[] { null };
             }
         }
 

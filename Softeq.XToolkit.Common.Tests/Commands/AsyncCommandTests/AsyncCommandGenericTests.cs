@@ -20,15 +20,20 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         }
 
         [Fact]
-        public void Constructor_ExecuteIsNull_CreatesWithoutAnyException()
+        public void Constructor_ExecuteIsNull_CreatesCorrectly()
         {
-            CreateAsyncCommand<string>(null);
+            var command = CreateAsyncCommand<string>(null);
+
+            Assert.NotNull(command);
         }
 
         [Fact]
-        public void Constructor_CanExecuteIsNull_CreatesWithoutAnyException()
+        public void Constructor_CanExecuteIsNull_CreatesCorrectly()
         {
-            CreateAsyncCommand(_func, null);
+            // ReSharper disable once RedundantArgumentDefaultValue
+            var command = CreateAsyncCommand(_func, null);
+
+            Assert.NotNull(command);
         }
 
         [Fact]

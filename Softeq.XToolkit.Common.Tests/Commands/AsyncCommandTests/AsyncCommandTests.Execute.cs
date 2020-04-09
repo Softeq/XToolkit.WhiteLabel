@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
-    public partial class AsyncCommandGenericTests
+    public partial class AsyncCommandTests
     {
         [Fact]
         public void Execute_CalledOneTime_ExecutesOneTime()
@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
             command.Execute(null);
 
-            _func.Received(1).Invoke(null);
+            _func.Received(1).Invoke();
         }
 
         [Theory]
@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
             command.Execute(parameter);
 
-            _func.Received(1).Invoke(parameter);
+            _func.Received(1).Invoke();
         }
 
         [Theory]
@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
             command.Execute(parameter);
 
-            _func.DidNotReceive().Invoke(parameter);
+            _func.DidNotReceive().Invoke();
         }
 
         [Theory]
@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             command.Execute(parameter);
             command.Execute(parameter);
 
-            _func.Received(2).Invoke(parameter);
+            _func.Received(2).Invoke();
         }
 
         [Theory]
@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             command.Execute(parameter);
             command.Execute(parameter);
 
-            await func.Received(1).Invoke(parameter);
+            await func.Received(1).Invoke();
         }
 
         [Theory]
@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
             command.Execute(parameter);
 
-            func.Received(1).Invoke(parameter);
+            func.Received(1).Invoke();
         }
 
         [Theory]
@@ -88,7 +88,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
             command.Execute(parameter);
 
-            await func.Received(1).Invoke(parameter);
+            await func.Received(1).Invoke();
         }
     }
 }

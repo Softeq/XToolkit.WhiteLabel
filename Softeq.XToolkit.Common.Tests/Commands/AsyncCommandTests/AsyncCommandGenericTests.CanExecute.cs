@@ -5,6 +5,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
+    // TODO YP: the same for AsyncCommandTests
     public partial class AsyncCommandGenericTests
     {
         [Theory]
