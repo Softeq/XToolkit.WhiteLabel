@@ -39,7 +39,9 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         protected virtual Page CreatePage(object viewModel)
         {
             var viewModelType = viewModel.GetType();
-            var pageTypeName = BuildPageTypeName(viewModelType.FullName);
+            var pageTypeName = viewModel is RootFrameNavigationViewModelBase
+                ? BuildRootFrameNavigationPageTypeName(viewModelType.FullName)
+                : BuildPageTypeName(viewModelType.FullName);
             var pageType = Type.GetType(pageTypeName) ?? AssemblySource.FindTypeByNames(new[] { pageTypeName });
             return (Page) Activator.CreateInstance(pageType);
         }
@@ -57,6 +59,14 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                     await SetupMasterDetailsPage((MasterDetailPage) page, masterDetailViewModel);
                     break;
             }
+        }
+
+        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName)
+        {
+            var name = viewModelTypeName
+                .Replace(".Mvvm.", ".Forms.Navigation.");
+            name = name.Remove(name.IndexOf("ViewModel"));
+            return name;
         }
 
         protected virtual string BuildPageTypeName(string viewModelTypeName)
