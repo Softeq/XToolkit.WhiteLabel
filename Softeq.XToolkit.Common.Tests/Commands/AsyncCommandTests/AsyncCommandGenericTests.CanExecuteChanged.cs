@@ -8,15 +8,15 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
     public partial class AsyncCommandGenericTests
     {
         [Fact]
-        public void CanExecuteChanged_ExecuteWasFinished_Fires()
+        public void CanExecuteChanged_ExecuteWasFinished_RisesOnce()
         {
+            var eventRaisedCount = 0;
             var command = CreateAsyncCommand(_func);
-            var wasEventRaised = false;
-            command.CanExecuteChanged += (s, e) => wasEventRaised = true;
+            command.CanExecuteChanged += (s, e) => eventRaisedCount++;
 
             command.Execute(null);
 
-            Assert.True(wasEventRaised);
+            Assert.Equal(1, eventRaisedCount);
         }
     }
 }

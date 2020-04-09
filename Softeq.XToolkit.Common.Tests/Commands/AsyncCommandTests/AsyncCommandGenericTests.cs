@@ -20,6 +20,18 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         }
 
         [Fact]
+        public void Constructor_ExecuteIsNull_CreatesWithoutAnyException()
+        {
+            CreateAsyncCommand<string>(null);
+        }
+
+        [Fact]
+        public void Constructor_CanExecuteIsNull_CreatesWithoutAnyException()
+        {
+            CreateAsyncCommand(_func, null);
+        }
+
+        [Fact]
         public void Constructor_Default_ReturnsICommand()
         {
             var command = CreateAsyncCommand(_func);
