@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using Softeq.XToolkit.Common.Disposables;
 using Softeq.XToolkit.Common.Weak;
 
 #nullable disable
@@ -16,7 +17,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
         {
             _callCounter = callCounter;
 
-            return new DisposableCleanupAction(() => _callCounter = null);
+            return Disposable.Create(() => _callCounter = null);
         }
 
         public static WeakAction GetWeakStaticAction() => new WeakAction(StaticAction);

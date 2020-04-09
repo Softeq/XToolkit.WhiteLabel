@@ -15,9 +15,9 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
 
         private static IEnumerable<object> TypesGenerator()
         {
-            yield return 42;    // int
-            yield return 42.0;  // double
-            yield return "42";  // string
+            yield return 42;
+            yield return 42d;
+            yield return "42";
         }
     }
 }
