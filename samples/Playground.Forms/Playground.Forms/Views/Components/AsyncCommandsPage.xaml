@@ -25,6 +25,8 @@
             <Entry
                 x:Name="Work1"
                 Text="1"
+                Keyboard="Numeric"
+                MaxLength="3"
                 IsReadOnly="{Binding InProgress}" />
 
             <Button
@@ -35,6 +37,8 @@
             <Entry
                 x:Name="Work2"
                 Text="5"
+                Keyboard="Numeric"
+                MaxLength="3"
                 IsReadOnly="{Binding InProgress}" />
 
             <Button

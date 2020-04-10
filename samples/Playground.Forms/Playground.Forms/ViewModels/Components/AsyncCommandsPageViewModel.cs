@@ -16,11 +16,11 @@ namespace Playground.Forms.ViewModels.Components
         public AsyncCommandsPageViewModel()
         {
             WorkCommand = new AsyncCommand<int>(
-                action: DoWork,
+                execute: DoWork,
                 canExecute: () => !InProgress);
 
             CancelCommand = new AsyncCommand(
-                action: Cancel,
+                execute: Cancel,
                 canExecute: () => InProgress);
         }
 
@@ -37,9 +37,9 @@ namespace Playground.Forms.ViewModels.Components
             }
         }
 
-        public AsyncCommand<int> WorkCommand { get; }
+        public IAsyncCommand<int> WorkCommand { get; }
 
-        public AsyncCommand CancelCommand { get; }
+        public IAsyncCommand CancelCommand { get; }
 
         private async Task DoWork(int value)
         {
