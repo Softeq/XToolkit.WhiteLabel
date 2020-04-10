@@ -14,11 +14,11 @@ namespace Softeq.XToolkit.Common.Commands
         /// <summary>
         ///     Executes the Command as a Task.
         /// </summary>
-        /// <returns>The Task to execute.</returns>
         /// <param name="parameter">
         ///     Data used by the command.
         ///     If the command does not require data to be passed, this object can be set to null.
         /// </param>
+        /// <returns>The Task to execute.</returns>
         Task ExecuteAsync(object parameter);
     }
 

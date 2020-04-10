@@ -224,6 +224,8 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             await Assert.ThrowsAsync<InvalidOperationException>(() => wrappedTask);
 
+            await Task.Delay(10);
+
             _logger.Received().Error(Arg.Any<Exception>());
         }
 
