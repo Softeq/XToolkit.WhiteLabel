@@ -10,6 +10,8 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Converters
     /// <summary>
     ///     Convert equality between value and parameter to boolean result:
     ///     returns true if value equals parameter, false otherwise.
+    ///     Can be used to compare property value with specific enum value
+    ///     (for instance, to check if specific state is selected to show/hide some elements)
     ///     ConvertBack is not implemented.
     /// </summary>
     public class EqualityToBooleanConverter : IValueConverter

@@ -9,17 +9,18 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Converters
 {
     /// <summary>
     ///     Converts a string to UpperCase string.
+    ///     ConvertBack is not implemented.
     /// </summary>
-    public class StringToUpperCaseConverter : IValueConverter
+    public class StringToUpperConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return ((string) value).ToUpper();
+            return (value as string)?.ToUpper() ?? string.Empty;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return (string) value;
+            return value;
         }
     }
 }

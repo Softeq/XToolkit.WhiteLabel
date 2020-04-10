@@ -9,6 +9,8 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Converters
 {
     /// <summary>
     ///     Converts integer value multiplying it by parameter.
+    ///     Can be used, for instance, to set fixed height of a list as a product of cell height and list items count
+    ///     so that it only occupies specific place on the page.
     /// </summary>
     public class MultiplyConverter : IValueConverter
     {
