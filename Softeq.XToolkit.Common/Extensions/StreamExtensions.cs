@@ -7,7 +7,7 @@ using System.IO;
 namespace Softeq.XToolkit.Common.Extensions
 {
     /// <summary>
-    ///     Extension methods for <see cref="Stream" />
+    ///     Extension methods for <see cref="Stream"/>.
     /// </summary>
     public static class StreamExtensions
     {
