@@ -14,21 +14,64 @@ namespace Softeq.XToolkit.Common.Commands
     public class AsyncCommand : AsyncCommandBase, IAsyncCommand
     {
         private readonly Func<object, Task> _execute;
+        private readonly Action<Exception>? _onException;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
+        /// </summary>
+        /// <param name="execute">
+        ///     The Function executed when Execute or ExecuteAsync is called.
+        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        /// </param>
         public AsyncCommand(Func<Task> execute)
             : this(_ => execute(), _ => true)
         {
         }
 
-        public AsyncCommand(Func<Task> execute, Func<bool> canExecute)
-            : this(_ => execute(), _ => canExecute?.Invoke() ?? true)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
+        /// </summary>
+        /// <param name="execute">
+        ///     The Function executed when Execute or ExecuteAsync is called.
+        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        /// </param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
+        public AsyncCommand(Func<Task> execute, Action<Exception> onException)
+            : this(_ => execute(), _ => true, onException)
         {
         }
 
-        public AsyncCommand(Func<object, Task> execute, Func<object?, bool>? canExecute = null)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
+        /// </summary>
+        /// <param name="execute">
+        ///     The Function executed when Execute or ExecuteAsync is called.
+        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        /// </param>
+        /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
+        public AsyncCommand(Func<Task> execute, Func<bool> canExecute, Action<Exception>? onException = null)
+            : this(_ => execute(), _ => canExecute?.Invoke() ?? true, onException)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
+        /// </summary>
+        /// <param name="execute">
+        ///     The Function executed when Execute or ExecuteAsync is called.
+        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        /// </param>
+        /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
+        public AsyncCommand(
+            Func<object, Task> execute,
+            Func<object?, bool>? canExecute = null,
+            Action<Exception>? onException = null)
             : base(canExecute)
         {
             _execute = execute;
+            _onException = onException;
         }
 
         /// <summary>
@@ -40,7 +83,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// </param>
         public void Execute(object? parameter)
         {
-            ExecuteAsync(parameter).FireAndForget(); // TODO YP: add onException
+            ExecuteAsync(parameter).FireAndForget(_onException);
         }
 
         /// <inheritdoc cref="IAsyncCommand.ExecuteAsync"/>

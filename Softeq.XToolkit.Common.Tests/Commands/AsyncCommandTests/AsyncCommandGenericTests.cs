@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using NSubstitute;
@@ -10,6 +11,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
+    [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue", Justification = "Need for tests")]
     public partial class AsyncCommandGenericTests
     {
         private readonly Func<string, Task> _func;
@@ -30,8 +32,15 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Constructor_CanExecuteIsNull_CreatesCorrectly()
         {
-            // ReSharper disable once RedundantArgumentDefaultValue
             var command = CreateAsyncCommand(_func, null);
+
+            Assert.NotNull(command);
+        }
+
+        [Fact]
+        public void Constructor_AllArgsNull_CreatesCorrectly()
+        {
+            var command = CreateAsyncCommandWithParam<string>(null, null, null);
 
             Assert.NotNull(command);
         }
@@ -52,9 +61,25 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             Assert.IsAssignableFrom<ICommand<string>>(command);
         }
 
+        [Fact]
+        public void Constructor_Default_ReturnsIAsyncCommandGeneric()
+        {
+            var command = CreateAsyncCommand(_func);
+
+            Assert.IsAssignableFrom<IAsyncCommand<string>>(command);
+        }
+
         private static AsyncCommand<T> CreateAsyncCommand<T>(Func<T, Task> func, Func<bool> canExecute = null)
         {
             return new AsyncCommand<T>(func, canExecute);
+        }
+
+        private static AsyncCommand<T> CreateAsyncCommandWithParam<T>(
+            Func<T, Task> func,
+            Func<object, bool> canExecute = null,
+            Action<Exception> onException = null)
+        {
+            return new AsyncCommand<T>(func, canExecute, onException);
         }
 
         private static Func<string, Task> GetFuncWithDelay()
