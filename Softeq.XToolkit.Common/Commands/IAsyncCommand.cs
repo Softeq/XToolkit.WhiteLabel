@@ -15,23 +15,20 @@ namespace Softeq.XToolkit.Common.Commands
         ///     Executes the Command as a Task.
         /// </summary>
         /// <returns>The Task to execute.</returns>
-        Task ExecuteAsync();
-    }
-
-    /// <summary>
-    ///     An Async implementation of ICommand for Task.
-    /// </summary>
-    /// <typeparam name="T">Type of parameter.</typeparam>
-    public interface IAsyncCommand<in T> : ICommand<T>, IRaisableCanExecute
-    {
-        /// <summary>
-        ///     Executes the Command as a Task.
-        /// </summary>
-        /// <returns>The Task to execute.</returns>
         /// <param name="parameter">
         ///     Data used by the command.
         ///     If the command does not require data to be passed, this object can be set to null.
         /// </param>
+        Task ExecuteAsync(object parameter);
+    }
+
+    /// <summary>
+    ///     An Async implementation of <see cref="ICommand"/> for Task.
+    /// </summary>
+    /// <typeparam name="T">Type of parameter.</typeparam>
+    public interface IAsyncCommand<in T> : ICommand<T>, IRaisableCanExecute
+    {
+        /// <inheritdoc cref="IAsyncCommand.ExecuteAsync"/>
         Task ExecuteAsync(T parameter);
     }
 }
