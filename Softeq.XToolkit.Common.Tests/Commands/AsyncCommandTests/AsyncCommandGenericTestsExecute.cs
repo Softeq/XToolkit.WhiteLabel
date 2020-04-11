@@ -4,91 +4,97 @@
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
+using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
+using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
-    public partial class AsyncCommandTests
+    public class AsyncCommandGenericTestsExecute
     {
         [Fact]
         public void Execute_CalledOneTime_ExecutesOneTime()
         {
-            var command = CreateAsyncCommand(_func);
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(null);
 
-            _func.Received(1).Invoke();
+            func.Received(1).Invoke(null);
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteTrue_ExecutesOneTime(string parameter)
         {
-            var command = CreateAsyncCommand(_func, () => true);
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func, () => true);
 
             command.Execute(parameter);
 
-            _func.Received(1).Invoke();
+            func.Received(1).Invoke(parameter);
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteFalse_DoNotExecutes(string parameter)
         {
-            var command = CreateAsyncCommand(_func, () => false);
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func, () => false);
 
             command.Execute(parameter);
 
-            _func.DidNotReceive().Invoke();
+            func.DidNotReceive().Invoke(parameter);
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_SyncCallTwoTimes_ExecutesTwoTimes(string parameter)
         {
-            var command = CreateAsyncCommand(_func);
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(parameter);
             command.Execute(parameter);
 
-            _func.Received(2).Invoke();
+            func.Received(2).Invoke(parameter);
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public async Task Execute_AsyncCallSeveralTimes_ExecutesOneTime(string parameter)
         {
-            var func = GetFuncWithDelay();
-            var command = CreateAsyncCommand(func);
+            var func = CreateFuncWithArgAndDelay();
+            var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(parameter);
             command.Execute(parameter);
             command.Execute(parameter);
 
-            await func.Received(1).Invoke();
+            await func.Received(1).Invoke(parameter);
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_SyncWithException_ExecutesWithoutException(string parameter)
         {
-            var func = GetFuncWithException();
-            var command = CreateAsyncCommand(func);
+            var func = CreateFuncWithArgAndException();
+            var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(parameter);
 
-            func.Received(1).Invoke();
+            func.Received(1).Invoke(parameter);
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public async Task Execute_AsyncWithException_ExecutesWithoutException(string parameter)
         {
-            var func = GetFuncWithException();
-            var command = CreateAsyncCommand(func);
+            var func = CreateFuncWithArgAndException();
+            var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(parameter);
 
-            await func.Received(1).Invoke();
+            await func.Received(1).Invoke(parameter);
         }
     }
 }

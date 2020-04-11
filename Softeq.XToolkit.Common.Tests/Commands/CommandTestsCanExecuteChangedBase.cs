@@ -1,18 +1,17 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Windows.Input;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
+namespace Softeq.XToolkit.Common.Tests.Commands
 {
-    // TODO YP: the same for AsyncCommandTests
-    public partial class AsyncCommandGenericTests
+    public abstract class CommandTestsCanExecuteChangedBase
     {
-        [Fact]
-        public void CanExecuteChanged_ExecuteWasFinished_RisesOnce()
+        protected static void Assert_CanExecuteChanged_AfterExecute_RisesOnce(ICommand command)
         {
             var eventRaisedCount = 0;
-            var command = CreateAsyncCommand(_func);
+
             command.CanExecuteChanged += (s, e) => eventRaisedCount++;
 
             command.Execute(null);

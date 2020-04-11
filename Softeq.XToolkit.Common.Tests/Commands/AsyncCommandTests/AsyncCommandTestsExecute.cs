@@ -4,91 +4,97 @@
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
+using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
+using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
-    public partial class AsyncCommandGenericTests
+    public class AsyncCommandTestsExecute
     {
         [Fact]
         public void Execute_CalledOneTime_ExecutesOneTime()
         {
-            var command = CreateAsyncCommand(_func);
+            var func = CreateFunc();
+            var command = CreateAsyncCommand(func);
 
             command.Execute(null);
 
-            _func.Received(1).Invoke(null);
+            func.Received(1).Invoke();
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteTrue_ExecutesOneTime(string parameter)
         {
-            var command = CreateAsyncCommand(_func, () => true);
+            var func = CreateFunc();
+            var command = CreateAsyncCommand(func, () => true);
 
             command.Execute(parameter);
 
-            _func.Received(1).Invoke(parameter);
+            func.Received(1).Invoke();
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteFalse_DoNotExecutes(string parameter)
         {
-            var command = CreateAsyncCommand(_func, () => false);
+            var func = CreateFunc();
+            var command = CreateAsyncCommand(func, () => false);
 
             command.Execute(parameter);
 
-            _func.DidNotReceive().Invoke(parameter);
+            func.DidNotReceive().Invoke();
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_SyncCallTwoTimes_ExecutesTwoTimes(string parameter)
         {
-            var command = CreateAsyncCommand(_func);
+            var func = CreateFunc();
+            var command = CreateAsyncCommand(func);
 
             command.Execute(parameter);
             command.Execute(parameter);
 
-            _func.Received(2).Invoke(parameter);
+            func.Received(2).Invoke();
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public async Task Execute_AsyncCallSeveralTimes_ExecutesOneTime(string parameter)
         {
-            var func = GetFuncWithDelay();
+            var func = CreateFuncWithDelay();
             var command = CreateAsyncCommand(func);
 
             command.Execute(parameter);
             command.Execute(parameter);
             command.Execute(parameter);
 
-            await func.Received(1).Invoke(parameter);
+            await func.Received(1).Invoke();
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_SyncWithException_ExecutesWithoutException(string parameter)
         {
-            var func = GetFuncWithException();
+            var func = CreateFuncWithException();
             var command = CreateAsyncCommand(func);
 
             command.Execute(parameter);
 
-            func.Received(1).Invoke(parameter);
+            func.Received(1).Invoke();
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public async Task Execute_AsyncWithException_ExecutesWithoutException(string parameter)
         {
-            var func = GetFuncWithException();
+            var func = CreateFuncWithException();
             var command = CreateAsyncCommand(func);
 
             command.Execute(parameter);
 
-            await func.Received(1).Invoke(parameter);
+            await func.Received(1).Invoke();
         }
     }
 }

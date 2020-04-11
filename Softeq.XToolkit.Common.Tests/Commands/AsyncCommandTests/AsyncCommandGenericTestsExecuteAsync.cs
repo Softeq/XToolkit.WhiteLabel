@@ -5,21 +5,24 @@ using System;
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
+using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
+using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
-    public partial class AsyncCommandGenericTests
+    public class AsyncCommandGenericTestsExecuteAsync
     {
         [Theory]
         [InlineData(null)]
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public async Task ExecuteAsync_CalledOneTime_ExecutesOneTime(string parameter)
         {
-            var command = CreateAsyncCommand(_func);
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func);
 
             await command.ExecuteAsync(parameter);
 
-            await _func.Received(1).Invoke(parameter);
+            await func.Received(1).Invoke(parameter);
         }
 
         [Theory]
@@ -27,8 +30,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public async Task ExecuteAsync_AsyncWithException_ThrowsException(string parameter)
         {
-            var func = GetFuncWithException();
-            var command = CreateAsyncCommand(func);
+            var func = CreateFuncWithArgAndException();
+            var command = CreateAsyncCommandGeneric(func);
 
             await Assert.ThrowsAsync<InvalidOperationException>(() => command.ExecuteAsync(parameter));
         }

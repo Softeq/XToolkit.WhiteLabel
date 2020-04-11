@@ -1,54 +1,43 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Diagnostics.CodeAnalysis;
-using System.Threading.Tasks;
 using System.Windows.Input;
-using NSubstitute;
 using Softeq.XToolkit.Common.Commands;
 using Xunit;
+using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
+using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
     [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue", Justification = "Need for tests")]
-    public partial class AsyncCommandGenericTests
+    public class AsyncCommandGenericTests
     {
-        private readonly Func<string, Task> _func;
-
-        public AsyncCommandGenericTests()
-        {
-            _func = Substitute.For<Func<string, Task>>();
-        }
-
         [Fact]
         public void Constructor_ExecuteIsNull_CreatesCorrectly()
         {
-            var command = CreateAsyncCommand<string>(null);
-
-            Assert.NotNull(command);
+            CreateAsyncCommandGeneric<string>(null);
         }
 
         [Fact]
         public void Constructor_CanExecuteIsNull_CreatesCorrectly()
         {
-            var command = CreateAsyncCommand(_func, null);
+            var func = CreateFuncWithArg();
 
-            Assert.NotNull(command);
+            CreateAsyncCommandGeneric(func, null);
         }
 
         [Fact]
         public void Constructor_AllArgsNull_CreatesCorrectly()
         {
-            var command = CreateAsyncCommandWithParam<string>(null, null, null);
-
-            Assert.NotNull(command);
+            CreateAsyncCommandGenericWithParam<string>(null, null, null);
         }
 
         [Fact]
         public void Constructor_Default_ReturnsICommand()
         {
-            var command = CreateAsyncCommand(_func);
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func);
 
             Assert.IsAssignableFrom<ICommand>(command);
         }
@@ -56,7 +45,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Constructor_Default_ReturnsICommandGeneric()
         {
-            var command = CreateAsyncCommand(_func);
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func);
 
             Assert.IsAssignableFrom<ICommand<string>>(command);
         }
@@ -64,36 +54,19 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Constructor_Default_ReturnsIAsyncCommandGeneric()
         {
-            var command = CreateAsyncCommand(_func);
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func);
 
             Assert.IsAssignableFrom<IAsyncCommand<string>>(command);
         }
 
-        private static AsyncCommand<T> CreateAsyncCommand<T>(Func<T, Task> func, Func<bool> canExecute = null)
+        [Fact]
+        public void Constructor_Default_ReturnsIRaisableCanExecute()
         {
-            return new AsyncCommand<T>(func, canExecute);
-        }
+            var func = CreateFuncWithArg();
+            var command = CreateAsyncCommandGeneric(func);
 
-        private static AsyncCommand<T> CreateAsyncCommandWithParam<T>(
-            Func<T, Task> func,
-            Func<object, bool> canExecute = null,
-            Action<Exception> onException = null)
-        {
-            return new AsyncCommand<T>(func, canExecute, onException);
-        }
-
-        private static Func<string, Task> GetFuncWithDelay()
-        {
-            var func = Substitute.For<Func<string, Task>>();
-            func.Invoke(Arg.Any<string>()).Returns(_ => Task.Delay(10));
-            return func;
-        }
-
-        private static Func<string, Task> GetFuncWithException()
-        {
-            var func = Substitute.For<Func<string, Task>>();
-            func.Invoke(Arg.Any<string>()).Returns(_ => throw new InvalidOperationException());
-            return func;
+            Assert.IsAssignableFrom<IRaisableCanExecute>(command);
         }
     }
 }

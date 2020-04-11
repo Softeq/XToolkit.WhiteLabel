@@ -51,9 +51,9 @@ namespace Playground.Forms.ViewModels.Components
             }
         }
 
-        public IAsyncCommand<int> WorkCommand { get; }
+        public AsyncCommand<int> WorkCommand { get; }
 
-        public IAsyncCommand CancelCommand { get; }
+        public AsyncCommand CancelCommand { get; }
 
         private async Task DoWork(int value)
         {
