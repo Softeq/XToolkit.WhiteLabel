@@ -60,7 +60,7 @@ namespace Softeq.XToolkit.Common.Commands
 
             try
             {
-                await execute(parameter).ConfigureAwait(false);
+                await execute(parameter);
             }
             finally
             {
