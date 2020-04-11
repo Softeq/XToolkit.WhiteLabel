@@ -75,18 +75,6 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
-        public void Execute_SyncWithException_ExecutesWithoutException(string parameter)
-        {
-            var func = CreateFuncWithArgAndException();
-            var command = CreateAsyncCommandGeneric(func);
-
-            command.Execute(parameter);
-
-            func.Received(1).Invoke(parameter);
-        }
-
-        [Theory]
-        [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public async Task Execute_AsyncWithException_ExecutesWithoutException(string parameter)
         {
             var func = CreateFuncWithArgAndException();
