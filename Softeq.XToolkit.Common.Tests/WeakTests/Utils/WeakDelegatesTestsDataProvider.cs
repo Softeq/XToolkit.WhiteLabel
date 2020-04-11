@@ -4,9 +4,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Softeq.XToolkit.Common.Tests.WeakTests
+namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
 {
-    public partial class WeakDelegatesTests
+    public class WeakDelegatesTestsDataProvider
     {
         public static IEnumerable<object[]> WeakActionInputParameters => TypesGenerator().Select(x => new[] { x });
         public static IEnumerable<object[]> WeakFuncOutputParameters => TypesGenerator().Select(x => new[] { x });

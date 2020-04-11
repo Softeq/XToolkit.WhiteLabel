@@ -5,8 +5,6 @@ using System;
 using Softeq.XToolkit.Common.Disposables;
 using Softeq.XToolkit.Common.Weak;
 
-#nullable disable
-
 namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
 {
     internal static class StaticWeakDelegatesCallCounter

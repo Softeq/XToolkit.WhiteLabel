@@ -1,18 +1,13 @@
-﻿// Developed by Softeq Development Corporation
+// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 
-#nullable disable
-
-namespace Softeq.XToolkit.Common.Tests.WeakTests
+namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
 {
-    [SuppressMessage("ReSharper", "xUnit1026", Justification = "Generic parameters used just for test case generation")]
-    [SuppressMessage("ReSharper", "SA1124", Justification = "Regions improve test structure and readability")]
-    public partial class WeakDelegatesTests
+    public static class WeakDelegateCreator
     {
-        private static (IDisposable target, TWeakDelegate weakDelegate) CreateWeakDelegate<TInstance, TWeakDelegate>(
+        public static (IDisposable target, TWeakDelegate weakDelegate) CreateWeakDelegate<TInstance, TWeakDelegate>(
             Func<TInstance> instanceFactory,
             Func<TInstance, TWeakDelegate> weakDelegateFactory)
             where TInstance : class
@@ -21,14 +16,14 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests
             return (new DisposableReference(instance), weakDelegateFactory.Invoke(instance));
         }
 
-        private static (IDisposable target, TWeakDelegate weakDelegate) CreateWeakDelegateWithCustomTarget<TWeakDelegate>(
+        public static (IDisposable target, TWeakDelegate weakDelegate) CreateWeakDelegateWithCustomTarget<TWeakDelegate>(
             Func<object, TWeakDelegate> weakDelegateFactory)
         {
             var customTarget = new object();
             return (new DisposableReference(customTarget), weakDelegateFactory.Invoke(customTarget));
         }
 
-        private static (IDisposable customTarget, IDisposable originalTarget, TWeakDelegate weakDelegate) CreateWeakDelegateWithCustomTarget<TInstance, TWeakDelegate>(
+        public static (IDisposable customTarget, IDisposable originalTarget, TWeakDelegate weakDelegate) CreateWeakDelegateWithCustomTarget<TInstance, TWeakDelegate>(
             Func<TInstance> instanceFactory,
             Func<TInstance, object, TWeakDelegate> weakDelegateFactory)
             where TInstance : class

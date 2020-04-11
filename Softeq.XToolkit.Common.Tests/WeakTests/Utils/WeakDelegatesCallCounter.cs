@@ -4,8 +4,6 @@
 using System.Diagnostics.CodeAnalysis;
 using Softeq.XToolkit.Common.Weak;
 
-#nullable disable
-
 namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
 {
     [SuppressMessage("ReSharper", "ConvertClosureToMethodGroup", Justification = "Lambdas are used on purpose")]
