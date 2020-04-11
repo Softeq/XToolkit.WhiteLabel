@@ -58,25 +58,25 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _tcs.SetResult(null);
 
-            timeoutTask.GetAwaiter().GetResult();
+            await timeoutTask;
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void WithTimeout_TimesOut(bool generic)
+        public async Task WithTimeout_TimesOut(bool generic)
         {
             var timeoutTask = generic
                 ? _tcs.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(1))
                 : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
 
-            Assert.Throws<TimeoutException>(() => timeoutTask.GetAwaiter().GetResult());
+            await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void WithTimeout_CompletesFirst(bool generic)
+        public async Task WithTimeout_CompletesFirst(bool generic)
         {
             var timeoutTask = generic
                 ? _tcs.Task.WithTimeoutAsync(TimeSpan.FromDays(1))
@@ -86,7 +86,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _tcs.SetResult(null);
 
-            timeoutTask.GetAwaiter().GetResult();
+            await timeoutTask;
         }
 
         [Fact]
@@ -133,7 +133,8 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _tcs.SetException(new ApplicationException());
 
-            Assert.Throws<ApplicationException>(() => _tcs.Task.GetAwaiter().GetResult());
+            await Assert.ThrowsAsync<ApplicationException>(() => _tcs.Task);
+
             Assert.True(_tcs.Task.IsFaulted);
         }
 
@@ -152,7 +153,8 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _tcs.SetCanceled();
 
-            Assert.Throws<TaskCanceledException>(() => _tcs.Task.GetAwaiter().GetResult());
+            await Assert.ThrowsAsync<TaskCanceledException>(() => _tcs.Task);
+
             Assert.True(_tcs.Task.IsCanceled);
         }
 
@@ -175,7 +177,9 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _tcs.SetException(new ApplicationException());
 
-            await Task.Delay(10);
+            await Assert.ThrowsAsync<ApplicationException>(() => _tcs.Task);
+
+            await Task.Delay(10); // YP: Received() method sometimes broken
 
             _logger.Received().Error(Arg.Any<Exception>());
         }
@@ -187,9 +191,12 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = generic
-                    ? _tcs.Task.WithLoggingErrors<object>(null)
-                    : _tcs.Task.WithLoggingErrors(null);
+                if (generic)
+                {
+                    _tcs.Task.WithLoggingErrors<object>(null);
+                }
+
+                _tcs.Task.WithLoggingErrors(null);
             });
         }
 
@@ -224,7 +231,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             await Assert.ThrowsAsync<InvalidOperationException>(() => wrappedTask);
 
-            await Task.Delay(10);
+            await Assert.ThrowsAsync<InvalidOperationException>(() => _tcs.Task);
 
             _logger.Received().Error(Arg.Any<Exception>());
         }
@@ -242,19 +249,16 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => wrappedTask);
 
-            await Task.Delay(10);
+            await Assert.ThrowsAsync<TaskCanceledException>(() => _tcs.Task);
 
             _logger.Received().Error(Arg.Any<Exception>());
         }
 
         [Fact]
-        public async Task FireAndForget_ExecutesWithoutException()
+        public void FireAndForget_ExecutesWithoutException()
         {
-            _tcs.SetException(new ApplicationException());
-
             _tcs.Task.FireAndForget();
-
-            await Task.Delay(10);
+            _tcs.SetException(new ApplicationException());
         }
 
         [Fact]
@@ -286,7 +290,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _tcs.Task.FireAndForget(_logger);
 
-            await Task.Delay(10);
+            await Assert.ThrowsAsync<ApplicationException>(() => _tcs.Task);
 
             _logger.Received().Error(Arg.Any<Exception>());
         }
@@ -332,8 +336,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _tcs.Task.FireAndForget(_onException);
 
-            await Task.Delay(10);
-
+            await Assert.ThrowsAsync<TaskCanceledException>(() => _tcs.Task);
             _onException.Received(1).Invoke(Arg.Any<TaskCanceledException>());
         }
 
