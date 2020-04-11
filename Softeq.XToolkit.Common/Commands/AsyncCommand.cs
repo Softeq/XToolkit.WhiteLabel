@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Common.Commands
     ///     An implementation of <see cref="IAsyncCommand"/>.
     ///     Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public class AsyncCommand : AsyncCommandBase, IAsyncCommand
+    public class AsyncCommand : AsyncCommandBase, IAsyncCommand, IRaisableCanExecute
     {
         private readonly Func<object, Task> _execute;
         private readonly Action<Exception>? _onException;
@@ -87,24 +87,9 @@ namespace Softeq.XToolkit.Common.Commands
         }
 
         /// <inheritdoc cref="IAsyncCommand.ExecuteAsync"/>
-        public async Task ExecuteAsync(object parameter)
+        public Task ExecuteAsync(object parameter)
         {
-            if (!CanExecute(parameter))
-            {
-                return;
-            }
-
-            IsRunning = true;
-
-            try
-            {
-                await _execute(parameter);
-            }
-            finally
-            {
-                IsRunning = false;
-                RaiseCanExecuteChanged();
-            }
+            return ExecuteAsync(_execute, parameter);
         }
     }
 }

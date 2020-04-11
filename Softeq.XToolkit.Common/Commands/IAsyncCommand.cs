@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.Common.Commands
     /// <summary>
     ///     An Async implementation of <see cref="ICommand"/> for Task.
     /// </summary>
-    public interface IAsyncCommand : ICommand, IRaisableCanExecute
+    public interface IAsyncCommand : ICommand
     {
         /// <summary>
         ///     Executes the Command as a Task.
@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.Common.Commands
     ///     An Async implementation of <see cref="ICommand"/> for Task.
     /// </summary>
     /// <typeparam name="T">Type of parameter.</typeparam>
-    public interface IAsyncCommand<in T> : ICommand<T>, IRaisableCanExecute
+    public interface IAsyncCommand<in T> : ICommand<T>
     {
         /// <inheritdoc cref="IAsyncCommand.ExecuteAsync"/>
         Task ExecuteAsync(T parameter);

@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Common.Commands
     /// </summary>
     /// <typeparam name="T">Type of parameter.</typeparam>
     [SuppressMessage("ReSharper", "SA1649", Justification = "File name is fine")]
-    public class AsyncCommand<T> : AsyncCommandBase, IAsyncCommand<T>
+    public class AsyncCommand<T> : AsyncCommandBase, IAsyncCommand<T>, IRaisableCanExecute
     {
         private readonly Func<T, Task> _execute;
         private readonly Action<Exception>? _onException;
@@ -97,24 +97,9 @@ namespace Softeq.XToolkit.Common.Commands
             ExecuteInternal(parameter);
         }
 
-        public async Task ExecuteAsync(T parameter)
+        public Task ExecuteAsync(T parameter)
         {
-            if (!CanExecute(parameter))
-            {
-                return;
-            }
-
-            IsRunning = true;
-
-            try
-            {
-                await _execute(parameter);
-            }
-            finally
-            {
-                IsRunning = false;
-                RaiseCanExecuteChanged();
-            }
+            return ExecuteAsync(_execute, parameter);
         }
 
         protected virtual void ExecuteInternal<TParameter>(TParameter parameter)
