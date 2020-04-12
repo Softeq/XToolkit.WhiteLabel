@@ -196,7 +196,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
                     _tcs.Task.WithLoggingErrors<object>(null);
                 }
 
-                _tcs.Task.WithLoggingErrors(null);
+                ((Task) _tcs.Task).WithLoggingErrors(null);
             });
         }
 
@@ -209,7 +209,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             var wrappedTask = generic
                 ? _tcs.Task.WithLoggingErrors<object>(_logger)
-                : _tcs.Task.WithLoggingErrors(_logger);
+                : ((Task) _tcs.Task).WithLoggingErrors(_logger);
 
             await wrappedTask;
 
@@ -227,7 +227,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             var wrappedTask = generic
                 ? _tcs.Task.WithLoggingErrors<object>(_logger)
-                : _tcs.Task.WithLoggingErrors(_logger);
+                : ((Task) _tcs.Task).WithLoggingErrors(_logger);
 
             await Assert.ThrowsAsync<InvalidOperationException>(() => wrappedTask);
 
@@ -245,7 +245,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             var wrappedTask = generic
                 ? _tcs.Task.WithLoggingErrors<object>(_logger)
-                : _tcs.Task.WithLoggingErrors(_logger);
+                : ((Task) _tcs.Task).WithLoggingErrors(_logger);
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => wrappedTask);
 
