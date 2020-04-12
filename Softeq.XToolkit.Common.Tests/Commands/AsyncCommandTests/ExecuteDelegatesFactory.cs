@@ -34,6 +34,11 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             return Substitute.For<Func<string, Task>>();
         }
 
+        public static Func<T, Task> CreateFuncWithArg<T>()
+        {
+            return Substitute.For<Func<T, Task>>();
+        }
+
         public static Func<string, Task> CreateFuncWithArgAndDelay()
         {
             var func = CreateFuncWithArg();
