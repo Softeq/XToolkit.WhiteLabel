@@ -85,33 +85,16 @@ namespace Softeq.XToolkit.Common.Commands
         }
 
         /// <inheritdoc cref="AsyncCommand.Execute"/>
-        /// <typeparam name="T">Type of parameter.</typeparam>
-        public void Execute(T parameter)
-        {
-            ExecuteInternal(parameter);
-        }
-
-        /// <inheritdoc cref="AsyncCommand.Execute"/>
         public void Execute(object? parameter)
-        {
-            ExecuteInternal(parameter);
-        }
-
-        public Task ExecuteAsync(T parameter)
-        {
-            return ExecuteAsync(_execute, parameter);
-        }
-
-        protected virtual void ExecuteInternal<TParameter>(TParameter parameter)
         {
             switch (parameter)
             {
                 case T validParameter:
-                    ExecuteAsync(validParameter).FireAndForget(_onException);
+                    Execute(validParameter);
                     break;
 
                 case null when !typeof(T).GetTypeInfo().IsValueType:
-                    ExecuteAsync(default).FireAndForget(_onException);
+                    Execute(default!);
                     break;
 
                 case null:
@@ -120,6 +103,18 @@ namespace Softeq.XToolkit.Common.Commands
                 default:
                     throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
             }
+        }
+
+        /// <inheritdoc cref="AsyncCommand.Execute"/>
+        /// <typeparam name="T">Type of parameter.</typeparam>
+        public void Execute(T parameter)
+        {
+            ExecuteAsync(parameter).FireAndForget(_onException!);
+        }
+
+        public Task ExecuteAsync(T parameter)
+        {
+            return ExecuteAsync(_execute, parameter);
         }
     }
 }

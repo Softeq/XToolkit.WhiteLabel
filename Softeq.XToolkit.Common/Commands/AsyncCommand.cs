@@ -83,13 +83,13 @@ namespace Softeq.XToolkit.Common.Commands
         /// </param>
         public void Execute(object? parameter)
         {
-            ExecuteAsync(parameter).FireAndForget(_onException);
+            ExecuteAsync(parameter).FireAndForget(_onException!);
         }
 
         /// <inheritdoc cref="IAsyncCommand.ExecuteAsync"/>
-        public Task ExecuteAsync(object parameter)
+        public Task ExecuteAsync(object? parameter)
         {
-            return ExecuteAsync(_execute, parameter);
+            return ExecuteAsync(_execute, parameter!);
         }
     }
 }

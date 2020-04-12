@@ -116,22 +116,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         }
 
         [Theory]
-        [InlineData(null)]
-        public async Task Execute_AsICommandWithInvalidNullableStruct_ThrowsException(int? parameter)
-        {
-            var func = CreateFuncWithArg<int?>();
-            ICommand command = CreateAsyncCommandGeneric(func);
-
-            Assert.Throws<InvalidCommandParameterException>(() =>
-            {
-                command.Execute(parameter);
-            });
-
-            await func.DidNotReceive().Invoke(Arg.Any<int?>());
-        }
-
-        [Theory]
         [InlineData(123)]
+        [InlineData(null)]
         public async Task Execute_AsICommandGenericWithNullableStruct_Executes(int? parameter)
         {
             var func = CreateFuncWithArg<int?>();
@@ -140,21 +126,6 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             command.Execute(parameter);
 
             await func.Received(1).Invoke(parameter);
-        }
-
-        [Theory]
-        [InlineData(null)]
-        public async Task Execute_AsICommandGenericWithInvalidNullableStruct_ThrowsException(int? parameter)
-        {
-            var func = CreateFuncWithArg<int?>();
-            ICommand<int?> command = CreateAsyncCommandGeneric(func);
-
-            Assert.Throws<InvalidCommandParameterException>(() =>
-            {
-                command.Execute(parameter);
-            });
-
-            await func.DidNotReceive().Invoke(Arg.Any<int?>());
         }
     }
 }
