@@ -8,10 +8,10 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
 {
-    public partial class WeakActionTests
+    public partial class WeakInstanceActionTests
     {
         [Fact]
-        public void IsStatic_ForInstanceAction_ReturnsFalse()
+        public void IsStatic_ReturnsFalse()
         {
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForInstanceAction_WithStrongReference_AfterGarbageCollection_ReturnsTrue()
+        public void IsAlive_WithTargetReference_AfterGarbageCollection_ReturnsTrue()
         {
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForInstanceAction_WithStrongReference_AfterGarbageCollection_InvokesAction()
+        public void Execute_WithTargetReference_AfterGarbageCollection_InvokesAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForInstanceAction_WithoutStrongReference_AfterGarbageCollection_ReturnsFalse()
+        public void IsAlive_WithoutTargetReference_AfterGarbageCollection_ReturnsFalse()
         {
             var (reference, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -59,7 +59,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForInstanceAction_WithoutStrongReference_AfterGarbageCollection_DoesNotInvokeAction()
+        public void Execute_WithoutTargetReference_AfterGarbageCollection_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (reference, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForInstanceDelegate_WhenMarkedForDeletion_ReturnsFalse()
+        public void IsAlive_WhenMarkedForDeletion_ReturnsFalse()
         {
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForInstanceDelegate_WhenMarkedForDeletion_DoesNotInvokeAction()
+        public void Execute_WhenMarkedForDeletion_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(

@@ -8,11 +8,11 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 {
-    public partial class WeakGenericActionTests
+    public partial class WeakGenericStaticActionTests
     {
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForStaticAction_WithCustomTargetAlive_AfterGarbageCollection_ReturnsTrue<TIn>(TIn inputParameter)
+        public void IsAlive_WithCustomTargetAlive_AfterGarbageCollection_ReturnsTrue<TIn>(TIn inputParameter)
         {
             var (_, weakAction) = WeakDelegateCreator
                 .CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>);
@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForStaticAction_WithCustomTargetAlive_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
+        public void Execute_WithCustomTargetAlive_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
 
@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForStaticAction_WithCustomTargetDead_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsAlive_WithCustomTargetDead_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (customTarget, weakAction) = WeakDelegateCreator
                 .CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction<TIn>);
@@ -56,7 +56,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForStaticAction_WithCustomTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        public void Execute_WithCustomTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
 

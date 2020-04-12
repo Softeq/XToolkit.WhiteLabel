@@ -8,10 +8,10 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
 {
-    public partial class WeakActionTests
+    public class WeakAnonymousActionWithLocalReferenceTests
     {
         [Fact]
-        public void IsStatic_ForAnonymousActionWithLocalReference_ReturnsFalse()
+        public void IsStatic_ReturnsFalse()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference(callCounter);
@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         // This test shows why WeakDelegate for lambdas with local variable references doesn't work:
         // compiler creates instance of inner class, that could be garbage collected as soon as method ends
         [Fact]
-        public void IsAlive_ForAnonymousActionWithLocalReference_AfterGarbageCollection_ReturnsFalse()
+        public void IsAlive_AfterGarbageCollection_ReturnsFalse()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference(callCounter);
@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForAnonymousActionWithLocalReference_AfterGarbageCollection_DoesNotInvokeAction()
+        public void Execute_AfterGarbageCollection_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference(callCounter);

@@ -8,10 +8,10 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
 {
-    public partial class WeakActionTests
+    public partial class WeakStaticActionTests
     {
         [Fact]
-        public void IsAlive_ForStaticAction_WithCustomTargetAlive_WithAfterGarbageCollection_ReturnsTrue()
+        public void IsAlive_WithCustomTargetAlive_WithAfterGarbageCollection_ReturnsTrue()
         {
             var (_, weakAction) = WeakDelegateCreator
                 .CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction);
@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForStaticAction_WithCustomTargetAlive_WithAfterGarbageCollection_InvokesAction()
+        public void Execute_WithCustomTargetAlive_WithAfterGarbageCollection_InvokesAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
 
@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForStaticAction_WithCustomTargetDead_AfterGarbageCollection_ReturnsFalse()
+        public void IsAlive_WithCustomTargetDead_AfterGarbageCollection_ReturnsFalse()
         {
             var (customTarget, weakAction) = WeakDelegateCreator
                 .CreateWeakDelegateWithCustomTarget(StaticWeakDelegatesCallCounter.GetWeakStaticAction);
@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForStaticAction_WithCustomTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
+        public void Execute_WithCustomTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
 

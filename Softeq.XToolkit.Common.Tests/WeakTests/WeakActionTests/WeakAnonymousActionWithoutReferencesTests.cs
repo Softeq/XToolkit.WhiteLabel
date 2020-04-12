@@ -7,10 +7,10 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
 {
-    public partial class WeakActionTests
+    public class WeakAnonymousActionWithoutReferencesTests
     {
         [Fact]
-        public void IsStatic_ForAnonymousActionWithoutReferences_ReturnsFalse()
+        public void IsStatic_ReturnsFalse()
         {
             var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithoutReferences();
 
@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
 
         // This test shows that even if lambdas has no references - compiler creates singleton for each one of them!
         [Fact]
-        public void IsAlive_ForAnonymousActionWithoutReferences_AfterGarbageCollection_ReturnsTrue()
+        public void IsAlive_AfterGarbageCollection_ReturnsTrue()
         {
             var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithoutReferences();
 

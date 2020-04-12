@@ -8,10 +8,11 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
 {
-    public partial class WeakActionTests
+    [Collection(nameof(StaticWeakDelegatesCallCounter))]
+    public partial class WeakStaticActionTests
     {
         [Fact]
-        public void IsStatic_ForStaticAction_ReturnsTrue()
+        public void IsStatic_ReturnsTrue()
         {
             var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
 
@@ -19,7 +20,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForStaticAction_AfterGarbageCollection_ReturnsTrue()
+        public void IsAlive_AfterGarbageCollection_ReturnsTrue()
         {
             var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
 
@@ -29,7 +30,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForStaticAction_AfterGarbageCollection_InvokesAction()
+        public void Execute_AfterGarbageCollection_InvokesAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
 
@@ -45,7 +46,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForStaticDelegate_WhenMarkedForDeletion_ReturnsFalse()
+        public void IsAlive_WhenMarkedForDeletion_ReturnsFalse()
         {
             var weakAction = StaticWeakDelegatesCallCounter.GetWeakStaticAction();
 
@@ -55,7 +56,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForStaticDelegate_WhenMarkedForDeletion_DoesNotInvokeAction()
+        public void Execute_WhenMarkedForDeletion_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
 

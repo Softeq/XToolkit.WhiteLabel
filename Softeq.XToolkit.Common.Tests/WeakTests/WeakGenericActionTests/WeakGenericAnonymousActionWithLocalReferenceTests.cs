@@ -2,17 +2,19 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using Softeq.XToolkit.Common.Tests.WeakTests.Utils;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 {
-    public partial class WeakGenericActionTests
+    [SuppressMessage("ReSharper", "xUnit1026", Justification = "Generic parameters used just for test case generation")]
+    public class WeakGenericAnonymousActionWithLocalReferenceTests
     {
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsStatic_ForAnonymousActionWithLocalReference_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsStatic_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter);
@@ -24,7 +26,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
         // compiler creates instance of inner class, that could be garbage collected as soon as method ends
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForAnonymousActionWithLocalReference_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsAlive_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter);
@@ -36,7 +38,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForAnonymousActionWithLocalReference_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        public void Execute_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var weakAction = WeakDelegatesCallCounter.GetWeakAnonymousActionWithLocalReference<TIn>(callCounter);

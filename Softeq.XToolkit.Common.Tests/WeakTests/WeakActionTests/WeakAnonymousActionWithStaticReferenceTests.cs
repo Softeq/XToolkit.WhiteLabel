@@ -8,21 +8,24 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
 {
-    public partial class WeakActionTests
+    [Collection(nameof(StaticWeakDelegatesCallCounter))]
+    public class WeakAnonymousActionWithStaticReferenceTests
     {
         [Fact]
-        public void IsStatic_ForAnonymousActionWithStaticReference_ReturnsFalse()
+        public void IsStatic_ReturnsFalse()
         {
-            var weakAction = StaticWeakDelegatesCallCounter.GetWeakAnonymousActionWithStaticReference();
+            var weakAction = StaticWeakDelegatesCallCounter
+                .GetWeakAnonymousActionWithStaticReference();
 
             Assert.False(weakAction.IsStatic);
         }
 
         // This test shows that even if lambdas has only static references - compiler creates singleton for each one of them!
         [Fact]
-        public void IsAlive_ForAnonymousActionWithStaticReference_AfterGarbageCollection_ReturnsTrue()
+        public void IsAlive_AfterGarbageCollection_ReturnsTrue()
         {
-            var weakAction = StaticWeakDelegatesCallCounter.GetWeakAnonymousActionWithStaticReference();
+            var weakAction = StaticWeakDelegatesCallCounter
+                .GetWeakAnonymousActionWithStaticReference();
 
             GC.Collect();
 
@@ -30,13 +33,14 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForAnonymousActionWithStaticReference_AfterGarbageCollection_InvokesAction()
+        public void Execute_AfterGarbageCollection_InvokesAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
 
             using (StaticWeakDelegatesCallCounter.WithCallCounter(callCounter))
             {
-                var weakAction = StaticWeakDelegatesCallCounter.GetWeakAnonymousActionWithStaticReference();
+                var weakAction = StaticWeakDelegatesCallCounter
+                    .GetWeakAnonymousActionWithStaticReference();
 
                 GC.Collect();
                 weakAction.Execute();

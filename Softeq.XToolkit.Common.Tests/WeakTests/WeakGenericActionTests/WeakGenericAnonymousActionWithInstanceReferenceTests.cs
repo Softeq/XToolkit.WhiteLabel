@@ -2,17 +2,19 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using NSubstitute;
 using Softeq.XToolkit.Common.Tests.WeakTests.Utils;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 {
-    public partial class WeakGenericActionTests
+    [SuppressMessage("ReSharper", "xUnit1026", Justification = "Generic parameters used just for test case generation")]
+    public class WeakGenericAnonymousActionWithInstanceReferenceTests
     {
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsStatic_ForAnonymousActionWithInstanceReference_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsStatic_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -23,7 +25,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForAnonymousActionWithInstanceReference_WithStrongReference_AfterGarbageCollection_ReturnsTrue<TIn>(TIn inputParameter)
+        public void IsAlive_WithTargetReference_AfterGarbageCollection_ReturnsTrue<TIn>(TIn inputParameter)
         {
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -36,7 +38,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForAnonymousActionWithInstanceReference_WithStrongReference_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
+        public void Execute_WithTargetReference_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
@@ -50,7 +52,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForAnonymousActionWithInstanceReference_WithoutStrongReference_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsAlive_WithoutTargetReference_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (reference, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -64,7 +66,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForAnonymousActionWithInstanceReference_WithoutStrongReference_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        public void Execute_WithoutTargetReference_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (reference, weakAction) = WeakDelegateCreator.CreateWeakDelegate(

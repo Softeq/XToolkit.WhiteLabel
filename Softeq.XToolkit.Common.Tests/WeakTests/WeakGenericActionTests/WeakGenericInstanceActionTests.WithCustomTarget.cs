@@ -8,11 +8,11 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 {
-    public partial class WeakGenericActionTests
+    public partial class WeakGenericInstanceActionTests
     {
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForInstanceAction_WithCustomTargetAlive_WithOriginalTargetAlive_AfterGarbageCollection_ReturnsTrue<TIn>(TIn inputParameter)
+        public void IsAlive_WithCustomTargetAlive_WithOriginalTargetAlive_AfterGarbageCollection_ReturnsTrue<TIn>(TIn inputParameter)
         {
             var (_, _, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForInstanceAction_WithCustomTargetAlive_WithOriginalTargetAlive_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
+        public void Execute_WithCustomTargetAlive_WithOriginalTargetAlive_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, _, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForInstanceAction_WithCustomTargetDead_WithOriginalTargetAlive_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsAlive_WithCustomTargetDead_WithOriginalTargetAlive_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (customTarget, _, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForInstanceAction_WithCustomTargetDead_WithOriginalTargetAlive_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        public void Execute_WithCustomTargetDead_WithOriginalTargetAlive_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (customTarget, _, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForInstanceAction_WithCustomTargetAlive_WithOriginalTargetDead_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsAlive_WithCustomTargetAlive_WithOriginalTargetDead_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (_, originalTarget, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -86,7 +86,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForInstanceAction_WithCustomTargetAlive_WithOriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        public void Execute_WithCustomTargetAlive_WithOriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, originalTarget, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
@@ -103,7 +103,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForInstanceAction_WithCustomTargetDead_WithOriginalTargetDead_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsAlive_WithCustomTargetDead_WithOriginalTargetDead_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (customTarget, originalTarget, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -118,7 +118,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForInstanceAction_WithCustomTargetDead_WithOriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        public void Execute_WithCustomTargetDead_WithOriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (customTarget, originalTarget, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(

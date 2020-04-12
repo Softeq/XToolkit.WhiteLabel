@@ -8,10 +8,10 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
 {
-    public partial class WeakActionTests
+    public partial class WeakInstanceActionTests
     {
         [Fact]
-        public void IsAlive_ForInstanceAction_WithCustomTargetAlive_WithOriginalTargetAlive_AfterGarbageCollection_ReturnsTrue()
+        public void IsAlive_WithCustomTargetAlive_WithOriginalTargetAlive_AfterGarbageCollection_ReturnsTrue()
         {
             var (_, _, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForInstanceAction_WithCustomTargetAlive_WithOriginalTargetAlive_AfterGarbageCollection_InvokesAction()
+        public void Execute_WithCustomTargetAlive_WithOriginalTargetAlive_AfterGarbageCollection_InvokesAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, _, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForInstanceAction_WithCustomTargetDead_WithOriginalTargetAlive_AfterGarbageCollection_ReturnsFalse()
+        public void IsAlive_WithCustomTargetDead_WithOriginalTargetAlive_AfterGarbageCollection_ReturnsFalse()
         {
             var (customTarget, _, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForInstanceAction_WithCustomTargetDead_WithOriginalTargetAlive_AfterGarbageCollection_DoesNotInvokeAction()
+        public void Execute_WithCustomTargetDead_WithOriginalTargetAlive_AfterGarbageCollection_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (customTarget, _, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
@@ -67,7 +67,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForInstanceAction_WithCustomTargetAlive_WithOriginalTargetDead_AfterGarbageCollection_ReturnsFalse()
+        public void IsAlive_WithCustomTargetAlive_WithOriginalTargetDead_AfterGarbageCollection_ReturnsFalse()
         {
             var (_, originalTarget, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -80,7 +80,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForInstanceAction_WithCustomTargetAlive_WithOriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
+        public void Execute_WithCustomTargetAlive_WithOriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, originalTarget, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void IsAlive_ForInstanceAction_WithCustomTargetDead_WithOriginalTargetDead_AfterGarbageCollection_ReturnsFalse()
+        public void IsAlive_WithCustomTargetDead_WithOriginalTargetDead_AfterGarbageCollection_ReturnsFalse()
         {
             var (customTarget, originalTarget, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(
                 () => new WeakDelegatesCallCounter(),
@@ -110,7 +110,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakActionTests
         }
 
         [Fact]
-        public void Execute_ForInstanceAction_WithCustomTargetDead_WithOriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
+        public void Execute_WithCustomTargetDead_WithOriginalTargetDead_AfterGarbageCollection_DoesNotInvokeAction()
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (customTarget, originalTarget, weakAction) = WeakDelegateCreator.CreateWeakDelegateWithCustomTarget(

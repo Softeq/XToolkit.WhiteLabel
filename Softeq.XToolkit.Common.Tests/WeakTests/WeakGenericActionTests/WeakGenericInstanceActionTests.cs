@@ -10,11 +10,11 @@ using Xunit;
 namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 {
     [SuppressMessage("ReSharper", "xUnit1026", Justification = "Generic parameters used just for test case generation")]
-    public partial class WeakGenericActionTests
+    public partial class WeakGenericInstanceActionTests
     {
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsStatic_ForInstanceAction_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsStatic_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForInstanceAction_WithStrongReference_AfterGarbageCollection_ReturnsTrue<TIn>(TIn inputParameter)
+        public void IsAlive_WithTargetReference_AfterGarbageCollection_ReturnsTrue<TIn>(TIn inputParameter)
         {
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForInstanceAction_WithStrongReference_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
+        public void Execute_WithTargetReference_AfterGarbageCollection_InvokesAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForInstanceAction_WithoutStrongReference_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsAlive_WithoutTargetReference_AfterGarbageCollection_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (reference, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForInstanceAction_WithoutStrongReference_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        public void Execute_WithoutTargetReference_AfterGarbageCollection_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (reference, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
@@ -83,7 +83,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void IsAlive_ForInstanceDelegate_WhenMarkedForDeletion_ReturnsFalse<TIn>(TIn inputParameter)
+        public void IsAlive_WhenMarkedForDeletion_ReturnsFalse<TIn>(TIn inputParameter)
         {
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
                 () => new WeakDelegatesCallCounter(),
@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.WeakGenericActionTests
 
         [Theory]
         [MemberData(nameof(WeakDelegatesTestsDataProvider.WeakActionInputParameters), MemberType = typeof(WeakDelegatesTestsDataProvider))]
-        public void Execute_ForInstanceDelegate_WhenMarkedForDeletion_DoesNotInvokeAction<TIn>(TIn inputParameter)
+        public void Execute_WhenMarkedForDeletion_DoesNotInvokeAction<TIn>(TIn inputParameter)
         {
             var callCounter = Substitute.For<ICallCounter>();
             var (_, weakAction) = WeakDelegateCreator.CreateWeakDelegate(
