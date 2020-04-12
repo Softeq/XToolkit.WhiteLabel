@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.Common.Commands
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        protected async Task ExecuteAsync<T>(Func<T, Task> execute, T parameter)
+        protected virtual async Task ExecuteAsync<T>(Func<T, Task> execute, T parameter)
         {
             if (!CanExecute(parameter))
             {
@@ -57,6 +57,7 @@ namespace Softeq.XToolkit.Common.Commands
             }
 
             _isRunning = true;
+            RaiseCanExecuteChanged();
 
             try
             {

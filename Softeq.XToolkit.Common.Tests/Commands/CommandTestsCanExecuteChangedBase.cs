@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands
 
             command.Execute(null);
 
-            Assert.Equal(1, eventRaisedCount);
+            Assert.Equal(2, eventRaisedCount);
         }
     }
 }
