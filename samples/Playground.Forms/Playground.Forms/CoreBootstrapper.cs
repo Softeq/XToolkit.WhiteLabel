@@ -47,7 +47,7 @@ namespace Playground.Forms
             builder.PerDependency<DialogsRootPageViewModel>();
             builder.PerDependency<ModalPageViewModel>();
             builder.PerDependency<SecondModalPageViewModel>();
-            builder.PerDependency<DrillRootPageViewModel>();
+            builder.PerDependency<RootFrameNavigationPageViewModel<DrillLevel1PageViewModel>>();
             builder.PerDependency<DrillLevel1PageViewModel>();
             builder.PerDependency<DrillLevel2PageViewModel>();
 

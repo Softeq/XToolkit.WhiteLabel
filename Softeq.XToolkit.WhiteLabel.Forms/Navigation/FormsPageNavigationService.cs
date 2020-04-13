@@ -22,12 +22,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             _platformNavigationService = platformNavigationService;
         }
 
+        public bool CanGoBack => _platformNavigationService.CanGoBack;
+
         public void Initialize(object navigation)
         {
             _platformNavigationService.Initialize(navigation);
         }
-
-        public bool CanGoBack => _platformNavigationService.CanGoBack;
 
         public void GoBack()
         {

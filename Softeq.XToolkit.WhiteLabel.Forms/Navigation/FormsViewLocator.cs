@@ -11,13 +11,6 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 {
     public class FormsViewLocator : IFormsViewLocator
     {
-        public async Task<Page> GetPageAsync(object viewModel)
-        {
-            var page = CreatePage(viewModel);
-            await SetupPage(page, viewModel);
-            return page;
-        }
-
         public INavigation? FindNavigationForViewModel(INavigation navigation, object viewModel)
         {
             foreach (var page in navigation.NavigationStack)
@@ -36,10 +29,21 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             return null;
         }
 
+        public async Task<Page> GetPageAsync(object viewModel)
+        {
+            var page = CreatePage(viewModel);
+            await SetupPage(page, viewModel);
+            return page;
+        }
+
         protected virtual Page CreatePage(object viewModel)
         {
             var viewModelType = viewModel.GetType();
-            var pageTypeName = BuildPageTypeName(viewModelType.FullName);
+
+            var pageTypeName = viewModel is RootFrameNavigationViewModelBase
+                ? BuildRootFrameNavigationPageTypeName(viewModelType.FullName)
+                : BuildPageTypeName(viewModelType.FullName);
+
             var pageType = Type.GetType(pageTypeName) ?? AssemblySource.FindTypeByNames(new[] { pageTypeName });
             return (Page) Activator.CreateInstance(pageType);
         }
@@ -57,6 +61,14 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                     await SetupMasterDetailsPage((MasterDetailPage) page, masterDetailViewModel);
                     break;
             }
+        }
+
+        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName)
+        {
+            var name = viewModelTypeName
+                .Replace(".Mvvm.", ".Forms.Navigation.");
+            name = name.Remove(name.IndexOf("ViewModel"));
+            return name;
         }
 
         protected virtual string BuildPageTypeName(string viewModelTypeName)
