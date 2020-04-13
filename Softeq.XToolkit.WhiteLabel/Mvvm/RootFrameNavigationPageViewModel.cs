@@ -7,7 +7,10 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
     public class RootFrameNavigationPageViewModel<T> : RootFrameNavigationViewModelBase where T : IViewModelBase
     {
-        public RootFrameNavigationPageViewModel(IFrameNavigationService frameNavigationService) : base(frameNavigationService) { }
+        public RootFrameNavigationPageViewModel(IFrameNavigationService frameNavigationService)
+            : base(frameNavigationService)
+        {
+        }
 
         public override void NavigateToFirstPage()
         {

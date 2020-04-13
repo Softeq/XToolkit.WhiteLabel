@@ -11,13 +11,6 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 {
     public class FormsViewLocator : IFormsViewLocator
     {
-        public async Task<Page> GetPageAsync(object viewModel)
-        {
-            var page = CreatePage(viewModel);
-            await SetupPage(page, viewModel);
-            return page;
-        }
-
         public INavigation? FindNavigationForViewModel(INavigation navigation, object viewModel)
         {
             foreach (var page in navigation.NavigationStack)
@@ -36,12 +29,21 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             return null;
         }
 
+        public async Task<Page> GetPageAsync(object viewModel)
+        {
+            var page = CreatePage(viewModel);
+            await SetupPage(page, viewModel);
+            return page;
+        }
+
         protected virtual Page CreatePage(object viewModel)
         {
             var viewModelType = viewModel.GetType();
+
             var pageTypeName = viewModel is RootFrameNavigationViewModelBase
                 ? BuildRootFrameNavigationPageTypeName(viewModelType.FullName)
                 : BuildPageTypeName(viewModelType.FullName);
+
             var pageType = Type.GetType(pageTypeName) ?? AssemblySource.FindTypeByNames(new[] { pageTypeName });
             return (Page) Activator.CreateInstance(pageType);
         }
