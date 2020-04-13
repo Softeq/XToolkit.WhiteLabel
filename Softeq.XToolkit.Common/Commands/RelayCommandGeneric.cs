@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Common.Commands
     ///     Execute and CanExecute callback methods.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
-    public class RelayCommand<T> : ICommand<T>
+    public class RelayCommand<T> : ICommand<T>, IRaisableCanExecute
     {
         private readonly WeakFunc<T, bool>? _canExecute;
         private readonly WeakAction<T> _execute;

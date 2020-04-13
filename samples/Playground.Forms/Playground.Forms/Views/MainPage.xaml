@@ -17,6 +17,11 @@
         <Button
             Command="{Binding DialogsCommand}"
             Text="Dialogs" />
+
+        <Button
+            Command="{Binding AsyncCommandsCommand}"
+            Text="Async Commands" />
+
     </StackLayout>
 
 </ContentPage>

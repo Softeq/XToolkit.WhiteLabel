@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading;
 using System.Threading.Tasks;
 using NSubstitute;
@@ -10,13 +11,23 @@ using Softeq.XToolkit.Common.Logger;
 using Xunit;
 using TaskExt = Softeq.XToolkit.Common.Extensions.TaskExtensions;
 
-#nullable disable
-
 namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 {
+    [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod", Justification = "Need for test")]
     public class TaskExtensionsTests
     {
         private const int AsyncDelay = 500;
+
+        private readonly ILogger _logger;
+        private readonly TaskCompletionSource<object> _tcs;
+        private readonly Action<Exception> _onException;
+
+        public TaskExtensionsTests()
+        {
+            _logger = Substitute.For<ILogger>();
+            _tcs = new TaskCompletionSource<object>();
+            _onException = Substitute.For<Action<Exception>>();
+        }
 
         [Theory]
         [InlineData(false)]
@@ -35,10 +46,9 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task WithTimeout_MinusOneMeansInfiniteTimeout(bool generic)
         {
-            var tcs = new TaskCompletionSource<object>();
             var timeoutTask = generic
-                ? tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(-1))
-                : ((Task) tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(-1));
+                ? _tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(-1))
+                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(-1));
 
             Assert.False(timeoutTask.IsCompleted);
 
@@ -46,52 +56,49 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             Assert.False(timeoutTask.IsCompleted);
 
-            tcs.SetResult(null);
+            _tcs.SetResult(null);
 
-            timeoutTask.GetAwaiter().GetResult();
+            await timeoutTask;
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void WithTimeout_TimesOut(bool generic)
+        public async Task WithTimeout_TimesOut(bool generic)
         {
-            var tcs = new TaskCompletionSource<object>();
             var timeoutTask = generic
-                ? tcs.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(1))
-                : ((Task) tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
+                ? _tcs.Task.WithTimeoutAsync(TimeSpan.FromMilliseconds(1))
+                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
 
-            Assert.Throws<TimeoutException>(() => timeoutTask.GetAwaiter().GetResult());
+            await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
         }
 
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public void WithTimeout_CompletesFirst(bool generic)
+        public async Task WithTimeout_CompletesFirst(bool generic)
         {
-            var tcs = new TaskCompletionSource<object>();
             var timeoutTask = generic
-                ? tcs.Task.WithTimeoutAsync(TimeSpan.FromDays(1))
-                : ((Task) tcs.Task).WithTimeoutAsync(TimeSpan.FromDays(1));
+                ? _tcs.Task.WithTimeoutAsync(TimeSpan.FromDays(1))
+                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromDays(1));
 
             Assert.False(timeoutTask.IsCompleted);
 
-            tcs.SetResult(null);
+            _tcs.SetResult(null);
 
-            timeoutTask.GetAwaiter().GetResult();
+            await timeoutTask;
         }
 
         [Fact]
         public void WithTimeout_CompletesFirstWithResult()
         {
-            var tcs = new TaskCompletionSource<object>();
-            var timeoutTask = tcs.Task.WithTimeoutAsync(TimeSpan.FromDays(1));
+            var timeoutTask = _tcs.Task.WithTimeoutAsync(TimeSpan.FromDays(1));
 
             Assert.False(timeoutTask.IsCompleted);
 
-            tcs.SetResult("success");
+            _tcs.SetResult("success");
 
-            Assert.Same(tcs.Task.Result, timeoutTask.Result);
+            Assert.Same(_tcs.Task.Result, timeoutTask.Result);
         }
 
         [Theory]
@@ -99,17 +106,16 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task WithTimeout_CompletesFirstAndThrows(bool generic)
         {
-            var tcs = new TaskCompletionSource<object>();
             var timeoutTask = generic
-                ? tcs.Task.WithTimeoutAsync(TimeSpan.FromDays(1))
-                : ((Task) tcs.Task).WithTimeoutAsync(TimeSpan.FromDays(1));
+                ? _tcs.Task.WithTimeoutAsync(TimeSpan.FromDays(1))
+                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromDays(1));
 
             Assert.False(timeoutTask.IsCompleted);
 
-            tcs.SetException(new ApplicationException());
+            _tcs.SetException(new ApplicationException());
 
             await Assert.ThrowsAsync<ApplicationException>(() => timeoutTask);
-            Assert.Same(tcs.Task.Exception.InnerException, timeoutTask.Exception.InnerException);
+            Assert.Same(_tcs.Task.Exception.InnerException, timeoutTask.Exception.InnerException);
         }
 
         [Theory]
@@ -117,20 +123,19 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task WithTimeout_TimesOutWithInternalThrows(bool generic)
         {
-            var tcs = new TaskCompletionSource<object>();
-
             var timeoutTask = generic
-                ? tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
-                : ((Task) tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
+                ? _tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
+                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
 
             Assert.False(timeoutTask.IsCompleted);
 
             await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
 
-            tcs.SetException(new ApplicationException());
+            _tcs.SetException(new ApplicationException());
 
-            Assert.Throws<ApplicationException>(() => tcs.Task.GetAwaiter().GetResult());
-            Assert.True(tcs.Task.IsFaulted);
+            await Assert.ThrowsAsync<ApplicationException>(() => _tcs.Task);
+
+            Assert.True(_tcs.Task.IsFaulted);
         }
 
         [Theory]
@@ -138,20 +143,19 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task WithTimeout_TimesOutWithInternalCancel(bool generic)
         {
-            var tcs = new TaskCompletionSource<object>();
-
             var timeoutTask = generic
-                ? tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
-                : ((Task) tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
+                ? _tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
+                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
 
             Assert.False(timeoutTask.IsCompleted);
 
             await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
 
-            tcs.SetCanceled();
+            _tcs.SetCanceled();
 
-            Assert.Throws<TaskCanceledException>(() => tcs.Task.GetAwaiter().GetResult());
-            Assert.True(tcs.Task.IsCanceled);
+            await Assert.ThrowsAsync<TaskCanceledException>(() => _tcs.Task);
+
+            Assert.True(_tcs.Task.IsCanceled);
         }
 
         [Theory]
@@ -159,26 +163,25 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task WithTimeout_TimesOutWithInternalThrowsLog(bool generic)
         {
-            var logger = Substitute.For<ILogger>();
-            var tcs = new TaskCompletionSource<object>();
-
             var timeoutTask = generic
-                ? tcs.Task
-                    .WithLoggingErrors(logger)
+                ? _tcs.Task
+                    .WithLoggingErrors(_logger)
                     .WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
-                : ((Task) tcs.Task)
-                    .WithLoggingErrors(logger)
+                : ((Task) _tcs.Task)
+                    .WithLoggingErrors(_logger)
                     .WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
 
             Assert.False(timeoutTask.IsCompleted);
 
             await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
 
-            tcs.SetException(new ApplicationException());
+            _tcs.SetException(new ApplicationException());
 
-            await Task.Delay(1);
+            await Assert.ThrowsAsync<ApplicationException>(() => _tcs.Task);
 
-            logger.Received().Error(Arg.Any<Exception>());
+            await Task.Delay(10); // YP: Received() method sometimes broken
+
+            _logger.Received().Error(Arg.Any<Exception>());
         }
 
         [Theory]
@@ -186,13 +189,14 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public void LogWrapper_NullLogger(bool generic)
         {
-            var tcs = new TaskCompletionSource<object>();
-
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = generic
-                    ? tcs.Task.WithLoggingErrors<object>(null)
-                    : tcs.Task.WithLoggingErrors(null);
+                if (generic)
+                {
+                    _tcs.Task.WithLoggingErrors<object>(null);
+                }
+
+                ((Task) _tcs.Task).WithLoggingErrors(null);
             });
         }
 
@@ -201,20 +205,17 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task LogWrapper_Executes(bool generic)
         {
-            var logger = Substitute.For<ILogger>();
-            var tcs = new TaskCompletionSource<object>();
-
-            tcs.SetResult(null);
+            _tcs.SetResult(null);
 
             var wrappedTask = generic
-                ? tcs.Task.WithLoggingErrors<object>(logger)
-                : tcs.Task.WithLoggingErrors(logger);
+                ? _tcs.Task.WithLoggingErrors<object>(_logger)
+                : ((Task) _tcs.Task).WithLoggingErrors(_logger);
 
             await wrappedTask;
 
-            await Task.Delay(1);
+            await _tcs.Task;
 
-            logger.DidNotReceiveWithAnyArgs().Error(Arg.Any<Exception>());
+            _logger.DidNotReceiveWithAnyArgs().Error(Arg.Any<Exception>());
         }
 
         [Theory]
@@ -222,20 +223,17 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task LogWrapper_Throws(bool generic)
         {
-            var logger = Substitute.For<ILogger>();
-            var tcs = new TaskCompletionSource<object>();
-
-            tcs.SetException(new ApplicationException());
+            _tcs.SetException(new InvalidOperationException());
 
             var wrappedTask = generic
-                ? tcs.Task.WithLoggingErrors<object>(logger)
-                : tcs.Task.WithLoggingErrors(logger);
+                ? _tcs.Task.WithLoggingErrors<object>(_logger)
+                : ((Task) _tcs.Task).WithLoggingErrors(_logger);
 
-            await Assert.ThrowsAsync<ApplicationException>(() => wrappedTask);
+            await Assert.ThrowsAsync<InvalidOperationException>(() => wrappedTask);
 
-            await Task.Delay(1);
+            await Assert.ThrowsAsync<InvalidOperationException>(() => _tcs.Task);
 
-            logger.Received().Error(Arg.Any<Exception>());
+            _logger.Received().Error(Arg.Any<Exception>());
         }
 
         [Theory]
@@ -243,67 +241,103 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task LogWrapper_Cancels(bool generic)
         {
-            var logger = Substitute.For<ILogger>();
-            var tcs = new TaskCompletionSource<object>();
-
-            tcs.SetCanceled();
+            _tcs.SetCanceled();
 
             var wrappedTask = generic
-                ? tcs.Task.WithLoggingErrors<object>(logger)
-                : tcs.Task.WithLoggingErrors(logger);
+                ? _tcs.Task.WithLoggingErrors<object>(_logger)
+                : ((Task) _tcs.Task).WithLoggingErrors(_logger);
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => wrappedTask);
 
-            await Task.Delay(1);
+            await Assert.ThrowsAsync<TaskCanceledException>(() => _tcs.Task);
 
-            logger.Received().Error(Arg.Any<Exception>());
+            _logger.Received().Error(Arg.Any<Exception>());
+        }
+
+        [Fact]
+        public void FireAndForget_ExecutesWithoutException()
+        {
+            _tcs.Task.FireAndForget();
+            _tcs.SetException(new ApplicationException());
+        }
+
+        [Fact]
+        public async Task FireAndForget_LoggerNull_Executes()
+        {
+            _tcs.SetResult(null);
+
+            _tcs.Task.FireAndForget(null as ILogger);
+
+            await _tcs.Task;
         }
 
         [Fact]
         public async Task FireAndForget_Executes()
         {
-            var logger = Substitute.For<ILogger>();
-            var tcs = new TaskCompletionSource<object>();
+            _tcs.SetResult(null);
 
-            tcs.SetResult(null);
+            _tcs.Task.FireAndForget(_logger);
 
-            tcs.Task.FireAndForget(logger);
+            await _tcs.Task;
 
-            await Task.Delay(1);
-
-            logger.DidNotReceiveWithAnyArgs().Error(Arg.Any<Exception>());
+            _logger.DidNotReceiveWithAnyArgs().Error(Arg.Any<Exception>());
         }
 
         [Fact]
         public async Task FireAndForget_ExecutesAndLogs()
         {
-            var logger = Substitute.For<ILogger>();
-            var tcs = new TaskCompletionSource<object>();
+            _tcs.SetException(new ApplicationException());
 
-            tcs.SetException(new ApplicationException());
+            _tcs.Task.FireAndForget(_logger);
 
-            tcs.Task.FireAndForget(logger);
+            await Assert.ThrowsAsync<ApplicationException>(() => _tcs.Task);
 
-            await Task.Delay(1);
-
-            logger.Received().Error(Arg.Any<Exception>());
+            _logger.Received().Error(Arg.Any<Exception>());
         }
 
         [Fact]
         public async Task FireAndForget_CancelledAndLogs()
         {
-            var logger = Substitute.For<ILogger>();
-            var tcs = new TaskCompletionSource<object>();
+            _tcs.SetCanceled();
 
-            tcs.SetCanceled();
+            _tcs.Task.FireAndForget(_logger);
 
-            tcs.Task.FireAndForget(logger);
+            await Assert.ThrowsAsync<TaskCanceledException>(() => _tcs.Task);
 
-            await Assert.ThrowsAsync<TaskCanceledException>(() => tcs.Task);
+            _logger.Received().Error(Arg.Any<Exception>());
+        }
 
-            await Task.Delay(1);
+        [Fact]
+        public async Task FireAndForget_OnExceptionWithResult()
+        {
+            _tcs.SetResult(null);
 
-            logger.Received().Error(Arg.Any<Exception>());
+            _tcs.Task.FireAndForget(_onException);
+
+            await _tcs.Task;
+
+            _onException.DidNotReceive().Invoke(Arg.Any<Exception>());
+        }
+
+        [Fact]
+        public async Task FireAndForget_OnExceptionNull()
+        {
+            _tcs.SetResult(null);
+
+            _tcs.Task.FireAndForget(null as Action<Exception>);
+
+            await _tcs.Task;
+        }
+
+        [Fact]
+        public async Task FireAndForget_OnExceptionWithException()
+        {
+            _tcs.SetCanceled();
+
+            _tcs.Task.FireAndForget(_onException);
+
+            await Assert.ThrowsAsync<TaskCanceledException>(() => _tcs.Task);
+            _onException.Received(1).Invoke(Arg.Any<TaskCanceledException>());
         }
 
         [Fact]

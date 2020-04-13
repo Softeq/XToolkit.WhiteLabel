@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Windows.Input;
+using Playground.Forms.ViewModels.Components;
 using Playground.Forms.ViewModels.Dialogs;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
 using Playground.Forms.ViewModels.SimpleNavigation;
@@ -24,6 +25,7 @@ namespace Playground.Forms.ViewModels
             SimpleNavigationCommand = new RelayCommand(PerformSimpleNavigation);
             MasterDetailNavigationCommand = new RelayCommand(PerformMasterDetailNavigation);
             DialogsCommand = new RelayCommand(Dialogs);
+            AsyncCommandsCommand = new RelayCommand(AsyncCommands);
         }
 
         public ICommand SimpleNavigationCommand { get; }
@@ -31,6 +33,8 @@ namespace Playground.Forms.ViewModels
         public ICommand MasterDetailNavigationCommand { get; }
 
         public ICommand DialogsCommand { get; }
+
+        public ICommand AsyncCommandsCommand { get; }
 
         public string Title
         {
@@ -55,7 +59,13 @@ namespace Playground.Forms.ViewModels
         private void Dialogs()
         {
             _pageNavigationService
-                .For<DialogsRootPageViewModel>()
+                .For<DialogsRootPageViewModel>();
+        }
+
+        private void AsyncCommands()
+        {
+            _pageNavigationService
+                .For<AsyncCommandsPageViewModel>()
                 .Navigate();
         }
     }
