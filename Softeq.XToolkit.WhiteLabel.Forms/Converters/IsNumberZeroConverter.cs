@@ -29,16 +29,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Converters
 
         private bool GetParameter(object parameter)
         {
-            if (parameter is bool)
+            return parameter switch
             {
-                return (bool) parameter;
-            }
-            else if (parameter is string)
-            {
-                return bool.Parse((string) parameter);
-            }
-
-            return true;
+                bool boolean => boolean,
+                string str => bool.Parse(str),
+                _ => true
+            };
         }
     }
 }
