@@ -68,7 +68,6 @@
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\DroidPlatformProvider.cs" />
-    <Compile Include="Providers\ExternalStorageProvider.cs" />
     <Compile Include="Services\DroidAppInfoService.cs" />
     <Compile Include="Services\DroidInternalSettings.cs" />
     <Compile Include="Services\DroidToastService.cs" />
@@ -113,10 +112,6 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
       <Project>{18D3FDC1-B0A1-401E-87F2-1C43034E610C}</Project>
       <Name>Softeq.XToolkit.Common.Droid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
-      <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
       <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
