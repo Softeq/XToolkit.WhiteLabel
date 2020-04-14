@@ -123,13 +123,9 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task WithTimeout_TimesOutWithInternalThrows(bool generic)
         {
-            var timeoutTask = generic
+            await Assert.ThrowsAsync<TimeoutException>(() => generic
                 ? _tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
-                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
-
-            Assert.False(timeoutTask.IsCompleted);
-
-            await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
+                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1)));
 
             _tcs.SetException(new ApplicationException());
 
@@ -143,13 +139,9 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task WithTimeout_TimesOutWithInternalCancel(bool generic)
         {
-            var timeoutTask = generic
+            await Assert.ThrowsAsync<TimeoutException>(() => generic
                 ? _tcs.Task.WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
-                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
-
-            Assert.False(timeoutTask.IsCompleted);
-
-            await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
+                : ((Task) _tcs.Task).WithTimeoutAsync(TimeSpan.FromMilliseconds(1)));
 
             _tcs.SetCanceled();
 
@@ -163,17 +155,13 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [InlineData(true)]
         public async Task WithTimeout_TimesOutWithInternalThrowsLog(bool generic)
         {
-            var timeoutTask = generic
+            await Assert.ThrowsAsync<TimeoutException>(() => generic
                 ? _tcs.Task
                     .WithLoggingErrors(_logger)
                     .WithTimeoutAsync<object>(TimeSpan.FromMilliseconds(1))
                 : ((Task) _tcs.Task)
                     .WithLoggingErrors(_logger)
-                    .WithTimeoutAsync(TimeSpan.FromMilliseconds(1));
-
-            Assert.False(timeoutTask.IsCompleted);
-
-            await Assert.ThrowsAsync<TimeoutException>(() => timeoutTask);
+                    .WithTimeoutAsync(TimeSpan.FromMilliseconds(1)));
 
             _tcs.SetException(new ApplicationException());
 
@@ -250,6 +238,8 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
             await Assert.ThrowsAsync<TaskCanceledException>(() => wrappedTask);
 
             await Assert.ThrowsAsync<TaskCanceledException>(() => _tcs.Task);
+
+            await Task.Delay(10); // YP: Received() method sometimes broken
 
             _logger.Received().Error(Arg.Any<Exception>());
         }
