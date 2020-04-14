@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>Softeq.XToolkit.Permissions</id>
-    <version>2.0.0-beta3</version>
+    <version>2.0.0-beta4</version>
     <title>Softeq.XToolkit.Permissions</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
@@ -19,6 +19,7 @@
         <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
       </group>
       <group targetFramework="MonoAndroid10">
+        <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta6]" />
         <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
         <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
       </group>
