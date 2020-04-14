@@ -14,6 +14,8 @@ Bindings  | [![Softeq.XToolkit.Bindings](https://buildstats.info/nuget/Softeq.XT
 Permissions | [![Softeq.XToolkit.Permissions](https://buildstats.info/nuget/Softeq.XToolkit.Permissions?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Permissions)
 PushNotifications | [![Softeq.XToolkit.PushNotifications](https://buildstats.info/nuget/Softeq.XToolkit.PushNotifications?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.PushNotifications)
 WhiteLabel  | [![Softeq.XToolkit.WhiteLabel](https://buildstats.info/nuget/Softeq.XToolkit.WhiteLabel?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.WhiteLabel)
+WhiteLabel.Essentials  | [![Softeq.XToolkit.WhiteLabel.Essentials](https://buildstats.info/nuget/Softeq.XToolkit.WhiteLabel.Essentials?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.WhiteLabel.Essentials)
+WhiteLabel.Forms  | [![Softeq.XToolkit.WhiteLabel.Forms](https://buildstats.info/nuget/Softeq.XToolkit.WhiteLabel.Forms?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.WhiteLabel.Forms)
 Remote  | [![Softeq.XToolkit.Remote](https://buildstats.info/nuget/Softeq.XToolkit.Remote?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Remote)
 
 ## Documentation
