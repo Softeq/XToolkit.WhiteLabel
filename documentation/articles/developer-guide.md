@@ -14,3 +14,6 @@
 4. For build iOS project:
    - Change build configuration to **Debug/iPhoneSimulator**
    - Set **Playground.iOS** as startup project
+5. For build Xamarin.Forms projects:
+   - Android: **Playground.Forms.Droid**
+   - iOS: **Playground.Forms.iOS**
