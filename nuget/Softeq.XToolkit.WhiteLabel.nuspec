@@ -18,8 +18,6 @@
         <dependency id="DryIoc.dll" version="4.0.5" />
         <dependency id="Newtonsoft.Json" version="12.0.2" />
         <!-- XToolkit -->
-        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta4" />
-        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta6" />
         <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta6" />
       </group>
      <group targetFramework="MonoAndroid9.0">
@@ -27,14 +25,13 @@
         <dependency id="Newtonsoft.Json" version="12.0.2" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <dependency id="Xam.Plugins.Settings" version="3.1.1" />
-        <!-- XToolkit -->
-        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta4" />
-        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta6" />
-        <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta6" />
         <!-- Android specific -->
         <dependency id="Plugin.CurrentActivity" version="2.1.0.4" />
         <dependency id="Xamarin.AndroidX.AppCompat" version="1.1.0" />
         <dependency id="Xamarin.Google.Android.Material" version="1.1.0-rc3" />
+        <!-- XToolkit -->
+        <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta6" />
+        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta6" />
       </group>
      <group targetFramework="Xamarin.iOS10">
         <dependency id="DryIoc.dll" version="4.0.5" />
@@ -42,9 +39,8 @@
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <dependency id="Xam.Plugins.Settings" version="3.1.1" />
         <!-- XToolkit -->
-        <dependency id="Softeq.XToolkit.Permissions" version="2.0.0-beta4" />
-        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta6" />
         <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta6" />
+        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta6" />
       </group>
    </dependencies>
   </metadata>
