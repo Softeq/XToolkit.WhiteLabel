@@ -2,11 +2,11 @@
 
 The most common components without dependencies. Almost all projects ~~can~~ should use this library.
 
-## Use separately of WhiteLabel
+## Install
 
-### Install
+When you use this component separately from WhiteLabel.
 
-You can install this component via NuGet:
+You can install via NuGet: [![Softeq.XToolkit.Common](https://buildstats.info/nuget/Softeq.XToolkit.Common?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Common)
 
 ```text
 Install-Package Softeq.XToolkit.Common
@@ -92,3 +92,5 @@ GenericEventArgs | Generic EventArgs class.
 - **String**
 - **TextView**
 - **View**
+
+---

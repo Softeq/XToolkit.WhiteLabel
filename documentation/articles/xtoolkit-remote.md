@@ -22,7 +22,9 @@ An opinionated HTTP library for Mobile Development. It provides a common way to 
 
 ## Install
 
-You can install this component via NuGet: [![Softeq.XToolkit.Remote](https://buildstats.info/nuget/Softeq.XToolkit.Remote?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Remote)
+When you use this component separately from WhiteLabel.
+
+You can install via NuGet: [![Softeq.XToolkit.Remote](https://buildstats.info/nuget/Softeq.XToolkit.Remote?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Remote)
 
     Install-Package Softeq.XToolkit.Remote
 
@@ -119,3 +121,5 @@ var result = await remoteService.MakeRequest((s, ct) => s.GetHomePage(), options
 - Create HttpClient with pre-configure logging.
 
 // TODO:
+
+---
