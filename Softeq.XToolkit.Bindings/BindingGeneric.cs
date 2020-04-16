@@ -56,8 +56,8 @@ namespace Softeq.XToolkit.Bindings
         protected WeakReference PropertyTarget;
 
         /// <summary>
-        ///     Initializes a new instance of the Binding class for which the source and target properties
-        ///     are located in different objects.
+        ///     Initializes a new instance of the <see cref="Binding{TSource, TTarget}"/> class for
+        ///     which the source and target properties are located in different objects.
         /// </summary>
         /// <param name="source">
         ///     The source of the binding. If this object implements INotifyPropertyChanged and the
@@ -119,8 +119,8 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Initializes a new instance of the Binding class for which the source and target properties
-        ///     are located in different objects.
+        /// Initializes a new instance of the <see cref="Binding{TSource, TTarget}"/> class for
+        ///     which the source and target properties are located in different objects.
         /// </summary>
         /// <param name="source">
         ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
@@ -156,8 +156,7 @@ namespace Softeq.XToolkit.Bindings
         ///     items on the Path (except the source property itself) is null, or if the Converter throws an exception.
         /// </param>
         /// <param name="targetNullValue">
-        ///     The value to use when the binding is unable to return a value. This can happen if one of the
-        ///     items on the Path (except the source property itself) is null, or if the Converter throws an exception.
+        ///     The value to use when the binding is unable to return a value.
         /// </param>
         protected Binding(
             object source,
@@ -210,7 +209,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Gets or sets the value to use when the binding is unable to return a value. This can happen if one of the
+        ///     Gets the value to use when the binding is unable to return a value. This can happen if one of the
         ///     items on the Path (except the source property itself) is null, or if the Converter throws an exception.
         /// </summary>
         public TSource FallbackValue { get; }
@@ -953,7 +952,6 @@ namespace Softeq.XToolkit.Bindings
             }
 
             // OneTime binding
-
             if (CanBeConverted(_sourceProperty, _targetProperty))
             {
                 var value = GetSourceValue();
@@ -987,7 +985,6 @@ namespace Softeq.XToolkit.Bindings
             }
 
             // Check OneWay binding
-
             if (PropertySource.Target is INotifyPropertyChanged inpc)
             {
                 var listener = new PropertyChangedEventListener(this, inpc, true);
@@ -1150,7 +1147,7 @@ namespace Softeq.XToolkit.Bindings
                 {
                     try
                     {
-                        var newInstance = prop.GetMethod.Invoke(lastInstance.Instance, new object[] {});
+                        var newInstance = prop.GetMethod.Invoke(lastInstance.Instance, new object[] { });
 
                         lastInstance.Name = prop.Name;
 

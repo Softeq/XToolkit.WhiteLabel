@@ -45,15 +45,6 @@ namespace Softeq.XToolkit.Bindings
         /// </remarks>
         /// <typeparam name="TSource">The type of the property that is being databound before conversion.</typeparam>
         /// <typeparam name="TTarget">The type of the property that is being databound after conversion.</typeparam>
-        /// <param name="target">
-        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
-        ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
-        /// </param>
-        /// <param name="targetPropertyExpression">
-        ///     An expression pointing to the target property. It can be
-        ///     a simple expression "() => [target].MyProperty" or a composed expression "() =>
-        ///     [target].SomeObject.SomeOtherObject.SomeProperty".
-        /// </param>
         /// <param name="source">
         ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
@@ -62,6 +53,15 @@ namespace Softeq.XToolkit.Bindings
         ///     An expression pointing to the source property. It can be
         ///     a simple expression "() => [source].MyProperty" or a composed expression "() =>
         ///     [source].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="target">
+        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
+        /// </param>
+        /// <param name="targetPropertyExpression">
+        ///     An expression pointing to the target property. It can be
+        ///     a simple expression "() => [target].MyProperty" or a composed expression "() =>
+        ///     [target].SomeObject.SomeOtherObject.SomeProperty".
         /// </param>
         /// <param name="mode">
         ///     The mode of the binding.
@@ -173,11 +173,6 @@ namespace Softeq.XToolkit.Bindings
         ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
         /// </typeparam>
-        /// <param name="targetPropertyExpression">
-        ///     An expression pointing to the target property. It can be
-        ///     a simple expression "() => [target].MyProperty" or a composed expression "() =>
-        ///     [target].SomeObject.SomeOtherObject.SomeProperty".
-        /// </param>
         /// <param name="source">
         ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
@@ -186,6 +181,11 @@ namespace Softeq.XToolkit.Bindings
         ///     An expression pointing to the source property. It can be
         ///     a simple expression "() => [source].MyProperty" or a composed expression "() =>
         ///     [source].SomeObject.SomeOtherObject.SomeProperty".
+        /// </param>
+        /// <param name="targetPropertyExpression">
+        ///     An expression pointing to the target property. It can be
+        ///     a simple expression "() => [target].MyProperty" or a composed expression "() =>
+        ///     [target].SomeObject.SomeOtherObject.SomeProperty".
         /// </param>
         /// <param name="mode">
         ///     The mode of the binding.
@@ -242,16 +242,16 @@ namespace Softeq.XToolkit.Bindings
         ///     use the <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
         /// </typeparam>
-        /// <param name="target">
-        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
-        ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
-        /// </param>
-        /// <param name="targetPropertyName">The name of the target property. This must be a simple name, without dots.</param>
         /// <param name="source">
         ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyName">The name of the source property. This must be a simple name, without dots.</param>
+        /// <param name="target">
+        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
+        /// </param>
+        /// <param name="targetPropertyName">The name of the target property. This must be a simple name, without dots.</param>
         /// <param name="mode">
         ///     The mode of the binding.
         ///
@@ -304,12 +304,12 @@ namespace Softeq.XToolkit.Bindings
         ///     For more complex conversions, use the <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
         /// </typeparam>
-        /// <param name="targetPropertyName">The name of the target property. This must be a simple name, without dots.</param>
         /// <param name="source">
         ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyName">The name of the source property. This must be a simple name, without dots.</param>
+        /// <param name="targetPropertyName">The name of the target property. This must be a simple name, without dots.</param>
         /// <param name="mode">
         ///     The mode of the binding.
         ///
@@ -373,8 +373,8 @@ namespace Softeq.XToolkit.Bindings
         /// </summary>
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
         /// <param name="element">The element to which the command is added.</param>
-        /// <param name="command">The command that must be added to the element.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
+        /// <param name="command">The command that must be added to the element.</param>
         /// <param name="commandParameter">
         ///     The command parameter that will be passed to the <see cref="ICommand"/> when it
         ///     is executed. This is a fixed value. To pass an observable value, use one of the SetCommand
@@ -463,8 +463,8 @@ namespace Softeq.XToolkit.Bindings
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
         /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
         /// <param name="element">The element to which the command is added.</param>
-        /// <param name="command">The command that must be added to the element.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
+        /// <param name="command">The command that must be added to the element.</param>
         /// <param name="commandParameter">
         ///     The command parameter that will be passed to the <see cref="ICommand"/> when it
         ///     is executed. This is a fixed value. To pass an observable value, use one of the SetCommand
@@ -493,8 +493,8 @@ namespace Softeq.XToolkit.Bindings
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
         /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
         /// <param name="element">The element to which the command is added.</param>
-        /// <param name="command">The command that must be added to the element.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
+        /// <param name="command">The command that must be added to the element.</param>
         /// <param name="commandParameterBinding">
         ///     A <see cref="Binding{TSource, TTarget}" /> instance subscribed to the CommandParameter
         ///     that will passed to the <see cref="ICommand"/>. Depending on the Binding, the CommandParameter will be observed
@@ -649,7 +649,7 @@ namespace Softeq.XToolkit.Bindings
             object element,
             Type elementType,
             ICommand command,
-            Binding<T,T> commandParameterBinding = null)
+            Binding<T, T> commandParameterBinding = null)
         {
             var enabledProperty = elementType.GetRuntimeProperty("Enabled");
 

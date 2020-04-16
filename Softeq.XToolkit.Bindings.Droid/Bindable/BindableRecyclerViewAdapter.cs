@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         }
 
         /// <summary>
-        ///     By default, force recycling a view if it has animations
+        ///     By default, force recycling a view if it has animations.
         /// </summary>
         public override bool OnFailedToRecycleView(Java.Lang.Object holder)
         {

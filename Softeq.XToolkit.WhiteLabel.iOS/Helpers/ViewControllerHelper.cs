@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
         /// <param name="storyboardName">Storyboard name.</param>
         /// <param name="viewControllerType">Type of ViewController on Storyboard.</param>
         /// <param name="logger">Instance of <see cref="ILogger"/>.</param>
-        /// <returns>Target instance of <see cref="viewControllerType"/></returns>
+        /// <returns>Target instance of <see cref="viewControllerType"/>.</returns>
         public static UIViewController? TryCreateViewController(string storyboardName, Type viewControllerType, ILogger logger)
         {
             UIViewController? newViewController = null;
@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
         /// </summary>
         /// <param name="storyboardName">Storyboard name.</param>
         /// <param name="viewControllerName">Name of ViewController on Storyboard.</param>
-        /// <returns></returns>
+        /// <returns>New instance of <see cref="UIViewController"/>.</returns>
         public static UIViewController? CreateViewControllerFromStoryboard(string storyboardName, string viewControllerName)
         {
             if (NSBundle.MainBundle.PathForResource(storyboardName, "storyboardc") == null)

@@ -21,13 +21,12 @@ namespace Softeq.XToolkit.Bindings
         protected WeakReference? TopTarget;
 
         /// <summary>
-        ///     The mode of the binding. OneTime means that the target property will be set once (when the binding is
+        ///     Gets or sets the mode of the binding. OneTime means that the target property will be set once (when the binding is
         ///     created) but that subsequent changes will be ignored. OneWay means that the target property will be set, and
         ///     if the PropertyChanged event is raised by the source, the target property will be updated. TwoWay means that the
-        ///     source
-        ///     property will also be updated if the target raises the PropertyChanged event. Default means OneWay if only the
-        ///     source
-        ///     implements INPC, and TwoWay if both the source and the target implement INPC.
+        ///     source property will also be updated if the target raises the PropertyChanged event.
+        ///     Default means OneWay if only the source implements INPC, and TwoWay
+        ///     if both the source and the target implement INPC.
         /// </summary>
         public BindingMode Mode { get; protected set; }
 

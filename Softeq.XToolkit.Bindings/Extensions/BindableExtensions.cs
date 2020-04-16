@@ -205,7 +205,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     The instance of the converter.
         /// </param>
         /// <returns>The new Binding instance.</returns>
-        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+        public static Binding Bind<TSource, TTarget>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Expression<Func<TTarget>> targetPropertyExpression,
             BindingMode mode,
@@ -244,7 +245,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
         /// <returns>The created binding instance.</returns>
-        public static Binding Bind<TSource>(this IBindingsOwner source,
+        public static Binding Bind<TSource>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Action<TSource> action)
         {
@@ -286,7 +288,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     the source implements INPC, and TwoWay if both the source and the target implement INPC.
         /// </param>
         /// <returns>The created binding instance.</returns>
-        public static Binding Bind<TSource>(this IBindingsOwner source,
+        public static Binding Bind<TSource>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Action<TSource> action,
             BindingMode mode)

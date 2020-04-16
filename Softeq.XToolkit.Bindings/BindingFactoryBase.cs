@@ -5,7 +5,6 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
-using Softeq.XToolkit.Common.Commands;
 
 namespace Softeq.XToolkit.Bindings
 {
