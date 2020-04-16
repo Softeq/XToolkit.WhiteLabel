@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Common.Commands
         private readonly WeakAction _execute;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.RelayCommand" /> class that
+        ///     Initializes a new instance of the <see cref="RelayCommand"/> class that
         ///     can always execute.
         /// </summary>
         /// <param name="execute">
@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.Common.Commands
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.RelayCommand" /> class.
+        ///     Initializes a new instance of the <see cref="RelayCommand"/> class.
         /// </summary>
         /// <param name="execute">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment

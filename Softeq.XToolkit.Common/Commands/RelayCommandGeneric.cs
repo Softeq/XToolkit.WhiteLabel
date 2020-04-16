@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Common.Commands
         private readonly WeakAction<T> _execute;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.RelayCommand`1" /> class.
+        ///     Initializes a new instance of the <see cref="RelayCommand{T}"/> class.
         /// </summary>
         /// <param name="execute">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// </summary>
         /// <param name="parameter">
         ///     Data used by the command. If the command does not require data
-        ///     to be passed, this object can be set to a null reference
+        ///     to be passed, this object can be set to a null reference.
         /// </param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
@@ -98,7 +98,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// </summary>
         /// <param name="parameter">
         ///     Data used by the command. If the command does not require data
-        ///     to be passed, this object can be set to a null reference
+        ///     to be passed, this object can be set to a null reference.
         /// </param>
         public virtual void Execute(object? parameter)
         {
