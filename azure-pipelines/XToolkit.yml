@@ -1,1 +1,16 @@
-Playground.yml
+resources:
+- repo: self
+trigger:
+  branches:
+    include:
+      - '*'
+    exclude:
+      - release/*
+
+variables:
+- template: templates/vars.yml
+
+jobs:
+- template: templates/app-jobs.yml
+  parameters:
+    SolutionPath: 'XToolkit.sln'
