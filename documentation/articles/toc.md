@@ -1,4 +1,11 @@
 #[Introduction](intro.md)
+#[Manifesto](manifesto.md)
 #[Contributing](contributing.md)
 ##[Contribution Workflow](contributing-workflow.md)
 ##[Developer Guide](developer-guide.md)
+#[XToolkit](xtoolkit-overview.md)
+##[Overview](xtoolkit-overview.md)
+##[Common](xtoolkit-common.md)
+##[Push Notifications](xtoolkit-push-notifications.md)
+##[Remote](xtoolkit-remote.md)
+
