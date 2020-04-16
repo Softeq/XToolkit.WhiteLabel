@@ -14,6 +14,22 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
     public class AsyncCommandGenericTests
     {
         [Fact]
+        public void Constructors_Resolved_Correctly()
+        {
+            var func = CreateFuncWithArg<string>();
+
+            new AsyncCommand<string>(func);
+
+            new AsyncCommand<string>(func, ex => { });
+
+            new AsyncCommand<string>(func, () => true);
+            new AsyncCommand<string>(func, () => true, ex => { });
+
+            new AsyncCommand<string>(func, x => true);
+            new AsyncCommand<string>(func, x => true, ex => { });
+        }
+
+        [Fact]
         public void Constructor_ExecuteIsNull_CreatesCorrectly()
         {
             CreateAsyncCommandGeneric<string>(null);
