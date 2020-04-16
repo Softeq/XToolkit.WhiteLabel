@@ -6,21 +6,22 @@ using System;
 namespace Softeq.XToolkit.Common.Helpers
 {
     /// <summary>
-    /// A class containing information about a range of text (it's start position and length)
+    ///     A class containing information about a range of text (it's start position and length).
     /// </summary>
     public class TextRange
     {
         /// <summary>
-        /// Creates a text range. Parameters can not be negative
+        ///     Initializes a new instance of the <see cref="TextRange"/> class. Parameters can not be negative.
         /// </summary>
-        /// <param name="position">Start position of this range</param>
-        /// <param name="length">Length of this range</param>
+        /// <param name="position">Start position of this range.</param>
+        /// <param name="length">Length of this range.</param>
         public TextRange(int position, int length)
         {
             if (position < 0)
             {
                 throw new ArgumentOutOfRangeException($"{nameof(position)} can not be negative");
             }
+
             if (length < 0)
             {
                 throw new ArgumentOutOfRangeException($"{nameof(length)} can not be negative");
@@ -31,27 +32,28 @@ namespace Softeq.XToolkit.Common.Helpers
         }
 
         /// <summary>
-        /// Start position of the text range
+        ///     Gets start position of the text range.
         /// </summary>
         public int Position { get; }
 
         /// <summary>
-        /// Length of the text range
+        ///     Gets length of the text range.
         /// </summary>
         public int Length { get; }
 
         /// <summary>
-        /// Replaces the content of this text range with a new string
+        ///     Replaces the content of this text range with a new string.
         /// </summary>
-        /// <param name="fullString">Full string whose range will be altered</param>
-        /// <param name="newString">A new string to be inserted instead of the text range content</param>
-        /// <returns></returns>
+        /// <param name="fullString">Full string whose range will be altered.</param>
+        /// <param name="newString">A new string to be inserted instead of the text range content.</param>
+        /// <returns>Result string.</returns>
         public string BuildNewString(string fullString, string newString)
         {
             if (fullString == null)
             {
                 throw new ArgumentNullException($"{nameof(fullString)} can not be null");
             }
+
             if (newString == null)
             {
                 throw new ArgumentNullException($"{nameof(newString)} can not be null");
