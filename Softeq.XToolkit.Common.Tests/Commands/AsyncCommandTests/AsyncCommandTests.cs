@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
@@ -24,11 +25,13 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
             new AsyncCommand(func, () => true);
             new AsyncCommand(func, () => true, ex => { });
+            new AsyncCommand(func, null, ex => { });
 
             var funcGeneric = CreateFuncWithArg<object>();
 
             new AsyncCommand(funcGeneric, x => true);
             new AsyncCommand(funcGeneric, x => true, ex => { });
+            new AsyncCommand(funcGeneric, null, ex => { });
         }
 
         [Fact]

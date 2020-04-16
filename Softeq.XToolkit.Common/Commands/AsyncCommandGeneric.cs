@@ -70,7 +70,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
         public AsyncCommand(
             Func<T, Task> execute,
-            Func<object?, bool>? canExecute = null,
+            Func<object?, bool>? canExecute,
             Action<Exception>? onException = null)
             : base(canExecute)
         {
