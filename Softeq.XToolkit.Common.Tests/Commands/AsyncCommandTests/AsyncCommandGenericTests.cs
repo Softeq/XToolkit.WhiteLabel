@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
@@ -13,6 +14,24 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
     [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue", Justification = "Need for tests")]
     public class AsyncCommandGenericTests
     {
+        [Fact]
+        public void Constructors_Resolved_Correctly()
+        {
+            var func = CreateFuncWithArg<string>();
+
+            new AsyncCommand<string>(func);
+
+            new AsyncCommand<string>(func, ex => { });
+
+            new AsyncCommand<string>(func, () => true);
+            new AsyncCommand<string>(func, () => true, ex => { });
+            new AsyncCommand<string>(func, null as Func<bool>, ex => { });
+
+            new AsyncCommand<string>(func, x => true);
+            new AsyncCommand<string>(func, x => true, ex => { });
+            new AsyncCommand<string>(func, null as Func<object, bool>, ex => { });
+        }
+
         [Fact]
         public void Constructor_ExecuteIsNull_CreatesCorrectly()
         {
