@@ -31,8 +31,8 @@ namespace Softeq.XToolkit.Remote.Client
         /// <summary>
         ///     Adds a <see cref="HttpMessageHandler"/> to the chain of handlers.
         /// </summary>
-        /// <param name="handler"></param>
-        /// <returns></returns>
+        /// <param name="handler">Handler.</param>
+        /// <returns>Current builder.</returns>
         public HttpMessageHandlerBuilder AddHandler(DelegatingHandler handler)
         {
             AdditionalHandlers.Add(handler);

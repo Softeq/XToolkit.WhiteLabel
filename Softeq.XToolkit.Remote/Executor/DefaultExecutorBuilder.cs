@@ -2,20 +2,21 @@
 // http://www.softeq.com
 
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using Polly;
-using Polly.Retry;
-using Polly.Timeout;
-using Softeq.XToolkit.Remote.Exceptions;
+﻿using System.Collections.Generic;
+﻿using System.Linq;
+﻿using Polly;
+﻿using Polly.Retry;
+﻿using Polly.Timeout;
+﻿using Softeq.XToolkit.Remote.Exceptions;
 
-namespace Softeq.XToolkit.Remote.Executor
+﻿namespace Softeq.XToolkit.Remote.Executor
 {
     public class DefaultExecutorBuilder : IExecutorBuilder
     {
         private readonly IList<IAsyncPolicy> _policies = new List<IAsyncPolicy>();
 
-        protected readonly Type[] AllowedExceptions = {
+        protected readonly Type[] AllowedExceptions =
+        {
             typeof(InvalidOperationException),
             typeof(ExpiredRefreshTokenException)
         };
@@ -55,6 +56,7 @@ namespace Softeq.XToolkit.Remote.Executor
             {
                 return false;
             }
+
             return shouldRetry.Invoke(e);
         }
 

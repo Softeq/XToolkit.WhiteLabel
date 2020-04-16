@@ -14,11 +14,10 @@ namespace Softeq.XToolkit.Remote.Client
         ///     Adds a delegate that will be used to create an additional message handler for a <see cref="HttpClient" />.
         /// </summary>
         /// <remarks>
-        ///     Correct order:
-        //          NativeHandler) AuthHandler) DiagnosticHandler
+        ///     Correct order: NativeHandler) AuthHandler) DiagnosticHandler.
         /// </remarks>
-        /// <param name="delegatingHandler"></param>
-        /// <returns></returns>
+        /// <param name="delegatingHandler">Handler.</param>
+        /// <returns>Current implementation of <see cref="IHttpClientBuilder"/>.</returns>
         IHttpClientBuilder AddHandler(DelegatingHandler delegatingHandler);
 
         /// <summary>
