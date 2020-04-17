@@ -38,6 +38,8 @@
           href: xtoolkit/whitelabel/di.md
         - name: Navigation Requirements
           href: xtoolkit/whitelabel/navigation-requirements.md
+    - name: WhiteLabel.Forms
+      href: xtoolkit/whitelabel/forms.md
 - name: Contributing
   href: contributing.md
   items:
