@@ -13,7 +13,7 @@ Before starting you have to have three projects.
 
 ## Configuration shared logic
 
-- TODO
+- [Create ViewModel](create-viewmodel.md)
 
 ## More
 

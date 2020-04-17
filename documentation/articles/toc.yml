@@ -13,6 +13,11 @@
       items:
         - name: Create Activity
           href: create-activity.md
+    - name: Configure Core
+      href: create-viewmodel.md
+      items:
+        - name: Create ViewModel
+          href: create-viewmodel.md
 - name: XToolkit
   href: xtoolkit/overview.md
   items:
