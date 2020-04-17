@@ -38,6 +38,8 @@
           href: xtoolkit/whitelabel/di.md
         - name: Navigation Requirements
           href: xtoolkit/whitelabel/navigation-requirements.md
+        - name: iOS
+          href: xtoolkit/whitelabel/ios.md
     - name: WhiteLabel.Essentials
       href: xtoolkit/whitelabel/essentials.md
     - name: WhiteLabel.Forms

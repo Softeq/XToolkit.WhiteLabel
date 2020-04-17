@@ -27,4 +27,10 @@ Install-Package Softeq.XToolkit.WhiteLabel
 
 TODO
 
+## Base for
+
+- [WhiteLabel.iOS](whitelabel/ios.md)
+- [WhiteLabel.Essentials](whitelabel/essentials.md)
+- [WhiteLabel.Forms](whitelabel/forms.md)
+
 ---
