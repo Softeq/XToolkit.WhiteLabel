@@ -9,5 +9,5 @@ Softeq.XToolkit.Permissions | Extended library over the [Plugin.Permissions](htt
 [Softeq.XToolkit.PushNotifications](push-notifications.md) | Rich implementation of common cases for push-notifications using APNs and Firebase Cloud Messaging. | Core, Android, iOS
 [Softeq.XToolkit.Remote](remote.md) | Library provides a common way to make HTTP requests. | Core
 [Softeq.XToolkit.WhiteLabel](whitelabel.md) | MVVM framework (DI, Navigation, MVVM) that based on XToolkit components. | Core, Android, iOS
-Softeq.XToolkit.WhiteLabel.Essentials | Library over the XToolkit.WhiteLabel that contains optional components for any application (like ImagePicker). | Core, Android, iOS
+[Softeq.XToolkit.WhiteLabel.Essentials](whitelabel/essentials.md) | Library over the XToolkit.WhiteLabel that contains optional components for any application (like ImagePicker). | Core, Android, iOS
 [Softeq.XToolkit.WhiteLabel.Forms](whitelabel/forms.md) | Integration library for using XToolkit.WhiteLabel in [Xamarin.Forms](https://github.com/xamarin/Xamarin.Forms) projects. | Core
