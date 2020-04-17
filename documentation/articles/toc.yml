@@ -32,6 +32,8 @@
     - name: WhiteLabel
       href: xtoolkit/whitelabel.md
       items:
+        - name: Dependency Injection
+          href: xtoolkit/whitelabel/di.md
         - name: Navigation Requirements
           href: xtoolkit/whitelabel-navigation-requirements.md
 - name: Contributing
