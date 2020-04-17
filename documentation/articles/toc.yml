@@ -1,0 +1,38 @@
+- name: Manifesto
+  href: manifesto.md
+- name: Getting Started
+  href: getting-started.md
+  items:
+    - name: Configure iOS
+      href: configure-ios.md
+      items:
+        - name: Create Storyboard/ViewController
+          href: create-storyboard-viewcontroller.md
+    - name: Configure Android
+      href: configure-android.md
+      items:
+        - name: Create Activity
+          href: create-activity.md
+- name: XToolkit
+  href: xtoolkit/overview.md
+  items:
+    - name: Overview
+      href: xtoolkit/overview.md
+    - name: Common
+      href: xtoolkit/common.md
+    - name: Push Notifications
+      href: xtoolkit/push-notifications.md
+    - name: Remote
+      href: xtoolkit/remote.md
+    - name: WhiteLabel
+      href: xtoolkit/whitelabel.md
+      items:
+        - name: Navigation Requirements
+          href: xtoolkit/whitelabel-navigation-requirements.md
+- name: Contributing
+  href: contributing.md
+  items:
+    - name: Contribution Workflow
+      href: contributing-workflow.md
+    - name: Developer Guide
+      href: developer-guide.md
