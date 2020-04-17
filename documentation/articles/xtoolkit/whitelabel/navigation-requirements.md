@@ -29,7 +29,7 @@ Every ViewController should have:
 
 ## Auto-registration ViewModels
 
-- Add all assemblies with UI pages to the `SelectAssemblies` (per-platform);
+- Add all assemblies with UI pages to the [SelectAssemblies](bootstrapper.md#assemblysource) (per-platform);
 - Every UI page should implement the requirements above.
 
 > UI Page - UI platform-specific page definition like Activity, Fragment, ViewController.

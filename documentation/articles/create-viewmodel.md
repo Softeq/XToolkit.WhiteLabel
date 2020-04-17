@@ -8,6 +8,6 @@ public class MainPageViewModel : ViewModelBase
 }
 ```
 
-**Note:** Also see [Navigation Requirements](xtoolkit/whitelabel-navigation-requirements.md).
+**Note:** Also see [Navigation Requirements](xtoolkit/whitelabel/navigation-requirements.md).
 
 ---

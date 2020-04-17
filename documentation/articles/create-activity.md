@@ -1,6 +1,6 @@
 # Create Activity
 
-First of all, see [Navigation Requirements](xtoolkit/whitelabel-navigation-requirements.md).
+First of all, see [Navigation Requirements](xtoolkit/whitelabel/navigation-requirements.md).
 
 ## Steps
 
