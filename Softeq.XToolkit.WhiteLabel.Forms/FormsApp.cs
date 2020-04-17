@@ -1,10 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
@@ -13,6 +9,9 @@ using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms
 {
+    /// <summary>
+    ///     Based on <see cref="Application"/> class that represents a cross-platform mobile application.
+    /// </summary>
     public abstract class FormsApp : Application
     {
         private IBootstrapper? _bootstrapper;
@@ -33,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
         }
 
         /// <summary>
-        ///     Application developers override this method to perform actions when the application start was completed
+        ///     Application developers override this method to perform actions when the application start was completed.
         /// </summary>
         protected virtual void OnStarted()
         {

@@ -13,6 +13,9 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
+    /// <summary>
+    ///     Base class for registration/overriding dependencies.
+    /// </summary>
     public abstract class BootstrapperBase : IBootstrapper
     {
         private bool _isInitialized;
