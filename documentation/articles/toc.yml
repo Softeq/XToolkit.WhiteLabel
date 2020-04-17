@@ -25,6 +25,8 @@
       href: xtoolkit/overview.md
     - name: Common
       href: xtoolkit/common.md
+    - name: Bindings
+      href: xtoolkit/bindings.md
     - name: Permissions
       href: xtoolkit/permissions.md
     - name: Push Notifications
