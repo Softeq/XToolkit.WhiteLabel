@@ -16,7 +16,7 @@
 
 body {
   color: var(--font-color);
-  font-family: "Roboto", sans-serif;
+  font-family: sans-serif;
   line-height: 1.5;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
