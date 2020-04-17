@@ -32,14 +32,16 @@
     - name: WhiteLabel
       href: xtoolkit/whitelabel.md
       items:
+        - name: iOS
+          href: xtoolkit/whitelabel/ios.md
+        - name: Droid
+          href: xtoolkit/whitelabel/droid.md
         - name: Bootstrapper
           href: xtoolkit/whitelabel/bootstrapper.md
         - name: Dependency Injection
           href: xtoolkit/whitelabel/di.md
         - name: Navigation Requirements
           href: xtoolkit/whitelabel/navigation-requirements.md
-        - name: iOS
-          href: xtoolkit/whitelabel/ios.md
     - name: WhiteLabel.Essentials
       href: xtoolkit/whitelabel/essentials.md
     - name: WhiteLabel.Forms

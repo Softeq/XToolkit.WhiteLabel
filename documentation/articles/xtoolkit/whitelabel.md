@@ -30,6 +30,7 @@ TODO
 ## Base for
 
 - [WhiteLabel.iOS](whitelabel/ios.md)
+- [WhiteLabel.Droid](whitelabel/droid.md)
 - [WhiteLabel.Essentials](whitelabel/essentials.md)
 - [WhiteLabel.Forms](whitelabel/forms.md)
 
