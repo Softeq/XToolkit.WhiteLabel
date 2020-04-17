@@ -25,6 +25,8 @@
       href: xtoolkit/overview.md
     - name: Common
       href: xtoolkit/common.md
+    - name: Permissions
+      href: xtoolkit/permissions.md
     - name: Push Notifications
       href: xtoolkit/push-notifications.md
     - name: Remote
