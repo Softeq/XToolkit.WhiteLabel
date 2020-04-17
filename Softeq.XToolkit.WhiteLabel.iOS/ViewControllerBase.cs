@@ -11,19 +11,27 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
+    /// <summary>
+    ///     Based on UIKit.UIViewController, used for creating ViewControllers.
+    /// </summary>
     public abstract class ViewControllerBase : UIViewController
     {
         protected ViewControllerBase()
         {
         }
 
-        protected internal ViewControllerBase(IntPtr handle) : base(handle)
+        protected internal ViewControllerBase(IntPtr handle)
+            : base(handle)
         {
         }
 
         public List<IViewControllerComponent> ControllerComponents { get; } = new List<IViewControllerComponent>();
     }
 
+    /// <summary>
+    ///     Generic class based on UIKit.UIViewController, used for creating ViewControllers.
+    /// </summary>
+    /// <typeparam name="TViewModel">Type of ViewModel.</typeparam>
     public abstract class ViewControllerBase<TViewModel> : ViewControllerBase, IBindable
         where TViewModel : IViewModelBase
     {
@@ -32,7 +40,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             InitViewController();
         }
 
-        protected internal ViewControllerBase(IntPtr handle) : base(handle)
+        protected internal ViewControllerBase(IntPtr handle)
+            : base(handle)
         {
             InitViewController();
         }

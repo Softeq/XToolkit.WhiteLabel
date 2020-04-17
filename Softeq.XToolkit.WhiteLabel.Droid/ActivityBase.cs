@@ -18,6 +18,9 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
+    /// <summary>
+    ///     Based on AppCompatActivity, used for creating Activities.
+    /// </summary>
     public abstract class ActivityBase : AppCompatActivity
     {
         private readonly IPageNavigationService _pageNavigation;
@@ -42,7 +45,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             }
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
+        public override void OnRequestPermissionsResult(
+            int requestCode,
+            string[] permissions,
             [GeneratedEnum] Permission[] grantResults)
         {
             Dependencies.Container.Resolve<IPermissionRequestHandler>()?.Handle(requestCode, permissions, grantResults);
@@ -51,11 +56,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         }
     }
 
+    /// <summary>
+    ///     Generic class based on AppCompatActivity, used for creating Activities.
+    /// </summary>
+    /// <typeparam name="TViewModel">Type of ViewModel.</typeparam>
     public abstract class ActivityBase<TViewModel> : ActivityBase, IBindingsOwner
         where TViewModel : ViewModelBase
     {
-        private Lazy<TViewModel>? _viewModelLazy;
         private readonly IBundleService _bundleService;
+        private Lazy<TViewModel>? _viewModelLazy;
 
         protected ActivityBase()
         {
@@ -127,6 +136,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 _viewModelLazy = null;
             }
+
             base.OnDestroy();
         }
 
@@ -153,7 +163,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     {
         private TViewModel? _viewModel;
 
-        protected override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel) Dependencies.Container.Resolve<TInterface>());
+        protected override TViewModel ViewModel => _viewModel ??= (TViewModel) Dependencies.Container.Resolve<TInterface>();
     }
 }

@@ -8,16 +8,21 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
+    /// <summary>
+    ///     The base view that use to create custom views from xib.
+    /// </summary>
     public abstract class CustomViewBase : UIView
     {
-        protected CustomViewBase(IntPtr handle) : base(handle)
+        protected CustomViewBase(IntPtr handle)
+            : base(handle)
         {
 #pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
             Initialize();
 #pragma warning restore RECS0021 // Warns about calls to virtual member functions occuring in the constructor
         }
 
-        protected CustomViewBase(CGRect frame) : base(frame)
+        protected CustomViewBase(CGRect frame)
+            : base(frame)
         {
 #pragma warning disable RECS0021 // Warns about calls to virtual member functions occuring in the constructor
             Initialize();

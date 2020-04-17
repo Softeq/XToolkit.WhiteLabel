@@ -5,7 +5,6 @@ using System;
 using System.Diagnostics;
 using Android.OS;
 using Android.Runtime;
-using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
@@ -15,12 +14,17 @@ using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
+    /// <summary>
+    ///     Base on Android.App.Application class for maintaining global application state and integration WhiteLabel components.
+    /// </summary>
     public abstract class MainApplicationBase : Android.App.Application
     {
         protected MainApplicationBase(IntPtr handle, JniHandleOwnership transfer)
             : base(handle, transfer)
         {
         }
+
+        protected abstract IBootstrapper Bootstrapper { get; }
 
         public override void OnCreate()
         {
@@ -32,8 +36,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             InitializeWhiteLabelRuntime();
         }
-
-        protected abstract IBootstrapper Bootstrapper { get; }
 
         [Conditional("DEBUG")]
         protected void InitStrictMode()

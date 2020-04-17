@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
     public static class ViewControllerHelper
     {
         /// <summary>
-        ///     Method for safety attempt to create <see cref="UIViewController"/> from storyboard
+        ///     Method for safety attempt to create UIViewController from storyboard
         ///     otherwise creates a new instance of <see cref="viewControllerType"/>.
         /// </summary>
         /// <param name="storyboardName">Storyboard name.</param>
@@ -43,11 +43,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
         }
 
         /// <summary>
-        ///     Method for instantiating <see cref="UIViewController"/> from Storyboard if found, otherwise returns NULL.
+        ///     Method for instantiating UIViewController from Storyboard if found, otherwise returns NULL.
         /// </summary>
         /// <param name="storyboardName">Storyboard name.</param>
         /// <param name="viewControllerName">Name of ViewController on Storyboard.</param>
-        /// <returns>New instance of <see cref="UIViewController"/>.</returns>
+        /// <returns>New instance of UIViewController.</returns>
         public static UIViewController? CreateViewControllerFromStoryboard(string storyboardName, string viewControllerName)
         {
             if (NSBundle.MainBundle.PathForResource(storyboardName, "storyboardc") == null)
