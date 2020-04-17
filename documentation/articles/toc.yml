@@ -27,6 +27,13 @@
       href: xtoolkit/common.md
     - name: Bindings
       href: xtoolkit/bindings.md
+      items:
+        - name: Bindable
+          href: xtoolkit/bindings/bindable.md
+        - name: Advanced Bindings
+          href: xtoolkit/bindings/advanced.md
+        - name: Collections
+          href: xtoolkit/bindings/collections.md
     - name: Permissions
       href: xtoolkit/permissions.md
     - name: Push Notifications
