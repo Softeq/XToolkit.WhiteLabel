@@ -184,7 +184,7 @@
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomIosBootstraper.cs" />
+    <Compile Include="CustomIosBootstrapper.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\MainPageGroupHeaderViewCell.cs" />
