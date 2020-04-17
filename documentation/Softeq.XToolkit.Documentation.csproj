@@ -37,7 +37,6 @@
     <None Include="toc.yml" />
     <None Include="index.md" />
     <None Include="articles\toc.md" />
-    <None Include="articles\intro.md" />
     <None Include="api\index.md" />
     <None Include="api\.gitignore" />
     <None Include=".gitignore" />
