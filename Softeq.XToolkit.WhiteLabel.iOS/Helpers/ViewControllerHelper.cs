@@ -9,6 +9,9 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
 {
+    /// <summary>
+    ///     Contains methods for instantiating ViewControllers.
+    /// </summary>
     public static class ViewControllerHelper
     {
         /// <summary>
