@@ -10,22 +10,26 @@ using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
+    /// <inheritdoc cref="IPermissionsService" />
     public class PermissionsService : IPermissionsService
     {
+        /// <inheritdoc />
         public async Task<PermissionStatus> RequestPermissionsAsync<T>()
             where T : BasePermission, new()
         {
             var result = await CrossPermissions.Current.RequestPermissionAsync<T>().ConfigureAwait(false);
-            return ToPermissionStatus(result);
+            return result.ToPermissionStatus();
         }
 
+        /// <inheritdoc />
         public async Task<PermissionStatus> CheckPermissionsAsync<T>()
             where T : BasePermission, new()
         {
             var result = await CrossPermissions.Current.CheckPermissionStatusAsync<T>().ConfigureAwait(false);
-            return ToPermissionStatus(result);
+            return result.ToPermissionStatus();
         }
 
+        /// <inheritdoc />
         public void OpenSettings()
         {
             RunInMainThread(() => { CrossPermissions.Current.OpenAppSettings(); });
@@ -40,26 +44,6 @@ namespace Softeq.XToolkit.Permissions.Droid
             else
             {
                 var _ = new Handler(Looper.MainLooper).Post(action);
-            }
-        }
-
-        private static PermissionStatus ToPermissionStatus(PluginPermissionStatus permissionStatus)
-        {
-            switch (permissionStatus)
-            {
-                case PluginPermissionStatus.Denied:
-                    return PermissionStatus.Denied;
-                case PluginPermissionStatus.Disabled:
-                    return PermissionStatus.Denied;
-                case PluginPermissionStatus.Granted:
-                    return PermissionStatus.Granted;
-                case PluginPermissionStatus.Restricted:
-                    return PermissionStatus.Denied;
-                case PluginPermissionStatus.Unknown:
-                    return PermissionStatus.Unknown;
-                default:
-                    throw new InvalidEnumArgumentException(nameof(permissionStatus),
-                        (int) permissionStatus, permissionStatus.GetType());
             }
         }
     }

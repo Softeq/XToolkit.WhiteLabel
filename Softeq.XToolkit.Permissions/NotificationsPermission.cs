@@ -8,7 +8,8 @@ namespace Softeq.XToolkit.Permissions
 {
     public class NotificationsPermission : BasePermission
     {
-        public NotificationsPermission() : base(Permission.Unknown)
+        public NotificationsPermission()
+            : base(Permission.Unknown)
         {
         }
     }
