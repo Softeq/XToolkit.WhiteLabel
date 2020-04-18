@@ -171,6 +171,7 @@
     <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\GesturesPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Collections\CompositionalLayoutPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\Collections\DummyCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -293,6 +294,10 @@
     <Compile Include="ViewControllers\Collections\CompositionalLayoutPageViewController.cs" />
     <Compile Include="ViewControllers\Collections\CompositionalLayoutPageViewController.designer.cs">
       <DependentUpon>CompositionalLayoutPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Collections\DummyCell.cs" />
+    <Compile Include="Views\Collections\DummyCell.designer.cs">
+      <DependentUpon>DummyCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
