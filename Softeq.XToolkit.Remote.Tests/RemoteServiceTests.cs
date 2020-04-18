@@ -2,24 +2,24 @@
 // http://www.softeq.com
 
 ﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using System.Threading;
-using System.Threading.Tasks;
-using NSubstitute;
-using NSubstitute.ExceptionExtensions;
-using Softeq.XToolkit.Remote.Executor;
-using Softeq.XToolkit.Remote.Primitives;
-using Xunit;
+﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.Threading;
+﻿using System.Threading.Tasks;
+﻿using NSubstitute;
+﻿using NSubstitute.ExceptionExtensions;
+﻿using Softeq.XToolkit.Remote.Executor;
+﻿using Softeq.XToolkit.Remote.Primitives;
+﻿using Xunit;
 
-namespace Softeq.XToolkit.Remote.Tests
+﻿namespace Softeq.XToolkit.Remote.Tests
 {
-    public class RemoteServiceTests : IDisposable
+    public class RemoteServiceTests
     {
         private const string ResultData = "<TEST_DATA>";
 
-        private IStubApiInterface _apiService;
-        private IExecutorBuilderFactory _executorBuilder;
-        private IRemoteService<IStubApiInterface> _remoteService;
+        private readonly IStubApiInterface _apiService;
+        private readonly IExecutorBuilderFactory _executorBuilder;
+        private readonly IRemoteService<IStubApiInterface> _remoteService;
 
         public RemoteServiceTests()
         {
@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.Remote.Tests
         }
 
         [Fact]
-        [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue")]
+        [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue", Justification = "For test")]
         public async Task MakeRequest_WithNullOptions_GetsResult()
         {
             var data = await _remoteService.MakeRequest((s, ct) => s.GetData(ct), null);
@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.Remote.Tests
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        [SuppressMessage("ReSharper", "MethodSupportsCancellation")]
+        [SuppressMessage("ReSharper", "MethodSupportsCancellation", Justification = "For test")]
         public async Task MakeRequest_WithException_ThrowsException(bool generic)
         {
             var task = generic
@@ -65,10 +65,6 @@ namespace Softeq.XToolkit.Remote.Tests
                 : _remoteService.MakeRequest((s, ct) => s.DoException(ct));
 
             await Assert.ThrowsAsync<Exception>(() => task);
-        }
-
-        public void Dispose()
-        {
         }
     }
 

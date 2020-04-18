@@ -10,7 +10,7 @@ namespace Playground
     {
         public static void Configure(IContainerBuilder builder)
         {
-            // playgroud
+            // Playground
             builder.Singleton<DataService, IDataService>();
         }
     }
