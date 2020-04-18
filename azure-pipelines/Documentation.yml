@@ -1,7 +1,7 @@
 resources:
 - repo: self
 trigger:
-  branches:
+  paths:
     include:
       - documentation/*
 

@@ -4,9 +4,10 @@ trigger:
   branches:
     include:
       - '*'
+  paths:
     exclude:
-      - release/*
       - documentation/*
+      - README.md
 
 variables:
 - template: templates/vars.yml
