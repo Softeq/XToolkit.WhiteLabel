@@ -139,6 +139,15 @@ namespace Playground.ViewModels
                     }),
                     "Observable grouped collection")),
 
+                (Category.Collections, new CommandAction(
+                    new RelayCommand(() =>
+                    {
+                        _pageNavigationService
+                            .For<CompositionalLayoutPageViewModel>()
+                            .Navigate();
+                    }),
+                    "Compositional Layout")),
+
                 (Category.Controls, new CommandAction(
                     new RelayCommand(() =>
                     {

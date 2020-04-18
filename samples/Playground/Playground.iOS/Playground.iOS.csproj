@@ -170,6 +170,7 @@
     <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\GesturesPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Collections\CompositionalLayoutPageStoryboard.storyboard" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -288,6 +289,10 @@
     <Compile Include="ViewControllers\Components\GesturesPageViewController.cs" />
     <Compile Include="ViewControllers\Components\GesturesPageViewController.designer.cs">
       <DependentUpon>GesturesPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Collections\CompositionalLayoutPageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayoutPageViewController.designer.cs">
+      <DependentUpon>CompositionalLayoutPageViewController.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
