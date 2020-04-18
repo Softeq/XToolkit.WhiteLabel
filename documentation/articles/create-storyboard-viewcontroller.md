@@ -4,28 +4,42 @@ First of all, see [Navigation Requirements](xtoolkit/whitelabel/navigation-requi
 
 ## Steps
 
-1. Create `MainPageStoryboard` from `Solution folder -> Add -> New File -> iOS -> Storyboard`.
-2. Open storyboard via Interface Builder(`MainPageStoryboard -> Open With -> XCode Interface Builder`)
-3. Select `Identity Inspector` and update next properties:
-    - `Class` to `MainPageViewController.cs`
-    - `Storyboard Id` to `MainPageViewController`
+### 1. Create Storyboard
 
-4. Setup `MainPageViewController` class:
+- VS4Mac: `Solution folder -> Add -> New File -> iOS -> Storyboard`
+- Create empty `MainPageStoryboard`
 
-```csharp
+### 2. Interface Builder
+
+- Open storyboard via Interface Builder (IB)
+  - VS4Mac: `MainPageStoryboard -> Open With -> Xcode Interface Builder`
+  - Rider: `todo`
+- IB: Select **Identity Inspector** and update next properties:
+  - Custom Class > `Class` to `MainPageViewController`
+  - Identity > `Storyboard ID` to `MainPageViewController`
+
+### 3. Setup ViewController
+
+```cs
 public partial class MainPageViewController : ViewControllerBase<MainPageViewModel>
 {
-    public MainPageViewController(IntPtr handle) : base(handle) {}
+    public MainPageViewController(IntPtr handle)
+        : base(handle)
+    {
+    }
 }
 ```
----
 
 **Note**
-You need to add constructor when you want to use storyboard:
+You must add this constructor when you want to use storyboard:
+
 ```cs
-public MainPageViewConstroller(IntPtr handle) : base(handle) {}
+public MainPageViewController(IntPtr handle) : base(handle) {}
 ```
+
 If you load storyboard via code you have to create constructor without parameters.
+
+### 4. Profit
 
 After these steps, you should be able to navigate to `MainPageViewModel`.
 
