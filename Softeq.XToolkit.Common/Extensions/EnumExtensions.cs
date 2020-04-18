@@ -83,5 +83,16 @@ namespace Softeq.XToolkit.Common.Extensions
 
             return null;
         }
+
+        /// <summary>
+        ///     Get enumeration that corresponding value.
+        /// </summary>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <param name="value">Enum value.</param>
+        /// <returns>Correspond enumeration.</returns>
+        public static TEnum FindByValue<TEnum>(byte value) where TEnum : Enum
+        {
+            return (TEnum) Enum.ToObject(typeof(TEnum), value);
+        }
     }
 }
