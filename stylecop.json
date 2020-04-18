@@ -9,6 +9,11 @@
       "systemUsingDirectivesFirst": true,
       "usingDirectivesPlacement": "outsideNamespace"
     },
+    "namingRules": {
+      "allowedNamespaceComponents": [
+        "iOS"
+      ]
+    },
     "documentationRules": {
       "companyName": "Softeq Development Corporation",
       "copyrightText": "Developed by {companyName}\nhttp://www.softeq.com",
