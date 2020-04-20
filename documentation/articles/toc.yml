@@ -69,6 +69,8 @@
   items:
     - name: Android Resources Naming Convention
       href: practices/android-res-naming.md
+    - name: Unit Tests
+      href: practices/unit-tests.md
 - name: Contributing
   href: contributing.md
   items:
