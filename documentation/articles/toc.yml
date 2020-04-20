@@ -57,6 +57,11 @@
       href: xtoolkit/whitelabel/essentials.md
     - name: WhiteLabel.Forms
       href: xtoolkit/whitelabel/forms.md
+- name: How to
+  href: how-to/index.md
+  items:
+    - name: Create Custom View for iOS
+      href: how-to/create-custom-view-ios.md
 - name: Contributing
   href: contributing.md
   items:
