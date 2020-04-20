@@ -60,8 +60,8 @@
 - name: How to
   href: how-to/index.md
   items:
-    - name: Create Custom View for iOS
-      href: how-to/create-custom-view-ios.md
+    - name: Create iOS Custom View
+      href: how-to/create-ios-custom-view.md
 - name: Practices
   href: practices/index.md
   items:

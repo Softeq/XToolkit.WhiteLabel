@@ -14,6 +14,6 @@ Class Name | Links
 
 Class Name | Links
 ---------- | ------
-[CustomViewBase](xref:Softeq.XToolkit.WhiteLabel.iOS.Controls.CustomViewBase) | [How to create](../../how-to/create-custom-view-ios.md)
+[CustomViewBase](xref:Softeq.XToolkit.WhiteLabel.iOS.Controls.CustomViewBase) | [How to create](../../how-to/create-ios-custom-view.md)
 
 ---
