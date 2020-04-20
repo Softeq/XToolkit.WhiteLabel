@@ -62,6 +62,8 @@
   items:
     - name: Create iOS Custom View
       href: how-to/create-ios-custom-view.md
+    - name: Create iOS CollectionView
+      href: how-to/create-ios-collection-view.md
 - name: Practices
   href: practices/index.md
   items:
