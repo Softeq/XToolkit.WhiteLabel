@@ -51,6 +51,8 @@
           href: xtoolkit/whitelabel/bootstrapper.md
         - name: Dependency Injection
           href: xtoolkit/whitelabel/di.md
+        - name: Navigation
+          href: xtoolkit/whitelabel/navigation.md
         - name: Navigation Requirements
           href: xtoolkit/whitelabel/navigation-requirements.md
     - name: WhiteLabel.Essentials
