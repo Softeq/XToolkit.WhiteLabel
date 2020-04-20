@@ -2,5 +2,4 @@
 - name: Articles
   href: articles/getting-started.md
 - name: API Documentation
-  href: obj/api/
-  homepage: api/index.md
+  href: obj/docfxapi/
