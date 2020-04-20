@@ -5,6 +5,7 @@ This document describes contribution guidelines that are specific to XToolkit.
 General contribution guidance is included in this document. Additional guidance is defined in the documents linked below.
 
 - [Contribution Workflow](contributing-workflow.md) describes the workflow that the team uses for considering and accepting changes.
+- [Contribution to Documentation](contributing-documentation.md) describes guidelines on writing documentation.
 
 ## Coding Style Changes
 

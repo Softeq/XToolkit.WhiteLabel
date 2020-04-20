@@ -80,5 +80,7 @@
   items:
     - name: Contribution Workflow
       href: contributing-workflow.md
+    - name: Documentation
+      href: contributing-documentation.md
     - name: Developer Guide
       href: developer-guide.md
