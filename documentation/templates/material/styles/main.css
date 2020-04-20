@@ -257,6 +257,12 @@ pre {
   height: 40px;
   padding-top: 10px;
 }
+.toc ul.nav.level3 {
+  margin: 0 0 0 10px;
+}
+.toc ul.nav li {
+  margin: 4px 0 4px 0;
+}
 .footer-docfx {
   color: #ccc;
   display: block;
