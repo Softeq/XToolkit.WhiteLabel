@@ -59,6 +59,8 @@
       href: xtoolkit/whitelabel/essentials.md
     - name: WhiteLabel.Forms
       href: xtoolkit/whitelabel/forms.md
+    - name: Version Support
+      href: xtoolkit/version-support.md
 - name: How to
   href: how-to/index.md
   items:
