@@ -182,6 +182,8 @@
     <Compile Include="Extended\IosExtendedDialogsService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayout\AdaptiveSectionsViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayout\NSUtils.cs" />
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>
