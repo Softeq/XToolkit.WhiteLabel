@@ -39,6 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
             {
                 _backStack.Pop();
             }
+
             return _backStack.Pop();
         }
 

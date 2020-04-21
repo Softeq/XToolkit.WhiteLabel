@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Get property case insensitive from <see cref="Type"/>.
+        ///     Get property case insensitive from <see cref="T:System.Type"/>.
         /// </summary>
         /// <param name="type">Type.</param>
         /// <param name="propertyName">Property name.</param>
@@ -95,7 +95,7 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Get default value for <see cref="Type"/>.
+        ///     Get default value for <see cref="T:System.Type"/>.
         /// </summary>
         /// <param name="type">Type.</param>
         /// <returns>Default value.</returns>

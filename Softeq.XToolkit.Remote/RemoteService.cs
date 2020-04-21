@@ -2,13 +2,13 @@
 // http://www.softeq.com
 
 ﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Polly;
-using Softeq.XToolkit.Remote.Executor;
-using Softeq.XToolkit.Remote.Primitives;
+﻿using System.Threading;
+﻿using System.Threading.Tasks;
+﻿using Polly;
+﻿using Softeq.XToolkit.Remote.Executor;
+﻿using Softeq.XToolkit.Remote.Primitives;
 
-namespace Softeq.XToolkit.Remote
+﻿namespace Softeq.XToolkit.Remote
 {
     public class RemoteService<TApiService> : IRemoteService<TApiService>
     {

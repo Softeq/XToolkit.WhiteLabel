@@ -9,6 +9,9 @@ using Softeq.XToolkit.WhiteLabel.Extensions;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
+    /// <summary>
+    ///     An interface that declares methods to lookup ViewModel types from known assemblies.
+    /// </summary>
     public interface IViewModelFinder
     {
         ViewModelToViewMap GetViewModelToViewMapping(IEnumerable<Assembly> assemblies);
@@ -16,6 +19,9 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         bool IsViewType(Type type);
     }
 
+    /// <summary>
+    ///     The default implementation of <see cref="IViewModelFinder"/>.
+    /// </summary>
     public class DefaultViewModelFinder : IViewModelFinder
     {
         private readonly Type[] _viewsTypes;
@@ -53,6 +59,9 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         }
     }
 
+    /// <summary>
+    ///     The type alias to ViewModel-to-View mapping.
+    /// </summary>
     public class ViewModelToViewMap : Dictionary<Type, Type>
     {
     }

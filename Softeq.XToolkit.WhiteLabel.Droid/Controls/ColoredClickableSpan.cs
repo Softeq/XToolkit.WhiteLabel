@@ -10,6 +10,10 @@ using AndroidX.Core.Content;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
+    /// <summary>
+    ///     A child of an abstract ClickableSpan that allows to make a part of text clickable
+    ///     with a specified action and removes standard underline decoration.
+    /// </summary>
     public class ColoredClickableSpan : ClickableSpan
     {
         private readonly Context _context;

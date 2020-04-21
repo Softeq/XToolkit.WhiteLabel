@@ -8,8 +8,10 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms
 {
+    /// <inheritdoc />
     public abstract class FormsBootstrapper : BootstrapperBase
     {
+        /// <inheritdoc />
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
             base.RegisterInternalServices(builder);

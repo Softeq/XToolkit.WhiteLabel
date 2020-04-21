@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.Common.Weak
         private MethodInfo? Method { get; set; }
 
         /// <summary>
-        ///     Gets the <see cref="TDelegate" /> reference to this WeakDelegate's
+        ///     Gets the <typeparamref name="TDelegate"/> reference to this WeakDelegate's
         ///     method passed in the constructor if method is static.
         /// </summary>
         protected TDelegate? StaticDelegate { get; private set; }
@@ -74,7 +74,7 @@ namespace Softeq.XToolkit.Common.Weak
 
         /// <summary>
         ///     Gets the Delegate's owner. This object is stored as a
-        ///     <see cref="WeakReference" />.
+        ///     <see cref="T:System.WeakReference" />.
         /// </summary>
         public object? Target => CustomTargetReference != null
             ? CustomTargetReference.Target

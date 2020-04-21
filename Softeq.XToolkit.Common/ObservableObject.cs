@@ -123,8 +123,8 @@ namespace Softeq.XToolkit.Common
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="propertyExpression">An expression returning the property's name.</param>
         /// <returns>The name of the property returned by the expression.</returns>
-        /// <exception cref="ArgumentNullException">If the expression is null.</exception>
-        /// <exception cref="ArgumentException">If the expression does not represent a property.</exception>
+        /// <exception cref="T:System.ArgumentNullException">If the expression is null.</exception>
+        /// <exception cref="T:System.ArgumentException">If the expression does not represent a property.</exception>
         [SuppressMessage(
             "Microsoft.Design",
             "CA1011:ConsiderPassingBaseTypesAsParameters",

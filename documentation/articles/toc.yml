@@ -1,0 +1,86 @@
+- name: Manifesto
+  href: manifesto.md
+- name: Getting Started
+  href: getting-started.md
+  items:
+    - name: Configure iOS
+      href: configure-ios.md
+      items:
+        - name: Create Storyboard/ViewController
+          href: create-storyboard-viewcontroller.md
+    - name: Configure Android
+      href: configure-android.md
+      items:
+        - name: Create Activity
+          href: create-activity.md
+    - name: Configure Core
+      href: create-viewmodel.md
+      items:
+        - name: Create ViewModel
+          href: create-viewmodel.md
+- name: XToolkit
+  href: xtoolkit/overview.md
+  items:
+    - name: Overview
+      href: xtoolkit/overview.md
+    - name: Common
+      href: xtoolkit/common.md
+    - name: Bindings
+      href: xtoolkit/bindings.md
+      items:
+        - name: Bindable
+          href: xtoolkit/bindings/bindable.md
+        - name: Advanced Bindings
+          href: xtoolkit/bindings/advanced.md
+        - name: Collections
+          href: xtoolkit/bindings/collections.md
+    - name: Permissions
+      href: xtoolkit/permissions.md
+    - name: Push Notifications
+      href: xtoolkit/push-notifications.md
+    - name: Remote
+      href: xtoolkit/remote.md
+    - name: WhiteLabel
+      href: xtoolkit/whitelabel.md
+      items:
+        - name: iOS
+          href: xtoolkit/whitelabel/ios.md
+        - name: Droid
+          href: xtoolkit/whitelabel/droid.md
+        - name: Bootstrapper
+          href: xtoolkit/whitelabel/bootstrapper.md
+        - name: Dependency Injection
+          href: xtoolkit/whitelabel/di.md
+        - name: Navigation
+          href: xtoolkit/whitelabel/navigation.md
+        - name: Navigation Requirements
+          href: xtoolkit/whitelabel/navigation-requirements.md
+    - name: WhiteLabel.Essentials
+      href: xtoolkit/whitelabel/essentials.md
+    - name: WhiteLabel.Forms
+      href: xtoolkit/whitelabel/forms.md
+    - name: Version Support
+      href: xtoolkit/version-support.md
+- name: How to
+  href: how-to/index.md
+  items:
+    - name: Create iOS Custom View
+      href: how-to/create-ios-custom-view.md
+    - name: Create iOS CollectionView
+      href: how-to/create-ios-collection-view.md
+- name: Practices
+  href: practices/index.md
+  items:
+    - name: Android Resources Naming Convention
+      href: practices/android-res-naming.md
+    - name: Unit Tests
+      href: practices/unit-tests.md
+- name: Contributing
+  href: contributing.md
+  items:
+    - name: Contribution Workflow
+      href: contributing-workflow.md
+    - name: Documentation
+      href: contributing-documentation.md
+    - name: Developer Guide
+      href: developer-guide.md

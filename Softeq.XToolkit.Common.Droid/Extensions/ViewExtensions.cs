@@ -6,7 +6,7 @@ using Android.Views;
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
     /// <summary>
-    ///     Extensions related to <see cref="View" />
+    ///     Extensions related to Android.Views.View.
     /// </summary>
     public static class ViewExtensions
     {

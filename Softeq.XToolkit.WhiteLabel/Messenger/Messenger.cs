@@ -209,7 +209,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
         /// <summary>
         ///     Notifies the Messenger that the lists of recipients should
         ///     be scanned and cleaned up.
-        ///     Since recipients are stored as <see cref="WeakReference" />,
+        ///     Since recipients are stored as <see cref="T:System.WeakReference" />,
         ///     recipients can be garbage collected even though the Messenger keeps
         ///     them in a list. During the cleanup operation, all "dead"
         ///     recipients are removed from the lists. Since this operation
@@ -239,7 +239,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
 
         /// <summary>
         ///     Scans the recipients' lists for "dead" instances and removes them.
-        ///     Since recipients are stored as <see cref="WeakReference" />,
+        ///     Since recipients are stored as <see cref="T:System.WeakReference" />,
         ///     recipients can be garbage collected even though the Messenger keeps
         ///     them in a list. During the cleanup operation, all "dead"
         ///     recipients are removed from the lists. Since this operation
