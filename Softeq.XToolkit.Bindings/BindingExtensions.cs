@@ -530,7 +530,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="element">The element to which the command is added.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="command">The command that must be added to the element.</param>
-        /// <returns><see cref="IDisposable"/> instance for manual unset/unsubscribe of command.</returns>
+        /// <returns><see cref="T:System.IDisposable"/> instance for manual unset/unsubscribe of command.</returns>
         public static IDisposable SetCommandWithDisposing(
             this object element,
             string eventName,

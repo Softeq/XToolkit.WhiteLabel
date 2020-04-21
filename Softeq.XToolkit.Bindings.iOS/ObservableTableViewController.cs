@@ -206,7 +206,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         /// <param name="cell">The cell that will be prepared.</param>
         /// <param name="item">The item that should be used to set the cell up.</param>
-        /// <param name="indexPath">The <see cref="NSIndexPath" /> for this cell.</param>
+        /// <param name="indexPath">The <see cref="T:Foundation.NSIndexPath" /> for this cell.</param>
         protected virtual void BindCell(UITableViewCell cell, object item, NSIndexPath indexPath)
         {
             if (BindCellDelegate == null)
@@ -358,7 +358,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public event EventHandler SelectionChanged;
 
         /// <summary>
-        ///     A <see cref="UITableViewSource" /> that handles changes to the underlying
+        ///     A <see cref="T:UIKit.UITableViewSource" /> that handles changes to the underlying
         ///     data source if this data source is an <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />.
         /// </summary>
         /// <typeparam name="T2">The type of the items that the data source contains.</typeparam>

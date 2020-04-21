@@ -17,7 +17,8 @@ namespace Softeq.XToolkit.Bindings.iOS
     public static class AppleBindingExtensions
     {
         /// <summary>
-        ///     Creates a new <see cref="ObservableCollectionViewSource{TItem, TCell}" /> for a given <see cref="IList{TItem}" />.
+        ///     Creates a new <see cref="ObservableCollectionViewSource{TItem, TCell}" />
+        ///     for a given <see cref="T:System.Collections.Generic.IList`1" />.
         ///     Note that if the IList doesn't implement INotifyCollectionChanged, the associated UICollectionView won't be
         ///     updated when the IList changes.
         /// </summary>
@@ -69,7 +70,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     Creates a new <see cref="ObservableCollectionViewSource{TItem, TCell}" /> for a given
-        ///     <see cref="ObservableCollection{TItem}" />.
+        ///     <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
         ///     The associated UICollectionView will be updated when the ObservableCollection changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>
@@ -120,7 +121,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     Creates a new <see cref="ObservableTableViewController{TItem}" /> for a given
-        ///     <see cref="ObservableCollection{TItem}" />.
+        ///     <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
         /// </summary>
         /// <typeparam name="TItem">The type of the items contained in the collection.</typeparam>
         /// <param name="collection">The collection that the adapter will be created for.</param>
@@ -153,7 +154,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a new <see cref="ObservableTableViewController{TItem}" /> for a given <see cref="IList{TItem}" />.
+        ///     Creates a new <see cref="ObservableTableViewController{TItem}" /> for a given <see cref="T:System.Collections.Generic.IList`1" />.
         /// </summary>
         /// <typeparam name="TItem">The type of the items contained in the list.</typeparam>
         /// <param name="list">The list that the adapter will be created for.</param>
@@ -186,7 +187,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given <see cref="IList{TItem}" />.
+        ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given <see cref="T:System.Collections.Generic.IList`1" />.
         ///     Note that if the IList doesn't implement INotifyCollectionChanged, the associated UITableView won't be
         ///     updated when the IList changes.
         /// </summary>
@@ -229,7 +230,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given
-        ///     <see cref="ObservableCollection{TItem}" />.
+        ///     <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
         ///     The associated UITableView will be updated when the ObservableCollection changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>
@@ -270,7 +271,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given <see cref="IList{TItem}" />.
+        ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given <see cref="T:System.Collections.Generic.IList`1" />.
         ///     Note that if the IList doesn't implement INotifyCollectionChanged, the associated UITableView won't be
         ///     updated when the IList changes.
         /// </summary>
@@ -322,7 +323,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given
-        ///     <see cref="ObservableCollection{TItem}" />.
+        ///     <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
         ///     The associated UITableView will be updated when the ObservableCollection changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>

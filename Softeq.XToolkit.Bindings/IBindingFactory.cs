@@ -177,7 +177,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="elementType">Type of event.</param>
         /// <param name="command">
         ///     An <see cref="T:System.Windows.Input.ICommand"/> instance that will be wrapped in the event handler.
-        ///     Object of type <see cref="TEventArgs"/> will be passed to command as parameter.
+        ///     Object of type <typeparamref name="TEventArgs"/> will be passed to command as parameter.
         /// </param>
         /// <typeparam name="TEventArgs">Type of EventArgs.</typeparam>
         /// <returns>New delegate.</returns>

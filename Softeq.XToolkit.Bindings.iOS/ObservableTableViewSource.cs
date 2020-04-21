@@ -16,9 +16,9 @@ using UIKit;
 namespace Softeq.XToolkit.Bindings.iOS
 {
     /// <summary>
-    ///     A <see cref="UITableViewSource" /> that automatically updates the associated <see cref="UITableView" /> when its
-    ///     data source changes. Note that the changes are only observed if the data source
-    ///     implements <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />.
+    ///     A <see cref="T:UIKit.UITableViewSource" /> that automatically updates the associated
+    ///     <see cref="T:UIKit.UITableView" /> when its data source changes. Note that the changes are only observed
+    ///     if the data source implements <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />.
     /// </summary>
     /// <typeparam name="TItem">The type of the items in the data source.</typeparam>
     public class ObservableTableViewSource<TItem> : UITableViewSource, INotifyPropertyChanged
@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public Action<UITableViewCell, TItem, NSIndexPath> BindCellDelegate { get; set; }
 
         /// <summary>
-        ///     Gets or sets a delegate to a method <see cref="CanEditRow" /> of <see cref="UITableViewSource" />.
+        ///     Gets or sets a delegate to a method <see cref="CanEditRow" /> of <see cref="T:UIKit.UITableViewSource" />.
         ///     This method determines whether a row can be edited in a UITableView.
         /// </summary>
         /// <value>The can edit cell delegate. </value>
@@ -400,7 +400,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         /// <param name="cell">The cell that will be prepared.</param>
         /// <param name="item">The item that should be used to set the cell up.</param>
-        /// <param name="indexPath">The <see cref="NSIndexPath" /> for this cell.</param>
+        /// <param name="indexPath">The <see cref="T:Foundation.NSIndexPath" /> for this cell.</param>
         protected virtual void BindCell(UITableViewCell cell, object item, NSIndexPath indexPath)
         {
             if (BindCellDelegate == null)

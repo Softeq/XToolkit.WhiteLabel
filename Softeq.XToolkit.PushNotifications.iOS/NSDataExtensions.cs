@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
     public static class NSDataExtensions
     {
         /// <summary>
-        ///     Converts Foundation.NSData value to its equivalent hexadecimal string representation.
+        ///     Converts <see cref="T:Foundation.NSData"/> value to its equivalent hexadecimal string representation.
         ///     Source: https://stackoverflow.com/a/58028222/5925490 .
         /// </summary>
         /// <param name="data">Byte buffer wrapper.</param>

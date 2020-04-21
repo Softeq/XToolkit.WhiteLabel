@@ -299,7 +299,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         /// <param name="cell">The cell that will be prepared.</param>
         /// <param name="item">The item that should be used to set the cell up.</param>
-        /// <param name="indexPath">The <see cref="NSIndexPath" /> for this cell.</param>
+        /// <param name="indexPath">The <see cref="T:Foundation.NSIndexPath" /> for this cell.</param>
         protected virtual void BindCell(UICollectionViewCell cell, object item, NSIndexPath indexPath)
         {
             if (BindCellDelegate == null)
