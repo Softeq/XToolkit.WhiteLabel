@@ -10,6 +10,8 @@ using UIKit;
 
 namespace Playground.iOS.ViewControllers.Collections
 {
+    // Full Apple Sample:
+    // https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/using_collection_view_compositional_layouts_and_diffable_data_sources
     public partial class CompositionalLayoutPageViewController : ViewControllerBase<CompositionalLayoutPageViewModel>
     {
         public CompositionalLayoutPageViewController(IntPtr handle)
@@ -27,7 +29,14 @@ namespace Playground.iOS.ViewControllers.Collections
             {
                 ViewControllers = new UIViewController[]
                 {
-                    new AdaptiveSectionsViewController()
+                    new AdaptiveSectionsViewController
+                    {
+                        TabBarItem = new UITabBarItem("Adaptive Sections", null, 0)
+                    },
+                    new NestedGroupsViewController
+                    {
+                        TabBarItem = new UITabBarItem("Nested Groups", null, 0)
+                    },
                 }
             };
 

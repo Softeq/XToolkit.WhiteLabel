@@ -7,14 +7,13 @@ using Playground.iOS.Views.Collections;
 using Softeq.XToolkit.Common.Extensions;
 using UIKit;
 using static Playground.iOS.ViewControllers.Collections.CompositionalLayout.NSUtils;
+using static UIKit.NSCollectionLayoutDimension;
+using Section = Playground.iOS.ViewControllers.Collections.CompositionalLayout.AdaptiveSectionsViewController.Section;
 
 namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
 {
     // Original sources on Swift:
     // https://github.com/TikhonovAlexander/Collection-View-Layout-iOS13/blob/master/Collection-View-Layout-iOS13/View%20Controllers/AdaptiveSectionsViewController.swift
-    //
-    // Full Apple Sample:
-    // https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/using_collection_view_compositional_layouts_and_diffable_data_sources
     public class AdaptiveSectionsViewController : UIViewController
     {
         private UICollectionView? _collectionView;
@@ -22,8 +21,6 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-
-            Title = "Adaptive Sections";
 
             ConfigureHierarchy();
             ConfigureDataSource();
@@ -46,17 +43,17 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
                 var columns = sectionKind.ColumnCount(layoutEnvironment.Container.EffectiveContentSize.Width);
 
                 var itemSize = NSCollectionLayoutSize.Create(
-                    width: NSCollectionLayoutDimension.CreateFractionalWidth(1.0f),
-                    height: NSCollectionLayoutDimension.CreateFractionalHeight(1.0f));
+                    width: CreateFractionalWidth(1.0f),
+                    height: CreateFractionalHeight(1.0f));
                 var item = NSCollectionLayoutItem.Create(itemSize);
                 item.ContentInsets = new NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2);
 
                 var groupHeight = layoutEnvironment.TraitCollection.VerticalSizeClass == UIUserInterfaceSizeClass.Compact
-                    ? NSCollectionLayoutDimension.CreateAbsolute(44)
-                    : NSCollectionLayoutDimension.CreateFractionalWidth(0.2f);
+                    ? CreateAbsolute(44)
+                    : CreateFractionalWidth(0.2f);
 
                 var groupSize = NSCollectionLayoutSize.Create(
-                    width: NSCollectionLayoutDimension.CreateFractionalWidth(1.0f),
+                    width: CreateFractionalWidth(1.0f),
                     height: groupHeight);
                 var group = NSCollectionLayoutGroup.CreateHorizontal(layoutSize: groupSize, subitem: item, count: columns);
 
@@ -95,13 +92,13 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
             });
             dataSource.ApplySnapshot(snapshot, animatingDifferences: false);
         }
-    }
 
-    internal enum Section
-    {
-        List = 0,
-        Grid3 = 1,
-        Grid5 = 2
+        internal enum Section
+        {
+            List = 0,
+            Grid3 = 1,
+            Grid5 = 2
+        }
     }
 
     internal static class SectionExtensions
