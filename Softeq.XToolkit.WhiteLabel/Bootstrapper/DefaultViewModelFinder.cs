@@ -10,7 +10,7 @@ using Softeq.XToolkit.WhiteLabel.Extensions;
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
     /// <summary>
-    ///     An interface that declares logic about lookup ViewModel types from known assemblies.
+    ///     An interface that declares methods to lookup ViewModel types from known assemblies.
     /// </summary>
     public interface IViewModelFinder
     {

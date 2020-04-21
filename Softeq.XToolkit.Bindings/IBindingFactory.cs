@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.Bindings
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">The expression of the source property for the binding.</param>
-        /// <param name="resolveTopField">Flag for resolve top field.</param>
+        /// <param name="resolveTopField">Flag for resolving top field.</param>
         /// <param name="target">
         ///     The target of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.

@@ -67,7 +67,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public Action<TCell, TItem, NSIndexPath> BindCellDelegate { get; set; }
 
         /// <summary>
-        ///     Gets a value indicating whether indicates whether this <see cref="T:UIKit.UICollectionViewCell" />
+        ///     Gets a value indicating whether this <see cref="T:UIKit.UICollectionViewCell" />
         ///     can be scrolled infinitely.
         /// </summary>
         public bool IsInfiniteScroll { get; }

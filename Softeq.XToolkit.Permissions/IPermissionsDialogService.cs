@@ -7,7 +7,8 @@ using Plugin.Permissions;
 namespace Softeq.XToolkit.Permissions
 {
     /// <summary>
-    ///     Service for customizing the pre-notification of the user before permissions request.
+    ///     Service for customizing the dialogs, which are shown to the user
+    ///     before permission requests (pre-notification dialogs).
     /// </summary>
     public interface IPermissionsDialogService
     {

@@ -1,6 +1,6 @@
 # Navigation Requirements
 
-WhiteLabel internal ViewLocators requires some rules for correct registration ViewModel-UIPage navigation.
+WhiteLabel internal ViewLocators require some rules for correct registration of ViewModel-UIPage navigation, you should follow some rules:
 
 ## Core
 

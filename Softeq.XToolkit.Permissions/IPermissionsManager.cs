@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Permissions
         Task<PermissionStatus> CheckAsync<T>() where T : BasePermission, new();
 
         /// <summary>
-        ///     Sets dialog service for custom the pre-notification of the user.
+        ///     Sets dialog service for custom pre-notification of the user.
         /// </summary>
         /// <param name="permissionsDialogService">Implementation of <see cref="IPermissionsDialogService"/>.</param>
         void SetPermissionDialogService(IPermissionsDialogService permissionsDialogService);

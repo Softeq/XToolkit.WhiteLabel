@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Gets or sets when set, specifies which animation should be used when rows are added.
+        ///     Gets or sets which animation should be used when rows are added.
         /// </summary>
         public UITableViewRowAnimation AddAnimation { get; set; }
 
@@ -113,30 +113,30 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Gets or sets when set, specifieds which animation should be used when a row is deleted.
+        ///     Gets or sets which animation should be used when a row is deleted.
         /// </summary>
         public UITableViewRowAnimation DeleteAnimation { get; set; }
 
         /// <summary>
-        ///     Gets or sets when set, returns the height of the view that will be used for the TableView's footer.
+        ///     Gets or sets the height of the view that will be used for the TableView's footer.
         /// </summary>
         /// <seealso cref="GetViewForFooterDelegate" />
         public Func<nfloat> GetHeightForFooterDelegate { get; set; }
 
         /// <summary>
-        ///     Gets or sets when set, returns the height of the view that will be used for the TableView's header.
+        ///     Gets or sets the function, that returns the height of the view that will be used for the TableView's header.
         /// </summary>
         /// <seealso cref="GetViewForHeaderDelegate" />
         public Func<nfloat> GetHeightForHeaderDelegate { get; set; }
 
         /// <summary>
-        ///     Gets or sets when set, returns a view that can be used as the TableView's footer.
+        ///     Gets or sets the view that will be used as the TableView's footer.
         /// </summary>
         /// <seealso cref="GetHeightForFooterDelegate" />
         public Func<UIView> GetViewForFooterDelegate { get; set; }
 
         /// <summary>
-        ///     Gets or sets when set, returns a view that can be used as the TableView's header.
+        ///     Gets or sets the view that will be used as the TableView's header.
         /// </summary>
         /// <seealso cref="GetHeightForHeaderDelegate" />
         public Func<UIView> GetViewForHeaderDelegate { get; set; }

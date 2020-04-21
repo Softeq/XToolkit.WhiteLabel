@@ -66,7 +66,8 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         }
 
         /// <summary>
-        ///    Makes steps for register additional types to DI container.
+        ///     Registers additional types from the specified assemblies to DI container.
+        ///     Assemblies should be specified as the return value of the <see cref="SelectAssemblies"/> method.
         /// </summary>
         /// <param name="builder">Implementation of DI container.</param>
         protected virtual void RegisterFromAssemblies(IContainerBuilder builder)
@@ -85,7 +86,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         /// <summary>
         ///    Initializes <see cref="AssemblySourceCache"/>.
         /// </summary>
-        /// <param name="assemblies">List of Assemblies for cache.</param>
+        /// <param name="assemblies">List of Assemblies to cache.</param>
         protected virtual void InitializeAssemblySource(IEnumerable<Assembly> assemblies)
         {
             AssemblySourceCache.Install();
@@ -107,10 +108,10 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         protected abstract bool IsExtractToAssembliesCache(Type type);
 
         /// <summary>
-        ///     Makes additional search and registrations from cached assemblies.
+        ///     Registers types from the specified assemblies.
         /// </summary>
         /// <param name="builder">Implementation of DI container.</param>
-        /// <param name="assemblies">List of source Assemblies for register.</param>
+        /// <param name="assemblies">List of source Assemblies to register.</param>
         protected virtual void RegisterTypesFromAssemblies(IContainerBuilder builder, IList<Assembly> assemblies)
         {
         }
