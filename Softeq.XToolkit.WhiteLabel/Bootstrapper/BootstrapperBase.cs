@@ -13,6 +13,9 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
+    /// <summary>
+    ///     Base class for registration/overriding dependencies.
+    /// </summary>
     public abstract class BootstrapperBase : IBootstrapper
     {
         private bool _isInitialized;
@@ -45,6 +48,10 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             return new DryIocContainerBuilder();
         }
 
+        /// <summary>
+        ///     Registers internal services in DI container.
+        /// </summary>
+        /// <param name="builder">Implementation of DI container.</param>
         protected virtual void RegisterInternalServices(IContainerBuilder builder)
         {
             // logs
@@ -58,6 +65,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             builder.Singleton<Services.JsonSerializer, IJsonSerializer>();
         }
 
+        /// <summary>
+        ///     Registers additional types from the specified assemblies to DI container.
+        ///     Assemblies should be specified as the return value of the <see cref="SelectAssemblies"/> method.
+        /// </summary>
+        /// <param name="builder">Implementation of DI container.</param>
         protected virtual void RegisterFromAssemblies(IContainerBuilder builder)
         {
             var assemblies = SelectAssemblies();
@@ -71,6 +83,10 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         /// <returns>A list of assemblies to inspect.</returns>
         protected abstract IList<Assembly> SelectAssemblies();
 
+        /// <summary>
+        ///    Initializes <see cref="AssemblySourceCache"/>.
+        /// </summary>
+        /// <param name="assemblies">List of Assemblies to cache.</param>
         protected virtual void InitializeAssemblySource(IEnumerable<Assembly> assemblies)
         {
             AssemblySourceCache.Install();
@@ -87,20 +103,30 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         /// <summary>
         ///     The predicate of extracting type for storing in the cache.
         /// </summary>
-        /// <param name="type"><see cref="Type"/> of the object.</param>
-        /// <returns></returns>
+        /// <param name="type"><see cref="T:System.Type"/> of the object.</param>
+        /// <returns><c>true</c> when type should be extracted.</returns>
         protected abstract bool IsExtractToAssembliesCache(Type type);
 
+        /// <summary>
+        ///     Registers types from the specified assemblies.
+        /// </summary>
+        /// <param name="builder">Implementation of DI container.</param>
+        /// <param name="assemblies">List of source Assemblies to register.</param>
         protected virtual void RegisterTypesFromAssemblies(IContainerBuilder builder, IList<Assembly> assemblies)
         {
         }
 
         /// <summary>
-        ///     Override to configure the framework and setup your IoC container
+        ///     Override to configure the framework and setup your IoC container.
         /// </summary>
-        /// <param name="builder"></param>
+        /// <param name="builder">Implementation of DI container.</param>
         protected abstract void ConfigureIoc(IContainerBuilder builder);
 
+        /// <summary>
+        ///    Builds DI container.
+        /// </summary>
+        /// <param name="builder">Implementation of DI container.</param>
+        /// <returns>DI container.</returns>
         protected virtual IContainer BuildContainer(IContainerBuilder builder)
         {
             return builder.Build();

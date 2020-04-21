@@ -9,7 +9,7 @@ using Softeq.XToolkit.Common.Tasks;
 namespace Softeq.XToolkit.Common.Timers
 {
     /// <summary>
-    ///     Runs and wait task after a set interval
+    ///     Runs and wait task after a set interval.
     /// </summary>
     public class Timer : ITimer, IDisposable
     {
@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.Timers
         private TaskReference? _taskReference;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Timers.Timer" /> class with specified interval.
+        ///     Initializes a new instance of the <see cref="Timer"/> class with specified interval.
         /// </summary>
         /// <param name="taskReference">Task to be executed at specified interval.</param>
         /// <param name="interval">Timer interval (ms).</param>
@@ -26,6 +26,12 @@ namespace Softeq.XToolkit.Common.Timers
             _taskReference = taskReference;
             _interval = interval;
         }
+
+        /// <summary>
+        ///     Gets a value indicating whether the <see cref="T:Softeq.XToolkit.Common.Timers.Timer" /> should run task.
+        /// </summary>
+        /// <value><c>true</c> if Task should run; otherwise, <c>false</c>.</value>
+        public bool IsActive { get; private set; }
 
         /// <summary>
         ///     Releases all resource used by the <see cref="T:Softeq.XToolkit.Common.Timers.Timer" /> object.
@@ -42,12 +48,6 @@ namespace Softeq.XToolkit.Common.Timers
             Stop();
             _taskReference = null;
         }
-
-        /// <summary>
-        ///     Gets or sets a value indicating whether the <see cref="T:Softeq.XToolkit.Common.Timers.Timer" /> should run task.
-        /// </summary>
-        /// <value><c>true</c> if Task should run; otherwise, <c>false</c>.</value>
-        public bool IsActive { get; private set; }
 
         /// <inheritdoc />
         public void Start()
@@ -76,7 +76,8 @@ namespace Softeq.XToolkit.Common.Timers
                 {
                     await _taskReference.RunAsync().ConfigureAwait(false);
                 }
-            } while (IsActive);
+            }
+            while (IsActive);
         }
     }
 }

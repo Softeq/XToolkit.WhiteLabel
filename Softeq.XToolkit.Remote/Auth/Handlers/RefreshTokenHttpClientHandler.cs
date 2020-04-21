@@ -2,14 +2,14 @@
 // http://www.softeq.com
 
 ﻿using System;
-using System.Net;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Polly;
-using Softeq.XToolkit.Remote.Exceptions;
+﻿using System.Net;
+﻿using System.Net.Http;
+﻿using System.Threading;
+﻿using System.Threading.Tasks;
+﻿using Polly;
+﻿using Softeq.XToolkit.Remote.Exceptions;
 
-namespace Softeq.XToolkit.Remote.Auth.Handlers
+﻿namespace Softeq.XToolkit.Remote.Auth.Handlers
 {
     public class RefreshTokenHttpClientHandler : AuthenticatedHttpClientHandler
     {

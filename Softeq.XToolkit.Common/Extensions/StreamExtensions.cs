@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <param name="stream">The stream.</param>
         /// <returns>Bytes array of <see cref="Stream"/>.</returns>
-        /// <exception cref="ArgumentNullException">The stream argument is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">The stream argument is null.</exception>
         public static byte[] ToArray(this Stream stream)
         {
             if (stream == null)

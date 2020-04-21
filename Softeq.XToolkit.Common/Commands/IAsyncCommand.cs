@@ -7,7 +7,7 @@ using System.Windows.Input;
 namespace Softeq.XToolkit.Common.Commands
 {
     /// <summary>
-    ///     An Async implementation of <see cref="ICommand"/> for Task.
+    ///     An Async implementation of <see cref="T:System.Windows.Input.ICommand"/> for Task.
     /// </summary>
     public interface IAsyncCommand : ICommand
     {
@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Common.Commands
     }
 
     /// <summary>
-    ///     An Async implementation of <see cref="ICommand"/> for Task.
+    ///     An Async implementation of <see cref="T:System.Windows.Input.ICommand"/> for Task.
     /// </summary>
     /// <typeparam name="T">Type of parameter.</typeparam>
     public interface IAsyncCommand<in T> : ICommand<T>

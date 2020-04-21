@@ -112,7 +112,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException">When <paramref name="logger"/> is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">When <paramref name="logger"/> is null.</exception>
         public static Task WithLoggingErrors(this Task task, ILogger logger)
         {
             if (logger == null)
@@ -148,7 +148,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException">When <paramref name="logger"/> is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">When <paramref name="logger"/> is null.</exception>
         public static Task<T> WithLoggingErrors<T>(this Task<T> task, ILogger logger)
         {
             WithLoggingErrors((Task) task, logger);
@@ -189,7 +189,7 @@ namespace Softeq.XToolkit.Common.Extensions
 
         /// <summary>
         ///     Useful for fire-and-forget calls to async methods.
-        ///     Exceptions will be written to the <see cref="logger"/>.
+        ///     Exceptions will be written to the <paramref name="logger"/>.
         /// </summary>
         /// <param name="task">The task.</param>
         /// <param name="logger">Logger implementation.</param>
@@ -200,7 +200,7 @@ namespace Softeq.XToolkit.Common.Extensions
 
         /// <summary>
         ///     Useful for fire-and-forget calls to async methods.
-        ///     Exceptions will get to the callback <see cref="onException"/>.
+        ///     Exceptions will get to the callback <paramref name="onException"/>.
         /// </summary>
         /// <param name="task">The task.</param>
         /// <param name="onException">

@@ -68,7 +68,7 @@ namespace Softeq.XToolkit.Common.Extensions
         ///     A copy of this <see cref="T:System.String"></see> object
         ///     where first latter converted to uppercase.
         /// </returns>
-        /// <exception cref="ArgumentException">The argument can't be null or empty.</exception>
+        /// <exception cref="T:System.ArgumentException">The argument can't be null or empty.</exception>
         public static string CapitalizeFirstLetter(this string value)
         {
             if (string.IsNullOrEmpty(value))

@@ -17,3 +17,5 @@
 5. For build Xamarin.Forms projects:
    - Android: **Playground.Forms.Droid**
    - iOS: **Playground.Forms.iOS**
+
+---

@@ -20,8 +20,8 @@ Remote  | [![Softeq.XToolkit.Remote](https://buildstats.info/nuget/Softeq.XToolk
 
 ## Documentation
 
-- [Wiki](https://github.com/Softeq/XToolkit.WhiteLabel/wiki)
-- [API Documentation](https://softeq.github.io/XToolkit.WhiteLabel/api/)
+- [Documentation](https://softeq.github.io/XToolkit.WhiteLabel/)
+- [Roadmap](https://github.com/Softeq/XToolkit.WhiteLabel/wiki/Roadmap)
 
 ## Contributing
 
