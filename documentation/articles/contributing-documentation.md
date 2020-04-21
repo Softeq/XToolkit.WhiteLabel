@@ -39,6 +39,29 @@ Please add any images for the documentation in the `images/` folder. Then you ca
 ![My helpful screenshot](../images/screenshot.png)
 ```
 
+### References
+
+#### Articles
+
+```md
+[IBindingsOwner](xref:Softeq.XToolkit.Bindings.Abstract.IBindingsOwner)
+```
+
+#### Code
+
+System types:
+
+```xml
+<see cref="T:UIKit.UIViewController"/>
+```
+
+XToolkit types:
+
+```xml
+<see cref="AsyncCommand"/>
+```
+
+
 ## Build documentation locally
 
 In some cases it might be more comfortable to work locally on updating the documentation pages instead of using the online GitHub editor. This is especially the case when working on bigger changes you’d most likely do on a separate branch and maybe spend multiple days working on. In those cases it might be usefull to be able to generate the site locally, so you can see what your changes look like when rendered in the browser. This means you will have to follow these steps:
