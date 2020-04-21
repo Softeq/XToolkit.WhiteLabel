@@ -60,7 +60,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
     }
 
     /// <summary>
-    ///     The type alias to ViewModel to View mapping.
+    ///     The type alias to ViewModel-to-View mapping.
     /// </summary>
     public class ViewModelToViewMap : Dictionary<Type, Type>
     {

@@ -7,13 +7,14 @@ using Plugin.Permissions;
 namespace Softeq.XToolkit.Permissions
 {
     /// <summary>
-    ///     Main interface for check/request permissions, for use in your logic.
+    ///     The main interface to check/request permissions, for using in your logic.
     /// </summary>
     public interface IPermissionsManager
     {
         /// <summary>
         ///     Determines whether this permission has been granted.
-        ///     Otherwise, uses dialog for the pre-notify user and then make requests permissions or opens Settings if needed.
+        ///     Otherwise, uses dialog for pre-notifying the user and then making permission request
+        ///     or opening Settings if needed.
         /// </summary>
         /// <typeparam name="T">Type of permission.</typeparam>
         /// <returns>The permissions and their status.</returns>

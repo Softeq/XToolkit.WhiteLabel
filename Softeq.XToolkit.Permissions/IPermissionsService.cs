@@ -7,8 +7,8 @@ using Plugin.Permissions;
 namespace Softeq.XToolkit.Permissions
 {
     /// <summary>
-    ///     Platform-specific logic for check/request permissions
-    ///     (for use Permissions.Plugin or custom implementation of permissions request).
+    ///     Platform-specific logic to check/request permissions
+    ///     (for using Permissions.Plugin or custom implementation of permissions request).
     /// </summary>
     public interface IPermissionsService
     {

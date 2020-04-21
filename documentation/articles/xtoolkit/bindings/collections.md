@@ -4,7 +4,7 @@
 
 All `Binbable*` sources work with reusable cells, for that must be declared before use:
 
-- Registration cell as reusable:
+- Registering cell as reusable:
 `Table\CollectionView.RegisterNibForCellReuse(ItemViewCell.Nib, ItemViewCell.Key);`
 - Inherit `BindableTableViewCell`, `BindableCollectionViewCell`, `BindableTableViewHeaderFooterView`, `BindableUICollectionReusableView` or any custom cell with `IBindableView` interface.
 

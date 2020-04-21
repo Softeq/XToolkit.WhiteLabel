@@ -6,7 +6,7 @@
 
 ## Setup
 
-### Nuget deps
+### NuGet dependencies
 
 Add to Droid csproj:
 
@@ -66,14 +66,14 @@ public class CustomBootstrapper : DroidBootstrapperBase
 {
     protected override void ConfigureIoc(IContainerBuilder builder)
     {
-        builder.Singleton<JsonSerializer, IJsonSerializer>(); // for save states
+        builder.Singleton<JsonSerializer, IJsonSerializer>(); // for saving states
 
         // you can register any dependencies here
     }
 
     protected override IList<Assembly> SelectAssemblies()
     {
-        // for auto-registration ViewModels by Activities
+        // for auto-registering ViewModels by Activities
         return base.SelectAssemblies()
             .AddItem(GetType().Assembly);
     }

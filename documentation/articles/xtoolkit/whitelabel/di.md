@@ -1,8 +1,8 @@
 # Dependency Injection
 
-WhiteLabel declares own abstraction over the DI implementation.
+WhiteLabel declares its abstraction over the DI implementation.
 
-Out of the box by default used [DryIoc](https://github.com/dadhi/DryIoc).
+[DryIoc](https://github.com/dadhi/DryIoc) is used out of the box.
 
 ## Registration
 

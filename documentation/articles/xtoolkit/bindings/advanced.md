@@ -10,8 +10,8 @@ XToolkit Bindings supports three types of bindings: `OneTime`, `OneWay`, `TwoWay
 
 ### One-Way
 
-- This binding mode transfers values from the ViewModel to the View;
-- Whenever the property changes within the ViewModel, then the corresponding View property is automatically adjusted;
+- This binding mode transfers values from ViewModel to View;
+- Whenever the property changes within the ViewModel, the corresponding View property is automatically adjusted;
 - This binding mode is useful when showing, for example, data that is arriving from a dynamic source - like from a sensor or from a network data feed.
 
 One-way bindings used by default.

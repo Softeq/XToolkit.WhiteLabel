@@ -9,7 +9,7 @@ using UIKit;
 namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 {
     /// <summary>
-    ///     The base view that use to create custom views from xib.
+    ///     The base view that should be used to create custom views from xib.
     /// </summary>
     public abstract class CustomViewBase : UIView
     {

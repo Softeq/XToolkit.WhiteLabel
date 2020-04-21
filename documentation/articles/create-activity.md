@@ -36,6 +36,6 @@ public class MainPageActivity : ActivityBase<MainPageViewModel>
 </RelativeLayout>
 ```
 
-After that, you have to be able to navigate to the first page.
+After that, you should be able to navigate to the first page.
 
 ---

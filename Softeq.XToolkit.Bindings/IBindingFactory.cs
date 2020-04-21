@@ -180,7 +180,7 @@ namespace Softeq.XToolkit.Bindings
         ///     An <see cref="ICommand"/> instance that will be wrapped in the event handler.
         ///     Object of type <see cref="TEventArgs"/> will be passed to command as parameter.
         /// </param>
-        /// <typeparam name="TEventArgs">Type of command parameter.</typeparam>
+        /// <typeparam name="TEventArgs">Type of EventArgs.</typeparam>
         /// <returns>New delegate.</returns>
         Delegate GetCommandHandler<TEventArgs>(
             EventInfo info,

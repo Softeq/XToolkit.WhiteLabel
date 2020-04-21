@@ -1,6 +1,6 @@
 # Getting Started
 
-Before starting you have to have three projects.
+Before starting you should create three projects:
 
 1. ApplicationName (should be .Net Standart project) which will include your shared ViewModels
 2. ApplicationName.iOS

@@ -2,11 +2,11 @@
 
 ## Structure
 
-XToolkit contains boilerplate features what you need in every Xamarin projects, like MVVM, Navigation, DI. Also, have additional abilities like Permissions, common used ViewModels, simple ImagePicker, Push-Notifications and others.
+XToolkit contains boilerplate features that you need in every Xamarin project, like MVVM, Navigation, DI. Also, it has additional components like [Permissions](xtoolkit/permissions.md), commonly used ViewModels, simple ImagePicker, [Push-Notifications](xtoolkit/push-notifications.md) and [others](xtoolkit/overview.md).
 
 ## Contribution
 
-If you want to add something to the XToolkit follow to the checklist below:
+If you want to add something to the XToolkit follow the checklist below:
 
 - [ ] It’s a very common feature for every Xamarin project;
 - [ ] It’s a fix of the existing functionality;

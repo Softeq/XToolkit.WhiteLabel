@@ -4,7 +4,7 @@ WhiteLabel internal ViewLocators requires some rules for correct registration Vi
 
 ## Core
 
-Every paged ViewModels should have:
+Every page ViewModels should have:
 
 - `ViewModels` namespace;
 - `{NAME}ViewModel` class name;
@@ -30,6 +30,6 @@ Every ViewController should have:
 ## Auto-registration ViewModels
 
 - Add all assemblies with UI pages to the [SelectAssemblies](bootstrapper.md#assemblysource) (per-platform);
-- Every UI page should implement the requirements above.
+- Every UI page should meet the requirements above.
 
 > UI Page - UI platform-specific page definition like Activity, Fragment, ViewController.

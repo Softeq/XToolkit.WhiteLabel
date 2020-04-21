@@ -1,6 +1,6 @@
 # XToolkit Permissions
 
-Extended library over the [Plugin.Permissions](https://github.com/jamesmontemagno/PermissionsPlugin) that covered the common cases of working with permissions.
+Extended library over the [Plugin.Permissions](https://github.com/jamesmontemagno/PermissionsPlugin) that covered common cases of working with permissions.
 
 ## Install
 
@@ -25,7 +25,7 @@ Contract | Implementation
 
 ### Default Platform-Specific implementation
 
-Default implementation handles a set of predefined permissions (see below) and has additional behavior for request permissions are double-dialog check and open application settings when permissions Denied.
+Default implementation handles a set of predefined permissions (see below) and has additional behavior to request permissions and double-dialog check and opening application settings when the permissions are Denied.
 
 > Default implementation depends on [Plugin.Permissions](https://www.nuget.org/packages/Plugin.Permissions) and [Xam.Plugins.Settings](https://www.nuget.org/packages/Xam.Plugins.Settings)
 

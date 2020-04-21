@@ -18,7 +18,7 @@ Playground project contains an actual demo.
 
 ### AssemblySource
 
-What is AssemblySoure.Instance? This is the place that WhiteLabel looks for Views. You can add assemblies to this at any time during your application to make them available to the framework, but there is also a special place to do it in the Bootstrapper. Simply override SelectAssemblies like this:
+What is `AssemblySource.Instance`? This is the place that WhiteLabel looks for Views. You can add assemblies to AssemblySource any time during your application lifecycle to make them available to the framework, but there is also a special place to do it in the Bootstrapper. Simply override SelectAssemblies like this:
 
 ```cs
 protected override IList<Assembly> SelectAssemblies()

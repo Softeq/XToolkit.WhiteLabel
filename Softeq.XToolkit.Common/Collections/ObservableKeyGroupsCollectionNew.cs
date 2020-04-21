@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Common.Collections
 {
     /// <summary>
     ///     Represents groups of items that provides notifications when groups or
-    ///     it's items get added, removed, or when the whole list is refreshed.
+    ///     their items get added, removed, or when the whole list is refreshed.
     /// </summary>
     /// <typeparam name="TKey">The group type of the collection.</typeparam>
     /// <typeparam name="TValue">The item type of the collection.</typeparam>

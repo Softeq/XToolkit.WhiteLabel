@@ -30,11 +30,11 @@ You can install via NuGet: [![Softeq.XToolkit.Remote](https://buildstats.info/nu
 
 ## Usage
 
-Below steps to describe a simple way to make an HTTP request.
+These are the steps to describe a simple way to make an HTTP request:
 
 ### Step 1
 
-Firstly you need to create an interface for declaring API:
+Firstly you need to create an interface for declaring API endpoints:
 
 ```cs
 public interface IApi
@@ -44,7 +44,7 @@ public interface IApi
 }
 ```
 
-> For declaring used [Refit](https://github.com/reactiveui/refit#api-attributes) library.
+> [Refit](https://github.com/reactiveui/refit#api-attributes) library is used for declaring the API endpoints.
 
 ### Step 2
 
@@ -57,7 +57,7 @@ var httpClient = new HttpClient
 };
 ```
 
-> The library provides a more advanced way to create HttpClient. See `DefaultHttpClientFactory`, `HttpClientBuilder`.
+> The library provides an advanced way to create HttpClient. See `DefaultHttpClientFactory`, `HttpClientBuilder`.
 
 ### Step 3
 
@@ -68,7 +68,7 @@ var remoteServiceFactory = new RemoteServiceFactory();
 var remoteService = remoteServiceFactory.Create<IApi>(httpClient);
 ```
 
-> In this case, can be used more simple way:
+> In this case, it can be used in a simpler way:
 ```cs
 var remoteService = remoteServiceFactory.Create<IApi>("https://google.com");
 ```
