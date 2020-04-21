@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
-        /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
         public RelayCommand(Action execute)
             : this(execute, null)
         {
@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
         /// <param name="canExecute">The execution status logic.</param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="T:System.ArgumentNullException">
         ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </exception>

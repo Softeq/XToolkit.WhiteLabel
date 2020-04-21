@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     The execution status logic. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
-        /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
         public RelayCommand(Action<T> execute, Func<T, bool>? canExecute = null)
         {
             if (execute == null)

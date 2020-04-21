@@ -16,12 +16,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
     {
         /// <summary>
         ///     Method for safety attempt to create UIViewController from storyboard
-        ///     otherwise creates a new instance of <see cref="viewControllerType"/>.
+        ///     otherwise creates a new instance of <paramref name="viewControllerType" />.
         /// </summary>
         /// <param name="storyboardName">Storyboard name.</param>
         /// <param name="viewControllerType">Type of ViewController on Storyboard.</param>
         /// <param name="logger">Instance of <see cref="ILogger"/>.</param>
-        /// <returns>Target instance of <see cref="viewControllerType"/>.</returns>
+        /// <returns>Target instance of <paramref name="viewControllerType"/>.</returns>
         public static UIViewController? TryCreateViewController(string storyboardName, Type viewControllerType, ILogger logger)
         {
             UIViewController? newViewController = null;

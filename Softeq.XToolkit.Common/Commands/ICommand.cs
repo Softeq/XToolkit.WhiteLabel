@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace Softeq.XToolkit.Common.Commands
 {
     /// <summary>
-    ///     A generic interface representing a more specific version of <see cref="ICommand"/>.
+    ///     A generic interface representing a more specific version of <see cref="T:System.Windows.Input.ICommand"/>.
     /// </summary>
     /// <typeparam name="T">The type used as argument for the interface methods.</typeparam>
     public interface ICommand<in T> : ICommand

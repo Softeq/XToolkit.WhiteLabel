@@ -102,7 +102,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
         /// <summary>
         ///     The predicate of extracting type for storing in the cache.
         /// </summary>
-        /// <param name="type"><see cref="Type"/> of the object.</param>
+        /// <param name="type"><see cref="T:System.Type"/> of the object.</param>
         /// <returns><c>true</c> when type should be extracted.</returns>
         protected abstract bool IsExtractToAssembliesCache(Type type);
 

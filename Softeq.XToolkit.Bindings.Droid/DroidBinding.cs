@@ -79,7 +79,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         ///     <para>- a CompoundButton control and its Checked property (CheckedChange event).</para>
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When this method is called on a OneTime binding. Such bindings cannot be updated.
         ///     This exception can also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
@@ -115,7 +115,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         ///     <para>- a CompoundButton control and its Checked property (CheckedChange event).</para>
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When this method is called
         ///     on a OneTime or a OneWay binding. This exception can
         ///     also be thrown when the source object is null or has already been

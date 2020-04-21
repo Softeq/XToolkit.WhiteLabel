@@ -18,10 +18,10 @@ namespace Softeq.XToolkit.Bindings
     /// <summary>
     ///     Creates a binding between two properties.
     ///
-    ///     If the source implements <see cref="INotifyPropertyChanged"/>, the source property raises the PropertyChanged event and
+    ///     If the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, the source property raises the PropertyChanged event and
     ///     the <see cref="BindingMode"/> is OneWay or TwoWay, the target property will be synchronized with the source property.
     ///
-    ///     If the target implements <see cref="INotifyPropertyChanged"/>, the target property raises the PropertyChanged event
+    ///     If the target implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, the target property raises the PropertyChanged event
     ///     and the <see cref="BindingMode"/> is TwoWay, the source property will also be synchronized with the target property.
     /// </summary>
     /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
@@ -123,7 +123,7 @@ namespace Softeq.XToolkit.Bindings
         ///     which the source and target properties are located in different objects.
         /// </summary>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">
@@ -148,8 +148,8 @@ namespace Softeq.XToolkit.Bindings
         ///     by the source, the target property will be updated.
         ///
         ///     TwoWay means that the source property will also be updated if the target raises the PropertyChanged event.
-        ///     Default means OneWay if only the source implements <see cref="INotifyPropertyChanged"/>,
-        ///     and TwoWay if both the source and the target implement <see cref="INotifyPropertyChanged"/>.
+        ///     Default means OneWay if only the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>,
+        ///     and TwoWay if both the source and the target implement <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.
         /// </param>
         /// <param name="fallbackValue">
         ///     The value to use when the binding is unable to return a value. This can happen if one of the
@@ -404,15 +404,15 @@ namespace Softeq.XToolkit.Bindings
         ///     The name of the event that should be observed to update the binding's value.
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When this method is called on a OneTime binding. Such bindings cannot be updated.
         ///     This exception can also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
         /// </exception>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="T:System.ArgumentNullException">
         ///     When the eventName parameter is null or is an empty string.
         /// </exception>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="T:System.ArgumentException">
         ///     When the requested event does not exist on the source control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveSourceEvent(string eventName)
@@ -494,16 +494,16 @@ namespace Softeq.XToolkit.Bindings
         ///     to update the binding's value.
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When this method is called
         ///     on a OneTime binding. Such bindings cannot be updated. This exception can
         ///     also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
         /// </exception>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="T:System.ArgumentNullException">
         ///     When the eventName parameter is null or is an empty string.
         /// </exception>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="T:System.ArgumentException">
         ///     When the requested event does not exist on the source control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveSourceEvent<TEventArgs>(string eventName)
@@ -582,16 +582,16 @@ namespace Softeq.XToolkit.Bindings
         ///     to update the binding's value.
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When this method is called
         ///     on a OneTime or a OneWay binding. This exception can
         ///     also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
         /// </exception>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="T:System.ArgumentNullException">
         ///     When the eventName parameter is null or is an empty string.
         /// </exception>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="T:System.ArgumentException">
         ///     When the requested event does not exist on the target control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveTargetEvent(string eventName)
@@ -683,16 +683,16 @@ namespace Softeq.XToolkit.Bindings
         ///     to update the binding's value.
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When this method is called
         ///     on a OneTime or OneWay binding. This exception can
         ///     also be thrown when the target object is null or has already been
         ///     garbage collected before this method is called.
         /// </exception>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="T:System.ArgumentNullException">
         ///     When the eventName parameter is null or is an empty string.
         /// </exception>
-        /// <exception cref="ArgumentException">
+        /// <exception cref="T:System.ArgumentException">
         ///     When the requested event does not exist on the target control.
         /// </exception>
         public Binding<TSource, TTarget> ObserveTargetEvent<TEventArgs>(string eventName)
@@ -778,7 +778,7 @@ namespace Softeq.XToolkit.Bindings
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When <see cref="WhenSourceChanges(System.Action)"/> is called on a binding which already has a target property set.
         /// </exception>
         public Binding<TSource, TTarget> WhenSourceChanges(Action callback)

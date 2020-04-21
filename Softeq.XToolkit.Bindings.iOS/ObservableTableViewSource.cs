@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Bindings.iOS
     /// <summary>
     ///     A <see cref="UITableViewSource" /> that automatically updates the associated <see cref="UITableView" /> when its
     ///     data source changes. Note that the changes are only observed if the data source
-    ///     implements <see cref="INotifyCollectionChanged" />.
+    ///     implements <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />.
     /// </summary>
     /// <typeparam name="TItem">The type of the items in the data source.</typeparam>
     public class ObservableTableViewSource<TItem> : UITableViewSource, INotifyPropertyChanged
@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public UITableViewRowAnimation AddAnimation { get; set; }
 
         /// <summary>
-        ///     Gets or sets a delegate to a method taking a <see cref="UITableViewCell" />
+        ///     Gets or sets a delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
         ///     and setting its elements' properties according to the item
         ///     passed as second parameter.
         /// </summary>
@@ -71,7 +71,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public Func<TItem, NSIndexPath, bool> CanEditCellDelegate { get; set; }
 
         /// <summary>
-        ///     Gets or sets a delegate to a method creating or reusing a <see cref="UITableViewCell" />.
+        ///     Gets or sets a delegate to a method creating or reusing a <see cref="T:UIKit.UITableViewCell" />.
         ///     The cell will then be passed to the <see cref="BindCellDelegate" />
         ///     delegate to set the elements' properties. Note that this delegate is only
         ///     used if you didn't register with a ReuseID using the UITableView.RegisterClassForCell method.
@@ -217,7 +217,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         /// <param name="tableView">The UITableView associated to this source.</param>
         /// <param name="indexPath">The NSIndexPath pointing to the item for which the cell must be returned.</param>
-        /// <returns>The created and initialised <see cref="UITableViewCell" />.</returns>
+        /// <returns>The created and initialised <see cref="T:UIKit.UITableViewCell" />.</returns>
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             if (indexPath.Row + 1 == _dataSource.Count)
@@ -394,7 +394,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Binds a <see cref="UITableViewCell" /> to an item's properties.
+        ///     Binds a <see cref="T:UIKit.UITableViewCell" /> to an item's properties.
         ///     If a <see cref="BindCellDelegate" /> is available, this delegate will be used.
         ///     If not, a simple text will be shown.
         /// </summary>
@@ -414,7 +414,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a <see cref="UITableViewCell" /> corresponding to the reuseId.
+        ///     Creates a <see cref="T:UIKit.UITableViewCell" /> corresponding to the reuseId.
         ///     If it is set, the <see cref="CreateCellDelegate" /> delegate will be used.
         /// </summary>
         /// <param name="reuseId">A reuse identifier for the cell.</param>

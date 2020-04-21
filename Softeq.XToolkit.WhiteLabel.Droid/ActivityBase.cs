@@ -19,7 +19,7 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     /// <summary>
-    ///     Based on AppCompatActivity, used for creating Activities.
+    ///     Based on <see cref="T:AndroidX.AppCompat.App.AppCompatActivity"/>, used for creating Activities.
     /// </summary>
     public abstract class ActivityBase : AppCompatActivity
     {
@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     }
 
     /// <summary>
-    ///     Generic class based on AppCompatActivity, used for creating Activities.
+    ///     Generic class based on <see cref="T:AndroidX.AppCompat.App.AppCompatActivity"/>, used for creating Activities.
     /// </summary>
     /// <typeparam name="TViewModel">Type of ViewModel.</typeparam>
     public abstract class ActivityBase<TViewModel> : ActivityBase, IBindingsOwner

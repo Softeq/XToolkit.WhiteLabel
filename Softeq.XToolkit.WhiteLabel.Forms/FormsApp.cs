@@ -10,7 +10,7 @@ using Xamarin.Forms;
 namespace Softeq.XToolkit.WhiteLabel.Forms
 {
     /// <summary>
-    ///     Based on <see cref="Application"/> class that represents a cross-platform mobile application.
+    ///     Based on <see cref="T:Xamarin.Forms.Application"/> class that represents a cross-platform mobile application.
     /// </summary>
     public abstract class FormsApp : Application
     {

@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
@@ -16,13 +15,13 @@ namespace Softeq.XToolkit.Bindings
         ///     for which the source and target properties are located in different objects.
         /// </summary>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">The expression of the source property for the binding.</param>
         /// <param name="resolveTopField">Flag for resolve top field.</param>
         /// <param name="target">
-        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The target of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
         /// </param>
         /// <param name="targetPropertyExpression">The expression of the target property for the binding.</param>
@@ -58,12 +57,12 @@ namespace Softeq.XToolkit.Bindings
         ///     for which the source and target properties are located in different objects.
         /// </summary>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">The expression of the source property for the binding.</param>
         /// <param name="target">
-        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The target of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
         /// </param>
         /// <param name="targetPropertyExpression">The expression of the target property for the binding.</param>
@@ -98,12 +97,12 @@ namespace Softeq.XToolkit.Bindings
         ///     for which the source and target properties are located in different objects.
         /// </summary>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyName">The name of the source property for the binding.</param>
         /// <param name="target">
-        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The target of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
         /// </param>
         /// <param name="targetPropertyName">The name of the target property for the binding.</param>
@@ -134,12 +133,12 @@ namespace Softeq.XToolkit.Bindings
             TSource targetNullValue = default);
 
         /// <summary>
-        ///    Creates a new instance of the <see cref="EventHandler"/> that will wrap the command.
+        ///    Creates a new instance of the <see cref="T:System.EventHandler"/> that will wrap the command.
         /// </summary>
-        /// <param name="info">An <see cref="EventInfo"/> object that describe the event.</param>
+        /// <param name="info">An <see cref="T:System.Reflection.EventInfo"/> object that describe the event.</param>
         /// <param name="eventName">Name of event.</param>
         /// <param name="elementType">Type of event.</param>
-        /// <param name="command">An <see cref="ICommand"/> instance that will be wrapped in the event handler.</param>
+        /// <param name="command">An <see cref="T:System.Windows.Input.ICommand"/> instance that will be wrapped in the event handler.</param>
         /// <param name="commandParameter">Optional parameter that will be used for the command.</param>
         /// <returns>New delegate.</returns>
         Delegate GetCommandHandler(
@@ -150,15 +149,15 @@ namespace Softeq.XToolkit.Bindings
             object? commandParameter = null);
 
         /// <summary>
-        ///    Creates a new instance of the <see cref="EventHandler"/> that will wrap the command.
+        ///    Creates a new instance of the <see cref="T:System.EventHandler"/> that will wrap the command.
         /// </summary>
-        /// <param name="info">An <see cref="EventInfo"/> object that describe the event.</param>
+        /// <param name="info">An <see cref="T:System.Reflection.EventInfo"/> object that describe the event.</param>
         /// <param name="eventName">Name of event.</param>
         /// <param name="elementType">Type of event.</param>
-        /// <param name="command">An <see cref="ICommand"/> instance that will be wrapped in the event handler.</param>
+        /// <param name="command">An <see cref="T:System.Windows.Input.ICommand"/> instance that will be wrapped in the event handler.</param>
         /// <param name="castedBinding">
         ///     A <see cref="Binding{TSource, TTarget}" /> instance subscribed to the CommandParameter
-        ///     that will passed to the <see cref="ICommand"/>. Depending on the Binding, the CommandParameter will be observed
+        ///     that will passed to the <see cref="T:System.Windows.Input.ICommand"/>. Depending on the Binding, the CommandParameter will be observed
         ///     and changes will be passed to the command, for example to update the CanExecute.
         /// </param>
         /// <typeparam name="T">Type of command parameter.</typeparam>
@@ -171,13 +170,13 @@ namespace Softeq.XToolkit.Bindings
             Binding<T, T> castedBinding);
 
         /// <summary>
-        ///    Creates a new instance of the <see cref="EventHandler{TEventArgs}"/> that will wrap the command.
+        ///    Creates a new instance of the <see cref="T:System.EventHandler`1"/> that will wrap the command.
         /// </summary>
-        /// <param name="info">An <see cref="EventInfo"/> object that describe the event.</param>
+        /// <param name="info">An <see cref="T:System.Reflection.EventInfo"/> object that describe the event.</param>
         /// <param name="eventName">Name of event.</param>
         /// <param name="elementType">Type of event.</param>
         /// <param name="command">
-        ///     An <see cref="ICommand"/> instance that will be wrapped in the event handler.
+        ///     An <see cref="T:System.Windows.Input.ICommand"/> instance that will be wrapped in the event handler.
         ///     Object of type <see cref="TEventArgs"/> will be passed to command as parameter.
         /// </param>
         /// <typeparam name="TEventArgs">Type of EventArgs.</typeparam>
@@ -189,12 +188,12 @@ namespace Softeq.XToolkit.Bindings
             ICommand command);
 
         /// <summary>
-        ///    Creates a new instance of the <see cref="EventHandler{TEventArgs}"/> that will wrap the command.
+        ///    Creates a new instance of the <see cref="T:System.EventHandler`1"/> that will wrap the command.
         /// </summary>
-        /// <param name="info">An <see cref="EventInfo"/> object that describe the event.</param>
+        /// <param name="info">An <see cref="T:System.Reflection.EventInfo"/> object that describe the event.</param>
         /// <param name="eventName">Name of event.</param>
         /// <param name="elementType">Type of event.</param>
-        /// <param name="command">An <see cref="ICommand"/> instance that will be wrapped in the event handler.</param>
+        /// <param name="command">An <see cref="T:System.Windows.Input.ICommand"/> instance that will be wrapped in the event handler.</param>
         /// <param name="commandParameter">Optional parameter that will be used for the command.</param>
         /// <typeparam name="T">Type of command parameter.</typeparam>
         /// <typeparam name="TEventArgs">Type of EventArgs.</typeparam>
@@ -207,15 +206,15 @@ namespace Softeq.XToolkit.Bindings
             T commandParameter);
 
         /// <summary>
-        ///    Creates a new instance of the <see cref="EventHandler{TEventArgs}"/> that will wrap the command.
+        ///    Creates a new instance of the <see cref="T:System.EventHandler`1"/> that will wrap the command.
         /// </summary>
-        /// <param name="info">An <see cref="EventInfo"/> object that describe the event.</param>
+        /// <param name="info">An <see cref="T:System.Reflection.EventInfo"/> object that describe the event.</param>
         /// <param name="eventName">Name of event.</param>
         /// <param name="elementType">Type of event.</param>
-        /// <param name="command">An <see cref="ICommand"/> instance that will be wrapped in the event handler.</param>
+        /// <param name="command">An <see cref="T:System.Windows.Input.ICommand"/> instance that will be wrapped in the event handler.</param>
         /// <param name="castedBinding">
         ///     A <see cref="Binding{TSource, TTarget}" /> instance subscribed to the CommandParameter
-        ///     that will passed to the <see cref="ICommand"/>. Depending on the Binding, the CommandParameter will be observed
+        ///     that will passed to the <see cref="T:System.Windows.Input.ICommand"/>. Depending on the Binding, the CommandParameter will be observed
         ///     and changes will be passed to the command, for example to update the CanExecute.
         /// </param>
         /// <typeparam name="T">Type of command parameter.</typeparam>

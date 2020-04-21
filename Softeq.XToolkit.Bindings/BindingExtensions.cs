@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.ComponentModel;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
@@ -28,17 +27,17 @@ namespace Softeq.XToolkit.Bindings
         /// <summary>
         ///     Sets a data binding between two properties.
         ///
-        ///     If the source implements <see cref="INotifyPropertyChanged"/>,
+        ///     If the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>,
         ///     the source property raises the PropertyChanged event and the <see cref="BindingMode"/> is OneWay or TwoWay,
         ///     the target property will be synchronized with the source property.
         ///
-        ///     If the target implements <see cref="INotifyPropertyChanged"/>,
+        ///     If the target implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>,
         ///     the target property raises the PropertyChanged event and the <see cref="BindingMode"/> is TwoWay,
         ///     the source property will also be synchronized with the target property.
         /// </summary>
         /// <remarks>
-        ///     This class allows for a different TSource and TTarget and is able to perform simple
-        ///     type conversions automatically. This is useful if the source property and the target property are of different type.
+        ///     This class allows for a different TSource and TTarget and is able to perform simple type
+        ///     conversions automatically. This is useful if the source property and the target property are of different type.
         ///     If the type conversion is complex, please use the <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to configure the binding.
         ///     It is very possible that TSource and TTarget are the same type in which case no conversion occurs.
@@ -46,8 +45,9 @@ namespace Softeq.XToolkit.Bindings
         /// <typeparam name="TSource">The type of the property that is being databound before conversion.</typeparam>
         /// <typeparam name="TTarget">The type of the property that is being databound after conversion.</typeparam>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
-        ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>
+        ///     and the <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes
+        ///     to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">
         ///     An expression pointing to the source property. It can be
@@ -55,8 +55,8 @@ namespace Softeq.XToolkit.Bindings
         ///     [source].SomeObject.SomeOtherObject.SomeProperty".
         /// </param>
         /// <param name="target">
-        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
-        ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
+        ///     The target of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>
+        ///     and the <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
         /// </param>
         /// <param name="targetPropertyExpression">
         ///     An expression pointing to the target property. It can be
@@ -71,8 +71,8 @@ namespace Softeq.XToolkit.Bindings
         ///     by the source, the target property will be updated.
         ///
         ///     TwoWay means that the source property will also be updated if the target raises the PropertyChanged event.
-        ///     Default means OneWay if only the source implements <see cref="INotifyPropertyChanged"/>,
-        ///     and TwoWay if both the source and the target implement <see cref="INotifyPropertyChanged"/>.
+        ///     Default means OneWay if only the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>,
+        ///     and TwoWay if both the source and the target implement <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.
         /// </param>
         /// <param name="fallbackValue">
         ///     The value to use when the binding is unable to return a value. This can happen if one of the
@@ -111,8 +111,8 @@ namespace Softeq.XToolkit.Bindings
         ///     to use as CommandParameter binding.
         /// </summary>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
-        ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>
+        ///     and the <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">
         ///     An expression pointing to the source property. It can be
@@ -127,8 +127,8 @@ namespace Softeq.XToolkit.Bindings
         ///     by the source, the target property will be updated.
         ///
         ///     TwoWay means that the source property will also be updated if the target raises the PropertyChanged event.
-        ///     Default means OneWay if only the source implements <see cref="INotifyPropertyChanged"/>,
-        ///     and TwoWay if both the source and the target implement <see cref="INotifyPropertyChanged"/>.
+        ///     Default means OneWay if only the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>,
+        ///     and TwoWay if both the source and the target implement <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.
         /// </param>
         /// <param name="fallbackValue">
         ///     The value to use when the binding is unable to return a value. This can happen if one of the
@@ -158,11 +158,11 @@ namespace Softeq.XToolkit.Bindings
         /// <summary>
         ///     Sets a data binding between two properties of the same object.
         ///
-        ///     If the source implements <see cref="INotifyPropertyChanged"/>, has observable properties
+        ///     If the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, has observable properties
         ///     and the <see cref="BindingMode"/> is OneWay or TwoWay,
         ///     the target property will be notified of changes to the source property.
         ///
-        ///     If the target implements <see cref="INotifyPropertyChanged"/>, has observable properties and
+        ///     If the target implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, has observable properties and
         ///     the <see cref="BindingMode"/> is TwoWay, the source will also be notified of changes to the target's properties.
         /// </summary>
         /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
@@ -174,7 +174,7 @@ namespace Softeq.XToolkit.Bindings
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
         /// </typeparam>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyExpression">
@@ -195,8 +195,8 @@ namespace Softeq.XToolkit.Bindings
         ///     and if the PropertyChanged event is raised by the source, the target property will be updated.
         ///
         ///     TwoWay means that the source property will also be updated if the target raises the PropertyChanged event.
-        ///     Default means OneWay if only the source implements <see cref="INotifyPropertyChanged"/>,
-        ///     and TwoWay if both the source and the target implement <see cref="INotifyPropertyChanged"/>.
+        ///     Default means OneWay if only the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>,
+        ///     and TwoWay if both the source and the target implement <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.
         /// </param>
         /// <param name="fallbackValue">
         ///     The value to use when the binding is unable to return a value. This can happen if one of the
@@ -225,11 +225,11 @@ namespace Softeq.XToolkit.Bindings
         /// <summary>
         ///     Sets a data binding between two properties.
         ///
-        ///     If the source implements <see cref="INotifyPropertyChanged"/>, the source property
+        ///     If the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, the source property
         ///     raises the PropertyChanged event and the <see cref="BindingMode"/> is OneWay or TwoWay,
         ///     the target property will be synchronized with the source property.
         ///
-        ///     If the target implements <see cref="INotifyPropertyChanged"/>, the target property
+        ///     If the target implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, the target property
         ///     raises the PropertyChanged event and the <see cref="BindingMode"/> is TwoWay,
         ///     the source property will also be synchronized with the target property.
         /// </summary>
@@ -243,12 +243,12 @@ namespace Softeq.XToolkit.Bindings
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
         /// </typeparam>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyName">The name of the source property. This must be a simple name, without dots.</param>
         /// <param name="target">
-        ///     The target of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The target of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is TwoWay, the source will be notified of changes to the source property.
         /// </param>
         /// <param name="targetPropertyName">The name of the target property. This must be a simple name, without dots.</param>
@@ -260,8 +260,8 @@ namespace Softeq.XToolkit.Bindings
         ///     by the source, the target property will be updated.
         ///
         ///     TwoWay means that the source property will also be updated if the target raises the PropertyChanged event.
-        ///     Default means OneWay if only the source implements <see cref="INotifyPropertyChanged"/>,
-        ///     and TwoWay if both the source and the target implement <see cref="INotifyPropertyChanged"/>.
+        ///     Default means OneWay if only the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>,
+        ///     and TwoWay if both the source and the target implement <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.
         /// </param>
         /// <param name="fallbackValue">
         ///     The value to use when the binding is unable to return a value. This can happen if one of the
@@ -291,10 +291,10 @@ namespace Softeq.XToolkit.Bindings
         /// <summary>
         ///     Sets a data binding between two properties of the same object.
         ///
-        ///     If the source implements <see cref="INotifyPropertyChanged"/>, has observable properties and the
+        ///     If the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, has observable properties and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target property will be notified of changes to the source property.
         ///
-        ///     If the target implements <see cref="INotifyPropertyChanged"/>, has observable properties and
+        ///     If the target implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, has observable properties and
         ///     the <see cref="BindingMode"/> is TwoWay, the source will also be notified of changes to the target's properties.
         /// </summary>
         /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
@@ -305,7 +305,7 @@ namespace Softeq.XToolkit.Bindings
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
         /// </typeparam>
         /// <param name="source">
-        ///     The source of the binding. If this object implements <see cref="INotifyPropertyChanged"/> and the
+        ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/> and the
         ///     <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes to the target property.
         /// </param>
         /// <param name="sourcePropertyName">The name of the source property. This must be a simple name, without dots.</param>
@@ -318,8 +318,8 @@ namespace Softeq.XToolkit.Bindings
         ///     by the source, the target property will be updated.
         ///
         ///     TwoWay means that the source property will also be updated if the target raises the PropertyChanged event.
-        ///     Default means OneWay if only the source implements <see cref="INotifyPropertyChanged"/>,
-        ///     and TwoWay if both the source and the target implement <see cref="INotifyPropertyChanged"/>.
+        ///     Default means OneWay if only the source implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>,
+        ///     and TwoWay if both the source and the target implement <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>.
         /// </param>
         /// <param name="fallbackValue">
         ///     The value to use when the binding is unable to return a value. This can happen if one of the
@@ -346,8 +346,8 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a non-generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method can only be used when the event uses a standard <see cref="EventHandler"/>.
+        ///     Sets a non-generic <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method can only be used when the event uses a standard <see cref="T:System.EventHandler"/>.
         /// </summary>
         /// <param name="element">The element to which the command is added.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
@@ -368,15 +368,15 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method can only be used when the event uses a standard <see cref="EventHandler"/>.
+        ///     Sets a generic <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method can only be used when the event uses a standard <see cref="T:System.EventHandler"/>.
         /// </summary>
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
         /// <param name="element">The element to which the command is added.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="command">The command that must be added to the element.</param>
         /// <param name="commandParameter">
-        ///     The command parameter that will be passed to the <see cref="ICommand"/> when it
+        ///     The command parameter that will be passed to the <see cref="T:System.Windows.Input.ICommand"/> when it
         ///     is executed. This is a fixed value. To pass an observable value, use one of the SetCommand
         ///     overloads that uses a Binding as CommandParameter.
         /// </param>
@@ -397,8 +397,8 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method can only be used when the event uses a standard <see cref="EventHandler"/>.
+        ///     Sets a generic <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method can only be used when the event uses a standard <see cref="T:System.EventHandler"/>.
         /// </summary>
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
         /// <param name="element">The element to which the command is added.</param>
@@ -406,7 +406,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="command">The command that must be added to the element.</param>
         /// <param name="commandParameterBinding">
         ///     A <see cref="Binding{T, T}" /> instance subscribed to the CommandParameter
-        ///     that will passed to the <see cref="ICommand"/>.
+        ///     that will passed to the <see cref="T:System.Windows.Input.ICommand"/>.
         ///     Depending on the <see cref="Binding"/>, the CommandParameter will be observed and changes
         ///     will be passed to the command, for example to update the CanExecute.
         /// </param>
@@ -434,8 +434,8 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a non-generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
+        ///     Sets a non-generic <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method should be used when the event uses an <see cref="T:System.EventHandler`1"/>.
         /// </summary>
         /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
         /// <param name="element">The element to which the command is added.</param>
@@ -457,8 +457,8 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
+        ///     Sets a generic <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method should be used when the event uses an <see cref="T:System.EventHandler`1"/>.
         /// </summary>
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
         /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
@@ -466,7 +466,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="command">The command that must be added to the element.</param>
         /// <param name="commandParameter">
-        ///     The command parameter that will be passed to the <see cref="ICommand"/> when it
+        ///     The command parameter that will be passed to the <see cref="T:System.Windows.Input.ICommand"/> when it
         ///     is executed. This is a fixed value. To pass an observable value, use one of the SetCommand
         ///     overloads that uses a Binding as CommandParameter.
         /// </param>
@@ -487,8 +487,8 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a generic <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method should be used when the event uses an <see cref="EventHandler{TEventArgs}"/>.
+        ///     Sets a generic <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method should be used when the event uses an <see cref="T:System.EventHandler`1"/>.
         /// </summary>
         /// <typeparam name="T">The type of the CommandParameter that will be passed to the command.</typeparam>
         /// <typeparam name="TEventArgs">The type of the event's arguments.</typeparam>
@@ -497,7 +497,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="command">The command that must be added to the element.</param>
         /// <param name="commandParameterBinding">
         ///     A <see cref="Binding{TSource, TTarget}" /> instance subscribed to the CommandParameter
-        ///     that will passed to the <see cref="ICommand"/>. Depending on the Binding, the CommandParameter will be observed
+        ///     that will passed to the <see cref="T:System.Windows.Input.ICommand"/>. Depending on the Binding, the CommandParameter will be observed
         ///     and changes will be passed to the command, for example to update the CanExecute.
         /// </param>
         public static void SetCommand<T, TEventArgs>(
@@ -524,8 +524,8 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Sets a <see cref="ICommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method can only be used when the event uses a standard <see cref="EventHandler"/>.
+        ///     Sets a <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
+        ///     This method can only be used when the event uses a standard <see cref="T:System.EventHandler"/>.
         /// </summary>
         /// <param name="element">The element to which the command is added.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
@@ -602,7 +602,7 @@ namespace Softeq.XToolkit.Bindings
 
         /// <summary>
         ///     Sets a non-generic <see cref="RelayCommand"/> to an object and actuates the command when a specific event is raised.
-        ///     This method should be used when the event uses an <see cref="EventHandler"/>.
+        ///     This method should be used when the event uses an <see cref="T:System.EventHandler"/>.
         /// </summary>
         /// <param name="element">The element to which the command is added.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>

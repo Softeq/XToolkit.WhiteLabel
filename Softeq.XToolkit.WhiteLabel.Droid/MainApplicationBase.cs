@@ -15,7 +15,7 @@ using Softeq.XToolkit.WhiteLabel.Threading;
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
     /// <summary>
-    ///     Based on Android.App.Application class for maintaining global application state
+    ///     Based on <see cref="T:Android.App.Application"/> class for maintaining global application state
     ///     and integration WhiteLabel components.
     /// </summary>
     public abstract class MainApplicationBase : Android.App.Application

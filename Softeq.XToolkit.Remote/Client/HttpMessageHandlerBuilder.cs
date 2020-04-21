@@ -9,27 +9,27 @@ using System.Reflection;
 namespace Softeq.XToolkit.Remote.Client
 {
     /// <summary>
-    ///     A builder abstraction for configuring <see cref="HttpMessageHandler"/> instances.
+    ///     A builder abstraction for configuring <see cref="T:System.Net.Http.HttpMessageHandler"/> instances.
     /// </summary>
     /// <remarks>
-    ///     Callers should retrieve a new instance for each <see cref="HttpMessageHandler"/> to be created.
+    ///     Callers should retrieve a new instance for each <see cref="T:System.Net.Http.HttpMessageHandler"/> to be created.
     ///     Implementors should expect each instance to be used a single time.
     /// </remarks>
     public abstract class HttpMessageHandlerBuilder
     {
         /// <summary>
-        ///     Gets or sets the primary <see cref="HttpMessageHandler"/>.
+        ///     Gets or sets the primary <see cref="T:System.Net.Http.HttpMessageHandler"/>.
         /// </summary>
         public virtual HttpMessageHandler? PrimaryHandler { get; set; }
 
         /// <summary>
-        ///     Gets a list of additional <see cref="DelegatingHandler"/> instances used to configure an
-        ///     <see cref="HttpClient"/> pipeline.
+        ///     Gets a list of additional <see cref="T:System.Net.Http.DelegatingHandler"/> instances used to configure an
+        ///     <see cref="T:System.Net.Http.HttpClient"/> pipeline.
         /// </summary>
         public abstract IList<DelegatingHandler> AdditionalHandlers { get; }
 
         /// <summary>
-        ///     Adds a <see cref="HttpMessageHandler"/> to the chain of handlers.
+        ///     Adds a <see cref="T:System.Net.Http.HttpMessageHandler"/> to the chain of handlers.
         /// </summary>
         /// <param name="handler">Handler.</param>
         /// <returns>Current builder.</returns>
@@ -41,10 +41,10 @@ namespace Softeq.XToolkit.Remote.Client
         }
 
         /// <summary>
-        ///     Creates an <see cref="HttpMessageHandler"/>. Adds <see cref="DelegatingHandler"/> as the last link of the chain.
+        ///     Creates an <see cref="T:System.Net.Http.HttpMessageHandler"/>. Adds <see cref="T:System.Net.Http.DelegatingHandler"/> as the last link of the chain.
         /// </summary>
         /// <returns>
-        ///     An <see cref="HttpMessageHandler"/> built from the <see cref="PrimaryHandler"/> and
+        ///     An <see cref="T:System.Net.Http.HttpMessageHandler"/> built from the <see cref="PrimaryHandler"/> and
         ///     <see cref="AdditionalHandlers"/>.
         /// </returns>
         public abstract HttpMessageHandler Build();
@@ -55,7 +55,6 @@ namespace Softeq.XToolkit.Remote.Client
         {
             // This is similar to https://github.com/aspnet/AspNetWebStack/blob/master/src/System.Net.Http.Formatting/HttpClientFactory.cs#L58
             // but we don't want to take that package as a dependency.
-
             if (primaryHandler == null)
             {
                 throw new ArgumentNullException(nameof(primaryHandler));

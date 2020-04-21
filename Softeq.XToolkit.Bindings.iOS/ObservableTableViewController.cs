@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.Bindings.iOS
     /// <summary>
     ///     A <see cref="UITableViewController" /> that can be used as an iOS view. After setting
     ///     the <see cref="DataSource" /> and the <see cref="BindCellDelegate" /> and <see cref="CreateCellDelegate" />
-    ///     properties, the controller can be loaded. If the DataSource is an <see cref="INotifyCollectionChanged" />,
+    ///     properties, the controller can be loaded. If the DataSource is an <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />,
     ///     changes to the collection will be observed and the UI will automatically be updated.
     /// </summary>
     /// <remarks>
@@ -67,7 +67,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public UITableViewRowAnimation AddAnimation { get; set; }
 
         /// <summary>
-        ///     A delegate to a method taking a <see cref="UITableViewCell" />
+        ///     A delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
         ///     and setting its elements' properties according to the item
         ///     passed as second parameter.
         ///     The cell must be created first in the <see cref="CreateCellDelegate" />
@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public Action<UITableViewCell, T, NSIndexPath> BindCellDelegate { get; set; }
 
         /// <summary>
-        ///     A delegate to a method creating or reusing a <see cref="UITableViewCell" />.
+        ///     A delegate to a method creating or reusing a <see cref="T:UIKit.UITableViewCell" />.
         ///     The cell will then be passed to the <see cref="BindCellDelegate" />
         ///     delegate to set the elements' properties.
         /// </summary>
@@ -200,7 +200,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Binds a <see cref="UITableViewCell" /> to an item's properties.
+        ///     Binds a <see cref="T:UIKit.UITableViewCell" /> to an item's properties.
         ///     If a <see cref="BindCellDelegate" /> is available, this delegate will be used.
         ///     If not, a simple text will be shown.
         /// </summary>
@@ -220,7 +220,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a <see cref="UITableViewCell" /> corresponding to the reuseId.
+        ///     Creates a <see cref="T:UIKit.UITableViewCell" /> corresponding to the reuseId.
         ///     If it is set, the <see cref="CreateCellDelegate" /> delegate will be used.
         /// </summary>
         /// <param name="reuseId">A reuse identifier for the cell.</param>
@@ -359,7 +359,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     A <see cref="UITableViewSource" /> that handles changes to the underlying
-        ///     data source if this data source is an <see cref="INotifyCollectionChanged" />.
+        ///     data source if this data source is an <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />.
         /// </summary>
         /// <typeparam name="T2">The type of the items that the data source contains.</typeparam>
         /// <remarks>In the current implementation, only one section is supported.</remarks>
