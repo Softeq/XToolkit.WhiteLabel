@@ -2,8 +2,10 @@ resources:
 - repo: self
 trigger:
   branches:
+    include:
     - documentation/*
   paths:
+    include:
     - documentation/*
 
 variables:
