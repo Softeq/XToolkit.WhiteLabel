@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Linq;
 using Plugin.Connectivity.Abstractions;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -25,17 +24,6 @@ namespace Playground.ViewModels.Components
         public override void OnAppearing()
         {
             base.OnAppearing();
-
-            _connectivityService.ConnectivityTypeChanged += (sender, args) =>
-            {
-                var isConnected = args.IsConnected;
-                var connectionTypes = args.ConnectionTypes;
-
-                if (isConnected && connectionTypes.Contains(ConnectionType.WiFi))
-                {
-                    // Wifi connected
-                }
-            };
 
             _connectivityService.ConnectivityChanged += ConnectivityServiceConnectivityChanged;
             _connectivityService.ConnectivityTypeChanged += ConnectivityServiceConnectivityTypeChanged;
