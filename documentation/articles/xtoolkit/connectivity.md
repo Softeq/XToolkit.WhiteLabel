@@ -8,7 +8,7 @@ Currently can be used only as source code (via git submodules).
 
 ## Description
 
-The main interface for using is [IConnectivityService](xref:Softeq.XToolkit.Connectivity.IConnectivityService):
+Please, use [IConnectivityService](xref:Softeq.XToolkit.Connectivity.IConnectivityService) to check and observe connection status. You can find some usage examples below:
 
 ### Check connection
 
