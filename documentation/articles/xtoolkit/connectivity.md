@@ -1,6 +1,6 @@
 # XToolkit Connectivity
 
-Library over the [Xam.Plugin.Connectivity](https://github.com/jamesmontemagno/ConnectivityPlugin) with support iOS 12+ native API.
+Library over the [Xam.Plugin.Connectivity](https://github.com/jamesmontemagno/ConnectivityPlugin) with iOS 12+ native API support.
 
 ## Install
 
