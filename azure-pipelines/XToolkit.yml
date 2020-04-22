@@ -4,6 +4,8 @@ trigger:
   branches:
     include:
       - '*'
+    exclude:
+      - documentation/*
   paths:
     exclude:
       - documentation/*
