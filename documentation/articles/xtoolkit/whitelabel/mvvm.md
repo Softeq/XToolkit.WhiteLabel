@@ -2,9 +2,9 @@
 
 XToolkit.WhiteLabel is a framework based on the [Model-View-ViewModel (MVVM) pattern](https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93viewmodel). The WhiteLabel helps you to separate your View from your Model which creates applications that are cleaner and easier to maintain and extend. It also creates testable applications and allows you to have a much thinner user interface layer (which is more difficult to test automatically).
 
-XToolkit.WhiteLabel is intended to be a fully featured MVVM Framework and does include some features that other frameworks do. ViewModel-first navigation, [DI](di.md), and messaging being the most obvious ones.
+XToolkit.WhiteLabel is intended to be a fully-featured MVVM Framework and does include some features like ViewModel-first navigation, [DI](di.md), and messaging.
 
-XToolkit.Common can serve as a basis for developers who want to create their own MVVM implementation. By providing only the most basic of extra functionality but still following common conventions it should be the easiest option.
+[XToolkit.Common](../common.md) can serve as a basis for developers who want to create their own MVVM implementation. By providing only the most basic of extra functionality but still following common conventions it should be the easiest option.
 
 ## Core files
 
