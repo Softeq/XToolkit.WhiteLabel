@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
 using Android.App;
@@ -11,7 +12,7 @@ using Android.Media;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
-using Android.Support.V4.Content;
+using AndroidX.Core.Content;
 using Java.IO;
 using Plugin.CurrentActivity;
 using AUri = Android.Net.Uri;
@@ -86,7 +87,6 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
-            AUri? uri = null;
             Bitmap? bitmap = null;
 
             if (resultCode != Result.Ok)
@@ -95,15 +95,12 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                 return;
             }
 
-            switch (requestCode)
+            var uri = requestCode switch
             {
-                case CameraMode:
-                    uri = _fileUri;
-                    break;
-                case GalleryMode:
-                    uri = data?.Data;
-                    break;
-            }
+                CameraMode => _fileUri,
+                GalleryMode => data?.Data,
+                _ => null
+            };
 
             if (uri != null)
             {
@@ -161,6 +158,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             });
         }
 
+        [SuppressMessage("ReSharper", "RedundantCatchClause")]
         private int GetRotation(ExifInterface exif)
         {
             if (exif == null)
@@ -173,22 +171,18 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                 var orientation =
                     (ImageOrientation) exif.GetAttributeInt(ExifInterface.TagOrientation, (int) ImageOrientation.Normal);
 
-                switch (orientation)
+                return orientation switch
                 {
-                    case ImageOrientation.Rotate90:
-                        return 90;
-                    case ImageOrientation.Rotate180:
-                        return 180;
-                    case ImageOrientation.Rotate270:
-                        return 270;
-                    default:
-                        return 0;
-                }
+                    ImageOrientation.Rotate90 => 90,
+                    ImageOrientation.Rotate180 => 180,
+                    ImageOrientation.Rotate270 => 270,
+                    _ => 0
+                };
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 #if DEBUG
-                throw ex;
+                throw;
 #else
                 return 0;
 #endif

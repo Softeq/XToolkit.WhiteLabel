@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.Remote.Executor
             {
                 return false;
             }
-            return shouldRetry?.Invoke(e) ?? true;
+            return shouldRetry.Invoke(e);
         }
 
         protected virtual TimeSpan RetrySleepDurationProvider(int attemptNumber)

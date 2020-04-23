@@ -7,6 +7,8 @@ using System.Collections.Specialized;
 using Android.Views;
 using Android.Widget;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid
 {
     /// <summary>

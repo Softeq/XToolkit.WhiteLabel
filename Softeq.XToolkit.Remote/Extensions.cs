@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Remote
             this IRemoteService<TApiService> remoteService,
             Func<TApiService, CancellationToken, Task<TResult>> operation,
             CancellationToken cancellationToken,
-            ILogger logger = null)
+            ILogger? logger = null)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.Remote
             catch (Exception ex)
             {
                 logger?.Error(ex);
-                return default;
+                return default!;
             }
         }
 
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Remote
             this IRemoteService<TApiService> remoteService,
             Func<TApiService, CancellationToken, Task> operation,
             CancellationToken cancellationToken,
-            ILogger logger = null)
+            ILogger? logger = null)
         {
             try
             {

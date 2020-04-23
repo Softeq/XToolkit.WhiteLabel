@@ -6,13 +6,15 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
 using Android.Widget;
-using Softeq.XToolkit.Common.Commands;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings.Droid
 {
-    public class DroidBindingFactory : IBindingFactory
+    public class DroidBindingFactory : BindingFactoryBase
     {
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        /// <inheritdoc />
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             bool? resolveTopField,
@@ -33,7 +35,8 @@ namespace Softeq.XToolkit.Bindings.Droid
                 targetNullValue);
         }
 
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        /// <inheritdoc />
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             object target = null,
@@ -52,7 +55,8 @@ namespace Softeq.XToolkit.Bindings.Droid
                 targetNullValue);
         }
 
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        /// <inheritdoc />
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             string sourcePropertyName,
             object target = null,
@@ -71,123 +75,68 @@ namespace Softeq.XToolkit.Bindings.Droid
                 targetNullValue);
         }
 
-        public Delegate GetCommandHandler(EventInfo info, string eventName, Type elementType, ICommand command)
+        public override Delegate GetCommandHandler(
+            EventInfo info,
+            string eventName,
+            Type elementType,
+            ICommand command,
+            object commandParameter = null)
         {
-            Delegate result;
-
-            if (string.IsNullOrEmpty(eventName)
-                && elementType == typeof(CheckBox))
+            if (string.IsNullOrEmpty(eventName) && elementType == typeof(CheckBox))
             {
-                EventHandler<CompoundButton.CheckedChangeEventArgs> handler = (s, args) =>
+                return new EventHandler<CompoundButton.CheckedChangeEventArgs>((s, args) =>
                 {
-                    if (command.CanExecute(null))
+                    if (command.CanExecute(commandParameter))
                     {
-                        command.Execute(null);
+                        command.Execute(commandParameter);
                     }
-                };
-
-                result = handler;
-            }
-            else
-            {
-                EventHandler handler = (s, args) =>
-                {
-                    if (command.CanExecute(null))
-                    {
-                        command.Execute(null);
-                    }
-                };
-
-                result = handler;
+                });
             }
 
-            return result;
+            return base.GetCommandHandler(info, eventName, elementType, command, commandParameter);
         }
 
-        public Delegate GetCommandHandler<T>(EventInfo info, string eventName, Type elementType,
+        public override Delegate GetCommandHandler<T>(
+            EventInfo info,
+            string eventName,
+            Type elementType,
             ICommand command,
             Binding<T, T> castedBinding)
         {
-            Delegate result;
-
-            if (string.IsNullOrEmpty(eventName)
-                && elementType == typeof(CheckBox))
+            if (string.IsNullOrEmpty(eventName) && elementType == typeof(CheckBox))
             {
-                EventHandler<CompoundButton.CheckedChangeEventArgs> handler = (s, args) =>
+                return new EventHandler<CompoundButton.CheckedChangeEventArgs>((s, args) =>
                 {
-                    var param = castedBinding == null ? default : castedBinding.Value;
-                    command.Execute(param);
-                };
+                    object param = castedBinding == null ? default : castedBinding.Value;
 
-                result = handler;
-            }
-            else
-            {
-                EventHandler handler = (s, args) =>
-                {
-                    var param = castedBinding == null ? default : castedBinding.Value;
-                    command.Execute(param);
-                };
-
-                result = handler;
+                    if (command.CanExecute(param))
+                    {
+                        command.Execute(param);
+                    }
+                });
             }
 
-            return result;
+            return base.GetCommandHandler(info, eventName, elementType, command, castedBinding);
         }
 
-        public Delegate GetCommandHandler(EventInfo info, string eventName, Type elementType,
-            ICommand command,
-            object commandParameter)
+        public override string GetDefaultEventNameForControl(Type type)
         {
-            Delegate result;
-
-            if (string.IsNullOrEmpty(eventName)
-                && elementType == typeof(CheckBox))
+            if (type == typeof(CheckBox) || typeof(CheckBox).IsAssignableFrom(type))
             {
-                EventHandler<CompoundButton.CheckedChangeEventArgs> handler =
-                    (s, args) => command.Execute(commandParameter);
-                result = handler;
-            }
-            else
-            {
-                EventHandler handler = (s, args) => command.Execute(commandParameter);
-                result = handler;
+                return "CheckedChange";
             }
 
-            return result;
-        }
-
-        public Delegate GetCommandHandlerWithArgs<T>(
-            EventInfo e,
-            string eventName,
-            Type t,
-            ICommand<T> command)
-        {
-            EventHandler<T> handler = (s, args) => command.Execute(args);
-            return handler;
-        }
-
-        public string GetDefaultEventNameForControl(Type type)
-        {
-            string eventName = null;
-
-            if (type == typeof(CheckBox)
-                || typeof(CheckBox).IsAssignableFrom(type))
+            if (type == typeof(Button) || typeof(Button).IsAssignableFrom(type))
             {
-                eventName = "CheckedChange";
-            }
-            else if (type == typeof(Button)
-                     || typeof(Button).IsAssignableFrom(type))
-            {
-                eventName = "Click";
-            }
-            else if (type == typeof(ImageButton)
-                     || typeof(ImageButton).IsAssignableFrom(type))
-            {
-                eventName = "Click";
+                return "Click";
             }
 
-            return eventName;
+            if (type == typeof(ImageButton) || typeof(ImageButton).IsAssignableFrom(type))
+            {
+                return "Click";
+            }
+
+            return null;
         }
     }
 }

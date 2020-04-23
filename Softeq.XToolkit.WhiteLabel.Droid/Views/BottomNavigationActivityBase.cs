@@ -3,17 +3,16 @@
 
 using Android.Content.Res;
 using Android.OS;
-using Android.Support.Design.Internal;
-using Android.Support.Design.Widget;
 using Android.Views;
+using Google.Android.Material.BottomNavigation;
 using Softeq.XToolkit.WhiteLabel.Droid.Controls;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 {
-    public abstract class BottomNavigationActivityBase<TViewModel> : ToolbarActivityBase<TViewModel>
-        where TViewModel : ToolbarViewModelBase
+    public abstract class BottomNavigationActivityBase<TViewModel, TKey> : ToolbarActivityBase<TViewModel, TKey>
+        where TViewModel : ToolbarViewModelBase<TKey>
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -40,14 +39,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
             foreach (var tabViewModel in ViewModel.TabViewModels)
             {
-                var iconId = GetImageResourceId(tabViewModel.ImageKey);
+                var iconId = GetImageResourceId(tabViewModel.Key);
 
                 BottomNavigationView.Menu
                     .Add(Menu.None, i, Menu.None, tabViewModel.Title)
                     .SetIcon(iconId);
 
                 var itemView = BottomNavigationView.FindViewById<BottomNavigationItemView>(i++);
-                var badgeView = new BadgeView(this);
+                var badgeView = new BadgeView<TKey>(this);
 
                 if (BadgeTextColor != null)
                 {
@@ -64,11 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             }
         }
 
-        protected virtual int GetImageResourceId(string key)
-        {
-            var iconIdentifier = string.Concat("ic_", key.ToLower());
-            return Resources.GetIdentifier(iconIdentifier, "drawable", PackageName);
-        }
+        protected abstract int GetImageResourceId(TKey key);
 
         private void BottomNavigationViewNavigationItemSelected(object sender,
             BottomNavigationView.NavigationItemSelectedEventArgs e)

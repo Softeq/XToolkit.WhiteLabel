@@ -6,13 +6,15 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Android.OS;
-using Android.Support.V7.Widget;
 using Android.Views;
+using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings.Droid.Handlers;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Weak;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {

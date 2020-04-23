@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
         {
             base.OnBindingContextChanged();
 
-            BindingContext = AssociatedObject.BindingContext;
+            BindingContext = AssociatedObject?.BindingContext;
         }
     }
 }

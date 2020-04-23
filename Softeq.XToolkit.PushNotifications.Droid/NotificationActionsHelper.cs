@@ -3,8 +3,8 @@
 
 using Android.App;
 using Android.Content;
-using Android.Support.V4.App;
-using RemoteInput = Android.Support.V4.App.RemoteInput;
+using AndroidX.Core.App;
+using RemoteInput = AndroidX.Core.App.RemoteInput;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {

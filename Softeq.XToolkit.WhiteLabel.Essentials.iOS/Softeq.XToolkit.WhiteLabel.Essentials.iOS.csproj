@@ -11,8 +11,6 @@
         <RootNamespace>Softeq.XToolkit.WhiteLabel.Essentials.iOS</RootNamespace>
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
         <AssemblyName>Softeq.XToolkit.WhiteLabel.Essentials.iOS</AssemblyName>
-        <LangVersion>8.0</LangVersion>
-        <Nullable>enable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -70,12 +68,8 @@
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Xamarin.FFImageLoading">
-        <Version>2.4.11.982</Version>
-      </PackageReference>
-      <PackageReference Include="Plugin.Permissions">
-        <Version>5.0.0-beta</Version>
-      </PackageReference>
+      <PackageReference Include="Plugin.Permissions" Version="5.0.0-beta" />
+      <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

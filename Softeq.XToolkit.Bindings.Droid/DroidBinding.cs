@@ -7,10 +7,14 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.Droid
 {
+    /// <inheritdoc />
     public class DroidBinding<TSource, TTarget> : Binding<TSource, TTarget>
     {
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public DroidBinding(object source, string sourcePropertyName, object target = null,
             string targetPropertyName = null, BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
@@ -18,6 +22,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         {
         }
 
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public DroidBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, object target = null,
             Expression<Func<TTarget>> targetPropertyExpression = null, BindingMode mode = BindingMode.Default,
             TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
@@ -25,35 +30,13 @@ namespace Softeq.XToolkit.Bindings.Droid
         {
         }
 
+        /// <inheritdoc cref="Binding{TSource,TTarget}"/>
         public DroidBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
             object target = null, Expression<Func<TTarget>> targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default, TSource fallbackValue = default,
             TSource targetNullValue = default) : base(source, sourcePropertyExpression, resolveTopField,
             target, targetPropertyExpression, mode, fallbackValue, targetNullValue)
         {
-        }
-
-        /// <summary>
-        ///     Define that the binding should be evaluated when the bound control's source property changes.
-        ///     Because Xamarin controls are not DependencyObjects, the
-        ///     bound property will not automatically update the binding attached to it. Instead,
-        ///     use this method to specify that the binding must be updated when the property changes.
-        /// </summary>
-        /// <remarks>
-        ///     This method should only be used with the following items:
-        ///     <para>- an EditText control and its Text property (TextChanged event).</para>
-        ///     <para>- a CompoundButton control and its Checked property (CheckedChange event).</para>
-        /// </remarks>
-        /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     When this method is called
-        ///     on a OneTime binding. Such bindings cannot be updated. This exception can
-        ///     also be thrown when the source object is null or has already been
-        ///     garbage collected before this method is called.
-        /// </exception>
-        public Binding<TSource, TTarget> ObserveSourceEvent()
-        {
-            return ObserveSourceEvent(UpdateTriggerMode.PropertyChanged);
         }
 
         /// <summary>
@@ -74,12 +57,11 @@ namespace Softeq.XToolkit.Bindings.Droid
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="InvalidOperationException">
-        ///     When this method is called
-        ///     on a OneTime binding. Such bindings cannot be updated. This exception can
-        ///     also be thrown when the source object is null or has already been
+        ///     When this method is called on a OneTime binding. Such bindings cannot be updated.
+        ///     This exception can also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
         /// </exception>
-        public Binding<TSource, TTarget> ObserveSourceEvent(UpdateTriggerMode mode)
+        public Binding<TSource, TTarget> ObserveSourceEvent(UpdateTriggerMode mode = UpdateTriggerMode.PropertyChanged)
         {
             switch (mode)
             {
@@ -91,29 +73,6 @@ namespace Softeq.XToolkit.Bindings.Droid
             }
 
             return this;
-        }
-
-        /// <summary>
-        ///     Define that the binding should be evaluated when the bound control's target property changes.
-        ///     Because Xamarin controls are not DependencyObjects, the
-        ///     bound property will not automatically update the binding attached to it. Instead,
-        ///     use this method to specify that the binding must be updated when the property changes.
-        /// </summary>
-        /// <remarks>
-        ///     This method should only be used with the following items:
-        ///     <para>- an EditText control and its Text property (TextChanged event).</para>
-        ///     <para>- a CompoundButton control and its Checked property (CheckedChange event).</para>
-        /// </remarks>
-        /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
-        ///     When this method is called
-        ///     on a OneTime or a OneWay binding. This exception can
-        ///     also be thrown when the target object is null or has already been
-        ///     garbage collected before this method is called.
-        /// </exception>
-        public Binding<TSource, TTarget> ObserveTargetEvent()
-        {
-            return ObserveTargetEvent(UpdateTriggerMode.PropertyChanged);
         }
 
         /// <summary>
@@ -139,7 +98,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         ///     also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
         /// </exception>
-        public Binding<TSource, TTarget> ObserveTargetEvent(UpdateTriggerMode mode)
+        public Binding<TSource, TTarget> ObserveTargetEvent(UpdateTriggerMode mode = UpdateTriggerMode.PropertyChanged)
         {
             switch (mode)
             {
@@ -155,23 +114,25 @@ namespace Softeq.XToolkit.Bindings.Droid
 
         protected override Binding<TSource, TTarget> CheckControlSource()
         {
-            var textBox = PropertySource.Target as EditText;
-            if (textBox != null)
+            // ReSharper disable LocalNameCapturedOnly
+            // ReSharper disable RedundantAssignment
+            switch (PropertySource.Target)
             {
-                var binding = ObserveSourceEvent<TextChangedEventArgs>("TextChanged");
-                binding.SourceHandlers["TextChanged"].IsDefault = true;
-                return binding;
+                case EditText textBox:
+                {
+                    var binding = ObserveSourceEvent<TextChangedEventArgs>(nameof(textBox.TextChanged));
+                    binding.SourceHandlers[nameof(textBox.TextChanged)].IsDefault = true;
+                    return binding;
+                }
+                case CompoundButton checkbox:
+                {
+                    var binding = ObserveSourceEvent<CompoundButton.CheckedChangeEventArgs>(nameof(checkbox.CheckedChange));
+                    binding.SourceHandlers[nameof(checkbox.CheckedChange)].IsDefault = true;
+                    return binding;
+                }
+                default:
+                    return this;
             }
-
-            var checkbox = PropertySource.Target as CompoundButton;
-            if (checkbox != null)
-            {
-                var binding = ObserveSourceEvent<CompoundButton.CheckedChangeEventArgs>("CheckedChange");
-                binding.SourceHandlers["CheckedChange"].IsDefault = true;
-                return binding;
-            }
-
-            return this;
         }
 
         protected override Binding<TSource, TTarget> CheckControlTarget()
@@ -181,23 +142,25 @@ namespace Softeq.XToolkit.Bindings.Droid
                 return this;
             }
 
-            var textBox = PropertyTarget.Target as EditText;
-            if (textBox != null)
+            // ReSharper disable LocalNameCapturedOnly
+            // ReSharper disable RedundantAssignment
+            switch (PropertyTarget.Target)
             {
-                var binding = ObserveTargetEvent<TextChangedEventArgs>("TextChanged");
-                binding.TargetHandlers["TextChanged"].IsDefault = true;
-                return binding;
+                case EditText textBox:
+                {
+                    var binding = ObserveTargetEvent<TextChangedEventArgs>(nameof(textBox.TextChanged));
+                    binding.TargetHandlers[nameof(textBox.TextChanged)].IsDefault = true;
+                    return binding;
+                }
+                case CompoundButton checkbox:
+                {
+                    var binding = ObserveTargetEvent<CompoundButton.CheckedChangeEventArgs>(nameof(checkbox.CheckedChange));
+                    binding.TargetHandlers[nameof(checkbox.CheckedChange)].IsDefault = true;
+                    return binding;
+                }
+                default:
+                    return this;
             }
-
-            var checkbox = PropertyTarget.Target as CompoundButton;
-            if (checkbox != null)
-            {
-                var binding = ObserveTargetEvent<CompoundButton.CheckedChangeEventArgs>("CheckedChange");
-                binding.TargetHandlers["CheckedChange"].IsDefault = true;
-                return binding;
-            }
-
-            return this;
         }
     }
 }

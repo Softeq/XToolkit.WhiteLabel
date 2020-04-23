@@ -2,13 +2,10 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Reflection;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
@@ -31,20 +28,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             base.OnCreate();
 
-            InitBootstrapper();
+            InitializeExternalDependencies();
 
-            CrossCurrentActivity.Current.Init(this);
-
-            // init Bindings
-            BindingExtensions.Initialize(new DroidBindingFactory());
-
-            // init UI thread helper
-            PlatformProvider.Current = new DroidPlatformProvider();
+            InitializeWhiteLabelRuntime();
         }
 
         protected abstract IBootstrapper Bootstrapper { get; }
-
-        protected abstract IList<Assembly> SelectAssemblies();
 
         [Conditional("DEBUG")]
         protected void InitStrictMode()
@@ -69,20 +58,21 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                     .Build());
         }
 
-        private void InitBootstrapper()
+        protected virtual void InitializeExternalDependencies()
         {
-            // init assembly sources
-            AssemblySourceCache.Install();
-            AssemblySourceCache.ExtractTypes = assembly =>
-                assembly.GetExportedTypes()
-                    .Where(t => typeof(FragmentActivity).IsAssignableFrom(t)
-                        || typeof(DialogFragment).IsAssignableFrom(t)
-                        || typeof(Fragment).IsAssignableFrom(t));
-            var assemblies = SelectAssemblies();
-            AssemblySource.Instance.AddRange(assemblies);
+            CrossCurrentActivity.Current.Init(this);
+        }
 
-            // init dependencies
-            Bootstrapper.Init(assemblies);
+        protected virtual void InitializeWhiteLabelRuntime()
+        {
+            // Init Bindings
+            BindingExtensions.Initialize(new DroidBindingFactory());
+
+            // Init platform helpers
+            PlatformProvider.Current = new DroidPlatformProvider();
+
+            // Init dependencies
+            Bootstrapper.Initialize();
         }
     }
 }

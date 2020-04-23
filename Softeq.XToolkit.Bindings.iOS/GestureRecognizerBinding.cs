@@ -4,6 +4,8 @@
 using System;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     public class GestureRecognizerBinding : Binding
@@ -32,7 +34,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
         }
 
-        /// <inheritdoc />
+#pragma warning disable 67, CS0067
         public override event EventHandler ValueChanged;
+#pragma warning restore
     }
 }

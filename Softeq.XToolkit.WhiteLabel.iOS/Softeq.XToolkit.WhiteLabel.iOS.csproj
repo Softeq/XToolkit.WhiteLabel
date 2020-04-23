@@ -11,8 +11,6 @@
     <RootNamespace>Softeq.XToolkit.WhiteLabel.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Softeq.XToolkit.WhiteLabel.iOS</AssemblyName>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,11 +54,18 @@
     <Compile Include="Controls\ObservableStackViewBase.cs" />
     <Compile Include="Controls\SelectorModel.cs" />
     <Compile Include="Controls\SupportRotationViewController.cs" />
+    <Compile Include="Dialogs\AlertAction.cs" />
+    <Compile Include="Dialogs\IosActionSheetDialog.cs" />
+    <Compile Include="Dialogs\IosAlertDialog.cs" />
+    <Compile Include="Dialogs\IosConfirmDialog.cs" />
+    <Compile Include="Dialogs\AlertViewControllerBase.cs" />
+    <Compile Include="Extensions\CommandActionStyleExtensions.cs" />
     <Compile Include="Extensions\NavigationItemExtensions.cs" />
     <Compile Include="Extensions\UiViewExtensions.cs" />
     <Compile Include="Helpers\AvatarImageHelpers.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
+    <Compile Include="Helpers\ViewControllerHelper.cs" />
     <Compile Include="Interfaces\IViewControllerProvider.cs" />
     <Compile Include="IosPlatformProvider.cs" />
     <Compile Include="IViewControllerComponent.cs" />
@@ -88,7 +93,7 @@
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
     <Compile Include="Controls\BindableTabBarItem.cs" />
-    <Compile Include="IosBootstraper.cs" />
+    <Compile Include="IosBootstraperBase.cs" />
     <Compile Include="Services\ViewControllerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
