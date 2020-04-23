@@ -55,7 +55,7 @@ public IAsyncCommand StartCommand { get; }
 
 ### Lazy
 
-Lazy initialization the command:
+Lazy initialization of the command:
 
 ```cs
 private AsyncCommand _startCommand;
