@@ -10,6 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
 {
     public static class ReflectionExtensions
     {
+        // TODO YP: add tests and refactor
         public static IEnumerable<Type> View(this IEnumerable<Type> types, params Type[] viewEndWith)
         {
             return types.Where(type => viewEndWith.Any(type.IsSubclassOf) &&

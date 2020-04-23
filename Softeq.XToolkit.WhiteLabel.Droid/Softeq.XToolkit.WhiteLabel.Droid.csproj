@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -15,8 +15,6 @@
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
     <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,24 +36,11 @@
     </AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Xam.Plugins.Settings">
-      <Version>3.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.FFImageLoading">
-      <Version>2.4.11.982</Version>
-    </PackageReference>
-    <PackageReference Include="Plugin.CurrentActivity">
-      <Version>2.1.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.Design">
-      <Version>28.0.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
-      <Version>28.0.0.3</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.v4">
-      <Version>28.0.0.3</Version>
-    </PackageReference>
+    <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Plugin.CurrentActivity" Version="2.1.0.4" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.1.0" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.1.0-rc3" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -66,7 +51,12 @@
   <ItemGroup>
     <Compile Include="Controls\AvatarPlaceholderDrawable.cs" />
     <Compile Include="Controls\ToolbarMenuComponent.cs" />
+    <Compile Include="Dialogs\AlertDialogBase.cs" />
+    <Compile Include="Dialogs\DefaultAlertBuilder.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
+    <Compile Include="Dialogs\DroidActionSheetDialog.cs" />
+    <Compile Include="Dialogs\DroidAlertDialog.cs" />
+    <Compile Include="Dialogs\DroidConfirmDialog.cs" />
     <Compile Include="Dialogs\DroidFragmentDialogService.cs" />
     <Compile Include="Dialogs\IAlertBuilder.cs" />
     <Compile Include="Controls\ObservableStackView.cs" />
@@ -89,7 +79,6 @@
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Navigation\ActivityPageNavigationService.cs" />
     <Compile Include="Navigation\FrameNavigationService.cs" />
-    <Compile Include="Services\DefaultAlertBuilder.cs" />
     <Compile Include="Controls\NavigationBarView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />
@@ -107,7 +96,7 @@
     <Compile Include="Controls\ColoredClickableSpan.cs" />
     <Compile Include="Controls\NonConsumingTouchesToolbar.cs" />
     <Compile Include="Controls\SwipeControlViewPager.cs" />
-    <Compile Include="DroidBootstrapper.cs" />
+    <Compile Include="DroidBootstrapperBase.cs" />
     <Compile Include="Extensions\FragmentExtensions.cs" />
     <Compile Include="Navigation\DroidFrameNavigationService.cs" />
     <Compile Include="Internal\ViewModelStore.cs" />

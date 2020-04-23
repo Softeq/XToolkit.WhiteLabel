@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 using Android.OS;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;

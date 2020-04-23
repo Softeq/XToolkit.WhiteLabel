@@ -14,6 +14,8 @@ using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Weak;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public abstract class BindableGroupCollectionViewSourceBase<TKey, TItem> : UICollectionViewSource

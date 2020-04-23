@@ -30,6 +30,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         {
             var nib = UINib.FromName(XibName, NSBundle.MainBundle);
             var view = nib.Instantiate(this, null)[0] as UIView;
+
+            if (view == null)
+            {
+                throw new InvalidOperationException($"Can't instantiate custom view class for xib: {XibName}");
+            }
+
             view.TranslatesAutoresizingMaskIntoConstraints = false;
             AddSubview(view);
             var right = view.RightAnchor.ConstraintEqualTo(RightAnchor);

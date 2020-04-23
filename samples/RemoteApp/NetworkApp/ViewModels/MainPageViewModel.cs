@@ -25,10 +25,10 @@ namespace NetworkApp.ViewModels
         private readonly GitHubRemoteService _githubService;
         private readonly HttpBinRemoteService _httpBinRemoteService;
 
-        public ObservableRangeCollection<WorkItemViewModel> WorkItems { get; } = new ObservableRangeCollection<WorkItemViewModel>();
+        private readonly string _login;
+        private readonly string _password;
 
-        private string _login;
-        private string _password;
+        public ObservableRangeCollection<WorkItemViewModel> WorkItems { get; } = new ObservableRangeCollection<WorkItemViewModel>();
 
         public MainPageViewModel(
             HttpBinRemoteService httpBinRemoteService,
@@ -45,8 +45,9 @@ namespace NetworkApp.ViewModels
             _sslService = sslService;
             _githubService = githubService;
 
-
-
+            // YP: add credentials
+            _login = "";
+            _password = "";
 
             RunAllCommand = new RelayCommand(() => WorkItems.Apply(x => x.RunCommand.Execute(null)));
             CancelAllCommand = new RelayCommand(() => WorkItems.Apply(x => x.CancelCommand.Execute(null)));

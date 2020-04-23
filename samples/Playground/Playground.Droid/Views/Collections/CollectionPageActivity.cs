@@ -3,7 +3,7 @@
 
 using Android.App;
 using Android.OS;
-using Android.Support.V7.Widget;
+using AndroidX.RecyclerView.Widget;
 using Playground.Models;
 using Playground.ViewModels.Collections;
 using Softeq.XToolkit.Bindings.Droid.Bindable;

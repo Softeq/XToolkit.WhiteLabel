@@ -4,20 +4,21 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Playground.Extended;
 using Playground.Models;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Collections.Base
 {
     public abstract class SimpleListViewModelBase : ViewModelBase
     {
-        private readonly IDialogsService _dialogsService;
+        private readonly IExtendedDialogsService _dialogsService;
 
-        public SimpleListViewModelBase(IDialogsService dialogsService)
+        public SimpleListViewModelBase(IExtendedDialogsService dialogsService)
         {
             _dialogsService = dialogsService;
 
@@ -50,7 +51,7 @@ namespace Playground.ViewModels.Collections.Base
 
         private async Task SelectItem(ItemViewModel viewModel)
         {
-            await _dialogsService.ShowDialogAsync("Selected", viewModel.Title, "OK");
+            await _dialogsService.ShowDialogAsync(new AlertDialogConfig("Selected", viewModel.Title, "OK"));
         }
 
         public List<ItemModel> GetMovies()

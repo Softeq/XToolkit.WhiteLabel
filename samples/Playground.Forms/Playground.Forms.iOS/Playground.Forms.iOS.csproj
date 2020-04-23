@@ -14,8 +14,7 @@
     <AssemblyName>Playground.Forms.iOS</AssemblyName>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <LangVersion>8.0</LangVersion>
-    <Nullable>enable</Nullable>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -125,10 +124,14 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Forms" Version="4.4.0.991640" />
+    <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{24588814-b93d-4528-8917-9c2a3c4e85ca}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Forms\Softeq.XToolkit.WhiteLabel.Forms.csproj">
       <Project>{ee5e06cb-17b2-4eca-bc82-dd06d60eab6d}</Project>
       <Name>Softeq.XToolkit.WhiteLabel.Forms</Name>
@@ -138,7 +141,7 @@
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Playground.Forms\Playground.Forms.csproj">
-      <Project>{C06A134F-D7DB-482A-98AA-E339E400EF92}</Project>
+      <Project>{E8FAE67B-887D-4EEB-96BC-7C48A0ACACC8}</Project>
       <Name>Playground.Forms</Name>
     </ProjectReference>
   </ItemGroup>

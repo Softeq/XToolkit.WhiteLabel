@@ -4,9 +4,9 @@
 using System;
 using Android.App;
 using Android.OS;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.Droid.Bindable;

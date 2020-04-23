@@ -15,12 +15,6 @@ namespace Softeq.XToolkit.Common.Commands
     ///     Execute and CanExecute callback methods.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
-    /// <remarks>
-    ///     If you are using this class in WPF4.5 or above, you need to use the
-    ///     GalaSoft.MvvmLight.CommandWpf namespace (instead of GalaSoft.MvvmLight.Command).
-    ///     This will enable (or restore) the CommandManager class which handles
-    ///     automatic enabling/disabling of controls based on the CanExecute delegate.
-    /// </remarks>
     public class RelayCommand<T> : ICommand<T>
     {
         private readonly WeakFunc<T, bool>? _canExecute;
@@ -69,7 +63,12 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
         {
-            if (_execute == null || !_execute.IsStatic && !_execute.IsAlive)
+            if (_execute == null)
+            {
+                return false;
+            }
+
+            if (!_execute.IsStatic && !_execute.IsAlive)
             {
                 return false;
             }
@@ -79,21 +78,18 @@ namespace Softeq.XToolkit.Common.Commands
                 return true;
             }
 
-            if (_canExecute.IsStatic || _canExecute.IsAlive)
+            if (!_canExecute.IsStatic && !_canExecute.IsAlive)
             {
-                if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
-                {
-                    return _canExecute.Execute(default!);
-                }
-
-                if (parameter == null || parameter is T)
-                {
-                    return _canExecute.Execute(parameter == null ?
-                        default : (T) parameter);
-                }
+                return false;
             }
 
-            return false;
+            return parameter switch
+            {
+                null when typeof(T).GetTypeInfo().IsValueType => _canExecute.Execute(default!),
+                null => _canExecute.Execute(default!),
+                T p => _canExecute.Execute(p),
+                _ => false
+            };
         }
 
         /// <inheritdoc />

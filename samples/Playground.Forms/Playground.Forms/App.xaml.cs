@@ -1,9 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Playground.Forms.ViewModels;
 using Playground.Forms.Views;
 using Softeq.XToolkit.WhiteLabel;
@@ -15,8 +12,7 @@ namespace Playground.Forms
 {
     public partial class App
     {
-        public App(IBootstrapper bootstrapper, Func<List<Assembly>> getAssembliesFunc)
-            : base(bootstrapper, getAssembliesFunc)
+        public App(IBootstrapper bootstrapper) : base(bootstrapper)
         {
             InitializeComponent();
             MainPage = new NavigationPage(new StartPage());

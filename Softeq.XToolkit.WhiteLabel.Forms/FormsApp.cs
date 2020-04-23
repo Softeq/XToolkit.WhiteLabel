@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
@@ -15,32 +16,41 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
     public abstract class FormsApp : Application
     {
         private IBootstrapper? _bootstrapper;
-        private Func<List<Assembly>>? _getAssembliesFunc;
 
-        protected FormsApp(IBootstrapper bootstrapper, Func<List<Assembly>> getAssembliesFunc)
+        protected FormsApp(IBootstrapper bootstrapper)
         {
             _bootstrapper = bootstrapper;
-            _getAssembliesFunc = getAssembliesFunc;
+
+            // Init UI thread helper
+            PlatformProvider.Current = new FormsPlatformProvider();
         }
 
         protected override void OnStart()
         {
             base.OnStart();
 
+            InitializeBootstrapper();
+        }
+
+        /// <summary>
+        ///     Application developers override this method to perform actions when the application start was completed
+        /// </summary>
+        protected virtual void OnStarted()
+        {
+        }
+
+        private void InitializeBootstrapper()
+        {
             Task.Run(() =>
             {
-                if (_bootstrapper != null && _getAssembliesFunc != null)
+                if (_bootstrapper != null)
                 {
-                    _bootstrapper.Init(_getAssembliesFunc());
+                    _bootstrapper.Initialize();
                     _bootstrapper = null;
-                    _getAssembliesFunc = null;
+
                     Execute.BeginOnUIThread(OnStarted);
                 }
             }).FireAndForget();
-        }
-
-        protected virtual void OnStarted()
-        {
         }
     }
 }

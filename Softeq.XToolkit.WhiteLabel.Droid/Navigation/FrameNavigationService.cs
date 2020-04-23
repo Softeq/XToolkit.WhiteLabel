@@ -4,8 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Android.Support.V4.App;
-using Android.Support.V7.App;
+using AndroidX.AppCompat.App;
+using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
@@ -93,7 +93,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         }
 
         public void NavigateToViewModel<TViewModel>(bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null) where TViewModel : IViewModelBase
+            // ReSharper disable once MethodOverloadWithOptionalParameter
+            IReadOnlyList<NavigationParameterModel>? parameters = null) where TViewModel : IViewModelBase
         {
             throw new NotImplementedException();
         }
@@ -177,12 +178,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private bool Contains(IViewModelBase viewModelBase)
         {
             return _backStack.Any(item => ReferenceEquals(item.ViewModel, viewModelBase));
-        }
-
-        public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
-        {
-            throw new NotImplementedException();
         }
     }
 }
