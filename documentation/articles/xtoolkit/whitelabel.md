@@ -1,6 +1,6 @@
 # XToolkit WhiteLabel
 
-WhiteLabel is a modular, cross-platform MVVM framework from "lego" components for fast create powerful cross-platform mobile applications with Xamarin, based on [Softeq.XToolkit](https://github.com/Softeq/XToolkit). It supports Xamarin.iOS, Xamarin.Android.
+WhiteLabel is a modular, cross-platform [MVVM framework](whitelabel/mvvm.md) from "lego" components for fast create powerful cross-platform mobile applications with Xamarin, based on [Softeq.XToolkit](https://github.com/Softeq/XToolkit). It supports Xamarin.iOS, Xamarin.Android.
 
 The high-level features that WhiteLabel provides you with are:
 
@@ -23,9 +23,8 @@ Install-Package Softeq.XToolkit.WhiteLabel
 
 ## [Get Started](../getting-started.md)
 
-## Description
+&nbsp;
 
-TODO
 
 ## Base for
 
