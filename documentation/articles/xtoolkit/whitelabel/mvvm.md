@@ -14,7 +14,7 @@ XToolkit.WhiteLabel is intended to be a fully-featured MVVM Framework and does i
 
 ### ViewModelBase
 
-The [ViewModelBase](xref:Softeq.XToolkit.WhiteLabel.Mvvm.ViewModelBase) is the base class for all page view-models in the application.
+[ViewModelBase](xref:Softeq.XToolkit.WhiteLabel.Mvvm.ViewModelBase) is the base class for all page view-models in the application.
 
 ### Commands
 
