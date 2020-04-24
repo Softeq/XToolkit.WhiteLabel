@@ -38,15 +38,6 @@ Please, use [IConnectivityService](xref:Softeq.XToolkit.Connectivity.IConnectivi
 var isConnected = _connectivityService.IsConnected;
 ```
 
-**Advanced**: Strict check connectivity only for most common mobile connections:
-
-```cs
-var connectionTypes = args.ConnectionTypes;
-var isConnected = _connectivityService.IsConnected
-    && (connectionTypes.Contains(ConnectionType.WiFi)
-    || connectionTypes.Contains(ConnectionType.Cellular));
-```
-
 ### Connection changed
 
 ```cs

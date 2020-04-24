@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
             Dispose(false);
         }
 
-        public bool IsConnected => _connectionStatuses.Values.Any(x => x);
+        public bool IsConnected => CheckConnectivity(_connectionStatuses);
 
         public bool IsSupported => true;
 
@@ -67,6 +67,13 @@ namespace Softeq.XToolkit.Connectivity.iOS
 
                 _monitors.Clear();
             }
+        }
+
+        protected virtual bool CheckConnectivity(IReadOnlyDictionary<NWInterfaceType, bool> connectionStatuses)
+        {
+            return connectionStatuses
+                .Where(x => x.Key == NWInterfaceType.Wifi || x.Key == NWInterfaceType.Cellular)
+                .Any(x => x.Value);
         }
 
         protected virtual IEnumerable<ConnectionType> FilterConnectionTypes(IList<NWInterfaceType> activeNetworkTypes)
