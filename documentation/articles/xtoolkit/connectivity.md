@@ -6,6 +6,28 @@ Library over the [Xam.Plugin.Connectivity](https://github.com/jamesmontemagno/Co
 
 Currently can be used only as source code (via git submodules).
 
+## Setup
+
+### Project Reference
+
+Add references to **Softeq.XToolkit.Connectivity.*** for projects which you need to use **Connectivity** component.
+
+### Registration
+
+Use platform-specific [boostrapper](whitelabel/bootstrapper.md) to register dependency on **Connectivity** component:
+
+#### Android
+
+```cs
+builder.Singleton<ConnectivityService, IConnectivityService>();
+```
+
+#### iOS
+
+```cs
+builder.Singleton<IosConnectivityService, IConnectivityService>();
+```
+
 ## Description
 
 Please, use [IConnectivityService](xref:Softeq.XToolkit.Connectivity.IConnectivityService) to check and observe connection status. You can find some usage examples below:
