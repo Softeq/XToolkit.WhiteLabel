@@ -28,7 +28,7 @@ builder.Singleton<ConnectivityService, IConnectivityService>();
 builder.Singleton<IosConnectivityService, IConnectivityService>();
 ```
 
-## Description
+## Usage
 
 Please, use [IConnectivityService](xref:Softeq.XToolkit.Connectivity.IConnectivityService) to check and observe connection status. You can find some usage examples below:
 
@@ -36,6 +36,15 @@ Please, use [IConnectivityService](xref:Softeq.XToolkit.Connectivity.IConnectivi
 
 ```cs
 var isConnected = _connectivityService.IsConnected;
+```
+
+**Advanced**: Strict check connectivity only for most common mobile connections:
+
+```cs
+var connectionTypes = args.ConnectionTypes;
+var isConnected = _connectivityService.IsConnected
+    && (connectionTypes.Contains(ConnectionType.WiFi)
+    || connectionTypes.Contains(ConnectionType.Cellular));
 ```
 
 ### Connection changed
