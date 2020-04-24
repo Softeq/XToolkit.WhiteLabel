@@ -10,7 +10,7 @@ Currently can be used only as source code (via git submodules).
 
 ### Project Reference
 
-Add references to **Softeq.XToolkit.Connectivity.*** for projects which you need to use **Connectivity** component.
+Add references to **Softeq.XToolkit.Connectivity.*** for projects where you need to use **Connectivity** component.
 
 ### Registration
 
