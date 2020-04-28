@@ -2,9 +2,25 @@
 
 Unit testing is a great idea. It provides for code coverage, is a resource for documentation, and it provides a vehicle for good design.
 
-## Arranging your tests
+## Naming your tests
 
-### Arrange-Act-Assert
+The name of the test should tell you what the test is doing without you having to read every line of code to figure it out. It should explain the prerequisites. It should explain what behavior we expect from the function under test. It should help you frame your mind so that when a test fails you can more easily figure out what broke.
+
+The name of your test should consist of three parts:
+
+- The name of the **method** being tested.
+- The **scenario** under which it's being tested.
+- The **expected behavior** when the scenario is invoked.
+
+> MethodUnderTest_Scenario_Behavior
+
+Samples:
+
+- `Add_SingleNumber_ReturnsSameNumber`
+- `Add_MultipleNumbers_ReturnsSumOfNumbers`
+- `Add_MaximumSumResult_ThrowsOverflowException`
+
+## Arranging your tests
 
 The AAA (Arrange, Act, Assert) pattern is a common way of writing unit tests for a method under test.
 
@@ -30,31 +46,13 @@ mock.Received.SomeMethod();
 
 > Comments `//` can be skipped.
 
-### Test Names
+## Structure
 
-The name of the test should tell you what the test is doing without you having to read every line of code to figure it out. It should explain the prerequisites. It should explain what behavior we expect from the function under test. It should help you frame your mind so that when a test fails you can more easily figure out what broke.
-
-#### Gherkin Syntax
-
-Gherkin Syntax explains behavior using the GivenWhenThen approach.
-
-This approach aligns with the pattern used to structure the unit test, via AAA.
-
-Format:
-
-- **Given**: _Given a certain setup or precondition exists for the test._
-- **When**: _When an action is performed._
-- **Then**: _Then the indicated result is expected._
+### Basic
 
 ...
 
-### Structure
-
-#### Basic
-
-...
-
-#### Advanced
+### Advanced
 
 ...
 
