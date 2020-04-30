@@ -20,7 +20,6 @@ namespace Softeq.XToolkit.Common.Commands
     {
         private readonly WeakFunc<T, Task> _execute;
         private readonly WeakFunc<T, bool>? _canExecute;
-        private readonly WeakAction<Exception>? _onException;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AsyncCommand{T}"/> class.
@@ -48,17 +47,13 @@ namespace Softeq.XToolkit.Common.Commands
             Func<T, Task> execute,
             Func<T, bool>? canExecute = null,
             Action<Exception>? onException = null)
+            : base(onException)
         {
             _execute = new WeakFunc<T, Task>(execute);
 
             if (canExecute != null)
             {
                 _canExecute = new WeakFunc<T, bool>(canExecute);
-            }
-
-            if (onException != null)
-            {
-                _onException = new WeakAction<Exception>(onException);
             }
         }
 
@@ -85,20 +80,13 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
         {
-            switch (parameter)
+            return parameter switch
             {
-                case T validParameter:
-                    return CanExecute(validParameter);
-
-                case null when !typeof(T).GetTypeInfo().IsValueType:
-                    return CanExecute(default!);
-
-                case null:
-                    throw new InvalidCommandParameterException(typeof(T));
-
-                default:
-                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
-            }
+                T validParameter => CanExecute(validParameter),
+                null when !typeof(T).GetTypeInfo().IsValueType => CanExecute(default!),
+                null => throw new InvalidCommandParameterException(typeof(T)),
+                _ => throw new InvalidCommandParameterException(typeof(T), parameter.GetType())
+            };
         }
 
         /// <inheritdoc cref="AsyncCommand.Execute"/>
@@ -129,16 +117,13 @@ namespace Softeq.XToolkit.Common.Commands
             ExecuteAsync(parameter).FireAndForget(TryHandleException);
         }
 
+        /// <inheritdoc cref="IAsyncCommand.ExecuteAsync"/>
+        /// <typeparam name="T">Type of parameter.</typeparam>
         public Task ExecuteAsync(T parameter)
         {
             return CanExecute(parameter)
                 ? DoExecuteAsync(() => _execute.Execute(parameter))
                 : Task.CompletedTask;
-        }
-
-        private void TryHandleException(Exception e)
-        {
-            _onException?.Execute(e);
         }
     }
 }

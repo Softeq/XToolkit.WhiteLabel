@@ -16,7 +16,6 @@ namespace Softeq.XToolkit.Common.Commands
     {
         private readonly WeakFunc<Task> _execute;
         private readonly WeakFunc<bool>? _canExecute;
-        private readonly WeakAction<Exception>? _onException;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
@@ -44,17 +43,13 @@ namespace Softeq.XToolkit.Common.Commands
             Func<Task> execute,
             Func<bool>? canExecute = null,
             Action<Exception>? onException = null)
+            : base(onException)
         {
             _execute = new WeakFunc<Task>(execute);
 
             if (canExecute != null)
             {
                 _canExecute = new WeakFunc<bool>(canExecute);
-            }
-
-            if (onException != null)
-            {
-                _onException = new WeakAction<Exception>(onException);
             }
         }
 
@@ -89,11 +84,6 @@ namespace Softeq.XToolkit.Common.Commands
             return CanExecute(parameter)
                 ? DoExecuteAsync(_execute.Execute)
                 : Task.CompletedTask;
-        }
-
-        private void TryHandleException(Exception e)
-        {
-            _onException?.Execute(e);
         }
     }
 }

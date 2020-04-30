@@ -15,6 +15,16 @@ namespace Softeq.XToolkit.Common.Commands
     /// </summary>
     public abstract class AsyncCommandBase
     {
+        private readonly WeakAction<Exception>? _onException;
+
+        protected AsyncCommandBase(Action<Exception> onException)
+        {
+            if (onException != null)
+            {
+                _onException = new WeakAction<Exception>(onException);
+            }
+        }
+
         /// <summary>
         ///     Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
@@ -37,13 +47,20 @@ namespace Softeq.XToolkit.Common.Commands
 
             try
             {
-                await executionProvider.Invoke();
+                await executionProvider
+                    .Invoke()
+                    .ConfigureAwait(false);
             }
             finally
             {
                 IsRunning = false;
                 RaiseCanExecuteChanged();
             }
+        }
+
+        protected void TryHandleException(Exception e)
+        {
+            _onException?.Execute(e);
         }
     }
 }
