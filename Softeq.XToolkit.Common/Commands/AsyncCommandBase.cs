@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.Common.Commands
 {
@@ -14,32 +15,12 @@ namespace Softeq.XToolkit.Common.Commands
     /// </summary>
     public abstract class AsyncCommandBase
     {
-        private readonly Func<object?, bool> _canExecute;
-
-        private bool _isRunning;
-
-        protected AsyncCommandBase(Func<object?, bool>? canExecute)
-        {
-            _canExecute = canExecute ?? (_ => true);
-        }
-
         /// <summary>
         ///     Occurs when changes occur that affect whether or not the command should execute.
         /// </summary>
         public event EventHandler? CanExecuteChanged;
 
-        /// <summary>
-        ///     Defines the method that determines whether the command can execute in its current state.
-        /// </summary>
-        /// <param name="parameter">
-        ///     Data used by the command. If the command does not require data
-        ///     to be passed, this object can be set to a null reference.
-        /// </param>
-        /// <returns>true if this command can be executed; otherwise, false.</returns>
-        public bool CanExecute(object? parameter)
-        {
-            return !_isRunning && _canExecute(parameter);
-        }
+        protected bool IsRunning { get; private set; }
 
         /// <summary>
         ///     Raises the CanExecuteChanged event.
@@ -49,23 +30,18 @@ namespace Softeq.XToolkit.Common.Commands
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        protected virtual async Task ExecuteAsync<T>(Func<T, Task> execute, T parameter)
+        protected async Task DoExecuteAsync(Func<Task> executionProvider)
         {
-            if (!CanExecute(parameter))
-            {
-                return;
-            }
-
-            _isRunning = true;
+            IsRunning = true;
             RaiseCanExecuteChanged();
 
             try
             {
-                await execute(parameter);
+                await executionProvider.Invoke();
             }
             finally
             {
-                _isRunning = false;
+                IsRunning = false;
                 RaiseCanExecuteChanged();
             }
         }
