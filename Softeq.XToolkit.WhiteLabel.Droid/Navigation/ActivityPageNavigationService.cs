@@ -84,5 +84,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             activity.StartActivity(intent);
         }
+
+        public void GoBack<TViewModel>() where TViewModel : IViewModelBase
+        {
+            throw new NotImplementedException();
+        }
+
+        public void GoToRoot()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
