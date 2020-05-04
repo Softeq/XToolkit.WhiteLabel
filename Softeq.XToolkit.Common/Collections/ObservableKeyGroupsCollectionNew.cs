@@ -13,10 +13,10 @@ namespace Softeq.XToolkit.Common.Collections
 {
     /// <summary>
     ///     Represents groups of items that provides notifications when groups or
-    ///     it's items get added, removed, or when the whole list is refreshed.
+    ///     their items get added, removed, or when the whole list is refreshed.
     /// </summary>
-    /// <typeparam name="TKey">The group type of the collection</typeparam>
-    /// <typeparam name="TValue">The item type of the collection</typeparam>
+    /// <typeparam name="TKey">The group type of the collection.</typeparam>
+    /// <typeparam name="TValue">The item type of the collection.</typeparam>
     public sealed class ObservableKeyGroupsCollectionNew<TKey, TValue>
         : IObservableKeyGroupsCollection<TKey, TValue>,
             INotifyKeyGroupCollectionChanged<TKey, TValue>,
@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.Common.Collections
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         /// <summary>
-        ///     Initializes a new instance of the class.
+        ///     Initializes a new instance of the <see cref="ObservableKeyGroupsCollectionNew{TKey, TValue}"/> class.
         /// </summary>
         /// <param name="withoutEmptyGroups">If true empty groups will be removed</param>
         public ObservableKeyGroupsCollectionNew(bool withoutEmptyGroups = true)

@@ -2,10 +2,10 @@
 // http://www.softeq.com
 
 ﻿using System.Threading.Tasks;
-using Softeq.XToolkit.Remote.Auth.Handlers;
-using Softeq.XToolkit.Remote.Client;
+﻿using Softeq.XToolkit.Remote.Auth.Handlers;
+﻿using Softeq.XToolkit.Remote.Client;
 
-namespace Softeq.XToolkit.Remote.Auth
+﻿namespace Softeq.XToolkit.Remote.Auth
 {
     public static class Extensions
     {

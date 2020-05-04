@@ -2,47 +2,76 @@
 // http://www.softeq.com
 
 using System;
-using System.Reflection;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.Common.Commands
 {
     /// <summary>
-    ///     A command whose sole purpose is to relay its functionality to other
-    ///     objects by invoking async delegates. The default return value for the CanExecute
-    ///     method is 'true'.  This class does not allow you to accept command parameters in the
-    ///     Execute and CanExecute callback methods.
+    ///     An implementation of <see cref="IAsyncCommand"/>.
+    ///     Allows Commands to safely be used asynchronously with Task.
     /// </summary>
-    public abstract class AsyncCommandBase : ICommand
+    public class AsyncCommand : AsyncCommandBase, IAsyncCommand, IRaisableCanExecute
     {
-        private readonly WeakFunc<bool>? _canExecute;
-        private bool _isRunning;
+        private readonly Func<object, Task> _execute;
+        private readonly Action<Exception>? _onException;
 
-        protected AsyncCommandBase(Func<bool>? canExecute)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
+        /// </summary>
+        /// <param name="execute">
+        ///     The Function executed when Execute or ExecuteAsync is called.
+        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        /// </param>
+        public AsyncCommand(Func<Task> execute)
+            : this(_ => execute(), _ => true)
         {
-            if (canExecute != null)
-            {
-                _canExecute = new WeakFunc<bool>(canExecute);
-            }
         }
 
         /// <summary>
-        ///     Defines the method that determines whether the command can execute in its current state.
+        ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
         /// </summary>
-        /// <param name="parameter">
-        ///     Data used by the command. If the command does not require data
-        ///     to be passed, this object can be set to a null reference
+        /// <param name="execute">
+        ///     The Function executed when Execute or ExecuteAsync is called.
+        ///     This does not check canExecute before executing and will execute even if canExecute is false.
         /// </param>
-        /// <returns>true if this command can be executed; otherwise, false.</returns>
-        public bool CanExecute(object? parameter)
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
+        public AsyncCommand(Func<Task> execute, Action<Exception> onException)
+            : this(_ => execute(), _ => true, onException)
         {
-            var canExecute = _canExecute == null
-                             || (_canExecute.IsStatic || _canExecute.IsAlive)
-                             && _canExecute.Execute();
-            return !_isRunning && canExecute;
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
+        /// </summary>
+        /// <param name="execute">
+        ///     The Function executed when Execute or ExecuteAsync is called.
+        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        /// </param>
+        /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
+        public AsyncCommand(Func<Task> execute, Func<bool> canExecute, Action<Exception>? onException = null)
+            : this(_ => execute(), _ => canExecute?.Invoke() ?? true, onException)
+        {
+        }
+
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AsyncCommand"/> class.
+        /// </summary>
+        /// <param name="execute">
+        ///     The Function executed when Execute or ExecuteAsync is called.
+        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        /// </param>
+        /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
+        public AsyncCommand(
+            Func<object, Task> execute,
+            Func<object?, bool>? canExecute,
+            Action<Exception>? onException = null)
+            : base(canExecute)
+        {
+            _execute = execute;
+            _onException = onException;
         }
 
         /// <summary>
@@ -50,110 +79,17 @@ namespace Softeq.XToolkit.Common.Commands
         /// </summary>
         /// <param name="parameter">
         ///     Data used by the command. If the command does not require data
-        ///     to be passed, this object can be set to a null reference
+        ///     to be passed, this object can be set to a null reference.
         /// </param>
-        public virtual void Execute(object? parameter)
+        public void Execute(object? parameter)
         {
-            ExecuteAsync(parameter).FireAndForget();
+            ExecuteAsync(parameter).FireAndForget(_onException!);
         }
 
-        public async Task ExecuteAsync(object? parameter)
+        /// <inheritdoc cref="IAsyncCommand.ExecuteAsync"/>
+        public Task ExecuteAsync(object? parameter)
         {
-            if (!CanExecute(parameter))
-            {
-                return;
-            }
-
-            _isRunning = true;
-
-            try
-            {
-                await ExecuteAsyncImpl(parameter).Invoke();
-            }
-            finally
-            {
-                _isRunning = false;
-                CanExecuteChanged?.Invoke(this, EventArgs.Empty);
-            }
-        }
-
-        public event EventHandler? CanExecuteChanged;
-
-        protected abstract Func<Task> ExecuteAsyncImpl(object? parameter);
-    }
-
-    public class AsyncCommand : AsyncCommandBase
-    {
-        private readonly Func<Task> _action;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.AsyncCommand" /> class.
-        /// </summary>
-        /// <param name="myAsyncFunction">
-        ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
-        ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
-        /// </param>
-        /// <param name="canExecute">The execution status logic.</param>
-        /// <exception cref="ArgumentNullException">
-        ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
-        ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
-        /// </exception>
-        public AsyncCommand(Func<Task> myAsyncFunction, Func<bool>? canExecute = null) : base(canExecute)
-        {
-            _action = myAsyncFunction;
-        }
-
-        protected override Func<Task> ExecuteAsyncImpl(object? parameter)
-        {
-            return _action;
-        }
-    }
-
-    //TODO PL: add parameter to canExecute
-    public class AsyncCommand<T> : AsyncCommandBase, ICommand<T>
-    {
-        private readonly Func<T, Task> _action;
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.AsyncCommand" /> class.
-        /// </summary>
-        /// <param name="myAsyncFunction">
-        ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
-        ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
-        /// </param>
-        /// <param name="canExecute">The execution status logic.</param>
-        /// <exception cref="ArgumentNullException">
-        ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
-        ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
-        /// </exception>
-        public AsyncCommand(Func<T, Task> myAsyncFunction, Func<bool>? canExecute = null) : base(canExecute)
-        {
-            _action = myAsyncFunction;
-        }
-
-        public bool CanExecute(T parameter)
-        {
-            return base.CanExecute(parameter);
-        }
-
-        public void Execute(T parameter)
-        {
-            base.Execute(parameter);
-        }
-
-        public override void Execute(object? parameter)
-        {
-            if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
-            {
-                throw new ArgumentException($"Async command wait parameter with type: {typeof(T)}", nameof(parameter));
-            }
-
-            Execute(parameter == null ? default! : (T) parameter);
-        }
-
-        protected override Func<Task> ExecuteAsyncImpl(object? parameter)
-        {
-            return () => _action(parameter == null ? default! : (T) parameter);
+            return ExecuteAsync(_execute, parameter!);
         }
     }
 }

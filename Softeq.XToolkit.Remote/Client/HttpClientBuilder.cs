@@ -1,18 +1,19 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Net.Http;
 
 namespace Softeq.XToolkit.Remote.Client
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IHttpClientBuilder"/>
     public class HttpClientBuilder : IHttpClientBuilder
     {
         private readonly string _baseUrl;
         private readonly HttpMessageHandlerBuilder _httpMessageHandlerBuilder;
 
-        public HttpClientBuilder(string baseUrl) : this(baseUrl, new DefaultHttpMessageHandlerBuilder())
+        public HttpClientBuilder(string baseUrl)
+            : this(baseUrl, new DefaultHttpMessageHandlerBuilder())
         {
         }
 

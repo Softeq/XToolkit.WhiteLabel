@@ -6,8 +6,8 @@ using Android.Widget;
 using FFImageLoading;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
+using Softeq.XToolkit.Bindings.Extensions;
 
 namespace Playground.Droid.Views.Collections
 {
@@ -19,7 +19,8 @@ namespace Playground.Droid.Views.Collections
         private readonly ImageButton _addToCartButton;
         private readonly EditText _count;
 
-        public ProductViewHolder(View view) : base(view)
+        public ProductViewHolder(View view)
+            : base(view)
         {
             _image = view.FindViewById<ImageView>(Resource.Id.item_product_photo_img);
             _title = view.FindViewById<TextView>(Resource.Id.item_product_title_lbl);
@@ -46,7 +47,7 @@ namespace Playground.Droid.Views.Collections
             base.DoDetachBindings();
 
             _image.SetImageDrawable(null);
-            _count.Text = "";
+            _count.Text = string.Empty;
 
             _addToCartButton.Click -= AddToCartButton_Click;
         }
@@ -65,7 +66,8 @@ namespace Playground.Droid.Views.Collections
         private readonly Button _generateButton;
         private readonly Button _addButton;
 
-        public ProductHeaderViewHolder(View view) : base(view)
+        public ProductHeaderViewHolder(View view)
+            : base(view)
         {
             _title = view.FindViewById<TextView>(Resource.Id.item_product_header_title_lbl);
             _generateButton = view.FindViewById<Button>(Resource.Id.item_product_header_generate_btn);
@@ -80,8 +82,8 @@ namespace Playground.Droid.Views.Collections
             _title.Text = $"{ViewModel.Category}th";
 
             _infoButton.Click += InfoButton_Click;
-            _generateButton.Click += _generateButton_Click;
-            _addButton.Click += _addButton_Click;
+            _generateButton.Click += GenerateButton_Click;
+            _addButton.Click += AddButton_Click;
         }
 
         public override void DoDetachBindings()
@@ -89,16 +91,16 @@ namespace Playground.Droid.Views.Collections
             base.DoDetachBindings();
 
             _infoButton.Click -= InfoButton_Click;
-            _generateButton.Click -= _generateButton_Click;
-            _addButton.Click -= _addButton_Click;
+            _generateButton.Click -= GenerateButton_Click;
+            _addButton.Click -= AddButton_Click;
         }
 
-        private void _addButton_Click(object sender, System.EventArgs e)
+        private void AddButton_Click(object sender, System.EventArgs e)
         {
             ViewModel.AddCommand!.Execute(ViewModel);
         }
 
-        private void _generateButton_Click(object sender, System.EventArgs e)
+        private void GenerateButton_Click(object sender, System.EventArgs e)
         {
             ViewModel.GenerateCommand!.Execute(ViewModel);
         }
@@ -113,7 +115,8 @@ namespace Playground.Droid.Views.Collections
     {
         private readonly TextView _textView;
 
-        public ProductFooterViewHolder(View view) : base(view)
+        public ProductFooterViewHolder(View view)
+            : base(view)
         {
             _textView = (TextView) view;
         }

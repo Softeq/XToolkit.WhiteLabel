@@ -56,7 +56,6 @@ namespace Softeq.XToolkit.Common.Extensions
             //     https://devblogs.microsoft.com/pfxteam/crafting-a-task-timeoutafter-method/
             // Source:
             //     https://github.com/microsoft/vs-threading/blob/master/src/Microsoft.VisualStudio.Threading/TplExtensions.cs#L73
-
             if (task == null)
             {
                 throw new ArgumentNullException(nameof(task));
@@ -113,7 +112,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException">When <paramref name="logger"/> is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">When <paramref name="logger"/> is null.</exception>
         public static Task WithLoggingErrors(this Task task, ILogger logger)
         {
             if (logger == null)
@@ -149,7 +148,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/>.
         /// </returns>
-        /// <exception cref="ArgumentNullException">When <paramref name="logger"/> is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">When <paramref name="logger"/> is null.</exception>
         public static Task<T> WithLoggingErrors<T>(this Task<T> task, ILogger logger)
         {
             WithLoggingErrors((Task) task, logger);
@@ -164,8 +163,9 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="cancellationToken">
         ///     The <see cref="CancellationToken"/> that will be assigned to the new continuation task.
         /// </param>
+        /// <typeparam name="T">Type of Task.</typeparam>
         /// <exception cref="TaskCanceledException">The task was canceled.</exception>
-        /// <returns></returns>
+        /// <returns>Task result.</returns>
         public static Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
         {
             return task.IsCompleted
@@ -179,11 +179,36 @@ namespace Softeq.XToolkit.Common.Extensions
 
         /// <summary>
         ///     Useful for fire-and-forget calls to async methods.
+        ///     Exceptions will be ignored.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        public static void FireAndForget(this Task task)
+        {
+            FireAndForget(task, _ => { });
+        }
+
+        /// <summary>
+        ///     Useful for fire-and-forget calls to async methods.
+        ///     Exceptions will be written to the <paramref name="logger"/>.
         /// </summary>
         /// <param name="task">The task.</param>
         /// <param name="logger">Logger implementation.</param>
+        public static void FireAndForget(this Task task, ILogger logger)
+        {
+            FireAndForget(task, ex => LogException(ex, logger));
+        }
+
+        /// <summary>
+        ///     Useful for fire-and-forget calls to async methods.
+        ///     Exceptions will get to the callback <paramref name="onException"/>.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        /// <param name="onException">
+        ///     If an exception is thrown in the Task, <c>onException</c> will execute.
+        ///     If onException is null, the exception will be re-thrown.
+        /// </param>
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-        public static async void FireAndForget(this Task task, ILogger? logger = null)
+        public static async void FireAndForget(this Task task, Action<Exception> onException)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
         {
             try
@@ -192,7 +217,7 @@ namespace Softeq.XToolkit.Common.Extensions
             }
             catch (Exception exception)
             {
-                LogException(exception, logger);
+                onException?.Invoke(exception);
             }
         }
 

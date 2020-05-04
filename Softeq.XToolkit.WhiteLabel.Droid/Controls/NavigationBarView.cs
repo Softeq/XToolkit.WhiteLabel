@@ -22,22 +22,26 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         private ImageButton _rightButton = default!;
         private TextView _titleTextView = default!;
 
-        public NavigationBarView(Context context) : base(context)
+        public NavigationBarView(Context context)
+            : base(context)
         {
             Init(context);
         }
 
-        public NavigationBarView(Context context, IAttributeSet attrs) : base(context, attrs)
+        public NavigationBarView(Context context, IAttributeSet attrs)
+            : base(context, attrs)
         {
             Init(context);
         }
 
-        public NavigationBarView(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs, defStyle)
+        public NavigationBarView(Context context, IAttributeSet attrs, int defStyle)
+            : base(context, attrs, defStyle)
         {
             Init(context);
         }
 
-        public NavigationBarView(IntPtr handle, JniHandleOwnership owner) : base(handle, owner)
+        public NavigationBarView(IntPtr handle, JniHandleOwnership owner)
+            : base(handle, owner)
         {
         }
 

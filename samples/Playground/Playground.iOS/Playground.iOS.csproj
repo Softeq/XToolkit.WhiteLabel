@@ -170,6 +170,8 @@
     <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\GesturesPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Collections\CompositionalLayoutPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\Collections\DummyCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
@@ -180,11 +182,14 @@
     <Compile Include="Extended\IosExtendedDialogsService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayout\AdaptiveSectionsViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayout\NestedGroupsViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayout\NSUtils.cs" />
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomIosBootstraper.cs" />
+    <Compile Include="CustomIosBootstrapper.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\MainPageGroupHeaderViewCell.cs" />
@@ -288,6 +293,14 @@
     <Compile Include="ViewControllers\Components\GesturesPageViewController.cs" />
     <Compile Include="ViewControllers\Components\GesturesPageViewController.designer.cs">
       <DependentUpon>GesturesPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Collections\CompositionalLayoutPageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayoutPageViewController.designer.cs">
+      <DependentUpon>CompositionalLayoutPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Collections\DummyCell.cs" />
+    <Compile Include="Views\Collections\DummyCell.designer.cs">
+      <DependentUpon>DummyCell.cs</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

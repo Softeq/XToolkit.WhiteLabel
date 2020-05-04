@@ -8,6 +8,9 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
+    /// <summary>
+    ///     The class that encapsulates logic about auto-registering ViewModels and re-configuring ViewLocator.
+    /// </summary>
     public abstract class BootstrapperWithViewModelLookup : BootstrapperBase
     {
         protected abstract IViewModelFinder ViewModelFinder { get; }

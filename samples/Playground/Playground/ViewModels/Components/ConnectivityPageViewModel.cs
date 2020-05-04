@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Plugin.Connectivity.Abstractions;
+using Plugin.Connectivity.Abstractions;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -15,17 +15,29 @@ namespace Playground.ViewModels.Components
         public ConnectivityPageViewModel(IConnectivityService connectivityService)
         {
             _connectivityService = connectivityService;
-
-            _connectivityService.ConnectivityChanged += ConnectivityServiceConnectivityChanged;
-            _connectivityService.ConnectivityTypeChanged += ConnectivityServiceConnectivityTypeChanged;
         }
+
+        public string ConnectionStatus => _connectivityService.IsConnected ? "Connected" : "No Connection";
+
+        public string ConnectionTypes => string.Join(", ", _connectivityService.ConnectionTypes);
 
         public override void OnAppearing()
         {
             base.OnAppearing();
 
+            _connectivityService.ConnectivityChanged += ConnectivityServiceConnectivityChanged;
+            _connectivityService.ConnectivityTypeChanged += ConnectivityServiceConnectivityTypeChanged;
+
             RaisePropertyChanged(nameof(ConnectionStatus));
             RaisePropertyChanged(nameof(ConnectionTypes));
+        }
+
+        public override void OnDisappearing()
+        {
+            base.OnDisappearing();
+
+            _connectivityService.ConnectivityChanged -= ConnectivityServiceConnectivityChanged;
+            _connectivityService.ConnectivityTypeChanged -= ConnectivityServiceConnectivityTypeChanged;
         }
 
         private void ConnectivityServiceConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
@@ -43,12 +55,5 @@ namespace Playground.ViewModels.Components
                 RaisePropertyChanged(nameof(ConnectionTypes));
             });
         }
-
-        public string ConnectionStatus
-        {
-            get => _connectivityService.IsConnected ? "Connected" : "No Connection";
-        }
-
-        public string ConnectionTypes => string.Join(", ", _connectivityService.ConnectionTypes);
     }
 }

@@ -19,17 +19,17 @@ namespace Softeq.XToolkit.Remote.Primitives
         public const int DefaultTimeout = 20;
 
         /// <summary>
-        ///     Default RequestOptions object. If defined, it will be used when no options are specified.
+        ///     Gets or sets default RequestOptions object. If defined, it will be used when no options are specified.
         /// </summary>
         public static RequestOptions? DefaultRequestOptions { get; set; }
 
         /// <summary>
-        ///     Default should retry condition. Default value is null.
+        ///     Gets default should retry condition. Default value is null.
         /// </summary>
         public static Func<Exception, bool> DefaultShouldRetry { get; } = _ => true;
 
         /// <summary>
-        ///     Default cancellation token. Default value is None.
+        ///     Gets default cancellation token. Default value is None.
         /// </summary>
         public static CancellationToken DefaultCancellationToken { get; } = CancellationToken.None;
 

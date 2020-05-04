@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Playground.Forms.Services;
 using Playground.Forms.ViewModels;
+using Playground.Forms.ViewModels.Components;
 using Playground.Forms.ViewModels.Dialogs;
 using Playground.Forms.ViewModels.Dialogs.Modal;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
@@ -47,9 +48,10 @@ namespace Playground.Forms
             builder.PerDependency<DialogsRootPageViewModel>();
             builder.PerDependency<ModalPageViewModel>();
             builder.PerDependency<SecondModalPageViewModel>();
-            builder.PerDependency<DrillRootPageViewModel>();
+            builder.PerDependency<RootFrameNavigationPageViewModel<DrillLevel1PageViewModel>>();
             builder.PerDependency<DrillLevel1PageViewModel>();
             builder.PerDependency<DrillLevel2PageViewModel>();
+            builder.PerDependency<AsyncCommandsPageViewModel>();
 
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 

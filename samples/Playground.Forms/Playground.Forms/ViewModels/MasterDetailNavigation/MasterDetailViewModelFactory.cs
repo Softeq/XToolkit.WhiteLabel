@@ -33,7 +33,7 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation
                 case MasterDetailItems.Root:
                     return _viewModelFactoryService.ResolveViewModel<DetailPageViewModel>();
                 case MasterDetailItems.Drill:
-                    return _viewModelFactoryService.ResolveViewModel<DrillRootPageViewModel>();
+                    return _viewModelFactoryService.ResolveViewModel<RootFrameNavigationPageViewModel<DrillLevel1PageViewModel>>();
                 default:
                     var vm = _viewModelFactoryService.ResolveViewModel<SelectedItemPageViewModel>();
                     vm.Title = key;

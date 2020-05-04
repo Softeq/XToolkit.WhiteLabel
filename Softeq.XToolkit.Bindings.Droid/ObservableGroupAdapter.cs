@@ -52,10 +52,19 @@ namespace Softeq.XToolkit.Bindings.Droid
             return _dataSource[groupPosition].Count;
         }
 
-        public override View GetChildView(int groupPosition, int childPosition, bool isLastChild, View convertView,
+        public override View GetChildView(
+            int groupPosition,
+            int childPosition,
+            bool isLastChild,
+            View convertView,
             ViewGroup parent)
         {
-            return _getChildViewFunc(groupPosition, childPosition, isLastChild, convertView, parent,
+            return _getChildViewFunc(
+                groupPosition,
+                childPosition,
+                isLastChild,
+                convertView,
+                parent,
                 _dataSource[groupPosition][childPosition]);
         }
 

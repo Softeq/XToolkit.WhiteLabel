@@ -15,27 +15,50 @@ namespace Softeq.XToolkit.Bindings.Droid
     public class DroidBinding<TSource, TTarget> : Binding<TSource, TTarget>
     {
         /// <inheritdoc cref="Binding{TSource,TTarget}"/>
-        public DroidBinding(object source, string sourcePropertyName, object target = null,
-            string targetPropertyName = null, BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
-            sourcePropertyName, target, targetPropertyName, mode, fallbackValue, targetNullValue)
+        public DroidBinding(
+            object source,
+            string sourcePropertyName,
+            object target = null,
+            string targetPropertyName = null,
+            BindingMode mode = BindingMode.Default,
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
+            : base(source, sourcePropertyName, target, targetPropertyName, mode, fallbackValue, targetNullValue)
         {
         }
 
         /// <inheritdoc cref="Binding{TSource,TTarget}"/>
-        public DroidBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, object target = null,
-            Expression<Func<TTarget>> targetPropertyExpression = null, BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default, TSource targetNullValue = default) : base(source,
-            sourcePropertyExpression, target, targetPropertyExpression, mode, fallbackValue, targetNullValue)
+        public DroidBinding(
+            object source,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            object target = null,
+            Expression<Func<TTarget>> targetPropertyExpression = null,
+            BindingMode mode = BindingMode.Default,
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
+            : base(source, sourcePropertyExpression, target, targetPropertyExpression, mode, fallbackValue, targetNullValue)
         {
         }
 
         /// <inheritdoc cref="Binding{TSource,TTarget}"/>
-        public DroidBinding(object source, Expression<Func<TSource>> sourcePropertyExpression, bool? resolveTopField,
-            object target = null, Expression<Func<TTarget>> targetPropertyExpression = null,
-            BindingMode mode = BindingMode.Default, TSource fallbackValue = default,
-            TSource targetNullValue = default) : base(source, sourcePropertyExpression, resolveTopField,
-            target, targetPropertyExpression, mode, fallbackValue, targetNullValue)
+        public DroidBinding(
+            object source,
+            Expression<Func<TSource>> sourcePropertyExpression,
+            bool? resolveTopField,
+            object target = null,
+            Expression<Func<TTarget>> targetPropertyExpression = null,
+            BindingMode mode = BindingMode.Default,
+            TSource fallbackValue = default,
+            TSource targetNullValue = default)
+            : base(
+                source,
+                sourcePropertyExpression,
+                resolveTopField,
+                target,
+                targetPropertyExpression,
+                mode,
+                fallbackValue,
+                targetNullValue)
         {
         }
 
@@ -56,7 +79,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         ///     <para>- a CompoundButton control and its Checked property (CheckedChange event).</para>
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When this method is called on a OneTime binding. Such bindings cannot be updated.
         ///     This exception can also be thrown when the source object is null or has already been
         ///     garbage collected before this method is called.
@@ -92,7 +115,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         ///     <para>- a CompoundButton control and its Checked property (CheckedChange event).</para>
         /// </param>
         /// <returns>The Binding instance.</returns>
-        /// <exception cref="InvalidOperationException">
+        /// <exception cref="T:System.InvalidOperationException">
         ///     When this method is called
         ///     on a OneTime or a OneWay binding. This exception can
         ///     also be thrown when the source object is null or has already been

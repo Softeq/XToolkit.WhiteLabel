@@ -33,13 +33,15 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         [Fact]
         public void NavigateToViewModel_BackStackShouldCleared()
         {
-            //Action
+            // Action
             _pageNavigationService
                 .For<ViewModelStub>()
                 .Navigate(true);
 
-            //Assert
-            _platformNavService.Received(1).NavigateToViewModel(Arg.Any<ViewModelBase>(), Arg.Any<bool>(),
+            // Assert
+            _platformNavService.Received(1).NavigateToViewModel(
+                Arg.Any<ViewModelBase>(),
+                Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
             _backStackManager.Received(1).Clear();
             _backStackManager.Received(1).PushViewModel(_viewModelStub);
@@ -48,13 +50,15 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         [Fact]
         public void NavigateToViewModel_BackStackShouldNotBeCleared()
         {
-            //Action
+            // Action
             _pageNavigationService
                 .For<ViewModelStub>()
                 .Navigate();
 
-            //Assert
-            _platformNavService.Received(1).NavigateToViewModel(Arg.Any<ViewModelBase>(), Arg.Any<bool>(),
+            // Assert
+            _platformNavService.Received(1).NavigateToViewModel(
+                Arg.Any<ViewModelBase>(),
+                Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
             _backStackManager.DidNotReceive().Clear();
             _backStackManager.Received(1).PushViewModel(_viewModelStub);
@@ -63,10 +67,10 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         [Fact]
         public void InitializePageNavigationService_ShouldExecutePlatformInitialization()
         {
-            //Action
+            // Action
             _pageNavigationService.Initialize(new object());
 
-            //Assert
+            // Assert
             _platformNavService.Received(1).Initialize(Arg.Any<object>());
         }
 
@@ -75,10 +79,10 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         {
             _backStackManager.Count.Returns(0);
 
-            //Action
+            // Action
             _pageNavigationService.GoBack();
 
-            //Assert
+            // Assert
             _backStackManager.DidNotReceive().PopViewModel();
             _platformNavService.Received(1).GoBack();
         }
@@ -88,10 +92,10 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         {
             _backStackManager.Count.Returns(1);
 
-            //Action
+            // Action
             _pageNavigationService.GoBack();
 
-            //Assert
+            // Assert
             _backStackManager.Received(1).PopViewModel();
             _platformNavService.Received(1).GoBack();
         }
@@ -100,11 +104,13 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         public void
             NavigateThroughForMethodWithoutParameterAndClearingBackStack_ShouldHandleAsNavigateToViewModeMethod()
         {
-            //Action
+            // Action
             _pageNavigationService.For<ViewModelStub>().Navigate();
 
-            //Assert
-            _platformNavService.Received(1).NavigateToViewModel(Arg.Any<ViewModelBase>(), Arg.Any<bool>(),
+            // Assert
+            _platformNavService.Received(1).NavigateToViewModel(
+                Arg.Any<ViewModelBase>(),
+                Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
             _backStackManager.DidNotReceive().Clear();
             _backStackManager.Received(1).PushViewModel(_viewModelStub);
@@ -114,11 +120,13 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         public void
             NavigateThroughForMethodWithoutParameterWithClearingBackStack_ShouldHandleAsNavigateToViewModeMethod()
         {
-            //Action
+            // Action
             _pageNavigationService.For<ViewModelStub>().Navigate(true);
 
-            //Assert
-            _platformNavService.Received(1).NavigateToViewModel(Arg.Any<ViewModelBase>(), Arg.Any<bool>(),
+            // Assert
+            _platformNavService.Received(1).NavigateToViewModel(
+                Arg.Any<ViewModelBase>(),
+                Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
             _backStackManager.Received(1).Clear();
             _backStackManager.Received(1).PushViewModel(_viewModelStub);
@@ -127,11 +135,13 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         [Fact]
         public void ExecuteForMethod_ShouldNotExecuteAnything()
         {
-            //Action
+            // Action
             _pageNavigationService.For<ViewModelStub>();
 
-            //Assert
-            _platformNavService.DidNotReceive().NavigateToViewModel(Arg.Any<ViewModelBase>(), Arg.Any<bool>(),
+            // Assert
+            _platformNavService.DidNotReceive().NavigateToViewModel(
+                Arg.Any<ViewModelBase>(),
+                Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
             _backStackManager.DidNotReceive().Clear();
             _backStackManager.DidNotReceive().PushViewModel(_viewModelStub);
@@ -140,15 +150,17 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         [Fact]
         public void NavigateWithForWithParameter_ShouldSetParametersProperly()
         {
-            //Action
+            // Action
             _pageNavigationService.For<ViewModelStub>()
                 .WithParam(x => x.IntParameter, 10)
                 .WithParam(x => x.StringParameter, "test")
                 .WithParam(x => x.ObjectParameter, new object())
                 .Navigate();
 
-            //Assert
-            _platformNavService.Received(1).NavigateToViewModel(Arg.Any<ViewModelBase>(), Arg.Any<bool>(),
+            // Assert
+            _platformNavService.Received(1).NavigateToViewModel(
+                Arg.Any<ViewModelBase>(),
+                Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
             Assert.Equal(10, _viewModelStub.IntParameter);
             Assert.Equal("test", _viewModelStub.StringParameter);

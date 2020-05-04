@@ -28,8 +28,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             _container = container;
         }
 
-        public async Task<bool> ShowDialogAsync(string title, string message,
-            string okButtonText, string? cancelButtonText = null, OpenDialogOptions? options = null)
+        public async Task<bool> ShowDialogAsync(
+            string title,
+            string message,
+            string okButtonText,
+            string? cancelButtonText = null,
+            OpenDialogOptions? options = null)
         {
             var page = GetLastPageInModalStack();
             if (string.IsNullOrEmpty(cancelButtonText))
@@ -139,7 +143,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         private static Page GetLastPageInModalStack()
         {
-            //TODO VPY: check with multiple flows
+            // TODO VPY: check with multiple flows
             var navigation = Application.Current.MainPage.Navigation;
             return navigation.ModalStack.Count != 0
                 ? navigation.ModalStack.Last()

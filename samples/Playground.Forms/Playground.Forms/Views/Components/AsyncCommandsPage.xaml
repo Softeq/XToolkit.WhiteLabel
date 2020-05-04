@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Components;assembly=Playground.Forms"
+    xmlns:c="clr-namespace:Playground.Forms.Converters;assembly=Playground.Forms"
+    xmlns:behaviors="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Behaviors;assembly=Softeq.XToolkit.WhiteLabel.Forms"
+    x:Class="Playground.Forms.Views.Components.AsyncCommandsPage"
+    x:DataType="vm:AsyncCommandsPageViewModel"
+    Title="AsyncCommands Page">
+
+    <ContentPage.Resources>
+        <c:StringToIntConverter x:Key="StringToInt" />
+    </ContentPage.Resources>
+
+    <ContentPage.Behaviors>
+        <behaviors:EventToCommandBehavior
+            EventName="Disappearing"
+            Command="{Binding CancelCommand}" />
+    </ContentPage.Behaviors>
+
+    <ContentPage.Content>
+        <StackLayout>
+
+            <Entry
+                x:Name="Work1"
+                Text="1"
+                Keyboard="Numeric"
+                MaxLength="3"
+                IsReadOnly="{Binding InProgress}" />
+
+            <Button
+                Text="Start Work 1"
+                Command="{Binding WorkCommand}"
+                CommandParameter="{Binding Source={x:Reference Work1}, Path=Text, Converter={StaticResource StringToInt}}"  />
+
+            <Entry
+                x:Name="Work2"
+                Text="5"
+                Keyboard="Numeric"
+                MaxLength="3"
+                IsReadOnly="{Binding InProgress}" />
+
+            <Button
+                Text="Start Work 2"
+                Command="{Binding WorkCommand}"
+                CommandParameter="{Binding Source={x:Reference Work2}, Path=Text, Converter={StaticResource StringToInt}}" />
+
+            <Button
+                Text="Cancel"
+                Command="{Binding CancelCommand}" />
+
+            <ActivityIndicator
+                HorizontalOptions="Center"
+                IsRunning="{Binding InProgress}" />
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

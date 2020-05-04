@@ -93,7 +93,7 @@
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
     <Compile Include="Controls\BindableTabBarItem.cs" />
-    <Compile Include="IosBootstraperBase.cs" />
+    <Compile Include="IosBootstrapperBase.cs" />
     <Compile Include="Services\ViewControllerProvider.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -116,10 +116,6 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
       <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
       <Name>Softeq.XToolkit.Common.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
-      <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

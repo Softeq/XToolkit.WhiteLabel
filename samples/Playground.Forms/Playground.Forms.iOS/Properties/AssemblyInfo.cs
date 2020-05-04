@@ -10,15 +10,11 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Playground.Forms.iOS")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Playground.Forms.iOS")]
-[assembly: AssemblyCopyright("Copyright © 2020")]
+[assembly: AssemblyCompany("Softeq Development Corporation")]
+[assembly: AssemblyProduct("XToolkit")]
+[assembly: AssemblyCopyright("Copyright © Softeq Development Corporation 2020")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-
-// Setting ComVisible to false makes the types in this assembly not visible
-// to COM components.  If you need to access a type in this assembly from
-// COM, set the ComVisible attribute to true on that type.
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM

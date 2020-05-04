@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Softeq.XToolkit.WhiteLabel.Forms</id>
+    <version>1.0.0-beta1</version>
+    <title>Softeq.XToolkit.WhiteLabel.Forms</title>
+    <authors>Softeq Development Corp.</authors>
+    <owners>Softeq Development Corp.</owners>
+    <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Integration library for using Softeq.XToolkit.WhiteLabel in Xamarin.Forms projects.</description>
+    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
+    <tags>Softeq XToolkit Xamarin iOS Android</tags>
+    <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
+    <dependencies>
+     <group targetFramework="netstandard2.1">
+        <dependency id="Xamarin.Forms" version="4.5.0.530" />
+        <!-- XToolkit -->
+        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />
+      </group>
+   </dependencies>
+  </metadata>
+  <files>
+    <!-- Core -->
+    <file src="../Softeq.XToolkit.WhiteLabel.Forms/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.Forms.dll" target="lib\netstandard2.1" />
+  </files>
+</package>
