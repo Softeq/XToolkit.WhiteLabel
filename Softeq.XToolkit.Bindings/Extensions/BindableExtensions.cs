@@ -46,7 +46,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     Default means OneWay if only the source implements INPC, and TwoWay if both the source and the target implement INPC.
         /// </param>
         /// <returns>The new Binding instance.</returns>
-        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+        public static Binding Bind<TSource, TTarget>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Expression<Func<TTarget>> targetPropertyExpression,
             BindingMode mode = BindingMode.Default)
@@ -67,8 +68,14 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     The method provides the ability for advanced configuration of internal
         ///     <see cref="Binding{TSource, TTarget}" /> object.
         /// </summary>
-        /// <typeparam name="TSource"></typeparam>
-        /// <typeparam name="TTarget"></typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TTarget">
+        ///     The type of the target property that is being databound. If the source type
+        ///     is not the same as the target type, an automatic conversion will be attempted. However only
+        ///     simple types can be converted. For more complex conversions, use the
+        ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
+        ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
+        /// </typeparam>
         /// <param name="source">
         ///     The source of the binding. If this object implements INotifyPropertyChanged and the
         ///     BindingMode is OneWay or TwoWay, the target will be notified of changes to the target property.
@@ -93,10 +100,11 @@ namespace Softeq.XToolkit.Bindings.Extensions
         /// <param name="configure">
         ///     Callback for advanced configuration of internal <see cref="Binding{TSource, TTarget}" /> object.
         ///     Example of using:
-        ///     "binding => binding.ObserveTargetEvent[UISearchBarTextChangedEventArgs](nameof(SearchBar.TextChanged))"
+        ///     "binding => binding.ObserveTargetEvent[UISearchBarTextChangedEventArgs](nameof(SearchBar.TextChanged))".
         /// </param>
         /// <returns>The new Binding instance.</returns>
-        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+        public static Binding Bind<TSource, TTarget>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Expression<Func<TTarget>> targetPropertyExpression,
             BindingMode mode,
@@ -143,7 +151,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     The instance of the converter.
         /// </param>
         /// <returns>The new Binding instance.</returns>
-        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+        public static Binding Bind<TSource, TTarget>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Expression<Func<TTarget>> targetPropertyExpression,
             IConverter<TTarget, TSource> converter)
@@ -196,7 +205,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     The instance of the converter.
         /// </param>
         /// <returns>The new Binding instance.</returns>
-        public static Binding Bind<TSource, TTarget>(this IBindingsOwner source,
+        public static Binding Bind<TSource, TTarget>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Expression<Func<TTarget>> targetPropertyExpression,
             BindingMode mode,
@@ -213,10 +223,10 @@ namespace Softeq.XToolkit.Bindings.Extensions
 
         /// <summary>
         ///     Creates a <see cref="Binding{TSource, TSource}" /> with a source property but without a target.
-        ///     This type of bindings is useful for the <see cref="T:SetCommand{T}(object, string, RelayCommand{T}, Binding)" />,
-        ///     <see cref="T:SetCommand{T}(object, RelayCommand{T}, Binding)" />,
-        ///     <see cref="T:SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)" />
-        ///     and <see cref="T:SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)" /> methods, to use as
+        ///     This type of bindings is useful for the <c>SetCommand{T}(object, string, RelayCommand{T}, Binding)</c>,
+        ///     <c>SetCommand{T}(object, RelayCommand{T}, Binding)</c>,
+        ///     <c>SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)</c>
+        ///     and <c>SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)</c> methods, to use as
         ///     CommandParameter binding.
         /// </summary>
         /// <typeparam name="TSource">The type of the bound property.</typeparam>
@@ -235,7 +245,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
         /// <returns>The created binding instance.</returns>
-        public static Binding Bind<TSource>(this IBindingsOwner source,
+        public static Binding Bind<TSource>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Action<TSource> action)
         {
@@ -248,10 +259,10 @@ namespace Softeq.XToolkit.Bindings.Extensions
 
         /// <summary>
         ///     Creates a <see cref="Binding{TSource, TSource}" /> with a source property but without a target.
-        ///     This type of bindings is useful for the <see cref="T:SetCommand{T}(object, string, RelayCommand{T}, Binding)" />,
-        ///     <see cref="T:SetCommand{T}(object, RelayCommand{T}, Binding)" />,
-        ///     <see cref="T:SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)" />
-        ///     and <see cref="T:SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)" /> methods,
+        ///     This type of bindings is useful for the <c>SetCommand{T}(object, string, RelayCommand{T}, Binding)</c>,
+        ///     <c>SetCommand{T}(object, RelayCommand{T}, Binding)</c>,
+        ///     <c>SetCommand{T, TEventArgs}(object, string, RelayCommand{T}, Binding)</c>
+        ///     and <c>SetCommand{T, TEventArgs}(object, RelayCommand{T}, Binding)</c> methods,
         ///     to use as CommandParameter binding.
         /// </summary>
         /// <typeparam name="TSource">The type of the bound property.</typeparam>
@@ -277,7 +288,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     the source implements INPC, and TwoWay if both the source and the target implement INPC.
         /// </param>
         /// <returns>The created binding instance.</returns>
-        public static Binding Bind<TSource>(this IBindingsOwner source,
+        public static Binding Bind<TSource>(
+            this IBindingsOwner source,
             Expression<Func<TSource>> sourcePropertyExpression,
             Action<TSource> action,
             BindingMode mode)

@@ -16,21 +16,21 @@ using UIKit;
 namespace Softeq.XToolkit.Bindings.iOS
 {
     /// <summary>
-    ///     A <see cref="UICollectionViewSource" /> that automatically updates the associated <see cref="UICollectionView" />
-    ///     when its
+    ///     A <see cref="T:UIKit.UICollectionViewSource" /> that automatically updates
+    ///     the associated <see cref="T:UIKit.UICollectionView" /> when its
     ///     data source changes. Note that the changes are only observed if the data source
-    ///     implements <see cref="INotifyCollectionChanged" />.
+    ///     implements <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />.
     /// </summary>
     /// <typeparam name="TItem">The type of the items in the data source.</typeparam>
     /// <typeparam name="TCell">
-    ///     The type of the <see cref="UICollectionViewCell" /> used in the CollectionView.
+    ///     The type of the <see cref="T:UIKit.UICollectionViewCell" /> used in the CollectionView.
     ///     This can either be UICollectionViewCell or a derived type.
     /// </typeparam>
     public class ObservableCollectionViewSource<TItem, TCell> : UICollectionViewSource, INotifyPropertyChanged
         where TCell : UICollectionViewCell
     {
         /// <summary>
-        ///     The real count of items in a <see cref="UICollectionView" /> with infinite scroll.
+        ///     The real count of items in a <see cref="T:UIKit.UICollectionView" /> with infinite scroll.
         /// </summary>
         public const int InfiniteItemsCount = 100000;
 
@@ -43,36 +43,37 @@ namespace Softeq.XToolkit.Bindings.iOS
         private UICollectionView _view;
 
         /// <summary>
-        ///     Creates and initializes a new instance of <see cref="ObservableCollectionViewSource{TItem, TCell}" />
+        ///     Initializes a new instance of the <see cref="ObservableCollectionViewSource{TItem, TCell}"/> class.
         /// </summary>
         public ObservableCollectionViewSource()
         {
         }
 
         /// <summary>
-        ///     Creates and initializes a new instance of <see cref="ObservableCollectionViewSource{TItem, TCell}" />
-        ///     with a value for IsInfiniteScroll flag.
+        ///     Initializes a new instance of the <see cref="ObservableCollectionViewSource{TItem, TCell}"/> class
+        ///     with a value for <see cref="IsInfiniteScroll"/> flag.
         /// </summary>
-        public ObservableCollectionViewSource(bool canBeScrolledInfinitely) : this()
+        public ObservableCollectionViewSource(bool canBeScrolledInfinitely)
+            : this()
         {
             IsInfiniteScroll = canBeScrolledInfinitely;
         }
 
         /// <summary>
-        ///     A delegate to a method taking a <see cref="UICollectionViewCell" />
+        ///     Gets or sets a delegate to a method taking a <see cref="T:UIKit.UICollectionViewCell" />
         ///     and setting its elements' properties according to the item
         ///     passed as second parameter.
         /// </summary>
         public Action<TCell, TItem, NSIndexPath> BindCellDelegate { get; set; }
 
         /// <summary>
-        ///     Indicates whether this <see cref="UICollectionViewCell" />
+        ///     Gets a value indicating whether this <see cref="T:UIKit.UICollectionViewCell" />
         ///     can be scrolled infinitely.
         /// </summary>
         public bool IsInfiniteScroll { get; }
 
         /// <summary>
-        ///     The data source of this list controller.
+        ///     Gets or sets the data source of this list controller.
         /// </summary>
         public IList<TItem> DataSource
         {
@@ -106,13 +107,13 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     A delegate to a method returning a <see cref="UICollectionReusableView" />
+        ///     Gets or sets a delegate to a method returning a <see cref="T:UIKit.UICollectionReusableView" />
         ///     and used to set supplementary views on the UICollectionView.
         /// </summary>
         public Func<NSString, NSIndexPath, UICollectionReusableView> GetSupplementaryViewDelegate { get; set; }
 
         /// <summary>
-        ///     A reuse identifier for the UICollectionView's cells.
+        ///     Gets or sets a reuse identifier for the UICollectionView's cells.
         /// </summary>
         public string ReuseId
         {
@@ -122,7 +123,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Gets the UICollectionView's selected item. You can use one-way databinding on this property.
+        ///     Gets or sets the UICollectionView's selected item. You can use one-way databinding on this property.
         /// </summary>
         public TItem SelectedItem
         {
@@ -165,7 +166,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         /// <param name="collectionView">The UICollectionView associated to this source.</param>
         /// <param name="indexPath">The NSIndexPath pointing to the item for which the cell must be returned.</param>
-        /// <returns>The created and initialised <see cref="UICollectionViewCell" />.</returns>
+        /// <returns>The created and initialised <see cref="T:UIKit.UICollectionViewCell" />.</returns>
         public override UICollectionViewCell GetCell(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var cell = (TCell) collectionView.DequeueReusableCell(NsReuseId, indexPath);
@@ -284,7 +285,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     only one section is supported.
         /// </summary>
         /// <param name="collectionView">The UICollectionView associated to this source.</param>
-        /// <returns></returns>
+        /// <returns>Returns the number of sections in the <paramref name="collectionView"/>.</returns>
         public override nint NumberOfSections(UICollectionView collectionView)
         {
             SetView(collectionView);
@@ -292,13 +293,13 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Sets a <see cref="UICollectionViewCell" />'s elements according to an item's properties.
+        ///     Sets a <see cref="T:UIKit.UICollectionViewCell" />'s elements according to an item's properties.
         ///     If a <see cref="BindCellDelegate" /> is available, this delegate will be used.
         ///     If not, a simple text will be shown.
         /// </summary>
         /// <param name="cell">The cell that will be prepared.</param>
         /// <param name="item">The item that should be used to set the cell up.</param>
-        /// <param name="indexPath">The <see cref="NSIndexPath" /> for this cell.</param>
+        /// <param name="indexPath">The <see cref="T:Foundation.NSIndexPath" /> for this cell.</param>
         protected virtual void BindCell(UICollectionViewCell cell, object item, NSIndexPath indexPath)
         {
             if (BindCellDelegate == null)

@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System.Linq;
-using ImTools;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Xamarin.Forms;
 using Xamarin.Forms.PlatformConfiguration;

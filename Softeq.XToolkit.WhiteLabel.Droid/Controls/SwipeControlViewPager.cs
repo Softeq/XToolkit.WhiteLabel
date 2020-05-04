@@ -8,9 +8,13 @@ using AndroidX.ViewPager.Widget;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
+    /// <summary>
+    ///     A ViewPager that supports disabling swipe navigation between pages.
+    /// </summary>
     public class SwipeControlViewPager : ViewPager
     {
-        public SwipeControlViewPager(Context context, IAttributeSet attrs) : base(context, attrs)
+        public SwipeControlViewPager(Context context, IAttributeSet attrs)
+            : base(context, attrs)
         {
         }
 

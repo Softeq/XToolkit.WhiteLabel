@@ -14,34 +14,34 @@ namespace Softeq.XToolkit.Common.Commands
     ///     method is 'true'.  This class does not allow you to accept command parameters in the
     ///     Execute and CanExecute callback methods.
     /// </summary>
-    public class RelayCommand : ICommand
+    public class RelayCommand : ICommand, IRaisableCanExecute
     {
         private readonly WeakFunc<bool>? _canExecute;
         private readonly WeakAction _execute;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.RelayCommand" /> class that
+        ///     Initializes a new instance of the <see cref="RelayCommand"/> class that
         ///     can always execute.
         /// </summary>
         /// <param name="execute">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
-        /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
         public RelayCommand(Action execute)
             : this(execute, null)
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.RelayCommand" /> class.
+        ///     Initializes a new instance of the <see cref="RelayCommand"/> class.
         /// </summary>
         /// <param name="execute">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
         /// <param name="canExecute">The execution status logic.</param>
-        /// <exception cref="ArgumentNullException">
+        /// <exception cref="T:System.ArgumentNullException">
         ///     If the execute argument is null. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </exception>

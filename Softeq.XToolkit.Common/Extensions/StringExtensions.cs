@@ -26,8 +26,8 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Forms a string with initials for a given name string, can be used as text for avatar view for instance
-        ///     <para>https://stackoverflow.com/a/28373431/5416939</para>
+        ///     Forms a string with initials for a given name string, can be used as text for avatar view for instance.
+        ///     <para>https://stackoverflow.com/a/28373431/5416939.</para>
         /// </summary>
         /// <returns>The initials of the name.</returns>
         /// <param name="fullName">Full name.</param>
@@ -37,13 +37,13 @@ namespace Softeq.XToolkit.Common.Extensions
             if (!string.IsNullOrEmpty(fullName))
             {
                 // first remove all: punctuation, separator chars, control chars, and numbers (unicode style regexes)
-                initials = Regex.Replace(fullName, @"[\p{P}\p{S}\p{C}\p{N}]+", "");
+                initials = Regex.Replace(fullName, @"[\p{P}\p{S}\p{C}\p{N}]+", string.Empty);
 
                 // Replacing all possible whitespace/separator characters (unicode style), with a single, regular ascii space.
                 initials = Regex.Replace(initials, @"\p{Z}+", " ");
 
                 // Remove all Sr, Jr, I, II, III, IV, V, VI, VII, VIII, IX at the end of names
-                initials = Regex.Replace(initials.Trim(), @"\s+(?:[JS]R|I{1,3}|I[VX]|VI{0,3})$", "", RegexOptions.IgnoreCase);
+                initials = Regex.Replace(initials.Trim(), @"\s+(?:[JS]R|I{1,3}|I[VX]|VI{0,3})$", string.Empty, RegexOptions.IgnoreCase);
 
                 // Extract up to 2 initials from the remaining cleaned name.
                 initials = Regex.Replace(initials, @"^(\p{L})[^\s]*(?:\s+(?:\p{L}+\s+(?=\p{L}))*(?:(\p{L})\p{L}*)?)?$", "$1$2")
@@ -68,7 +68,7 @@ namespace Softeq.XToolkit.Common.Extensions
         ///     A copy of this <see cref="T:System.String"></see> object
         ///     where first latter converted to uppercase.
         /// </returns>
-        /// <exception cref="ArgumentException">The argument can't be null or empty.</exception>
+        /// <exception cref="T:System.ArgumentException">The argument can't be null or empty.</exception>
         public static string CapitalizeFirstLetter(this string value)
         {
             if (string.IsNullOrEmpty(value))
@@ -85,10 +85,10 @@ namespace Softeq.XToolkit.Common.Extensions
         ///     Remove empty lines from the input string.
         /// </summary>
         /// <param name="input">Input string.</param>
-        /// <returns></returns>
+        /// <returns>String with no empty lines in it.</returns>
         public static string RemoveEmptyLines(this string input)
         {
-            return Regex.Replace(input, @"[\r\n]*^\s*$[\r\n]*", "", RegexOptions.Multiline);
+            return Regex.Replace(input, @"[\r\n]*^\s*$[\r\n]*", string.Empty, RegexOptions.Multiline);
         }
 
         /// <summary>

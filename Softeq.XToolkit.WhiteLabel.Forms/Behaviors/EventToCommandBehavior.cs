@@ -87,6 +87,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
             {
                 throw new ArgumentException($"{nameof(EventToCommandBehavior)}: Can't register the '{EventName}' event.");
             }
+
             var methodInfo = typeof(EventToCommandBehavior).GetTypeInfo().GetDeclaredMethod(nameof(OnEvent));
             _eventHandler = methodInfo.CreateDelegate(eventInfo.EventHandlerType, this);
             eventInfo.AddEventHandler(AssociatedObject, _eventHandler);
@@ -98,10 +99,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
             {
                 return;
             }
+
             if (_eventHandler == null)
             {
                 return;
             }
+
             if (AssociatedObject == null)
             {
                 return;
@@ -112,6 +115,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
             {
                 throw new ArgumentException($"{nameof(EventToCommandBehavior)}: Can't unregister the '{EventName}' event.");
             }
+
             eventInfo.RemoveEventHandler(AssociatedObject, _eventHandler);
             _eventHandler = null;
         }

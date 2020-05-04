@@ -43,17 +43,17 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             }
         }
 
+        public bool CanGoBack
+        {
+            get => Navigation.NavigationStack.Count != 0;
+        }
+
         public void NavigateToViewModel(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
         {
             NavigateTask(viewModelBase, clearBackStack, parameters).FireAndForget(_logger);
-        }
-
-        public bool CanGoBack
-        {
-            get => Navigation.NavigationStack.Count != 0;
         }
 
         public void Initialize(object initParameter)

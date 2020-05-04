@@ -3,11 +3,11 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using Playground.Droid.Extended;
+using Playground.Extended;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
-using Playground.Droid.Extended;
-using Playground.Extended;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;

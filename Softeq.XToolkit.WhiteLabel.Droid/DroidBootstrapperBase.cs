@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;

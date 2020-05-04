@@ -15,13 +15,13 @@ namespace Softeq.XToolkit.Common.Commands
     ///     Execute and CanExecute callback methods.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
-    public class RelayCommand<T> : ICommand<T>
+    public class RelayCommand<T> : ICommand<T>, IRaisableCanExecute
     {
         private readonly WeakFunc<T, bool>? _canExecute;
         private readonly WeakAction<T> _execute;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Commands.RelayCommand`1" /> class.
+        ///     Initializes a new instance of the <see cref="RelayCommand{T}"/> class.
         /// </summary>
         /// <param name="execute">
         ///     The execution logic. IMPORTANT: Note that closures are not supported at the moment
@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     The execution status logic. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
-        /// <exception cref="ArgumentNullException">If the execute argument is null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">If the execute argument is null.</exception>
         public RelayCommand(Action<T> execute, Func<T, bool>? canExecute = null)
         {
             if (execute == null)
@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// </summary>
         /// <param name="parameter">
         ///     Data used by the command. If the command does not require data
-        ///     to be passed, this object can be set to a null reference
+        ///     to be passed, this object can be set to a null reference.
         /// </param>
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
@@ -98,7 +98,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// </summary>
         /// <param name="parameter">
         ///     Data used by the command. If the command does not require data
-        ///     to be passed, this object can be set to a null reference
+        ///     to be passed, this object can be set to a null reference.
         /// </param>
         public virtual void Execute(object? parameter)
         {

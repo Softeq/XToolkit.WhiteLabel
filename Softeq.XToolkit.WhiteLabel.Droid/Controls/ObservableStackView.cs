@@ -20,20 +20,23 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         protected ObservableRangeCollection<TModel>? Collection;
 
-        protected ObservableStackView(Context context) : base(context)
+        protected ObservableStackView(Context context)
+            : base(context)
         {
         }
 
-        protected ObservableStackView(Context context, IAttributeSet attrs) : base(context, attrs)
+        protected ObservableStackView(Context context, IAttributeSet attrs)
+            : base(context, attrs)
         {
         }
 
-        protected ObservableStackView(Context context, IAttributeSet attrs, int defStyle) : base(context, attrs,
-            defStyle)
+        protected ObservableStackView(Context context, IAttributeSet attrs, int defStyle)
+            : base(context, attrs, defStyle)
         {
         }
 
-        protected ObservableStackView(IntPtr handle, JniHandleOwnership owner) : base(handle, owner)
+        protected ObservableStackView(IntPtr handle, JniHandleOwnership owner)
+            : base(handle, owner)
         {
         }
 

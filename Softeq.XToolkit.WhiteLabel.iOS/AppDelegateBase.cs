@@ -10,6 +10,9 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
 {
+    /// <summary>
+    ///     Based on <see cref="T:UIKit.UIApplicationDelegate"/>, used for integration WhiteLabel components.
+    /// </summary>
     public abstract class AppDelegateBase : UIApplicationDelegate
     {
         public override UIWindow Window { get; set; } = default!;

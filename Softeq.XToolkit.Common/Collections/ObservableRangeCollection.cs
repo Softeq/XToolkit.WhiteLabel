@@ -11,27 +11,25 @@ using System.Linq;
 namespace Softeq.XToolkit.Common.Collections
 {
     /// <summary>
-    ///     Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is
-    ///     refreshed.
+    ///     Represents a dynamic data collection that provides notifications
+    ///     when items get added, removed, or when the whole list is refreshed.
     /// </summary>
-    /// <typeparam name="T">The element type of the collection</typeparam>
+    /// <typeparam name="T">The element type of the collection.</typeparam>
     public class ObservableRangeCollection<T> : ObservableCollection<T>
     {
         /// <summary>
-        ///     Initializes a new instance of the
-        ///     <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1" /> class.
+        ///     Initializes a new instance of the <see cref="ObservableRangeCollection{T}"/> class.
         /// </summary>
         public ObservableRangeCollection()
         {
         }
 
         /// <summary>
-        ///     Initializes a new instance of the
-        ///     <see cref="T:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1" /> class that contains
+        ///     Initializes a new instance of the <see cref="ObservableRangeCollection{T}"/> class that contains
         ///     elements copied from the specified collection.
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <exception cref="ArgumentNullException">The collection parameter cannot be null.</exception>
+        /// <exception cref="T:System.ArgumentNullException">The collection parameter cannot be null.</exception>
         public ObservableRangeCollection(IEnumerable<T> collection)
             : base(collection)
         {
@@ -42,7 +40,8 @@ namespace Softeq.XToolkit.Common.Collections
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
         /// <param name="notificationMode">Action that will called after adding.</param>
-        public void AddRange(IEnumerable<T> collection,
+        public void AddRange(
+            IEnumerable<T> collection,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
             if (notificationMode != NotifyCollectionChangedAction.Add &&
@@ -82,15 +81,15 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnPropertyChanged(EventArgsCache.CountPropertyChanged);
             OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems,
-                startIndex));
+            OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
         }
 
         /// <summary>
         ///     Insert the elements of the specified collection at a given index of the ObservableCollection(Of T).
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <param name="startIndex">The index in the array at which to insert items</param>
+        /// <param name="startIndex">The index in the array at which to insert items.</param>
         public void InsertRange(IEnumerable<T> collection, int startIndex)
         {
             if (collection == null)
@@ -115,17 +114,20 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnPropertyChanged(EventArgsCache.CountPropertyChanged);
             OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems,
-                startIndex));
+            OnCollectionChanged(
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, changedItems, startIndex));
         }
 
         /// <summary>
         ///     Insert the elements of the specified collection and sort the collection.
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <param name="comparer">Method that compares <typeparamref name="T" /> objects</param>
-        /// <returns>Inserted items indexes</returns>
-        public IList<int> InsertRangeSorted(IEnumerable<T> collection, Comparison<T> comparer,
+        /// <param name="comparer">Method that compares <typeparamref name="T" /> objects.</param>
+        /// <param name="notificationMode">Action that will called after deletion.</param>
+        /// <returns>Inserted items indexes.</returns>
+        public IList<int> InsertRangeSorted(
+            IEnumerable<T> collection,
+            Comparison<T> comparer,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
             if (notificationMode != NotifyCollectionChangedAction.Add &&
@@ -133,6 +135,7 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 throw new ArgumentException("Mode must be either Add or Reset for InsertRangeSorted.", nameof(notificationMode));
             }
+
             if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
@@ -156,6 +159,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             OnPropertyChanged(EventArgsCache.CountPropertyChanged);
             OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
+
             if (notificationMode == NotifyCollectionChangedAction.Add)
             {
                 OnCollectionChanged(new NotifyCollectionInsertEventArgs(insertedItemsIndexes));
@@ -164,6 +168,7 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 OnCollectionChanged(new NotifyCollectionChangedEventArgs(notificationMode));
             }
+
             return insertedItemsIndexes;
         }
 
@@ -172,15 +177,17 @@ namespace Softeq.XToolkit.Common.Collections
         ///     notificationMode = Remove, removed items starting index is not set because items are not guaranteed to be
         ///     consecutive.
         /// </summary>
-        /// <param name="collection">The collection of items to delete</param>
+        /// <param name="collection">The collection of items to delete.</param>
         /// <param name="notificationMode">Action that will called after deletion.</param>
-        public void RemoveRange(IEnumerable<T> collection,
+        public void RemoveRange(
+            IEnumerable<T> collection,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Reset)
         {
             if (notificationMode != NotifyCollectionChangedAction.Remove &&
                 notificationMode != NotifyCollectionChangedAction.Reset)
             {
-                throw new ArgumentException("Mode must be either Remove or Reset for RemoveRange.",
+                throw new ArgumentException(
+                    "Mode must be either Remove or Reset for RemoveRange.",
                     nameof(notificationMode));
             }
 
@@ -210,7 +217,7 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 if (!Items.Remove(changedItems[i]))
                 {
-                    changedItems.RemoveAt(i); //Can't use a foreach because changedItems is intended to be (carefully) modified
+                    changedItems.RemoveAt(i); // Can't use a foreach because changedItems is intended to be (carefully) modified
                     i--;
                 }
             }
@@ -224,7 +231,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <summary>
         ///     Clears the current collection and replaces it with the specified item.
         /// </summary>
-        /// <param name="item">Item that will added to collection</param>
+        /// <param name="item">Item that will added to collection.</param>
         public void Replace(T item)
         {
             ReplaceRange(new[] { item });

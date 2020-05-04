@@ -9,16 +9,19 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
 {
+    /// <summary>
+    ///     Contains methods for instantiating ViewControllers.
+    /// </summary>
     public static class ViewControllerHelper
     {
         /// <summary>
-        ///     Method for safety attempt to create <see cref="UIViewController"/> from storyboard
-        ///     otherwise creates a new instance of <see cref="viewControllerType"/>.
+        ///     Method for safety attempt to create UIViewController from storyboard
+        ///     otherwise creates a new instance of <paramref name="viewControllerType" />.
         /// </summary>
         /// <param name="storyboardName">Storyboard name.</param>
         /// <param name="viewControllerType">Type of ViewController on Storyboard.</param>
         /// <param name="logger">Instance of <see cref="ILogger"/>.</param>
-        /// <returns>Target instance of <see cref="viewControllerType"/></returns>
+        /// <returns>Target instance of <paramref name="viewControllerType"/>.</returns>
         public static UIViewController? TryCreateViewController(string storyboardName, Type viewControllerType, ILogger logger)
         {
             UIViewController? newViewController = null;
@@ -40,11 +43,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
         }
 
         /// <summary>
-        ///     Method for instantiating <see cref="UIViewController"/> from Storyboard if found, otherwise returns NULL.
+        ///     Method for instantiating UIViewController from Storyboard if found, otherwise returns NULL.
         /// </summary>
         /// <param name="storyboardName">Storyboard name.</param>
         /// <param name="viewControllerName">Name of ViewController on Storyboard.</param>
-        /// <returns></returns>
+        /// <returns>New instance of UIViewController.</returns>
         public static UIViewController? CreateViewControllerFromStoryboard(string storyboardName, string viewControllerName)
         {
             if (NSBundle.MainBundle.PathForResource(storyboardName, "storyboardc") == null)

@@ -20,20 +20,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         private Binding? _textBinding;
         private Binding? _visibilityBinding;
 
-        public BadgeView(Context context) :
-            base(context)
+        public BadgeView(Context context)
+            : base(context)
         {
             Initialize(context);
         }
 
-        public BadgeView(Context context, IAttributeSet attrs) :
-            base(context, attrs)
+        public BadgeView(Context context, IAttributeSet attrs)
+            : base(context, attrs)
         {
             Initialize(context);
         }
 
-        public BadgeView(Context context, IAttributeSet attrs, int defStyle) :
-            base(context, attrs, defStyle)
+        public BadgeView(Context context, IAttributeSet attrs, int defStyle)
+            : base(context, attrs, defStyle)
         {
             Initialize(context);
         }

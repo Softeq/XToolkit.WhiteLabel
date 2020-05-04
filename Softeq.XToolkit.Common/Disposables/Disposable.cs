@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Common.Disposables
         ///     The action is guaranteed to be run at most once.
         /// </param>
         /// <returns>The disposable object that runs the given action upon disposal.</returns>
-        /// <exception cref="ArgumentNullException"><paramref name="dispose"/> is <c>null</c>.</exception>
+        /// <exception cref="T:System.ArgumentNullException"><paramref name="dispose"/> is <c>null</c>.</exception>
         public static IDisposable Create(Action dispose)
         {
             if (dispose == null)

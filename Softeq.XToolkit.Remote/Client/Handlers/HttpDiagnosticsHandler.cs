@@ -2,12 +2,12 @@
 // http://www.softeq.com
 
 ﻿using System.Diagnostics;
-using System.Net.Http;
-using System.Threading;
-using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Logger;
+﻿using System.Net.Http;
+﻿using System.Threading;
+﻿using System.Threading.Tasks;
+﻿using Softeq.XToolkit.Common.Logger;
 
-namespace Softeq.XToolkit.Remote.Client.Handlers
+﻿namespace Softeq.XToolkit.Remote.Client.Handlers
 {
     internal class HttpDiagnosticsHandler : DelegatingHandler
     {
