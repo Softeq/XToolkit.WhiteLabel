@@ -94,5 +94,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             }
             return false;
         }
+
+        public void GoBack<TViewModel>() where TViewModel : IViewModelBase
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public void GoToRoot()
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
