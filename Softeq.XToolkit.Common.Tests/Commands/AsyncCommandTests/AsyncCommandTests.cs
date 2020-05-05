@@ -19,39 +19,28 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         {
             var func = CreateFunc();
 
-            new AsyncCommand(func);
-
-            new AsyncCommand(func, ex => { });
-
-            new AsyncCommand(func, () => true);
-            new AsyncCommand(func, () => true, ex => { });
-            new AsyncCommand(func, null, ex => { });
-
-            var funcGeneric = CreateFuncWithArg<object>();
-
-            new AsyncCommand(funcGeneric, x => true);
-            new AsyncCommand(funcGeneric, x => true, ex => { });
-            new AsyncCommand(funcGeneric, null, ex => { });
+            _ = new[]
+            {
+                new AsyncCommand(func),
+                new AsyncCommand(func, ex => { }),
+                new AsyncCommand(func, () => true),
+                new AsyncCommand(func, () => true, ex => { }),
+                new AsyncCommand(func, null, ex => { })
+            };
         }
 
         [Fact]
-        public void Constructor_ExecuteIsNull_CreatesCorrectly()
+        public void Constructor_ExecuteIsNull_ThrowsException()
         {
-            CreateAsyncCommand(null);
+            Assert.Throws<ArgumentNullException>(() => CreateAsyncCommand(null));
         }
 
         [Fact]
-        public void Constructor_CanExecuteIsNull_CreatesCorrectly()
+        public void Constructor_CanExecuteAndExceptionAreNull_CreatesCorrectly()
         {
             var func = CreateFunc();
 
-            CreateAsyncCommand(func, null);
-        }
-
-        [Fact]
-        public void Constructor_AllArgsNull_CreatesCorrectly()
-        {
-            CreateAsyncCommandWithParam(null, null, null);
+            CreateAsyncCommand(func, null, null);
         }
 
         [Fact]

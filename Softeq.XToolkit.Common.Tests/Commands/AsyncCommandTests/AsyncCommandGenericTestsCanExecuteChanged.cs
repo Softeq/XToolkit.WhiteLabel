@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void CanExecuteChanged_ExecuteWasFinished_RisesOnce()
         {
-            var func = CreateFuncWithArg();
+            var func = CreateFunc<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             Assert_CanExecuteChanged_AfterExecute_RisesOnce(command);

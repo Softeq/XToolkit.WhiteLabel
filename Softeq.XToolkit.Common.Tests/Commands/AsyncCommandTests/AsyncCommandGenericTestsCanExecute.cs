@@ -11,25 +11,32 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
     {
         [Theory]
         [InlineData(null)]
-        [InlineData(123)]
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public void CanExecute_DefaultWithParameters_ReturnsTrue(object parameter)
         {
-            var func = CreateFuncWithArg();
+            var func = CreateFunc<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, true);
+        }
+
+        [Fact]
+        public void CanExecute_DefaultWithParameters_WhenTypesMismatch_ReturnsFalse()
+        {
+            var func = CreateFunc<string>();
+            var command = CreateAsyncCommandGeneric(func);
+
+            Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, 123, false);
         }
 
         [Theory]
         [InlineData(null, true)]
         [InlineData(null, false)]
         [InlineData(CommandsDataProvider.DefaultParameter, false)]
-        [InlineData(123, true)]
         public void CanExecute_NotNullDelegate_ReturnsExpectedValue(object parameter, bool expected)
         {
-            var func = CreateFuncWithArg();
-            var command = CreateAsyncCommandGeneric(func, () => expected);
+            var func = CreateFunc<string>();
+            var command = CreateAsyncCommandGeneric(func, _ => expected);
 
             Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, expected);
         }
@@ -37,7 +44,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void CanExecute_WhileExecuting_ReturnsFalse()
         {
-            var func = CreateFuncWithArgAndDelay();
+            var func = CreateFuncWithDelay<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             Assert_CanExecute_AfterExecuteWithParameter_ReturnsExpectedValue(command, null, false);

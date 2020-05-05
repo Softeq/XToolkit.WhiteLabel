@@ -29,27 +29,22 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             return func;
         }
 
-        public static Func<string, Task> CreateFuncWithArg()
-        {
-            return Substitute.For<Func<string, Task>>();
-        }
-
-        public static Func<T, Task> CreateFuncWithArg<T>()
+        public static Func<T, Task> CreateFunc<T>()
         {
             return Substitute.For<Func<T, Task>>();
         }
 
-        public static Func<string, Task> CreateFuncWithArgAndDelay()
+        public static Func<T, Task> CreateFuncWithDelay<T>()
         {
-            var func = CreateFuncWithArg();
-            func.Invoke(Arg.Any<string>()).Returns(_ => Task.Delay(10));
+            var func = CreateFunc<T>();
+            func.Invoke(Arg.Any<T>()).Returns(_ => Task.Delay(10));
             return func;
         }
 
-        public static Func<string, Task> CreateFuncWithArgAndException()
+        public static Func<T, Task> CreateFuncWithException<T>()
         {
-            var func = CreateFuncWithArg();
-            func.Invoke(Arg.Any<string>()).Throws<InvalidOperationException>();
+            var func = CreateFunc<T>();
+            func.Invoke(Arg.Any<T>()).Throws<InvalidOperationException>();
             return func;
         }
     }

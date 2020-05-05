@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public async Task ExecuteAsync_CalledOneTime_ExecutesOneTime(string parameter)
         {
-            var func = CreateFuncWithArg();
+            var func = CreateFunc<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             await command.ExecuteAsync(parameter);
@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public async Task ExecuteAsync_AsyncWithException_ThrowsException(string parameter)
         {
-            var func = CreateFuncWithArgAndException();
+            var func = CreateFuncWithException<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             await Assert.ThrowsAsync<InvalidOperationException>(() => command.ExecuteAsync(parameter));

@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Execute_CalledOneTime_ExecutesOneTime()
         {
-            var func = CreateFuncWithArg();
+            var func = CreateFunc<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(null);
@@ -28,8 +28,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteTrue_ExecutesOneTime(string parameter)
         {
-            var func = CreateFuncWithArg();
-            var command = CreateAsyncCommandGeneric(func, () => true);
+            var func = CreateFunc<string>();
+            var command = CreateAsyncCommandGeneric(func, _ => true);
 
             command.Execute(parameter);
 
@@ -40,8 +40,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteFalse_DoNotExecutes(string parameter)
         {
-            var func = CreateFuncWithArg();
-            var command = CreateAsyncCommandGeneric(func, () => false);
+            var func = CreateFunc<string>();
+            var command = CreateAsyncCommandGeneric(func, _ => false);
 
             command.Execute(parameter);
 
@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_SyncCallTwoTimes_ExecutesTwoTimes(string parameter)
         {
-            var func = CreateFuncWithArg();
+            var func = CreateFunc<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(parameter);
@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public async Task Execute_AsyncCallSeveralTimes_ExecutesOneTime(string parameter)
         {
-            var func = CreateFuncWithArgAndDelay();
+            var func = CreateFuncWithDelay<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(parameter);
@@ -79,7 +79,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public async Task Execute_AsyncWithException_ExecutesWithoutException(string parameter)
         {
-            var func = CreateFuncWithArgAndException();
+            var func = CreateFuncWithException<string>();
             var command = CreateAsyncCommandGeneric(func);
 
             command.Execute(parameter);
@@ -92,7 +92,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public async Task Execute_AsICommand_Executes(string parameter)
         {
-            var func = CreateFuncWithArg();
+            var func = CreateFunc<string>();
             ICommand command = CreateAsyncCommandGeneric(func);
 
             command.Execute(parameter);
@@ -104,13 +104,10 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.InvalidParameters), MemberType = typeof(CommandsDataProvider))]
         public async Task Execute_AsICommandWithInvalidParameter_ThrowsException(object parameter)
         {
-            var func = CreateFuncWithArg();
-            ICommand command = CreateAsyncCommandGeneric(func);
+            var func = CreateFunc<string>();
+            var command = CreateAsyncCommandGeneric(func) as ICommand;
 
-            Assert.Throws<InvalidCommandParameterException>(() =>
-            {
-                command.Execute(parameter);
-            });
+            command.Execute(parameter);
 
             await func.DidNotReceive().Invoke(Arg.Any<string>());
         }
@@ -120,8 +117,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(null)]
         public async Task Execute_AsICommandGenericWithNullableStruct_Executes(int? parameter)
         {
-            var func = CreateFuncWithArg<int?>();
-            ICommand<int?> command = CreateAsyncCommandGeneric(func);
+            var func = CreateFunc<int?>();
+            var command = CreateAsyncCommandGeneric(func) as ICommand<int?>;
 
             command.Execute(parameter);
 
