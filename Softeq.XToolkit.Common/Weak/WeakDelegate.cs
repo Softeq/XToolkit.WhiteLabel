@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Runtime.ExceptionServices;
 
@@ -113,7 +112,6 @@ namespace Softeq.XToolkit.Common.Weak
             StaticDelegate = null;
         }
 
-        [return: MaybeNull]
         protected T TryExecuteWeakDelegate<T>(params object?[] parameters)
         {
             var delegateTarget = GetExecutionTarget();
@@ -130,7 +128,7 @@ namespace Softeq.XToolkit.Common.Weak
                 }
             }
 
-            return default;
+            return default!;
         }
 
         private object? GetExecutionTarget()

@@ -45,14 +45,13 @@ namespace Softeq.XToolkit.Common.Weak
         ///     is still alive.
         /// </summary>
         /// <returns>The result of the Func stored as reference.</returns>
-        [return: MaybeNull]
         public TResult Execute()
         {
             if (StaticDelegate != null)
             {
                 return IsCustomTargetAlive
                     ? StaticDelegate.Invoke()
-                    : default;
+                    : default!;
             }
 
             return TryExecuteWeakDelegate<TResult>();
@@ -114,14 +113,13 @@ namespace Softeq.XToolkit.Common.Weak
         /// </summary>
         /// <param name="parameter">A parameter to be passed to the action.</param>
         /// <returns>The result of the Func stored as reference.</returns>
-        [return: MaybeNull]
         public TResult Execute(T parameter)
         {
             if (StaticDelegate != null)
             {
                 return IsCustomTargetAlive
                     ? StaticDelegate.Invoke(parameter)
-                    : default;
+                    : default!;
             }
 
             return TryExecuteWeakDelegate<TResult>(parameter);
