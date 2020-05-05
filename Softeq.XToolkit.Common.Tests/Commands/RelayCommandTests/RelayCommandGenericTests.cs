@@ -3,10 +3,12 @@
 
 using System;
 using System.Windows.Input;
+using NSubstitute;
 using Softeq.XToolkit.Common.Commands;
 using Xunit;
+using Command = Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests.RelayCommandsFactory;
 
-namespace Softeq.XToolkit.Common.Tests.Commands
+namespace Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests
 {
     public class RelayCommandGenericTests
     {
@@ -112,6 +114,60 @@ namespace Softeq.XToolkit.Common.Tests.Commands
             var result = command.CanExecute(parameter);
 
             Assert.Equal(expectedResult, result);
+        }
+
+        [Theory]
+        [InlineData("test")]
+        public void CanExecute_AfterExecuteTargetGarbageCollected_ReturnsFalse<T>(T parameter)
+        {
+            var command = Command.WithGarbageCollectableExecuteTarget<T>(_ => { });
+
+            GC.Collect();
+
+            var result = command.CanExecute(parameter);
+
+            Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData("test")]
+        public void Execute_AfterExecuteTargetGarbageCollected_DoesNotExecute<T>(T parameter)
+        {
+            var execute = Substitute.For<Action<T>>();
+            var command = Command.WithGarbageCollectableExecuteTarget(execute);
+
+            GC.Collect();
+
+            command.Execute(parameter);
+
+            execute.DidNotReceive().Invoke(Arg.Any<T>());
+        }
+
+        [Theory]
+        [InlineData("test")]
+        public void CanExecute_AfterCanExecuteTargetGarbageCollected_ReturnsFalse<T>(T parameter)
+        {
+            var command = Command.WithGarbageCollectableCanExecuteTarget<T>(_ => { }, _ => true);
+
+            GC.Collect();
+
+            var result = command.CanExecute(parameter);
+
+            Assert.False(result);
+        }
+
+        [Theory]
+        [InlineData("test")]
+        public void Execute_AfterCanExecuteTargetGarbageCollected_DoesNotExecute<T>(T parameter)
+        {
+            var execute = Substitute.For<Action<T>>();
+            var command = Command.WithGarbageCollectableCanExecuteTarget(execute, _ => true);
+
+            GC.Collect();
+
+            command.Execute(parameter);
+
+            execute.DidNotReceive().Invoke(Arg.Any<T>());
         }
     }
 }

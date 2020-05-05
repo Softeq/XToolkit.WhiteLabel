@@ -2,12 +2,13 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
 {
     public static class WeakDelegateCreator
     {
-        public static (IDisposable target, TWeakDelegate weakDelegate) CreateWeakDelegate<TInstance, TWeakDelegate>(
+        public static (IDisposable Target, TWeakDelegate WeakDelegate) CreateWeakDelegate<TInstance, TWeakDelegate>(
             Func<TInstance> instanceFactory,
             Func<TInstance, TWeakDelegate> weakDelegateFactory)
             where TInstance : class
@@ -16,14 +17,14 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
             return (new DisposableReference(instance), weakDelegateFactory.Invoke(instance));
         }
 
-        public static (IDisposable target, TWeakDelegate weakDelegate) CreateWeakDelegateWithCustomTarget<TWeakDelegate>(
+        public static (IDisposable Target, TWeakDelegate WeakDelegate) CreateWeakDelegateWithCustomTarget<TWeakDelegate>(
             Func<object, TWeakDelegate> weakDelegateFactory)
         {
             var customTarget = new object();
             return (new DisposableReference(customTarget), weakDelegateFactory.Invoke(customTarget));
         }
 
-        public static (IDisposable customTarget, IDisposable originalTarget, TWeakDelegate weakDelegate) CreateWeakDelegateWithCustomTarget<TInstance, TWeakDelegate>(
+        public static (IDisposable CustomTarget, IDisposable OriginalTarget, TWeakDelegate WeakDelegate) CreateWeakDelegateWithCustomTarget<TInstance, TWeakDelegate>(
             Func<TInstance> instanceFactory,
             Func<TInstance, object, TWeakDelegate> weakDelegateFactory)
             where TInstance : class
@@ -36,6 +37,10 @@ namespace Softeq.XToolkit.Common.Tests.WeakTests.Utils
                 weakDelegateFactory.Invoke(originalTarget, customTarget));
         }
 
+        [SuppressMessage(
+            "ReSharper",
+            "NotAccessedField.Local",
+            Justification = "Field is used to store hard reference to an object")]
         private sealed class DisposableReference : IDisposable
         {
             private object _instance;
