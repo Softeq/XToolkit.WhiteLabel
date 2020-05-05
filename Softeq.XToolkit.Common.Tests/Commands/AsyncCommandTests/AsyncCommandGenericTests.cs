@@ -6,8 +6,8 @@ using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
 using Xunit;
-using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
-using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
+using Command = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
+using Execute = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Constructors_Resolved_Correctly()
         {
-            var func = CreateFunc<string>();
+            var func = Execute.Create<string>();
 
             _ = new[]
             {
@@ -38,22 +38,22 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Constructor_ExecuteIsNull_TrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => CreateAsyncCommandGeneric<string>(null));
+            Assert.Throws<ArgumentNullException>(() => Command.Create<string>(null));
         }
 
         [Fact]
         public void Constructor_CanExecuteAndExceptionHandlerAreNull_CreatesCorrectly()
         {
-            var func = CreateFunc<string>();
+            var func = Execute.Create<string>();
 
-            CreateAsyncCommandGeneric(func, null, null);
+            Command.Create(func, null, null);
         }
 
         [Fact]
         public void Constructor_Default_ReturnsICommand()
         {
-            var func = CreateFunc<string>();
-            var command = CreateAsyncCommandGeneric(func);
+            var func = Execute.Create<string>();
+            var command = Command.Create(func);
 
             Assert.IsAssignableFrom<ICommand>(command);
         }
@@ -61,8 +61,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Constructor_Default_ReturnsICommandGeneric()
         {
-            var func = CreateFunc<string>();
-            var command = CreateAsyncCommandGeneric(func);
+            var func = Execute.Create<string>();
+            var command = Command.Create(func);
 
             Assert.IsAssignableFrom<ICommand<string>>(command);
         }
@@ -70,8 +70,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Constructor_Default_ReturnsIAsyncCommandGeneric()
         {
-            var func = CreateFunc<string>();
-            var command = CreateAsyncCommandGeneric(func);
+            var func = Execute.Create<string>();
+            var command = Command.Create(func);
 
             Assert.IsAssignableFrom<IAsyncCommand<string>>(command);
         }
@@ -79,8 +79,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Constructor_Default_ReturnsIRaisableCanExecute()
         {
-            var func = CreateFunc<string>();
-            var command = CreateAsyncCommandGeneric(func);
+            var func = Execute.Create<string>();
+            var command = Command.Create(func);
 
             Assert.IsAssignableFrom<IRaisableCanExecute>(command);
         }

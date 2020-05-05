@@ -16,8 +16,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public void CanExecute_DefaultWithParameters_ReturnsTrue(object parameter)
         {
-            var func = Execute.CreateFunc<string>();
-            var command = Command.CreateAsyncCommandGeneric(func);
+            var func = Execute.Create<string>();
+            var command = Command.Create(func);
 
             Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, true);
         }
@@ -25,8 +25,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void CanExecute_DefaultWithParameters_WhenTypesMismatch_ReturnsFalse()
         {
-            var func = Execute.CreateFunc<string>();
-            var command = Command.CreateAsyncCommandGeneric(func);
+            var func = Execute.Create<string>();
+            var command = Command.Create(func);
 
             Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, 123, false);
         }
@@ -37,8 +37,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter, false)]
         public void CanExecute_NotNullDelegate_ReturnsExpectedValue(object parameter, bool expected)
         {
-            var func = Execute.CreateFunc<string>();
-            var command = Command.CreateAsyncCommandGeneric(func, _ => expected);
+            var func = Execute.Create<string>();
+            var command = Command.Create(func, _ => expected);
 
             Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, expected);
         }
@@ -46,10 +46,13 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void CanExecute_WhileExecuting_ReturnsFalse()
         {
-            var func = Execute.CreateFuncWithDelay<string>();
-            var command = Command.CreateAsyncCommandGeneric(func);
+            var tcs = new TaskCompletionSource<bool>();
+            var func = Execute.FromSource<string>(tcs);
+            var command = Command.Create(func);
 
             Assert_CanExecute_AfterExecuteWithParameter_ReturnsExpectedValue(command, null, false);
+
+            tcs.SetResult(true);
         }
 
         [Theory]

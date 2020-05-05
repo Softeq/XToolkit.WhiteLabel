@@ -10,40 +10,40 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
     public static class ExecuteDelegatesFactory
     {
-        public static Func<Task> CreateFunc()
+        public static Func<Task> Create()
         {
             return Substitute.For<Func<Task>>();
         }
 
-        public static Func<Task> CreateFuncWithDelay()
+        public static Func<Task> FromSource(TaskCompletionSource<bool> source)
         {
-            var func = CreateFunc();
-            func.Invoke().Returns(_ => Task.Delay(10));
+            var func = Create();
+            func.Invoke().Returns(source.Task);
             return func;
         }
 
-        public static Func<Task> CreateFuncWithException()
+        public static Func<Task> WithException()
         {
-            var func = CreateFunc();
+            var func = Create();
             func.Invoke().Throws<InvalidOperationException>();
             return func;
         }
 
-        public static Func<T, Task> CreateFunc<T>()
+        public static Func<T, Task> Create<T>()
         {
             return Substitute.For<Func<T, Task>>();
         }
 
-        public static Func<T, Task> CreateFuncWithDelay<T>()
+        public static Func<T, Task> FromSource<T>(TaskCompletionSource<bool> source)
         {
-            var func = CreateFunc<T>();
-            func.Invoke(Arg.Any<T>()).Returns(_ => Task.Delay(10));
+            var func = Create<T>();
+            func.Invoke(Arg.Any<T>()).Returns(source.Task);
             return func;
         }
 
-        public static Func<T, Task> CreateFuncWithException<T>()
+        public static Func<T, Task> WithException<T>()
         {
-            var func = CreateFunc<T>();
+            var func = Create<T>();
             func.Invoke(Arg.Any<T>()).Throws<InvalidOperationException>();
             return func;
         }

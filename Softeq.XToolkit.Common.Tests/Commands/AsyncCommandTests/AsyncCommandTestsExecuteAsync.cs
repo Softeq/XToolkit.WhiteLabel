@@ -17,8 +17,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public async Task ExecuteAsync_CalledOneTime_ExecutesOneTime(string parameter)
         {
-            var func = Execute.CreateFunc();
-            var command = Command.CreateAsyncCommand(func);
+            var func = Execute.Create();
+            var command = Command.Create(func);
 
             await command.ExecuteAsync(parameter);
 
@@ -30,8 +30,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public async Task ExecuteAsync_AsyncWithException_ThrowsException(string parameter)
         {
-            var func = Execute.CreateFuncWithException();
-            var command = Command.CreateAsyncCommand(func);
+            var func = Execute.WithException();
+            var command = Command.Create(func);
 
             await Assert.ThrowsAsync<InvalidOperationException>(() => command.ExecuteAsync(parameter));
         }
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public async Task ExecuteAsync_AfterExecuteTargetGarbageCollected_DoesNotExecute()
         {
-            var execute = Execute.CreateFunc();
+            var execute = Execute.Create();
             var command = Command.WithGarbageCollectableExecuteTarget(execute);
 
             GC.Collect();
@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public async Task ExecuteAsync_AfterCanExecuteTargetGarbageCollected_DoesNotExecute()
         {
-            var execute = Execute.CreateFunc();
+            var execute = Execute.Create();
             var command = Command.WithGarbageCollectableCanExecuteTarget(execute, () => true);
 
             GC.Collect();

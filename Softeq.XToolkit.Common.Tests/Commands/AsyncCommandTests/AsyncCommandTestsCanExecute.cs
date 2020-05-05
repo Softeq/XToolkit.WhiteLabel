@@ -17,8 +17,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(CommandsDataProvider.DefaultParameter)]
         public void CanExecute_DefaultWithParameters_ReturnsTrue(object parameter)
         {
-            var func = Execute.CreateFunc();
-            var command = Command.CreateAsyncCommand(func);
+            var func = Execute.Create();
+            var command = Command.Create(func);
 
             Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, true);
         }
@@ -30,8 +30,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(123, true)]
         public void CanExecute_NotNullDelegate_ReturnsExpectedValue(object parameter, bool expected)
         {
-            var func = Execute.CreateFunc();
-            var command = Command.CreateAsyncCommand(func, () => expected);
+            var func = Execute.Create();
+            var command = Command.Create(func, () => expected);
 
             Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, expected);
         }
@@ -39,10 +39,13 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void CanExecute_WhileExecuting_ReturnsFalse()
         {
-            var func = Execute.CreateFuncWithDelay();
-            var command = Command.CreateAsyncCommand(func);
+            var tcs = new TaskCompletionSource<bool>();
+            var func = Execute.FromSource(tcs);
+            var command = Command.Create(func);
 
             Assert_CanExecute_AfterExecuteWithParameter_ReturnsExpectedValue(command, null, false);
+
+            tcs.SetResult(true);
         }
 
         [Fact]

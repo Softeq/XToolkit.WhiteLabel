@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
     public static class AsyncCommandsFactory
     {
-        public static AsyncCommand CreateAsyncCommand(
+        public static AsyncCommand Create(
             Func<Task> func,
             Func<bool> canExecute = null,
             Action<Exception> onException = null)
@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             return new AsyncCommand(func, canExecute, onException);
         }
 
-        public static AsyncCommand<T> CreateAsyncCommandGeneric<T>(
+        public static AsyncCommand<T> Create<T>(
             Func<T, Task> func,
             Func<T, bool> canExecute = null,
             Action<Exception> onException = null)

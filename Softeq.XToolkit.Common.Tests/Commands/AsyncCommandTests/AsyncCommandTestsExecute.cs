@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
 using Command = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
@@ -14,8 +15,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Execute_CalledOneTime_ExecutesOneTime()
         {
-            var func = Execute.CreateFunc();
-            var command = Command.CreateAsyncCommand(func);
+            var func = Execute.Create();
+            var command = Command.Create(func);
 
             command.Execute(null);
 
@@ -26,8 +27,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteTrue_ExecutesOneTime(string parameter)
         {
-            var func = Execute.CreateFunc();
-            var command = Command.CreateAsyncCommand(func, () => true);
+            var func = Execute.Create();
+            var command = Command.Create(func, () => true);
 
             command.Execute(parameter);
 
@@ -38,8 +39,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteFalse_DoNotExecutes(string parameter)
         {
-            var func = Execute.CreateFunc();
-            var command = Command.CreateAsyncCommand(func, () => false);
+            var func = Execute.Create();
+            var command = Command.Create(func, () => false);
 
             command.Execute(parameter);
 
@@ -50,8 +51,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_SyncCallTwoTimes_ExecutesTwoTimes(string parameter)
         {
-            var func = Execute.CreateFunc();
-            var command = Command.CreateAsyncCommand(func);
+            var func = Execute.Create();
+            var command = Command.Create(func);
 
             command.Execute(parameter);
             command.Execute(parameter);
@@ -63,22 +64,25 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_AsyncCallSeveralTimes_ExecutesOneTime(string parameter)
         {
-            var func = Execute.CreateFuncWithDelay();
-            var command = Command.CreateAsyncCommand(func);
+            var tcs = new TaskCompletionSource<bool>();
+            var func = Execute.FromSource(tcs);
+            var command = Command.Create(func);
 
             command.Execute(parameter);
             command.Execute(parameter);
             command.Execute(parameter);
 
             func.Received(1).Invoke();
+
+            tcs.SetResult(true);
         }
 
         [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_AsyncWithException_ExecutesWithoutException(string parameter)
         {
-            var func = Execute.CreateFuncWithException();
-            var command = Command.CreateAsyncCommand(func);
+            var func = Execute.WithException();
+            var command = Command.Create(func);
 
             command.Execute(parameter);
 
@@ -88,7 +92,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Execute_AfterExecuteTargetGarbageCollected_DoesNotExecute()
         {
-            var execute = Execute.CreateFunc();
+            var execute = Execute.Create();
             var command = Command.WithGarbageCollectableExecuteTarget(execute);
 
             GC.Collect();
@@ -101,7 +105,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Execute_AfterCanExecuteTargetGarbageCollected_DoesNotExecute()
         {
-            var execute = Execute.CreateFunc();
+            var execute = Execute.Create();
             var command = Command.WithGarbageCollectableCanExecuteTarget(execute, () => true);
 
             GC.Collect();
