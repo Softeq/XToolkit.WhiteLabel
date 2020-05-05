@@ -45,6 +45,11 @@ namespace Softeq.XToolkit.Common.Commands
             Action<Exception>? onException = null)
             : base(onException)
         {
+            if (execute == null)
+            {
+                throw new ArgumentNullException(nameof(execute));
+            }
+
             _execute = new WeakFunc<Task>(execute);
 
             if (canExecute != null)
@@ -63,7 +68,27 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
         {
-            return !IsRunning && (_canExecute?.Execute() ?? true);
+            if (!_execute.IsAlive)
+            {
+                return false;
+            }
+
+            if (IsRunning)
+            {
+                return false;
+            }
+
+            if (_canExecute == null)
+            {
+                return true;
+            }
+
+            if (!_canExecute.IsAlive)
+            {
+                return false;
+            }
+
+            return _canExecute.Execute();
         }
 
         /// <summary>

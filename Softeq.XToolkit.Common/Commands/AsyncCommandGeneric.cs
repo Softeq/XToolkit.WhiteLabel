@@ -49,6 +49,11 @@ namespace Softeq.XToolkit.Common.Commands
             Action<Exception>? onException = null)
             : base(onException)
         {
+            if (execute == null)
+            {
+                throw new ArgumentNullException(nameof(execute));
+            }
+
             _execute = new WeakFunc<T, Task>(execute);
 
             if (canExecute != null)
@@ -67,7 +72,27 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(T parameter)
         {
-            return !IsRunning && (_canExecute?.Execute(parameter) ?? true);
+            if (!_execute.IsAlive)
+            {
+                return false;
+            }
+
+            if (IsRunning)
+            {
+                return false;
+            }
+
+            if (_canExecute == null)
+            {
+                return true;
+            }
+
+            if (!_canExecute.IsAlive)
+            {
+                return false;
+            }
+
+            return _canExecute.Execute(parameter);
         }
 
         /// <summary>
@@ -80,33 +105,15 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
         {
-            return parameter switch
-            {
-                T validParameter => CanExecute(validParameter),
-                null when !typeof(T).GetTypeInfo().IsValueType => CanExecute(default!),
-                null => throw new InvalidCommandParameterException(typeof(T)),
-                _ => throw new InvalidCommandParameterException(typeof(T), parameter.GetType())
-            };
+            return TryParseParameter(parameter, out T parsed) && CanExecute(parsed);
         }
 
         /// <inheritdoc cref="AsyncCommand.Execute"/>
         public void Execute(object? parameter)
         {
-            switch (parameter)
+            if (TryParseParameter(parameter, out T parsed))
             {
-                case T validParameter:
-                    Execute(validParameter);
-                    break;
-
-                case null when !typeof(T).GetTypeInfo().IsValueType:
-                    Execute(default!);
-                    break;
-
-                case null:
-                    throw new InvalidCommandParameterException(typeof(T));
-
-                default:
-                    throw new InvalidCommandParameterException(typeof(T), parameter.GetType());
+                Execute(parsed);
             }
         }
 
@@ -124,6 +131,22 @@ namespace Softeq.XToolkit.Common.Commands
             return CanExecute(parameter)
                 ? DoExecuteAsync(() => _execute.Execute(parameter))
                 : Task.CompletedTask;
+        }
+
+        private static bool TryParseParameter(object? parameter, out T parsed)
+        {
+            switch (parameter)
+            {
+                case T p:
+                    parsed = p;
+                    return true;
+                case null when !typeof(T).GetTypeInfo().IsValueType:
+                    parsed = default!;
+                    return true;
+                default:
+                    parsed = default!;
+                    return false;
+            }
         }
     }
 }
