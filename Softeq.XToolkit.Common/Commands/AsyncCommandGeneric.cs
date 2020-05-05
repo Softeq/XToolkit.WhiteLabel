@@ -25,10 +25,10 @@ namespace Softeq.XToolkit.Common.Commands
         ///     Initializes a new instance of the <see cref="AsyncCommand{T}"/> class.
         /// </summary>
         /// <param name="execute">
-        ///     The Function executed when Execute or ExecuteAsync is called.
-        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        ///     The Function executed when Execute or ExecuteAsync is called. IMPORTANT: Note that closures are not supported
+        ///     at the moment due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
-        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will be executed.</param>
         public AsyncCommand(Func<T, Task> execute, Action<Exception> onException)
             : this(execute, null, onException)
         {
@@ -38,11 +38,11 @@ namespace Softeq.XToolkit.Common.Commands
         ///     Initializes a new instance of the <see cref="AsyncCommand{T}"/> class.
         /// </summary>
         /// <param name="execute">
-        ///     The Function executed when Execute or ExecuteAsync is called.
-        ///     This does not check canExecute before executing and will execute even if canExecute is false.
+        ///     The Function executed when Execute or ExecuteAsync is called. IMPORTANT: Note that closures are not supported
+        ///     at the moment due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
         /// <param name="canExecute">The Function that verifies whether or not AsyncCommand should execute.</param>
-        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will execute.</param>
+        /// <param name="onException">If an exception is thrown in the Task, <c>onException</c> will be executed.</param>
         public AsyncCommand(
             Func<T, Task> execute,
             Func<T, bool>? canExecute = null,

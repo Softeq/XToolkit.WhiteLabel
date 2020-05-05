@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Common.Commands
     {
         private readonly WeakAction<Exception>? _onException;
 
-        protected AsyncCommandBase(Action<Exception> onException)
+        protected AsyncCommandBase(Action<Exception>? onException)
         {
             if (onException != null)
             {
