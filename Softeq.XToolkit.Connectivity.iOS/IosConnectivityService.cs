@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using CoreFoundation;
 using Network;
 using Plugin.Connectivity.Abstractions;
@@ -12,6 +13,8 @@ namespace Softeq.XToolkit.Connectivity.iOS
 {
     public class IosConnectivityService : IConnectivityService
     {
+        private readonly ReaderWriterLockSlim _statusesLock = new ReaderWriterLockSlim();
+
         private readonly Dictionary<NWInterfaceType, bool> _connectionStatuses;
         private readonly IList<NWPathMonitor> _monitors;
 
@@ -36,7 +39,21 @@ namespace Softeq.XToolkit.Connectivity.iOS
             Dispose(false);
         }
 
-        public bool IsConnected => CheckConnectivity(_connectionStatuses);
+        public bool IsConnected
+        {
+            get
+            {
+                _statusesLock.EnterReadLock();
+                try
+                {
+                    return CheckConnectivity(_connectionStatuses);
+                }
+                finally
+                {
+                    _statusesLock.ExitReadLock();
+                }
+            }
+        }
 
         public bool IsSupported => true;
 
@@ -44,8 +61,16 @@ namespace Softeq.XToolkit.Connectivity.iOS
         {
             get
             {
-                var statuses = _connectionStatuses.Where(x => x.Value).Select(x => x.Key).ToList();
-                return FilterConnectionTypes(statuses);
+                _statusesLock.EnterReadLock();
+                try
+                {
+                    var statuses = _connectionStatuses.Where(x => x.Value).Select(x => x.Key).ToList();
+                    return FilterConnectionTypes(statuses);
+                }
+                finally
+                {
+                    _statusesLock.ExitReadLock();
+                }
             }
         }
 
@@ -98,7 +123,15 @@ namespace Softeq.XToolkit.Connectivity.iOS
 
         private NWPathMonitor RegisterMonitor(NWInterfaceType type)
         {
-            _connectionStatuses.TryAdd(type, false);
+            _statusesLock.EnterWriteLock();
+            try
+            {
+                _connectionStatuses.TryAdd(type, false);
+            }
+            finally
+            {
+                _statusesLock.ExitWriteLock();
+            }
 
             var monitor = CreateMonitor(type, nWPath => HandleUpdateSnapshot(nWPath, type));
             monitor.Start();
@@ -118,7 +151,15 @@ namespace Softeq.XToolkit.Connectivity.iOS
             var isConnectedOld = IsConnected;
             var connectionTypesOld = ConnectionTypes;
 
-            _connectionStatuses[type] = nWPath.Status == NWPathStatus.Satisfied;
+            _statusesLock.EnterWriteLock();
+            try
+            {
+                _connectionStatuses[type] = nWPath.Status == NWPathStatus.Satisfied;
+            }
+            finally
+            {
+                _statusesLock.ExitWriteLock();
+            }
 
             if (isConnectedOld != IsConnected)
             {
