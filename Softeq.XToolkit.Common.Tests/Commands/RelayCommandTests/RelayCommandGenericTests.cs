@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using NSubstitute;
 using Softeq.XToolkit.Common.Commands;
@@ -10,6 +11,7 @@ using Command = Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests.RelayCom
 
 namespace Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests
 {
+    [SuppressMessage("ReSharper", "xUnit1026", Justification = "Generic parameters used just for test case generation")]
     public class RelayCommandGenericTests
     {
         [Fact]
@@ -114,6 +116,22 @@ namespace Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests
             var result = command.CanExecute(parameter);
 
             Assert.Equal(expectedResult, result);
+        }
+
+        [Theory]
+        [InlineData(0, "test")]
+        [InlineData("test", 0)]
+        [InlineData(0, null)]
+        public void Execute_WithUnsupportedParameterType_DoesNotExecute<TCommand, TParameter>(
+            TCommand commandType,
+            TParameter parameter)
+        {
+            var execute = Substitute.For<Action<TCommand>>();
+            var command = Command.Create(execute);
+
+            command.Execute(parameter);
+
+            execute.DidNotReceive().Invoke(Arg.Any<TCommand>());
         }
 
         [Theory]

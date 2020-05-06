@@ -9,6 +9,11 @@ namespace Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests
 {
     public static class RelayCommandsFactory
     {
+        public static RelayCommand<T> Create<T>(Action<T> execute)
+        {
+            return new RelayCommand<T>(execute);
+        }
+
         public static RelayCommand WithGarbageCollectableExecuteTarget(Action execute)
         {
             var executeProvider = new TestExecuteProvider(execute);

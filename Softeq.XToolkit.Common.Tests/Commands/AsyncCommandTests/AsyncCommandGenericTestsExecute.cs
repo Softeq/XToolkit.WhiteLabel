@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using NSubstitute;
@@ -12,6 +13,7 @@ using Execute = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteD
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
+    [SuppressMessage("ReSharper", "xUnit1026", Justification = "Generic parameters used just for test case generation")]
     public class AsyncCommandGenericTestsExecute
     {
         [Fact]
@@ -127,6 +129,22 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             command.Execute(parameter);
 
             func.Received(1).Invoke(parameter);
+        }
+
+        [Theory]
+        [InlineData(0, "test")]
+        [InlineData("test", 0)]
+        [InlineData(0, null)]
+        public void Execute_WithUnsupportedParameterType_DoesNotExecute<TCommand, TParameter>(
+            TCommand commandType,
+            TParameter parameter)
+        {
+            var func = Execute.Create<TCommand>();
+            var command = Command.Create(func);
+
+            command.Execute(parameter);
+
+            func.DidNotReceive().Invoke(Arg.Any<TCommand>());
         }
 
         [Theory]

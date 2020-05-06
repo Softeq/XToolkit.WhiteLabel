@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Softeq.XToolkit.Common.Weak;
@@ -81,6 +82,10 @@ namespace Softeq.XToolkit.Common.Commands
             {
                 Execute(parsed);
             }
+            else
+            {
+                AssertParameterNotSupported(parameter);
+            }
         }
 
         public void Execute(T parameter)
@@ -141,6 +146,16 @@ namespace Softeq.XToolkit.Common.Commands
                     parsed = default!;
                     return false;
             }
+        }
+
+        [Conditional("DEBUG")]
+        private static void AssertParameterNotSupported(object? parameter)
+        {
+            var parameterFormatted = parameter != null
+                ? $"of type {parameter.GetType()}"
+                : $"\"null\"";
+
+            Debug.WriteLine($"Command cannot be executed with parameter {parameterFormatted}; type {typeof(T)} is expected");
         }
     }
 }
