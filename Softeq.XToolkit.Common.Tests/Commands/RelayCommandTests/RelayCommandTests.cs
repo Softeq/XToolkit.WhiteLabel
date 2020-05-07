@@ -10,6 +10,19 @@ namespace Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests
 {
     public class RelayCommandTests
     {
+        [Theory]
+        [InlineData("test")]
+        [InlineData(0)]
+        public void Execute_WithNotNullParameter_IgnoresParameter(object parameter)
+        {
+            var func = Substitute.For<Action>();
+            var command = Command.Create(func);
+
+            command.Execute(parameter);
+
+            func.Received(1).Invoke();
+        }
+
         [Fact]
         public void CanExecute_AfterExecuteTargetGarbageCollected_ReturnsFalse()
         {

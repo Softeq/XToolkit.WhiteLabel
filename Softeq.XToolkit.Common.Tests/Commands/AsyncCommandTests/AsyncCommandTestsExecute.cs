@@ -24,6 +24,19 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         }
 
         [Theory]
+        [InlineData("test")]
+        [InlineData(0)]
+        public void Execute_WithNotNullParameter_IgnoresParameter(object parameter)
+        {
+            var func = Execute.Create();
+            var command = Command.Create(func);
+
+            command.Execute(parameter);
+
+            func.Received(1).Invoke();
+        }
+
+        [Theory]
         [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
         public void Execute_CanExecuteTrue_ExecutesOneTime(string parameter)
         {

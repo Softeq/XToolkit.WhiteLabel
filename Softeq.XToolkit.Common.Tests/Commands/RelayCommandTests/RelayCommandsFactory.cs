@@ -9,6 +9,11 @@ namespace Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests
 {
     public static class RelayCommandsFactory
     {
+        public static RelayCommand Create(Action execute)
+        {
+            return new RelayCommand(execute);
+        }
+
         public static RelayCommand<T> Create<T>(Action<T> execute)
         {
             return new RelayCommand<T>(execute);

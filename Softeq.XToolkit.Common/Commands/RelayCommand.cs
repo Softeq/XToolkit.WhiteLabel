@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Weak;
@@ -62,6 +63,8 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
         {
+            AssertParameterNotUsed(parameter);
+
             if (!_execute.IsAlive)
             {
                 return false;
@@ -106,6 +109,15 @@ namespace Softeq.XToolkit.Common.Commands
         public void RaiseCanExecuteChanged()
         {
             CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        [Conditional("DEBUG")]
+        private static void AssertParameterNotUsed(object? parameter)
+        {
+            if (parameter != null)
+            {
+                Debug.WriteLine($"WARNING: Command do not use parameter, but was provided with not-null value of type {parameter.GetType()}");
+            }
         }
     }
 }
