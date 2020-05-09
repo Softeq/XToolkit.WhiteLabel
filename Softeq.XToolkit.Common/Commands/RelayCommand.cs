@@ -116,7 +116,9 @@ namespace Softeq.XToolkit.Common.Commands
         {
             if (parameter != null)
             {
-                Debug.WriteLine($"WARNING: Command do not use parameter, but was provided with not-null value of type {parameter.GetType()}");
+                throw new ArgumentException(
+                    $"Command do not use parameter, but was provided with not-null value of type {parameter.GetType()}",
+                    nameof(parameter));
             }
         }
     }

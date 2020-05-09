@@ -161,7 +161,9 @@ namespace Softeq.XToolkit.Common.Commands
                 ? $"of type {parameter.GetType()}"
                 : $"\"null\"";
 
-            Debug.WriteLine($"WARNING: Command cannot be executed with parameter {parameterFormatted}; type {typeof(T)} is expected");
+            throw new ArgumentException(
+                $"Command cannot be executed with parameter {parameterFormatted}; type {typeof(T)} is expected",
+                nameof(parameter));
         }
     }
 }

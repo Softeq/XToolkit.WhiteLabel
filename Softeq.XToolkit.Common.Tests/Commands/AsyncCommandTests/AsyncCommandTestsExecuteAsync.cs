@@ -12,28 +12,35 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
     public class AsyncCommandTestsExecuteAsync
     {
-        [Theory]
-        [InlineData(null)]
-        [InlineData(CommandsDataProvider.DefaultParameter)]
-        public async Task ExecuteAsync_CalledOneTime_ExecutesOneTime(string parameter)
+        [Fact]
+        public async Task ExecuteAsync_CalledOneTime_ExecutesOneTime()
         {
             var func = Execute.Create();
             var command = Command.Create(func);
 
-            await command.ExecuteAsync(parameter);
+            await command.ExecuteAsync(null);
 
             await func.Received(1).Invoke();
         }
 
         [Theory]
-        [InlineData(null)]
-        [InlineData(CommandsDataProvider.DefaultParameter)]
-        public async Task ExecuteAsync_AsyncWithException_ThrowsException(string parameter)
+        [InlineData(0)]
+        [InlineData("test")]
+        public async Task ExecuteAsync_WithUnsupportedParameter_ThrowsException(object parameter)
+        {
+            var func = Execute.Create();
+            var command = Command.Create(func);
+
+            await Assert.ThrowsAsync<ArgumentException>(() => command.ExecuteAsync(parameter));
+        }
+
+        [Fact]
+        public async Task ExecuteAsync_AsyncWithException_ThrowsException()
         {
             var func = Execute.WithException();
             var command = Command.Create(func);
 
-            await Assert.ThrowsAsync<InvalidOperationException>(() => command.ExecuteAsync(parameter));
+            await Assert.ThrowsAsync<InvalidOperationException>(() => command.ExecuteAsync(null));
         }
 
         [Fact]

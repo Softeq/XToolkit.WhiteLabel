@@ -11,29 +11,35 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
     public class AsyncCommandTestsCanExecute : CommandTestsCanExecuteBase
     {
-        [Theory]
-        [InlineData(null)]
-        [InlineData(123)]
-        [InlineData(CommandsDataProvider.DefaultParameter)]
-        public void CanExecute_DefaultWithParameters_ReturnsTrue(object parameter)
+        [Fact]
+        public void CanExecute_DefaultWithNullParameter_ReturnsTrue()
         {
             var func = Execute.Create();
             var command = Command.Create(func);
 
-            Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, true);
+            Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, null, true);
         }
 
         [Theory]
-        [InlineData(null, true)]
-        [InlineData(null, false)]
-        [InlineData(CommandsDataProvider.DefaultParameter, false)]
-        [InlineData(123, true)]
-        public void CanExecute_NotNullDelegate_ReturnsExpectedValue(object parameter, bool expected)
+        [InlineData(123)]
+        [InlineData(CommandsDataProvider.DefaultParameter)]
+        public void CanExecute_DefaultWithUnsupportedParameters_ThrowsException(object parameter)
+        {
+            var func = Execute.Create();
+            var command = Command.Create(func);
+
+            Assert.Throws<ArgumentException>(() => command.CanExecute(parameter));
+        }
+
+        [Theory]
+        [InlineData(true)]
+        [InlineData(false)]
+        public void CanExecute_NotNullDelegate_ReturnsExpectedValue(bool expected)
         {
             var func = Execute.Create();
             var command = Command.Create(func, () => expected);
 
-            Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, expected);
+            Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, null, expected);
         }
 
         [Fact]

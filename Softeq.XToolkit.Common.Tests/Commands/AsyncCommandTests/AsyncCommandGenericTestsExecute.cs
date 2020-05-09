@@ -113,9 +113,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
             var func = Execute.Create<string>();
             var command = Command.Create(func) as ICommand;
 
-            command.Execute(parameter);
-
-            func.DidNotReceive().Invoke(Arg.Any<string>());
+            Assert.Throws<ArgumentException>(() => command.Execute(parameter));
         }
 
         [Theory]
@@ -135,16 +133,14 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(0, "test")]
         [InlineData("test", 0)]
         [InlineData(0, null)]
-        public void Execute_WithUnsupportedParameterType_DoesNotExecute<TCommand, TParameter>(
+        public void Execute_WithUnsupportedParameterType_ThrowsException<TCommand, TParameter>(
             TCommand commandType,
             TParameter parameter)
         {
             var func = Execute.Create<TCommand>();
             var command = Command.Create(func);
 
-            command.Execute(parameter);
-
-            func.DidNotReceive().Invoke(Arg.Any<TCommand>());
+            Assert.Throws<ArgumentException>(() => command.Execute(parameter));
         }
 
         [Theory]
