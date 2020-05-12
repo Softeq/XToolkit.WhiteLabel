@@ -107,16 +107,6 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         }
 
         [Theory]
-        [MemberData(nameof(CommandsDataProvider.InvalidParameters), MemberType = typeof(CommandsDataProvider))]
-        public void Execute_AsICommandWithInvalidParameter_ThrowsException(object parameter)
-        {
-            var func = Execute.Create<string>();
-            var command = Command.Create(func) as ICommand;
-
-            Assert.Throws<ArgumentException>(() => command.Execute(parameter));
-        }
-
-        [Theory]
         [InlineData(123)]
         [InlineData(null)]
         public void Execute_AsICommandGenericWithNullableStruct_Executes(int? parameter)
@@ -133,14 +123,16 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [InlineData(0, "test")]
         [InlineData("test", 0)]
         [InlineData(0, null)]
-        public void Execute_WithUnsupportedParameterType_ThrowsException<TCommand, TParameter>(
+        public void Execute_WithUnsupportedParameterType_IgnoresParameter<TCommand, TParameter>(
             TCommand commandType,
             TParameter parameter)
         {
             var func = Execute.Create<TCommand>();
             var command = Command.Create(func);
 
-            Assert.Throws<ArgumentException>(() => command.Execute(parameter));
+            command.Execute(parameter);
+
+            func.DidNotReceive().Invoke(Arg.Any<TCommand>());
         }
 
         [Theory]

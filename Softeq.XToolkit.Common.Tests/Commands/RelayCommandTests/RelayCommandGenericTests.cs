@@ -122,14 +122,16 @@ namespace Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests
         [InlineData(0, "test")]
         [InlineData("test", 0)]
         [InlineData(0, null)]
-        public void Execute_WithUnsupportedParameterType_ThrowsException<TCommand, TParameter>(
+        public void Execute_WithUnsupportedParameterType_IgnoresParameter<TCommand, TParameter>(
             TCommand commandType,
             TParameter parameter)
         {
             var execute = Substitute.For<Action<TCommand>>();
             var command = Command.Create(execute);
 
-            Assert.Throws<ArgumentException>(() => command.Execute(parameter));
+            command.Execute(parameter);
+
+            execute.DidNotReceive().Invoke(Arg.Any<TCommand>());
         }
 
         [Theory]

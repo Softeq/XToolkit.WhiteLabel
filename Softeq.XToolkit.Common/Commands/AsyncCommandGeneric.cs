@@ -106,7 +106,13 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
         {
-            return TryParseParameter(parameter, out T parsed) && CanExecute(parsed);
+            if (TryParseParameter(parameter, out T parsed))
+            {
+                return CanExecute(parsed);
+            }
+
+            AssertParameterTypeSupported(parameter);
+            return false;
         }
 
         /// <inheritdoc cref="AsyncCommand.Execute"/>
@@ -118,7 +124,7 @@ namespace Softeq.XToolkit.Common.Commands
             }
             else
             {
-                AssertParameterNotSupported(parameter);
+                AssertParameterTypeSupported(parameter);
             }
         }
 
@@ -155,15 +161,14 @@ namespace Softeq.XToolkit.Common.Commands
         }
 
         [Conditional("DEBUG")]
-        private static void AssertParameterNotSupported(object? parameter)
+        private static void AssertParameterTypeSupported(object? parameter)
         {
             var parameterFormatted = parameter != null
                 ? $"of type {parameter.GetType()}"
-                : $"\"null\"";
+                : "\"null\"";
 
-            throw new ArgumentException(
-                $"Command cannot be executed with parameter {parameterFormatted}; type {typeof(T)} is expected",
-                nameof(parameter));
+            Debug.WriteLine($"Command cannot be executed with parameter {parameterFormatted}; type {typeof(T)} is expected");
+            Debug.WriteLine(Environment.StackTrace);
         }
     }
 }

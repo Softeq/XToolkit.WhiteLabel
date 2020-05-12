@@ -26,12 +26,14 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Theory]
         [InlineData("test")]
         [InlineData(0)]
-        public void Execute_WithNotNullParameter_ThrowsException(object parameter)
+        public void Execute_WithNotNullParameter_IgnoresParameter(object parameter)
         {
             var func = Execute.Create();
             var command = Command.Create(func);
 
-            Assert.Throws<ArgumentException>(() => command.Execute(parameter));
+            command.Execute(parameter);
+
+            func.Received(1).Invoke();
         }
 
         [Fact]

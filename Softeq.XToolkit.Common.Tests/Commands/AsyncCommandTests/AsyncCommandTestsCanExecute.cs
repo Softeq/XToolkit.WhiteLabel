@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
     public class AsyncCommandTestsCanExecute : CommandTestsCanExecuteBase
     {
         [Fact]
-        public void CanExecute_DefaultWithNullParameter_ReturnsTrue()
+        public void CanExecute_WithNullParameter_ReturnsTrue()
         {
             var func = Execute.Create();
             var command = Command.Create(func);
@@ -22,13 +22,13 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 
         [Theory]
         [InlineData(123)]
-        [InlineData(CommandsDataProvider.DefaultParameter)]
-        public void CanExecute_DefaultWithUnsupportedParameters_ThrowsException(object parameter)
+        [InlineData("test")]
+        public void CanExecute_WithUnsupportedParameters_IgnoresParameter(object parameter)
         {
             var func = Execute.Create();
             var command = Command.Create(func);
 
-            Assert.Throws<ArgumentException>(() => command.CanExecute(parameter));
+            Assert_CanExecute_WithParameter_ReturnsExpectedValue(command, parameter, true);
         }
 
         [Theory]

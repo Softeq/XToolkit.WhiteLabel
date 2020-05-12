@@ -13,12 +13,14 @@ namespace Softeq.XToolkit.Common.Tests.Commands.RelayCommandTests
         [Theory]
         [InlineData("test")]
         [InlineData(0)]
-        public void Execute_WithNotNullParameter_ThrowsException(object parameter)
+        public void Execute_WithNotNullParameter_IgnoresParameter(object parameter)
         {
             var func = Substitute.For<Action>();
             var command = Command.Create(func);
 
-            Assert.Throws<ArgumentException>(() => command.Execute(parameter));
+            command.Execute(parameter);
+
+            func.Received(1).Invoke();
         }
 
         [Fact]

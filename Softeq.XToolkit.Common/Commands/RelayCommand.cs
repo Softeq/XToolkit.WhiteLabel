@@ -114,12 +114,13 @@ namespace Softeq.XToolkit.Common.Commands
         [Conditional("DEBUG")]
         private static void AssertParameterNotUsed(object? parameter)
         {
-            if (parameter != null)
+            if (parameter == null)
             {
-                throw new ArgumentException(
-                    $"Command do not use parameter, but was provided with not-null value of type {parameter.GetType()}",
-                    nameof(parameter));
+                return;
             }
+
+            Debug.WriteLine($"Command do not use parameter, but was provided with not-null value of type {parameter.GetType()}");
+            Debug.WriteLine(Environment.StackTrace);
         }
     }
 }

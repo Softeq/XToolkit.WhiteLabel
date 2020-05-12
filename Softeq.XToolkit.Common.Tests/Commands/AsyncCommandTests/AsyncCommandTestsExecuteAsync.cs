@@ -26,12 +26,14 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Theory]
         [InlineData(0)]
         [InlineData("test")]
-        public async Task ExecuteAsync_WithUnsupportedParameter_ThrowsException(object parameter)
+        public async Task ExecuteAsync_WithUnsupportedParameter_IgnoresParameter(object parameter)
         {
             var func = Execute.Create();
             var command = Command.Create(func);
 
-            await Assert.ThrowsAsync<ArgumentException>(() => command.ExecuteAsync(parameter));
+            await command.ExecuteAsync(parameter);
+
+            await func.Received(1).Invoke();
         }
 
         [Fact]

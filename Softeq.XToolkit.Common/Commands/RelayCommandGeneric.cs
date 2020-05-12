@@ -84,7 +84,7 @@ namespace Softeq.XToolkit.Common.Commands
             }
             else
             {
-                AssertParameterNotSupported(parameter);
+                AssertParameterTypeSupported(parameter);
             }
         }
 
@@ -149,15 +149,14 @@ namespace Softeq.XToolkit.Common.Commands
         }
 
         [Conditional("DEBUG")]
-        private static void AssertParameterNotSupported(object? parameter)
+        private static void AssertParameterTypeSupported(object? parameter)
         {
             var parameterFormatted = parameter != null
                 ? $"of type {parameter.GetType()}"
-                : $"\"null\"";
+                : "\"null\"";
 
-            throw new ArgumentException(
-                $"Command cannot be executed with parameter {parameterFormatted}; type {typeof(T)} is expected",
-                nameof(parameter));
+            Debug.WriteLine($"Command cannot be executed with parameter {parameterFormatted}; type {typeof(T)} is expected");
+            Debug.WriteLine(Environment.StackTrace);
         }
     }
 }
