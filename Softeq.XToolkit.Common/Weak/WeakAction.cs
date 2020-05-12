@@ -36,7 +36,6 @@ namespace Softeq.XToolkit.Common.Weak
         ///     Executes the action. This only happens if the action's owner
         ///     is still alive.
         /// </summary>
-        [return: MaybeNull]
         public void Execute()
         {
             if (StaticDelegate != null)
@@ -106,7 +105,6 @@ namespace Softeq.XToolkit.Common.Weak
         ///     is still alive.
         /// </summary>
         /// <param name="parameter">A parameter to be passed to the action.</param>
-        [return: MaybeNull]
         public void Execute(T parameter)
         {
             if (StaticDelegate != null)

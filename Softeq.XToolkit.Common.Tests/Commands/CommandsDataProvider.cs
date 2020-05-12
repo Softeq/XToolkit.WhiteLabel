@@ -29,15 +29,6 @@ namespace Softeq.XToolkit.Common.Tests.Commands
             }
         }
 
-        public static IEnumerable<object[]> InvalidParameters
-        {
-            get
-            {
-                yield return new object[] { 123 };
-                yield return new object[] { new StringBuilder() };
-            }
-        }
-
         public static bool CanExecuteWhenNotNull(string parameter)
         {
             return parameter != null;

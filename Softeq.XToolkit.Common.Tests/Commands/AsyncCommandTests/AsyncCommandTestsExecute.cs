@@ -1,11 +1,12 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
-using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
-using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
+using Command = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
+using Execute = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
@@ -14,8 +15,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void Execute_CalledOneTime_ExecutesOneTime()
         {
-            var func = CreateFunc();
-            var command = CreateAsyncCommand(func);
+            var func = Execute.Create();
+            var command = Command.Create(func);
 
             command.Execute(null);
 
@@ -23,66 +24,103 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         }
 
         [Theory]
-        [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
-        public void Execute_CanExecuteTrue_ExecutesOneTime(string parameter)
+        [InlineData("test")]
+        [InlineData(0)]
+        public void Execute_WithNotNullParameter_IgnoresParameter(object parameter)
         {
-            var func = CreateFunc();
-            var command = CreateAsyncCommand(func, () => true);
+            var func = Execute.Create();
+            var command = Command.Create(func);
 
             command.Execute(parameter);
 
             func.Received(1).Invoke();
         }
 
-        [Theory]
-        [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
-        public void Execute_CanExecuteFalse_DoNotExecutes(string parameter)
+        [Fact]
+        public void Execute_CanExecuteTrue_ExecutesOneTime()
         {
-            var func = CreateFunc();
-            var command = CreateAsyncCommand(func, () => false);
+            var func = Execute.Create();
+            var command = Command.Create(func, () => true);
 
-            command.Execute(parameter);
+            command.Execute(null);
+
+            func.Received(1).Invoke();
+        }
+
+        [Fact]
+        public void Execute_CanExecuteFalse_DoesNotExecute()
+        {
+            var func = Execute.Create();
+            var command = Command.Create(func, () => false);
+
+            command.Execute(null);
 
             func.DidNotReceive().Invoke();
         }
 
-        [Theory]
-        [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
-        public void Execute_SyncCallTwoTimes_ExecutesTwoTimes(string parameter)
+        [Fact]
+        public void Execute_SyncCallTwoTimes_ExecutesTwoTimes()
         {
-            var func = CreateFunc();
-            var command = CreateAsyncCommand(func);
+            var func = Execute.Create();
+            var command = Command.Create(func);
 
-            command.Execute(parameter);
-            command.Execute(parameter);
+            command.Execute(null);
+            command.Execute(null);
 
             func.Received(2).Invoke();
         }
 
-        [Theory]
-        [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
-        public async Task Execute_AsyncCallSeveralTimes_ExecutesOneTime(string parameter)
+        [Fact]
+        public void Execute_AsyncCallSeveralTimes_ExecutesOneTime()
         {
-            var func = CreateFuncWithDelay();
-            var command = CreateAsyncCommand(func);
+            var tcs = new TaskCompletionSource<bool>();
+            var func = Execute.FromSource(tcs);
+            var command = Command.Create(func);
 
-            command.Execute(parameter);
-            command.Execute(parameter);
-            command.Execute(parameter);
+            command.Execute(null);
+            command.Execute(null);
+            command.Execute(null);
 
-            await func.Received(1).Invoke();
+            func.Received(1).Invoke();
+
+            tcs.SetResult(true);
         }
 
-        [Theory]
-        [MemberData(nameof(CommandsDataProvider.Parameters), MemberType = typeof(CommandsDataProvider))]
-        public async Task Execute_AsyncWithException_ExecutesWithoutException(string parameter)
+        [Fact]
+        public void Execute_AsyncWithException_ExecutesWithoutException()
         {
-            var func = CreateFuncWithException();
-            var command = CreateAsyncCommand(func);
+            var func = Execute.WithException();
+            var command = Command.Create(func);
 
-            command.Execute(parameter);
+            command.Execute(null);
 
-            await func.Received(1).Invoke();
+            func.Received(1).Invoke();
+        }
+
+        [Fact]
+        public void Execute_AfterExecuteTargetGarbageCollected_DoesNotExecute()
+        {
+            var execute = Execute.Create();
+            var command = Command.WithGarbageCollectableExecuteTarget(execute);
+
+            GC.Collect();
+
+            command.Execute(null);
+
+            execute.DidNotReceive().Invoke();
+        }
+
+        [Fact]
+        public void Execute_AfterCanExecuteTargetGarbageCollected_DoesNotExecute()
+        {
+            var execute = Execute.Create();
+            var command = Command.WithGarbageCollectableCanExecuteTarget(execute, () => true);
+
+            GC.Collect();
+
+            command.Execute(null);
+
+            execute.DidNotReceive().Invoke();
         }
     }
 }

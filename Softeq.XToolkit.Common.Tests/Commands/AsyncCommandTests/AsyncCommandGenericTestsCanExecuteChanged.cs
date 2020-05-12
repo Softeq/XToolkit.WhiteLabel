@@ -2,8 +2,8 @@
 // http://www.softeq.com
 
 using Xunit;
-using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
-using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
+using Command = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
+using Execute = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
@@ -12,8 +12,8 @@ namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
         [Fact]
         public void CanExecuteChanged_ExecuteWasFinished_RisesOnce()
         {
-            var func = CreateFuncWithArg();
-            var command = CreateAsyncCommandGeneric(func);
+            var func = Execute.Create<string>();
+            var command = Command.Create(func);
 
             Assert_CanExecuteChanged_AfterExecute_RisesOnce(command);
         }

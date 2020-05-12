@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using Softeq.XToolkit.Common.Weak;
@@ -15,6 +16,7 @@ namespace Softeq.XToolkit.Common.Commands
     ///     Execute and CanExecute callback methods.
     /// </summary>
     /// <typeparam name="T">The type of the command parameter.</typeparam>
+    [SuppressMessage("ReSharper", "SA1649", Justification = "File name is fine")]
     public class RelayCommand<T> : ICommand<T>, IRaisableCanExecute
     {
         private readonly WeakFunc<T, bool>? _canExecute;
@@ -63,33 +65,7 @@ namespace Softeq.XToolkit.Common.Commands
         /// <returns>true if this command can be executed; otherwise, false.</returns>
         public bool CanExecute(object? parameter)
         {
-            if (_execute == null)
-            {
-                return false;
-            }
-
-            if (!_execute.IsStatic && !_execute.IsAlive)
-            {
-                return false;
-            }
-
-            if (_canExecute == null)
-            {
-                return true;
-            }
-
-            if (!_canExecute.IsStatic && !_canExecute.IsAlive)
-            {
-                return false;
-            }
-
-            return parameter switch
-            {
-                null when typeof(T).GetTypeInfo().IsValueType => _canExecute.Execute(default!),
-                null => _canExecute.Execute(default!),
-                T p => _canExecute.Execute(p),
-                _ => false
-            };
+            return TryParseParameter(parameter, out T parsed) && CanExecute(parsed);
         }
 
         /// <inheritdoc />
@@ -100,14 +76,16 @@ namespace Softeq.XToolkit.Common.Commands
         ///     Data used by the command. If the command does not require data
         ///     to be passed, this object can be set to a null reference.
         /// </param>
-        public virtual void Execute(object? parameter)
+        public void Execute(object? parameter)
         {
-            if (parameter == null && typeof(T).GetTypeInfo().IsValueType)
+            if (TryParseParameter(parameter, out T parsed))
             {
-                throw new ArgumentException($"Relay Command wait parameter with type: {typeof(T)}", nameof(parameter));
+                Execute(parsed);
             }
-
-            Execute((T) parameter!);
+            else
+            {
+                AssertParameterTypeSupported(parameter);
+            }
         }
 
         public void Execute(T parameter)
@@ -120,8 +98,22 @@ namespace Softeq.XToolkit.Common.Commands
 
         public bool CanExecute(T parameter)
         {
-            return CanExecute(ReferenceEquals(parameter, null) ?
-                default : (object) parameter);
+            if (!_execute.IsAlive)
+            {
+                return false;
+            }
+
+            if (_canExecute == null)
+            {
+                return true;
+            }
+
+            if (!_canExecute.IsAlive)
+            {
+                return false;
+            }
+
+            return _canExecute.Execute(parameter);
         }
 
         /// <summary>
@@ -137,8 +129,34 @@ namespace Softeq.XToolkit.Common.Commands
             Justification = "This cannot be an event")]
         public void RaiseCanExecuteChanged()
         {
-            var handler = CanExecuteChanged;
-            handler?.Invoke(this, EventArgs.Empty);
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+        }
+
+        private static bool TryParseParameter(object? parameter, out T parsed)
+        {
+            switch (parameter)
+            {
+                case T p:
+                    parsed = p;
+                    return true;
+                case null when !typeof(T).GetTypeInfo().IsValueType:
+                    parsed = default!;
+                    return true;
+                default:
+                    parsed = default!;
+                    return false;
+            }
+        }
+
+        [Conditional("DEBUG")]
+        private static void AssertParameterTypeSupported(object? parameter)
+        {
+            var parameterFormatted = parameter != null
+                ? $"of type {parameter.GetType()}"
+                : "\"null\"";
+
+            Debug.WriteLine($"Command cannot be executed with parameter {parameterFormatted}; type {typeof(T)} is expected");
+            Debug.WriteLine(Environment.StackTrace);
         }
     }
 }

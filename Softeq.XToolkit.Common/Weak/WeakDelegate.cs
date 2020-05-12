@@ -2,8 +2,8 @@
 // http://www.softeq.com
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
+using System.Runtime.ExceptionServices;
 
 namespace Softeq.XToolkit.Common.Weak
 {
@@ -112,17 +112,23 @@ namespace Softeq.XToolkit.Common.Weak
             StaticDelegate = null;
         }
 
-        [return: MaybeNull]
         protected T TryExecuteWeakDelegate<T>(params object?[] parameters)
         {
             var delegateTarget = GetExecutionTarget();
 
             if (delegateTarget != null && Method != null)
             {
-                return (T) Method.Invoke(delegateTarget, parameters);
+                try
+                {
+                    return (T) Method.Invoke(delegateTarget, parameters);
+                }
+                catch (TargetInvocationException e) when (e.InnerException != null)
+                {
+                    ExceptionDispatchInfo.Capture(e.InnerException).Throw();
+                }
             }
 
-            return default;
+            return default!;
         }
 
         private object? GetExecutionTarget()

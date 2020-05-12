@@ -5,35 +5,70 @@ using System;
 using System.Threading.Tasks;
 using NSubstitute;
 using Xunit;
-using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
-using static Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
+using Command = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.AsyncCommandsFactory;
+using Execute = Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests.ExecuteDelegatesFactory;
 
 namespace Softeq.XToolkit.Common.Tests.Commands.AsyncCommandTests
 {
     public class AsyncCommandTestsExecuteAsync
     {
-        [Theory]
-        [InlineData(null)]
-        [InlineData(CommandsDataProvider.DefaultParameter)]
-        public async Task ExecuteAsync_CalledOneTime_ExecutesOneTime(string parameter)
+        [Fact]
+        public async Task ExecuteAsync_CalledOneTime_ExecutesOneTime()
         {
-            var func = CreateFunc();
-            var command = CreateAsyncCommand(func);
+            var func = Execute.Create();
+            var command = Command.Create(func);
+
+            await command.ExecuteAsync(null);
+
+            await func.Received(1).Invoke();
+        }
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData("test")]
+        public async Task ExecuteAsync_WithUnsupportedParameter_IgnoresParameter(object parameter)
+        {
+            var func = Execute.Create();
+            var command = Command.Create(func);
 
             await command.ExecuteAsync(parameter);
 
             await func.Received(1).Invoke();
         }
 
-        [Theory]
-        [InlineData(null)]
-        [InlineData(CommandsDataProvider.DefaultParameter)]
-        public async Task ExecuteAsync_AsyncWithException_ThrowsException(string parameter)
+        [Fact]
+        public async Task ExecuteAsync_AsyncWithException_ThrowsException()
         {
-            var func = CreateFuncWithException();
-            var command = CreateAsyncCommand(func);
+            var func = Execute.WithException();
+            var command = Command.Create(func);
 
-            await Assert.ThrowsAsync<InvalidOperationException>(() => command.ExecuteAsync(parameter));
+            await Assert.ThrowsAsync<InvalidOperationException>(() => command.ExecuteAsync(null));
+        }
+
+        [Fact]
+        public async Task ExecuteAsync_AfterExecuteTargetGarbageCollected_DoesNotExecute()
+        {
+            var execute = Execute.Create();
+            var command = Command.WithGarbageCollectableExecuteTarget(execute);
+
+            GC.Collect();
+
+            await command.ExecuteAsync(null);
+
+            await execute.DidNotReceive().Invoke();
+        }
+
+        [Fact]
+        public async Task ExecuteAsync_AfterCanExecuteTargetGarbageCollected_DoesNotExecute()
+        {
+            var execute = Execute.Create();
+            var command = Command.WithGarbageCollectableCanExecuteTarget(execute, () => true);
+
+            GC.Collect();
+
+            await command.ExecuteAsync(null);
+
+            await execute.DidNotReceive().Invoke();
         }
     }
 }
