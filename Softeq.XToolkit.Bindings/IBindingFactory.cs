@@ -228,5 +228,17 @@ namespace Softeq.XToolkit.Bindings
             Binding<T, T> castedBinding);
 
         string GetDefaultEventNameForControl(Type type);
+
+        /// <summary>
+        ///     Provides the way for command to give a feedback to the element when CanExecuteChanged event is triggered.
+        /// </summary>
+        /// <param name="element">An object that assigned with a command.</param>
+        /// <param name="command">A <see cref="T:System.Windows.Input.ICommand"/> assigned to an object.</param>
+        /// <param name="commandParameterBinding">
+        ///     A <see cref="Binding{TSource, TTarget}" /> instance subscribed to the CommandParameter
+        ///     that will passed to the <see cref="T:System.Windows.Input.ICommand"/>. Used to determine new value of CanExecute.
+        /// </param>
+        /// <typeparam name="T">Type of command parameter.</typeparam>
+        void HandleCommandCanExecute<T>(object element, ICommand command, Binding<T, T> commandParameterBinding);
     }
 }

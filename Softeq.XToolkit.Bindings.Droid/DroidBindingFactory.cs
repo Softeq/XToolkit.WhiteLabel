@@ -5,7 +5,9 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
+using Android.Views;
 using Android.Widget;
+using Softeq.XToolkit.Common.Droid.Extensions;
 
 #nullable disable
 
@@ -137,6 +139,47 @@ namespace Softeq.XToolkit.Bindings.Droid
             }
 
             return null;
+        }
+
+        public override void HandleCommandCanExecute<T>(
+            object element,
+            ICommand command,
+            Binding<T, T> commandParameterBinding)
+        {
+            if (element is View view)
+            {
+                HandleViewEnabled(view, command, commandParameterBinding);
+            }
+        }
+
+        private static void HandleViewEnabled<T>(
+            View view,
+            ICommand command,
+            Binding<T, T> commandParameterBinding)
+        {
+            var commandParameter = commandParameterBinding == null
+                ? default
+                : commandParameterBinding.Value;
+
+            view.BeginInvokeOnMainThread(
+                () => view.Enabled = command.CanExecute(commandParameter));
+
+            // set by CanExecute
+            command.CanExecuteChanged += (s, args) =>
+            {
+                view.BeginInvokeOnMainThread(
+                    () => view.Enabled = command.CanExecute(commandParameter));
+            };
+
+            // set by bindable command parameter
+            if (commandParameterBinding != null)
+            {
+                commandParameterBinding.ValueChanged += (s, args) =>
+                {
+                    view.BeginInvokeOnMainThread(
+                        () => view.Enabled = command.CanExecute(commandParameterBinding.Value));
+                };
+            }
         }
     }
 }
