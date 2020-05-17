@@ -71,6 +71,10 @@
       <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
       <Name>Softeq.XToolkit.Bindings</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
+      <Project>{18d3fdc1-b0a1-401e-87f2-1c43034e610c}</Project>
+      <Name>Softeq.XToolkit.Common.Droid</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
       <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
