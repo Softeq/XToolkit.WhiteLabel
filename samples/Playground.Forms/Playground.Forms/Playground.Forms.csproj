@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Forms\Softeq.XToolkit.WhiteLabel.Forms.csproj" />
   </ItemGroup>
 
@@ -23,6 +24,9 @@
   <ItemGroup>
     <Compile Update="Views\Components\PermissionsPage.xaml.cs">
       <DependentUpon>PermissionsPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\..\Playground\Playground\ViewModels\Components\PermissionViewModel.cs">
+      <Link>ViewModels\Components\PermissionViewModel.cs</Link>
     </Compile>
   </ItemGroup>
 
