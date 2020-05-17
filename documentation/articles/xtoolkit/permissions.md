@@ -62,6 +62,8 @@ public override void OnRequestPermissionsResult(
 }
 ```
 
+---
+
 ### iOS
 
 Register dependencies in platform-specific Bootstrapper:
@@ -71,6 +73,22 @@ Register dependencies in platform-specific Bootstrapper:
 builder.Singleton<PermissionsService, IPermissionsService>();
 builder.Singleton<PermissionsManager, IPermissionsManager>();
 ```
+
+### Add Plugin.Settings
+
+<div class="IMPORTANT">
+<h5>IMPORTANT</h5>
+<p>This section only for <b>WhiteLabel.Forms</b> projects (Android, iOS).
+
+WhiteLabel provides this functionality by default.</p>
+</div>
+
+Add to platform-specific project:
+```xml
+<PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+```
+
+---
 
 ## Declare permissions
 
