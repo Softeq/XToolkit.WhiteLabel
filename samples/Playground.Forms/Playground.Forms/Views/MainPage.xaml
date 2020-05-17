@@ -22,6 +22,10 @@
             Command="{Binding AsyncCommandsCommand}"
             Text="Async Commands" />
 
+        <Button
+            Command="{Binding PermissionsCommand}"
+            Text="Permissions" />
+
     </StackLayout>
 
 </ContentPage>
