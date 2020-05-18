@@ -37,7 +37,7 @@ namespace Playground.ViewModels.Components
         {
             var status = await _permissionsManager.CheckAsync<TPermission>().ConfigureAwait(false);
 
-            Execute.OnUIThread(() =>
+            Execute.BeginOnUIThread(() =>
             {
                 IsGranted = status == PermissionStatus.Granted;
             });

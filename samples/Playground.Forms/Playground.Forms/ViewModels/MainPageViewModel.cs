@@ -26,6 +26,7 @@ namespace Playground.Forms.ViewModels
             MasterDetailNavigationCommand = new RelayCommand(PerformMasterDetailNavigation);
             DialogsCommand = new RelayCommand(Dialogs);
             AsyncCommandsCommand = new RelayCommand(AsyncCommands);
+            PermissionsCommand = new RelayCommand(Permissions);
         }
 
         public ICommand SimpleNavigationCommand { get; }
@@ -35,6 +36,8 @@ namespace Playground.Forms.ViewModels
         public ICommand DialogsCommand { get; }
 
         public ICommand AsyncCommandsCommand { get; }
+
+        public ICommand PermissionsCommand { get; }
 
         public string Title
         {
@@ -66,6 +69,13 @@ namespace Playground.Forms.ViewModels
         {
             _pageNavigationService
                 .For<AsyncCommandsPageViewModel>()
+                .Navigate();
+        }
+
+        private void Permissions()
+        {
+            _pageNavigationService
+                .For<PermissionsPageViewModel>()
                 .Navigate();
         }
     }

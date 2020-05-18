@@ -12,6 +12,117 @@ You can install via NuGet: [![Softeq.XToolkit.Permissions](https://buildstats.in
 Install-Package Softeq.XToolkit.Permissions
 ```
 
+## Setup
+
+### Android
+
+Register dependencies in platform-specific Bootstrapper:
+
+```cs
+// this registration need only for WL.Forms
+builder.Singleton<ICurrentActivity>(c => CrossCurrentActivity.Current);
+
+// permissions
+builder.Singleton<PermissionsService, IPermissionsService>();
+builder.Singleton<PermissionsManager, IPermissionsManager>();
+builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
+```
+
+#### Add Handler
+
+<div class="IMPORTANT">
+<h5>IMPORTANT</h5>
+<p>This section only for <b>WhiteLabel.Forms.Droid</b> project.
+
+WhiteLabel provides this functionality by default.</p>
+</div>
+
+Add registrations to `MainActivity` (Forms.Droid entry point):
+
+```cs
+protected override void OnCreate(Bundle savedInstanceState)
+{
+    base.OnCreate(savedInstanceState);
+
+    // ...
+
+    CrossCurrentActivity.Current.Init(this, savedInstanceState);
+
+    // ...
+}
+
+public override void OnRequestPermissionsResult(
+    int requestCode,
+    string[] permissions,
+    [GeneratedEnum] Permission[] grantResults)
+{
+    Dependencies.Container.Resolve<IPermissionRequestHandler>()?.Handle(requestCode, permissions, grantResults);
+
+    base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+}
+```
+
+---
+
+### iOS
+
+Register dependencies in platform-specific Bootstrapper:
+
+```cs
+// permissions
+builder.Singleton<PermissionsService, IPermissionsService>();
+builder.Singleton<PermissionsManager, IPermissionsManager>();
+```
+
+### Add Plugin.Settings
+
+<div class="IMPORTANT">
+<h5>IMPORTANT</h5>
+<p>This section only for <b>WhiteLabel.Forms</b> projects (Android, iOS).
+
+WhiteLabel provides this functionality by default.</p>
+</div>
+
+Add to platform-specific project:
+```xml
+<PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+```
+
+---
+
+## Declare permissions
+
+Don't forget to add permission declarations:
+
+- iOS: Info.plist
+- Android: AndroidManifest.xml
+
+## Using
+
+Get `IPermissionsManager` from the constructor:
+
+```cs
+public class NewPageViewModel : ViewModelBase
+{
+    public NewPageViewModel(IPermissionsManager permissionsManager)
+    {
+        // ...
+    }
+}
+```
+
+### Check Permission with Request
+
+```cs
+await _permissionsManager.CheckWithRequestAsync<CameraPermission>();
+```
+
+### Check Permission Only
+
+```cs
+await _permissionsManager.CheckAsync<CameraPermission>();
+```
+
 ## Description
 
 ### Common Contracts

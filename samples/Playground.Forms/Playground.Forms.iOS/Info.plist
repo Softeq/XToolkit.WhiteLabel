@@ -34,5 +34,15 @@
     <string>Playground.Forms</string>
     <key>XSAppIconAssets</key>
     <string>Assets.xcassets/AppIcon.appiconset</string>
+    <key>NSCameraUsageDescription</key>
+    <string>Allow camera pls</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Allow photo pls</string>
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Allow location in use pls</string>
+    <key>NSLocationAlwaysUsageDescription</key>
+    <string>Allow location always pls</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>PLIS</string>
 </dict>
 </plist>

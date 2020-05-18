@@ -4,6 +4,10 @@
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+using Android.Runtime;
+using Plugin.CurrentActivity;
+using Softeq.XToolkit.Common.Droid.Permissions;
+using Softeq.XToolkit.WhiteLabel;
 using Xamarin.Forms.Platform.Android;
 
 namespace Playground.Forms.Droid
@@ -23,9 +27,22 @@ namespace Playground.Forms.Droid
 
             base.OnCreate(savedInstanceState);
 
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
+
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
             LoadApplication(new App(new DroidBootstrapper()));
+        }
+
+        // XToolkit.Permissions integration
+        public override void OnRequestPermissionsResult(
+            int requestCode,
+            string[] permissions,
+            [GeneratedEnum] Permission[] grantResults)
+        {
+            Dependencies.Container.Resolve<IPermissionRequestHandler>()?.Handle(requestCode, permissions, grantResults);
+
+            base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }
