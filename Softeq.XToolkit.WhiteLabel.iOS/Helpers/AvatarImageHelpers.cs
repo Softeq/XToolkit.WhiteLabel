@@ -51,8 +51,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
 
             var textSize = attributedText.Size;
             var textPoint = new CGPoint(
-                size.Width / 2f - textSize.Width / 2f,
-                size.Height / 2f - textSize.Height / 2f);
+                (size.Width / 2f) - (textSize.Width / 2f),
+                (size.Height / 2f) - (textSize.Height / 2f));
             attributedText.DrawString(textPoint);
         }
 
