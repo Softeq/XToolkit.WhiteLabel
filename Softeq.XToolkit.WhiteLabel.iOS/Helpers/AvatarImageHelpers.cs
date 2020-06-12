@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
             return CreateCircleImage(
                 styles.Size,
                 backgroundColor.UIColorFromHex().CGColor,
-                () => DrawText(text, styles.Size, styles.Font));
+                () => DrawText(text, styles.Size, styles.Font, styles.TextColor));
         }
 
         private static UIImage CreateCircleImage(Size size, CGColor backgroundColor, Action drawOnForegroundAction)
@@ -43,11 +43,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
             return image;
         }
 
-        private static void DrawText(string text, Size size, UIFont font)
+        private static void DrawText(string text, Size size, UIFont font, UIColor textColor)
         {
             var attributedText = text.BuildAttributedString()
                 .Font(font)
-                .Foreground(UIColor.White);
+                .Foreground(textColor);
 
             var textSize = attributedText.Size;
             var textPoint = new CGPoint(
@@ -63,10 +63,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
                 Size = size;
                 Font = font;
                 BackgroundHexColors = backgroundHexColors;
+                TextColor = UIColor.White;
             }
 
             public Size Size { get; set; }
             public UIFont Font { get; set; }
+            public UIColor TextColor { get; set; }
             public string[] BackgroundHexColors { get; set; }
         }
     }
