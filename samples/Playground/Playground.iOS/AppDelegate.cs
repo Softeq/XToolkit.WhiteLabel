@@ -17,8 +17,6 @@ namespace Playground.iOS
 
         public override UIWindow Window { get; set; } = default!;
 
-        protected override IBootstrapper Bootstrapper => new CustomIosBootstrapper();
-
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             var _ = base.FinishedLaunching(application, launchOptions);
@@ -32,6 +30,11 @@ namespace Playground.iOS
             InitNavigation();
 
             return true;
+        }
+
+        protected override IBootstrapper CreateBootstrapper()
+        {
+            return new CustomIosBootstrapper();
         }
 
         private void InitNavigation()

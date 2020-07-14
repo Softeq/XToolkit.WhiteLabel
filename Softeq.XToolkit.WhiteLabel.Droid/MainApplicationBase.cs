@@ -9,6 +9,7 @@ using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
@@ -24,8 +25,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             : base(handle, transfer)
         {
         }
-
-        protected abstract IBootstrapper Bootstrapper { get; }
 
         public override void OnCreate()
         {
@@ -66,6 +65,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             CrossCurrentActivity.Current.Init(this);
         }
 
+        protected abstract IBootstrapper CreateBootstrapper();
+
         protected virtual void InitializeWhiteLabelRuntime()
         {
             // Init Bindings
@@ -75,7 +76,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             PlatformProvider.Current = new DroidPlatformProvider();
 
             // Init dependencies
-            Bootstrapper.Initialize();
+            var bootstrapper = CreateBootstrapper();
+            var container = bootstrapper.Initialize();
+            Dependencies.Initialize(container);
+
+            // Notify dependencies ready to be used
+            OnContainerInitialized(container);
+        }
+
+        protected virtual void OnContainerInitialized(IContainer container)
+        {
         }
     }
 }

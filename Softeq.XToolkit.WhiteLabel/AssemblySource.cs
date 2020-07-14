@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel
         private static readonly IDictionary<string, Type> TypeNameCache = new Dictionary<string, Type>();
 
         /// <summary>
-        ///     Extracts the types from the spezified assembly for storing in the cache.
+        ///     Extracts the types from the specified assembly for storing in the cache.
         /// </summary>
         public static Func<Assembly, IEnumerable<Type>> ExtractTypes = assembly =>
             assembly.GetExportedTypes()

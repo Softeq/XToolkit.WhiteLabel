@@ -18,17 +18,8 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
     /// </summary>
     public abstract class BootstrapperBase : IBootstrapper
     {
-        private bool _isInitialized;
-
-        public void Initialize()
+        public IContainer Initialize()
         {
-            if (_isInitialized)
-            {
-                return;
-            }
-
-            _isInitialized = true;
-
             var containerBuilder = CreateContainerBuilder();
 
             // framework level
@@ -38,9 +29,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             // application level
             ConfigureIoc(containerBuilder);
 
-            var container = BuildContainer(containerBuilder);
-
-            Dependencies.Initialize(container);
+            return BuildContainer(containerBuilder);
         }
 
         protected virtual IContainerBuilder CreateContainerBuilder()
