@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using DryIoc;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using IDryContainer = DryIoc.IContainer;
 using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
+using IDryContainer = DryIoc.IContainer;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 {
@@ -44,7 +44,8 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
         }
 
 #pragma warning disable RECS0096 // Type parameter is never used
-        public void PerDependency<TService>(Func<IContainer, object> func,
+        public void PerDependency<TService>(
+            Func<IContainer, object> func,
 #pragma warning restore RECS0096 // Type parameter is never used
             IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
@@ -110,10 +111,15 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             _dryContainer.Register(type, reuse, null, null, MapIfAlreadyRegistered(ifRegistered));
         }
 
-        private void RegisterInternal<TService>(Func<IContainer, TService> func, IReuse reuse,
+        private void RegisterInternal<TService>(
+            Func<IContainer, TService> func,
+            IReuse reuse,
             IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
-            _dryContainer.RegisterDelegate(c => func.Invoke(c.Resolve<IContainer>()), reuse, null,
+            _dryContainer.RegisterDelegate(
+                c => func.Invoke(c.Resolve<IContainer>()),
+                reuse,
+                null,
                 MapIfAlreadyRegistered(ifRegistered));
         }
 

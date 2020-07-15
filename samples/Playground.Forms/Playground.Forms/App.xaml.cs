@@ -3,8 +3,8 @@
 
 using Playground.Forms.ViewModels;
 using Playground.Forms.Views;
-using Softeq.XToolkit.WhiteLabel;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Xamarin.Forms;
 
@@ -19,11 +19,11 @@ namespace Playground.Forms
             MainPage = new NavigationPage(new StartPage());
         }
 
-        protected override void OnStarted()
+        protected override void OnStarted(IContainer container)
         {
-            base.OnStarted();
+            base.OnStarted(container);
 
-            var navigationService = Dependencies.Container.Resolve<IPageNavigationService>();
+            var navigationService = container.Resolve<IPageNavigationService>();
             navigationService.Initialize(Current.MainPage.Navigation);
             navigationService
                 .For<MainPageViewModel>()

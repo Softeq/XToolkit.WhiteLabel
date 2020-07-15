@@ -5,6 +5,7 @@ using Foundation;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
@@ -17,14 +18,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     {
         public override UIWindow Window { get; set; } = default!;
 
-        protected abstract IBootstrapper Bootstrapper { get; }
-
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             InitializeWhiteLabelRuntime();
 
             return true;
         }
+
+        protected abstract IBootstrapper CreateBootstrapper();
 
         protected virtual void InitializeWhiteLabelRuntime()
         {
@@ -35,7 +36,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             PlatformProvider.Current = new IosPlatformProvider();
 
             // Init dependencies
-            Bootstrapper.Initialize();
+            var bootstrapper = CreateBootstrapper();
+            var container = bootstrapper.Initialize();
+            Dependencies.Initialize(container);
+
+            // Notify dependencies ready to be used
+            OnContainerInitialized(container);
+        }
+
+        protected virtual void OnContainerInitialized(IContainer container)
+        {
         }
     }
 }
