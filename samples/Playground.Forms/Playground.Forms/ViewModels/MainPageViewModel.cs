@@ -62,7 +62,8 @@ namespace Playground.Forms.ViewModels
         private void Dialogs()
         {
             _pageNavigationService
-                .For<DialogsRootPageViewModel>();
+                .For<DialogsRootPageViewModel>()
+                .Navigate();
         }
 
         private void AsyncCommands()

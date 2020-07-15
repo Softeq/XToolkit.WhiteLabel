@@ -4,6 +4,7 @@
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using Xamarin.Forms;
 
@@ -34,7 +35,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
         /// <summary>
         ///     Application developers override this method to perform actions when the application start was completed.
         /// </summary>
-        protected virtual void OnStarted()
+        /// <param name="container">
+        ///     IoC container, configured by bootstrapper
+        /// </param>
+        protected virtual void OnStarted(IContainer container)
         {
         }
 
@@ -44,10 +48,11 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
             {
                 if (_bootstrapper != null)
                 {
-                    _bootstrapper.Initialize();
+                    var container = _bootstrapper.Initialize();
                     _bootstrapper = null;
 
-                    Execute.BeginOnUIThread(OnStarted);
+                    Dependencies.Initialize(container);
+                    Execute.BeginOnUIThread(() => OnStarted(container));
                 }
             }).FireAndForget();
         }
