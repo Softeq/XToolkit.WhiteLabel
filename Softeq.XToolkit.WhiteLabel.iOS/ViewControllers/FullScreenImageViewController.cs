@@ -12,9 +12,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 {
     public partial class FullScreenImageViewController : ViewControllerBase<FullScreenImageViewModel>
     {
-        public FullScreenImageViewController(IntPtr handle) : base(handle)
-        {
-        }
+        public FullScreenImageViewController(IntPtr handle) : base(handle) { }
 
         public override void ViewDidLoad()
         {
