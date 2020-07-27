@@ -50,11 +50,36 @@ mock.Received.SomeMethod();
 
 ### Basic
 
-...
+Sources:
+
+```
+/XToolkit.Common
+  /Extensions
+    StringExtensions.cs
+```
+
+Tests:
+
+```
+/XToolkit.Common.Tests
+  /Extensions
+    /StringExtensionsTests
+      StringExtensionsTests.cs
+      ... <-- any related classes
+```
 
 ### Advanced
 
-...
+Tests:
+
+```
+/XToolkit.Common.Tests
+  /Commands
+    /AsyncCommandTests
+      AsyncCommandTests.cs  <-- class related tests
+      AsyncCommandTestsCanExecute.cs <-- tests related to CanExecute() method
+      AsyncCommandTestsExecute.cs <-- tests related to Execute() method
+```
 
 ## Tools
 
