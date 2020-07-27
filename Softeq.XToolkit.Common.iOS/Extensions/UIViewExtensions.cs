@@ -25,6 +25,81 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             return view;
         }
 
+        /// <summary>
+        ///     UIView with the colored border for target edges.
+        /// </summary>
+        /// <returns>UIView with border.</returns>
+        /// <param name="view">View.</param>
+        /// <param name="borderWidth">Border width.</param>
+        /// <param name="borderColor">Border color.</param>
+        /// <param name="edge">Border edge.</param>
+        public static UIView WithBorder(this UIView view, nfloat borderWidth, CGColor borderColor, UIRectEdge edge)
+        {
+            if (edge == UIRectEdge.None)
+            {
+                return view;
+            }
+
+            if (edge.HasFlag(UIRectEdge.All))
+            {
+                return WithBorder(view, borderWidth, borderColor);
+            }
+
+            if (edge.HasFlag(UIRectEdge.Top))
+            {
+                AddBorder(view, borderWidth, borderColor, UIRectEdge.Top);
+            }
+
+            if (edge.HasFlag(UIRectEdge.Bottom))
+            {
+                AddBorder(view, borderWidth, borderColor, UIRectEdge.Bottom);
+            }
+
+            if (edge.HasFlag(UIRectEdge.Left))
+            {
+                AddBorder(view, borderWidth, borderColor, UIRectEdge.Left);
+            }
+
+            if (edge.HasFlag(UIRectEdge.Right))
+            {
+                AddBorder(view, borderWidth, borderColor, UIRectEdge.Right);
+            }
+
+            return view;
+        }
+
+        private static UIView AddBorder(UIView view, nfloat borderWidth, CGColor borderColor, UIRectEdge edge)
+        {
+#pragma warning disable CS8509 // The switch expression does not handle all possible values of its input type (it is not exhaustive).
+            var autoresizingMask = edge switch
+            {
+                UIRectEdge.Top => UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleBottomMargin,
+                UIRectEdge.Bottom => UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleTopMargin,
+                UIRectEdge.Left => UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleRightMargin,
+                UIRectEdge.Right => UIViewAutoresizing.FlexibleHeight | UIViewAutoresizing.FlexibleLeftMargin,
+            };
+
+            var frame = edge switch
+            {
+                UIRectEdge.Top => new CGRect(0, 0, view.Frame.Size.Width, borderWidth),
+                UIRectEdge.Bottom => new CGRect(0, view.Frame.Size.Height - borderWidth, view.Frame.Size.Width, borderWidth),
+                UIRectEdge.Left => new CGRect(0, 0, borderWidth, view.Frame.Size.Height),
+                UIRectEdge.Right => new CGRect(view.Frame.Size.Width - borderWidth, 0, borderWidth, view.Frame.Size.Height),
+            };
+#pragma warning restore CS8509 // The switch expression does not handle all possible values of its input type (it is not exhaustive).
+
+            var border = new UIView
+            {
+                BackgroundColor = UIColor.FromCGColor(borderColor),
+                AutoresizingMask = autoresizingMask,
+                Frame = frame
+            };
+
+            view.AddSubview(border);
+
+            return view;
+        }
+
         public static UIView WithCornerRadius(this UIView view, nfloat cornerRadius)
         {
             view.ClipsToBounds = true;
