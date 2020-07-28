@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace Softeq.XToolkit.WhiteLabel.Validation
 {
-    public class ValidatableGroup
+    public class ValidatableGroup : IValidatableObject
     {
         private readonly IValidatableObject[] _validatableObjects;
 
@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Validation
             _validatableObjects = validatableObjects;
         }
 
-        public bool ValidateAll()
+        public bool Validate()
         {
             return _validatableObjects
                 .Select(x => x.Validate())

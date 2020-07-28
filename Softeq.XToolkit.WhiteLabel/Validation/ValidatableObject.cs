@@ -1,9 +1,8 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
@@ -12,41 +11,31 @@ namespace Softeq.XToolkit.WhiteLabel.Validation
 {
     public class ValidatableObject<T> : ObservableObject, IValidatableObject
     {
-        private readonly Action<T>? _valueWasChanged;
-        private readonly T _defaultValue;
+        private readonly IList<IValidationRule<T>> _validationRules;
 
-        private T _value;
+        private T _value = default!;
         private bool _isValid = true;
 
-        public ValidatableObject(
-            T defaultValue,
-            Action<T>? valueWasChanged = null)
+        public ValidatableObject()
         {
-            _defaultValue = defaultValue;
-            _value = defaultValue;
-            _valueWasChanged = valueWasChanged;
+            _validationRules = new List<IValidationRule<T>>();
 
-            Validations = new List<IValidationRule<T>>();
             Errors = new ObservableRangeCollection<string>();
+            Errors.CollectionChanged += ErrorsCollectionChanged;
+
+            CleanErrorsOnChange = true;
         }
 
-        public List<IValidationRule<T>> Validations { get; }
+        public bool CleanErrorsOnChange { get; set; }
 
         public T Value
         {
             get => _value;
             set
             {
-                if (Set(ref _value, value))
+                if (Set(ref _value, value) && CleanErrorsOnChange)
                 {
-                    _valueWasChanged?.Invoke(value);
-                }
-
-                var cleanWhenEmpty = CleanErrorsWhenEmpty && IsEmpty;
-
-                if (CleanErrorsOnChange || cleanWhenEmpty)
-                {
-                    ResetErrors();
+                    Errors.Clear();
                 }
             }
         }
@@ -54,64 +43,38 @@ namespace Softeq.XToolkit.WhiteLabel.Validation
         public bool IsValid
         {
             get => _isValid;
-            private set
-            {
-                Set(ref _isValid, value);
-                RaisePropertyChanged(nameof(FirstError));
-            }
+            private set => Set(ref _isValid, value);
         }
 
         public ObservableRangeCollection<string> Errors { get; }
 
         public string FirstError => Errors.FirstOrDefault() ?? string.Empty;
 
-        public bool CleanErrorsOnChange { get; set; }
-
-        public bool CleanErrorsWhenEmpty { get; set; } = true;
-
-        public virtual bool IsEmpty
+        public void AddRule(IValidationRule<T> rule)
         {
-            get
-            {
-                if (string.IsNullOrEmpty(Value as string))
-                {
-                    return true;
-                }
-
-                return false;
-            }
-        }
-
-        public void AddError(string message)
-        {
-            Errors.Add(message);
-            IsValid = false;
+            _validationRules.Add(rule);
         }
 
         public bool Validate()
         {
             Errors.Clear();
 
-            var errors = Validations.Where(v => !v.Check(Value))
-                .Select(v => v.ValidationMessage)
-                .ToList();
+            var errors = _validationRules
+                .Where(v => !v.Check(Value))
+                .Select(v => v.ValidationMessage);
 
             Errors.AddRange(errors);
-            IsValid = !errors.Any();
 
             return IsValid;
         }
 
-        public void ResetValue()
+        private void ErrorsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            Value = _defaultValue;
-            ResetErrors();
-        }
-
-        public void ResetErrors()
-        {
-            Errors.Clear();
-            IsValid = true;
+            if (sender is ObservableRangeCollection<string> errors)
+            {
+                IsValid = errors.Count == 0;
+                RaisePropertyChanged(nameof(FirstError));
+            }
         }
     }
 }
