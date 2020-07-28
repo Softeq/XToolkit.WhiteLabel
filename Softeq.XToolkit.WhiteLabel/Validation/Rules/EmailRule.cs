@@ -7,7 +7,12 @@ namespace Softeq.XToolkit.WhiteLabel.Validation.Rules
 {
     public class EmailRule : IValidationRule<string>
     {
-        public string ValidationMessage { get; set; } = string.Empty;
+        public EmailRule(string validationMessage)
+        {
+            ValidationMessage = validationMessage;
+        }
+
+        public string ValidationMessage { get; }
 
         public bool Check(string value)
         {

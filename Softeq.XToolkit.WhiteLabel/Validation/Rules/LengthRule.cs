@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Validation.Rules
         private readonly int _min;
         private readonly int _max;
 
-        public LengthRule(int min, int max = int.MaxValue)
+        public LengthRule(int min, int max, string validationMessage)
         {
             if (min < 0)
             {
@@ -19,9 +19,11 @@ namespace Softeq.XToolkit.WhiteLabel.Validation.Rules
 
             _min = min;
             _max = max;
+
+            ValidationMessage = validationMessage;
         }
 
-        public string ValidationMessage { get; set; } = string.Empty;
+        public string ValidationMessage { get; }
 
         public bool Check(string value)
         {

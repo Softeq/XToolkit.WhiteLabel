@@ -3,18 +3,18 @@
 
 namespace Softeq.XToolkit.WhiteLabel.Validation.Rules
 {
-    public class IsNotNullOrEmptyRule : IValidationRule<string>
+    public class IsValueTrueRule : IValidationRule<bool>
     {
-        public IsNotNullOrEmptyRule(string validationMessage)
+        public IsValueTrueRule(string validationMessage)
         {
             ValidationMessage = validationMessage;
         }
 
         public string ValidationMessage { get; }
 
-        public bool Check(string value)
+        public bool Check(bool value)
         {
-            return !string.IsNullOrWhiteSpace(value);
+            return value;
         }
     }
 }
