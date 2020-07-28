@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 
 namespace Playground.iOS.ViewControllers.Collections
 {
+	[Register ("GroupedListPageViewController")]
 	partial class GroupedListPageViewController
 	{
 		[Outlet]

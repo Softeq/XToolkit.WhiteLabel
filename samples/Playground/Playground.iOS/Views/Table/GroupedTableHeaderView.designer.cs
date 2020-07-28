@@ -9,6 +9,7 @@ using System.CodeDom.Compiler;
 
 namespace Playground.iOS.Views.Table
 {
+	[Register("GroupedTableHeaderView")]
 	partial class GroupedTableHeaderView
 	{
 		[Outlet]
