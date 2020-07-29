@@ -1,31 +1,30 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 using Softeq.XToolkit.Common.Collections;
-using System.Collections.ObjectModel;
 
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest
 {
-    public class CollectionEventsCatcher<TKey, TValue>
+    public class ItemsEventsCatcher<TKey, TValue>
     {
         private readonly ObservableKeyGroupsCollection<TKey, TValue> _collection;
-        private readonly IList<NotifyCollectionChangedEventArgs> _events = new List<NotifyCollectionChangedEventArgs>();
+        private readonly IList<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> _events = new List<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>();
 
         public int EventCount => _events.Count;
 
-        public static CollectionEventsCatcher<TKey, TValue> Create(ObservableKeyGroupsCollection<TKey, TValue> collection)
+        public static ItemsEventsCatcher<TKey, TValue> Create(ObservableKeyGroupsCollection<TKey, TValue> collection)
         {
-            return new CollectionEventsCatcher<TKey, TValue>(collection);
+            return new ItemsEventsCatcher<TKey, TValue>(collection);
         }
 
-        private CollectionEventsCatcher(ObservableKeyGroupsCollection<TKey, TValue> collection)
+        private ItemsEventsCatcher(ObservableKeyGroupsCollection<TKey, TValue> collection)
         {
             _collection = collection;
         }
 
         public void Subscribe()
         {
-            _collection.CollectionChanged += CatchEvents;
+            _collection.ItemsChanged += CatchEvents;
         }
 
         public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<KeyValuePair<TKey, IList<TValue>>> pairs)
@@ -35,13 +34,13 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<TKey> keys = null)
         {
-            _collection.CollectionChanged -= CatchEvents;
+            _collection.ItemsChanged -= CatchEvents;
 
             try
             {
                 var isActionSame = _events[0].Action == action;
                 var isKeysMatched = true;
-                var actualKeys = _events[0].NewItems != null ? (_events[0].NewItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+                var actualKeys = _events[0].NewItemRanges != null ? _events[0].NewItemRanges[0].NewItems.ToList() : new List<TKey>();
 
                 if (keys != null)
                 {
@@ -71,7 +70,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             }
         }
 
-        private void CatchEvents(object sender, NotifyCollectionChangedEventArgs e)
+        private void CatchEvents(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> e)
         {
             _events.Add(e);
         }
