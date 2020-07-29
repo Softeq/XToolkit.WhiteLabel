@@ -23,12 +23,12 @@ UserName = new ValidatableObject<string>();
 ### Adding Validation Rules
 
 ```cs
-var rule = new IsNotNullOrEmptyRule("A username is required.");
+var rule = new StringNotEmptyRule("A username is required.");
 
 UserName.AddRule(rule);
 ```
 
-This method adds the [IsNotNullOrEmptyRule](xref:Softeq.XToolkit.WhiteLabel.Validation.Rules.IsNotNullOrEmptyRule) validation rule to the [ValidatableObject](xref:Softeq.XToolkit.WhiteLabel.Validation.ValidatableObject`1) instance, including a value for the `ValidationMessage` property, which specifies the validation error message that will be displayed if validation fails.
+This method adds the [StringNotEmptyRule](xref:Softeq.XToolkit.WhiteLabel.Validation.Rules.StringNotEmptyRule) validation rule to the [ValidatableObject](xref:Softeq.XToolkit.WhiteLabel.Validation.ValidatableObject`1) instance, including a value for the `ValidationMessage` property, which specifies the validation error message that will be displayed if validation fails.
 
 #### Specifying Validation Rules
 

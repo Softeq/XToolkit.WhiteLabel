@@ -3,9 +3,9 @@
 
 namespace Softeq.XToolkit.WhiteLabel.Validation.Rules
 {
-    public class IsNotNullOrEmptyRule : IValidationRule<string>
+    public class StringNotEmptyRule : IValidationRule<string>
     {
-        public IsNotNullOrEmptyRule(string validationMessage)
+        public StringNotEmptyRule(string validationMessage)
         {
             ValidationMessage = validationMessage;
         }

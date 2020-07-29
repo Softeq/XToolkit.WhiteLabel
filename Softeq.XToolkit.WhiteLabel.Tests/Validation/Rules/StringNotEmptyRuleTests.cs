@@ -6,13 +6,13 @@ using Xunit;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Validation.Rules
 {
-    public class IsNotNullOrEmptyRuleTests
+    public class StringNotEmptyRuleTests
     {
-        private readonly IsNotNullOrEmptyRule _rule;
+        private readonly StringNotEmptyRule _rule;
 
-        public IsNotNullOrEmptyRuleTests()
+        public StringNotEmptyRuleTests()
         {
-            _rule = new IsNotNullOrEmptyRule("error message");
+            _rule = new StringNotEmptyRule("error message");
         }
 
         [Theory]

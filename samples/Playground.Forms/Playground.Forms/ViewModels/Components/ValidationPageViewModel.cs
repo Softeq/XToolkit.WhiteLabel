@@ -17,11 +17,11 @@ namespace Playground.Forms.ViewModels.Components
         public ValidationPageViewModel()
         {
             UserName = new ValidatableObject<string>();
-            UserName.AddRule(new IsNotNullOrEmptyRule("A username is required."));
-            UserName.AddRule(new LengthRule(3, 10, "Username must be 3-10 characters."));
+            UserName.AddRule(new StringNotEmptyRule("A username is required."));
+            UserName.AddRule(new StringLengthRule(3, 10, "Username must be 3-10 characters."));
 
             Email = new ValidatableObject<string>();
-            Email.AddRule(new IsNotNullOrEmptyRule("Email is required."));
+            Email.AddRule(new StringNotEmptyRule("Email is required."));
             Email.AddRule(new EmailRule("Invalid Email."));
 
             TermsAndCondition = new ValidatableObject<bool>();

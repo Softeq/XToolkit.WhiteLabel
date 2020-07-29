@@ -5,12 +5,12 @@ using System;
 
 namespace Softeq.XToolkit.WhiteLabel.Validation.Rules
 {
-    public class LengthRule : IValidationRule<string>
+    public class StringLengthRule : IValidationRule<string>
     {
         private readonly int _min;
         private readonly int _max;
 
-        public LengthRule(int min, int max, string validationMessage)
+        public StringLengthRule(int min, int max, string validationMessage)
         {
             if (min < 0)
             {

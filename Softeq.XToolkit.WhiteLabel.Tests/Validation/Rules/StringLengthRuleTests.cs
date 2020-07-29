@@ -7,19 +7,19 @@ using Xunit;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Validation.Rules
 {
-    public class LengthRuleTests
+    public class StringLengthRuleTests
     {
-        private readonly LengthRule _rule;
+        private readonly StringLengthRule _rule;
 
-        public LengthRuleTests()
+        public StringLengthRuleTests()
         {
-            _rule = new LengthRule(3, 6, "error message");
+            _rule = new StringLengthRule(3, 6, "error message");
         }
 
         [Fact]
         public void Ctor_MinNegative_ThrowsException()
         {
-            Assert.Throws<ArgumentException>(() => new LengthRule(-1, 10, "message"));
+            Assert.Throws<ArgumentException>(() => new StringLengthRule(-1, 10, "message"));
         }
 
         [Theory]
