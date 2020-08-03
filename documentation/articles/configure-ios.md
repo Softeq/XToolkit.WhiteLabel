@@ -10,35 +10,28 @@
 
 Copy and replace AppDelegate:
 
-```csharp
+```cs
 [Register(nameof(AppDelegate))]
 public class AppDelegate : AppDelegateBase
 {
-    private UINavigationController _rootNavigationController;
-
-    public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+    public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
     {
-        var _ = base.FinishedLaunching(app, options);
+        var result = base.FinishedLaunching(application, launchOptions);
 
-        // Init navigation
-        _rootNavigationController = new UINavigationController();
+        // Override point for customization after application launch.
 
-        Window = new UIWindow(UIScreen.MainScreen.Bounds)
-        {
-            RootViewController = _rootNavigationController
-        };
-        Window.MakeKeyAndVisible();
-
-        var navigationService = Dependencies.PageNavigationService;
-        navigationService.Initialize(Window.RootViewController);
-
-        // Entry point
-        navigationService.For<MainPageViewModel>().Navigate();
-
-        return true;
+        return result;
     }
 
-    protected override IBootstrapper Bootstrapper => new CustomBootstrapper();
+    protected override IBootstrapper CreateBootstrapper()
+    {
+        return new CustomIosBootstrapper();
+    }
+
+    protected override void ConfigureEntryPointNavigation(IPageNavigationService navigationService)
+    {
+        navigationService.For<StartPageViewModel>().Navigate();
+    }
 }
 ```
 
