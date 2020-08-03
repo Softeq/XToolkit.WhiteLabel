@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            // YP: Hard reference kept because StoryboardNavigation service used weak references.
+            // YP: Hard reference kept because StoryboardNavigation service uses weak references.
             _rootNavigationController = CreateRootNavigationController();
 
             InitializeMainWindow();
