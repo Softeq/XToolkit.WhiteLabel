@@ -3,9 +3,9 @@
 
 using Foundation;
 using Playground.ViewModels;
-using Softeq.XToolkit.WhiteLabel;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.iOS;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 using UIKit;
 
 namespace Playground.iOS
@@ -13,23 +13,13 @@ namespace Playground.iOS
     [Register(nameof(AppDelegate))]
     public class AppDelegate : AppDelegateBase
     {
-        private readonly UINavigationController _rootNavigationController = new UINavigationController();
-
-        public override UIWindow Window { get; set; } = default!;
-
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            var _ = base.FinishedLaunching(application, launchOptions);
+            var result = base.FinishedLaunching(application, launchOptions);
 
-            Window = new UIWindow(UIScreen.MainScreen.Bounds)
-            {
-                RootViewController = _rootNavigationController
-            };
-            Window.MakeKeyAndVisible();
+            // Override point for customization after application launch.
 
-            InitNavigation();
-
-            return true;
+            return result;
         }
 
         protected override IBootstrapper CreateBootstrapper()
@@ -37,12 +27,8 @@ namespace Playground.iOS
             return new CustomIosBootstrapper();
         }
 
-        private void InitNavigation()
+        protected override void ConfigureEntryPointNavigation(IPageNavigationService navigationService)
         {
-            var navigationService = Dependencies.PageNavigationService;
-            navigationService.Initialize(Window.RootViewController);
-
-            // Entry point
             navigationService.For<StartPageViewModel>().Navigate();
         }
     }

@@ -6,6 +6,7 @@ using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
@@ -16,16 +17,35 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     /// </summary>
     public abstract class AppDelegateBase : UIApplicationDelegate
     {
+        private UIViewController _rootNavigationController = default!;
+
         public override UIWindow Window { get; set; } = default!;
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            // YP: Hard reference kept because StoryboardNavigation service used weak references.
+            _rootNavigationController = CreateRootNavigationController();
+
+            InitializeMainWindow();
             InitializeWhiteLabelRuntime();
 
             return true;
         }
 
-        protected abstract IBootstrapper CreateBootstrapper();
+        protected virtual UINavigationController CreateRootNavigationController()
+        {
+            return new UINavigationController();
+        }
+
+        protected virtual void InitializeMainWindow()
+        {
+            Window = new UIWindow(UIScreen.MainScreen.Bounds)
+            {
+                BackgroundColor = UIColor.SystemBackgroundColor,
+                RootViewController = _rootNavigationController
+            };
+            Window.MakeKeyAndVisible();
+        }
 
         protected virtual void InitializeWhiteLabelRuntime()
         {
@@ -44,8 +64,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             OnContainerInitialized(container);
         }
 
+        protected abstract IBootstrapper CreateBootstrapper();
+
         protected virtual void OnContainerInitialized(IContainer container)
         {
+            InitializeNavigation(container);
         }
+
+        protected virtual void InitializeNavigation(IContainer container)
+        {
+            var navigationService = container.Resolve<IPageNavigationService>();
+            navigationService.Initialize(Window.RootViewController);
+            ConfigureEntryPointNavigation(navigationService);
+        }
+
+        protected abstract void ConfigureEntryPointNavigation(IPageNavigationService navigationService);
     }
 }
