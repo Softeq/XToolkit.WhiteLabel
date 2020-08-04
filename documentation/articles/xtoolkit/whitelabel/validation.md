@@ -59,6 +59,69 @@ Now you can validate all of these properties:
 var isValid = validatableGroup.Validate();
 ```
 
+## Integrations
+
+### [FluentValidation](https://github.com/FluentValidation/FluentValidation)
+
+Basic integration can be implemented via creating custom rule:
+
+```cs
+public abstract class FluentValidatorRule<T> : AbstractValidator<ValidationModel<T>>, IValidationRule<T>
+{
+    private readonly ValidationModel<T> _model;
+
+    protected FluentValidatorRule()
+    {
+        _model = new ValidationModel<T>();
+        InitValidator();
+    }
+
+    public string ValidationMessage { get; private set; } = string.Empty;
+
+    public bool Check(T value)
+    {
+        _model.Value = value;
+        var result = Validate(_model);
+        ValidationMessage = FormatResult(result);
+        return result.IsValid;
+    }
+
+    private void InitValidator()
+    {
+        BuildRule(RuleFor(x => x.Value));
+    }
+
+    protected abstract void BuildRule(IRuleBuilderInitial<ValidationModel<T>, T> ruleBuilder);
+
+    protected virtual string FormatResult(ValidationResult result)
+    {
+        return result.ToString("~");
+    }
+}
+
+// Wrapper over the value for FluentValidator
+public class ValidationModel<T>
+{
+    public T Value { get; set; }
+}
+```
+
+Now you can create a rule for your property:
+
+```cs
+public class CustomEmailRule : FluentValidatorRule<string>
+{
+    protected override void BuildRule(IRuleBuilderInitial<ValidationModel<string>, string> ruleBuilder)
+    {
+        ruleBuilder
+            .NotEmpty().WithMessage("empty")
+            .EmailAddress().WithMessage("invalid email");
+    }
+}
+```
+
+For massive forms, this integration approach can be overhead, in this case, you can extend [ValidatableObject](xref:Softeq.XToolkit.WhiteLabel.Validation.ValidatableObject`1) or create a custom implementation.
+
 ## More info
 
 This approach was reworked, based on MS:
