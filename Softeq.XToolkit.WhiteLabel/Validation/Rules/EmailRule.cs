@@ -7,9 +7,15 @@ namespace Softeq.XToolkit.WhiteLabel.Validation.Rules
 {
     public class EmailRule : IValidationRule<string>
     {
-        public EmailRule(string validationMessage)
+        private const string DefaultEmailPattern = @"^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$";
+
+        private readonly Regex _regex;
+
+        public EmailRule(string validationMessage, string emailPattern = DefaultEmailPattern)
         {
             ValidationMessage = validationMessage;
+
+            _regex = new Regex(emailPattern, RegexOptions.Compiled | RegexOptions.IgnoreCase | RegexOptions.ExplicitCapture);
         }
 
         public string ValidationMessage { get; }
@@ -21,8 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.Validation.Rules
                 return false;
             }
 
-            var regex = new Regex(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
-            var match = regex.Match(value);
+            var match = _regex.Match(value);
 
             return match.Success;
         }
