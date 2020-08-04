@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Validation
             _validationRules.Add(rule);
         }
 
-        public bool Validate()
+        public virtual bool Validate()
         {
             Errors.Clear();
 
