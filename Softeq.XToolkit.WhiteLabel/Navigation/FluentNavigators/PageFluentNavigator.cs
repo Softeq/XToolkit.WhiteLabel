@@ -10,11 +10,11 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 {
     public class PageFluentNavigator<TViewModel> : FluentNavigatorBase<TViewModel> where TViewModel : IViewModelBase
     {
-        private readonly PageNavigationService _navigationService;
+        private readonly IPageNavigationService _pageNavigationService;
 
-        public PageFluentNavigator(PageNavigationService navigationService)
+        public PageFluentNavigator(IPageNavigationService pageNavigationService)
         {
-            _navigationService = navigationService;
+            _pageNavigationService = pageNavigationService;
         }
 
         public PageFluentNavigator<TViewModel> WithParam<TValue>(
@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 
         public void Navigate(bool clearBackStack = false)
         {
-            _navigationService.NavigateToViewModel<TViewModel>(clearBackStack, Parameters);
+            _pageNavigationService.NavigateToViewModel<TViewModel>(clearBackStack, Parameters);
         }
     }
 }

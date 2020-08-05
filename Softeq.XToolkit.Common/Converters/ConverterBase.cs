@@ -3,7 +3,7 @@
 
 namespace Softeq.XToolkit.Common.Converters
 {
-    /// <inheritdoc />
+    /// <inheritdoc cref="IConverter{TOut,TIn}"/>
     public abstract class ConverterBase<TOut, TIn> : IConverter<TOut, TIn>
     {
         /// <inheritdoc />

@@ -5,7 +5,6 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
-using Softeq.XToolkit.Common.Commands;
 
 namespace Softeq.XToolkit.Bindings
 {
@@ -44,6 +43,12 @@ namespace Softeq.XToolkit.Bindings
 
         /// <inheritdoc />
         public abstract string GetDefaultEventNameForControl(Type type);
+
+        /// <inheritdoc />
+        public abstract void HandleCommandCanExecute<T>(
+            object element,
+            ICommand command,
+            Binding<T, T> commandParameterBinding);
 
         /// <inheritdoc />
         public virtual Delegate GetCommandHandler(

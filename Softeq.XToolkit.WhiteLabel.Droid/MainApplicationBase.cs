@@ -8,11 +8,16 @@ using Android.Runtime;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
+    /// <summary>
+    ///     Based on <see cref="T:Android.App.Application"/> class for maintaining global application state
+    ///     and integration WhiteLabel components.
+    /// </summary>
     public abstract class MainApplicationBase : Android.App.Application
     {
         protected MainApplicationBase(IntPtr handle, JniHandleOwnership transfer)
@@ -32,8 +37,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             InitializeWhiteLabelRuntime();
         }
-
-        protected abstract IBootstrapper Bootstrapper { get; }
 
         [Conditional("DEBUG")]
         protected void InitStrictMode()
@@ -63,6 +66,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             Xamarin.Essentials.Platform.Init(this);
         }
 
+        protected abstract IBootstrapper CreateBootstrapper();
+
         protected virtual void InitializeWhiteLabelRuntime()
         {
             // Init Bindings
@@ -72,7 +77,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             PlatformProvider.Current = new DroidPlatformProvider();
 
             // Init dependencies
-            Bootstrapper.Initialize();
+            var bootstrapper = CreateBootstrapper();
+            var container = bootstrapper.Initialize();
+            Dependencies.Initialize(container);
+
+            // Notify dependencies ready to be used
+            OnContainerInitialized(container);
+        }
+
+        protected virtual void OnContainerInitialized(IContainer container)
+        {
         }
     }
 }

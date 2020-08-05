@@ -91,14 +91,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             ReplaceFragment(_backStack.Peek().Fragment);
         }
 
-        public void NavigateToViewModel<TViewModel>(bool clearBackStack = false,
+        public void NavigateToViewModel<TViewModel>(
+            bool clearBackStack = false,
             // ReSharper disable once MethodOverloadWithOptionalParameter
             IReadOnlyList<NavigationParameterModel>? parameters = null) where TViewModel : IViewModelBase
         {
             throw new NotImplementedException();
         }
 
-        //TODO: replace with For<>.WithParam implementation
+        // TODO: replace with For<>.WithParam implementation
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {

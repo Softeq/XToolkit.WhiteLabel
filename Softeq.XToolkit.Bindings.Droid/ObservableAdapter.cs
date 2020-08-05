@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Bindings.Droid
     /// <summary>
     ///     A <see cref="BaseAdapter{T}" /> that can be used with an Android ListView. After setting
     ///     the <see cref="DataSource" /> and the <see cref="GetTemplateDelegate" /> properties, the adapter is
-    ///     suitable for a list control. If the DataSource is an <see cref="INotifyCollectionChanged" />,
+    ///     suitable for a list control. If the DataSource is an <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />,
     ///     changes to the collection will be observed and the UI will automatically be updated.
     /// </summary>
     /// <typeparam name="T">The type of the items contained in the <see cref="DataSource" />.</typeparam>
@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         }
 
         /// <summary>
-        ///     Gets and sets a method taking an item's position in the list, the item itself,
+        ///     Gets or sets a method taking an item's position in the list, the item itself,
         ///     and a recycled Android View, and returning an adapted View for this item. Note that the recycled
         ///     view might be null, in which case a new View must be inflated by this method.
         /// </summary>
@@ -67,7 +67,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         ///     Gets the item corresponding to the index in the DataSource.
         /// </summary>
         /// <param name="index">The index of the item that needs to be returned.</param>
-        /// <returns>The item corresponding to the index in the DataSource</returns>
+        /// <returns>The item corresponding to the index in the DataSource.</returns>
         public override T this[int index] => _dataSource == null ? default : _dataSource[index];
 
         /// <summary>

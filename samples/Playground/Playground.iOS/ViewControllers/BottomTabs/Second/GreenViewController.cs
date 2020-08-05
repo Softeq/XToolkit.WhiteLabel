@@ -10,7 +10,8 @@ namespace Playground.iOS.ViewControllers.BottomTabs.Second
 {
     public partial class GreenViewController : ViewControllerBase<GreenViewModel>
     {
-        public GreenViewController(IntPtr handle) : base(handle)
+        public GreenViewController(IntPtr handle)
+            : base(handle)
         {
         }
 

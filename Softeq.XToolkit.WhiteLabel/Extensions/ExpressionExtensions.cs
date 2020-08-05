@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.WhiteLabel.Extensions
     public static class ExpressionExtensions
     {
         /// <summary>
-        ///     Converts an expression into a <see cref="MemberInfo" />.
+        ///     Converts an expression into a <see cref="T:System.Reflection.MemberInfo" />.
         /// </summary>
         /// <param name="expression">The expression to convert.</param>
         /// <returns>The member info.</returns>

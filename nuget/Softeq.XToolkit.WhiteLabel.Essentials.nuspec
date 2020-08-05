@@ -1,0 +1,50 @@
+<?xml version="1.0"?>
+<package >
+  <metadata>
+    <id>Softeq.XToolkit.WhiteLabel.Essentials</id>
+    <version>1.0.0-beta1</version>
+    <title>Softeq.XToolkit.WhiteLabel.Essentials</title>
+    <authors>Softeq Development Corp.</authors>
+    <owners>Softeq Development Corp.</owners>
+    <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
+    <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>Library over the Softeq.XToolkit.WhiteLabel that contains optional components for any application.</description>
+    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
+    <tags>Softeq XToolkit Xamarin iOS Android ImagePicker</tags>
+    <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
+    <dependencies>
+     <group targetFramework="netstandard2.1">
+        <!-- XToolkit -->
+        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta4]" />
+        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />
+      </group>
+     <group targetFramework="MonoAndroid9.0">
+        <dependency id="Plugin.Permissions" version="5.0.0-beta" />
+        <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
+        <!-- Android specific -->
+        <dependency id="Xamarin.AndroidX.Core" version="1.1.0" />
+        <!-- XToolkit -->
+        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta4]" />
+        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />
+      </group>
+     <group targetFramework="Xamarin.iOS10">
+        <dependency id="Plugin.Permissions" version="5.0.0-beta" />
+        <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
+        <!-- XToolkit -->
+        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta4]" />
+        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />
+      </group>
+   </dependencies>
+  </metadata>
+  <files>
+    <!-- Core -->
+    <file src="../Softeq.XToolkit.WhiteLabel.Essentials/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.Essentials.dll" target="lib\netstandard2.1" />
+    <!-- Droid -->
+    <file src="../Softeq.XToolkit.WhiteLabel.Essentials/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.Essentials.dll" target="lib\MonoAndroid90" />
+    <file src="../Softeq.XToolkit.WhiteLabel.Essentials.Droid/bin/Release/Softeq.XToolkit.WhiteLabel.Essentials.Droid.dll" target="lib\MonoAndroid90" />
+    <!-- iOS -->
+    <file src="../Softeq.XToolkit.WhiteLabel.Essentials/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.Essentials.dll" target="lib\Xamarin.iOS10" />
+    <file src="../Softeq.XToolkit.WhiteLabel.Essentials.iOS/bin/Release/Softeq.XToolkit.WhiteLabel.Essentials.iOS.dll" target="lib\Xamarin.iOS10" />
+  </files>
+</package>

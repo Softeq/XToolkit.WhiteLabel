@@ -21,6 +21,9 @@ namespace Playground.Droid
         {
         }
 
-        protected override IBootstrapper Bootstrapper => new CustomDroidBootstrapper();
+        protected override IBootstrapper CreateBootstrapper()
+        {
+            return new CustomDroidBootstrapper();
+        }
     }
 }

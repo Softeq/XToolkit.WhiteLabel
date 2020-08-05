@@ -32,7 +32,10 @@ namespace Playground.iOS
             return true;
         }
 
-        protected override IBootstrapper Bootstrapper => new CustomIosBootstrapper();
+        protected override IBootstrapper CreateBootstrapper()
+        {
+            return new CustomIosBootstrapper();
+        }
 
         private void InitNavigation()
         {
@@ -44,4 +47,3 @@ namespace Playground.iOS
         }
     }
 }
-

@@ -1,13 +1,15 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Linq;
 
 namespace Softeq.XToolkit.Common.Helpers
 {
     /// <summary>
-    /// Class helps to get a hash code for a number of objects combined (2-10)
+    /// Class helps to get a hash code for a number of objects combined
     /// </summary>
+    [Obsolete("Please use System.HashCode to calculate HashCode value")]
     public static class HashHelper
     {
         private const int PrimeOne = 17;

@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
         {
             Execute.BeginOnUIThread(() =>
             {
-                var alertController = UIAlertController.Create(Title, Message, Style);
+                var alertController = CreateAlertController();
 
                 ApplyActions(alertController, Actions);
 
@@ -45,6 +45,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Dialogs
 
                 Actions.Clear();
             });
+        }
+
+        protected virtual UIAlertController CreateAlertController()
+        {
+            return UIAlertController.Create(Title, Message, Style);
         }
 
         protected virtual void ApplyActions(

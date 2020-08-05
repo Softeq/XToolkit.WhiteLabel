@@ -6,7 +6,7 @@
 
 ## Building the repository
 
-1. Open the Playground solution [samples/Playground/Playground.sln](https://github.com/Softeq/XToolkit.WhiteLabel/tree/master/samples/Playground) via Visual Studio for Mac or Visual Studio IDE or Rider;
+1. Open the main solution [XToolkit.sln](https://github.com/Softeq/XToolkit.WhiteLabel/tree/master/) via Visual Studio for Mac or Visual Studio IDE or Rider;
 2. Restore NuGet packages;
 3. For build Android project:
    - Change build configuration to **Debug/AnyCPU**
@@ -14,3 +14,8 @@
 4. For build iOS project:
    - Change build configuration to **Debug/iPhoneSimulator**
    - Set **Playground.iOS** as startup project
+5. For build Xamarin.Forms projects:
+   - Android: **Playground.Forms.Droid**
+   - iOS: **Playground.Forms.iOS**
+
+---

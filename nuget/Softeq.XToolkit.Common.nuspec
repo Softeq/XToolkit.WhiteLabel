@@ -2,13 +2,13 @@
 <package >
   <metadata>
     <id>Softeq.XToolkit.Common</id>
-    <version>1.1.0-beta5</version>
+    <version>1.1.0-beta6</version>
     <title>Softeq.XToolkit.Common</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
     <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
-    <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" branch="master" commit="8fc0941148c8fe60214d171bacf27b7c32c36218" />
+    <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" branch="master" commit="aae6f948676edae2caf657f913c7d1da17191edf" />
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The most common components without dependencies that can be reused in any project.</description>
     <copyright>Copyright 2020 Softeq Development Corp.</copyright>

@@ -3,6 +3,7 @@
 
 using System;
 using System.Linq.Expressions;
+using System.Windows.Input;
 using UIKit;
 
 #nullable disable
@@ -91,6 +92,47 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
 
             return null;
+        }
+
+        public override void HandleCommandCanExecute<T>(
+            object element,
+            ICommand command,
+            Binding<T, T> commandParameterBinding)
+        {
+            if (element is UIControl control)
+            {
+                HandleControlEnabled(control, command, commandParameterBinding);
+            }
+        }
+
+        private static void HandleControlEnabled<T>(
+            UIControl control,
+            ICommand command,
+            Binding<T, T> commandParameterBinding)
+        {
+            var commandParameter = commandParameterBinding == null
+                ? default
+                : commandParameterBinding.Value;
+
+            control.BeginInvokeOnMainThread(
+                () => control.Enabled = command.CanExecute(commandParameter));
+
+            // set by CanExecute
+            command.CanExecuteChanged += (s, args) =>
+            {
+                control.BeginInvokeOnMainThread(
+                    () => control.Enabled = command.CanExecute(commandParameter));
+            };
+
+            // set by bindable command parameter
+            if (commandParameterBinding != null)
+            {
+                commandParameterBinding.ValueChanged += (s, args) =>
+                {
+                    control.BeginInvokeOnMainThread(
+                        () => control.Enabled = command.CanExecute(commandParameterBinding.Value));
+                };
+            }
         }
     }
 }
