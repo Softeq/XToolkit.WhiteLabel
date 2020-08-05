@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Android.Content;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -24,24 +25,33 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _viewLocator = viewLocator;
         }
 
-        public void Initialize(object navigation)
-        {
-        }
-
         public bool CanGoBack
         {
             get
             {
-                var memberInfo = MainApplicationBase.CurrentActivity.GetType();
+                var memberInfo = CurrentActivity.GetType();
                 return memberInfo.GetCustomAttribute(typeof(StartActivityAttribute)) == null;
             }
+        }
+
+        protected Android.App.Activity CurrentActivity
+        {
+            get
+            {
+                var currentActivity = Dependencies.Container.Resolve<IActivityProvider>().Current;
+                return currentActivity;
+            }
+        }
+
+        public void Initialize(object navigation)
+        {
         }
 
         public void GoBack()
         {
             Execute.BeginOnUIThread(() =>
             {
-                var activity = MainApplicationBase.CurrentActivity;
+                var activity = CurrentActivity;
 
                 if (CanGoBack)
                 {
@@ -68,7 +78,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             bool shouldClearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
         {
-            var activity = MainApplicationBase.CurrentActivity;
+            var activity = CurrentActivity;
             var intent = new Intent(activity, type);
 
             _bundleService.TryToSetParams(intent, parameters);

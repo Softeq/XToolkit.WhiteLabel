@@ -25,8 +25,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
         }
 
-        public static Android.App.Activity CurrentActivity => Xamarin.Essentials.Platform.CurrentActivity;
-
         public override void OnCreate()
         {
             InitStrictMode();

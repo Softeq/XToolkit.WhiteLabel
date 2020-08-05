@@ -10,6 +10,7 @@ using Java.Lang;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -21,14 +22,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         private readonly ILogger _logger;
         private readonly Queue<ToastModel> _queue;
         private readonly ToastSettings _toastSettings;
+        private readonly IActivityProvider _activityProvider;
 
         private bool _isBusy;
 
         public DroidToastService(
             ToastSettings toastSettings,
-            ILogManager logManager)
+            ILogManager logManager,
+            IActivityProvider activityProvider)
         {
             _toastSettings = toastSettings;
+            _activityProvider = activityProvider;
             _logger = logManager.GetLogger<DroidToastService>();
             _queue = new Queue<ToastModel>();
         }
@@ -65,7 +69,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             {
                 var toastContainerComponent = default(ToastContainerComponent);
 
-                var activity = MainApplicationBase.CurrentActivity;
+                var activity = _activityProvider.Current;
 
                 if (activity is ActivityBase activityBase)
                 {

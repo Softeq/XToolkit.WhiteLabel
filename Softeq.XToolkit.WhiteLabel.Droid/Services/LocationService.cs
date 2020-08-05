@@ -8,21 +8,25 @@ using Android.Locations;
 using Android.OS;
 using Android.Runtime;
 using Softeq.XToolkit.Common.Weak;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Location;
 using Object = Java.Lang.Object;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
+    // TODO YP: Rework to Xamarin.Essentials
     public class LocationService : ILocationService
     {
+        private readonly IActivityProvider _activityProvider;
         private readonly Lazy<LocationManager> _locationManagerLazy;
         private readonly string _providerName = LocationManager.NetworkProvider;
 
-        public LocationService()
+        public LocationService(IActivityProvider activityProvider)
         {
+            _activityProvider = activityProvider;
             _locationManagerLazy = new Lazy<LocationManager>(() =>
             {
-                var currentActivity = MainApplicationBase.CurrentActivity;
+                var currentActivity = _activityProvider.Current;
                 return (LocationManager) currentActivity.GetSystemService(Context.LocationService);
             });
         }

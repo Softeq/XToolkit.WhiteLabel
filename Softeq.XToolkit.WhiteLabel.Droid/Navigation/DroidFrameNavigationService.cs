@@ -8,6 +8,7 @@ using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Internal;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -32,7 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _iocContainer = iocContainer;
 
             _backStack = new BackStack<(IViewModelBase ViewModel, Fragment Fragment)>();
-            _viewModelStore = ViewModelStore.Of((AppCompatActivity) MainApplicationBase.CurrentActivity);
+            _viewModelStore = ViewModelStore.Of((AppCompatActivity) CurrentActivity);
         }
 
         public bool IsInitialized => _containerId != 0;
@@ -40,6 +41,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public bool IsEmptyBackStack => _backStack.IsEmpty;
 
         public bool CanGoBack => _backStack.CanGoBack;
+
+        protected Android.App.Activity CurrentActivity
+        {
+            get
+            {
+                var currentActivity = Dependencies.Container.Resolve<IActivityProvider>().Current;
+                return currentActivity;
+            }
+        }
 
         public void Initialize(object navigation)
         {
@@ -160,7 +170,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var activity = (AppCompatActivity) MainApplicationBase.CurrentActivity;
+                var activity = (AppCompatActivity) CurrentActivity;
                 var fragmentManager = activity.SupportFragmentManager;
 
                 var transaction = fragmentManager

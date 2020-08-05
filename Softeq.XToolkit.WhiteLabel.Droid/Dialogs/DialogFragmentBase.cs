@@ -9,6 +9,7 @@ using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
@@ -63,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public void Show()
         {
             SetStyle(StyleNoFrame, ThemeId);
-            var baseActivity = (ActivityBase) MainApplicationBase.CurrentActivity;
+            var baseActivity = (ActivityBase) Dependencies.Container.Resolve<IActivityProvider>().Current;
             Show(baseActivity.SupportFragmentManager, null);
         }
 

@@ -4,21 +4,30 @@
 using Android.Content;
 using Android.Net;
 using Android.Provider;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
+    // TODO YP: Rework to Xamarin.Essentials
     public class LauncherService : ILauncherService
     {
-        protected Android.App.Activity CurrentActivity => MainApplicationBase.CurrentActivity;
+        private readonly IActivityProvider _activityProvider;
+
+        public LauncherService(
+            IActivityProvider activityProvider)
+        {
+            _activityProvider = activityProvider;
+        }
 
         public void OpenUrl(string url)
         {
+            var currentActivity = _activityProvider.Current;
             var aUri = Uri.Parse(new System.Uri(url).ToString());
             var intent = new Intent(Intent.ActionView, aUri);
-            if (intent.ResolveActivity(CurrentActivity.PackageManager) != null)
+            if (intent.ResolveActivity(currentActivity.PackageManager) != null)
             {
-                CurrentActivity.StartActivity(intent);
+                currentActivity.StartActivity(intent);
             }
         }
 
@@ -36,26 +45,28 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             var intent = new Intent(Intent.ActionView);
             intent.SetDataAndType(Uri.Parse(videoUrl), "video/*");
-            CurrentActivity.StartActivity(intent);
+            _activityProvider.Current.StartActivity(intent);
         }
 
         public void OpenEmail(string email)
         {
+            var currentActivity = _activityProvider.Current;
             var intent = new Intent(Intent.ActionSendto);
             intent.SetData(Uri.Parse($"mailto:{email}"));
-            if (intent.ResolveActivity(CurrentActivity.PackageManager) != null)
+            if (intent.ResolveActivity(currentActivity.PackageManager) != null)
             {
-                CurrentActivity.StartActivity(Intent.CreateChooser(intent, string.Empty));
+                currentActivity.StartActivity(Intent.CreateChooser(intent, string.Empty));
             }
         }
 
         public void OpenPhoneNumber(string number)
         {
+            var currentActivity = _activityProvider.Current;
             var intent = new Intent(Intent.ActionDial);
             intent.SetData(Uri.Parse($"tel:{number}"));
-            if (intent.ResolveActivity(CurrentActivity.PackageManager) != null)
+            if (intent.ResolveActivity(currentActivity.PackageManager) != null)
             {
-                CurrentActivity.StartActivity(intent);
+                currentActivity.StartActivity(intent);
             }
         }
 
@@ -63,7 +74,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             var intent = new Intent(settings);
             intent.AddFlags(ActivityFlags.NewTask);
-            CurrentActivity.StartActivity(intent);
+            _activityProvider.Current.StartActivity(intent);
         }
     }
 }

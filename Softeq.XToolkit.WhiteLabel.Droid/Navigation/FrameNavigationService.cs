@@ -7,6 +7,7 @@ using System.Linq;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -166,7 +167,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private void ReplaceFragment(Fragment fragment)
         {
-            var activity = (AppCompatActivity) MainApplicationBase.CurrentActivity;
+            var currentActivity = _iocContainer.Resolve<IActivityProvider>().Current;
+            var activity = (AppCompatActivity) currentActivity;
             var manager = activity.SupportFragmentManager;
 
             manager.BeginTransaction()

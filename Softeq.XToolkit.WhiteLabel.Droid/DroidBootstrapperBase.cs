@@ -7,6 +7,7 @@ using AndroidX.Fragment.App;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
@@ -22,6 +23,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected override void RegisterInternalServices(IContainerBuilder builder)
         {
             base.RegisterInternalServices(builder);
+
+            builder.Singleton<EssentialsActivityProvider, IActivityProvider>();
 
             // navigation
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);

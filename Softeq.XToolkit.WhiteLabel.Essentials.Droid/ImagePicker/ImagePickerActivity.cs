@@ -14,7 +14,7 @@ using Android.Provider;
 using Android.Runtime;
 using AndroidX.Core.Content;
 using Java.IO;
-using Softeq.XToolkit.WhiteLabel.Droid;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using AUri = Android.Net.Uri;
 using Debug = System.Diagnostics.Debug;
 using ImageOrientation = Android.Media.Orientation;
@@ -37,6 +37,15 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         private Intent _pickIntent = default!;
 
         public static event EventHandler<Bitmap?>? ImagePicked;
+
+        protected Activity CurrentActivity
+        {
+            get
+            {
+                var currentActivity = Dependencies.Container.Resolve<IActivityProvider>().Current;
+                return currentActivity;
+            }
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -102,7 +111,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                 _ => null
             };
 
-            var context = MainApplicationBase.CurrentActivity;
+            var context = CurrentActivity;
 
             if (uri != null)
             {
@@ -133,7 +142,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         private void CaptureCamera()
         {
             _pickIntent = new Intent(MediaStore.ActionImageCapture);
-            _fileUri = GetOutputMediaFile(MainApplicationBase.CurrentActivity, ImagesFolder, null);
+            _fileUri = GetOutputMediaFile(CurrentActivity, ImagesFolder, null);
 
             _pickIntent.PutExtra(MediaStore.ExtraOutput, _fileUri);
             StartActivityForResult(_pickIntent, CameraMode);
@@ -170,8 +179,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
             try
             {
-                var orientation =
-                    (ImageOrientation) exif.GetAttributeInt(ExifInterface.TagOrientation, (int) ImageOrientation.Normal);
+                var orientation = (ImageOrientation) exif.GetAttributeInt(
+                    ExifInterface.TagOrientation,
+                    (int) ImageOrientation.Normal);
 
                 return orientation switch
                 {
@@ -258,14 +268,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
             name = System.IO.Path.GetFileNameWithoutExtension(name);
 
-            var nname = name + ext;
+            var fullName = name + ext;
             var i = 1;
-            while (System.IO.File.Exists(System.IO.Path.Combine(folder, nname)))
+            while (System.IO.File.Exists(System.IO.Path.Combine(folder, fullName)))
             {
-                nname = name + "_" + (i++) + ext;
+                fullName = name + "_" + (i++) + ext;
             }
 
-            return System.IO.Path.Combine(folder, nname);
+            return System.IO.Path.Combine(folder, fullName);
         }
     }
 }
