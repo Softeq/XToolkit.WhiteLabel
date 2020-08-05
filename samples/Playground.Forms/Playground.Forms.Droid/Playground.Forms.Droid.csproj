@@ -51,8 +51,6 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Plugin.CurrentActivity" Version="2.1.0.4" />
-    <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.530" />
   </ItemGroup>
   <ItemGroup>

@@ -5,7 +5,6 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.WhiteLabel;
 using Xamarin.Forms.Platform.Android;
@@ -27,7 +26,7 @@ namespace Playground.Forms.Droid
 
             base.OnCreate(savedInstanceState);
 
-            CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            Xamarin.Essentials.Platform.Init(this, savedInstanceState);
 
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
