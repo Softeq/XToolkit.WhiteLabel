@@ -5,10 +5,10 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Playground.ViewModels.Components;
-using Plugin.Permissions;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
 
 namespace Playground.Forms.ViewModels.Components
 {

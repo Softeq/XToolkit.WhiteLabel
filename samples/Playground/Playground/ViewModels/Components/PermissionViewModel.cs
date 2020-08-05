@@ -3,11 +3,12 @@
 
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Plugin.Permissions;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using PermissionStatus = Softeq.XToolkit.Permissions.PermissionStatus;
 
 namespace Playground.ViewModels.Components
 {

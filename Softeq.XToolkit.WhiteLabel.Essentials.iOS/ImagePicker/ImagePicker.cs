@@ -13,6 +13,8 @@ using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
+using CameraPermission = Xamarin.Essentials.Permissions.Camera;
+using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
 
 #nullable disable
 namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker

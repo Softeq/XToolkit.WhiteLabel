@@ -3,9 +3,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Plugin.Permissions;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
+using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {

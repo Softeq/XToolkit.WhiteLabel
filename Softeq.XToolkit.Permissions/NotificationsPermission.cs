@@ -1,16 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Plugin.Permissions;
-using Plugin.Permissions.Abstractions;
-
 namespace Softeq.XToolkit.Permissions
 {
-    public class NotificationsPermission : BasePermission
+    public class NotificationsPermission : Xamarin.Essentials.Permissions.BasePlatformPermission
     {
-        public NotificationsPermission()
-            : base(Permission.Unknown)
-        {
-        }
     }
 }

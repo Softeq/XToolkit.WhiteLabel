@@ -3,9 +3,9 @@
 
 using System;
 using System.Threading.Tasks;
-using Plugin.Permissions;
 using Plugin.Settings;
 using Plugin.Settings.Abstractions;
+using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.Permissions.iOS
         }
 
         /// <inheritdoc />
-        public Task<PermissionStatus> CheckWithRequestAsync<T>()
+        public virtual Task<PermissionStatus> CheckWithRequestAsync<T>()
             where T : BasePermission, new()
         {
             return typeof(T) == typeof(NotificationsPermission)
