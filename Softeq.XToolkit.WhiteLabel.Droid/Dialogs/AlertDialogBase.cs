@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     {
         protected virtual AlertDialog.Builder GetBuilder()
         {
-            var context = Dependencies.Container.Resolve<IActivityProvider>().Current;
+            var context = Dependencies.Container.Resolve<IContextProvider>().CurrentActivity;
             return new AlertDialog.Builder(context)
                 .SetCancelable(false);
         }

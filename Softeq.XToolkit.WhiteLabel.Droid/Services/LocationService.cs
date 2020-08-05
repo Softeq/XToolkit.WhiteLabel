@@ -17,16 +17,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
     // TODO YP: Rework to Xamarin.Essentials
     public class LocationService : ILocationService
     {
-        private readonly IActivityProvider _activityProvider;
+        private readonly IContextProvider _contextProvider;
         private readonly Lazy<LocationManager> _locationManagerLazy;
         private readonly string _providerName = LocationManager.NetworkProvider;
 
-        public LocationService(IActivityProvider activityProvider)
+        public LocationService(IContextProvider contextProvider)
         {
-            _activityProvider = activityProvider;
+            _contextProvider = contextProvider;
             _locationManagerLazy = new Lazy<LocationManager>(() =>
             {
-                var currentActivity = _activityProvider.Current;
+                var currentActivity = _contextProvider.CurrentActivity;
                 return (LocationManager) currentActivity.GetSystemService(Context.LocationService);
             });
         }

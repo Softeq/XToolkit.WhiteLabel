@@ -167,7 +167,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private void ReplaceFragment(Fragment fragment)
         {
-            var currentActivity = _iocContainer.Resolve<IActivityProvider>().Current;
+            var currentActivity = _iocContainer.Resolve<IContextProvider>().CurrentActivity;
             var activity = (AppCompatActivity) currentActivity;
             var manager = activity.SupportFragmentManager;
 

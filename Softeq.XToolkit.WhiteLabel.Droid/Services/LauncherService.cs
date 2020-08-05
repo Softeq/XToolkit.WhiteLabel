@@ -12,17 +12,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
     // TODO YP: Rework to Xamarin.Essentials
     public class LauncherService : ILauncherService
     {
-        private readonly IActivityProvider _activityProvider;
+        private readonly IContextProvider _contextProvider;
 
-        public LauncherService(
-            IActivityProvider activityProvider)
+        public LauncherService(IContextProvider contextProvider)
         {
-            _activityProvider = activityProvider;
+            _contextProvider = contextProvider;
         }
 
         public void OpenUrl(string url)
         {
-            var currentActivity = _activityProvider.Current;
+            var currentActivity = _contextProvider.CurrentActivity;
             var aUri = Uri.Parse(new System.Uri(url).ToString());
             var intent = new Intent(Intent.ActionView, aUri);
             if (intent.ResolveActivity(currentActivity.PackageManager) != null)
@@ -45,12 +44,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             var intent = new Intent(Intent.ActionView);
             intent.SetDataAndType(Uri.Parse(videoUrl), "video/*");
-            _activityProvider.Current.StartActivity(intent);
+            _contextProvider.CurrentActivity.StartActivity(intent);
         }
 
         public void OpenEmail(string email)
         {
-            var currentActivity = _activityProvider.Current;
+            var currentActivity = _contextProvider.CurrentActivity;
             var intent = new Intent(Intent.ActionSendto);
             intent.SetData(Uri.Parse($"mailto:{email}"));
             if (intent.ResolveActivity(currentActivity.PackageManager) != null)
@@ -61,7 +60,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
         public void OpenPhoneNumber(string number)
         {
-            var currentActivity = _activityProvider.Current;
+            var currentActivity = _contextProvider.CurrentActivity;
             var intent = new Intent(Intent.ActionDial);
             intent.SetData(Uri.Parse($"tel:{number}"));
             if (intent.ResolveActivity(currentActivity.PackageManager) != null)
@@ -74,7 +73,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         {
             var intent = new Intent(settings);
             intent.AddFlags(ActivityFlags.NewTask);
-            _activityProvider.Current.StartActivity(intent);
+            _contextProvider.CurrentActivity.StartActivity(intent);
         }
     }
 }

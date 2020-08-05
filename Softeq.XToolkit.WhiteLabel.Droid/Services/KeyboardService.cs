@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 
         public static void HideSoftKeyboard()
         {
-            var currentActivity = Dependencies.Container.Resolve<IActivityProvider>().Current;
+            var currentActivity = Dependencies.Container.Resolve<IContextProvider>().CurrentActivity;
             var activityContentView = currentActivity.FindViewById(Android.Resource.Id.Content);
             HideSoftKeyboard(activityContentView);
         }

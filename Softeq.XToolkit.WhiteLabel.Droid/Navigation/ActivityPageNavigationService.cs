@@ -16,30 +16,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     {
         private readonly IBundleService _bundleService;
         private readonly IViewLocator _viewLocator;
+        private readonly IContextProvider _contextProvider;
 
         public ActivityPageNavigationService(
             IBundleService bundleService,
-            IViewLocator viewLocator)
+            IViewLocator viewLocator,
+            IContextProvider contextProvider)
         {
             _bundleService = bundleService;
             _viewLocator = viewLocator;
+            _contextProvider = contextProvider;
         }
 
         public bool CanGoBack
         {
             get
             {
-                var memberInfo = CurrentActivity.GetType();
+                var memberInfo = _contextProvider.CurrentActivity.GetType();
                 return memberInfo.GetCustomAttribute(typeof(StartActivityAttribute)) == null;
-            }
-        }
-
-        protected Android.App.Activity CurrentActivity
-        {
-            get
-            {
-                var currentActivity = Dependencies.Container.Resolve<IActivityProvider>().Current;
-                return currentActivity;
             }
         }
 
@@ -51,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var activity = CurrentActivity;
+                var activity = _contextProvider.CurrentActivity;
 
                 if (CanGoBack)
                 {
@@ -78,7 +72,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             bool shouldClearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
         {
-            var activity = CurrentActivity;
+            var activity = _contextProvider.CurrentActivity;
             var intent = new Intent(activity, type);
 
             _bundleService.TryToSetParams(intent, parameters);

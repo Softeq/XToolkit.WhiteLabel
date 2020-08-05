@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
             Execute.BeginOnUIThread(() =>
             {
-                var context = Dependencies.Container.Resolve<IActivityProvider>().Current;
+                var context = Dependencies.Container.Resolve<IContextProvider>().CurrentActivity;
 
                 var builder = new AlertDialog.Builder(context)
                     .SetTitle(title)

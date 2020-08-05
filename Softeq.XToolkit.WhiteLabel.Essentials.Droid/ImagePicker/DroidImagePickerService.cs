@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
 using Softeq.XToolkit.Permissions;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
-using Xamarin.Essentials;
 using CameraPermission = Xamarin.Essentials.Permissions.Camera;
 using PermissionStatus = Softeq.XToolkit.Permissions.PermissionStatus;
 using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
@@ -16,12 +16,16 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
     public class DroidImagePickerService : Essentials.ImagePicker.IImagePickerService
     {
         private readonly IPermissionsManager _permissionsManager;
+        private readonly IContextProvider _contextProvider;
 
         private TaskCompletionSource<Bitmap?>? _taskCompletionSource;
 
-        public DroidImagePickerService(IPermissionsManager permissionsManager)
+        public DroidImagePickerService(
+            IPermissionsManager permissionsManager,
+            IContextProvider contextProvider)
         {
             _permissionsManager = permissionsManager;
+            _contextProvider = contextProvider;
         }
 
         public async Task<ImagePickerResult?> PickPhotoAsync(float quality)
@@ -50,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         private async Task<ImagePickerResult> GetImageAsync(int mode, float quality)
         {
-            var activity = Platform.CurrentActivity;
+            var activity = _contextProvider.CurrentActivity;
             var intent = new Intent(activity, typeof(ImagePickerActivity));
 
             intent.PutExtra(ImagePickerActivity.ModeKey, mode);

@@ -38,12 +38,12 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         public static event EventHandler<Bitmap?>? ImagePicked;
 
-        protected Activity CurrentActivity
+        protected Context CurrentContext
         {
             get
             {
-                var currentActivity = Dependencies.Container.Resolve<IActivityProvider>().Current;
-                return currentActivity;
+                var context = Dependencies.Container.Resolve<IContextProvider>().AppContext;
+                return context;
             }
         }
 
@@ -111,7 +111,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                 _ => null
             };
 
-            var context = CurrentActivity;
+            var context = CurrentContext;
 
             if (uri != null)
             {
@@ -142,7 +142,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         private void CaptureCamera()
         {
             _pickIntent = new Intent(MediaStore.ActionImageCapture);
-            _fileUri = GetOutputMediaFile(CurrentActivity, ImagesFolder, null);
+            _fileUri = GetOutputMediaFile(CurrentContext, ImagesFolder, null);
 
             _pickIntent.PutExtra(MediaStore.ExtraOutput, _fileUri);
             StartActivityForResult(_pickIntent, CameraMode);

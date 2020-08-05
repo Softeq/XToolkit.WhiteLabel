@@ -20,6 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     {
         private readonly BackStack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
         private readonly IContainer _iocContainer;
+        private readonly IContextProvider _contextProvider;
         private readonly IViewLocator _viewLocator;
         private readonly IViewModelStore _viewModelStore;
 
@@ -27,13 +28,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public DroidFrameNavigationService(
             IViewLocator viewLocator,
-            IContainer iocContainer)
+            IContainer iocContainer,
+            IContextProvider contextProvider)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
+            _contextProvider = contextProvider;
 
             _backStack = new BackStack<(IViewModelBase ViewModel, Fragment Fragment)>();
-            _viewModelStore = ViewModelStore.Of((AppCompatActivity) CurrentActivity);
+            _viewModelStore = ViewModelStore.Of((AppCompatActivity) _contextProvider.CurrentActivity);
         }
 
         public bool IsInitialized => _containerId != 0;
@@ -41,15 +44,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public bool IsEmptyBackStack => _backStack.IsEmpty;
 
         public bool CanGoBack => _backStack.CanGoBack;
-
-        protected Android.App.Activity CurrentActivity
-        {
-            get
-            {
-                var currentActivity = Dependencies.Container.Resolve<IActivityProvider>().Current;
-                return currentActivity;
-            }
-        }
 
         public void Initialize(object navigation)
         {
@@ -170,7 +164,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var activity = (AppCompatActivity) CurrentActivity;
+                var activity = (AppCompatActivity) _contextProvider.CurrentActivity;
                 var fragmentManager = activity.SupportFragmentManager;
 
                 var transaction = fragmentManager

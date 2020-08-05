@@ -24,7 +24,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             base.RegisterInternalServices(builder);
 
-            builder.Singleton<EssentialsActivityProvider, IActivityProvider>();
+            // common
+            builder.Singleton<EssentialsContextProvider, IContextProvider>(IfRegistered.Keep);
 
             // navigation
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);

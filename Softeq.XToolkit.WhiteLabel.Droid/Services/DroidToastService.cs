@@ -22,17 +22,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         private readonly ILogger _logger;
         private readonly Queue<ToastModel> _queue;
         private readonly ToastSettings _toastSettings;
-        private readonly IActivityProvider _activityProvider;
+        private readonly IContextProvider _contextProvider;
 
         private bool _isBusy;
 
         public DroidToastService(
             ToastSettings toastSettings,
             ILogManager logManager,
-            IActivityProvider activityProvider)
+            IContextProvider contextProvider)
         {
             _toastSettings = toastSettings;
-            _activityProvider = activityProvider;
+            _contextProvider = contextProvider;
             _logger = logManager.GetLogger<DroidToastService>();
             _queue = new Queue<ToastModel>();
         }
@@ -69,7 +69,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             {
                 var toastContainerComponent = default(ToastContainerComponent);
 
-                var activity = _activityProvider.Current;
+                var activity = _contextProvider.CurrentActivity;
 
                 if (activity is ActivityBase activityBase)
                 {
