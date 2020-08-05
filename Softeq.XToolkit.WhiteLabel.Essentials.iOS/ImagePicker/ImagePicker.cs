@@ -5,7 +5,6 @@ using System;
 using System.Threading.Tasks;
 using CoreGraphics;
 using FFImageLoading;
-using Plugin.Permissions;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Weak;
