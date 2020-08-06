@@ -1,0 +1,66 @@
+// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
+using Android.OS;
+using AndroidX.Activity;
+using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
+
+namespace Softeq.XToolkit.WhiteLabel.Droid.Views
+{
+    public abstract class ToolbarFragmentBase<TViewModel, TKey> : FragmentBase<TViewModel>
+        where TViewModel : ToolbarViewModelBase<TKey>
+    {
+        private BackPressedCallback? _backPressedCallback;
+
+        protected abstract ToolbarComponent<TViewModel, TKey> ToolbarComponent { get; }
+
+        public override void OnCreate(Bundle savedInstanceState)
+        {
+            ToolbarComponent.OnCreate(ViewModel, bundle => base.OnCreate(bundle), savedInstanceState);
+
+            _backPressedCallback = new BackPressedCallback(true, HandleBackPressed);
+            Activity.OnBackPressedDispatcher.AddCallback(this, _backPressedCallback);
+        }
+
+        public override void OnDestroy()
+        {
+            base.OnDestroy();
+
+            _backPressedCallback?.Detach();
+            _backPressedCallback = null;
+        }
+
+        private void HandleBackPressed()
+        {
+            if (!ToolbarComponent.HandleBackPress(ViewModel))
+            {
+                _backPressedCallback?.Detach();
+                Activity.OnBackPressed();
+            }
+        }
+
+        private class BackPressedCallback : OnBackPressedCallback
+        {
+            private Action? _handler;
+
+            public BackPressedCallback(bool enabled, Action handler)
+                : base(enabled)
+            {
+                _handler = handler;
+            }
+
+            public override void HandleOnBackPressed()
+            {
+                _handler?.Invoke();
+            }
+
+            public void Detach()
+            {
+                _handler = null;
+                Remove();
+            }
+        }
+    }
+}

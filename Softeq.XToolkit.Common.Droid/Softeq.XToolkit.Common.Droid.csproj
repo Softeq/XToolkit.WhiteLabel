@@ -51,5 +51,11 @@
     <Compile Include="Extensions\IntentExtensions.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{69b5cb62-eaa0-4441-a261-3e11fa9868a9}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
