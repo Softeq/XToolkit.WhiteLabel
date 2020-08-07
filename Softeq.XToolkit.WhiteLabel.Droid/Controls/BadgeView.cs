@@ -59,7 +59,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
             this.DetachBindings();
             this.Bind(() => _viewModelRef.Target.BadgeText, () => _textView.Text);
-            this.Bind(() => _viewModelRef.Target.IsBadgeVisible, () => Visibility, new GoneConverter());
+            this.Bind(() => _viewModelRef.Target.IsBadgeVisible, () => Visibility, BoolToViewStateConverter.GoneConverter);
         }
 
         private void Initialize(Context context)

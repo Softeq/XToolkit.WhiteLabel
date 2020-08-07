@@ -36,8 +36,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
         {
             if (!ToolbarComponent.HandleBackPress(ViewModel))
             {
-                _backPressedCallback?.Detach();
+                if (_backPressedCallback != null)
+                {
+                    _backPressedCallback.Enabled = false;
+                }
+
                 Activity.OnBackPressed();
+
+                if (_backPressedCallback != null)
+                {
+                    _backPressedCallback.Enabled = true;
+                }
             }
         }
 

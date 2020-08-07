@@ -8,6 +8,8 @@ namespace Softeq.XToolkit.Common.Droid.Converters
 {
     public static class BoolToViewStateConverter
     {
+        public static GoneConverter GoneConverter { get; } = new GoneConverter();
+
         /// <summary>
         ///     if true ViewStates.Visible else ViewStates.Gone
         /// </summary>
@@ -22,11 +24,6 @@ namespace Softeq.XToolkit.Common.Droid.Converters
         public static ViewStates ConvertInvisible(bool value)
         {
             return value ? ViewStates.Visible : ViewStates.Invisible;
-        }
-
-        public static GoneConverter CreateGoneConverter()
-        {
-            return new GoneConverter();
         }
     }
 
