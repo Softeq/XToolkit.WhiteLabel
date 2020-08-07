@@ -9,6 +9,8 @@ using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Commands;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public class BindableCollectionViewSource<TItem, TCell> : ObservableCollectionViewSource<TItem, TCell>

@@ -7,6 +7,7 @@ using System.Linq;
 using Android.Content;
 using Android.OS;
 using Newtonsoft.Json.Linq;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -15,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public interface IBundleService
     {
-        void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel> parameters);
+        void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel>? parameters);
 
         /// <summary>
         ///
@@ -45,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _jsonSerializer = jsonSerializer;
         }
 
-        public void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel> parameters)
+        public void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel>? parameters)
         {
             if (parameters != null && parameters.Any())
             {
@@ -65,7 +66,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             var parametersObject = intent.GetStringExtra(ParametersKey);
-            var parameters = _jsonSerializer.Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject);
+            var parameters = _jsonSerializer
+                .Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject)
+                .EmptyIfNull();
 
             foreach (var parameter in parameters)
             {
@@ -84,8 +87,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             var property = parameter.PropertyInfo.ToProperty();
 
-            object GetValue(object value)
+            object? GetValue(object? value)
             {
+                if(value == null)
+                {
+                    return null;
+                }
+
                 if (property.PropertyType.IsEnum)
                 {
                     return Enum.ToObject(property.PropertyType, value);

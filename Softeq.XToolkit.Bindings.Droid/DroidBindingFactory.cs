@@ -5,14 +5,18 @@ using System;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
+using Android.Views;
 using Android.Widget;
-using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Droid.Extensions;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings.Droid
 {
-    public class DroidBindingFactory : IBindingFactory
+    public class DroidBindingFactory : BindingFactoryBase
     {
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        /// <inheritdoc />
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             bool? resolveTopField,
@@ -33,7 +37,8 @@ namespace Softeq.XToolkit.Bindings.Droid
                 targetNullValue);
         }
 
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        /// <inheritdoc />
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             object target = null,
@@ -52,7 +57,8 @@ namespace Softeq.XToolkit.Bindings.Droid
                 targetNullValue);
         }
 
-        public Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
+        /// <inheritdoc />
+        public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             string sourcePropertyName,
             object target = null,
@@ -71,123 +77,109 @@ namespace Softeq.XToolkit.Bindings.Droid
                 targetNullValue);
         }
 
-        public Delegate GetCommandHandler(EventInfo info, string eventName, Type elementType, ICommand command)
+        public override Delegate GetCommandHandler(
+            EventInfo info,
+            string eventName,
+            Type elementType,
+            ICommand command,
+            object commandParameter = null)
         {
-            Delegate result;
-
-            if (string.IsNullOrEmpty(eventName)
-                && elementType == typeof(CheckBox))
+            if (string.IsNullOrEmpty(eventName) && elementType == typeof(CheckBox))
             {
-                EventHandler<CompoundButton.CheckedChangeEventArgs> handler = (s, args) =>
+                return new EventHandler<CompoundButton.CheckedChangeEventArgs>((s, args) =>
                 {
-                    if (command.CanExecute(null))
+                    if (command.CanExecute(commandParameter))
                     {
-                        command.Execute(null);
+                        command.Execute(commandParameter);
                     }
-                };
-
-                result = handler;
-            }
-            else
-            {
-                EventHandler handler = (s, args) =>
-                {
-                    if (command.CanExecute(null))
-                    {
-                        command.Execute(null);
-                    }
-                };
-
-                result = handler;
+                });
             }
 
-            return result;
+            return base.GetCommandHandler(info, eventName, elementType, command, commandParameter);
         }
 
-        public Delegate GetCommandHandler<T>(EventInfo info, string eventName, Type elementType,
+        public override Delegate GetCommandHandler<T>(
+            EventInfo info,
+            string eventName,
+            Type elementType,
             ICommand command,
             Binding<T, T> castedBinding)
         {
-            Delegate result;
-
-            if (string.IsNullOrEmpty(eventName)
-                && elementType == typeof(CheckBox))
+            if (string.IsNullOrEmpty(eventName) && elementType == typeof(CheckBox))
             {
-                EventHandler<CompoundButton.CheckedChangeEventArgs> handler = (s, args) =>
+                return new EventHandler<CompoundButton.CheckedChangeEventArgs>((s, args) =>
                 {
-                    var param = castedBinding == null ? default : castedBinding.Value;
-                    command.Execute(param);
-                };
+                    object param = castedBinding == null ? default : castedBinding.Value;
 
-                result = handler;
-            }
-            else
-            {
-                EventHandler handler = (s, args) =>
-                {
-                    var param = castedBinding == null ? default : castedBinding.Value;
-                    command.Execute(param);
-                };
-
-                result = handler;
+                    if (command.CanExecute(param))
+                    {
+                        command.Execute(param);
+                    }
+                });
             }
 
-            return result;
+            return base.GetCommandHandler(info, eventName, elementType, command, castedBinding);
         }
 
-        public Delegate GetCommandHandler(EventInfo info, string eventName, Type elementType,
+        public override string GetDefaultEventNameForControl(Type type)
+        {
+            if (type == typeof(CheckBox) || typeof(CheckBox).IsAssignableFrom(type))
+            {
+                return "CheckedChange";
+            }
+
+            if (type == typeof(Button) || typeof(Button).IsAssignableFrom(type))
+            {
+                return "Click";
+            }
+
+            if (type == typeof(ImageButton) || typeof(ImageButton).IsAssignableFrom(type))
+            {
+                return "Click";
+            }
+
+            return null;
+        }
+
+        public override void HandleCommandCanExecute<T>(
+            object element,
             ICommand command,
-            object commandParameter)
+            Binding<T, T> commandParameterBinding)
         {
-            Delegate result;
-
-            if (string.IsNullOrEmpty(eventName)
-                && elementType == typeof(CheckBox))
+            if (element is View view)
             {
-                EventHandler<CompoundButton.CheckedChangeEventArgs> handler =
-                    (s, args) => command.Execute(commandParameter);
-                result = handler;
+                HandleViewEnabled(view, command, commandParameterBinding);
             }
-            else
-            {
-                EventHandler handler = (s, args) => command.Execute(commandParameter);
-                result = handler;
-            }
-
-            return result;
         }
 
-        public Delegate GetCommandHandlerWithArgs<T>(
-            EventInfo e,
-            string eventName,
-            Type t,
-            ICommand<T> command)
+        private static void HandleViewEnabled<T>(
+            View view,
+            ICommand command,
+            Binding<T, T> commandParameterBinding)
         {
-            EventHandler<T> handler = (s, args) => command.Execute(args);
-            return handler;
-        }
+            var commandParameter = commandParameterBinding == null
+                ? default
+                : commandParameterBinding.Value;
 
-        public string GetDefaultEventNameForControl(Type type)
-        {
-            string eventName = null;
+            view.BeginInvokeOnMainThread(
+                () => view.Enabled = command.CanExecute(commandParameter));
 
-            if (type == typeof(CheckBox)
-                || typeof(CheckBox).IsAssignableFrom(type))
+            // set by CanExecute
+            command.CanExecuteChanged += (s, args) =>
             {
-                eventName = "CheckedChange";
-            }
-            else if (type == typeof(Button)
-                     || typeof(Button).IsAssignableFrom(type))
-            {
-                eventName = "Click";
-            }
-            else if (type == typeof(ImageButton)
-                     || typeof(ImageButton).IsAssignableFrom(type))
-            {
-                eventName = "Click";
-            }
+                view.BeginInvokeOnMainThread(
+                    () => view.Enabled = command.CanExecute(commandParameter));
+            };
 
-            return eventName;
+            // set by bindable command parameter
+            if (commandParameterBinding != null)
+            {
+                commandParameterBinding.ValueChanged += (s, args) =>
+                {
+                    view.BeginInvokeOnMainThread(
+                        () => view.Enabled = command.CanExecute(commandParameterBinding.Value));
+                };
+            }
         }
     }
 }

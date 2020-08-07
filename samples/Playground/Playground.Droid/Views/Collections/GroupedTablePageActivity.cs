@@ -4,9 +4,9 @@
 using System;
 using Android.App;
 using Android.OS;
-using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
@@ -23,10 +23,10 @@ namespace Playground.Droid.Views.Collections
     {
         private const int ColumnsCount = 3;
 
-        private ProgressBar _progress;
-        private RecyclerView _recyclerView;
-        private Button _generateButton;
-        private Button _addButton;
+        private ProgressBar? _progress;
+        private RecyclerView? _recyclerView;
+        private Button? _generateButton;
+        private Button? _addButton;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -66,7 +66,7 @@ namespace Playground.Droid.Views.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => SupportActionBar.Title);
-            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress.Visibility, new BoolToVisibilityConverter());
+            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress!.Visibility, new BoolToVisibilityConverter());
         }
     }
 

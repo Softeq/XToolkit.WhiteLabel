@@ -1,8 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Android.Support.V4.App;
-using Android.Support.V7.App;
+using AndroidX.AppCompat.App;
+using AndroidX.Fragment.App;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 

@@ -9,6 +9,8 @@ using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public abstract class BindableCollectionViewCell<TItem> : UICollectionViewCell, IBindableView

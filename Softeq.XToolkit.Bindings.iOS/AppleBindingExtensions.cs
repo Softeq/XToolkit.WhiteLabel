@@ -7,6 +7,8 @@ using System.Collections.ObjectModel;
 using Foundation;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     /// <summary>
@@ -15,19 +17,20 @@ namespace Softeq.XToolkit.Bindings.iOS
     public static class AppleBindingExtensions
     {
         /// <summary>
-        ///     Creates a new <see cref="ObservableCollectionViewSource{TItem, TCell}" /> for a given <see cref="IList{TItem}" />.
+        ///     Creates a new <see cref="ObservableCollectionViewSource{TItem, TCell}" />
+        ///     for a given <see cref="T:System.Collections.Generic.IList`1" />.
         ///     Note that if the IList doesn't implement INotifyCollectionChanged, the associated UICollectionView won't be
         ///     updated when the IList changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>
         /// <typeparam name="TCell">The type of cells in the CollectionView associated to this ObservableCollectionViewSource.</typeparam>
-        /// <param name="list">The IList that should be represented in the associated UICollectionView</param>
+        /// <param name="list">The IList that should be represented in the associated UICollectionView.</param>
         /// <param name="bindCellDelegate">
-        ///     A delegate to a method taking a <see cref="UICollectionViewCell" />
+        ///     A delegate to a method taking a <see cref="T:UIKit.UICollectionViewCell" />
         ///     and setting its elements' properties according to the item passed as second parameter.
         /// </param>
         /// <param name="getSupplementaryViewDelegate">
-        ///     A delegate to a method returning a <see cref="UICollectionReusableView" />
+        ///     A delegate to a method returning a <see cref="T:UIKit.UICollectionReusableView" />
         ///     and used to set supplementary views on the UICollectionView.
         /// </param>
         /// <param name="reuseId">An ID used for optimization and cell reuse.</param>
@@ -67,18 +70,18 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     Creates a new <see cref="ObservableCollectionViewSource{TItem, TCell}" /> for a given
-        ///     <see cref="ObservableCollection{TItem}" />.
+        ///     <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
         ///     The associated UICollectionView will be updated when the ObservableCollection changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>
         /// <typeparam name="TCell">The type of cells in the CollectionView associated to this ObservableCollectionViewSource.</typeparam>
-        /// <param name="list">The ObservableCollection that should be represented in the associated UICollectionView</param>
+        /// <param name="list">The ObservableCollection that should be represented in the associated UICollectionView.</param>
         /// <param name="bindCellDelegate">
-        ///     A delegate to a method taking a <see cref="UICollectionViewCell" />
+        ///     A delegate to a method taking a <see cref="T:UIKit.UICollectionViewCell" />
         ///     and setting its elements' properties according to the item passed as second parameter.
         /// </param>
         /// <param name="getSupplementaryViewDelegate">
-        ///     A delegate to a method returing a <see cref="UICollectionReusableView" />
+        ///     A delegate to a method returing a <see cref="T:UIKit.UICollectionReusableView" />
         ///     and used to set supplementary views on the UICollectionView.
         /// </param>
         /// <param name="reuseId">An ID used for optimization and cell reuse.</param>
@@ -118,17 +121,17 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     Creates a new <see cref="ObservableTableViewController{TItem}" /> for a given
-        ///     <see cref="ObservableCollection{TItem}" />.
+        ///     <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
         /// </summary>
         /// <typeparam name="TItem">The type of the items contained in the collection.</typeparam>
         /// <param name="collection">The collection that the adapter will be created for.</param>
         /// <param name="createCellDelegate">
-        ///     A delegate to a method creating or reusing a <see cref="UITableViewCell" />.
+        ///     A delegate to a method creating or reusing a <see cref="T:UIKit.UITableViewCell" />.
         ///     The cell will then be passed to the bindCellDelegate delegate to set the elements' properties.
         ///     If you use a reuseId, you can pass null for the createCellDelegate.
         /// </param>
         /// <param name="bindCellDelegate">
-        ///     A delegate to a method taking a <see cref="UITableViewCell" />
+        ///     A delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
         ///     and setting its elements' properties according to the item passed as second parameter.
         ///     The cell must be created first in the createCellDelegate delegate, unless a
         ///     reuseId is passed to the method.
@@ -151,17 +154,17 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a new <see cref="ObservableTableViewController{TItem}" /> for a given <see cref="IList{TItem}" />.
+        ///     Creates a new <see cref="ObservableTableViewController{TItem}" /> for a given <see cref="T:System.Collections.Generic.IList`1" />.
         /// </summary>
         /// <typeparam name="TItem">The type of the items contained in the list.</typeparam>
         /// <param name="list">The list that the adapter will be created for.</param>
         /// <param name="createCellDelegate">
-        ///     A delegate to a method creating or reusing a <see cref="UITableViewCell" />.
+        ///     A delegate to a method creating or reusing a <see cref="T:UIKit.UITableViewCell" />.
         ///     The cell will then be passed to the bindCellDelegate delegate to set the elements' properties.
         ///     If you use a reuseId, you can pass null for the createCellDelegate.
         /// </param>
         /// <param name="bindCellDelegate">
-        ///     A delegate to a method taking a <see cref="UITableViewCell" />
+        ///     A delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
         ///     and setting its elements' properties according to the item passed as second parameter.
         ///     The cell must be created first in the createCellDelegate delegate, unless a reuseId is
         ///     passed to the method.
@@ -184,14 +187,14 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given <see cref="IList{TItem}" />.
+        ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given <see cref="T:System.Collections.Generic.IList`1" />.
         ///     Note that if the IList doesn't implement INotifyCollectionChanged, the associated UITableView won't be
         ///     updated when the IList changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>
-        /// <param name="list">The IList that should be represented in the associated UITableView</param>
+        /// <param name="list">The IList that should be represented in the associated UITableView.</param>
         /// <param name="bindCellDelegate">
-        ///     A delegate to a method taking a <see cref="UITableViewCell" />
+        ///     A delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
         ///     and setting its elements' properties according to the item passed as second parameter.
         /// </param>
         /// <param name="reuseId">An ID used for optimization and cell reuse.</param>
@@ -227,13 +230,13 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given
-        ///     <see cref="ObservableCollection{TItem}" />.
+        ///     <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
         ///     The associated UITableView will be updated when the ObservableCollection changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>
-        /// <param name="list">The ObservableCollection that should be represented in the associated UITableView</param>
+        /// <param name="list">The ObservableCollection that should be represented in the associated UITableView.</param>
         /// <param name="bindCellDelegate">
-        ///     A delegate to a method taking a <see cref="UITableViewCell" />
+        ///     A delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
         ///     and setting its elements' properties according to the item passed as second parameter.
         /// </param>
         /// <param name="reuseId">An ID used for optimization and cell reuse.</param>
@@ -268,20 +271,20 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given <see cref="IList{TItem}" />.
+        ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given <see cref="T:System.Collections.Generic.IList`1" />.
         ///     Note that if the IList doesn't implement INotifyCollectionChanged, the associated UITableView won't be
         ///     updated when the IList changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>
-        /// <param name="list">The IList that should be represented in the associated UITableView</param>
+        /// <param name="list">The IList that should be represented in the associated UITableView.</param>
         /// <param name="createCellDelegate">
-        ///     A delegate to a method creating or reusing a <see cref="UITableViewCell" />.
+        ///     A delegate to a method creating or reusing a <see cref="T:UIKit.UITableViewCell" />.
         ///     The cell will then be passed to the bindCellDelegate delegate to set the elements' properties.
         ///     Use this method only if you don't want to register with the UITableView.RegisterClassForCellReuse method
         ///     for cell reuse.
         /// </param>
         /// <param name="bindCellDelegate">
-        ///     A delegate to a method taking a <see cref="UITableViewCell" />
+        ///     A delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
         ///     and setting its elements' properties according to the item passed as second parameter.
         /// </param>
         /// <param name="reuseId">An ID used for optimization and cell reuse.</param>
@@ -320,20 +323,20 @@ namespace Softeq.XToolkit.Bindings.iOS
 
         /// <summary>
         ///     Creates a new <see cref="ObservableTableViewSource{TItem}" /> for a given
-        ///     <see cref="ObservableCollection{TItem}" />.
+        ///     <see cref="T:System.Collections.ObjectModel.ObservableCollection`1" />.
         ///     The associated UITableView will be updated when the ObservableCollection changes.
         /// </summary>
         /// <typeparam name="TItem">The type of the items in the IList.</typeparam>
-        /// <param name="list">The ObservableCollection that should be represented in the associated UITableView</param>
-        /// <param name="bindCellDelegate">
-        ///     A delegate to a method taking a <see cref="UITableViewCell" />
-        ///     and setting its elements' properties according to the item passed as second parameter.
-        /// </param>
+        /// <param name="list">The ObservableCollection that should be represented in the associated UITableView.</param>
         /// <param name="createCellDelegate">
-        ///     A delegate to a method creating or reusing a <see cref="UITableViewCell" />.
+        ///     A delegate to a method creating or reusing a <see cref="T:UIKit.UITableViewCell" />.
         ///     The cell will then be passed to the bindCellDelegate delegate to set the elements' properties.
         ///     Use this method only if you don't want to register with the UITableView.RegisterClassForCellReuse method
         ///     for cell reuse.
+        /// </param>
+        /// <param name="bindCellDelegate">
+        ///     A delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
+        ///     and setting its elements' properties according to the item passed as second parameter.
         /// </param>
         /// <param name="reuseId">An ID used for optimization and cell reuse.</param>
         /// <param name="factory">

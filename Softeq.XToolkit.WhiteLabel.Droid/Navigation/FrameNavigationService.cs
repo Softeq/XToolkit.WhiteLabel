@@ -4,8 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Android.Support.V4.App;
-using Android.Support.V7.App;
+using AndroidX.AppCompat.App;
+using AndroidX.Fragment.App;
 using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
@@ -92,13 +92,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             ReplaceFragment(_backStack.Peek().Fragment);
         }
 
-        public void NavigateToViewModel<TViewModel>(bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null) where TViewModel : IViewModelBase
+        public void NavigateToViewModel<TViewModel>(
+            bool clearBackStack = false,
+            // ReSharper disable once MethodOverloadWithOptionalParameter
+            IReadOnlyList<NavigationParameterModel>? parameters = null) where TViewModel : IViewModelBase
         {
             throw new NotImplementedException();
         }
 
-        //TODO: replace with For<>.WithParam implementation
+        // TODO: replace with For<>.WithParam implementation
         public void NavigateToViewModel<T, TParameter>(TParameter parameter)
             where T : IViewModelBase, IViewModelParameter<TParameter>
         {
@@ -177,12 +179,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private bool Contains(IViewModelBase viewModelBase)
         {
             return _backStack.Any(item => ReferenceEquals(item.ViewModel, viewModelBase));
-        }
-
-        public void NavigateToViewModel(Type viewModelType, bool clearBackStack = false,
-            IReadOnlyList<NavigationParameterModel> parameters = null)
-        {
-            throw new NotImplementedException();
         }
     }
 }

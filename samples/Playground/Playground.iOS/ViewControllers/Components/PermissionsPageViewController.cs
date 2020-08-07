@@ -13,7 +13,8 @@ namespace Playground.iOS.ViewControllers.Components
 {
     public partial class PermissionsPageViewController : ViewControllerBase<PermissionsPageViewModel>
     {
-        public PermissionsPageViewController(IntPtr handle) : base(handle)
+        public PermissionsPageViewController(IntPtr handle)
+            : base(handle)
         {
         }
 
@@ -41,12 +42,12 @@ namespace Playground.iOS.ViewControllers.Components
 
         private class ColorConverter : IConverter<UIColor, bool>
         {
-            public UIColor ConvertValue(bool TIn, object parameter = null, string language = null)
+            public UIColor ConvertValue(bool value, object? parameter = null, string? language = null)
             {
-                return TIn ? UIColor.Green : UIColor.Red;
+                return value ? UIColor.Green : UIColor.Red;
             }
 
-            public bool ConvertValueBack(UIColor value, object parameter = null, string language = null)
+            public bool ConvertValueBack(UIColor value, object? parameter = null, string? language = null)
             {
                 return value == UIColor.Green;
             }

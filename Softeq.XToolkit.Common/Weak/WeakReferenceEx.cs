@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.Common.Weak
         private readonly WeakReference<T> _weakReference;
 
         /// <summary>
-        ///     Initializes a new instance of the WeakReferenceEx class, referencing the specified object.
+        ///     Initializes a new instance of the <see cref="WeakReferenceEx{T}"/> class, referencing the specified object.
         /// </summary>
         /// <param name="obj">The object to track.</param>
         public WeakReferenceEx(T obj)
@@ -41,6 +41,6 @@ namespace Softeq.XToolkit.Common.Weak
         ///     Gets the target.
         /// </summary>
         /// <value>Return target object if the target was retrieved; otherwise, null.</value>
-        public T Target => _weakReference.TryGetTarget(out var target) ? target : null;
+        public T Target => _weakReference.TryGetTarget(out var target) ? target : default!;
     }
 }

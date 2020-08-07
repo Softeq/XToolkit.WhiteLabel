@@ -12,9 +12,9 @@ namespace Playground.iOS.ViewControllers.Collections
 {
     public partial class TablePageViewController : ViewControllerBase<TablePageViewModel>
     {
-        public TablePageViewController(IntPtr handle) : base(handle)
+        public TablePageViewController(IntPtr handle)
+            : base(handle)
         {
-
         }
 
         public override void ViewDidLoad()
@@ -30,4 +30,3 @@ namespace Playground.iOS.ViewControllers.Collections
         }
     }
 }
-

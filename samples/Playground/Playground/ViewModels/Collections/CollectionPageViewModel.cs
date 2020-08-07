@@ -1,14 +1,18 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Playground.Extended;
+using Playground.Services;
 using Playground.ViewModels.Collections.Base;
-using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.ViewModels.Collections
 {
     public class CollectionPageViewModel : SimpleListViewModelBase
     {
-        public CollectionPageViewModel(IDialogsService dialogsService) : base(dialogsService)
+        public CollectionPageViewModel(
+            IDataService dataService,
+            IExtendedDialogsService dialogsService)
+            : base(dataService, dialogsService)
         {
         }
     }

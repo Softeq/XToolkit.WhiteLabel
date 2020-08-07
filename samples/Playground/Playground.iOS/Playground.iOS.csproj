@@ -12,7 +12,7 @@
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
     <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <LangVersion>7.3</LangVersion>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
@@ -75,7 +75,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>12.0.2</Version>
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="Plugin.Permissions">
       <Version>5.0.0-beta</Version>
@@ -88,6 +88,9 @@
     </PackageReference>
     <PackageReference Include="Xamarin.FFImageLoading">
       <Version>2.4.11.982</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.Connectivity">
+      <Version>3.2.0</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
@@ -167,19 +170,26 @@
     <InterfaceDefinition Include="ViewControllers\Controls\PhotoBrowserStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\ConnectivityPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Components\GesturesPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Collections\CompositionalLayoutPageStoryboard.storyboard" />
+    <InterfaceDefinition Include="Views\Collections\DummyCell.xib" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extended\IosChooseBetterDateDialog.cs" />
+    <Compile Include="Extended\IosExtendedDialogsService.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayout\AdaptiveSectionsViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayout\NestedGroupsViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayout\NSUtils.cs" />
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>
     </Compile>
-    <Compile Include="CustomIosBootstraper.cs" />
+    <Compile Include="CustomIosBootstrapper.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
     <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\MainPageGroupHeaderViewCell.cs" />
@@ -284,11 +294,27 @@
     <Compile Include="ViewControllers\Components\GesturesPageViewController.designer.cs">
       <DependentUpon>GesturesPageViewController.cs</DependentUpon>
     </Compile>
+    <Compile Include="ViewControllers\Collections\CompositionalLayoutPageViewController.cs" />
+    <Compile Include="ViewControllers\Collections\CompositionalLayoutPageViewController.designer.cs">
+      <DependentUpon>CompositionalLayoutPageViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Collections\DummyCell.cs" />
+    <Compile Include="Views\Collections\DummyCell.designer.cs">
+      <DependentUpon>DummyCell.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
       <Project>{2d399ba9-1878-43e2-af05-6873eae9151b}</Project>
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials.iOS\Softeq.XToolkit.WhiteLabel.Essentials.iOS.csproj">
+      <Project>{23aa0e71-bf8f-47a8-a915-c8ac4841e064}</Project>
+      <Name>Softeq.XToolkit.WhiteLabel.Essentials.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj">
+      <Project>{887c6ce5-075b-420d-a88f-60479c4dc25a}</Project>
+      <Name>Softeq.XToolkit.WhiteLabel.Essentials</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj">
       <Project>{CC89DBC6-E68A-4C85-91C4-E276D3BC3C2E}</Project>
@@ -330,11 +356,6 @@
       <Project>{E3CCEEA3-C0B0-47B0-B414-2D6C18AC100A}</Project>
       <Name>Softeq.XToolkit.Connectivity.iOS</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\Table\" />
-    <Folder Include="ViewControllers\Controls\" />
-    <Folder Include="Styles\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

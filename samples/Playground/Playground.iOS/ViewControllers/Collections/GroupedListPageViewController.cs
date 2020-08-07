@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Foundation;
 using Playground.iOS.Views.Table;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
@@ -16,7 +15,6 @@ using UIKit;
 
 namespace Playground.iOS.ViewControllers.Collections
 {
-    [Register(nameof(GroupedListPageViewController))]
     public partial class GroupedListPageViewController : ViewControllerBase<GroupedTablePageViewModel>
     {
         public GroupedListPageViewController(IntPtr handle) : base(handle)

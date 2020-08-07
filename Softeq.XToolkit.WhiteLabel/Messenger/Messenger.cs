@@ -8,6 +8,7 @@ using System.Linq;
 using System.Threading;
 using Softeq.XToolkit.Common.Weak;
 
+#nullable disable
 namespace Softeq.XToolkit.WhiteLabel.Messenger
 {
     /// <summary>
@@ -126,7 +127,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
 
                 foreach (var item in listClone)
                 {
-                    var executeAction = item.Action as IExecuteWithObject;
+                    var executeAction = item.Action;
 
                     if (executeAction != null
                         && item.Action.IsAlive
@@ -158,7 +159,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
                 {
                     foreach (var item in lists[messageType])
                     {
-                        var weakAction = (IExecuteWithObject) item.Action;
+                        var weakAction = item.Action;
 
                         if (weakAction != null
                             && recipient == weakAction.Target)
@@ -190,12 +191,12 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
             {
                 foreach (var item in lists[messageType])
                 {
-                    var weakActionCasted = item.Action as WeakAction<TMessage>;
+                    var weakAction = item.Action;
 
-                    if (weakActionCasted != null
-                        && recipient == weakActionCasted.Target
+                    if (weakAction != null
+                        && recipient == weakAction.Target
                         && (action == null
-                            || action.Method.Name == weakActionCasted.MethodName)
+                            || action.Method.Name == weakAction.MethodName)
                         && (token == null
                             || token.Equals(item.Token)))
                     {
@@ -208,7 +209,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
         /// <summary>
         ///     Notifies the Messenger that the lists of recipients should
         ///     be scanned and cleaned up.
-        ///     Since recipients are stored as <see cref="WeakReference" />,
+        ///     Since recipients are stored as <see cref="T:System.WeakReference" />,
         ///     recipients can be garbage collected even though the Messenger keeps
         ///     them in a list. During the cleanup operation, all "dead"
         ///     recipients are removed from the lists. Since this operation
@@ -238,7 +239,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
 
         /// <summary>
         ///     Scans the recipients' lists for "dead" instances and removes them.
-        ///     Since recipients are stored as <see cref="WeakReference" />,
+        ///     Since recipients are stored as <see cref="T:System.WeakReference" />,
         ///     recipients can be garbage collected even though the Messenger keeps
         ///     them in a list. During the cleanup operation, all "dead"
         ///     recipients are removed from the lists. Since this operation
@@ -293,7 +294,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
                     if (_recipientsStrictAction.ContainsKey(messageType))
                     {
                         list = _recipientsStrictAction[messageType]
-                            .Take(_recipientsStrictAction[messageType].Count())
+                            .Take(_recipientsStrictAction[messageType].Count)
                             .ToList();
                     }
                 }
@@ -311,7 +312,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
 
         private struct WeakActionAndToken
         {
-            public WeakAction Action;
+            public IExecuteWithObject Action;
 
             public object Token;
         }
@@ -675,3 +676,4 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
         #endregion
     }
 }
+#nullable restore

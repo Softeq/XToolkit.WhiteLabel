@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 using Android.OS;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     {
         public List<Binding> Bindings { get; } = new List<Binding>();
 
-        public object DataContext { get; private set; }
+        public object DataContext { get; private set; } = default!;
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
 

@@ -2,12 +2,13 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android.App;
-using Android.Arch.Lifecycle;
 using Android.Content;
 using Android.Gms.Extensions;
-using Android.Support.V4.App;
+using AndroidX.Core.App;
+using AndroidX.Lifecycle;
 using Firebase;
 using Firebase.Iid;
 using Firebase.Messaging;
@@ -150,15 +151,22 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         {
             if (_showForegroundNotificationsInSystemOptions.ShouldShow() || !inForeground)
             {
-                var notificationData = (pushNotification as RemoteMessage)?.Data;
+                var remoteMessage = pushNotification as RemoteMessage;
+                var notificationData = remoteMessage?.Data ?? new Dictionary<string, string>();
+
                 NotificationsHelper.CreateNotification(_appContext, parsedPushNotification, notificationData);
             }
         }
 
         private void OnPushTokenRefreshed(string token)
         {
-            // To avoid not needed requests only handle this if we were previously registered (have a push token saved) and token changed or if token was not ready at the moment of registration
-            if (_registrationRequired || (!string.IsNullOrEmpty(PushTokenStorageService.PushToken) && PushTokenStorageService.PushToken != token))
+            // To avoid not needed requests only handle this if we were previously registered (have a push token saved)
+            // and token changed or if token was not ready at the moment of registration.
+
+            var currentToken = PushTokenStorageService.PushToken;
+            var hasNewToken = !string.IsNullOrEmpty(currentToken) && currentToken != token;
+
+            if (_registrationRequired || hasNewToken)
             {
                 _registrationRequired = false;
                 OnRegisteredForPushNotifications(token);
@@ -224,8 +232,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class XFirebaseMessagingService : FirebaseMessagingService
     {
-        public static Action<string> OnTokenRefreshed;
-        public static Action<RemoteMessage> OnNotificationReceived;
+        public static Action<string>? OnTokenRefreshed;
+        public static Action<RemoteMessage>? OnNotificationReceived;
 
 #pragma warning disable RECS0133 // Parameter name differs in base declaration
         public override void OnNewToken(string token)

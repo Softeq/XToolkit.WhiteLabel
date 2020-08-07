@@ -20,12 +20,12 @@ namespace Softeq.XToolkit.Common
         /// <summary>
         ///     Provides access to the PropertyChanged event handler to derived classes.
         /// </summary>
-        protected PropertyChangedEventHandler PropertyChangedHandler => PropertyChanged;
+        protected PropertyChangedEventHandler? PropertyChangedHandler => PropertyChanged;
 
         /// <summary>
         ///     Occurs after a property value changes.
         /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         /// <summary>
         ///     Verifies that a property name exists in this ViewModel. This method
@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Common
         /// </param>
         [Conditional("DEBUG")]
         [DebuggerStepThrough]
-        public void VerifyPropertyName(string propertyName)
+        public void VerifyPropertyName(string? propertyName)
         {
             var myType = GetType();
             if (!string.IsNullOrEmpty(propertyName)
@@ -67,7 +67,7 @@ namespace Softeq.XToolkit.Common
             "CA1030:UseEventsWhereAppropriate",
             Justification = "This cannot be an event")]
         public virtual void RaisePropertyChanged(
-            [CallerMemberName] string propertyName = null)
+            [CallerMemberName] string? propertyName = null)
         {
             VerifyPropertyName(propertyName);
 
@@ -123,8 +123,8 @@ namespace Softeq.XToolkit.Common
         /// <typeparam name="T">The type of the property.</typeparam>
         /// <param name="propertyExpression">An expression returning the property's name.</param>
         /// <returns>The name of the property returned by the expression.</returns>
-        /// <exception cref="ArgumentNullException">If the expression is null.</exception>
-        /// <exception cref="ArgumentException">If the expression does not represent a property.</exception>
+        /// <exception cref="T:System.ArgumentNullException">If the expression is null.</exception>
+        /// <exception cref="T:System.ArgumentException">If the expression does not represent a property.</exception>
         [SuppressMessage(
             "Microsoft.Design",
             "CA1011:ConsiderPassingBaseTypesAsParameters",
@@ -231,7 +231,7 @@ namespace Softeq.XToolkit.Common
             MessageId = "1#",
             Justification = "This syntax is more convenient than the alternatives.")]
         protected bool Set<T>(
-            string propertyName,
+            string? propertyName,
             ref T field,
             T newValue)
         {
@@ -248,7 +248,6 @@ namespace Softeq.XToolkit.Common
 
             return true;
         }
-
 
         /// <summary>
         ///     Assigns a new value to the property. Then, raises the
@@ -275,12 +274,12 @@ namespace Softeq.XToolkit.Common
         protected bool Set<T>(
             ref T field,
             T newValue,
-            [CallerMemberName] string propertyName = null)
+            [CallerMemberName] string? propertyName = null)
         {
             return Set(propertyName, ref field, newValue);
         }
 
-        private void NotifyProperty(string propertyName)
+        private void NotifyProperty(string? propertyName)
         {
             var handler = PropertyChanged;
             handler?.Invoke(this, new PropertyChangedEventArgs(propertyName));

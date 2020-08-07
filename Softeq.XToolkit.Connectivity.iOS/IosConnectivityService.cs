@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using CoreFoundation;
 using Network;
 using Plugin.Connectivity.Abstractions;
@@ -12,26 +13,25 @@ namespace Softeq.XToolkit.Connectivity.iOS
 {
     public class IosConnectivityService : IConnectivityService
     {
-        private readonly NWPathMonitor _ceccularMonitor;
-        private readonly NWPathMonitor _wifiMonitor;
-        private readonly NWPathMonitor _wiredMonitor;
-        private readonly NWPathMonitor _loopbackMonitor;
-        private readonly NWPathMonitor _otherMonitor;
+        private readonly ReaderWriterLockSlim _statusesLock = new ReaderWriterLockSlim();
 
         private readonly Dictionary<NWInterfaceType, bool> _connectionStatuses;
+        private readonly IList<NWPathMonitor> _monitors;
 
-        public event ConnectivityChangedEventHandler ConnectivityChanged;
-        public event ConnectivityTypeChangedEventHandler ConnectivityTypeChanged;
+        public event ConnectivityChangedEventHandler? ConnectivityChanged;
+        public event ConnectivityTypeChangedEventHandler? ConnectivityTypeChanged;
 
         public IosConnectivityService()
         {
             _connectionStatuses = new Dictionary<NWInterfaceType, bool>();
-
-            _ceccularMonitor = CreateMonitor(NWInterfaceType.Cellular, UpdateCeccularSnapshot);
-            _wifiMonitor = CreateMonitor(NWInterfaceType.Wifi, UpdateWiFiSnapshot);
-            _wiredMonitor = CreateMonitor(NWInterfaceType.Wired, UpdateWiredSnapshot);
-            _loopbackMonitor = CreateMonitor(NWInterfaceType.Loopback, UpdateLoopbackSnapshot);
-            _otherMonitor = CreateMonitor(NWInterfaceType.Other, UpdateOtherSnapshot);
+            _monitors = new List<NWPathMonitor>
+            {
+                RegisterMonitor(NWInterfaceType.Cellular),
+                RegisterMonitor(NWInterfaceType.Wifi),
+                RegisterMonitor(NWInterfaceType.Wired),
+                RegisterMonitor(NWInterfaceType.Loopback),
+                RegisterMonitor(NWInterfaceType.Other)
+            };
         }
 
         ~IosConnectivityService()
@@ -39,7 +39,21 @@ namespace Softeq.XToolkit.Connectivity.iOS
             Dispose(false);
         }
 
-        public bool IsConnected => _connectionStatuses.Values.Any(x => x);
+        public bool IsConnected
+        {
+            get
+            {
+                _statusesLock.EnterReadLock();
+                try
+                {
+                    return CheckConnectivity(_connectionStatuses);
+                }
+                finally
+                {
+                    _statusesLock.ExitReadLock();
+                }
+            }
+        }
 
         public bool IsSupported => true;
 
@@ -47,14 +61,16 @@ namespace Softeq.XToolkit.Connectivity.iOS
         {
             get
             {
-                var statuses = _connectionStatuses.Where(x => x.Value).Select(x => x.Key).ToList();
-
-                if (statuses.Contains(NWInterfaceType.Other) && statuses.Count > 1)
+                _statusesLock.EnterReadLock();
+                try
                 {
-                    statuses.Remove(NWInterfaceType.Other);
+                    var statuses = _connectionStatuses.Where(x => x.Value).Select(x => x.Key).ToList();
+                    return FilterConnectionTypes(statuses);
                 }
-
-                return ConvertTypes(statuses);
+                finally
+                {
+                    _statusesLock.ExitReadLock();
+                }
             }
         }
 
@@ -64,47 +80,70 @@ namespace Softeq.XToolkit.Connectivity.iOS
             GC.SuppressFinalize(this);
         }
 
-        protected void Dispose(bool disposing)
+        protected virtual void Dispose(bool disposing)
         {
             if (disposing)
             {
-                _ceccularMonitor.Cancel();
-                _wifiMonitor.Cancel();
-                _wiredMonitor.Cancel();
-                _loopbackMonitor.Cancel();
-                _otherMonitor.Cancel();
+                foreach (var monitor in _monitors)
+                {
+                    monitor.Cancel();
+                    monitor.Dispose();
+                }
 
-                _ceccularMonitor.Dispose();
-                _wifiMonitor.Dispose();
-                _wiredMonitor.Dispose();
-                _loopbackMonitor.Dispose();
-                _otherMonitor.Dispose();
+                _monitors.Clear();
             }
         }
 
-        private void UpdateWiredSnapshot(NWPath nWPath)
+        protected virtual bool CheckConnectivity(IReadOnlyDictionary<NWInterfaceType, bool> connectionStatuses)
         {
-            HandleUpdateSnapshot(nWPath, NWInterfaceType.Wired);
+            return connectionStatuses
+                .Where(x => x.Key == NWInterfaceType.Wifi || x.Key == NWInterfaceType.Cellular)
+                .Any(x => x.Value);
         }
 
-        private void UpdateWiFiSnapshot(NWPath nWPath)
+        protected virtual IEnumerable<ConnectionType> FilterConnectionTypes(IList<NWInterfaceType> activeNetworkTypes)
         {
-            HandleUpdateSnapshot(nWPath, NWInterfaceType.Wifi);
+            if (activeNetworkTypes.Contains(NWInterfaceType.Other) && activeNetworkTypes.Count > 1)
+            {
+                activeNetworkTypes.Remove(NWInterfaceType.Other);
+            }
+
+            return activeNetworkTypes.Select(Convert);
         }
 
-        private void UpdateCeccularSnapshot(NWPath nWPath)
+        protected virtual ConnectionType Convert(NWInterfaceType networkType)
         {
-            HandleUpdateSnapshot(nWPath, NWInterfaceType.Cellular);
+            return networkType switch
+            {
+                NWInterfaceType.Cellular => ConnectionType.Cellular,
+                NWInterfaceType.Wifi => ConnectionType.WiFi,
+                _ => ConnectionType.Other
+            };
         }
 
-        private void UpdateLoopbackSnapshot(NWPath nWPath)
+        private NWPathMonitor RegisterMonitor(NWInterfaceType type)
         {
-            HandleUpdateSnapshot(nWPath, NWInterfaceType.Loopback);
+            _statusesLock.EnterWriteLock();
+            try
+            {
+                _connectionStatuses.TryAdd(type, false);
+            }
+            finally
+            {
+                _statusesLock.ExitWriteLock();
+            }
+
+            var monitor = CreateMonitor(type, nWPath => HandleUpdateSnapshot(nWPath, type));
+            monitor.Start();
+            return monitor;
         }
 
-        private void UpdateOtherSnapshot(NWPath nWPath)
+        private NWPathMonitor CreateMonitor(NWInterfaceType type, Action<NWPath> action)
         {
-            HandleUpdateSnapshot(nWPath, NWInterfaceType.Other);
+            var monitor = new NWPathMonitor(type);
+            monitor.SetQueue(DispatchQueue.GetGlobalQueue(DispatchQueuePriority.Background));
+            monitor.SnapshotHandler = action;
+            return monitor;
         }
 
         private void HandleUpdateSnapshot(NWPath nWPath, NWInterfaceType type)
@@ -112,7 +151,15 @@ namespace Softeq.XToolkit.Connectivity.iOS
             var isConnectedOld = IsConnected;
             var connectionTypesOld = ConnectionTypes;
 
-            _connectionStatuses[type] = nWPath.Status == NWPathStatus.Satisfied;
+            _statusesLock.EnterWriteLock();
+            try
+            {
+                _connectionStatuses[type] = nWPath.Status == NWPathStatus.Satisfied;
+            }
+            finally
+            {
+                _statusesLock.ExitWriteLock();
+            }
 
             if (isConnectedOld != IsConnected)
             {
@@ -130,34 +177,6 @@ namespace Softeq.XToolkit.Connectivity.iOS
                     ConnectionTypes = ConnectionTypes
                 });
             }
-        }
-
-        private IEnumerable<ConnectionType> ConvertTypes(IEnumerable<NWInterfaceType> networkInterfaceTypes)
-        {
-            return networkInterfaceTypes
-                .Select(x =>
-                {
-                    switch (x)
-                    {
-                        case NWInterfaceType.Cellular:
-                            return ConnectionType.Cellular;
-                        case NWInterfaceType.Wifi:
-                            return ConnectionType.WiFi;
-                        default:
-                            return ConnectionType.Other;
-                    }
-                });
-        }
-
-        private NWPathMonitor CreateMonitor(NWInterfaceType type, Action<NWPath> action)
-        {
-            _connectionStatuses.Add(type, false);
-
-            var monitor = new NWPathMonitor(type);
-            monitor.SetQueue(DispatchQueue.GetGlobalQueue(DispatchQueuePriority.Background));
-            monitor.SetUpdatedSnapshotHandler(action);
-            monitor.Start();
-            return monitor;
         }
     }
 }

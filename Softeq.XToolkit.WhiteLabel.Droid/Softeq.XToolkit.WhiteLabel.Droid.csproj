@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -14,8 +14,7 @@
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
-    <LangVersion>7.3</LangVersion>
+    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -37,24 +36,11 @@
     </AndroidSigningKeyPass>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Xam.Plugins.Settings">
-      <Version>3.1.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.FFImageLoading">
-      <Version>2.4.11.982</Version>
-    </PackageReference>
-    <PackageReference Include="Plugin.CurrentActivity">
-      <Version>2.1.0.4</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.Design">
-      <Version>28.0.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
-      <Version>28.0.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Xamarin.Android.Support.v4">
-      <Version>28.0.0.1</Version>
-    </PackageReference>
+    <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
+    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Plugin.CurrentActivity" Version="2.1.0.4" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.1.0" />
+    <PackageReference Include="Xamarin.Google.Android.Material" Version="1.1.0-rc3" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android" />
@@ -64,9 +50,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controls\AvatarPlaceholderDrawable.cs" />
-    <Compile Include="Controls\ImagePicker.cs" />
     <Compile Include="Controls\ToolbarMenuComponent.cs" />
+    <Compile Include="Dialogs\AlertDialogBase.cs" />
+    <Compile Include="Dialogs\DefaultAlertBuilder.cs" />
     <Compile Include="Dialogs\DialogFragmentBase.cs" />
+    <Compile Include="Dialogs\DroidActionSheetDialog.cs" />
+    <Compile Include="Dialogs\DroidAlertDialog.cs" />
+    <Compile Include="Dialogs\DroidConfirmDialog.cs" />
     <Compile Include="Dialogs\DroidFragmentDialogService.cs" />
     <Compile Include="Dialogs\IAlertBuilder.cs" />
     <Compile Include="Controls\ObservableStackView.cs" />
@@ -78,7 +68,6 @@
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\DroidPlatformProvider.cs" />
-    <Compile Include="Providers\ExternalStorageProvider.cs" />
     <Compile Include="Services\DroidAppInfoService.cs" />
     <Compile Include="Services\DroidInternalSettings.cs" />
     <Compile Include="Services\DroidToastService.cs" />
@@ -89,12 +78,14 @@
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Navigation\ActivityPageNavigationService.cs" />
     <Compile Include="Navigation\FrameNavigationService.cs" />
-    <Compile Include="Services\DefaultAlertBuilder.cs" />
     <Compile Include="Controls\NavigationBarView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />
+    <Compile Include="ViewComponents\BottomNavigationComponentBase.cs" />
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
+    <Compile Include="ViewComponents\ToolbarComponent.cs" />
+    <Compile Include="Views\BottomNavigationFragmentBase.cs" />
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
     <Compile Include="Navigation\StartActivityAttribute.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
@@ -107,10 +98,7 @@
     <Compile Include="Controls\ColoredClickableSpan.cs" />
     <Compile Include="Controls\NonConsumingTouchesToolbar.cs" />
     <Compile Include="Controls\SwipeControlViewPager.cs" />
-    <Compile Include="DroidBootstrapper.cs" />
-    <Compile Include="ImagePicker\DroidImagePickerService.cs" />
-    <Compile Include="ImagePicker\ImagePickerActivity.cs" />
-    <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
+    <Compile Include="DroidBootstrapperBase.cs" />
     <Compile Include="Extensions\FragmentExtensions.cs" />
     <Compile Include="Navigation\DroidFrameNavigationService.cs" />
     <Compile Include="Internal\ViewModelStore.cs" />
@@ -118,19 +106,16 @@
     <Compile Include="Internal\ViewModelCache.cs" />
     <Compile Include="Internal\ViewModelStoreFragment.cs" />
     <Compile Include="Internal\IViewModelStore.cs" />
+    <Compile Include="Views\ToolbarFragmentBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{C1D38F7D-30B8-4DAD-9A9D-621453A8A382}</Project>
+      <Project>{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
       <Project>{18D3FDC1-B0A1-401E-87F2-1C43034E610C}</Project>
       <Name>Softeq.XToolkit.Common.Droid</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{95D579A2-58D4-40F7-8F4B-BFC1B2B153F5}</Project>
-      <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
       <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>

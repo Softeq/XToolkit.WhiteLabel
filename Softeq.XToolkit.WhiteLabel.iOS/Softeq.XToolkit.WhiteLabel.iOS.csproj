@@ -11,7 +11,6 @@
     <RootNamespace>Softeq.XToolkit.WhiteLabel.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     <AssemblyName>Softeq.XToolkit.WhiteLabel.iOS</AssemblyName>
-    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -55,12 +54,18 @@
     <Compile Include="Controls\ObservableStackViewBase.cs" />
     <Compile Include="Controls\SelectorModel.cs" />
     <Compile Include="Controls\SupportRotationViewController.cs" />
+    <Compile Include="Dialogs\AlertAction.cs" />
+    <Compile Include="Dialogs\IosActionSheetDialog.cs" />
+    <Compile Include="Dialogs\IosAlertDialog.cs" />
+    <Compile Include="Dialogs\IosConfirmDialog.cs" />
+    <Compile Include="Dialogs\AlertViewControllerBase.cs" />
+    <Compile Include="Extensions\CommandActionStyleExtensions.cs" />
     <Compile Include="Extensions\NavigationItemExtensions.cs" />
     <Compile Include="Extensions\UiViewExtensions.cs" />
     <Compile Include="Helpers\AvatarImageHelpers.cs" />
     <Compile Include="Helpers\UIImageHelper.cs" />
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
-    <Compile Include="ImagePicker\SimpleImagePicker.cs" />
+    <Compile Include="Helpers\ViewControllerHelper.cs" />
     <Compile Include="Interfaces\IViewControllerProvider.cs" />
     <Compile Include="IosPlatformProvider.cs" />
     <Compile Include="IViewControllerComponent.cs" />
@@ -81,9 +86,6 @@
     <Compile Include="Controls\GradientFadeView.cs" />
     <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
-    <Compile Include="ImagePicker\ImageOpenedEventArgs.cs" />
-    <Compile Include="ImagePicker\ImagePickerOptions.cs" />
-    <Compile Include="ImagePicker\ImagePicker.cs" />
     <Compile Include="ViewControllers\FullScreenImageViewController.cs" />
     <Compile Include="ViewControllers\FullScreenImageViewController.designer.cs">
       <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
@@ -91,14 +93,12 @@
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
     <Compile Include="Controls\BindableTabBarItem.cs" />
-    <Compile Include="IosBootstraper.cs" />
+    <Compile Include="IosBootstrapperBase.cs" />
     <Compile Include="Services\ViewControllerProvider.cs" />
-    <Compile Include="ImagePicker\IosImagePickerService.cs" />
-    <Compile Include="ImagePicker\IosImagePickerResult.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{C1D38F7D-30B8-4DAD-9A9D-621453A8A382}</Project>
+      <Project>{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
@@ -116,10 +116,6 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
       <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
       <Name>Softeq.XToolkit.Common.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{95D579A2-58D4-40F7-8F4B-BFC1B2B153F5}</Project>
-      <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel
         /// <summary>
         ///     Finds a type which matches one of the elements in the sequence of names.
         /// </summary>
-        public static Func<IEnumerable<string>, Type> FindTypeByNames = names =>
+        public static Func<IEnumerable<string>, Type?> FindTypeByNames = names =>
         {
             if (names == null)
             {
@@ -45,11 +45,11 @@ namespace Softeq.XToolkit.WhiteLabel
     /// </summary>
     public static class AssemblySourceCache
     {
+        private static readonly Dictionary<string, Type> _typeNameCache = new Dictionary<string, Type>();
         private static bool _isInstalled;
-        private static readonly IDictionary<string, Type> TypeNameCache = new Dictionary<string, Type>();
 
         /// <summary>
-        ///     Extracts the types from the spezified assembly for storing in the cache.
+        ///     Extracts the types from the specified assembly for storing in the cache.
         /// </summary>
         public static Func<Assembly, IEnumerable<Type>> ExtractTypes = assembly =>
             assembly.GetExportedTypes()
@@ -74,15 +74,15 @@ namespace Softeq.XToolkit.WhiteLabel
                     case NotifyCollectionChangedAction.Add:
                         e.NewItems.OfType<Assembly>()
                             .SelectMany(a => ExtractTypes(a))
-                            .Apply(t => TypeNameCache.Add(t.FullName, t));
+                            .Apply(t => _typeNameCache.Add(t.FullName, t));
                         break;
                     case NotifyCollectionChangedAction.Remove:
                     case NotifyCollectionChangedAction.Replace:
                     case NotifyCollectionChangedAction.Reset:
-                        TypeNameCache.Clear();
+                        _typeNameCache.Clear();
                         AssemblySource.Instance
                             .SelectMany(a => ExtractTypes(a))
-                            .Apply(t => TypeNameCache.Add(t.FullName, t));
+                            .Apply(t => _typeNameCache.Add(t.FullName, t));
                         break;
                 }
             };
@@ -94,7 +94,7 @@ namespace Softeq.XToolkit.WhiteLabel
                     return null;
                 }
 
-                var type = names.Select(n => TypeNameCache.GetValueOrDefault(n)).FirstOrDefault(t => t != null);
+                var type = names.Select(n => _typeNameCache.GetValueOrDefault(n)).FirstOrDefault(t => t != null);
                 return type;
             };
         }

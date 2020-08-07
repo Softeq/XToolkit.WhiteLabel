@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.Common.Extensions
     public static class AssemblyExtensions
     {
         /// <summary>
-        ///     Get's the name of the assembly.
+        ///     Gets the name of the assembly.
         /// </summary>
         /// <param name="assembly">The assembly.</param>
         /// <returns>The assembly's name.</returns>

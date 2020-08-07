@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 using Android.OS;
-using Android.Support.V4.App;
+using AndroidX.Fragment.App;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
@@ -15,12 +15,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 
         private bool _destroyedBySystem;
 
+        private string ViewModelStoreId { get; set; } = Guid.NewGuid().ToString();
+
         internal static ViewModelStoreFragment NewInstance()
         {
             return new ViewModelStoreFragment();
         }
-
-        private string ViewModelStoreId { get; set; } = Guid.NewGuid().ToString();
 
         /// <inheritdoc />
         public override void OnCreate(Bundle savedInstanceState)
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
                 return viewModel;
             }
 
-            // Important case, when app process was restarted: 
+            // Important case, when app process was restarted:
             // If in-memory ViewModelCache was cleared -> create new ViewModel
             return Dependencies.Container.Resolve<TViewModel>();
         }

@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -17,12 +17,12 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
     <AndroidEnableSGenConcurrent>true</AndroidEnableSGenConcurrent>
-    <LangVersion>7.3</LangVersion>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
@@ -32,22 +32,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidUseSharedRuntime>True</AndroidUseSharedRuntime>
-    <AndroidLinkMode>None</AndroidLinkMode>
     <EmbedAssembliesIntoApk>False</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>True</DebugSymbols>
     <DebugType>pdbonly</DebugType>
-    <Optimize>True</Optimize>
+    <Optimize>false</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidManagedSymbols>true</AndroidManagedSymbols>
-    <AndroidUseSharedRuntime>False</AndroidUseSharedRuntime>
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <EmbedAssembliesIntoApk>True</EmbedAssembliesIntoApk>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -58,14 +53,13 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.Android.Support.v7.AppCompat">
-      <Version>28.0.0.1</Version>
-    </PackageReference>
-    <PackageReference Include="Plugin.Permissions">
-      <Version>5.0.0-beta</Version>
-    </PackageReference>
-  </ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.1.0" />
+    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.Utils" Version="1.0.0" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.2.0" />
+</ItemGroup>
   <ItemGroup>
+    <Compile Include="Extended\DroidChooseBetterDateDialog.cs" />
+    <Compile Include="Extended\DroidExtendedDialogsService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
@@ -151,12 +145,20 @@
       <Project>{7F44F0F6-8396-42D0-8A1B-DC40CE8C478C}</Project>
       <Name>Softeq.XToolkit.WhiteLabel.Droid</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials.Droid\Softeq.XToolkit.WhiteLabel.Essentials.Droid.csproj">
+      <Project>{caea919a-5b4a-4d97-ab4c-33229484bd7a}</Project>
+      <Name>Softeq.XToolkit.WhiteLabel.Essentials.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj">
+      <Project>{887c6ce5-075b-420d-a88f-60479c4dc25a}</Project>
+      <Name>Softeq.XToolkit.WhiteLabel.Essentials</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Playground\Playground.csproj">
       <Project>{00250664-56DC-4B3D-93B9-7C1E8B381F5F}</Project>
       <Name>Playground</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{C1D38F7D-30B8-4DAD-9A9D-621453A8A382}</Project>
+      <Project>{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}</Project>
       <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
@@ -176,7 +178,7 @@
       <Name>Softeq.XToolkit.Bindings.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-      <Project>{95D579A2-58D4-40F7-8F4B-BFC1B2B153F5}</Project>
+      <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
       <Name>Softeq.XToolkit.Permissions</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions.Droid\Softeq.XToolkit.Permissions.Droid.csproj">
@@ -184,7 +186,7 @@
       <Name>Softeq.XToolkit.Permissions.Droid</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj">
-      <Project>{968EB463-2116-42FA-A2CD-25206F05E08A}</Project>
+      <Project>{044152C1-3B2A-45A6-B233-80A51C511129}</Project>
       <Name>Softeq.XToolkit.Connectivity</Name>
     </ProjectReference>
   </ItemGroup>

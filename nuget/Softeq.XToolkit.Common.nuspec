@@ -2,26 +2,27 @@
 <package >
   <metadata>
     <id>Softeq.XToolkit.Common</id>
-    <version>1.1.0-beta3</version>
+    <version>1.1.0-beta6</version>
     <title>Softeq.XToolkit.Common</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
     <licenseUrl>https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/LICENSE</licenseUrl>
     <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
+    <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" branch="master" commit="aae6f948676edae2caf657f913c7d1da17191edf" />
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>The most common components without dependencies that can be reused in any project.</description>
-    <copyright>Copyright 2019 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
     <tags>Softeq XToolkit Xamarin iOS Android</tags>
-    <releaseNotes/>
+    <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
   </metadata>
   <files>
     <!-- Core -->
-    <file src="../Softeq.XToolkit.Common/bin/Release/netstandard2.0/Softeq.XToolkit.Common.dll" target="lib\netstandard2.0" />
+    <file src="../Softeq.XToolkit.Common/bin/Release/netstandard2.1/Softeq.XToolkit.Common.dll" target="lib\netstandard2.1" />
     <!-- Droid -->
-    <file src="../Softeq.XToolkit.Common/bin/Release/netstandard2.0/Softeq.XToolkit.Common.dll" target="lib\MonoAndroid10" />
+    <file src="../Softeq.XToolkit.Common/bin/Release/netstandard2.1/Softeq.XToolkit.Common.dll" target="lib\MonoAndroid10" />
     <file src="../Softeq.XToolkit.Common.Droid/bin/Release/Softeq.XToolkit.Common.Droid.dll" target="lib\MonoAndroid10" />
     <!-- iOS -->
-    <file src="../Softeq.XToolkit.Common/bin/Release/netstandard2.0/Softeq.XToolkit.Common.dll" target="lib\Xamarin.iOS10" />
+    <file src="../Softeq.XToolkit.Common/bin/Release/netstandard2.1/Softeq.XToolkit.Common.dll" target="lib\Xamarin.iOS10" />
     <file src="../Softeq.XToolkit.Common.iOS/bin/Release/Softeq.XToolkit.Common.iOS.dll" target="lib\Xamarin.iOS10" />
   </files>
 </package>

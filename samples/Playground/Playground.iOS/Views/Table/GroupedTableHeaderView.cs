@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using CoreGraphics;
 using Foundation;
 using Playground.ViewModels.Collections.Products;
@@ -11,7 +11,6 @@ using UIKit;
 
 namespace Playground.iOS.Views.Table
 {
-    [Register(nameof(GroupedTableHeaderView))]
     public partial class GroupedTableHeaderView : BindableTableViewHeaderFooterView<ProductHeaderViewModel>
     {
         #region init

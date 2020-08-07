@@ -9,6 +9,6 @@ namespace Softeq.XToolkit.WhiteLabel.Location
     {
         bool IsLocationServiceEnabled { get; }
 
-        Task<LocationModel> GetCurrentLocation();
+        Task<LocationModel?> GetCurrentLocation();
     }
 }

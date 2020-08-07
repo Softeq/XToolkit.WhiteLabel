@@ -1,8 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.Generic;
-using System.Reflection;
 using Foundation;
 using Playground.ViewModels;
 using Softeq.XToolkit.WhiteLabel;
@@ -15,15 +13,13 @@ namespace Playground.iOS
     [Register(nameof(AppDelegate))]
     public class AppDelegate : AppDelegateBase
     {
-        private UINavigationController _rootNavigationController;
+        private readonly UINavigationController _rootNavigationController = new UINavigationController();
 
-        public override UIWindow Window { get; set; }
+        public override UIWindow Window { get; set; } = default!;
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             var _ = base.FinishedLaunching(application, launchOptions);
-
-            _rootNavigationController = new UINavigationController();
 
             Window = new UIWindow(UIScreen.MainScreen.Bounds)
             {
@@ -36,13 +32,10 @@ namespace Playground.iOS
             return true;
         }
 
-        protected override IBootstrapper Bootstrapper => new CustomIosBootstrapper();
-
-        protected override IList<Assembly> SelectAssemblies() => new List<Assembly>
+        protected override IBootstrapper CreateBootstrapper()
         {
-            GetType().Assembly,              // Playground.iOS
-            typeof(AppDelegateBase).Assembly // Softeq.XToolkit.WhiteLabel.iOS
-        };
+            return new CustomIosBootstrapper();
+        }
 
         private void InitNavigation()
         {
@@ -54,4 +47,3 @@ namespace Playground.iOS
         }
     }
 }
-

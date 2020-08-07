@@ -27,11 +27,11 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Get property case insensitive from <see cref="Type" />.
+        ///     Get property case insensitive from <see cref="T:System.Type"/>.
         /// </summary>
         /// <param name="type">Type.</param>
         /// <param name="propertyName">Property name.</param>
-        /// <returns></returns>
+        /// <returns>Info about the property with the specified name in the specified type.</returns>
         public static PropertyInfo GetPropertyCaseInsensitive(this Type type, string propertyName)
         {
             var typeInfo = type.GetTypeInfo();
@@ -52,8 +52,8 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <param name="type">Destination type.</param>
         /// <param name="value">Provided value.</param>
-        /// <returns></returns>
-        public static object CoerceValue(this Type type, object value)
+        /// <returns>Value force converted to the specified type.</returns>
+        public static object? CoerceValue(this Type type, object value)
         {
             if (value == null)
             {
@@ -95,11 +95,11 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Get default value for <see cref="Type" />
+        ///     Get default value for <see cref="T:System.Type"/>.
         /// </summary>
         /// <param name="type">Type.</param>
         /// <returns>Default value.</returns>
-        public static object GetDefaultValue(this Type type)
+        public static object? GetDefaultValue(this Type type)
         {
             if (type.IsValueType)
             {

@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 
         public Task<object> Task => _withResultCompletionSource.Task;
 
-        public event EventHandler Closed;
+        public event EventHandler? Closed;
 
         private void Close(object result)
         {

@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
@@ -20,75 +22,68 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
     {
         private readonly ILogger _logger;
         private readonly IViewLocator _viewLocator;
-        private readonly IContainer _iocContainer;
+        private readonly IContainer _container;
 
         public StoryboardDialogsService(
             IViewLocator viewLocator,
             ILogManager logManager,
-            IContainer iocContainer)
+            IContainer container)
         {
             _viewLocator = viewLocator;
-            _iocContainer = iocContainer;
+            _container = container;
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
+        [Obsolete("Use ShowDialogAsync(new ConfirmDialogConfig()) instead.")]
         public Task<bool> ShowDialogAsync(
             string title,
             string message,
             string okButtonText,
-            string cancelButtonText = null,
-            OpenDialogOptions options = null)
+            string? cancelButtonText = null,
+            OpenDialogOptions? options = null)
         {
-            var dialogResult = new TaskCompletionSource<bool>();
-
-            Execute.BeginOnUIThread(() =>
+            return ShowDialogAsync(new ConfirmDialogConfig
             {
-                var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
-
-                var okActionStyle = options?.DialogType == DialogType.Destructive
-                    ? UIAlertActionStyle.Destructive
-                    : UIAlertActionStyle.Default;
-
-                alertController.AddAction(UIAlertAction.Create(okButtonText, okActionStyle,
-                    action => { dialogResult.TrySetResult(true); }));
-
-                if (cancelButtonText != null)
-                {
-                    alertController.AddAction(UIAlertAction.Create(cancelButtonText, UIAlertActionStyle.Cancel,
-                        action => { dialogResult.TrySetResult(false); }));
-                }
-
-                var topViewController = _viewLocator.GetTopViewController();
-                if (topViewController == null)
-                {
-                    _logger.Error("can't find top ViewController");
-                    dialogResult.TrySetResult(false);
-                    return;
-                }
-
-                topViewController.PresentViewController(alertController, true, null);
+                Title = title,
+                Message = message,
+                AcceptButtonText = okButtonText,
+                CancelButtonText = cancelButtonText,
+                IsDestructive = options?.DialogType == DialogType.Destructive
             });
+        }
 
-            return dialogResult.Task;
+        public virtual Task ShowDialogAsync(AlertDialogConfig config)
+        {
+            return new IosAlertDialog(_viewLocator, config).ShowAsync();
+        }
+
+        public virtual Task<bool> ShowDialogAsync(ConfirmDialogConfig config)
+        {
+            return new IosConfirmDialog(_viewLocator, config).ShowAsync();
+        }
+
+        public virtual Task<string> ShowDialogAsync(ActionSheetDialogConfig config)
+        {
+            return new IosActionSheetDialog(_viewLocator, config).ShowAsync();
         }
 
         public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
+            IEnumerable<NavigationParameterModel>? parameters = null)
             where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters = null)
-            where TViewModel : IDialogViewModel
+           IEnumerable<NavigationParameterModel>? parameters = null)
+           where TViewModel : IDialogViewModel
         {
             try
             {
@@ -102,12 +97,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 _logger.Error(e);
             }
-            return null;
+            return default!;
         }
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel> parameters = null)
-            where TViewModel : IDialogViewModel
+           IEnumerable<NavigationParameterModel>? parameters = null)
+           where TViewModel : IDialogViewModel
         {
             try
             {
@@ -115,7 +110,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
                 var result = presentationResult.Result is TResult convertedResult
                     ? convertedResult
-                    : default;
+                    : default!;
 
                 var dismissionTask = DismissViewControllerAsync(presentationResult.ViewController);
 
@@ -125,14 +120,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 _logger.Error(e);
             }
-            return null;
+            return default!;
         }
 
         private async Task<PresentationResult> ShowViewModelForResultAsync<TViewModel>(
-            IEnumerable<NavigationParameterModel> parameters)
+            IEnumerable<NavigationParameterModel>? parameters)
             where TViewModel : IDialogViewModel
         {
-            var viewModel = _iocContainer.Resolve<TViewModel>();
+            var viewModel = _container.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
             var presentedViewController = await PresentModalViewControllerAsync(viewModel).ConfigureAwait(false);
             try
@@ -185,14 +180,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         private class PresentationResult
         {
-            public PresentationResult(PresentedViewController viewController, object result)
+            public PresentationResult(PresentedViewController viewController, object? result)
             {
                 ViewController = viewController;
                 Result = result;
             }
 
             public PresentedViewController ViewController { get; }
-            public object Result { get; }
+            public object? Result { get; }
         }
 
         private class PresentedViewController

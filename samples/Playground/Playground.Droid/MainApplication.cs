@@ -2,8 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
-using System.Reflection;
 using Android.App;
 using Android.Runtime;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
@@ -23,12 +21,9 @@ namespace Playground.Droid
         {
         }
 
-        protected override IBootstrapper Bootstrapper => new CustomDroidBootstrapper();
-
-        protected override IList<Assembly> SelectAssemblies() => new List<Assembly>
+        protected override IBootstrapper CreateBootstrapper()
         {
-            GetType().Assembly,                  // Playground.Droid
-            typeof(MainApplicationBase).Assembly // Softeq.XToolkit.WhiteLabel.Droid
-        };
+            return new CustomDroidBootstrapper();
+        }
     }
 }

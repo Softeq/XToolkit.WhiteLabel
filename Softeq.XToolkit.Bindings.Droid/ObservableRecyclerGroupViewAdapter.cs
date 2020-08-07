@@ -5,10 +5,12 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Android.OS;
-using Android.Support.V7.Widget;
 using Android.Views;
+using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Weak;
+
+#nullable disable
 
 namespace Softeq.XToolkit.Bindings.Droid
 {

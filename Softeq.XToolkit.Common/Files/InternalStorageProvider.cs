@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <inheritdoc />
-        public Task<string> CopyFileFromAsync(string path, string newPath)
+        public Task<string?> CopyFileFromAsync(string path, string newPath)
         {
             return _storageProvider.CopyFileFromAsync(Path.Combine(_rootFolderPath, path),
                 Path.Combine(_rootFolderPath, newPath));

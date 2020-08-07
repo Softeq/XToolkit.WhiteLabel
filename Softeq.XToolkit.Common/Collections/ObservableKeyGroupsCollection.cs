@@ -13,21 +13,23 @@ namespace Softeq.XToolkit.Common.Collections
 {
     /// <summary>
     ///     Represents groups of items that provides notifications when groups or
-    ///     it's items get added, removed, or when the whole list is refreshed.
+    ///     their items get added, removed, or when the whole list is refreshed.
     /// </summary>
-    /// <typeparam name="TKey">The group type of the collection</typeparam>
-    /// <typeparam name="TValue">The item type of the collection</typeparam>
+    /// <typeparam name="TKey">The group type of the collection.</typeparam>
+    /// <typeparam name="TValue">The item type of the collection.</typeparam>
     public sealed class ObservableKeyGroupsCollection<TKey, TValue>
         : IObservableKeyGroupsCollection<TKey, TValue>,
             INotifyKeyGroupCollectionChanged<TKey, TValue>,
             INotifyCollectionChanged
+        where TKey : notnull
+        where TValue : notnull
     {
         private readonly IList<Group> _items;
         private readonly bool _withoutEmptyGroups;
 
-        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> ItemsChanged;
+        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
 
-        public event NotifyCollectionChangedEventHandler CollectionChanged;
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         public IList<TKey> Keys => _items?.Select(item => item.Key).ToList();
         //public IList<IList<TValue>> Values => _items?.Select(item => _items).ToList();
@@ -35,7 +37,7 @@ namespace Softeq.XToolkit.Common.Collections
         public int Count => _items.Count;
 
         /// <summary>
-        ///     Initializes a new instance of the class.
+        ///     Initializes a new instance of the <see cref="ObservableKeyGroupsCollection{TKey, TValue}"/> class.
         /// </summary>
         /// <param name="withoutEmptyGroups">If true empty groups will be removed</param>
         public ObservableKeyGroupsCollection(bool withoutEmptyGroups = true)
@@ -95,7 +97,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
-            if (insertedGroups == null)
+            if(insertedGroups == null)
             {
                 return;
             }
@@ -372,7 +374,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             var rangesToRemove = new Dictionary<int, IList<(int ValIndex, IReadOnlyList<TValue> Vals)>>();
             var groupsInfos = new List<(int GroupIndex, List<KeyValuePair<TValue, int>> Items)>();
-            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> groupsToRemove = null;
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)>? groupsToRemove = null;
 
             foreach (var item in items)
             {
@@ -472,9 +474,9 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void OnChanged(
             NotifyCollectionChangedAction? action,
-            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> newItems,
-            IReadOnlyList<(int Index, IReadOnlyList<TKey> OldItems)> oldItems,
-            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)> groupEvents)
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)>? newItems,
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> OldItems)>? oldItems,
+            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)>? groupEvents)
         {
             RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
                 action,
@@ -490,7 +492,7 @@ namespace Softeq.XToolkit.Common.Collections
             ItemsChanged?.Invoke(this, args);
         }
 
-        private IEnumerable<Group> InsertGroupsWithoutNotify(
+        private IEnumerable<Group>? InsertGroupsWithoutNotify(
             int index,
             IEnumerable<KeyValuePair<TKey, IList<TValue>>> items,
             bool withoutEmptyGroups)
@@ -535,7 +537,7 @@ namespace Softeq.XToolkit.Common.Collections
                 IEnumerable<T> items,
                 Func<T, TKey> keySelector,
                 Func<T, TValue> valueSelector,
-                Func<T, int> indexSelector)
+                Func<T, int>? indexSelector)
         {
             var groupedItemsToAdd = new List<(TKey Key, IEnumerable<(int Index, IReadOnlyList<TValue> Values)> Ranges)>();
 

@@ -4,7 +4,6 @@
 using System;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Interfaces;
-using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -22,22 +21,19 @@ namespace Softeq.XToolkit.WhiteLabel
         {
             if (IsInitialized)
             {
-                throw new ArgumentException($"{nameof(Dependencies)} already initialized");
+                throw new InvalidOperationException($"{nameof(Dependencies)} already initialized");
             }
 
             Container = iocContainer;
             IsInitialized = true;
         }
 
-        public static IContainer Container { get; private set; }
+        public static IContainer Container { get; private set; } = default!;
 
         public static IPageNavigationService PageNavigationService => Container.Resolve<IPageNavigationService>();
 
-        public static IPermissionRequestHandler PermissionRequestHandler =>
-            Container.Resolve<IPermissionRequestHandler>();
-
         public static IJsonSerializer JsonSerializer => Container.Resolve<IJsonSerializer>();
+
         public static IFilesProvider InternalStorageProvider => Container.Resolve<InternalStorageProvider>();
-        public static IPermissionsManager PermissionsManager => Container.Resolve<IPermissionsManager>();
     }
 }

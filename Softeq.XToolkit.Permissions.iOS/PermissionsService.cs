@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Foundation;
 using Plugin.Permissions;
@@ -12,8 +11,10 @@ using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
+    /// <inheritdoc cref="IPermissionsService" />
     public class PermissionsService : IPermissionsService
     {
+        /// <inheritdoc />
         public async Task<PermissionStatus> RequestPermissionsAsync<T>()
             where T : BasePermission, new()
         {
@@ -24,9 +25,10 @@ namespace Softeq.XToolkit.Permissions.iOS
 
             var result = await CrossPermissions.Current.RequestPermissionAsync<T>().ConfigureAwait(false);
 
-            return ToPermissionStatus(result);
+            return result.ToPermissionStatus();
         }
 
+        /// <inheritdoc />
         public async Task<PermissionStatus> CheckPermissionsAsync<T>()
             where T : BasePermission, new()
         {
@@ -37,14 +39,16 @@ namespace Softeq.XToolkit.Permissions.iOS
 
             var result = await CrossPermissions.Current.CheckPermissionStatusAsync<T>().ConfigureAwait(false);
 
-            return ToPermissionStatus(result);
+            return result.ToPermissionStatus();
         }
 
+        /// <inheritdoc />
         public void OpenSettings()
         {
             RunInMainThread(() => { CrossPermissions.Current.OpenAppSettings(); });
         }
 
+        // TODO YP: use common dependency
         private static void RunInMainThread(Action action)
         {
             if (NSThread.IsMain)
@@ -57,10 +61,16 @@ namespace Softeq.XToolkit.Permissions.iOS
             }
         }
 
+        // TODO YP: refactor to using partial NotificationsPermission for iOS.
         private static async Task<PermissionStatus> CheckNotificationsPermissionAsync()
         {
             var notificationCenter = UNUserNotificationCenter.Current;
             var notificationSettings = await notificationCenter.GetNotificationSettingsAsync().ConfigureAwait(false);
+            if (notificationSettings.AuthorizationStatus == UNAuthorizationStatus.NotDetermined)
+            {
+                return PermissionStatus.Unknown;
+            }
+
             var notificationsSettingsEnabled = notificationSettings.SoundSetting == UNNotificationSetting.Enabled
                                                && notificationSettings.AlertSetting == UNNotificationSetting.Enabled;
             return notificationsSettingsEnabled
@@ -76,26 +86,6 @@ namespace Softeq.XToolkit.Permissions.iOS
             return isGranted
                 ? PermissionStatus.Granted
                 : PermissionStatus.Denied;
-        }
-
-        private static PermissionStatus ToPermissionStatus(PluginPermissionStatus permissionStatus)
-        {
-            switch (permissionStatus)
-            {
-                case PluginPermissionStatus.Denied:
-                    return PermissionStatus.Denied;
-                case PluginPermissionStatus.Disabled:
-                    return PermissionStatus.Denied;
-                case PluginPermissionStatus.Granted:
-                    return PermissionStatus.Granted;
-                case PluginPermissionStatus.Restricted:
-                    return PermissionStatus.Denied;
-                case PluginPermissionStatus.Unknown:
-                    return PermissionStatus.Unknown;
-                default:
-                    throw new InvalidEnumArgumentException(nameof(permissionStatus),
-                        (int) permissionStatus, permissionStatus.GetType());
-            }
         }
     }
 }

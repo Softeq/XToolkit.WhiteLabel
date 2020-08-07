@@ -1,13 +1,12 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Collections.Generic;
-using System.Reflection;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
     public interface IBootstrapper
     {
-        void Init(IList<Assembly> assemblies);
+        IContainer Initialize();
     }
 }

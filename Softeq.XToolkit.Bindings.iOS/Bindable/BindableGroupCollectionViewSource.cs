@@ -14,6 +14,8 @@ using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Weak;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public abstract class BindableGroupCollectionViewSourceBase<TKey, TItem> : UICollectionViewSource
@@ -59,6 +61,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
                 _itemClick = value;
             }
         }
+
         /// <inheritdoc />
         public override nint NumberOfSections(UICollectionView collectionView)
         {
@@ -116,14 +119,14 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         }
 
         /// <summary>
-        ///     Must return a valid <see cref="THeaderView"/> view for section header.
+        ///     Must return a valid view for section header.
         ///
         ///     This method must always return a valid view object. If you do not want a supplementary view in
         ///     a particular case, your layout object should not create the attributes for that view.
         /// </summary>
-        /// <param name="collectionView"></param>
-        /// <param name="indexPath"></param>
-        /// <returns></returns>
+        /// <param name="collectionView">The collection view requesting this information.</param>
+        /// <param name="indexPath">The index path that specifies the location of the new header view.</param>
+        /// <returns>View for index.</returns>
         protected virtual UICollectionReusableView GetHeaderView(UICollectionView collectionView, NSIndexPath indexPath)
         {
             var header = collectionView.DequeueReusableSupplementaryView(
@@ -144,9 +147,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         ///     This method must always return a valid view object. If you do not want a supplementary view in
         ///     a particular case, your layout object should not create the attributes for that view.
         /// </summary>
-        /// <param name="collectionView"></param>
-        /// <param name="indexPath"></param>
-        /// <returns></returns>
+        /// <param name="collectionView">The collection view requesting this information.</param>
+        /// <param name="indexPath">The index path that specifies the location of the new footer view.</param>
+        /// <returns>View for index.</returns>
         protected virtual UICollectionReusableView GetFooterView(UICollectionView collectionView, NSIndexPath indexPath)
         {
             throw new NotImplementedException();
@@ -158,9 +161,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         ///     This method must always return a valid view object. If you do not want a supplementary view in
         ///     a particular case, your layout object should not create the attributes for that view.
         /// </summary>
-        /// <param name="collectionView"></param>
-        /// <param name="indexPath"></param>
-        /// <returns></returns>
+        /// <param name="collectionView">The collection view requesting this information.</param>
+        /// <param name="elementKind">A string that identifies the type of supplementary item.</param>
+        /// <param name="indexPath">The index path that specifies the location of the new supplementary view.</param>
+        /// <returns>View for index.</returns>
         protected virtual UICollectionReusableView GetCustomSupplementaryView(
             UICollectionView collectionView, NSString elementKind, NSIndexPath indexPath)
         {

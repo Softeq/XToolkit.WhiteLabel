@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<controls:FormsModalPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Dialogs.Modal;assembly=Playground.Forms"
+    xmlns:controls="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Controls;assembly=Softeq.XToolkit.WhiteLabel.Forms"
+    x:Class="Playground.Forms.Views.Dialogs.Modal.ModalPage"
+    x:DataType="vm:ModalPageViewModel"
+    BackgroundColor="Bisque">
+
+    <StackLayout>
+        <Label
+            Padding="0,20,0,0"
+            Text="{Binding Title}"
+            HorizontalOptions="Center" />
+        <Label
+            Text="{Binding Message}"
+            HorizontalOptions="Center" />
+        <Entry
+            Margin="20,20,20,20"
+            Placeholder="Write result here..."
+            Text="{Binding Text, Mode=TwoWay}" />
+        <Button
+            CommandParameter="{x:Null}"
+            Command="{Binding DialogComponent.CloseCommand}"
+            Text="Cancel" />
+        <Button
+            Command="{Binding SaveCommand}"
+            Text="Confirm result" />
+        <Button
+            Command="{Binding OpenDialogCommand}"
+            Text="Open second dialog" />
+    </StackLayout>
+
+</controls:FormsModalPage>

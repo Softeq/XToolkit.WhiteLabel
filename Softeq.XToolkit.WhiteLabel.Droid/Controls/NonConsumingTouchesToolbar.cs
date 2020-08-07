@@ -4,21 +4,36 @@
 using System;
 using Android.Content;
 using Android.Runtime;
-using Android.Support.V7.Widget;
 using Android.Util;
 using Android.Views;
+using AndroidX.AppCompat.Widget;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 {
+    /// <summary>
+    ///     A Toolbar that passes touches to the views below (default Toolbar consumes all touches itself).
+    /// </summary>
     public class NonConsumingTouchesToolbar : Toolbar
     {
-        public NonConsumingTouchesToolbar(Context context) : base(context) { }
+        public NonConsumingTouchesToolbar(Context context)
+            : base(context)
+        {
+        }
 
-        public NonConsumingTouchesToolbar(Context context, IAttributeSet attrs) : base(context, attrs) { }
+        public NonConsumingTouchesToolbar(Context context, IAttributeSet attrs)
+            : base(context, attrs)
+        {
+        }
 
-        public NonConsumingTouchesToolbar(Context context, IAttributeSet attrs, int defStyleAttr) : base(context, attrs, defStyleAttr) { }
+        public NonConsumingTouchesToolbar(Context context, IAttributeSet attrs, int defStyleAttr)
+            : base(context, attrs, defStyleAttr)
+        {
+        }
 
-        protected NonConsumingTouchesToolbar(IntPtr javaReference, JniHandleOwnership transfer) : base(javaReference, transfer) { }
+        protected NonConsumingTouchesToolbar(IntPtr javaReference, JniHandleOwnership transfer)
+            : base(javaReference, transfer)
+        {
+        }
 
         public override bool OnTouchEvent(MotionEvent e)
         {

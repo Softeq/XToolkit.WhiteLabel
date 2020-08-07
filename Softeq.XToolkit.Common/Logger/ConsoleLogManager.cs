@@ -10,16 +10,11 @@ namespace Softeq.XToolkit.Common.Logger
         {
             var type = typeof(T);
             var name = type.Name;
-            return CreateInstance(name);
+            return GetLogger(name);
         }
 
         /// <inheritdoc />
         public ILogger GetLogger(string name)
-        {
-            return CreateInstance(name);
-        }
-
-        private static ILogger CreateInstance(string name)
         {
             return new ConsoleLogger(name);
         }

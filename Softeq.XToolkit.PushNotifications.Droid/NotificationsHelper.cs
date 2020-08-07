@@ -7,14 +7,14 @@ using System.Linq;
 using Android.App;
 using Android.Content;
 using Android.OS;
-using Android.Support.V4.App;
+using AndroidX.Core.App;
 using TaskStackBuilder = Android.App.TaskStackBuilder;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
     internal static class NotificationsHelper
     {
-        private static INotificationsSettingsProvider _notificationsSettings;
+        private static INotificationsSettingsProvider? _notificationsSettings;
 
         public static void Init(INotificationsSettingsProvider notificationsSettings)
         {

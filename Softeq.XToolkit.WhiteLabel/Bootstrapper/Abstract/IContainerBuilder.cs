@@ -5,6 +5,9 @@ using System;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
 {
+    /// <summary>
+    ///    An interface that decouples from any implementation of DI container that used for registering dependencies.
+    /// </summary>
     public interface IContainerBuilder
     {
         void PerDependency<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
@@ -25,7 +28,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
 
         void Singleton<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew);
 
+        [Obsolete("Please use app lifecycle callbacks to access configured container")]
         void RegisterBuildCallback(Action<IContainer> action);
+
+        void Decorator<TImplementation, TService>()
+            where TImplementation : TService;
 
         IContainer Build();
     }

@@ -11,12 +11,14 @@ using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Common;
 using UIKit;
 
+#nullable disable
+
 namespace Softeq.XToolkit.Bindings.iOS
 {
     /// <summary>
-    ///     A <see cref="UITableViewSource" /> that automatically updates the associated <see cref="UITableView" /> when its
-    ///     data source changes. Note that the changes are only observed if the data source
-    ///     implements <see cref="INotifyCollectionChanged" />.
+    ///     A <see cref="T:UIKit.UITableViewSource" /> that automatically updates the associated
+    ///     <see cref="T:UIKit.UITableView" /> when its data source changes. Note that the changes are only observed
+    ///     if the data source implements <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />.
     /// </summary>
     /// <typeparam name="TItem">The type of the items in the data source.</typeparam>
     public class ObservableTableViewSource<TItem> : UITableViewSource, INotifyPropertyChanged
@@ -35,7 +37,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         private UITableView _view;
 
         /// <summary>
-        ///     Constructs and initializes an instance of <see cref="ObservableTableViewSource{TItem}" />
+        ///     Initializes a new instance of the <see cref="ObservableTableViewSource{TItem}"/> class.
         /// </summary>
         public ObservableTableViewSource()
         {
@@ -43,32 +45,33 @@ namespace Softeq.XToolkit.Bindings.iOS
             DeleteAnimation = UITableViewRowAnimation.Automatic;
         }
 
-        public ObservableTableViewSource(IList<TItem> items) : this()
+        public ObservableTableViewSource(IList<TItem> items)
+            : this()
         {
             DataSource = items;
         }
 
         /// <summary>
-        ///     When set, specifies which animation should be used when rows are added.
+        ///     Gets or sets which animation should be used when rows are added.
         /// </summary>
         public UITableViewRowAnimation AddAnimation { get; set; }
 
         /// <summary>
-        ///     A delegate to a method taking a <see cref="UITableViewCell" />
+        ///     Gets or sets a delegate to a method taking a <see cref="T:UIKit.UITableViewCell" />
         ///     and setting its elements' properties according to the item
         ///     passed as second parameter.
         /// </summary>
         public Action<UITableViewCell, TItem, NSIndexPath> BindCellDelegate { get; set; }
 
         /// <summary>
-        ///     A delegate to a method <see cref="CanEditRow" /> of <see cref="UITableViewSource" />.
+        ///     Gets or sets a delegate to a method <see cref="CanEditRow" /> of <see cref="T:UIKit.UITableViewSource" />.
         ///     This method determines whether a row can be edited in a UITableView.
         /// </summary>
         /// <value>The can edit cell delegate. </value>
         public Func<TItem, NSIndexPath, bool> CanEditCellDelegate { get; set; }
 
         /// <summary>
-        ///     A delegate to a method creating or reusing a <see cref="UITableViewCell" />.
+        ///     Gets or sets a delegate to a method creating or reusing a <see cref="T:UIKit.UITableViewCell" />.
         ///     The cell will then be passed to the <see cref="BindCellDelegate" />
         ///     delegate to set the elements' properties. Note that this delegate is only
         ///     used if you didn't register with a ReuseID using the UITableView.RegisterClassForCell method.
@@ -76,7 +79,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public Func<NSString, UITableViewCell> CreateCellDelegate { get; set; }
 
         /// <summary>
-        ///     The data source of this list controller.
+        ///     Gets or sets the data source of this list controller.
         /// </summary>
         public IList<TItem> DataSource
         {
@@ -110,36 +113,36 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     When set, specifieds which animation should be used when a row is deleted.
+        ///     Gets or sets which animation should be used when a row is deleted.
         /// </summary>
         public UITableViewRowAnimation DeleteAnimation { get; set; }
 
         /// <summary>
-        ///     When set, returns the height of the view that will be used for the TableView's footer.
+        ///     Gets or sets the height of the view that will be used for the TableView's footer.
         /// </summary>
         /// <seealso cref="GetViewForFooterDelegate" />
         public Func<nfloat> GetHeightForFooterDelegate { get; set; }
 
         /// <summary>
-        ///     When set, returns the height of the view that will be used for the TableView's header.
+        ///     Gets or sets the function, that returns the height of the view that will be used for the TableView's header.
         /// </summary>
         /// <seealso cref="GetViewForHeaderDelegate" />
         public Func<nfloat> GetHeightForHeaderDelegate { get; set; }
 
         /// <summary>
-        ///     When set, returns a view that can be used as the TableView's footer.
+        ///     Gets or sets the view that will be used as the TableView's footer.
         /// </summary>
         /// <seealso cref="GetHeightForFooterDelegate" />
         public Func<UIView> GetViewForFooterDelegate { get; set; }
 
         /// <summary>
-        ///     When set, returns a view that can be used as the TableView's header.
+        ///     Gets or sets the view that will be used as the TableView's header.
         /// </summary>
         /// <seealso cref="GetHeightForHeaderDelegate" />
         public Func<UIView> GetViewForHeaderDelegate { get; set; }
 
         /// <summary>
-        ///     A reuse identifier for the TableView's cells.
+        ///     Gets or sets a reuse identifier for the TableView's cells.
         /// </summary>
         public string ReuseId
         {
@@ -149,7 +152,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Gets the UITableView's selected item. You can use one-way databinding on this property.
+        ///     Gets or sets the UITableView's selected item. You can use one-way databinding on this property.
         /// </summary>
         public TItem SelectedItem
         {
@@ -214,7 +217,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         /// </summary>
         /// <param name="tableView">The UITableView associated to this source.</param>
         /// <param name="indexPath">The NSIndexPath pointing to the item for which the cell must be returned.</param>
-        /// <returns>The created and initialised <see cref="UITableViewCell" />.</returns>
+        /// <returns>The created and initialised <see cref="T:UIKit.UITableViewCell" />.</returns>
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
             if (indexPath.Row + 1 == _dataSource.Count)
@@ -391,13 +394,13 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Binds a <see cref="UITableViewCell" /> to an item's properties.
+        ///     Binds a <see cref="T:UIKit.UITableViewCell" /> to an item's properties.
         ///     If a <see cref="BindCellDelegate" /> is available, this delegate will be used.
         ///     If not, a simple text will be shown.
         /// </summary>
         /// <param name="cell">The cell that will be prepared.</param>
         /// <param name="item">The item that should be used to set the cell up.</param>
-        /// <param name="indexPath">The <see cref="NSIndexPath" /> for this cell.</param>
+        /// <param name="indexPath">The <see cref="T:Foundation.NSIndexPath" /> for this cell.</param>
         protected virtual void BindCell(UITableViewCell cell, object item, NSIndexPath indexPath)
         {
             if (BindCellDelegate == null)
@@ -411,7 +414,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Creates a <see cref="UITableViewCell" /> corresponding to the reuseId.
+        ///     Creates a <see cref="T:UIKit.UITableViewCell" /> corresponding to the reuseId.
         ///     If it is set, the <see cref="CreateCellDelegate" /> delegate will be used.
         /// </summary>
         /// <param name="reuseId">A reuse identifier for the cell.</param>
@@ -537,6 +540,5 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
             SelectionChanged?.Invoke(this, EventArgs.Empty);
         }
-
     }
 }

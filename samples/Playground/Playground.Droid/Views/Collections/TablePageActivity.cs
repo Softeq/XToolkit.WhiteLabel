@@ -3,7 +3,7 @@
 
 using Android.App;
 using Android.OS;
-using Android.Support.V7.Widget;
+using AndroidX.RecyclerView.Widget;
 using Playground.Models;
 using Playground.ViewModels.Collections;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
@@ -14,7 +14,7 @@ namespace Playground.Droid.Views.Collections
     [Activity(Theme = "@style/AppTheme")]
     public class TablePageActivity : ActivityBase<TablePageViewModel>
     {
-        private RecyclerView _recyclerView;
+        private RecyclerView? _recyclerView;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {

@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using Android.Support.V7.App;
+using AndroidX.AppCompat.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -17,6 +18,9 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
+    /// <summary>
+    ///     Based on <see cref="T:AndroidX.AppCompat.App.AppCompatActivity"/>, used for creating Activities.
+    /// </summary>
     public abstract class ActivityBase : AppCompatActivity
     {
         private readonly IPageNavigationService _pageNavigation;
@@ -41,20 +45,26 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             }
         }
 
-        public override void OnRequestPermissionsResult(int requestCode, string[] permissions,
+        public override void OnRequestPermissionsResult(
+            int requestCode,
+            string[] permissions,
             [GeneratedEnum] Permission[] grantResults)
         {
-            Dependencies.PermissionRequestHandler?.Handle(requestCode, permissions, grantResults);
+            Dependencies.Container.Resolve<IPermissionRequestHandler>()?.Handle(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
+    /// <summary>
+    ///     Generic class based on <see cref="T:AndroidX.AppCompat.App.AppCompatActivity"/>, used for creating Activities.
+    /// </summary>
+    /// <typeparam name="TViewModel">Type of ViewModel.</typeparam>
     public abstract class ActivityBase<TViewModel> : ActivityBase, IBindingsOwner
         where TViewModel : ViewModelBase
     {
-        private Lazy<TViewModel> _viewModelLazy;
         private readonly IBundleService _bundleService;
+        private Lazy<TViewModel>? _viewModelLazy;
 
         protected ActivityBase()
         {
@@ -77,6 +87,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
                 if (Handle == IntPtr.Zero)
                 {
                     throw new InvalidOperationException("Don't forget to detach last ViewModel bindings.");
+                }
+
+                if (_viewModelLazy == null)
+                {
+                    throw new InvalidOperationException("Activity has been destroyed");
                 }
 
                 return _viewModelLazy.Value;
@@ -121,6 +136,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 _viewModelLazy = null;
             }
+
             base.OnDestroy();
         }
 
@@ -145,9 +161,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         where TViewModel : ViewModelBase, TInterface
         where TInterface : IViewModelBase
     {
-        private TViewModel _viewModel;
+        private TViewModel? _viewModel;
 
-        protected override TViewModel ViewModel =>
-            _viewModel ?? (_viewModel = (TViewModel) Dependencies.Container.Resolve<TInterface>());
+        protected override TViewModel ViewModel => _viewModel ??= (TViewModel) Dependencies.Container.Resolve<TInterface>();
     }
 }
