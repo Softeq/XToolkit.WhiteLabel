@@ -3,13 +3,14 @@
 
 using System;
 using Android.OS;
+using Android.Views;
 using Google.Android.Material.BottomNavigation;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 {
-    public abstract class BottomNavigationActivityBase<TViewModel, TKey> : ToolbarActivityBase<TViewModel, TKey>
+    public abstract class BottomNavigationFragmentBase<TViewModel, TKey> : ToolbarFragmentBase<TViewModel, TKey>
         where TViewModel : ToolbarViewModelBase<TKey>
     {
         private BottomNavigationComponentBase<TViewModel, TKey>? _bottomNavigationComponent;
@@ -22,18 +23,33 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected override ToolbarComponent<TViewModel, TKey> ToolbarComponent => BottomNavigationComponent.ToolbarComponent;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        public override void OnCreate(Bundle savedInstanceState)
         {
             BottomNavigationComponent = CreateComponent();
 
             base.OnCreate(savedInstanceState);
-
-            SetContentView(BottomNavigationComponent.Layout);
-
-            BottomNavigationComponent.Initialize(FindViewById<BottomNavigationView>, this);
         }
 
-        protected override void OnDestroy()
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        {
+            var view = inflater.Inflate(BottomNavigationComponent.Layout, null);
+
+            if (view == null)
+            {
+                throw new ArgumentNullException(nameof(view));
+            }
+
+            return view;
+        }
+
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        {
+            base.OnViewCreated(view, savedInstanceState);
+
+            BottomNavigationComponent.Initialize(view.FindViewById<BottomNavigationView>, Context);
+        }
+
+        public override void OnDestroy()
         {
             base.OnDestroy();
 

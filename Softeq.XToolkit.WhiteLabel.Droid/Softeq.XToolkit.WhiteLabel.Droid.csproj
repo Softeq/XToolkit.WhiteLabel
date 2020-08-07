@@ -81,8 +81,11 @@
     <Compile Include="Controls\NavigationBarView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />
+    <Compile Include="ViewComponents\BottomNavigationComponentBase.cs" />
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
+    <Compile Include="ViewComponents\ToolbarComponent.cs" />
+    <Compile Include="Views\BottomNavigationFragmentBase.cs" />
     <Compile Include="Views\FullScreenImageDialogFragment.cs" />
     <Compile Include="Navigation\StartActivityAttribute.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
@@ -103,6 +106,7 @@
     <Compile Include="Internal\ViewModelCache.cs" />
     <Compile Include="Internal\ViewModelStoreFragment.cs" />
     <Compile Include="Internal\IViewModelStore.cs" />
+    <Compile Include="Views\ToolbarFragmentBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
