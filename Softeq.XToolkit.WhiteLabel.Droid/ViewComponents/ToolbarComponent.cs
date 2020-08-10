@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using Android.OS;
+using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
@@ -11,12 +12,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
     public class ToolbarComponent<TViewModel, TKey>
         where TViewModel : ToolbarViewModelBase<TKey>
     {
-        private readonly int _navigationContainerId;
+        private readonly FrameNavigationConfig _frameNavigationConfig;
+
         private int _oldSelectedIndex;
 
-        public ToolbarComponent(int navigationContainerId)
+        public ToolbarComponent(FrameNavigationConfig frameNavigationConfig)
         {
-            _navigationContainerId = navigationContainerId;
+            _frameNavigationConfig = frameNavigationConfig;
         }
 
         public void OnCreate(TViewModel viewModel, Action<Bundle> onCreate, Bundle savedInstanceState)
@@ -32,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 
             foreach (var tabViewModel in viewModel.TabViewModels)
             {
-                tabViewModel.InitializeNavigation(_navigationContainerId);
+                tabViewModel.InitializeNavigation(_frameNavigationConfig);
             }
 
             var selectedTabViewModel = viewModel.TabViewModels.FirstOrDefault();
