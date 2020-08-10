@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System.Collections.Generic;
 using Softeq.XToolkit.Common.Collections;
 
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest
@@ -29,54 +32,54 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public static IList<KeyValuePair<string, IList<int>>> PairsEmpty = new List<KeyValuePair<string, IList<int>>>();
         public static IList<KeyValuePair<string, IList<int>>> PairsWithKeysWithItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> ( GroupKeyFirst, ItemsFirst),
-            new KeyValuePair<string, IList<int>> ( GroupKeySecond, ItemsSecond)
+            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst),
+            new KeyValuePair<string, IList<int>>(GroupKeySecond, ItemsSecond)
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairsWithKeysWithItemsWithEmpty = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> ( GroupKeyFirst, ItemsFirst),
-            new KeyValuePair<string, IList<int>> ( GroupKeyEmpty, ItemsEmpty)
+            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst),
+            new KeyValuePair<string, IList<int>>(GroupKeyEmpty, ItemsEmpty)
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairWithKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> (GroupKeyFirst, ItemsNull),
+            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsNull),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairWithKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> (GroupKeyFirst, ItemsEmpty),
+            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsEmpty),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> (GroupKeyFirst, ItemsFirst),
+            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> (GroupKeyFirst, ItemsNull),
+            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsNull),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> (GroupKeyFirst, ItemsEmpty),
+            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsEmpty),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> (null, ItemsFirst),
+            new KeyValuePair<string, IList<int>>(null, ItemsFirst),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> (null, null),
+            new KeyValuePair<string, IList<int>>(null, null),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithEmptyItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>> (null, new List<int>()),
+            new KeyValuePair<string, IList<int>>(null, new List<int>()),
         };
 
         public static ObservableKeyGroupsCollection<string, int> CreateEmptyWithEmptyGroups()
@@ -117,8 +120,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             return new List<KeyValuePair<string, IList<int>>>
             {
-                 new KeyValuePair<string, IList<int>> (GroupKeyFirst, ItemsFirst ),
-                 new KeyValuePair<string, IList<int>> (GroupKeyEmpty, ItemsEmpty ),
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst ),
+                 new KeyValuePair<string, IList<int>>(GroupKeyEmpty, ItemsEmpty ),
             };
         }
 
@@ -126,8 +129,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             return new List<KeyValuePair<string, IList<int>>>
             {
-                 new KeyValuePair<string, IList<int>> (GroupKeyFirst, ItemsFirst ),
-                 new KeyValuePair<string, IList<int>> (GroupKeySecond, ItemsSecond ),
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst ),
+                 new KeyValuePair<string, IList<int>>(GroupKeySecond, ItemsSecond ),
             };
         }
     }
