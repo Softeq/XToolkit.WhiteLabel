@@ -1,4 +1,7 @@
-﻿using System;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
@@ -8,7 +11,7 @@ using Xunit;
 
 using Helper = Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest.ObservableKeyGroupsCollectionHelper;
 
-namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
+namespace ObservableKeyGroupsCollection
 {
     public class ObservableKeyGroupsCollectionTests
     {
@@ -343,18 +346,19 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         //    Assert.Equal(expectedException.Message, actualException.Message);
         //}
-        [InlineData(null, new List())]
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsForDuplicateKeyWithAnyItems_ArgumentException()
-        {
-            var collection = Helper.CreateWithItemsWithEmptyGroups();
-            var pair = Helper.PairDuplicateKeyWithEmptyItem;
-            var expectedException = new ArgumentException();
 
-            var actualException = Assert.Throws<ArgumentException>(() => collection.AddGroups(pair));
+        //[InlineData(null, new List())]
+        //[Fact]
+        //public void AddGroups_WithItemsWithEmptyGroupsForDuplicateKeyWithAnyItems_ArgumentException()
+        //{
+        //    var collection = Helper.CreateWithItemsWithEmptyGroups();
+        //    var pair = Helper.PairDuplicateKeyWithEmptyItem;
+        //    var expectedException = new ArgumentException();
 
-            Assert.Equal(expectedException.Message, actualException.Message);
-        }
+        //    var actualException = Assert.Throws<ArgumentException>(() => collection.AddGroups(pair));
+
+        //    Assert.Equal(expectedException.Message, actualException.Message);
+        //}
 
         [Fact]
         public void AddGroups_WithItemsWithoutEmptyGroupsForDuplicateKeyWithAnyItems_ArgumentException()
