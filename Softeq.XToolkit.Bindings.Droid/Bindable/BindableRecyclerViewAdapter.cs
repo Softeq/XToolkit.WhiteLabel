@@ -21,9 +21,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     public abstract class BindableRecyclerViewAdapterBase<TItem, TItemHolder> : RecyclerView.Adapter
         where TItemHolder : BindableViewHolder<TItem>
     {
-        private protected readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
+        protected readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
 
-        private protected IDisposable _subscription;
+        protected IDisposable _subscription;
         private protected ICommand<TItem> _itemClick;
 
         public Type HeaderViewHolder { get; set; }
@@ -189,7 +189,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private protected abstract object GetDataContext(FlatItem flatItem);
+        protected abstract object GetDataContext(FlatItem flatItem);
     }
 
     public class BindableRecyclerViewAdapter<TItem, TItemHolder> : BindableRecyclerViewAdapterBase<TItem, TItemHolder>
@@ -233,7 +233,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private protected override object GetDataContext(FlatItem flatItem)
+        protected override object GetDataContext(FlatItem flatItem)
         {
             switch (flatItem.Type)
             {
@@ -346,7 +346,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private protected override object GetDataContext(FlatItem flatItem)
+        protected override object GetDataContext(FlatItem flatItem)
         {
             switch (flatItem.Type)
             {
