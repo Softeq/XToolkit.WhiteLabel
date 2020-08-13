@@ -5,9 +5,11 @@ using System;
 using Android.Content;
 using Android.Content.Res;
 using Android.Views;
+using AndroidX.Fragment.App;
 using Google.Android.Material.BottomNavigation;
 using Softeq.XToolkit.WhiteLabel.Droid.Controls;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
@@ -17,17 +19,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
     {
         private readonly TViewModel _viewModel;
 
-        protected BottomNavigationComponentBase(TViewModel viewModel)
+        protected BottomNavigationComponentBase(TViewModel viewModel, FragmentManager fragmentManager)
         {
             _viewModel = viewModel;
+
+            ToolbarComponent = new ToolbarComponent<TViewModel, TKey>(
+                new FrameNavigationConfig(fragmentManager, Resource.Id.activity_main_page_navigation_container));
         }
 
         public BottomNavigationView? BottomNavigationView { get; private set; }
 
         public virtual int Layout => Resource.Layout.activity_bottom_navigation;
 
-        public virtual ToolbarComponent<TViewModel, TKey> ToolbarComponent { get; } =
-            new ToolbarComponent<TViewModel, TKey>(Resource.Id.activity_main_page_navigation_container);
+        public virtual ToolbarComponent<TViewModel, TKey> ToolbarComponent { get; }
 
         protected virtual ColorStateList? BadgeBackgroundColor { get; }
 

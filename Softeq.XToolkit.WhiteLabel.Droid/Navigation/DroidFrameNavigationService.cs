@@ -19,12 +19,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     public class DroidFrameNavigationService : IFrameNavigationService
     {
         private readonly BackStack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
-        private readonly ICurrentActivity _currentActivity;
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
         private readonly IViewModelStore _viewModelStore;
 
-        private int _containerId;
+        private FrameNavigationConfig? _config;
 
         public DroidFrameNavigationService(
             IViewLocator viewLocator,
@@ -32,14 +31,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             IContainer iocContainer)
         {
             _viewLocator = viewLocator;
-            _currentActivity = currentActivity;
             _iocContainer = iocContainer;
 
             _backStack = new BackStack<(IViewModelBase ViewModel, Fragment Fragment)>();
-            _viewModelStore = ViewModelStore.Of((AppCompatActivity) _currentActivity.Activity);
+            _viewModelStore = ViewModelStore.Of((AppCompatActivity) currentActivity.Activity);
         }
 
-        public bool IsInitialized => _containerId != 0;
+        public bool IsInitialized => _config != null;
 
         public bool IsEmptyBackStack => _backStack.IsEmpty;
 
@@ -47,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void Initialize(object navigation)
         {
-            _containerId = (int) navigation;
+            _config = navigation as FrameNavigationConfig;
         }
 
         public void GoBack()
@@ -164,12 +162,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var activity = (AppCompatActivity) _currentActivity.Activity;
-                var fragmentManager = activity.SupportFragmentManager;
+                if (_config == null)
+                {
+                    return;
+                }
 
-                var transaction = fragmentManager
+                var transaction = _config.Manager
                     .BeginTransaction()
-                    .Replace(_containerId, fragment);
+                    .Replace(_config.ContainerId, fragment);
 
                 PrepareTransaction(transaction).Commit();
             });
