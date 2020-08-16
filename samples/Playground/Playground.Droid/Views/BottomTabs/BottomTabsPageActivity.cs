@@ -9,6 +9,7 @@ using Android.OS;
 using Playground.ViewModels.BottomTabs;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Droid.Views;
+using FragmentManager = AndroidX.Fragment.App.FragmentManager;
 
 namespace Playground.Droid.Views.BottomTabs
 {
@@ -24,15 +25,18 @@ namespace Playground.Droid.Views.BottomTabs
 
         protected override BottomNavigationComponentBase<BottomTabsPageViewModel, string> CreateComponent()
         {
-            return new PlaygroundBottomNavigationComponent(this, ViewModel);
+            return new PlaygroundBottomNavigationComponent(this, ViewModel, SupportFragmentManager);
         }
 
         private class PlaygroundBottomNavigationComponent : BottomNavigationComponentBase<BottomTabsPageViewModel, string>
         {
             private Context? _context;
 
-            public PlaygroundBottomNavigationComponent(Context context, BottomTabsPageViewModel viewModel)
-                : base(viewModel)
+            public PlaygroundBottomNavigationComponent(
+                Context context,
+                BottomTabsPageViewModel viewModel,
+                FragmentManager fragmentManager)
+                : base(viewModel, fragmentManager)
             {
                 _context = context;
             }
