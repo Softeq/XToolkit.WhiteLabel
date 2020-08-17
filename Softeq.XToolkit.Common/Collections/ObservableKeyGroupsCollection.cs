@@ -28,7 +28,6 @@ namespace Softeq.XToolkit.Common.Collections
         private readonly bool _withoutEmptyGroups;
 
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
-
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         public IList<TKey> Keys => _items?.Select(item => item.Key).ToList();
@@ -58,7 +57,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             if (keys == null)
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(keys));
             }
 
             AddGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>())));
@@ -97,7 +96,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
-            if(insertedGroups == null)
+            if (insertedGroups == null)
             {
                 return;
             }

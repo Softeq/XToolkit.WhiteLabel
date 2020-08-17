@@ -22,6 +22,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public static IList<string> KeysOneFill = new List<string> { GroupKeyFirst };
         public static IList<string> KeysTwoFill = new List<string> { GroupKeyFirst, GroupKeySecond };
         public static IList<string> KeysOneFillOneEmpty = new List<string> { GroupKeyFirst, GroupKeyEmpty };
+        public static IList<string> KeysDuplicate = new List<string> { GroupKeyFirst, GroupKeyFirst };
+
 
         public static IList<int> ItemsNull;
         public static IList<int> ItemsEmpty = new List<int>();
@@ -82,12 +84,12 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             new KeyValuePair<string, IList<int>>(null, new List<int>()),
         };
 
-        public static ObservableKeyGroupsCollection<string, int> CreateEmptyWithEmptyGroups()
+        public static ObservableKeyGroupsCollection<string, int> CreateWithEmptyGroups()
         {
             return new ObservableKeyGroupsCollection<string, int>(false);
         }
 
-        public static ObservableKeyGroupsCollection<string, int> CreateEmptyWithoutEmptyGroups()
+        public static ObservableKeyGroupsCollection<string, int> CreateWithoutEmptyGroups()
         {
             return new ObservableKeyGroupsCollection<string, int>(true);
         }
