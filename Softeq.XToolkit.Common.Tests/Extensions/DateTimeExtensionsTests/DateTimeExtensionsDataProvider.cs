@@ -72,6 +72,44 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.DateTimeExtensionsTests
             }
         }
 
+        public static IEnumerable<object[]> FirstDayOfMonthData
+        {
+            get
+            {
+                yield return new object[] { new DateTime(2019, 1, 15), new DateTime(2019, 1, 1) };
+                yield return new object[] { new DateTime(2019, 2, 28), new DateTime(2019, 2, 1) };
+                yield return new object[] { new DateTime(2019, 3, 8), new DateTime(2019, 3, 1) };
+                yield return new object[] { new DateTime(2020, 4, 2), new DateTime(2020, 4, 1) };
+                yield return new object[] { new DateTime(2020, 5, 1), new DateTime(2020, 5, 1) };
+                yield return new object[] { new DateTime(2020, 6, 20), new DateTime(2020, 6, 1) };
+                yield return new object[] { new DateTime(2021, 7, 11), new DateTime(2021, 7, 1) };
+                yield return new object[] { new DateTime(2021, 8, 31), new DateTime(2021, 8, 1) };
+                yield return new object[] { new DateTime(2021, 9, 13), new DateTime(2021, 9, 1) };
+                yield return new object[] { new DateTime(1925, 10, 6), new DateTime(1925, 10, 1) };
+                yield return new object[] { new DateTime(1925, 11, 24), new DateTime(1925, 11, 1) };
+                yield return new object[] { new DateTime(1925, 12, 18), new DateTime(1925, 12, 1) };
+            }
+        }
+
+        public static IEnumerable<object[]> LastDayOfMonthData
+        {
+            get
+            {
+                yield return new object[] { new DateTime(2019, 1, 15), new DateTime(2019, 1, 31) };
+                yield return new object[] { new DateTime(2019, 2, 28), new DateTime(2019, 2, 28) };
+                yield return new object[] { new DateTime(2019, 3, 8), new DateTime(2019, 3, 31) };
+                yield return new object[] { new DateTime(2020, 4, 2), new DateTime(2020, 4, 30) };
+                yield return new object[] { new DateTime(2020, 5, 1), new DateTime(2020, 5, 31) };
+                yield return new object[] { new DateTime(2020, 6, 20), new DateTime(2020, 6, 30) };
+                yield return new object[] { new DateTime(2021, 7, 11), new DateTime(2021, 7, 31) };
+                yield return new object[] { new DateTime(2021, 8, 31), new DateTime(2021, 8, 31) };
+                yield return new object[] { new DateTime(2021, 9, 13), new DateTime(2021, 9, 30) };
+                yield return new object[] { new DateTime(1925, 10, 6), new DateTime(1925, 10, 31) };
+                yield return new object[] { new DateTime(1925, 11, 24), new DateTime(1925, 11, 30) };
+                yield return new object[] { new DateTime(1925, 12, 18), new DateTime(1925, 12, 31) };
+            }
+        }
+
         public static IEnumerable<object[]> TodayCheckData
         {
             get
@@ -95,6 +133,49 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.DateTimeExtensionsTests
                 yield return new object[] { DateTime.Today.AddHours(-12), true }; // middle of Yesterday
                 yield return new object[] { DateTime.Today.AddDays(-1), true }; // start of Yesterday
                 yield return new object[] { DateTime.Today.AddDays(-1).AddTicks(-1), false }; // end of the day before Yesterday
+            }
+        }
+
+        public static IEnumerable<object[]> OutsideCurrentWeekData
+        {
+            get
+            {
+                yield return new object[] { DateTime.Today.AddDays(-10) };
+                yield return new object[] { DateTime.Today.AddMonths(-2) };
+                yield return new object[] { DateTime.Today.AddYears(-1) };
+                yield return new object[] { DateTime.Today.AddDays(10) };
+                yield return new object[] { DateTime.Today.AddMonths(2) };
+                yield return new object[] { DateTime.Today.AddYears(1) };
+            }
+        }
+
+        public static IEnumerable<object[]> SundayDayOfWeekData
+        {
+            get
+            {
+                yield return new object[] { new DateTime(2019, 12, 29), 0 }; // Su
+                yield return new object[] { new DateTime(2019, 12, 30), 1 }; // Mo
+                yield return new object[] { new DateTime(2019, 12, 31), 2 }; // Tu
+                yield return new object[] { new DateTime(2020, 1, 1), 3 }; // We
+                yield return new object[] { new DateTime(2020, 1, 2), 4 }; // Th
+                yield return new object[] { new DateTime(2020, 1, 3), 5 }; // Fr
+                yield return new object[] { new DateTime(2020, 1, 4), 6 }; // Sa
+                yield return new object[] { new DateTime(2020, 1, 5), 0 }; // Su
+            }
+        }
+
+        public static IEnumerable<object[]> MondayDayOfWeekData
+        {
+            get
+            {
+                yield return new object[] { new DateTime(2019, 12, 29), 6 }; // Su
+                yield return new object[] { new DateTime(2019, 12, 30), 0 }; // Mo
+                yield return new object[] { new DateTime(2019, 12, 31), 1 }; // Tu
+                yield return new object[] { new DateTime(2020, 1, 1), 2 }; // We
+                yield return new object[] { new DateTime(2020, 1, 2), 3 }; // Th
+                yield return new object[] { new DateTime(2020, 1, 3), 4 }; // Fr
+                yield return new object[] { new DateTime(2020, 1, 4), 5 }; // Sa
+                yield return new object[] { new DateTime(2020, 1, 5), 6 }; // Su
             }
         }
     }
