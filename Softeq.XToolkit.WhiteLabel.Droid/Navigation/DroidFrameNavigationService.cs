@@ -115,6 +115,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             ReplaceFragment(entry.Fragment);
         }
 
+        private static string ToKey(object fragment)
+        {
+            return fragment.GetType().Name;
+        }
+
         private void NavigateInternal(IViewModelBase viewModel)
         {
             var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
@@ -133,11 +138,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _backStack.Clear();
 
             _viewModelStore.Remove(fragmentNames);
-        }
-
-        private string ToKey(Fragment fragment)
-        {
-            return fragment.GetType().Name;
         }
 
         protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel>? parameters)

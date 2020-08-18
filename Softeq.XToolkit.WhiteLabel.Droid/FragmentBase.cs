@@ -31,6 +31,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             RestoreViewModelIfNeeded(savedInstanceState);
 
+            OnViewModelRestored(ViewModel);
+
             if (!ViewModel.IsInitialized)
             {
                 ViewModel.OnInitialize();
@@ -68,6 +70,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected virtual void DoDetachBindings()
         {
             this.DetachBindings();
+        }
+
+        protected virtual void OnViewModelRestored(TViewModel viewmodel)
+        {
         }
     }
 }
