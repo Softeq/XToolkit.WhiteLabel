@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
         [Fact]
         public void AddItem_EmptyList_ReturnsListWithAddedItem()
         {
-            var list = new List<int>();
+            IList<int> list = new List<int>();
 
             var result = list.AddItem(1);
 
@@ -26,7 +26,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
         public void AddItem_NotEmptyList_ReturnsListWithAddedItem()
         {
             const int Expected = 4;
-            var list = new List<int> { 1, 2, 3 };
+            IList<int> list = new List<int> { 1, 2, 3 };
 
             var result = list.AddItem(Expected);
 
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
         [Fact]
         public void AddItem_EmptyListFilledFluently_ReturnsListWithAddedItems()
         {
-            var list = new List<int>();
+            IList<int> list = new List<int>();
 
             var result = list
                 .AddItem(1)
@@ -51,40 +51,42 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
         [Fact]
         public void AddRange_EmptyList_AddsItemsToList()
         {
-            var list = new List<int>();
-            var range = new List<int>() { 1, 2, 3, 4 };
+            IList<int> list = new List<int>();
+            IEnumerable<int> range = new List<int>() { 1, 2, 3, 4 };
 
             list.AddRange(range);
 
-            Assert.Equal(range.Count, list.Count);
+            Assert.Equal(range.Count(), list.Count);
+            var rangeArray = range.ToArray();
             for (var i = 0; i < list.Count; i++)
             {
-                Assert.Equal(range[i], list[i]);
+                Assert.Equal(rangeArray[i], list[i]);
             }
         }
 
         [Fact]
         public void AddRange_NotEmptyList_AddsItemsToList()
         {
-            var list = new List<int> { 1, 2, 3 };
+            IList<int> list = new List<int> { 1, 2, 3 };
             var initialCount = list.Count;
-            var range = new List<int>() { 1, 2, 3, 4 };
+            IEnumerable<int> range = new List<int>() { 1, 2, 3, 4 };
 
             list.AddRange(range);
 
-            Assert.Equal(initialCount + range.Count, list.Count);
+            Assert.Equal(initialCount + range.Count(), list.Count);
+            var rangeArray = range.ToArray();
             for (var i = initialCount; i < list.Count; i++)
             {
-                Assert.Equal(range[i - initialCount], list[i]);
+                Assert.Equal(rangeArray[i - initialCount], list[i]);
             }
         }
 
         [Fact]
         public void AddRange_NotEmptyListWithEmptyRange_DoesNotChangeList()
         {
-            var list = new List<int> { 1, 2, 3 };
+            IList<int> list = new List<int> { 1, 2, 3 };
             var initialCount = list.Count;
-            var range = new List<int>();
+            IEnumerable<int> range = Enumerable.Empty<int>();
 
             list.AddRange(range);
 
@@ -95,15 +97,16 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
         public void InsertRange_EmptyListWithZeroIndex_InsertsItemsIntoList()
         {
             const int Index = 0;
-            var list = new List<int>();
-            var range = new List<int>() { 1, 2, 3, 4 };
+            IList<int> list = new List<int>();
+            IEnumerable<int> range = new List<int>() { 1, 2, 3, 4 };
 
             list.InsertRange(Index, range);
 
-            Assert.Equal(range.Count, list.Count);
+            Assert.Equal(range.Count(), list.Count);
+            var rangeArray = range.ToArray();
             for (var i = 0; i < list.Count; i++)
             {
-                Assert.Equal(range[i], list[i]);
+                Assert.Equal(rangeArray[i], list[i]);
             }
         }
 
@@ -111,8 +114,8 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
         public void InsertRange_EmptyListWithIndexOutOfBounds_ThrowsException()
         {
             const int Index = 1;
-            var list = new List<int>();
-            var range = new List<int>() { 1, 2, 3, 4 };
+            IList<int> list = new List<int>();
+            IEnumerable<int> range = new List<int>() { 1, 2, 3, 4 };
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
@@ -127,16 +130,17 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
         [InlineData(3)]
         public void InsertRange_NotEmptyList_InsertsItemsIntoList(int index)
         {
-            var list = new List<int> { 1, 2, 3 };
+            IList<int> list = new List<int> { 1, 2, 3 };
             var initialCount = list.Count;
-            var range = new List<int>() { 1, 2, 3, 4 };
+            IEnumerable<int> range = new List<int>() { 1, 2, 3, 4 };
 
             list.InsertRange(index, range);
 
-            Assert.Equal(initialCount + range.Count, list.Count);
-            for (var i = index; i < index + range.Count; i++)
+            Assert.Equal(initialCount + range.Count(), list.Count);
+            var rangeArray = range.ToArray();
+            for (var i = index; i < index + range.Count(); i++)
             {
-                Assert.Equal(range[i - index], list[i]);
+                Assert.Equal(rangeArray[i - index], list[i]);
             }
         }
 
@@ -144,9 +148,9 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
         public void InsertRange_NotEmptyListWithEmptyRange_DoesNotChangeList()
         {
             const int Index = 1;
-            var list = new List<int> { 1, 2, 3 };
+            IList<int> list = new List<int> { 1, 2, 3 };
             var initialCount = list.Count;
-            var range = new List<int>();
+            IEnumerable<int> range = Enumerable.Empty<int>();
 
             list.InsertRange(Index, range);
 
