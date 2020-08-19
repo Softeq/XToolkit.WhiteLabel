@@ -119,29 +119,18 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.EnumerableExtensionsTests
         }
 
         [Theory]
-        [InlineData(1)]
-        [InlineData(2)]
-        [InlineData(3)]
-        [InlineData(10)]
-        public void Chunkify_CorrectSize_ReturnsValidChunks(int size)
+        [MemberData(nameof(EnumerableExtensionsDataProvider.ChunkifyData), MemberType = typeof(EnumerableExtensionsDataProvider))]
+        public void Chunkify_CorrectSize_ReturnsExpectedChunks(IEnumerable<int> data, int size, IEnumerable<int[]> expectedChunks)
         {
-            var expectedTotalCount = (int) Math.Ceiling(_testEnumerable.Count() / (double) size);
-            var lastChunkCount = _testEnumerable.Count() % size;
+            var result = data.Chunkify(size).ToList();
 
-            var result = _testEnumerable.Chunkify(size).ToList();
+            Assert.Equal(expectedChunks.Count(), result.Count());
 
-            Assert.Equal(expectedTotalCount, result.Count());
-
-            var initialArray = _testEnumerable.ToArray();
-            for (var i = 0; i < result.Count(); i++)
+            var i = 0;
+            foreach (var expectedChunk in expectedChunks)
             {
-                var chunk = result[i];
-                var expectedSize = lastChunkCount != 0 && i == expectedTotalCount - 1 ? lastChunkCount : size;
-                Assert.Equal(expectedSize, chunk.Count());
-                for (int j = 0; j < chunk.Count(); j++)
-                {
-                    Assert.Equal(initialArray[(i * size) + j], chunk[j]);
-                }
+                Assert.Equal(expectedChunk, result[i]);
+                i++;
             }
         }
     }

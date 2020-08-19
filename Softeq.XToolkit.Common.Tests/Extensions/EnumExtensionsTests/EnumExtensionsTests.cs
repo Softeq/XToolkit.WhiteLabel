@@ -7,6 +7,5 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.EnumExtensionsTests
 {
     public class EnumExtensionsTests
     {
-
     }
 }
