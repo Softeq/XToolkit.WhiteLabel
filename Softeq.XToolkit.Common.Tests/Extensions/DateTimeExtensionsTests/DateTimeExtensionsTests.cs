@@ -82,16 +82,6 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.DateTimeExtensionsTests
         }
 
         [Fact]
-        public void IsInCurrentWeek_ForToday_ReturnsTrue()
-        {
-            var todayIsInCurrentWeek = DateTime.Today.IsInCurrentWeek();
-            Assert.True(todayIsInCurrentWeek);
-
-            var todayIsInCurrentMondayWeek = DateTime.Today.IsInCurrentWeek(DayOfWeek.Monday);
-            Assert.True(todayIsInCurrentMondayWeek);
-        }
-
-        [Fact]
         public void IsInCurrentWeek_ForPreviousAndNextDaysOfToday_ReturnsTrueCorrectAmountOfTimes()
         {
             var weekLength = 7;
@@ -115,57 +105,35 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.DateTimeExtensionsTests
         }
 
         [Theory]
+        [MemberData(nameof(DateTimeExtensionsDataProvider.InsideCurrentWeekData), MemberType = typeof(DateTimeExtensionsDataProvider))]
+        public void IsInCurrentWeek_ForInsideCurrentWeekDays_ReturnsTrue(DateTime testDate)
+        {
+            var isInCurrentWeek = testDate.IsInCurrentWeek();
+            Assert.True(isInCurrentWeek);
+        }
+
+        [Theory]
+        [MemberData(nameof(DateTimeExtensionsDataProvider.InsideCurrentWeekWithStartDayData), MemberType = typeof(DateTimeExtensionsDataProvider))]
+        public void IsInCurrentWeek_ForOInsideCurrentWeekDaysWithSpecifiedStartDay_ReturnsTrue(DateTime testDate, DayOfWeek startDay)
+        {
+            var isInCurrentWeek = testDate.IsInCurrentWeek(startDay);
+            Assert.True(isInCurrentWeek);
+        }
+
+        [Theory]
         [MemberData(nameof(DateTimeExtensionsDataProvider.OutsideCurrentWeekData), MemberType = typeof(DateTimeExtensionsDataProvider))]
         public void IsInCurrentWeek_ForOutsideCurrentWeekDays_ReturnsFalse(DateTime testDate)
         {
             var isInCurrentWeek = testDate.IsInCurrentWeek();
             Assert.False(isInCurrentWeek);
-
-            var isInCurrentMondayWeek = testDate.IsInCurrentWeek(DayOfWeek.Monday);
-            Assert.False(isInCurrentMondayWeek);
-        }
-
-        [Fact]
-        public void IsInCurrentWeek_ForBoundaryWeekDaysWithDefaultParam_ReturnsCorrectValues()
-        {
-            var firstWeekDay = DateTime.Today.FirstDayOfWeek();
-            var firstDayIsInCurrentWeek = firstWeekDay.IsInCurrentWeek();
-            Assert.True(firstDayIsInCurrentWeek);
-
-            var previousToFirstWeekDay = firstWeekDay.AddDays(-1);
-            var previousToFirstDayIsInCurrentWeek = previousToFirstWeekDay.IsInCurrentWeek();
-            Assert.False(previousToFirstDayIsInCurrentWeek);
-
-            var lastWeekDay = DateTime.Today.LastDayOfWeek();
-            var lastDayIsInCurrentWeek = lastWeekDay.IsInCurrentWeek();
-            Assert.True(lastDayIsInCurrentWeek);
-
-            var nextToLastWeekDay = lastWeekDay.AddDays(1);
-            var nextToLastDayIsInCurrentWeek = nextToLastWeekDay.IsInCurrentWeek();
-            Assert.False(nextToLastDayIsInCurrentWeek);
         }
 
         [Theory]
-        [InlineData(DayOfWeek.Monday, DayOfWeek.Sunday)]
-        [InlineData(DayOfWeek.Wednesday, DayOfWeek.Tuesday)]
-        [InlineData(DayOfWeek.Saturday, DayOfWeek.Friday)]
-        public void IsInCurrentWeek_ForBoundaryWeekDaysWithSpecifiedParam_ReturnsCorrectValues(DayOfWeek startDayOfWeek, DayOfWeek endDayOfWeek)
+        [MemberData(nameof(DateTimeExtensionsDataProvider.OutsideCurrentWeekWithStartDayData), MemberType = typeof(DateTimeExtensionsDataProvider))]
+        public void IsInCurrentWeek_ForOutsideCurrentWeekDaysWithSpecifiedStartDay_ReturnsFalse(DateTime testDate, DayOfWeek startDay)
         {
-            var firstWeekDay = DateTime.Today.FirstDayOfWeek(startDayOfWeek);
-            var firstDayIsInCurrentWeek = firstWeekDay.IsInCurrentWeek(startDayOfWeek);
-            Assert.True(firstDayIsInCurrentWeek);
-
-            var previousToFirstWeekDay = firstWeekDay.AddDays(-1);
-            var previousToFirstDayIsInCurrentWeek = previousToFirstWeekDay.IsInCurrentWeek(startDayOfWeek);
-            Assert.False(previousToFirstDayIsInCurrentWeek);
-
-            var lastWeekDay = DateTime.Today.LastDayOfWeek(endDayOfWeek);
-            var lastDayIsInCurrentWeek = lastWeekDay.IsInCurrentWeek(startDayOfWeek);
-            Assert.True(lastDayIsInCurrentWeek);
-
-            var nextToLastWeekDay = lastWeekDay.AddDays(1);
-            var nextToLastDayIsInCurrentWeek = nextToLastWeekDay.IsInCurrentWeek(startDayOfWeek);
-            Assert.False(nextToLastDayIsInCurrentWeek);
+            var isInCurrentWeek = testDate.IsInCurrentWeek(startDay);
+            Assert.False(isInCurrentWeek);
         }
 
         [Theory]

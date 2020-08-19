@@ -136,16 +136,73 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.DateTimeExtensionsTests
             }
         }
 
+        public static IEnumerable<object[]> InsideCurrentWeekData
+        {
+            get
+            {
+                yield return new object[] { DateTime.Today };
+                yield return new object[] { DateTime.Today.AddDays(-(int) DateTime.Today.DayOfWeek) };
+                yield return new object[] { DateTime.Today.AddDays(-(int) DateTime.Today.DayOfWeek + 6) };
+            }
+        }
+
+        public static IEnumerable<object[]> InsideCurrentWeekWithStartDayData
+        {
+            get
+            {
+                yield return new object[] { DateTime.Today, DayOfWeek.Monday };
+                yield return new object[]
+                {
+                    DateTime.Today.AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Tuesday
+                        + (DateTime.Today.DayOfWeek < DayOfWeek.Tuesday ? -7 : 0)),
+                    DayOfWeek.Tuesday
+                };
+                yield return new object[]
+                {
+                    DateTime.Today.AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Wednesday
+                        + (DateTime.Today.DayOfWeek < DayOfWeek.Wednesday ? -1 : 6)),
+                    DayOfWeek.Wednesday
+                };
+            }
+        }
+
         public static IEnumerable<object[]> OutsideCurrentWeekData
         {
             get
             {
+                yield return new object[] { DateTime.Today.AddDays(-(int) DateTime.Today.DayOfWeek - 1) };
                 yield return new object[] { DateTime.Today.AddDays(-10) };
                 yield return new object[] { DateTime.Today.AddMonths(-2) };
                 yield return new object[] { DateTime.Today.AddYears(-1) };
+                yield return new object[] { DateTime.Today.AddDays(-(int) DateTime.Today.DayOfWeek + 7) };
                 yield return new object[] { DateTime.Today.AddDays(10) };
                 yield return new object[] { DateTime.Today.AddMonths(2) };
                 yield return new object[] { DateTime.Today.AddYears(1) };
+            }
+        }
+
+        public static IEnumerable<object[]> OutsideCurrentWeekWithStartDayData
+        {
+            get
+            {
+                yield return new object[]
+                {
+                    DateTime.Today.AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Monday - 1
+                        + (DateTime.Today.DayOfWeek < DayOfWeek.Monday ? -7 : 0)),
+                    DayOfWeek.Monday
+                };
+                yield return new object[] { DateTime.Today.AddDays(-10), DayOfWeek.Tuesday };
+                yield return new object[] { DateTime.Today.AddMonths(-2), DayOfWeek.Wednesday };
+                yield return new object[] { DateTime.Today.AddYears(-1), DayOfWeek.Thursday };
+                yield return new object[]
+                {
+                    DateTime.Today.AddDays(-(int) DateTime.Today.DayOfWeek + (int) DayOfWeek.Friday
+                        + (DateTime.Today.DayOfWeek < DayOfWeek.Friday ? 0 : 7)),
+                    DayOfWeek.Friday
+                };
+                yield return new object[] { DateTime.Today.AddDays(10), DayOfWeek.Saturday };
+                yield return new object[] { DateTime.Today.AddMonths(2), DayOfWeek.Sunday };
+                yield return new object[] { DateTime.Today.AddYears(1), DayOfWeek.Monday };
             }
         }
 
