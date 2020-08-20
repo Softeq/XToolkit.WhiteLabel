@@ -8,13 +8,15 @@ namespace Softeq.XToolkit.Common.Extensions
 {
     public static class EnumExtensions
     {
-        public static TEnum SetFlag<TEnum>(this Enum value, TEnum flags) where TEnum : Enum
+        /// <summary>
+        ///     Adds a flag to enum value using bitwise OR operation.
+        /// </summary>
+        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <param name="value">Initial enum value to add flags to.</param>
+        /// <param name="flags">Enum flags to be added.</param>
+        /// <returns>Enum value storing both initial value and flags.</returns>
+        public static TEnum SetFlag<TEnum>(this TEnum value, TEnum flags) where TEnum : Enum
         {
-            if (value.GetType() != typeof(TEnum))
-            {
-                throw new ArgumentException("Enum value and flags types don't match.");
-            }
-
             return (TEnum) Enum.ToObject(typeof(TEnum), Convert.ToUInt64(value) | Convert.ToUInt64(flags));
         }
 
@@ -23,9 +25,9 @@ namespace Softeq.XToolkit.Common.Extensions
         ///     enumerated object.
         /// </summary>
         /// <returns>An object of type enumType whose value is represented by value.</returns>
-        /// <param name="value">A string containing the name or value to convert..</param>
+        /// <param name="value">A string containing the name or value to convert.</param>
         /// <typeparam name="TEnum">Enum type.</typeparam>
-        public static TEnum Parse<TEnum>(string value) where TEnum : Enum
+        public static TEnum Parse<TEnum>(this string value) where TEnum : Enum
         {
             return (TEnum) Enum.Parse(typeof(TEnum), value);
         }
@@ -38,7 +40,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="value">A string containing the name or value to convert..</param>
         /// <param name="ignoreCase">true to ignore case; false to regard case.</param>
         /// <typeparam name="TEnum">Enum type.</typeparam>
-        public static TEnum Parse<TEnum>(string value, bool ignoreCase) where TEnum : Enum
+        public static TEnum Parse<TEnum>(this string value, bool ignoreCase) where TEnum : Enum
         {
             return (TEnum) Enum.Parse(typeof(TEnum), value, ignoreCase);
         }
@@ -48,11 +50,16 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <param name="action">Specified action.</param>
         /// <typeparam name="TEnum">Enum type.</typeparam>
-        public static void Apply<TEnum>(Action<TEnum> action) where TEnum : Enum
+        public static void Apply<TEnum>(this Action<TEnum> action) where TEnum : Enum
         {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
             foreach (TEnum constant in Enum.GetValues(typeof(TEnum)))
             {
-                action?.Invoke(constant);
+                action(constant);
             }
         }
 
@@ -85,14 +92,21 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Get enumeration that corresponding value.
+        ///     Get enumeration that corresponds to byte value.
         /// </summary>
         /// <typeparam name="TEnum">Enum type.</typeparam>
         /// <param name="value">Enum value.</param>
-        /// <returns>Correspond enumeration.</returns>
-        public static TEnum FindByValue<TEnum>(byte value) where TEnum : Enum
+        /// <returns>Corresponding enumeration.</returns>
+        public static TEnum FindByValue<TEnum>(this byte value) where TEnum : Enum
         {
-            return (TEnum) Enum.ToObject(typeof(TEnum), value);
+            var foundObject = Enum.ToObject(typeof(TEnum), value);
+
+            if (!Enum.IsDefined(typeof(TEnum), foundObject))
+            {
+                throw new ArgumentException($"{value} value is not defined in {nameof(TEnum)}");
+            }
+
+            return (TEnum) foundObject;
         }
     }
 }
