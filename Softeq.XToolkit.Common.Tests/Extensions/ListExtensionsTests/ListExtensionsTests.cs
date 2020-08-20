@@ -137,11 +137,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.ListExtensionsTests
             list.InsertRange(index, range);
 
             Assert.Equal(initialCount + range.Count(), list.Count);
-            var rangeArray = range.ToArray();
-            for (var i = index; i < index + range.Count(); i++)
-            {
-                Assert.Equal(rangeArray[i - index], list[i]);
-            }
+            Assert.Equal(range.First(), list[index]);
         }
 
         [Fact]

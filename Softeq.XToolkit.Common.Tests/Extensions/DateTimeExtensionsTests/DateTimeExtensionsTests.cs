@@ -81,29 +81,6 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.DateTimeExtensionsTests
             Assert.Equal(expectedIsYesterday, isYesterday);
         }
 
-        [Fact]
-        public void IsInCurrentWeek_ForPreviousAndNextDaysOfToday_ReturnsTrueCorrectAmountOfTimes()
-        {
-            var weekLength = 7;
-
-            var date = DateTime.Today;
-            var isInCurrentWeek = date.IsInCurrentWeek();
-            var count = isInCurrentWeek ? 1 : 0;
-
-            for (var i = 1; isInCurrentWeek; i++)
-            {
-                var previousDay = date.AddDays(-i);
-                var previousDayIsInCurrentWeek = previousDay.IsInCurrentWeek();
-                var nextDay = date.AddDays(i);
-                var nextDayIsInCurrentWeek = nextDay.IsInCurrentWeek();
-                count += previousDayIsInCurrentWeek ? 1 : 0;
-                count += nextDayIsInCurrentWeek ? 1 : 0;
-                isInCurrentWeek = previousDayIsInCurrentWeek || nextDayIsInCurrentWeek;
-            }
-
-            Assert.Equal(weekLength, count);
-        }
-
         [Theory]
         [MemberData(nameof(DateTimeExtensionsDataProvider.InsideCurrentWeekData), MemberType = typeof(DateTimeExtensionsDataProvider))]
         public void IsInCurrentWeek_ForInsideCurrentWeekDays_ReturnsTrue(DateTime testDate)

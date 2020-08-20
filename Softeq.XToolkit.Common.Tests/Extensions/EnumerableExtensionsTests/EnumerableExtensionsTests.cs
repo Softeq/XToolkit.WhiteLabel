@@ -39,31 +39,31 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.EnumerableExtensionsTests
         }
 
         [Fact]
-        public void Apply_NullEnumerableNullAction_ThrowsNullReferenceException()
+        public void Apply_NullEnumerableNullAction_ThrowsArgumentNullException()
         {
             IEnumerable<int> enumerable = null;
 
-            Assert.Throws<NullReferenceException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 enumerable.Apply(null);
             });
         }
 
         [Fact]
-        public void Apply_NullEnumerableNotNullAction_ThrowsNullReferenceException()
+        public void Apply_NullEnumerableNotNullAction_ThrowsArgumentNullException()
         {
             IEnumerable<int> enumerable = null;
 
-            Assert.Throws<NullReferenceException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 enumerable.Apply(_testAction);
             });
         }
 
         [Fact]
-        public void Apply_NotNullEnumerableNullAction_ThrowsNullReferenceException()
+        public void Apply_NotNullEnumerableNullAction_ThrowsArgumentNullException()
         {
-            Assert.Throws<NullReferenceException>(() =>
+            Assert.Throws<ArgumentNullException>(() =>
             {
                 _testEnumerable.Apply(null);
             });
@@ -87,10 +87,6 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.EnumerableExtensionsTests
             _testEnumerable.Apply(_testAction);
 
             _testAction.ReceivedWithAnyArgs(_testEnumerable.Count()).Invoke(Arg.Any<int>());
-            foreach (var item in _testEnumerable)
-            {
-                _testAction.Received().Invoke(item);
-            }
         }
 
         [Theory]
