@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Common.Disposables
     /// <summary>
     ///     Represents an Action-based disposable.
     /// </summary>
-    internal sealed class AnonymousDisposable : IDisposable
+    public sealed class AnonymousDisposable : IDisposable
     {
         private volatile Action? _dispose;
 
