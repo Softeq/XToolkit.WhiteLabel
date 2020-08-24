@@ -15,72 +15,63 @@ namespace Softeq.XToolkit.Common.Interfaces
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, decimal value);
+        void AddOrUpdateValue(string key, decimal value);
 
         /// <summary>
         ///     Adds or updates a value.
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, bool value);
+        void AddOrUpdateValue(string key, bool value);
 
         /// <summary>
         ///     Adds or updates a value.
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, long value);
+        void AddOrUpdateValue(string key, long value);
 
         /// <summary>
         ///     Adds or updates a value.
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, string value);
+        void AddOrUpdateValue(string key, string value);
 
         /// <summary>
         ///     Adds or updates a value.
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, int value);
+        void AddOrUpdateValue(string key, int value);
 
         /// <summary>
         ///     Adds or updates a value.
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, float value);
+        void AddOrUpdateValue(string key, float value);
 
         /// <summary>
         ///     Adds or updates a value.
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, DateTime value);
+        void AddOrUpdateValue(string key, DateTime value);
 
         /// <summary>
         ///     Adds or updates a value.
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, Guid value);
+        void AddOrUpdateValue(string key, Guid value);
 
         /// <summary>
         ///     Adds or updates a value.
         /// </summary>
         /// <param name="key">key to update.</param>
         /// <param name="value">value to set.</param>
-        /// <returns>True if added or update and you need to save.</returns>
-        bool AddOrUpdateValue(string key, double value);
+        void AddOrUpdateValue(string key, double value);
 
         /// <summary>
         ///     Gets the current value or the default that you specify.

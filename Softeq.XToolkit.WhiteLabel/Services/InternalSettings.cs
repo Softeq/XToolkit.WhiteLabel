@@ -9,58 +9,49 @@ namespace Softeq.XToolkit.WhiteLabel.Services
 {
     public class InternalSettings : IInternalSettings
     {
-        public bool AddOrUpdateValue(string key, decimal value)
+        public void AddOrUpdateValue(string key, decimal value)
         {
             Preferences.Set(key, decimal.ToDouble(value));
-            return true;
         }
 
-        public bool AddOrUpdateValue(string key, bool value)
+        public void AddOrUpdateValue(string key, bool value)
         {
             Preferences.Set(key, value);
-            return true;
         }
 
-        public bool AddOrUpdateValue(string key, long value)
+        public void AddOrUpdateValue(string key, long value)
         {
             Preferences.Set(key, value);
-            return true;
         }
 
-        public bool AddOrUpdateValue(string key, string value)
+        public void AddOrUpdateValue(string key, string value)
         {
             Preferences.Set(key, value);
-            return true;
         }
 
-        public bool AddOrUpdateValue(string key, int value)
+        public void AddOrUpdateValue(string key, int value)
         {
             Preferences.Set(key, value);
-            return true;
         }
 
-        public bool AddOrUpdateValue(string key, float value)
+        public void AddOrUpdateValue(string key, float value)
         {
             Preferences.Set(key, value);
-            return true;
         }
 
-        public bool AddOrUpdateValue(string key, DateTime value)
+        public void AddOrUpdateValue(string key, DateTime value)
         {
             Preferences.Set(key, value);
-            return true;
         }
 
-        public bool AddOrUpdateValue(string key, Guid value)
+        public void AddOrUpdateValue(string key, Guid value)
         {
             Preferences.Set(key, value.ToString());
-            return true;
         }
 
-        public bool AddOrUpdateValue(string key, double value)
+        public void AddOrUpdateValue(string key, double value)
         {
             Preferences.Set(key, value);
-            return true;
         }
 
         public decimal GetValueOrDefault(string key, decimal defaultValue = default)
