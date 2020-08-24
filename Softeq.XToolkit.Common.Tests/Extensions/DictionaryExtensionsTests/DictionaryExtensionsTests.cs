@@ -10,12 +10,15 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.DictionaryExtensionsTests
 {
     public class DictionaryExtensionsTests
     {
+        private const string Key = "test_key";
+        private const string Key2 = "test_key2";
+
         [Fact]
         public void AddOrReplace_NullDictionary_ThrowsNullReferenceException()
         {
             Assert.Throws<NullReferenceException>(() =>
             {
-                DictionaryExtensions.AddOrReplace(null!, "test_key", 1);
+                DictionaryExtensions.AddOrReplace(null!, Key, 1);
             });
         }
 
@@ -24,29 +27,32 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.DictionaryExtensionsTests
         {
             var dictionary = new Dictionary<string, int>();
 
-            dictionary.AddOrReplace("test_key", 1);
+            dictionary.AddOrReplace(Key, 1);
 
-            Assert.NotEmpty(dictionary);
+            Assert.Single(dictionary);
+            Assert.Equal(1, dictionary[Key]);
         }
 
         [Fact]
         public void AddOrReplace_NewValueInNonEmptyDictionary_Adds()
         {
-            var dictionary = new Dictionary<string, int> { { "test_key1", 1 } };
+            var dictionary = new Dictionary<string, int> { { Key, 1 } };
 
-            dictionary.AddOrReplace("test_key2", 2);
+            dictionary.AddOrReplace(Key2, 2);
 
             Assert.Equal(2, dictionary.Count);
+            Assert.Equal(1, dictionary[Key]);
+            Assert.Equal(2, dictionary[Key2]);
         }
 
         [Fact]
-        public void AddOrReplace_ExistValueInNonEmptyDictionary_Replaces()
+        public void AddOrReplace_ExistingValueInNonEmptyDictionary_Replaces()
         {
-            const string Key = "test_key";
             var dictionary = new Dictionary<string, int> { { Key, 1 } };
 
             dictionary.AddOrReplace(Key, 2);
 
+            Assert.Single(dictionary);
             Assert.Equal(2, dictionary[Key]);
         }
     }

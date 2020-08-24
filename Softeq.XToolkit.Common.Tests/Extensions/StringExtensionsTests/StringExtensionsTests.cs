@@ -11,67 +11,58 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
 {
     public class StringExtensionsTests
     {
-        [Fact]
-        public void CapitalizeFirstLetter_ShouldReturnString_WhenGivenCorrectString()
+        [Theory]
+        [InlineData("one", "One")]
+        [InlineData("tWO", "TWO")]
+        [InlineData("Three", "Three")]
+        [InlineData("four five", "Four five")]
+        [InlineData("1", "1")]
+        public void CapitalizeFirstLetter_NotEmptyString_ReturnsExpectedString(string input, string expected)
         {
-            Assert.Equal("One", "one".CapitalizeFirstLetter());
-            Assert.Equal("TWO", "tWO".CapitalizeFirstLetter());
-            Assert.Equal("Three", "Three".CapitalizeFirstLetter());
-            Assert.Equal("Four five", "four five".CapitalizeFirstLetter());
-            Assert.Equal("1", "1".CapitalizeFirstLetter());
+            var result = input.CapitalizeFirstLetter();
+
+            Assert.Equal(expected, result);
         }
 
-        [Fact]
-        public void CapitalizeFirstLetter_ShouldTrowException_WhenGivenNull()
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        public void CapitalizeFirstLetter_NullOrEmptyString_ThrowsException(string input)
         {
             Assert.Throws<ArgumentException>(() =>
             {
-                (null as string).CapitalizeFirstLetter();
+                input.CapitalizeFirstLetter();
             });
         }
 
-        [Fact]
-        public void CapitalizeFirstLetter_ShouldTrowException_WhenGivenEmptyString()
+        [Theory]
+        [InlineData("1Line\n\n2Line\r\n  \t  \n3Line", "1Line2Line3Line")]
+        [InlineData("1Line\n       \n2Line\r\n     \r\n3Line", "1Line2Line3Line")]
+        public void RemoveEmptyLines_StringWithEmptyLines_ReturnsStringWithoutEmptyLines(string input, string expected)
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                string.Empty.CapitalizeFirstLetter();
-            });
-        }
-
-        [Fact]
-        public void RemoveEmptyLines_ShouldReturnStringWithoutEmptyLines_WhenGivenStringWithEmptyLines()
-        {
-            const string expect = "1Line2Line3Line";
-            const string input1 = "1Line\n\n2Line\r\n  \t  \n3Line";
-            const string input2 = "1Line\n       \n2Line\r\n     \r\n3Line";
-
-            var result1 = input1.RemoveEmptyLines();
-            var result2 = input2.RemoveEmptyLines();
-
-            Assert.Equal(expect, result1);
-            Assert.Equal(expect, result2);
-        }
-
-        [Fact]
-        public void RemoveEmptyLines_ShouldReturnStringWithoutEmptyLines_WhenGivenStringWithoutEmptyLines()
-        {
-            const string expect = "1Line2Line3Line";
-            const string input = "1Line2Line3Line";
-
             var result = input.RemoveEmptyLines();
 
-            Assert.Equal(expect, result);
+            Assert.Equal(expected, result);
         }
 
         [Fact]
-        public void RemoveEmptyLines_ShouldReturnEmptyString_WhenGivenEmptyString()
+        public void RemoveEmptyLines_StringtWithoutEmptyLines_ReturnsTheSameString()
+        {
+            const string Input = "1Line2Line3Line";
+
+            var result = Input.RemoveEmptyLines();
+
+            Assert.Equal(Input, result);
+        }
+
+        [Fact]
+        public void RemoveEmptyLines_EmptyString_ReturnsEmptyString()
         {
             Assert.Equal(string.Empty, string.Empty.RemoveEmptyLines());
         }
 
         [Fact]
-        public void RemoveEmptyLines_ShouldThrowException_WhenGivenNull()
+        public void RemoveEmptyLines_NullString_ThrowsException()
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
@@ -82,7 +73,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
         [Theory]
         [InlineData(null)]
         [InlineData("")]
-        public void TryParseDouble_NullOrEmptyText_ParsesToNull(string input)
+        public void TryParseDouble_NullOrEmptyString_ParsesToNull(string input)
         {
             double? result;
 
@@ -102,7 +93,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
         [InlineData("1234.56", 1234.56)]
         [InlineData("1,234.56", 1234.56)]
         [InlineData("-1,234.56", -1234.56)]
-        public void TryParseDouble_DoubleTextUsCulture_ParsesCorrectly(string input, double expectedResult)
+        public void TryParseDouble_DoubleStringUsCulture_ParsesCorrectly(string input, double expectedResult)
         {
             double? result;
             CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");
@@ -124,7 +115,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
         [InlineData("1234,56", 1234.56)]
         [InlineData("1 234,56", 1234.56)]
         [InlineData("-1 234,56", -1234.56)]
-        public void TryParseDouble_DoubleTextRuCulture_ParsesCorrectly(string input, double expectedResult)
+        public void TryParseDouble_DoubleStringRuCulture_ParsesCorrectly(string input, double expectedResult)
         {
             double? result;
             CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture("ru-RU");
@@ -141,7 +132,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
         [InlineData(double.MinValue, "ru-RU")]
         [InlineData(double.MaxValue, "en-US")]
         [InlineData(double.MaxValue, "ru-RU")]
-        public void TryParseDouble_EdgeDoubleText_ParsesCorrectly(double inputDouble, string culture)
+        public void TryParseDouble_EdgeDoubleString_ParsesCorrectly(double inputDouble, string culture)
         {
             double? result;
             CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture(culture);
@@ -160,7 +151,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
         [InlineData("d1")]
         [InlineData("0.1f")]
         [InlineData("- 1.0")]
-        public void TryParseDouble_NotDoubleText_ReturnsFalse(string input)
+        public void TryParseDouble_NotDoubleString_ReturnsFalse(string input)
         {
             double? result;
             CultureInfo.CurrentCulture = CultureInfo.CreateSpecificCulture("en-US");

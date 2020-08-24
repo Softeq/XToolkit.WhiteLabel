@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Extensions.StreamExtensionsTests
 {
-    public class StreamToArrayTests
+    public class StreamExtensionsTests
     {
         [Fact]
         public void ToArray_Null_ThrowsArgumentNullException()
@@ -58,11 +58,11 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StreamExtensionsTests
         }
 
         [Fact]
-        public void ToArray_MemoryStream_UseSystemMethod()
+        public void ToArray_MemoryStream_UsesSystemMethod()
         {
             var stream = Substitute.For<MemoryStream>();
 
-            var _ = ((Stream)stream).ToArray();
+            var _ = ((Stream) stream).ToArray();
 
             stream.Received(1).ToArray();
         }

@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
                     fragmentManager
                         .BeginTransaction()
                         .Add(viewModelStore, ViewModelStoreTag)
-                        .CommitNow();
+                        .Commit();
                 }
             }
             else
