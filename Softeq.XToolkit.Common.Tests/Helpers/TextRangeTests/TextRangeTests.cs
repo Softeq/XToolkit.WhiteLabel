@@ -46,8 +46,8 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
 
         [Theory]
         [MemberData(nameof(TextRangeDataProvider.OutOfRangeBuildStringData), MemberType = typeof(TextRangeDataProvider))]
-        public void BuildNewString_PositionOutOfRange_ThrowsArgumentOutOfRangeException(string fullString, string newString,
-            int textRangePosition, int textRangeLength)
+        public void BuildNewString_PositionOutOfRange_ThrowsArgumentOutOfRangeException(
+            string fullString, string newString, int textRangePosition, int textRangeLength)
         {
             var textRange = new TextRange(textRangePosition, textRangeLength);
 
@@ -56,8 +56,8 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
 
         [Theory]
         [MemberData(nameof(TextRangeDataProvider.ValidTextRangeBuildStringData), MemberType = typeof(TextRangeDataProvider))]
-        public void BuildNewString_ValidParams_ConstructsCorrectString(string fullString, string newString,
-            int textRangePosition, int textRangeLength, string resultString)
+        public void BuildNewString_ValidParams_ConstructsCorrectString(
+            string fullString, string newString, int textRangePosition, int textRangeLength, string resultString)
         {
             var textRange = new TextRange(textRangePosition, textRangeLength);
 
