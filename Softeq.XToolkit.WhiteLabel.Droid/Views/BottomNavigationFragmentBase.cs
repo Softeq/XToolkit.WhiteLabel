@@ -23,11 +23,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected override ToolbarComponent<TViewModel, TKey> ToolbarComponent => BottomNavigationComponent.ToolbarComponent;
 
-        protected override void OnViewModelRestored(TViewModel viewmodel)
+        protected override void OnViewModelRestored(TViewModel viewModel)
         {
             BottomNavigationComponent = CreateComponent();
 
-            base.OnViewModelRestored(viewmodel);
+            base.OnViewModelRestored(viewModel);
         }
 
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)

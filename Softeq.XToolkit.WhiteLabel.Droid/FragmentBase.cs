@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             this.DetachBindings();
         }
 
-        protected virtual void OnViewModelRestored(TViewModel viewmodel)
+        protected virtual void OnViewModelRestored(TViewModel viewModel)
         {
         }
     }
