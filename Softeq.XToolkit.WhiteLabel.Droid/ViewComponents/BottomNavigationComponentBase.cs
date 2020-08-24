@@ -50,6 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
             }
 
             InflateMenu(context);
+            BottomNavigationView.SelectedItemId = _viewModel.SelectedIndex;
             BottomNavigationView.NavigationItemSelected += BottomNavigationViewNavigationItemSelected;
         }
 
