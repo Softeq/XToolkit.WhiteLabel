@@ -4,6 +4,7 @@
 using Foundation;
 using Playground.ViewModels;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using UIKit;
@@ -27,8 +28,10 @@ namespace Playground.iOS
             return new CustomIosBootstrapper();
         }
 
-        protected override void ConfigureEntryPointNavigation(IPageNavigationService navigationService)
+        protected override void InitializeNavigation(IContainer container)
         {
+            var navigationService = container.Resolve<IPageNavigationService>();
+            navigationService.Initialize(Window.RootViewController!);
             navigationService.For<StartPageViewModel>().Navigate();
         }
     }

@@ -28,8 +28,10 @@ public class AppDelegate : AppDelegateBase
         return new CustomIosBootstrapper();
     }
 
-    protected override void ConfigureEntryPointNavigation(IPageNavigationService navigationService)
+    protected override void InitializeNavigation(IContainer container)
     {
+        var navigationService = container.Resolve<IPageNavigationService>();
+        navigationService.Initialize(Window.RootViewController);
         navigationService.For<StartPageViewModel>().Navigate();
     }
 }
