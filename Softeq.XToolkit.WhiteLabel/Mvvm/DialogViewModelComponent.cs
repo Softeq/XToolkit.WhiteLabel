@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 
         public Task<object> Task => _withResultCompletionSource.Task;
 
-        public void OnClosed()
+        public void OnDismissed()
         {
             SetResult(null);
         }

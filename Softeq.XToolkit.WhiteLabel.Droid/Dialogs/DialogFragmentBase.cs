@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             base.OnDismiss(dialog);
 
-            ViewModel.DialogComponent.OnClosed();
+            ViewModel.DialogComponent.OnDismissed();
         }
 
         public void Show()
