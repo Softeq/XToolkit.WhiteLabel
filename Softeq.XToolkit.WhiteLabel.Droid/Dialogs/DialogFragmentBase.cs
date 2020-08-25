@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public void Show()
         {
             SetStyle(StyleNoFrame, ThemeId);
-            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
+            var baseActivity = (FragmentActivity) CrossCurrentActivity.Current.Activity;
             Show(baseActivity.SupportFragmentManager, null);
         }
 
