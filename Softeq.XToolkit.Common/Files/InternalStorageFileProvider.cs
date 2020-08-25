@@ -7,11 +7,11 @@ using System.IO.Abstractions;
 
 namespace Softeq.XToolkit.Common.Files
 {
-    public class InternalStorageProvider : BaseFileProvider
+    public class InternalStorageFileProvider : BaseFileProvider
     {
         private readonly string _rootFolderPath;
 
-        public InternalStorageProvider()
+        public InternalStorageFileProvider()
             : base(new FileSystem())
         {
             _rootFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);

@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.Common.Files
 {
-    public class ResourceStorageProvider : IFileProvider
+    public class ResourceFileProvider : IFileProvider
     {
         private readonly Assembly _assembly;
 
-        public ResourceStorageProvider(Assembly assembly)
+        public ResourceFileProvider(Assembly assembly)
         {
             _assembly = assembly;
         }

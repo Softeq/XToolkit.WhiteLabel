@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Tests
         private const string MissingFilePath3 = @"some_file.txt";
 
         private readonly MockFileSystem _mockFileSystem;
-        private readonly IFileProvider _filesProvider;
+        private readonly BaseFileProvider _fileProvider;
 
         public BaseFileProviderTests()
         {
@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Common.Tests
                 { FilePath3, new MockFileData("Testing sucks") }
             });
 
-            _filesProvider = new BaseFileProvider(_mockFileSystem);
+            _fileProvider = new BaseFileProvider(_mockFileSystem);
         }
 
         #region FileExists
@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.Common.Tests
         public async void FileExistsAsync_ExistingPath_ReturnsTrue(string path)
         {
             Assert.True(_mockFileSystem.File.Exists(path));
-            var result = await _filesProvider.FileExistsAsync(path);
+            var result = await _fileProvider.FileExistsAsync(path);
             Assert.True(result);
         }
 
@@ -63,7 +63,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(MissingDirectoryPath1)]
         public async void FileExistsAsync_MissingPath_ReturnsFalse(string path)
         {
-            var result = await _filesProvider.FileExistsAsync(path);
+            var result = await _fileProvider.FileExistsAsync(path);
 
             Assert.False(result);
         }
@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData("")]
         public async void FileExistsAsync_InvalidPath_ThrowsException(string path)
         {
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.FileExistsAsync(path));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.FileExistsAsync(path));
         }
 
         #endregion
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(DirectoryPath1)]
         public async void RemoveFileAsync_ValidPath_RemovesFile(string path)
         {
-            await _filesProvider.RemoveFileAsync(path);
+            await _fileProvider.RemoveFileAsync(path);
 
             Assert.False(_mockFileSystem.File.Exists(path));
         }
@@ -98,7 +98,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(MissingDirectoryPath1)]
         public async void RemoveFileAsync_InvalidPath_ThrowsException(string path)
         {
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.RemoveFileAsync(path));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.RemoveFileAsync(path));
         }
 
         #endregion
@@ -113,7 +113,7 @@ namespace Softeq.XToolkit.Common.Tests
         {
             Assert.True(_mockFileSystem.File.Exists(dstPath));
 
-            await _filesProvider.CopyFileAsync(srcPath, dstPath, true);
+            await _fileProvider.CopyFileAsync(srcPath, dstPath, true);
 
             Assert.True(_mockFileSystem.File.Exists(srcPath));
             Assert.True(_mockFileSystem.File.Exists(dstPath));
@@ -126,7 +126,7 @@ namespace Softeq.XToolkit.Common.Tests
             string srcPath, string dstPath)
         {
             Assert.True(_mockFileSystem.File.Exists(dstPath));
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.CopyFileAsync(srcPath, dstPath, false));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.CopyFileAsync(srcPath, dstPath, false));
         }
 
         [Theory]
@@ -139,7 +139,7 @@ namespace Softeq.XToolkit.Common.Tests
         {
             Assert.False(_mockFileSystem.File.Exists(dstPath));
 
-            await _filesProvider.CopyFileAsync(srcPath, dstPath, overwrite);
+            await _fileProvider.CopyFileAsync(srcPath, dstPath, overwrite);
 
             Assert.True(_mockFileSystem.File.Exists(srcPath));
             Assert.True(_mockFileSystem.File.Exists(dstPath));
@@ -151,7 +151,7 @@ namespace Softeq.XToolkit.Common.Tests
         public async void CopyFileAsync_ExistingPathToSamePath_ThrowsException(
             string srcPath, string dstPath, bool overwrite)
         {
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.CopyFileAsync(srcPath, dstPath, overwrite));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.CopyFileAsync(srcPath, dstPath, overwrite));
         }
 
         [Theory]
@@ -171,7 +171,7 @@ namespace Softeq.XToolkit.Common.Tests
         public async void CopyFileAsync_MissingOrInvalidPath_ThrowsException(
             string srcPath, string dstPath, bool overwrite)
         {
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.CopyFileAsync(srcPath, dstPath, overwrite));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.CopyFileAsync(srcPath, dstPath, overwrite));
         }
 
         #endregion
@@ -185,7 +185,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(null)]
         public async void GetFileContentAsync_MissingOrInvalidPath_ThrowsException(string path)
         {
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.GetFileContentAsync(path));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.GetFileContentAsync(path));
         }
 
         [Theory]
@@ -195,7 +195,7 @@ namespace Softeq.XToolkit.Common.Tests
         {
             Assert.True(_mockFileSystem.File.Exists(path));
 
-            var stream = await _filesProvider.GetFileContentAsync(path);
+            var stream = await _fileProvider.GetFileContentAsync(path);
 
             Assert.NotNull(stream);
         }
@@ -209,7 +209,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(null)]
         public async void OpenFileForWriteAsync_InvalidPath_ThrowsException(string path)
         {
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.OpenFileForWriteAsync(path));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.OpenFileForWriteAsync(path));
         }
 
         [Theory]
@@ -219,7 +219,7 @@ namespace Softeq.XToolkit.Common.Tests
         {
             Assert.False(_mockFileSystem.File.Exists(path));
 
-            var stream = await _filesProvider.OpenFileForWriteAsync(path);
+            var stream = await _fileProvider.OpenFileForWriteAsync(path);
 
             Assert.True(_mockFileSystem.File.Exists(path));
             Assert.NotNull(stream);
@@ -232,7 +232,7 @@ namespace Softeq.XToolkit.Common.Tests
         {
             Assert.True(_mockFileSystem.File.Exists(path));
 
-            var stream = await _filesProvider.OpenFileForWriteAsync(path);
+            var stream = await _fileProvider.OpenFileForWriteAsync(path);
 
             Assert.NotNull(stream);
         }
@@ -248,7 +248,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(null)]
         public async void ClearFolderAsync_MissingOrInvalidPath_ThrowsException(string path)
         {
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.ClearFolderAsync(path));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.ClearFolderAsync(path));
         }
 
         [Theory]
@@ -258,7 +258,7 @@ namespace Softeq.XToolkit.Common.Tests
             Assert.True(_mockFileSystem.Directory.Exists(path));
             Assert.NotEmpty(_mockFileSystem.Directory.GetFiles(path));
 
-            await _filesProvider.ClearFolderAsync(path);
+            await _fileProvider.ClearFolderAsync(path);
 
             Assert.Empty(_mockFileSystem.Directory.GetFiles(path));
         }
@@ -278,7 +278,7 @@ namespace Softeq.XToolkit.Common.Tests
             byte[] byteArray = Encoding.ASCII.GetBytes(content);
             MemoryStream stream = new MemoryStream(byteArray);
 
-            await _filesProvider.WriteFileAsync(path, stream);
+            await _fileProvider.WriteFileAsync(path, stream);
 
             var fileContent = _mockFileSystem.File.ReadAllText(path);
             Assert.StartsWith(content, fileContent);
@@ -295,7 +295,7 @@ namespace Softeq.XToolkit.Common.Tests
             byte[] byteArray = Encoding.ASCII.GetBytes(content);
             MemoryStream stream = new MemoryStream(byteArray);
 
-            await _filesProvider.WriteFileAsync(path, stream);
+            await _fileProvider.WriteFileAsync(path, stream);
 
             Assert.True(_mockFileSystem.File.Exists(path));
             var fileContent = _mockFileSystem.File.ReadAllText(path);
@@ -311,7 +311,7 @@ namespace Softeq.XToolkit.Common.Tests
             byte[] byteArray = Encoding.ASCII.GetBytes(content);
             MemoryStream stream = new MemoryStream(byteArray);
 
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.WriteFileAsync(path, stream));
+            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.WriteFileAsync(path, stream));
         }
 
         #endregion
