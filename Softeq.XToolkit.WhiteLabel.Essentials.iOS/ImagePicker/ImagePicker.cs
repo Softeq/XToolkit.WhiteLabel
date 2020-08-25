@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
         private readonly UIImagePickerController _imagePicker;
         private readonly WeakReferenceEx<UIViewController> _viewController;
         private RelayCommand<ImageOpenedEventArgs> _openCommand;
-        private readonly IFilesProvider _fileProvider;
+        private readonly IFileProvider _fileProvider;
         private readonly IPermissionsManager _permissionManager;
         private ImagePickerOptions _options;
 

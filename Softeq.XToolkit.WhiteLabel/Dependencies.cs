@@ -34,6 +34,6 @@ namespace Softeq.XToolkit.WhiteLabel
 
         public static IJsonSerializer JsonSerializer => Container.Resolve<IJsonSerializer>();
 
-        public static IFilesProvider InternalStorageProvider => Container.Resolve<InternalStorageProvider>();
+        public static IFileProvider InternalStorageProvider => Container.Resolve<InternalStorageProvider>();
     }
 }
