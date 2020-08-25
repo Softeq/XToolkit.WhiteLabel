@@ -13,14 +13,14 @@ namespace Softeq.XToolkit.Common.Tests
 {
     public class BaseFileProviderTests
     {
-        private const string DirectoryPath1 = @"test_dir\";
-        private const string DirectoryPath2 = @"test_dir2\";
+        private const string DirectoryPath1 = @"test_dir/";
+        private const string DirectoryPath2 = @"test_dir2/";
 
         private const string FilePath1 = @"file1.txt";
         private const string FilePath2 = DirectoryPath1 + @"file2.txt";
         private const string FilePath3 = DirectoryPath1 + @"file3.txt";
 
-        private const string MissingDirectoryPath1 = @"test_dir3\";
+        private const string MissingDirectoryPath1 = @"test_dir3/";
 
         private const string MissingFilePath1 = DirectoryPath1 + @"file4.txt";
         private const string MissingFilePath2 = DirectoryPath1 + @"file3";
@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(FilePath2)]
         public async void FileExistsAsync_ExistingPath_ReturnsTrue(string path)
         {
-            Assert.True(_mockFileSystem.FileExists(path));
+            Assert.True(_mockFileSystem.File.Exists(path));
             var result = await _filesProvider.FileExistsAsync(path);
             Assert.True(result);
         }
@@ -85,17 +85,17 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(MissingFilePath1)]
         [InlineData(MissingFilePath2)]
         [InlineData(DirectoryPath1)]
-        [InlineData(MissingDirectoryPath1)]
         public async void RemoveFileAsync_ValidPath_RemovesFile(string path)
         {
             await _filesProvider.RemoveFileAsync(path);
 
-            Assert.False(_mockFileSystem.FileExists(path));
+            Assert.False(_mockFileSystem.File.Exists(path));
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
+        [InlineData(MissingDirectoryPath1)]
         public async void RemoveFileAsync_InvalidPath_ThrowsException(string path)
         {
             await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.RemoveFileAsync(path));
@@ -111,12 +111,12 @@ namespace Softeq.XToolkit.Common.Tests
         public async void CopyFileAsync_ExistingPathToExistingPath_WithOverwrite_CopiesFile(
             string srcPath, string dstPath)
         {
-            Assert.True(_mockFileSystem.FileExists(dstPath));
+            Assert.True(_mockFileSystem.File.Exists(dstPath));
 
             await _filesProvider.CopyFileAsync(srcPath, dstPath, true);
 
-            Assert.True(_mockFileSystem.FileExists(srcPath));
-            Assert.True(_mockFileSystem.FileExists(dstPath));
+            Assert.True(_mockFileSystem.File.Exists(srcPath));
+            Assert.True(_mockFileSystem.File.Exists(dstPath));
         }
 
         [Theory]
@@ -125,7 +125,7 @@ namespace Softeq.XToolkit.Common.Tests
         public async void CopyFileAsync_ExistingPathToExistingPath_WithoutOverwrite_ThrowsException(
             string srcPath, string dstPath)
         {
-            Assert.True(_mockFileSystem.FileExists(dstPath));
+            Assert.True(_mockFileSystem.File.Exists(dstPath));
             await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.CopyFileAsync(srcPath, dstPath, false));
         }
 
@@ -137,12 +137,12 @@ namespace Softeq.XToolkit.Common.Tests
         public async void CopyFileAsync_ExistingPathToMissingPath_CopiesFile(
             string srcPath, string dstPath, bool overwrite)
         {
-            Assert.False(_mockFileSystem.FileExists(dstPath));
+            Assert.False(_mockFileSystem.File.Exists(dstPath));
 
             await _filesProvider.CopyFileAsync(srcPath, dstPath, overwrite);
 
-            Assert.True(_mockFileSystem.FileExists(srcPath));
-            Assert.True(_mockFileSystem.FileExists(dstPath));
+            Assert.True(_mockFileSystem.File.Exists(srcPath));
+            Assert.True(_mockFileSystem.File.Exists(dstPath));
         }
 
         [Theory]
@@ -193,7 +193,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(FilePath3)]
         public async void GetFileContentAsync_ExistingPath_ReturnsValidStream(string path)
         {
-            Assert.True(_mockFileSystem.FileExists(path));
+            Assert.True(_mockFileSystem.File.Exists(path));
 
             var stream = await _filesProvider.GetFileContentAsync(path);
 
@@ -217,11 +217,11 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(MissingFilePath3)]
         public async void OpenFileForWriteAsync_MissingPath_CreatesFileAndReturnsValidStream(string path)
         {
-            Assert.False(_mockFileSystem.FileExists(path));
+            Assert.False(_mockFileSystem.File.Exists(path));
 
             var stream = await _filesProvider.OpenFileForWriteAsync(path);
 
-            Assert.True(_mockFileSystem.FileExists(path));
+            Assert.True(_mockFileSystem.File.Exists(path));
             Assert.NotNull(stream);
         }
 
@@ -230,7 +230,7 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(FilePath3)]
         public async void OpenFileForWriteAsync_ExistingPath_ReturnsValidStream(string path)
         {
-            Assert.True(_mockFileSystem.FileExists(path));
+            Assert.True(_mockFileSystem.File.Exists(path));
 
             var stream = await _filesProvider.OpenFileForWriteAsync(path);
 
@@ -251,7 +251,6 @@ namespace Softeq.XToolkit.Common.Tests
             await Assert.ThrowsAnyAsync<Exception>(async () => await _filesProvider.ClearFolderAsync(path));
         }
 
-        //Does not work for some reason
         [Theory]
         [InlineData(DirectoryPath1)]
         public async void ClearFolderAsync_ExistingFolderPath_ClearsFolder(string path)
@@ -274,7 +273,7 @@ namespace Softeq.XToolkit.Common.Tests
         public async void WriteFileAsync_ExistingPath_WritesToFile(
             string path, string content)
         {
-            Assert.True(_mockFileSystem.FileExists(path));
+            Assert.True(_mockFileSystem.File.Exists(path));
 
             byte[] byteArray = Encoding.ASCII.GetBytes(content);
             MemoryStream stream = new MemoryStream(byteArray);
@@ -291,14 +290,14 @@ namespace Softeq.XToolkit.Common.Tests
         public async void WriteFileAsync_MissingPath_CreatesFileAndWritesToFile(
             string path, string content)
         {
-            Assert.False(_mockFileSystem.FileExists(path));
+            Assert.False(_mockFileSystem.File.Exists(path));
 
             byte[] byteArray = Encoding.ASCII.GetBytes(content);
             MemoryStream stream = new MemoryStream(byteArray);
 
             await _filesProvider.WriteFileAsync(path, stream);
 
-            Assert.True(_mockFileSystem.FileExists(path));
+            Assert.True(_mockFileSystem.File.Exists(path));
             var fileContent = _mockFileSystem.File.ReadAllText(path);
             Assert.Equal(content, fileContent);
         }

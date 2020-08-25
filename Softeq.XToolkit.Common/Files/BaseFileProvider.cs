@@ -24,8 +24,8 @@ namespace Softeq.XToolkit.Common.Files
             path = BuildPath(path);
             return Task.Run(async () =>
             {
-                var tasks = new DirectoryInfo(path).GetFiles()
-                        .Select(async x => await RemoveFileAsync(x.FullName).ConfigureAwait(false));
+                var tasks = _fileSystem.Directory.GetFiles(path).
+                    Select(async x => await RemoveFileAsync(x).ConfigureAwait(false));
                 await Task.WhenAll(tasks);
             });
         }
