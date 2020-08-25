@@ -13,9 +13,6 @@ namespace Softeq.XToolkit.Common.Timers
     /// </summary>
     public class Timer : ITimer, IDisposable
     {
-        private readonly int _interval;
-        private TaskReference? _taskReference;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="Timer"/> class with specified interval.
         /// </summary>
@@ -23,9 +20,19 @@ namespace Softeq.XToolkit.Common.Timers
         /// <param name="interval">Timer interval (ms).</param>
         public Timer(TaskReference taskReference, int interval)
         {
-            _taskReference = taskReference;
-            _interval = interval;
+            TaskReference = taskReference;
+            Interval = interval;
         }
+
+        /// <summary>
+        /// Gets an interval setting of this timer.
+        /// </summary>
+        public int Interval { get; }
+
+        /// <summary>
+        /// Gets a task reference object of this timer.
+        /// </summary>
+        public TaskReference? TaskReference { get; private set; }
 
         /// <summary>
         ///     Gets a value indicating whether the <see cref="T:Softeq.XToolkit.Common.Timers.Timer" /> should run task.
@@ -46,7 +53,7 @@ namespace Softeq.XToolkit.Common.Timers
         public void Dispose()
         {
             Stop();
-            _taskReference = null;
+            TaskReference = null;
         }
 
         /// <inheritdoc />
@@ -71,10 +78,10 @@ namespace Softeq.XToolkit.Common.Timers
         {
             do
             {
-                await Task.Delay(_interval);
-                if (IsActive && _taskReference != null)
+                await Task.Delay(Interval);
+                if (IsActive && TaskReference != null)
                 {
-                    await _taskReference.RunAsync().ConfigureAwait(false);
+                    await TaskReference.RunAsync().ConfigureAwait(false);
                 }
             }
             while (IsActive);
