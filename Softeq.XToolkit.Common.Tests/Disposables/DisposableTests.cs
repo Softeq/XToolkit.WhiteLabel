@@ -17,27 +17,22 @@ namespace Softeq.XToolkit.Common.Tests.Disposables
         }
 
         [Fact]
-        public void Create_ThrowsArgumentException()
+        public void Create_ThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() => Disposable.Create(null!));
         }
 
         [Fact]
-        public void IsDisposed_False()
-        {
-            var instance = new AnonymousDisposable(() => { });
-            Assert.False(instance.IsDisposed);
-        }
-
-        [Fact]
         public void Dispose()
         {
-            var instance = new AnonymousDisposable(() => { });
-            using (instance)
-            {
-            }
+            var disposed = false;
+            var d = Disposable.Create(() => { disposed = true; });
 
-            Assert.True(instance.IsDisposed);
+            Assert.False(disposed);
+
+            d.Dispose();
+
+            Assert.True(disposed);
         }
     }
 }
