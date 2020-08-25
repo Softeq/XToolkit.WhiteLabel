@@ -275,9 +275,7 @@ namespace Softeq.XToolkit.Common.Tests
         {
             Assert.True(_mockFileSystem.File.Exists(path));
 
-            byte[] byteArray = Encoding.ASCII.GetBytes(content);
-            MemoryStream stream = new MemoryStream(byteArray);
-
+            using var stream = CreateStream(content);
             await _fileProvider.WriteFileAsync(path, stream);
 
             var fileContent = _mockFileSystem.File.ReadAllText(path);
@@ -292,9 +290,7 @@ namespace Softeq.XToolkit.Common.Tests
         {
             Assert.False(_mockFileSystem.File.Exists(path));
 
-            byte[] byteArray = Encoding.ASCII.GetBytes(content);
-            MemoryStream stream = new MemoryStream(byteArray);
-
+            using var stream = CreateStream(content);
             await _fileProvider.WriteFileAsync(path, stream);
 
             Assert.True(_mockFileSystem.File.Exists(path));
@@ -308,10 +304,15 @@ namespace Softeq.XToolkit.Common.Tests
         public async void WriteFileAsync_InvalidPath_ThrowsException(
             string path, string content)
         {
-            byte[] byteArray = Encoding.ASCII.GetBytes(content);
-            MemoryStream stream = new MemoryStream(byteArray);
+            using var stream = CreateStream(content);
 
             await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.WriteFileAsync(path, stream));
+        }
+
+        private Stream CreateStream(string content)
+        {
+            byte[] byteArray = Encoding.ASCII.GetBytes(content);
+            return new MemoryStream(byteArray);
         }
 
         #endregion

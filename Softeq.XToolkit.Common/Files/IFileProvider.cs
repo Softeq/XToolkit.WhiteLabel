@@ -21,11 +21,11 @@ namespace Softeq.XToolkit.Common.Files
         /// <summary>
         ///     Copies file asynchronously to the new path.
         /// </summary>
-        /// <param name="srcPath">Source file path.</param>
-        /// <param name="dstPath">Destination file path.</param>
+        /// <param name="sourcePath">Source file path.</param>
+        /// <param name="destinationPath">Destination file path.</param>
         /// <param name="overwrite">Overwrite destination file if exists.</param>
         /// <returns>Copy file Task.</returns>
-        Task CopyFileAsync(string srcPath, string dstPath, bool overwrite);
+        Task CopyFileAsync(string sourcePath, string destinationPath, bool overwrite);
 
         /// <summary>
         ///     Deletes all files from the specified directory.

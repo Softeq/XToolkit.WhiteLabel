@@ -52,11 +52,11 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <inheritdoc />
-        public Task CopyFileAsync(string srcPath, string dstPath, bool overwrite)
+        public Task CopyFileAsync(string sourcePath, string destinationPath, bool overwrite)
         {
-            srcPath = BuildPath(srcPath);
-            dstPath = BuildPath(dstPath);
-            return Task.Run(() => _fileSystem.File.Copy(srcPath, dstPath, overwrite));
+            sourcePath = BuildPath(sourcePath);
+            destinationPath = BuildPath(destinationPath);
+            return Task.Run(() => _fileSystem.File.Copy(sourcePath, destinationPath, overwrite));
         }
 
         /// <inheritdoc />
