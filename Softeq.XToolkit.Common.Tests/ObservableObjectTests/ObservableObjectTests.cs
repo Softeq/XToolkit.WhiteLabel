@@ -161,6 +161,37 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
             Assert.False(result);
         }
 
+        [FactInDebugOnly]
+        public void VerifyPropertyName_NonExistentPropertyName_ThrowsArgumentException()
+        {
+            var obj = CreateObservableObject();
+            var propertyName = TestString;
+
+            Assert.Throws<ArgumentException>(() =>
+            {
+                obj.VerifyPropertyName(propertyName);
+            });
+        }
+
+        [TheoryInDebugOnly]
+        [InlineData(null)]
+        [InlineData("")]
+        public void VerifyPropertyName_NullOrEmptyPropertyName_ExecutesWithoutException(string propertyName)
+        {
+            var obj = CreateObservableObject();
+
+            obj.VerifyPropertyName(propertyName);
+        }
+
+        [FactInDebugOnly]
+        public void VerifyPropertyName_ExistentPropertyName_ExecutesWithoutException()
+        {
+            var obj = TestObservableObject.CreateWithValue(TestString);
+            var propertyName = nameof(obj.TestProperty);
+
+            obj.VerifyPropertyName(propertyName);
+        }
+
         private static ObservableObject CreateObservableObject()
         {
             return new ObservableObject();
