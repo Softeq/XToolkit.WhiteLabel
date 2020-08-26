@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Validation.Rules
         }
 
         [Fact]
-        public void Check_CustomEmailPattern_Valid()
+        public void Check_CustomEmailPattern_ReturnsExpectedResult()
         {
             var rule = new EmailRule("error message", @"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$");
 
