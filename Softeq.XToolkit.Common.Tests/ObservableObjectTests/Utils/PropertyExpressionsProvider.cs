@@ -5,7 +5,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
 {
     internal static class PropertyExpressionsProvider
     {
-        public static string TestProp { get; set; }
+        public static string TestProperty { get; set; }
 
         public static string TestMethod() => string.Empty;
     }

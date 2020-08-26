@@ -47,62 +47,50 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
         {
             var obj = CreateObservableObject();
 
-            obj.RaisePropertyChanged(() => PropertyExpressionsProvider.TestProp);
+            obj.RaisePropertyChanged(() => PropertyExpressionsProvider.TestProperty);
         }
 
         [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithHandlerAndNonExistentProperty_ThrowsArgumentException()
         {
-            var obj = CreateObservableObject();
+            var obj = CreateObservableObjectWithHandler();
 
             Assert.Throws<ArgumentException>(() =>
             {
-                Assert_PropertyChanged(obj, string.Empty, () =>
-                {
-                    obj.RaisePropertyChanged(() => PropertyExpressionsProvider.TestProp);
-                });
+                obj.RaisePropertyChanged(() => PropertyExpressionsProvider.TestProperty);
             });
         }
 
         [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithHandlerAndMethodName_ThrowsArgumentException()
         {
-            var obj = CreateObservableObject();
+            var obj = CreateObservableObjectWithHandler();
 
             Assert.Throws<ArgumentException>(() =>
             {
-                Assert_PropertyChanged(obj, string.Empty, () =>
-                {
-                    obj.RaisePropertyChanged(() => PropertyExpressionsProvider.TestMethod());
-                });
+                obj.RaisePropertyChanged(() => PropertyExpressionsProvider.TestMethod());
             });
         }
 
         [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithHandlerAndEmptyExpression_ThrowsArgumentException()
         {
-            var obj = CreateObservableObject();
+            var obj = CreateObservableObjectWithHandler();
 
             Assert.Throws<ArgumentException>(() =>
             {
-                Assert_PropertyChanged(obj, string.Empty, () =>
-                {
-                    obj.RaisePropertyChanged(() => string.Empty);
-                });
+                obj.RaisePropertyChanged(() => string.Empty);
             });
         }
 
         [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithHandlerAndNullExpression_ThrowsArgumentNullException()
         {
-            var obj = CreateObservableObject();
+            var obj = CreateObservableObjectWithHandler();
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                Assert_PropertyChanged(obj, string.Empty, () =>
-                {
-                    obj.RaisePropertyChanged(((Expression<Func<string>>)null)!);
-                });
+                obj.RaisePropertyChanged(((Expression<Func<string>>)null)!);
             });
         }
 
@@ -111,9 +99,9 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
         {
             var obj = TestObservableObject.CreateEmpty();
 
-            Assert_PropertyChanged(obj, nameof(obj.TestProp), () =>
+            Assert_PropertyChanged(obj, nameof(obj.TestProperty), () =>
             {
-                obj.TestProp = TestString;
+                obj.TestProperty = TestString;
             });
         }
 
@@ -124,9 +112,9 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
 
             Assert.Throws<PropertyChangedException>(() =>
             {
-                Assert_PropertyChanged(obj, nameof(obj.TestProp), () =>
+                Assert_PropertyChanged(obj, nameof(obj.TestProperty), () =>
                 {
-                    obj.TestProp = TestString;
+                    obj.TestProperty = TestString;
                 });
             });
         }
@@ -136,9 +124,9 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
         {
             var obj = TestObservableObject.CreateEmpty();
 
-            Assert_PropertyChanged(obj, nameof(obj.TestProp), () =>
+            Assert_PropertyChanged(obj, nameof(obj.TestProperty), () =>
             {
-                obj.SetTestPropWithPropName(TestString);
+                obj.SetTestPropertyByPropertyName(TestString);
             });
         }
 
@@ -147,7 +135,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
         {
             var obj = TestObservableObject.CreateWithValue(TestString);
 
-            var result = obj.SetTestPropWithPropName(TestString);
+            var result = obj.SetTestPropertyByPropertyName(TestString);
 
             Assert.False(result);
         }
@@ -157,9 +145,9 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
         {
             var obj = TestObservableObject.CreateEmpty();
 
-            Assert_PropertyChanged(obj, nameof(obj.TestProp), () =>
+            Assert_PropertyChanged(obj, nameof(obj.TestProperty), () =>
             {
-                obj.SetTestPropertyWithPropertyExpression(TestString);
+                obj.SetTestPropertyByPropertyExpression(TestString);
             });
         }
 
@@ -168,7 +156,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
         {
             var obj = TestObservableObject.CreateWithValue(TestString);
 
-            var result = obj.SetTestPropertyWithPropertyExpression(TestString);
+            var result = obj.SetTestPropertyByPropertyExpression(TestString);
 
             Assert.False(result);
         }
@@ -176,6 +164,13 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
         private static ObservableObject CreateObservableObject()
         {
             return new ObservableObject();
+        }
+
+        private static ObservableObject CreateObservableObjectWithHandler()
+        {
+            var obj = CreateObservableObject();
+            obj.PropertyChanged += (sender, args) => { };
+            return obj;
         }
     }
 }

@@ -5,22 +5,22 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
 {
     internal class TestObservableObject : ObservableObject
     {
-        private string _testProp;
+        private string _testProperty;
 
-        public string TestProp
+        public string TestProperty
         {
-            get => _testProp;
-            set => Set(ref _testProp, value);
+            get => _testProperty;
+            set => Set(ref _testProperty, value);
         }
 
-        public bool SetTestPropWithPropName(string value)
+        public bool SetTestPropertyByPropertyName(string value)
         {
-            return Set(nameof(TestProp), ref _testProp, value);
+            return Set(nameof(TestProperty), ref _testProperty, value);
         }
 
-        public bool SetTestPropertyWithPropertyExpression(string value)
+        public bool SetTestPropertyByPropertyExpression(string value)
         {
-            return Set(() => TestProp, ref _testProp, value);
+            return Set(() => TestProperty, ref _testProperty, value);
         }
 
         public static TestObservableObject CreateEmpty()
@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
 
         public static TestObservableObject CreateWithValue(string value)
         {
-            return new TestObservableObject { TestProp = value };
+            return new TestObservableObject { TestProperty = value };
         }
     }
 }

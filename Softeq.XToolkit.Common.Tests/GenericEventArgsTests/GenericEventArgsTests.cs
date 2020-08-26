@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.Tests
+namespace Softeq.XToolkit.Common.Tests.GenericEventArgsTests
 {
     public class GenericEventArgsTests
     {
