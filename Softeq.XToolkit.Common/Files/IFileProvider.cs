@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Common.Files
         ///     Checks if file exists.
         /// </summary>
         /// <param name="path">File path.</param>
-        /// <returns>True if file exists, overwise False.</returns>
+        /// <returns>True if file exists, otherwise False.</returns>
         Task<bool> FileExistsAsync(string path);
 
         /// <summary>
