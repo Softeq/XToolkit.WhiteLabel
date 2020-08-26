@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
         public FactInDebugOnlyAttribute()
         {
 #if !DEBUG
-            Skip = "Only running in debug build configuration.";
+            Skip = "Only running in debug configuration.";
 #endif
         }
     }
