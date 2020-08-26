@@ -51,7 +51,9 @@ namespace Softeq.XToolkit.Common.Tests
         public async void FileExistsAsync_ExistingPath_ReturnsTrue(string path)
         {
             Assert.True(_mockFileSystem.File.Exists(path));
+
             var result = await _fileProvider.FileExistsAsync(path);
+
             Assert.True(result);
         }
 
@@ -63,6 +65,8 @@ namespace Softeq.XToolkit.Common.Tests
         [InlineData(MissingDirectoryPath1)]
         public async void FileExistsAsync_MissingPath_ReturnsFalse(string path)
         {
+            Assert.False(_mockFileSystem.File.Exists(path));
+
             var result = await _fileProvider.FileExistsAsync(path);
 
             Assert.False(result);
