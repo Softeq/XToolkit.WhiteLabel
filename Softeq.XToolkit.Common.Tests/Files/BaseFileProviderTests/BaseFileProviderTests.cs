@@ -264,6 +264,7 @@ namespace Softeq.XToolkit.Common.Tests
 
             await _fileProvider.ClearFolderAsync(path);
 
+            Assert.True(_mockFileSystem.Directory.Exists(path));
             Assert.Empty(_mockFileSystem.Directory.GetFiles(path));
         }
 

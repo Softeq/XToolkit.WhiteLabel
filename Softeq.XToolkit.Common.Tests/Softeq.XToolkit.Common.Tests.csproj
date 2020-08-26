@@ -16,10 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\EnumExtensionsTests\" />
-    <Folder Include="Extensions\EnumerableExtensionsTests\" />
-    <Folder Include="Files\" />
-    <Folder Include="Files\BaseFileProviderTests\" />
-  </ItemGroup>
 </Project>
