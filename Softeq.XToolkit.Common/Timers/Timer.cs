@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Common.Tasks;
 
 namespace Softeq.XToolkit.Common.Timers
@@ -13,26 +14,27 @@ namespace Softeq.XToolkit.Common.Timers
     /// </summary>
     public class Timer : ITimer, IDisposable
     {
+        private readonly ILogger? _logger;
+        private readonly int _interval;
+        private TaskReference? _taskReference;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="Timer"/> class with specified interval.
         /// </summary>
         /// <param name="taskReference">Task to be executed at specified interval.</param>
         /// <param name="interval">Timer interval (ms).</param>
-        public Timer(TaskReference taskReference, int interval)
+        /// <param name="logger">Optional Logger implementation.</param>
+        public Timer(TaskReference taskReference, int interval, ILogger? logger = null)
         {
-            TaskReference = taskReference;
-            Interval = interval;
+            if (interval <= 0)
+            {
+                throw new ArgumentException("Interval should be a positive number");
+            }
+
+            _taskReference = taskReference;
+            _interval = interval;
+            _logger = logger;
         }
-
-        /// <summary>
-        /// Gets an interval setting of this timer.
-        /// </summary>
-        public int Interval { get; }
-
-        /// <summary>
-        /// Gets a task reference object of this timer.
-        /// </summary>
-        public TaskReference? TaskReference { get; private set; }
 
         /// <summary>
         ///     Gets a value indicating whether the <see cref="T:Softeq.XToolkit.Common.Timers.Timer" /> should run task.
@@ -53,7 +55,7 @@ namespace Softeq.XToolkit.Common.Timers
         public void Dispose()
         {
             Stop();
-            TaskReference = null;
+            _taskReference = null;
         }
 
         /// <inheritdoc />
@@ -65,7 +67,7 @@ namespace Softeq.XToolkit.Common.Timers
             }
 
             IsActive = true;
-            DoWork().FireAndForget();
+            DoWork().FireAndForget(_logger);
         }
 
         /// <inheritdoc />
@@ -78,10 +80,10 @@ namespace Softeq.XToolkit.Common.Timers
         {
             do
             {
-                await Task.Delay(Interval);
-                if (IsActive && TaskReference != null)
+                await Task.Delay(_interval);
+                if (IsActive && _taskReference != null)
                 {
-                    await TaskReference.RunAsync().ConfigureAwait(false);
+                    await _taskReference.RunAsync().ConfigureAwait(false);
                 }
             }
             while (IsActive);

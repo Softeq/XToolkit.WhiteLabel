@@ -1,7 +1,9 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
+using NSubstitute;
 using Softeq.XToolkit.Common.Tasks;
 using Softeq.XToolkit.Common.Timers;
 using Xunit;
@@ -10,162 +12,176 @@ namespace Softeq.XToolkit.Common.Tests.Timers.TimerTests
 {
     public class TimerTests
     {
-        [Fact]
-        public void Constructor_WithDefaultParams_SetsParamsAndIsNotActive()
-        {
-            var interval = 0;
+        private const int Interval = 100;
+        private const int Delay = 200;
+        private readonly Func<Task> _function = Substitute.For<Func<Task>>();
 
-            var timer = new Timer(null, interval);
+        [Fact]
+        public void Constructor_WithDefaultParams_IsNotActive()
+        {
+            var timer = CreateTimerWithNullTask();
 
             Assert.NotNull(timer);
-            Assert.Equal(interval, timer.Interval);
-            Assert.Null(timer.TaskReference);
             Assert.False(timer.IsActive);
         }
 
         [Fact]
-        public void Constructor_WithParams_SetsParamsAndIsNotActive()
+        public void Constructor_WithParams_IsNotActive()
         {
-            var functionClass = new TestFunctionClass();
-            var taskRef = new TaskReference(functionClass.Function);
-            var interval = 100;
-
-            var timer = new Timer(taskRef, interval);
+            var timer = CreateTimer();
 
             Assert.NotNull(timer);
-            Assert.Equal(interval, timer.Interval);
-            Assert.Equal(taskRef, timer.TaskReference);
             Assert.False(timer.IsActive);
         }
 
-        [Fact]
-        public void Start_WithNullTask_ChangesIsActive()
+        [Theory]
+        [InlineData(0)]
+        [InlineData(-100)]
+        public void Constructor_WithInvalidInterval_ThrowArgumentException(int interval)
         {
-            var interval = 100;
+            Assert.Throws<ArgumentException>(() =>
+            {
+                var timer = new Timer(null, interval);
+            });
+        }
 
-            var timer = new Timer(null, interval);
+        [Fact]
+        public void Start_WithNullTask_IsActive()
+        {
+            var timer = CreateTimerWithNullTask();
+
             timer.Start();
 
             Assert.True(timer.IsActive);
-
             timer.Stop();
         }
 
         [Fact]
         public async Task Start_WithTask_CallsFunctionAndIsActive()
         {
-            var functionClass = new TestFunctionClass();
-            var taskRef = new TaskReference(functionClass.Function);
-            var interval = 10;
-            var delay = 100;
+            var timer = CreateTimer();
 
-            var timer = new Timer(taskRef, interval);
             timer.Start();
-            await Task.Delay(delay);
+            await Task.Delay(Delay);
 
             Assert.True(timer.IsActive);
-            Assert.True(functionClass.ActionCount > 0, "Expected function to be called at least once");
+            _function.ReceivedWithAnyArgs();
+            timer.Stop();
+        }
 
+        [Fact]
+        public async Task Start_AfterStart_CallsFunctionAndIsActive()
+        {
+            var timer = CreateTimer();
+
+            timer.Start();
+            timer.Start();
+            await Task.Delay(Delay);
+
+            Assert.True(timer.IsActive);
+            _function.ReceivedWithAnyArgs();
             timer.Stop();
         }
 
         [Fact]
         public async Task Start_AfterStop_CallsFunctionAndIsActive()
         {
-            var functionClass = new TestFunctionClass();
-            var taskRef = new TaskReference(functionClass.Function);
-            var interval = 10;
-            var delay = 100;
+            var timer = CreateTimer();
 
-            var timer = new Timer(taskRef, interval);
             timer.Start();
             timer.Stop();
-            functionClass.ActionCount = 0;
+            _function.ClearReceivedCalls();
             timer.Start();
-            await Task.Delay(delay);
+            await Task.Delay(Delay);
 
             Assert.True(timer.IsActive);
-            Assert.True(functionClass.ActionCount > 0, "Expected function to be called at least once");
+            _function.ReceivedWithAnyArgs();
+            timer.Stop();
+        }
 
+        [Fact]
+        public async Task Start_AfterDispose_DoesNotCallFunction()
+        {
+            var timer = CreateTimer();
+
+            timer.Dispose();
+            timer.Start();
+            await Task.Delay(Delay);
+
+            Assert.True(timer.IsActive);
+            _function.DidNotReceiveWithAnyArgs();
             timer.Stop();
         }
 
         [Fact]
         public void Stop_WithoutStart_IsNotActive()
         {
-            var functionClass = new TestFunctionClass();
-            var taskRef = new TaskReference(functionClass.Function);
-            var interval = 100;
+            var timer = CreateTimer();
 
-            var timer = new Timer(taskRef, interval);
             timer.Stop();
 
             Assert.False(timer.IsActive);
-            Assert.NotNull(timer.TaskReference);
         }
 
         [Fact]
         public async Task Stop_AfterStart_IsNotActive()
         {
-            var functionClass = new TestFunctionClass();
-            var taskRef = new TaskReference(functionClass.Function);
-            var interval = 10;
-            var delay = 100;
-            var expectedCount = 0;
+            var timer = CreateTimer();
 
-            var timer = new Timer(taskRef, interval);
             timer.Start();
             timer.Stop();
-            await Task.Delay(delay);
+            await Task.Delay(Delay);
 
             Assert.False(timer.IsActive);
-            Assert.NotNull(timer.TaskReference);
-            Assert.Equal(expectedCount, functionClass.ActionCount);
+            _function.DidNotReceiveWithAnyArgs();
         }
 
         [Fact]
-        public void Dispose_WithoutStart_IsNotActiveAndCleared()
+        public void Dispose_WithoutStart_IsNotActive()
         {
-            var functionClass = new TestFunctionClass();
-            var taskRef = new TaskReference(functionClass.Function);
-            var interval = 100;
+            var timer = CreateTimer();
 
-            var timer = new Timer(taskRef, interval);
             timer.Dispose();
 
             Assert.False(timer.IsActive);
-            Assert.Null(timer.TaskReference);
         }
 
         [Fact]
-        public void Dispose_AfterStart_IsNotActiveAndCleared()
+        public void Dispose_AfterStart_IsNotActive()
         {
-            var functionClass = new TestFunctionClass();
-            var taskRef = new TaskReference(functionClass.Function);
-            var interval = 100;
+            var timer = CreateTimer();
 
-            var timer = new Timer(taskRef, interval);
             timer.Start();
             timer.Dispose();
 
             Assert.False(timer.IsActive);
-            Assert.Null(timer.TaskReference);
         }
 
         [Fact]
-        public void Dispose_AfterStop_IsNotActiveAndCleared()
+        public void Dispose_AfterStop_IsNotActive()
         {
-            var functionClass = new TestFunctionClass();
-            var taskRef = new TaskReference(functionClass.Function);
-            var interval = 100;
+            var timer = CreateTimer();
 
-            var timer = new Timer(taskRef, interval);
             timer.Start();
             timer.Stop();
             timer.Dispose();
 
             Assert.False(timer.IsActive);
-            Assert.Null(timer.TaskReference);
+        }
+
+        private Timer CreateTimerWithNullTask()
+        {
+            var timer = new Timer(null, Interval);
+
+            return timer;
+        }
+
+        private Timer CreateTimer()
+        {
+            var taskRef = new TaskReference(_function);
+            var timer = new Timer(taskRef, Interval);
+
+            return timer;
         }
     }
 }
