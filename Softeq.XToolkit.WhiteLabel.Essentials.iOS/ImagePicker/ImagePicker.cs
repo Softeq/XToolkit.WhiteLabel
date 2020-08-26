@@ -5,7 +5,6 @@ using System;
 using System.Threading.Tasks;
 using CoreGraphics;
 using FFImageLoading;
-using Plugin.Permissions;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Files;
 using Softeq.XToolkit.Common.Weak;
@@ -13,6 +12,8 @@ using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
+using CameraPermission = Xamarin.Essentials.Permissions.Camera;
+using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
 
 #nullable disable
 namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker

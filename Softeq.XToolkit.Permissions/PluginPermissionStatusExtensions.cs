@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using System.ComponentModel;
-using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
+using PluginPermissionStatus = Xamarin.Essentials.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions
 {

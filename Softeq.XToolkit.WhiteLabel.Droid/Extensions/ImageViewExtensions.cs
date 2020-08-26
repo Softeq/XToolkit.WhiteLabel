@@ -6,6 +6,7 @@ using Android.Widget;
 using FFImageLoading;
 using FFImageLoading.Work;
 using Softeq.XToolkit.WhiteLabel.Droid.Controls;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Extensions
 {
@@ -17,7 +18,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Extensions
             AvatarPlaceholderDrawable.AvatarStyles styles,
             Action<TaskParameter>? transform = null)
         {
-            imageView.SetImageDrawable(new AvatarPlaceholderDrawable(name, styles));
+            var context = Dependencies.Container.Resolve<IContextProvider>().CurrentActivity;
+            imageView.SetImageDrawable(new AvatarPlaceholderDrawable(context, name, styles));
 
             if (string.IsNullOrEmpty(url))
             {

@@ -3,7 +3,6 @@
 
 using Android.Content.PM;
 using Android.Runtime;
-using Plugin.Permissions;
 using Softeq.XToolkit.Common.Droid.Permissions;
 
 namespace Softeq.XToolkit.Permissions.Droid
@@ -17,7 +16,7 @@ namespace Softeq.XToolkit.Permissions.Droid
 
         private void HandleImpl(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
-            PermissionsImplementation.Current.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

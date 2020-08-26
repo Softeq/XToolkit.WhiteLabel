@@ -4,10 +4,10 @@
 using System;
 using System.Threading.Tasks;
 using Foundation;
-using Plugin.Permissions;
 using UIKit;
 using UserNotifications;
-using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
+using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using EssentialsPermissions = Xamarin.Essentials.Permissions;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Permissions.iOS
                 return await RequestNotificationPermissionAsync().ConfigureAwait(false);
             }
 
-            var result = await CrossPermissions.Current.RequestPermissionAsync<T>().ConfigureAwait(false);
+            var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
 
             return result.ToPermissionStatus();
         }
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Permissions.iOS
                 return await CheckNotificationsPermissionAsync().ConfigureAwait(false);
             }
 
-            var result = await CrossPermissions.Current.CheckPermissionStatusAsync<T>().ConfigureAwait(false);
+            var result = await EssentialsPermissions.CheckStatusAsync<T>().ConfigureAwait(false);
 
             return result.ToPermissionStatus();
         }
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.Permissions.iOS
         /// <inheritdoc />
         public void OpenSettings()
         {
-            RunInMainThread(() => { CrossPermissions.Current.OpenAppSettings(); });
+            RunInMainThread(Xamarin.Essentials.AppInfo.ShowSettingsUI);
         }
 
         // TODO YP: use common dependency

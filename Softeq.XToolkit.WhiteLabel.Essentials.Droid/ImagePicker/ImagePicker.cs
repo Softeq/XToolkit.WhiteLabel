@@ -6,10 +6,11 @@ using System.IO;
 using System.Threading.Tasks;
 using FFImageLoading;
 using FFImageLoading.Work;
-using Plugin.Permissions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using CameraPermission = Xamarin.Essentials.Permissions.Camera;
+using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {

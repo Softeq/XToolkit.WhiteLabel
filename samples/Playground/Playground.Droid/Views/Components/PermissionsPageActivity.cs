@@ -34,7 +34,7 @@ namespace Playground.Droid.Views.Components
             _storageButton.SetCommand(ViewModel.Storage.RequestPermissionCommand);
 
             _locationButton = FindViewById<Button>(Resource.Id.buttonLocationInUse);
-            _locationButton.SetCommand(ViewModel.Location.RequestPermissionCommand);
+            _locationButton.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
         }
 
         protected override void DoAttachBindings()
@@ -45,14 +45,14 @@ namespace Playground.Droid.Views.Components
 
             this.Bind(() => ViewModel.Camera.IsGranted, () => _cameraButton!.Background, converter);
             this.Bind(() => ViewModel.Storage.IsGranted, () => _storageButton!.Background, converter);
-            this.Bind(() => ViewModel.Location.IsGranted, () => _locationButton!.Background, converter);
+            this.Bind(() => ViewModel.LocationInUse.IsGranted, () => _locationButton!.Background, converter);
         }
 
         private class ColorConverter : IConverter<Drawable, bool>
         {
-            public Drawable ConvertValue(bool TIn, object? parameter = null, string? language = null)
+            public Drawable ConvertValue(bool @in, object? parameter = null, string? language = null)
             {
-                return new ColorDrawable(TIn ? Color.Green : Color.Red);
+                return new ColorDrawable(@in ? Color.Green : Color.Red);
             }
 
             public bool ConvertValueBack(Drawable value, object? parameter = null, string? language = null)

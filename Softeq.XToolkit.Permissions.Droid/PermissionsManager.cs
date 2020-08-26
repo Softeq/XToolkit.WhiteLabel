@@ -3,16 +3,14 @@
 
 using System;
 using System.Threading.Tasks;
-using Plugin.Permissions;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
+using Xamarin.Essentials;
+using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
     /// <inheritdoc cref="IPermissionsManager" />
     public class PermissionsManager : IPermissionsManager
     {
-        private readonly ISettings _internalSettings;
         private readonly IPermissionsService _permissionsService;
 
         private IPermissionsDialogService _permissionsDialogService;
@@ -21,7 +19,6 @@ namespace Softeq.XToolkit.Permissions.Droid
             IPermissionsService permissionsService)
         {
             _permissionsService = permissionsService;
-            _internalSettings = CrossSettings.Current;
             _permissionsDialogService = new DefaultPermissionsDialogService();
         }
 
@@ -49,13 +46,13 @@ namespace Softeq.XToolkit.Permissions.Droid
         private bool IsPermissionRequested<T>()
             where T : BasePermission
         {
-            return _internalSettings.GetValueOrDefault(GetPermissionRequestedKey<T>(), false);
+            return Preferences.Get(GetPermissionRequestedKey<T>(), false);
         }
 
         private void SetPermissionRequested<T>(bool value)
             where T : BasePermission
         {
-            _internalSettings.AddOrUpdateValue(GetPermissionRequestedKey<T>(), value);
+            Preferences.Set(GetPermissionRequestedKey<T>(), value);
         }
 
         private string GetPermissionRequestedKey<T>()
