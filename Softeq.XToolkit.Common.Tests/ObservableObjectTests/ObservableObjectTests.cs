@@ -3,7 +3,6 @@
 
 using System;
 using System.ComponentModel;
-using System.Diagnostics;
 using System.Linq.Expressions;
 using Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils;
 using Xunit;
@@ -35,8 +34,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
             });
         }
 
-        [Fact]
-        [Conditional("DEBUG")]
+        [FactInDebugOnly]
         public void RaisePropertyChanged_WithNonExistentPropertyName_ThrowsArgumentException()
         {
             var obj = CreateObservableObject();
@@ -44,8 +42,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
             Assert.Throws<ArgumentException>(() => obj.RaisePropertyChanged(TestString));
         }
 
-        [Fact]
-        [Conditional("DEBUG")]
+        [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithoutHandler_ExecutesWasted()
         {
             var obj = CreateObservableObject();
@@ -53,8 +50,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
             obj.RaisePropertyChanged(() => PropertyExpressionsProvider.TestProp);
         }
 
-        [Fact]
-        [Conditional("DEBUG")]
+        [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithHandlerAndNonExistentProperty_ThrowsArgumentException()
         {
             var obj = CreateObservableObject();
@@ -68,8 +64,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
             });
         }
 
-        [Fact]
-        [Conditional("DEBUG")]
+        [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithHandlerAndMethodName_ThrowsArgumentException()
         {
             var obj = CreateObservableObject();
@@ -83,8 +78,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
             });
         }
 
-        [Fact]
-        [Conditional("DEBUG")]
+        [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithHandlerAndEmptyExpression_ThrowsArgumentException()
         {
             var obj = CreateObservableObject();
@@ -98,8 +92,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
             });
         }
 
-        [Fact]
-        [Conditional("DEBUG")]
+        [FactInDebugOnly]
         public void RaisePropertyChanged_PropertyExpressionWithHandlerAndNullExpression_ThrowsArgumentNullException()
         {
             var obj = CreateObservableObject();
