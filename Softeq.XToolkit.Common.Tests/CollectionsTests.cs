@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using Softeq.XToolkit.Common.Collections;
@@ -15,42 +14,6 @@ namespace Softeq.XToolkit.Common.Tests
     {
         private const string CollectionKey = "collection";
         private const string CollectionItemKey = "collection_item";
-
-        [Theory]
-        [MemberData(nameof(ObservableKeyGroupsCollectionTestData.DataToAdd), MemberType =
-            typeof(ObservableKeyGroupsCollectionTestData))]
-        public void AddToObservableKeyGroupsCollectionTest(
-            (Func<string, string> DefaultSelector, Func<string, string> CustomSelector, List<List<string>> ValuesToAdd)
-                input, string result)
-        {
-            var collection = new ObservableKeyGroupsCollection<string, string>(input.DefaultSelector);
-            foreach (var item in input.ValuesToAdd)
-            {
-                collection.AddRangeToGroups(item, input.CustomSelector);
-            }
-
-            Assert.Equal(CollectionToString(collection), result);
-        }
-
-        [Theory]
-        [MemberData(nameof(CollectionSorterTestData.SortParams), MemberType =
-            typeof(CollectionSorterTestData))]
-        public void CollectionSorterTest(bool isAsc, ObservableCollection<string> collection, string result)
-        {
-            var stringComparision = new Comparison<string>(
-                (s1, s2) => string.Compare(s1, s2, StringComparison.CurrentCulture));
-
-            if (isAsc)
-            {
-                collection.Sort(stringComparision);
-            }
-            else
-            {
-                collection.DescendingSort(stringComparision);
-            }
-
-            Assert.Equal(collection.Aggregate(string.Empty, (current, item) => current + item), result);
-        }
 
         [Theory]
         [MemberData(nameof(ObservableKeyGroupsCollectionTestData.DataToRemove), MemberType =
@@ -88,7 +51,7 @@ namespace Softeq.XToolkit.Common.Tests
                 listOfFiredActions.Add(new Tuple<string, NotifyCollectionChangedAction>(CollectionKey, e.Action));
             };
 
-            collection.AddRangeToGroups(new[] {"aa", "ba", "ca"});
+            collection.AddRangeToGroups(new[] { "aa", "ba", "ca" });
 
             collection[0].CollectionChanged += (sender, e) =>
             {
@@ -108,12 +71,12 @@ namespace Softeq.XToolkit.Common.Tests
                     new Tuple<string, NotifyCollectionChangedAction>(CollectionItemKey, e.Action));
             };
 
-            collection.AddRangeToGroups(new[] {"ab", "ac", "ad", "bb", "bc"});
+            collection.AddRangeToGroups(new[] { "ab", "ac", "ad", "bb", "bc" });
             collection.RemoveFromGroups("ac");
             collection.RemoveFromGroups("bc");
             collection.RemoveFromGroups("ca");
-            collection.AddRangeToGroups(new[] {"ca", "bc"});
-            collection.ReplaceRangeGroup(new[] {"aa", "ab", "ba"});
+            collection.AddRangeToGroups(new[] { "ca", "bc" });
+            collection.ReplaceRangeGroup(new[] { "aa", "ab", "ba" });
 
             var collectionEvents = listOfFiredActions.Where(x => x.Item1 == CollectionKey).ToList();
             var addEvents = collectionEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Add);
@@ -216,31 +179,9 @@ namespace Softeq.XToolkit.Common.Tests
         private static ObservableKeyGroupsCollection<string, string> BuildCollection()
         {
             var result = new ObservableKeyGroupsCollection<string, string>(GetFirstLatterLower);
-            result.AddRangeToGroups(new[] {"aa", "ab", "ba"});
-            result.AddRangeToGroups(new[] {"aa", "ab", "ba"}, GetFirstLatterUpper);
+            result.AddRangeToGroups(new[] { "aa", "ab", "ba" });
+            result.AddRangeToGroups(new[] { "aa", "ab", "ba" }, GetFirstLatterUpper);
             return result;
-        }
-    }
-
-    internal static class CollectionSorterTestData
-    {
-        public static IEnumerable<object[]> SortParams
-        {
-            get
-            {
-                yield return new object[]
-                {
-                    true,
-                    new ObservableCollection<string> {"a", "c", "b", "A"},
-                    "aAbc"
-                };
-                yield return new object[]
-                {
-                    false,
-                    new ObservableCollection<string> {"a", "c", "b", "A"},
-                    "cbAa"
-                };
-            }
         }
     }
 }

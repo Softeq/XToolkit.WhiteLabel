@@ -18,5 +18,6 @@
   <ItemGroup>
     <Folder Include="Extensions\EnumExtensionsTests\" />
     <Folder Include="Extensions\EnumerableExtensionsTests\" />
+    <Folder Include="Extensions\ObservableCollectionExtensionsTests\" />
   </ItemGroup>
 </Project>
