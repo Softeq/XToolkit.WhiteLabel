@@ -104,7 +104,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             var entry = _backStack.ResetToFirst();
 
-            NavigateInternal(entry.ViewModel);
+            NavigateInternal(entry.ViewModel, entry.Fragment);
         }
 
         /// <inheritdoc />
@@ -120,9 +120,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return fragment.GetType().Name;
         }
 
-        private void NavigateInternal(IViewModelBase viewModel)
+        private void NavigateInternal(IViewModelBase viewModel, Fragment? fragmentToNavigate = null)
         {
-            var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
+            var fragment = fragmentToNavigate ?? (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
 
             _backStack.Add((viewModel, fragment));
 
