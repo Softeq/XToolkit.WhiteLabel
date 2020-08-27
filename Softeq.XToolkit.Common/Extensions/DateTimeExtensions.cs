@@ -77,31 +77,27 @@ namespace Softeq.XToolkit.Common.Extensions
             return (DateTime.Today - date.Date).Days == 1;
         }
 
-        // TODO: add unit tests for methods below
-
         /// <summary>
-        ///     Determines if the given date is included in current week. You can specify the start and the length of the week.
+        ///     Determines if the given date is included in current week. You can specify the start of the week.
         /// </summary>
         /// <param name="date">Date to check if in current week.</param>
         /// <param name="startDayOfWeek">DayOfWeek value of the start of the week. Default is Sunday.</param>
-        /// <param name="weekLength">Length of the week. Default is 7.</param>
         /// <returns><c>true</c> if the date is in current week, <c>false</c> otherwise.</returns>
-        public static bool IsInCurrentWeek(this DateTime date, DayOfWeek startDayOfWeek = System.DayOfWeek.Sunday, int weekLength = DaysInWeek)
+        public static bool IsInCurrentWeek(this DateTime date, DayOfWeek startDayOfWeek = System.DayOfWeek.Sunday)
         {
             var startOfWeek = DateTime.Today.FirstDayOfWeek(startDayOfWeek);
-            return date.Date >= startOfWeek && date.Date < startOfWeek.AddDays(weekLength);
+            return date.Date >= startOfWeek && date.Date < startOfWeek.AddDays(DaysInWeek);
         }
 
         /// <summary>
-        ///     Finds the index of this date day in a week. You can specify the start and the length of the week.
+        ///     Finds the index of this date day in a week. You can specify the start of the week.
         /// </summary>
         /// <param name="date">Date to find the day number.</param>
         /// <param name="startDayOfWeek">DayOfWeek value of the start of the week. Default is Sunday.</param>
-        /// <param name="weekLength">Length of the week. Default is 7.</param>
         /// <returns>The index of the specified day in the week.</returns>
-        public static int DayOfWeek(this DateTime date, DayOfWeek startDayOfWeek = System.DayOfWeek.Sunday, int weekLength = DaysInWeek)
+        public static int DayOfWeek(this DateTime date, DayOfWeek startDayOfWeek = System.DayOfWeek.Sunday)
         {
-            var dayOfWeek = ((int) date.DayOfWeek - (int) startDayOfWeek + weekLength) % weekLength;
+            var dayOfWeek = ((int) date.DayOfWeek - (int) startDayOfWeek + DaysInWeek) % DaysInWeek;
             return dayOfWeek;
         }
     }

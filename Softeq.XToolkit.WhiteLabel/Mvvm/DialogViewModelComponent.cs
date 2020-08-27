@@ -15,19 +15,29 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         {
             _withResultCompletionSource = new TaskCompletionSource<object>();
 
-            CloseCommand = new RelayCommand<object>(Close);
+            CloseCommand = new RelayCommand<object>(DoClose);
         }
+
+        public event EventHandler? Closed;
 
         public RelayCommand<object> CloseCommand { get; }
 
         public Task<object> Task => _withResultCompletionSource.Task;
 
-        public event EventHandler? Closed;
+        public void OnDismissed()
+        {
+            SetResult(null);
+        }
 
-        private void Close(object result)
+        private void DoClose(object result)
+        {
+            SetResult(result);
+            Closed?.Invoke(this, EventArgs.Empty);
+        }
+
+        private void SetResult(object result)
         {
             _withResultCompletionSource.TrySetResult(result);
-            Closed?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Internal;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -19,27 +19,25 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     public class DroidFrameNavigationService : IFrameNavigationService
     {
         private readonly BackStack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
-        private readonly ICurrentActivity _currentActivity;
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
         private readonly IViewModelStore _viewModelStore;
 
-        private int _containerId;
+        private FrameNavigationConfig? _config;
 
         public DroidFrameNavigationService(
             IViewLocator viewLocator,
-            ICurrentActivity currentActivity,
-            IContainer iocContainer)
+            IContainer iocContainer,
+            IContextProvider contextProvider)
         {
             _viewLocator = viewLocator;
-            _currentActivity = currentActivity;
             _iocContainer = iocContainer;
 
             _backStack = new BackStack<(IViewModelBase ViewModel, Fragment Fragment)>();
-            _viewModelStore = ViewModelStore.Of((AppCompatActivity) _currentActivity.Activity);
+            _viewModelStore = ViewModelStore.Of((AppCompatActivity) contextProvider.CurrentActivity);
         }
 
-        public bool IsInitialized => _containerId != 0;
+        public bool IsInitialized => _config != null;
 
         public bool IsEmptyBackStack => _backStack.IsEmpty;
 
@@ -47,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void Initialize(object navigation)
         {
-            _containerId = (int) navigation;
+            _config = navigation as FrameNavigationConfig;
         }
 
         public void GoBack()
@@ -117,6 +115,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             ReplaceFragment(entry.Fragment);
         }
 
+        private static string ToKey(object fragment)
+        {
+            return fragment.GetType().Name;
+        }
+
         private void NavigateInternal(IViewModelBase viewModel, Fragment? fragmentToNavigate = null)
         {
             var fragment = fragmentToNavigate ?? (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
@@ -135,11 +138,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _backStack.Clear();
 
             _viewModelStore.Remove(fragmentNames);
-        }
-
-        private string ToKey(Fragment fragment)
-        {
-            return fragment.GetType().Name;
         }
 
         protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel>? parameters)
@@ -164,12 +162,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                var activity = (AppCompatActivity) _currentActivity.Activity;
-                var fragmentManager = activity.SupportFragmentManager;
+                if (_config == null)
+                {
+                    return;
+                }
 
-                var transaction = fragmentManager
+                var transaction = _config.Manager
                     .BeginTransaction()
-                    .Replace(_containerId, fragment);
+                    .Replace(_config.ContainerId, fragment);
 
                 PrepareTransaction(transaction).Commit();
             });

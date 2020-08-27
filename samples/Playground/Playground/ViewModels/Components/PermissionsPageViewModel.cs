@@ -2,10 +2,14 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
-using Plugin.Permissions;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using CameraPermission = Xamarin.Essentials.Permissions.Camera;
+using LocationAlwaysPermission = Xamarin.Essentials.Permissions.LocationAlways;
+using LocationWhenInUsePermission = Xamarin.Essentials.Permissions.LocationWhenInUse;
+using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
+using StoragePermission = Xamarin.Essentials.Permissions.StorageWrite;
 
 namespace Playground.ViewModels.Components
 {
@@ -16,7 +20,6 @@ namespace Playground.ViewModels.Components
             Photos = new PermissionViewModel<PhotosPermission>(permissionsManager);
             Camera = new PermissionViewModel<CameraPermission>(permissionsManager);
             Storage = new PermissionViewModel<StoragePermission>(permissionsManager);
-            Location = new PermissionViewModel<LocationPermission>(permissionsManager);
             LocationInUse = new PermissionViewModel<LocationWhenInUsePermission>(permissionsManager);
             LocationAlways = new PermissionViewModel<LocationAlwaysPermission>(permissionsManager);
         }
@@ -26,8 +29,6 @@ namespace Playground.ViewModels.Components
         public PermissionViewModel<CameraPermission> Camera { get; }
 
         public PermissionViewModel<StoragePermission> Storage { get; }
-
-        public PermissionViewModel<LocationPermission> Location { get; }
 
         public PermissionViewModel<LocationWhenInUsePermission> LocationInUse { get; }
 
@@ -47,8 +48,6 @@ namespace Playground.ViewModels.Components
             await Camera.CheckStatus();
 
             await Storage.CheckStatus();
-
-            await Location.CheckStatus();
 
             await LocationInUse.CheckStatus();
 

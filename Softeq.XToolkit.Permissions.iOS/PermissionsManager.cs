@@ -3,17 +3,14 @@
 
 using System;
 using System.Threading.Tasks;
-using Plugin.Permissions;
-using Plugin.Settings;
-using Plugin.Settings.Abstractions;
+using Xamarin.Essentials;
+using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
     /// <inheritdoc cref="IPermissionsManager" />
     public class PermissionsManager : IPermissionsManager
     {
-        private readonly ISettings _internalSettings;
-
         private readonly string _isNotificationsPermissionRequestedKey =
             $"{nameof(PermissionsManager)}_{nameof(IsNotificationsPermissionRequested)}";
 
@@ -25,18 +22,17 @@ namespace Softeq.XToolkit.Permissions.iOS
             IPermissionsService permissionsService)
         {
             _permissionsService = permissionsService;
-            _internalSettings = CrossSettings.Current;
             _permissionsDialogService = new DefaultPermissionsDialogService();
         }
 
         private bool IsNotificationsPermissionRequested
         {
-            get => _internalSettings.GetValueOrDefault(_isNotificationsPermissionRequestedKey, false);
-            set => _internalSettings.AddOrUpdateValue(_isNotificationsPermissionRequestedKey, value);
+            get => Preferences.Get(_isNotificationsPermissionRequestedKey, false);
+            set => Preferences.Set(_isNotificationsPermissionRequestedKey, value);
         }
 
         /// <inheritdoc />
-        public Task<PermissionStatus> CheckWithRequestAsync<T>()
+        public virtual Task<PermissionStatus> CheckWithRequestAsync<T>()
             where T : BasePermission, new()
         {
             return typeof(T) == typeof(NotificationsPermission)

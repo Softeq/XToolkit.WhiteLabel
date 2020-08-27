@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using Softeq.XToolkit.Common.Tests.Helpers;
 using Softeq.XToolkit.Common.Weak;
 using Xunit;
 

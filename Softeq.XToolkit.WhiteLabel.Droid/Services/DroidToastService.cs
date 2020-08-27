@@ -7,10 +7,10 @@ using System.Threading.Tasks;
 using Android.Views;
 using Google.Android.Material.Snackbar;
 using Java.Lang;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -22,14 +22,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         private readonly ILogger _logger;
         private readonly Queue<ToastModel> _queue;
         private readonly ToastSettings _toastSettings;
+        private readonly IContextProvider _contextProvider;
 
         private bool _isBusy;
 
         public DroidToastService(
             ToastSettings toastSettings,
-            ILogManager logManager)
+            ILogManager logManager,
+            IContextProvider contextProvider)
         {
             _toastSettings = toastSettings;
+            _contextProvider = contextProvider;
             _logger = logManager.GetLogger<DroidToastService>();
             _queue = new Queue<ToastModel>();
         }
@@ -66,7 +69,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
             {
                 var toastContainerComponent = default(ToastContainerComponent);
 
-                var activity = CrossCurrentActivity.Current.Activity;
+                var activity = _contextProvider.CurrentActivity;
 
                 if (activity is ActivityBase activityBase)
                 {

@@ -2,11 +2,10 @@
 // http://www.softeq.com
 
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Android.OS;
-using Plugin.Permissions;
-using PluginPermissionStatus = Plugin.Permissions.Abstractions.PermissionStatus;
+using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using EssentialsPermissions = Xamarin.Essentials.Permissions;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
@@ -17,7 +16,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         public async Task<PermissionStatus> RequestPermissionsAsync<T>()
             where T : BasePermission, new()
         {
-            var result = await CrossPermissions.Current.RequestPermissionAsync<T>().ConfigureAwait(false);
+            var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
             return result.ToPermissionStatus();
         }
 
@@ -25,14 +24,14 @@ namespace Softeq.XToolkit.Permissions.Droid
         public async Task<PermissionStatus> CheckPermissionsAsync<T>()
             where T : BasePermission, new()
         {
-            var result = await CrossPermissions.Current.CheckPermissionStatusAsync<T>().ConfigureAwait(false);
+            var result = await EssentialsPermissions.CheckStatusAsync<T>().ConfigureAwait(false);
             return result.ToPermissionStatus();
         }
 
         /// <inheritdoc />
         public void OpenSettings()
         {
-            RunInMainThread(() => { CrossPermissions.Current.OpenAppSettings(); });
+            RunInMainThread(Xamarin.Essentials.AppInfo.ShowSettingsUI);
         }
 
         private static void RunInMainThread(Action action)
@@ -43,7 +42,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             }
             else
             {
-                var _ = new Handler(Looper.MainLooper).Post(action);
+                new Handler(Looper.MainLooper).Post(action);
             }
         }
     }
