@@ -18,14 +18,14 @@ namespace Softeq.XToolkit.Common
     public class ObservableObject : INotifyPropertyChanged
     {
         /// <summary>
-        ///     Provides access to the PropertyChanged event handler to derived classes.
-        /// </summary>
-        protected PropertyChangedEventHandler? PropertyChangedHandler => PropertyChanged;
-
-        /// <summary>
         ///     Occurs after a property value changes.
         /// </summary>
         public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        ///     Provides access to the PropertyChanged event handler to derived classes.
+        /// </summary>
+        protected PropertyChangedEventHandler? PropertyChangedHandler => PropertyChanged;
 
         /// <summary>
         ///     Verifies that a property name exists in this ViewModel. This method
@@ -34,10 +34,7 @@ namespace Softeq.XToolkit.Common
         ///     is changed but some places are missed.
         /// </summary>
         /// <remarks>This method is only active in DEBUG mode.</remarks>
-        /// <param name="propertyName">
-        ///     The name of the property that will be
-        ///     checked.
-        /// </param>
+        /// <param name="propertyName">The name of the property that will be checked.</param>
         [Conditional("DEBUG")]
         [DebuggerStepThrough]
         public void VerifyPropertyName(string? propertyName)
@@ -58,10 +55,7 @@ namespace Softeq.XToolkit.Common
         ///     does not correspond to an existing property on the current class, an
         ///     exception is thrown in DEBUG configuration only.
         /// </remarks>
-        /// <param name="propertyName">
-        ///     (optional) The name of the property that
-        ///     changed.
-        /// </param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
         [SuppressMessage(
             "Microsoft.Design",
             "CA1030:UseEventsWhereAppropriate",
@@ -77,14 +71,8 @@ namespace Softeq.XToolkit.Common
         /// <summary>
         ///     Raises the PropertyChanged event if needed.
         /// </summary>
-        /// <typeparam name="T">
-        ///     The type of the property that
-        ///     changed.
-        /// </typeparam>
-        /// <param name="propertyExpression">
-        ///     An expression identifying the property
-        ///     that changed.
-        /// </param>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="propertyExpression">An expression identifying the property that changed.</param>
         [SuppressMessage(
             "Microsoft.Design",
             "CA1030:UseEventsWhereAppropriate",
@@ -103,7 +91,6 @@ namespace Softeq.XToolkit.Common
 
                 if (!string.IsNullOrEmpty(propertyName))
                 {
-                    // ReSharper disable once ExplicitCallerInfoArgument
                     RaisePropertyChanged(propertyName);
                 }
             }
@@ -161,19 +148,10 @@ namespace Softeq.XToolkit.Common
         ///     Assigns a new value to the property. Then, raises the
         ///     PropertyChanged event if needed.
         /// </summary>
-        /// <typeparam name="T">
-        ///     The type of the property that
-        ///     changed.
-        /// </typeparam>
-        /// <param name="propertyExpression">
-        ///     An expression identifying the property
-        ///     that changed.
-        /// </param>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="propertyExpression">An expression identifying the property that changed.</param>
         /// <param name="field">The field storing the property's value.</param>
-        /// <param name="newValue">
-        ///     The property's value after the change
-        ///     occurred.
-        /// </param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
         /// <returns>
         ///     True if the PropertyChanged event has been raised,
         ///     false otherwise. The event is not raised if the old
@@ -207,19 +185,10 @@ namespace Softeq.XToolkit.Common
         ///     Assigns a new value to the property. Then, raises the
         ///     PropertyChanged event if needed.
         /// </summary>
-        /// <typeparam name="T">
-        ///     The type of the property that
-        ///     changed.
-        /// </typeparam>
-        /// <param name="propertyName">
-        ///     The name of the property that
-        ///     changed.
-        /// </param>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
+        /// <param name="propertyName">The name of the property that changed.</param>
         /// <param name="field">The field storing the property's value.</param>
-        /// <param name="newValue">
-        ///     The property's value after the change
-        ///     occurred.
-        /// </param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
         /// <returns>
         ///     True if the PropertyChanged event has been raised,
         ///     false otherwise. The event is not raised if the old
@@ -242,9 +211,7 @@ namespace Softeq.XToolkit.Common
 
             field = newValue;
 
-            // ReSharper disable ExplicitCallerInfoArgument
             RaisePropertyChanged(propertyName);
-            // ReSharper restore ExplicitCallerInfoArgument
 
             return true;
         }
@@ -253,19 +220,10 @@ namespace Softeq.XToolkit.Common
         ///     Assigns a new value to the property. Then, raises the
         ///     PropertyChanged event if needed.
         /// </summary>
-        /// <typeparam name="T">
-        ///     The type of the property that
-        ///     changed.
-        /// </typeparam>
+        /// <typeparam name="T">The type of the property that changed.</typeparam>
         /// <param name="field">The field storing the property's value.</param>
-        /// <param name="newValue">
-        ///     The property's value after the change
-        ///     occurred.
-        /// </param>
-        /// <param name="propertyName">
-        ///     (optional) The name of the property that
-        ///     changed.
-        /// </param>
+        /// <param name="newValue">The property's value after the change occurred.</param>
+        /// <param name="propertyName">(optional) The name of the property that changed.</param>
         /// <returns>
         ///     True if the PropertyChanged event has been raised,
         ///     false otherwise. The event is not raised if the old
