@@ -3,9 +3,9 @@
 <plist version="1.0">
     <dict>
         <key>CFBundleName</key>
-        <string>xtoolkit.ios.tests</string>
+        <string>XT.Common.Tests</string>
         <key>CFBundleIdentifier</key>
-        <string>com.softeq.xtoolkit-ios-tests</string>
+        <string>com.softeq.xtoolkit-common-ios-tests</string>
         <key>CFBundleShortVersionString</key>
         <string>1.0</string>
         <key>CFBundleVersion</key>
