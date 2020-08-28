@@ -10,12 +10,7 @@ namespace Softeq.XToolkit.Common.Tests.Tasks
 {
     public class TaskDeferralTests
     {
-        private readonly TaskDeferral<string> _deferral;
-
-        public TaskDeferralTests()
-        {
-            _deferral = new TaskDeferral<string>();
-        }
+        private readonly TaskDeferral<string> _deferral = new TaskDeferral<string>();
 
         [Fact]
         public async Task DoWorkAsync_Null_ReturnsNull()
