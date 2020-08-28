@@ -6,13 +6,13 @@ c/common:
   - any: ['*Common*/*', '!*Common*Tests/*']
 
 c/connectivity:
-  - any: ['*Connectivity*/*', '!*Common*Tests/*']
+  - any: ['*Connectivity*/*', '!*Connectivity*Tests/*']
 
 c/permissions:
   - any: ['*Permissions*/*', '!*Permissions*Tests/*']
 
 c/push-notifications:
-  - any: ['*Permissions*/*', '!*Permissions*Tests/*']
+  - any: ['*PushNotifications*/*', '!*PushNotifications*Tests/*']
 
 c/remote:
   - any: ['*Remote*/*', '!*Remote*Tests/*']
