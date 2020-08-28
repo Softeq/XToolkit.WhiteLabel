@@ -19,10 +19,8 @@ namespace Softeq.XToolkit.Common.Tasks
             _queue = new ConcurrentQueue<TaskCompletionSource<T>>();
         }
 
-        public async Task<T> DoWorkAsync(Func<Task<T>> func)
+        public async Task<T> DoWorkAsync(Func<Task<T>> taskFactory)
         {
-            var taskReference = new TaskReference<T>(func);
-
             var tcs = new TaskCompletionSource<T>();
 
             _queue.Enqueue(tcs);
@@ -39,7 +37,7 @@ namespace Softeq.XToolkit.Common.Tasks
 
             try
             {
-                result = await taskReference.RunAsync().ConfigureAwait(false);
+                result = await taskFactory().ConfigureAwait(false);
             }
             catch
             {

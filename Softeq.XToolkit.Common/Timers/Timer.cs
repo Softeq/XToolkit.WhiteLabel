@@ -5,7 +5,6 @@ using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
-using Softeq.XToolkit.Common.Tasks;
 
 namespace Softeq.XToolkit.Common.Timers
 {
@@ -16,22 +15,22 @@ namespace Softeq.XToolkit.Common.Timers
     {
         private readonly ILogger? _logger;
         private readonly int _interval;
-        private TaskReference? _taskReference;
+        private Func<Task>? _taskFactory;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Timer"/> class with specified interval.
         /// </summary>
-        /// <param name="taskReference">Task to be executed at specified interval.</param>
+        /// <param name="taskFactory">Returns Task to be executed at specified interval.</param>
         /// <param name="interval">Timer interval (ms).</param>
         /// <param name="logger">Optional Logger implementation.</param>
-        public Timer(TaskReference taskReference, int interval, ILogger? logger = null)
+        public Timer(Func<Task> taskFactory, int interval, ILogger? logger = null)
         {
             if (interval <= 0)
             {
                 throw new ArgumentException("Interval should be a positive number");
             }
 
-            _taskReference = taskReference;
+            _taskFactory = taskFactory;
             _interval = interval;
             _logger = logger;
         }
@@ -55,7 +54,7 @@ namespace Softeq.XToolkit.Common.Timers
         public void Dispose()
         {
             Stop();
-            _taskReference = null;
+            _taskFactory = null;
         }
 
         /// <inheritdoc />
@@ -81,9 +80,9 @@ namespace Softeq.XToolkit.Common.Timers
             do
             {
                 await Task.Delay(_interval);
-                if (IsActive && _taskReference != null)
+                if (IsActive && _taskFactory != null)
                 {
-                    await _taskReference.RunAsync().ConfigureAwait(false);
+                    await _taskFactory().ConfigureAwait(false);
                 }
             }
             while (IsActive);
