@@ -37,9 +37,9 @@ documentation:
   - documentation/*
 
 p/Android:
-  - **/*.Droid/
+  - ./**/*.Droid/*
 
 p/iOS:
-  - **/*.iOS/
+  - ./**/*.iOS/*
 
 
