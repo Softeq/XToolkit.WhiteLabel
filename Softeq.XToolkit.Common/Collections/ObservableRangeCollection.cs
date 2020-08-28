@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using System.Linq;
 
 namespace Softeq.XToolkit.Common.Collections
 {
@@ -143,7 +142,8 @@ namespace Softeq.XToolkit.Common.Collections
 
             CheckReentrancy();
 
-            var itemsList = new List<T>(collection.OrderBy(x => x, new Comparer<T>(comparer)));
+            var itemsList = new List<T>(collection);
+            itemsList.Sort(comparer);
             var insertedItemsIndexes = new List<int>();
             foreach (var item in itemsList)
             {

@@ -15,17 +15,14 @@
     <releaseNotes/>
     <dependencies>
       <group targetFramework="netstandard2.1">
-        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
-        <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
+        <dependency id="Xamarin.Essentials" version="1.5.3.2" />
       </group>
       <group targetFramework="MonoAndroid10">
+        <dependency id="Xamarin.Essentials" version="1.5.3.2" />
         <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta6]" />
-        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
-        <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
       </group>
       <group targetFramework="Xamarin.iOS10">
-        <dependency id="Plugin.Permissions" version="5.0.0-beta"/>
-        <dependency id="Xam.Plugins.Settings" version="3.1.1"/>
+        <dependency id="Xamarin.Essentials" version="1.5.3.2" />
       </group>
     </dependencies>
   </metadata>

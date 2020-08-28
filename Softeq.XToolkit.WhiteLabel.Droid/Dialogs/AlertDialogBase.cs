@@ -3,9 +3,9 @@
 
 using System.Threading.Tasks;
 using AndroidX.AppCompat.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     {
         protected virtual AlertDialog.Builder GetBuilder()
         {
-            var context = CrossCurrentActivity.Current.Activity;
+            var context = Dependencies.Container.Resolve<IContextProvider>().CurrentActivity;
             return new AlertDialog.Builder(context)
                 .SetCancelable(false);
         }

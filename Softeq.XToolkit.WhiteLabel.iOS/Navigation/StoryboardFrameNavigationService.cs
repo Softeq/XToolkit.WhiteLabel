@@ -69,12 +69,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         void IFrameNavigationService.RestoreNavigation()
         {
-            throw new InvalidOperationException();
         }
 
         void IFrameNavigationService.NavigateToFirstPage()
         {
-            throw new InvalidOperationException();
         }
 
         protected virtual IViewModelBase CreateViewModel<TViewModel>()

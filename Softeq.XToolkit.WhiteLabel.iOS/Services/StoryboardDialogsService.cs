@@ -7,13 +7,14 @@ using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
+using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
-using Softeq.XToolkit.WhiteLabel.Extensions;
-using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
@@ -69,21 +70,21 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : DialogViewModelBase
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : DialogViewModelBase
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
            IEnumerable<NavigationParameterModel>? parameters = null)
-           where TViewModel : IDialogViewModel
+           where TViewModel : DialogViewModelBase
         {
             try
             {
@@ -102,7 +103,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
            IEnumerable<NavigationParameterModel>? parameters = null)
-           where TViewModel : IDialogViewModel
+           where TViewModel : DialogViewModelBase
         {
             try
             {

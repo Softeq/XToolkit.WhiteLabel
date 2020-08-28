@@ -3,7 +3,6 @@
 
 using System.Collections.Generic;
 using System.Reflection;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
@@ -23,9 +22,6 @@ namespace Playground.Forms.Droid
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
             base.ConfigureIoc(builder);
-
-            // common
-            builder.Singleton<ICurrentActivity>(c => CrossCurrentActivity.Current);
 
             // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();

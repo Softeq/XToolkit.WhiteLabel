@@ -1,9 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Linq;
-using Android.OS;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
@@ -14,38 +12,27 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
     {
         private readonly FrameNavigationConfig _frameNavigationConfig;
 
-        private int _oldSelectedIndex;
-
         public ToolbarComponent(FrameNavigationConfig frameNavigationConfig)
         {
             _frameNavigationConfig = frameNavigationConfig;
         }
 
-        public void OnCreate(TViewModel viewModel, Action<Bundle> onCreate, Bundle savedInstanceState)
+        public void Initialize(TViewModel viewModel)
         {
-            var wasInit = viewModel.IsInitialized;
-
-            onCreate(savedInstanceState);
-
-            if (wasInit) // HACK YP: need another way
-            {
-                return;
-            }
-
             foreach (var tabViewModel in viewModel.TabViewModels)
             {
                 tabViewModel.InitializeNavigation(_frameNavigationConfig);
             }
 
-            var selectedTabViewModel = viewModel.TabViewModels.FirstOrDefault();
-            selectedTabViewModel?.NavigateToFirstPage();
+            var selectedTabViewModel = viewModel.TabViewModels[viewModel.SelectedIndex];
+            selectedTabViewModel?.RestoreState();
         }
 
         public void TabSelected(TViewModel viewModel, int newSelectedIndex)
         {
             var selectedTabViewModel = viewModel.TabViewModels.ElementAt(newSelectedIndex);
 
-            if (newSelectedIndex == _oldSelectedIndex) // fast-backward nav
+            if (newSelectedIndex == viewModel.SelectedIndex) // fast-backward nav
             {
                 selectedTabViewModel.NavigateToFirstPage();
             }
@@ -54,12 +41,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
                 selectedTabViewModel.RestoreState();
             }
 
-            _oldSelectedIndex = newSelectedIndex;
+            viewModel.SelectedIndex = newSelectedIndex;
         }
 
         public bool HandleBackPress(TViewModel viewModel)
         {
-            var vm = viewModel.TabViewModels[_oldSelectedIndex];
+            var vm = viewModel.TabViewModels[viewModel.SelectedIndex];
             if (vm.CanGoBack)
             {
                 vm.GoBack();

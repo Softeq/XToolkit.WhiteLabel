@@ -5,11 +5,12 @@ using System;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
 {
     public class DialogFluentNavigator<TViewModel> : FluentNavigatorBase<TViewModel>
-        where TViewModel : IDialogViewModel
+        where TViewModel : DialogViewModelBase
     {
         private readonly IDialogsService _dialogsService;
 

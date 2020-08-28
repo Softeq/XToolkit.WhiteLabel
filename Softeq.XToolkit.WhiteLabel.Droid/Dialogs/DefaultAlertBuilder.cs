@@ -3,11 +3,11 @@
 
 using System;
 using System.Threading.Tasks;
-using AndroidX.AppCompat.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Threading;
+using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
             Execute.BeginOnUIThread(() =>
             {
-                var context = CrossCurrentActivity.Current.Activity;
+                var context = Dependencies.Container.Resolve<IContextProvider>().CurrentActivity;
 
                 var builder = new AlertDialog.Builder(context)
                     .SetTitle(title)

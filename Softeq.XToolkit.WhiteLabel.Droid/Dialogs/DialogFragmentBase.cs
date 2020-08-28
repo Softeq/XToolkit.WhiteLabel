@@ -6,18 +6,18 @@ using System.Collections.Generic;
 using Android.Content;
 using Android.OS;
 using Android.Views;
-using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable
-        where TViewModel : IDialogViewModel
+        where TViewModel : DialogViewModelBase
     {
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
@@ -36,7 +36,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             base.OnCreate(savedInstanceState);
 
             RestoreViewModelIfNeeded(savedInstanceState);
-            ViewModel.OnInitialize();
+
+            OnViewModelRestored();
+
+            if (!ViewModel.IsInitialized)
+            {
+                ViewModel.OnInitialize();
+            }
         }
 
         public override void OnResume()
@@ -59,10 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             base.OnDismiss(dialog);
 
-            if (DataContext != null)
-            {
-                ViewModel.DialogComponent.CloseCommand.Execute(null);
-            }
+            ViewModel?.DialogComponent.CloseCommand.Execute(null);
         }
 
         public override void OnViewCreated(View view, Bundle savedInstanceState)
@@ -84,17 +87,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             SetStyle(StyleNoFrame, ThemeId);
 
-            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
+            var contextProvider = Dependencies.Container.Resolve<IContextProvider>();
+            var baseActivity = (FragmentActivity) contextProvider.CurrentActivity;
 
             Internal.ViewModelStore.Of(baseActivity).Add(GetKey(), ViewModel);
             Show(baseActivity.SupportFragmentManager, null);
         }
 
-        protected virtual void RestoreViewModelIfNeeded(Bundle savedInstanceState)
+        protected virtual void RestoreViewModelIfNeeded(Bundle? savedInstanceState)
         {
             if (ViewModel == null && savedInstanceState != null)
             {
-                var viewModelStore = Internal.ViewModelStore.Of((AppCompatActivity) Activity);
+                var viewModelStore = Internal.ViewModelStore.Of(Activity);
                 DataContext = (TViewModel) viewModelStore.Get<IDialogViewModel>(GetKey());
             }
         }
@@ -108,10 +112,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             this.DetachBindings();
         }
 
+        protected virtual void OnViewModelRestored()
+        {
+        }
+
         private void DialogComponentOnClosed(object sender, EventArgs e)
         {
             Dismiss();
-            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
+
+            var contextProvider = Dependencies.Container.Resolve<IContextProvider>();
+            var baseActivity = (FragmentActivity) contextProvider.CurrentActivity;
             Internal.ViewModelStore.Of(baseActivity).Remove(GetKey());
         }
 
