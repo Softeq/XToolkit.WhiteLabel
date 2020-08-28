@@ -125,6 +125,7 @@
     <Rule Id="SA1509" Action="Error" />
     <Rule Id="SA1510" Action="Error" />
     <Rule Id="SA1511" Action="Error" /> -->
+    <Rule Id="SA1512" Action="None" /> 
     <Rule Id="SA1516" Action="None" /> <!-- @ Warning --> 
     <!-- <Rule Id="SA1517" Action="Error" />
     <Rule Id="SA1519" Action="Error" />
