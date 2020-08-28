@@ -59,6 +59,8 @@
           href: xtoolkit/whitelabel/navigation.md
         - name: Navigation Requirements
           href: xtoolkit/whitelabel/navigation-requirements.md
+        - name: Validation
+          href: xtoolkit/whitelabel/validation.md
     - name: WhiteLabel.Essentials
       href: xtoolkit/whitelabel/essentials.md
     - name: WhiteLabel.Forms

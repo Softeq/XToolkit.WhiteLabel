@@ -53,6 +53,7 @@ namespace Playground.Forms
             builder.PerDependency<DrillLevel2PageViewModel>();
             builder.PerDependency<AsyncCommandsPageViewModel>();
             builder.PerDependency<PermissionsPageViewModel>();
+            builder.PerDependency<ValidationPageViewModel>();
 
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 
