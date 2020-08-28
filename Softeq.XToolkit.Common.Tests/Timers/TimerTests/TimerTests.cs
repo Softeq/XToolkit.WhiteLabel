@@ -4,7 +4,6 @@
 using System;
 using System.Threading.Tasks;
 using NSubstitute;
-using Softeq.XToolkit.Common.Tasks;
 using Softeq.XToolkit.Common.Timers;
 using Xunit;
 
@@ -178,8 +177,7 @@ namespace Softeq.XToolkit.Common.Tests.Timers.TimerTests
 
         private Timer CreateTimer()
         {
-            var taskRef = new TaskReference(_function);
-            var timer = new Timer(taskRef, Interval);
+            var timer = new Timer(_function, Interval);
 
             return timer;
         }

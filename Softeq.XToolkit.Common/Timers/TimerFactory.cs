@@ -1,16 +1,17 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Softeq.XToolkit.Common.Tasks;
+using System;
+using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.Common.Timers
 {
     public class TimerFactory : ITimerFactory
     {
         /// <inheritdoc />
-        public ITimer Create(TaskReference taskReference, int interval)
+        public ITimer Create(Func<Task> taskFactory, int interval)
         {
-            return new Timer(taskReference, interval);
+            return new Timer(taskFactory, interval);
         }
     }
 }
