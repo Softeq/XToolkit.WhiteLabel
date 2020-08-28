@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Playground.Forms.Views.Components.ValidationPage"
+    Title="Validation">
+
+    <StackLayout Padding="20">
+        <Entry Text="{Binding UserName.Value, Mode=TwoWay}">
+            <Entry.Triggers>
+                <DataTrigger
+                    TargetType="Entry"
+                    Binding="{Binding UserName.IsValid}"
+                    Value="False">
+                    <Setter
+                        Property="BackgroundColor"
+                        Value="Red" />
+                </DataTrigger>
+            </Entry.Triggers>
+        </Entry>
+        <StackLayout BindableLayout.ItemsSource="{Binding UserName.Errors}">
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Label
+                        Text="{Binding}"
+                        TextColor="Red" />
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </StackLayout>
+
+        <Button Text="Single Check" Command="{Binding CheckNameCommand}" />
+
+        <Entry Text="{Binding Email.Value, Mode=TwoWay}">
+            <Entry.Triggers>
+                <DataTrigger
+                    TargetType="Entry"
+                    Binding="{Binding Email.IsValid}"
+                    Value="False">
+                    <Setter
+                        Property="BackgroundColor"
+                        Value="Red" />
+                </DataTrigger>
+            </Entry.Triggers>
+        </Entry>
+        <Label
+            Text="{Binding Email.FirstError}"
+            TextColor="Red" />
+
+        <StackLayout Orientation="Horizontal">
+            <CheckBox IsChecked="{Binding TermsAndCondition.Value}"/>
+            <Label
+                Text="I agree to the terms and conditions"
+                VerticalOptions="Center" />
+        </StackLayout>
+        <Label
+            Text="{Binding TermsAndCondition.FirstError}"
+            TextColor="Red" />
+
+        <Button Text="Submit" Command="{Binding SubmitCommand}" />
+
+    </StackLayout>
+</ContentPage>

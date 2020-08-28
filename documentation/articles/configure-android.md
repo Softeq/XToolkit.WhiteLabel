@@ -31,7 +31,10 @@ public class MainApplication : MainApplicationBase
     {
     }
 
-    protected override IBootstrapper Bootstrapper => new CustomBootstrapper();
+    protected override IBootstrapper CreateBootstrapper()
+    {
+        return new CustomBootstrapper();
+    }
 }
 ```
 
