@@ -11,13 +11,12 @@ using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable
-        where TViewModel : DialogViewModelBase
+        where TViewModel : IDialogViewModel
     {
         protected TViewModel ViewModel => (TViewModel) DataContext;
 

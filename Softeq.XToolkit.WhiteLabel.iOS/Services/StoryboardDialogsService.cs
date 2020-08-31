@@ -11,7 +11,6 @@ using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -70,21 +69,21 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase
+            where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase
+            where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
            IEnumerable<NavigationParameterModel>? parameters = null)
-           where TViewModel : DialogViewModelBase
+           where TViewModel : IDialogViewModel
         {
             try
             {
@@ -103,7 +102,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
            IEnumerable<NavigationParameterModel>? parameters = null)
-           where TViewModel : DialogViewModelBase
+           where TViewModel : IDialogViewModel
         {
             try
             {

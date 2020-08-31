@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
@@ -29,19 +28,19 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase;
+            where TViewModel : IDialogViewModel;
 
         [Obsolete("Please use ShowForViewModelAsync syntax instead")]
         Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase;
+            where TViewModel : IDialogViewModel;
 
         Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase;
+            where TViewModel : IDialogViewModel;
 
         Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase;
+            where TViewModel : IDialogViewModel;
     }
 }

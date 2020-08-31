@@ -9,7 +9,6 @@ using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
@@ -62,21 +61,21 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase
+            where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase
+            where TViewModel : IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase
+            where TViewModel : IDialogViewModel
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);
 
@@ -87,7 +86,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : DialogViewModelBase
+            where TViewModel : IDialogViewModel
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);
 
@@ -110,7 +109,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         }
 
         private Task<object> ShowDialogAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : DialogViewModelBase
+            where TViewModel : IDialogViewModel
         {
             var dialogFragment = (DialogFragmentBase<TViewModel>) _viewLocator.GetView(viewModel, ViewType.DialogFragment);
             dialogFragment.Show();
