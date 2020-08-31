@@ -11,6 +11,7 @@ using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings.Droid.Handlers;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Weak;
 
@@ -289,6 +290,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
                     {
                         NotifyItemMoved(e.OldStartingIndex + i, e.NewStartingIndex + i);
                     }
+
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     NotifyItemRangeChanged(e.NewStartingIndex, e.NewItems.Count);
@@ -465,7 +467,8 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
-            DroidRecyclerDataSourceHandler.Handle(this,
+            DroidRecyclerDataSourceHandler.Handle(
+                this,
                 _dataSource,
                 _flatMapping,
                 HeaderSectionViewHolder != null,

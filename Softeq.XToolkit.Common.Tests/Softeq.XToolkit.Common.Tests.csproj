@@ -15,4 +15,11 @@
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Collections\EventArgs\" />
+    <Folder Include="Collections\EventArgs\NotifyCollectionInsertEventArgsTests\" />
+    <Folder Include="Collections\EventArgs\NotifyKeyGroupCollectionChangedEventArgsTests\" />
+    <Folder Include="Collections\EventArgs\NotifyKeyGroupsCollectionChangedEventArgsTests\" />
+    <Folder Include="Collections\EventArgs\NotifyGroupCollectionChangedEventArgsTests\" />
+  </ItemGroup>
 </Project>
