@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
 
         private static string ToHexPart(nfloat value)
         {
-            return ((int) (value * 256)).ToString("X2");
+            return ((int) (value * 255)).ToString("X2");
         }
     }
 }
