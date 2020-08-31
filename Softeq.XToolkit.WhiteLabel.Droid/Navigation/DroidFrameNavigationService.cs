@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using System.Linq;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Internal;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -27,14 +27,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public DroidFrameNavigationService(
             IViewLocator viewLocator,
-            ICurrentActivity currentActivity,
-            IContainer iocContainer)
+            IContainer iocContainer,
+            IContextProvider contextProvider)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
 
             _backStack = new BackStack<(IViewModelBase ViewModel, Fragment Fragment)>();
-            _viewModelStore = ViewModelStore.Of((AppCompatActivity) currentActivity.Activity);
+            _viewModelStore = ViewModelStore.Of((AppCompatActivity) contextProvider.CurrentActivity);
         }
 
         public bool IsInitialized => _config != null;
@@ -104,7 +104,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             var entry = _backStack.ResetToFirst();
 
-            NavigateInternal(entry.ViewModel);
+            NavigateInternal(entry.ViewModel, entry.Fragment);
         }
 
         /// <inheritdoc />
@@ -120,9 +120,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return fragment.GetType().Name;
         }
 
-        private void NavigateInternal(IViewModelBase viewModel)
+        private void NavigateInternal(IViewModelBase viewModel, Fragment? fragmentToNavigate = null)
         {
-            var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
+            var fragment = fragmentToNavigate ?? (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
 
             _backStack.Add((viewModel, fragment));
 

@@ -8,6 +8,7 @@ using Android.OS;
 using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Weak;
 
 #nullable disable
@@ -41,9 +42,9 @@ namespace Softeq.XToolkit.Bindings.Droid
             BuildPlainList();
         }
 
-        public override int ItemCount => _plainItems.Count;
-
         public event EventHandler LastItemRequested;
+
+        public override int ItemCount => _plainItems.Count;
 
         public int GetHeaderPosition(TKey key, Func<TKey, TKey, bool> predicate)
         {
@@ -145,6 +146,12 @@ namespace Softeq.XToolkit.Bindings.Droid
 
         private class AdapterItem<TK, TI>
         {
+            public TK Key { get; private set; }
+
+            public TI Item { get; private set; }
+
+            public bool IsHeader { get; private set; }
+
             public static AdapterItem<TK, TI> CreateFromKey(TK key)
             {
                 return new AdapterItem<TK, TI>
@@ -161,12 +168,6 @@ namespace Softeq.XToolkit.Bindings.Droid
                     Item = item
                 };
             }
-
-            public TK Key { get; private set; }
-
-            public TI Item { get; private set; }
-
-            public bool IsHeader { get; private set; }
         }
     }
 }

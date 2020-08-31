@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
-using Plugin.Permissions;
+using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 
 namespace Softeq.XToolkit.Permissions
 {

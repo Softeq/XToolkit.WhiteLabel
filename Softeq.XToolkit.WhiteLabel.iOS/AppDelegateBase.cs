@@ -16,16 +16,35 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     /// </summary>
     public abstract class AppDelegateBase : UIApplicationDelegate
     {
+        private UIViewController _rootViewController = default!;
+
         public override UIWindow Window { get; set; } = default!;
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            // YP: Hard reference kept because StoryboardNavigation service uses weak references.
+            _rootViewController = CreateRootViewController();
+
+            InitializeMainWindow(_rootViewController);
             InitializeWhiteLabelRuntime();
 
             return true;
         }
 
-        protected abstract IBootstrapper CreateBootstrapper();
+        protected virtual UIViewController CreateRootViewController()
+        {
+            return new UINavigationController();
+        }
+
+        protected virtual void InitializeMainWindow(UIViewController rootViewController)
+        {
+            Window = new UIWindow(UIScreen.MainScreen.Bounds)
+            {
+                BackgroundColor = UIColor.SystemBackgroundColor,
+                RootViewController = rootViewController
+            };
+            Window.MakeKeyAndVisible();
+        }
 
         protected virtual void InitializeWhiteLabelRuntime()
         {
@@ -44,8 +63,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             OnContainerInitialized(container);
         }
 
+        protected abstract IBootstrapper CreateBootstrapper();
+
         protected virtual void OnContainerInitialized(IContainer container)
         {
+            InitializeNavigation(container);
         }
+
+        protected abstract void InitializeNavigation(IContainer container);
     }
 }

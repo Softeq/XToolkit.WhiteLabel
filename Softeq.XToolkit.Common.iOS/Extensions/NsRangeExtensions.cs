@@ -6,7 +6,7 @@ using Softeq.XToolkit.Common.Helpers;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
 {
-    public static class NsRangeExtension
+    public static class NsRangeExtensions
     {
         public static TextRange ToTextRange(this NSRange range)
         {

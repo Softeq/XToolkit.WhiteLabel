@@ -19,6 +19,10 @@
       <SubType>Designer</SubType>
       <Generator></Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Components\ValidationPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator></Generator>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -27,6 +31,9 @@
     </Compile>
     <Compile Include="..\..\Playground\Playground\ViewModels\Components\PermissionViewModel.cs">
       <Link>ViewModels\Components\PermissionViewModel.cs</Link>
+    </Compile>
+    <Compile Update="Views\Components\ValidationPage.xaml.cs">
+      <DependentUpon>ValidationPage.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
 

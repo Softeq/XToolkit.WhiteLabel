@@ -54,6 +54,10 @@
         <Project>{c8da5ea8-703b-481f-9ed8-ab3ad29e5409}</Project>
         <Name>Softeq.XToolkit.Permissions</Name>
       </ProjectReference>
+      <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
+        <Project>{7f44f0f6-8396-42d0-8a1b-dc40ce8c478c}</Project>
+        <Name>Softeq.XToolkit.WhiteLabel.Droid</Name>
+      </ProjectReference>
       <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj">
         <Project>{887c6ce5-075b-420d-a88f-60479c4dc25a}</Project>
         <Name>Softeq.XToolkit.WhiteLabel.Essentials</Name>
@@ -64,7 +68,6 @@
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Plugin.Permissions" Version="5.0.0-beta" />
       <PackageReference Include="Xamarin.AndroidX.Core" Version="1.1.0" />
       <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     </ItemGroup>

@@ -5,11 +5,11 @@ using System.Collections.Generic;
 using Android.Content;
 using Android.OS;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
@@ -64,7 +64,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public void Show()
         {
             SetStyle(StyleNoFrame, ThemeId);
-            var baseActivity = (FragmentActivity) CrossCurrentActivity.Current.Activity;
+
+            var contextProvider = Dependencies.Container.Resolve<IContextProvider>();
+            var baseActivity = (FragmentActivity) contextProvider.CurrentActivity;
             Show(baseActivity.SupportFragmentManager, null);
         }
 

@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Specialized;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 
 namespace Softeq.XToolkit.Common.Weak
 {

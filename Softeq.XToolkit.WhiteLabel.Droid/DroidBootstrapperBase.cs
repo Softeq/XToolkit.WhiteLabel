@@ -4,10 +4,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             base.RegisterInternalServices(builder);
 
             // common
-            builder.Singleton(c => CrossCurrentActivity.Current, IfRegistered.Keep);
+            builder.Singleton<EssentialsContextProvider, IContextProvider>(IfRegistered.Keep);
 
             // navigation
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);

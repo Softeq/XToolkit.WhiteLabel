@@ -5,7 +5,6 @@ using System;
 using System.Diagnostics;
 using Android.OS;
 using Android.Runtime;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
@@ -62,7 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void InitializeExternalDependencies()
         {
-            CrossCurrentActivity.Current.Init(this);
+            Xamarin.Essentials.Platform.Init(this);
         }
 
         protected abstract IBootstrapper CreateBootstrapper();

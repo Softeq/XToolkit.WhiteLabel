@@ -23,8 +23,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
         {
             _viewModel = viewModel;
 
-            ToolbarComponent = new ToolbarComponent<TViewModel, TKey>(
-                new FrameNavigationConfig(fragmentManager, Resource.Id.activity_main_page_navigation_container));
+            var containerId = Resource.Id.activity_main_page_navigation_container;
+            var config = new FrameNavigationConfig(fragmentManager, containerId);
+            ToolbarComponent = new ToolbarComponent<TViewModel, TKey>(config);
         }
 
         public BottomNavigationView? BottomNavigationView { get; private set; }

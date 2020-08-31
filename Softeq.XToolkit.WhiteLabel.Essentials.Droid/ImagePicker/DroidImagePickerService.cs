@@ -4,22 +4,28 @@
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
-using Plugin.CurrentActivity;
-using Plugin.Permissions;
 using Softeq.XToolkit.Permissions;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
+using CameraPermission = Xamarin.Essentials.Permissions.Camera;
+using PermissionStatus = Softeq.XToolkit.Permissions.PermissionStatus;
+using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     public class DroidImagePickerService : Essentials.ImagePicker.IImagePickerService
     {
         private readonly IPermissionsManager _permissionsManager;
+        private readonly IContextProvider _contextProvider;
 
         private TaskCompletionSource<Bitmap?>? _taskCompletionSource;
 
-        public DroidImagePickerService(IPermissionsManager permissionsManager)
+        public DroidImagePickerService(
+            IPermissionsManager permissionsManager,
+            IContextProvider contextProvider)
         {
             _permissionsManager = permissionsManager;
+            _contextProvider = contextProvider;
         }
 
         public async Task<ImagePickerResult?> PickPhotoAsync(float quality)
@@ -48,7 +54,8 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         private async Task<ImagePickerResult> GetImageAsync(int mode, float quality)
         {
-            var intent = new Intent(CrossCurrentActivity.Current.Activity, typeof(ImagePickerActivity));
+            var activity = _contextProvider.CurrentActivity;
+            var intent = new Intent(activity, typeof(ImagePickerActivity));
 
             intent.PutExtra(ImagePickerActivity.ModeKey, mode);
 
@@ -56,7 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
             ImagePickerActivity.ImagePicked += OnImagePicked;
 
-            CrossCurrentActivity.Current.Activity.StartActivity(intent);
+            activity.StartActivity(intent);
 
             var bitmap = await _taskCompletionSource.Task.ConfigureAwait(false);
 

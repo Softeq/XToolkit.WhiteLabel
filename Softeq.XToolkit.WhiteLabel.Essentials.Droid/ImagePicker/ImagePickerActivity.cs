@@ -14,7 +14,7 @@ using Android.Provider;
 using Android.Runtime;
 using AndroidX.Core.Content;
 using Java.IO;
-using Plugin.CurrentActivity;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using AUri = Android.Net.Uri;
 using Debug = System.Diagnostics.Debug;
 using ImageOrientation = Android.Media.Orientation;
@@ -37,6 +37,15 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         private Intent _pickIntent = default!;
 
         public static event EventHandler<Bitmap?>? ImagePicked;
+
+        protected Context CurrentContext
+        {
+            get
+            {
+                var context = Dependencies.Container.Resolve<IContextProvider>().AppContext;
+                return context;
+            }
+        }
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -102,13 +111,15 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                 _ => null
             };
 
+            var context = CurrentContext;
+
             if (uri != null)
             {
-                bitmap = MediaStore.Images.Media.GetBitmap(CrossCurrentActivity.Current.AppContext.ContentResolver, uri);
+                bitmap = MediaStore.Images.Media.GetBitmap(context.ContentResolver, uri);
 
                 if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
                 {
-                    using (var stream = GetContentStream(CrossCurrentActivity.Current.AppContext, uri))
+                    using (var stream = GetContentStream(context, uri))
                     {
                         bitmap = FixRotation(bitmap, new ExifInterface(stream)).Result;
                     }
@@ -131,7 +142,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         private void CaptureCamera()
         {
             _pickIntent = new Intent(MediaStore.ActionImageCapture);
-            _fileUri = GetOutputMediaFile(CrossCurrentActivity.Current.AppContext, ImagesFolder, null);
+            _fileUri = GetOutputMediaFile(CurrentContext, ImagesFolder, null);
 
             _pickIntent.PutExtra(MediaStore.ExtraOutput, _fileUri);
             StartActivityForResult(_pickIntent, CameraMode);
@@ -168,8 +179,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
             try
             {
-                var orientation =
-                    (ImageOrientation) exif.GetAttributeInt(ExifInterface.TagOrientation, (int) ImageOrientation.Normal);
+                var orientation = (ImageOrientation) exif.GetAttributeInt(
+                    ExifInterface.TagOrientation,
+                    (int) ImageOrientation.Normal);
 
                 return orientation switch
                 {
@@ -256,14 +268,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
             name = System.IO.Path.GetFileNameWithoutExtension(name);
 
-            var nname = name + ext;
+            var fullName = name + ext;
             var i = 1;
-            while (System.IO.File.Exists(System.IO.Path.Combine(folder, nname)))
+            while (System.IO.File.Exists(System.IO.Path.Combine(folder, fullName)))
             {
-                nname = name + "_" + (i++) + ext;
+                fullName = name + "_" + (i++) + ext;
             }
 
-            return System.IO.Path.Combine(folder, nname);
+            return System.IO.Path.Combine(folder, fullName);
         }
     }
 }
