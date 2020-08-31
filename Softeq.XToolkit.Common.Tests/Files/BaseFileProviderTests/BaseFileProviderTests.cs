@@ -321,5 +321,20 @@ namespace Softeq.XToolkit.Common.Tests
         }
 
         #endregion
+
+        #region GetAbsolutePath
+
+        [Theory]
+        [InlineData(null)]
+        [InlineData("")]
+        [InlineData(FilePath1)]
+        public void GetAbsolutePath_WhenCalled_ReturnsSamePath(string relativePath)
+        {
+            var absolutePath = _fileProvider.GetAbsolutePath(relativePath);
+
+            Assert.Equal(relativePath, absolutePath);
+        }
+
+        #endregion
     }
 }
