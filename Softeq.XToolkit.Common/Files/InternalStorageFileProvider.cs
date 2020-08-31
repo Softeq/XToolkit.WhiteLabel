@@ -17,6 +17,7 @@ namespace Softeq.XToolkit.Common.Files
             _rootFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }
 
-        protected override string BuildPath(string path) => Path.Combine(_rootFolderPath, path);
+        /// <inheritdoc />
+        public override string GetAbsolutePath(string relativePath) => Path.Combine(_rootFolderPath, relativePath);
     }
 }

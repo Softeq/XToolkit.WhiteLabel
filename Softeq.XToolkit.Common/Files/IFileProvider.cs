@@ -62,5 +62,12 @@ namespace Softeq.XToolkit.Common.Files
         /// <param name="stream">Bytes to write.</param>
         /// <returns>Write file Task.</returns>
         Task WriteFileAsync(string path, Stream stream);
+
+        /// <summary>
+        ///     Builds an absolute file path from the relative one.
+        /// </summary>
+        /// <param name="relativePath">Relative file path.</param>
+        /// <returns>Absolute file path.</returns>
+        string GetAbsolutePath(string relativePath);
     }
 }

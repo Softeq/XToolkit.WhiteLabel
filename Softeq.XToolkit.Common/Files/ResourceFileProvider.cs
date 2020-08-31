@@ -112,5 +112,8 @@ namespace Softeq.XToolkit.Common.Files
         {
             throw new NotImplementedException();
         }
+
+        /// <inheritdoc />
+        public string GetAbsolutePath(string relativePath) => relativePath;
     }
 }
