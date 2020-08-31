@@ -7,6 +7,8 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
     public interface IViewModelBase
     {
+        bool IsInitialized { get; }
+
         void OnInitialize();
         void OnAppearing();
         void OnDisappearing();
