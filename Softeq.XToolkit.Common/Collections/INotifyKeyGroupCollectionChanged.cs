@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 
 namespace Softeq.XToolkit.Common.Collections
 {

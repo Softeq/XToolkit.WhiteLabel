@@ -8,7 +8,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Extensions.ObservableCollectionExtensionsTests
 {
-    internal class ObservableCollectionDataProvider
+    internal static class ObservableCollectionDataProvider
     {
         private static readonly ObservableCollection<int> EmptyCollection
             = new ObservableCollection<int> { };

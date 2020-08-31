@@ -3,7 +3,7 @@
 
 using System;
 using System.Collections.Specialized;
-using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 
 #nullable disable
 
@@ -39,9 +39,9 @@ namespace Softeq.XToolkit.Bindings.Handlers
 
         protected abstract void HandleGroupsReset();
 
-        protected abstract void HandleItemsAdd(int sectionIndex, NotifyGroupCollectionChangedArgs<TItem> args);
+        protected abstract void HandleItemsAdd(int sectionIndex, NotifyGroupCollectionChangedEventArgs<TItem> args);
 
-        protected abstract void HandleItemsRemove(int sectionIndex, NotifyGroupCollectionChangedArgs<TItem> args);
+        protected abstract void HandleItemsRemove(int sectionIndex, NotifyGroupCollectionChangedEventArgs<TItem> args);
 
         protected abstract void HandleItemsReset(int sectionIndex);
 

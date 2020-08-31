@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Extensions;
 
 namespace Softeq.XToolkit.Common.Collections
@@ -87,7 +88,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
-            if(insertedGroups == null)
+            if (insertedGroups == null)
             {
                 return;
             }
@@ -186,16 +187,16 @@ namespace Softeq.XToolkit.Common.Collections
 
             if (item == null)
             {
-                throw new KeyNotFoundException($"Can't be found key: {key.ToString()}");
+                throw new KeyNotFoundException($"Can't be found key: {key}");
             }
 
             item.Clear();
 
             var groupEvents =
-                new Collection<(int, NotifyGroupCollectionChangedArgs<TValue>)>
+                new Collection<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>
                 {
                     (_items.IndexOf(item),
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Reset, null, null))
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(NotifyCollectionChangedAction.Reset, null, null))
                 };
 
             OnChanged(
@@ -234,16 +235,15 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
-            List<(int, NotifyGroupCollectionChangedArgs<TValue>)>? groupEvents = result
+            List<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>? groupEvents = result
                 .Where(x => keysToAdd == null ? true : keysToAdd.All(y => !y.Equals(x.Key)))
                 .Select(x =>
                     (
                         _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
-                            default
-                        )
+                            default)
                     ))
                 .ToList();
 
@@ -279,7 +279,7 @@ namespace Softeq.XToolkit.Common.Collections
                 .Select(x =>
                     (
                         _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
                             default)
@@ -326,12 +326,12 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
-            List<(int, NotifyGroupCollectionChangedArgs<TValue>)>? groupEvents = result
+            List<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>? groupEvents = result
                 .Where(x => keysToAdd.All(y => !y.Equals(x.Key)))
                 .Select(x =>
                     (
                         _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
                             default)
@@ -396,7 +396,7 @@ namespace Softeq.XToolkit.Common.Collections
                     .Add(new KeyValuePair<TValue, int>(val, valIndex));
             }
 
-            foreach(var groupInfo in groupsInfos)
+            foreach (var groupInfo in groupsInfos)
             {
                 if (!rangesToRemove.ContainsKey(groupInfo.GroupIndex))
                 {
@@ -424,12 +424,12 @@ namespace Softeq.XToolkit.Common.Collections
                 .SelectMany(x => x)
                 .ToList();
 
-            List<(int, NotifyGroupCollectionChangedArgs<TValue>)>? groupEvents = rangesToRemove
+            List<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>? groupEvents = rangesToRemove
                 .Where(x => keyIndexesToRemove == null ? true : keyIndexesToRemove.All(y => !y.Equals(x.Key)))
                 .Select(x =>
                     (
                         x.Key,
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Remove,
                             default,
                             (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value)
@@ -467,9 +467,9 @@ namespace Softeq.XToolkit.Common.Collections
             NotifyCollectionChangedAction? action,
             IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)>? newItems,
             IReadOnlyList<(int Index, IReadOnlyList<TKey> OldItems)>? oldItems,
-            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)>? groupEvents)
+            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedEventArgs<TValue> Arg)>? groupEvents)
         {
-            RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+            RaiseEvents(new NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>(
                 action,
                 newItems,
                 oldItems,
@@ -540,7 +540,7 @@ namespace Softeq.XToolkit.Common.Collections
 
                 if (!_items.Any(x => x.Key.Equals(key)))
                 {
-                    throw new KeyNotFoundException($"Can't be found key: {key.ToString()}");
+                    throw new KeyNotFoundException($"Can't be found key: {key}");
                 }
 
                 var val = valueSelector.Invoke(item);

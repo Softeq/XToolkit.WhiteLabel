@@ -14,7 +14,8 @@ namespace Softeq.XToolkit.Common.Collections
             CollectionChanged += ObservableItemContentRangeCollectionChanged;
         }
 
-        public ObservableItemContentRangeCollection(IEnumerable<T> items) : this()
+        public ObservableItemContentRangeCollection(IEnumerable<T> items)
+            : this()
         {
             AddRange(items);
         }
@@ -40,7 +41,10 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void ItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            var args = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, sender, sender,
+            var args = new NotifyCollectionChangedEventArgs(
+                NotifyCollectionChangedAction.Replace,
+                sender,
+                sender,
                 IndexOf((T) sender));
             OnCollectionChanged(args);
         }
