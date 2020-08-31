@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Model;
+using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
@@ -73,21 +74,21 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         }
 
         public Task ShowForViewModel<TViewModel>(IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : DialogViewModelBase
         {
             throw new NotImplementedException();
         }
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : DialogViewModelBase
         {
             throw new NotImplementedException();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : DialogViewModelBase
         {
             var result = await ShowForViewModelAsync<TViewModel, object>(parameters).ConfigureAwait(false);
             return result;
@@ -95,7 +96,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : DialogViewModelBase
         {
             var result = await ShowForViewModelImplAsync<TViewModel, TResult>(parameters).ConfigureAwait(false);
             return result;
@@ -103,7 +104,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         private async Task<DialogResult<TResult>> ShowForViewModelImplAsync<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : DialogViewModelBase
         {
             var viewModel = _container.Resolve<TViewModel>();
             viewModel.ApplyParameters(parameters);
