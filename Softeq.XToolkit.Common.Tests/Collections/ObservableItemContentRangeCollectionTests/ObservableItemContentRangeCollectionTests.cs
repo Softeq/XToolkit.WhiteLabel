@@ -30,6 +30,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableItemContentRangeCol
             Assert.IsAssignableFrom<ObservableCollection<ObservableObject>>(collection);
             Assert.Equal(count, collection.Count);
             Assert.All(collection, (item) => items.Contains(item));
+            Assert.All(items, (item) => collection.Contains(item));
         }
 
         [Fact]
