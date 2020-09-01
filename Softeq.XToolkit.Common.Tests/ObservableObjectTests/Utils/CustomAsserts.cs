@@ -25,8 +25,8 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
             {
                 // YP: removed string.IsNullOrEmpty check from original Xunit Assert.PropertyChanged
                 propertyChangeHappened = ((propertyChangeHappened ? 1 : 0) | (args.PropertyName == null
-                        ? 0
-                        : propertyName.Equals(args.PropertyName, StringComparison.OrdinalIgnoreCase) ? 1 : 0)) != 0;
+                    ? 0
+                    : propertyName.Equals(args.PropertyName, StringComparison.OrdinalIgnoreCase) ? 1 : 0)) != 0;
             });
             @object.PropertyChanged += changedEventHandler;
             try
