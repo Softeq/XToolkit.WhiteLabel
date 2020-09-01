@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Extensions;
 
 namespace Softeq.XToolkit.Common.Collections
@@ -201,10 +202,10 @@ namespace Softeq.XToolkit.Common.Collections
             item.Clear();
 
             var groupEvents =
-                new Collection<(int, NotifyGroupCollectionChangedArgs<TValue>)>
+                new Collection<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>
                 {
                     (_items.IndexOf(item),
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(NotifyCollectionChangedAction.Reset, null, null))
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(NotifyCollectionChangedAction.Reset, null, null))
                 };
 
             OnChanged(
@@ -248,7 +249,7 @@ namespace Softeq.XToolkit.Common.Collections
                 .Select(x =>
                     (
                         _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
                             default
@@ -288,7 +289,7 @@ namespace Softeq.XToolkit.Common.Collections
                 .Select(x =>
                     (
                         _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
                             default)
@@ -339,7 +340,7 @@ namespace Softeq.XToolkit.Common.Collections
                 .Select(x =>
                     (
                         _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
                             default)
@@ -437,7 +438,7 @@ namespace Softeq.XToolkit.Common.Collections
                 .Select(x =>
                     (
                         x.Key,
-                        NotifyGroupCollectionChangedArgs<TValue>.Create(
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Remove,
                             default,
                             (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value)
@@ -475,9 +476,9 @@ namespace Softeq.XToolkit.Common.Collections
             NotifyCollectionChangedAction? action,
             IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)>? newItems,
             IReadOnlyList<(int Index, IReadOnlyList<TKey> OldItems)>? oldItems,
-            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedArgs<TValue> Arg)>? groupEvents)
+            IReadOnlyList<(int GroupIndex, NotifyGroupCollectionChangedEventArgs<TValue> Arg)>? groupEvents)
         {
-            RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>.Create(
+            RaiseEvents(new NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>(
                 action,
                 newItems,
                 oldItems,
