@@ -8,7 +8,12 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
 {
     public static class DateTimeExtensions
     {
-        public static DateTime ToDateTime(this NSDate date)
+        public static DateTime ToUtcDateTime(this NSDate date)
+        {
+            return (DateTime) date;
+        }
+
+        public static DateTime ToLocalDateTime(this NSDate date)
         {
             return ((DateTime) date).ToLocalTime();
         }
