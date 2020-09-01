@@ -10,6 +10,7 @@ using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Handlers;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Weak;
 using UIKit;
@@ -218,7 +219,8 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         where THeaderView : BindableUICollectionReusableView<TKey>
         where TItemCell : BindableCollectionViewCell<TItem>
     {
-        public BindableGroupCollectionViewSource(IEnumerable<IGrouping<TKey, TItem>> items) : base(items)
+        public BindableGroupCollectionViewSource(IEnumerable<IGrouping<TKey, TItem>> items)
+            : base(items)
         {
         }
 

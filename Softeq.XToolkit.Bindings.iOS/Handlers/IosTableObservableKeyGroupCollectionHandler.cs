@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using Foundation;
 using Softeq.XToolkit.Bindings.Handlers;
-using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Weak;
 using UIKit;
 
@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Handlers
             _tableViewRef.Target?.ReloadData();
         }
 
-        protected override void HandleItemsAdd(int sectionIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        protected override void HandleItemsAdd(int sectionIndex, NotifyGroupCollectionChangedEventArgs<TItem> args)
         {
             foreach (var range in args.NewItemRanges)
             {
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Handlers
             }
         }
 
-        protected override void HandleItemsRemove(int sectionIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        protected override void HandleItemsRemove(int sectionIndex, NotifyGroupCollectionChangedEventArgs<TItem> args)
         {
             foreach (var range in args.OldItemRanges)
             {

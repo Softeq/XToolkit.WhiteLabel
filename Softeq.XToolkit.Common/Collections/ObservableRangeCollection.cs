@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 
 namespace Softeq.XToolkit.Common.Collections
 {
