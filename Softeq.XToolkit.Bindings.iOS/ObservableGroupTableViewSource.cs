@@ -10,6 +10,7 @@ using Softeq.XToolkit.Bindings.iOS.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Handlers;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Weak;
 using UIKit;
 

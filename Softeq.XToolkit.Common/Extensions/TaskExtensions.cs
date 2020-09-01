@@ -193,7 +193,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <param name="task">The task.</param>
         /// <param name="logger">Logger implementation.</param>
-        public static void FireAndForget(this Task task, ILogger logger)
+        public static void FireAndForget(this Task task, ILogger? logger)
         {
             FireAndForget(task, ex => LogException(ex, logger));
         }

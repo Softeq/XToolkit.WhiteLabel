@@ -31,6 +31,16 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <typeparam name="T">Item type.</typeparam>
         public static void Apply<T>(this IEnumerable<T> enumerable, Action<T> action)
         {
+            if (enumerable == null)
+            {
+                throw new ArgumentNullException(nameof(enumerable));
+            }
+
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
             foreach (var item in enumerable)
             {
                 action(item);
@@ -43,7 +53,10 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="source">IEnumerable instance.</param>
         /// <param name="size">Chunk size.</param>
         /// <typeparam name="T">Item type.</typeparam>
-        /// <returns>Collection of arrays. Each array is a chunk of the source collection and will have the specified size.</returns>
+        /// <returns>
+        ///     Collection of arrays. Each array is a chunk of the source collection and will have the specified size,
+        ///     the last chunk might have size less than specified.
+        /// </returns>
         public static IEnumerable<T[]> Chunkify<T>(this IEnumerable<T> source, int size)
         {
             if (source == null)
@@ -56,17 +69,23 @@ namespace Softeq.XToolkit.Common.Extensions
                 throw new ArgumentOutOfRangeException(nameof(size));
             }
 
+            var chunkIndex = 0;
+            var lastChunkIndex = Math.Ceiling(source.Count() / (double) size) - 1;
+            var incompleteChunkSize = source.Count() % size;
+            var lastChunkSize = incompleteChunkSize == 0 ? size : incompleteChunkSize;
+
             using (var iter = source.GetEnumerator())
             {
                 while (iter.MoveNext())
                 {
-                    var chunk = new T[size];
+                    var chunk = new T[chunkIndex == lastChunkIndex ? lastChunkSize : size];
                     chunk[0] = iter.Current;
                     for (var i = 1; i < size && iter.MoveNext(); i++)
                     {
                         chunk[i] = iter.Current;
                     }
 
+                    chunkIndex++;
                     yield return chunk;
                 }
             }

@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Linq;
 using Softeq.XToolkit.Common.Collections;
@@ -16,122 +15,86 @@ namespace Softeq.XToolkit.Common.Tests
         private const string CollectionKey = "collection";
         private const string CollectionItemKey = "collection_item";
 
-        //[Theory]
-        //[MemberData(nameof(ObservableKeyGroupsCollectionTestData.DataToAdd), MemberType =
-        //    typeof(ObservableKeyGroupsCollectionTestData))]
-        //public void AddToObservableKeyGroupsCollectionTest(
-        //    (Func<string, string> DefaultSelector, Func<string, string> CustomSelector, List<List<string>> ValuesToAdd)
-        //        input, string result)
-        //{
-        //    var collection = new ObservableKeyGroupsCollection<string, string>(input.DefaultSelector);
-        //    foreach (var item in input.ValuesToAdd)
-        //    {
-        //        collection.AddRangeToGroups(item, input.CustomSelector);
-        //    }
-
-        //    Assert.Equal(CollectionToString(collection), result);
-        //}
-
         [Theory]
-        [MemberData(nameof(CollectionSorterTestData.SortParams), MemberType =
-            typeof(CollectionSorterTestData))]
-        public void CollectionSorterTest(bool isAsc, ObservableCollection<string> collection, string result)
+        [MemberData(nameof(ObservableKeyGroupsCollectionTestData.DataToRemove), MemberType =
+            typeof(ObservableKeyGroupsCollectionTestData))]
+        public void RemoveFromObservableKeyGroupsCollectionTest(
+            (Func<string, string> DefaultSelector,
+                Func<string, string> CustomSelector,
+                ObservableKeyGroupsCollection<string, string> Collection,
+                List<string> Values) input, string result)
         {
-            var stringComparision = new Comparison<string>(
-                (s1, s2) => string.Compare(s1, s2, StringComparison.CurrentCulture));
-
-            if (isAsc)
+            foreach (var item in input.Values)
             {
-                collection.Sort(stringComparision);
-            }
-            else
-            {
-                collection.DescendingSort(stringComparision);
+                input.Collection.RemoveFromGroups(item, input.CustomSelector);
             }
 
-            Assert.Equal(collection.Aggregate(string.Empty, (current, item) => current + item), result);
+            Assert.Equal(CollectionToString(input.Collection), result);
         }
 
-        //[Theory]
-        //[MemberData(nameof(ObservableKeyGroupsCollectionTestData.DataToRemove), MemberType =
-        //    typeof(ObservableKeyGroupsCollectionTestData))]
-        //public void RemoveFromObservableKeyGroupsCollectionTest(
-        //    (Func<string, string> DefaultSelector,
-        //        Func<string, string> CustomSelector,
-        //        ObservableKeyGroupsCollection<string, string> Collection,
-        //        List<string> Values) input, string result)
-        //{
-        //    foreach (var item in input.Values)
-        //    {
-        //        input.Collection.RemoveFromGroups(item, input.CustomSelector);
-        //    }
+        private static string CollectionToString(ObservableKeyGroupsCollection<string, string> collection)
+        {
+            var itemsCount = string.Join(",", collection.Select(x => x.Count));
+            var result =
+                $"values:{string.Join(",", collection.Values)};keys:{string.Join(",", collection.Keys)};counts:{collection.Count},{itemsCount}";
+            return result;
+        }
 
-        //    Assert.Equal(CollectionToString(input.Collection), result);
-        //}
+        [Fact]
+        public void NotificationsObservableKeyGroupsCollectionTest()
+        {
+            var listOfFiredActions = new List<Tuple<string, NotifyCollectionChangedAction>>();
+            var collection = new ObservableKeyGroupsCollection<string, string>(x => x[0].ToString().ToLower());
 
-        //private static string CollectionToString(ObservableKeyGroupsCollection<string, string> collection)
-        //{
-        //    var itemsCount = string.Join(",", collection.Select(x => x.Count));
-        //    var result =
-        //        $"values:{string.Join(",", collection.Values)};keys:{string.Join(",", collection.Keys)};counts:{collection.Count},{itemsCount}";
-        //    return result;
-        //}
+            collection.CollectionChanged += (sender, e) =>
+            {
+                listOfFiredActions.Add(new Tuple<string, NotifyCollectionChangedAction>(CollectionKey, e.Action));
+            };
 
-        //[Fact]
-        //public void NotificationsObservableKeyGroupsCollectionTest()
-        //{
-        //    var listOfFiredActions = new List<Tuple<string, NotifyCollectionChangedAction>>();
-        //    var collection = new ObservableKeyGroupsCollection<string, string>(x => x[0].ToString().ToLower());
+            collection.AddRangeToGroups(new[] { "aa", "ba", "ca" });
 
-        //    collection.CollectionChanged += (sender, e) =>
-        //    {
-        //        listOfFiredActions.Add(new Tuple<string, NotifyCollectionChangedAction>(CollectionKey, e.Action));
-        //    };
+            collection[0].CollectionChanged += (sender, e) =>
+            {
+                listOfFiredActions.Add(
+                    new Tuple<string, NotifyCollectionChangedAction>(CollectionItemKey, e.Action));
+            };
 
-        //    collection.AddRangeToGroups(new[] {"aa", "ba", "ca"});
+            collection[1].CollectionChanged += (sender, e) =>
+            {
+                listOfFiredActions.Add(
+                    new Tuple<string, NotifyCollectionChangedAction>(CollectionItemKey, e.Action));
+            };
 
-        //    collection[0].CollectionChanged += (sender, e) =>
-        //    {
-        //        listOfFiredActions.Add(
-        //            new Tuple<string, NotifyCollectionChangedAction>(CollectionItemKey, e.Action));
-        //    };
+            collection[2].CollectionChanged += (sender, e) =>
+            {
+                listOfFiredActions.Add(
+                    new Tuple<string, NotifyCollectionChangedAction>(CollectionItemKey, e.Action));
+            };
 
-        //    collection[1].CollectionChanged += (sender, e) =>
-        //    {
-        //        listOfFiredActions.Add(
-        //            new Tuple<string, NotifyCollectionChangedAction>(CollectionItemKey, e.Action));
-        //    };
+            collection.AddRangeToGroups(new[] { "ab", "ac", "ad", "bb", "bc" });
+            collection.RemoveFromGroups("ac");
+            collection.RemoveFromGroups("bc");
+            collection.RemoveFromGroups("ca");
+            collection.AddRangeToGroups(new[] { "ca", "bc" });
+            collection.ReplaceRangeGroup(new[] { "aa", "ab", "ba" });
 
-        //    collection[2].CollectionChanged += (sender, e) =>
-        //    {
-        //        listOfFiredActions.Add(
-        //            new Tuple<string, NotifyCollectionChangedAction>(CollectionItemKey, e.Action));
-        //    };
+            var collectionEvents = listOfFiredActions.Where(x => x.Item1 == CollectionKey).ToList();
+            var addEvents = collectionEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Add);
+            var removeEvents = collectionEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Remove);
+            var resetEvents = collectionEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Reset);
 
-        //    collection.AddRangeToGroups(new[] {"ab", "ac", "ad", "bb", "bc"});
-        //    collection.RemoveFromGroups("ac");
-        //    collection.RemoveFromGroups("bc");
-        //    collection.RemoveFromGroups("ca");
-        //    collection.AddRangeToGroups(new[] {"ca", "bc"});
-        //    collection.ReplaceRangeGroup(new[] {"aa", "ab", "ba"});
+            var itemEvents = listOfFiredActions.Where(x => x.Item1 == CollectionItemKey).ToList();
+            var addItemEvents = itemEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Add);
+            var removeItemEvents = itemEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Remove);
 
-        //    var collectionEvents = listOfFiredActions.Where(x => x.Item1 == CollectionKey).ToList();
-        //    var addEvents = collectionEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Add);
-        //    var removeEvents = collectionEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Remove);
-        //    var resetEvents = collectionEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Reset);
+            //assert
+            Assert.Equal(2, addEvents);
+            Assert.Equal(1, removeEvents);
+            Assert.Equal(1, resetEvents);
 
-        //    var itemEvents = listOfFiredActions.Where(x => x.Item1 == CollectionItemKey).ToList();
-        //    var addItemEvents = itemEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Add);
-        //    var removeItemEvents = itemEvents.Count(x => x.Item2 == NotifyCollectionChangedAction.Remove);
-
-        //    //assert
-        //    Assert.Equal(2, addEvents);
-        //    Assert.Equal(1, removeEvents);
-        //    Assert.Equal(1, resetEvents);
-
-        //    Assert.Equal(3, addItemEvents);
-        //    Assert.Equal(3, removeItemEvents);
-        //}
+            Assert.Equal(3, addItemEvents);
+            Assert.Equal(3, removeItemEvents);
+        }
     }
 
     internal static class ObservableKeyGroupsCollectionTestData
@@ -179,68 +142,46 @@ namespace Softeq.XToolkit.Common.Tests
             }
         }
 
-        //public static IEnumerable<object[]> DataToRemove
-        //{
-        //    get
-        //    {
-        //        yield return new object[]
-        //        {
-        //            (GetFirstLatterLower, GetFirstLatterUpper, BuildCollection(), new List<string>
-        //            {
-        //                "ab",
-        //                "ba"
-        //            }),
-        //            "values:aa,ab,ba,aa;keys:a,b,A;counts:3,2,1,1"
-        //        };
-        //        yield return new object[]
-        //        {
-        //            (default(Func<string, string>), GetFirstLatterUpper, BuildCollection(), new List<string>
-        //            {
-        //                "ab",
-        //                "ba"
-        //            }),
-        //            "values:aa,ab,ba,aa;keys:a,b,A;counts:3,2,1,1"
-        //        };
-        //        yield return new object[]
-        //        {
-        //            (GetFirstLatterLower, default(Func<string, string>), BuildCollection(), new List<string>
-        //            {
-        //                "ab",
-        //                "ba"
-        //            }),
-        //            "values:aa,aa,ab,ba;keys:a,A,B;counts:3,1,2,1"
-        //        };
-        //    }
-        //}
-
-        //private static ObservableKeyGroupsCollection<string, string> BuildCollection()
-        //{
-        //    var result = new ObservableKeyGroupsCollection<string, string>(GetFirstLatterLower);
-        //    result.AddRangeToGroups(new[] {"aa", "ab", "ba"});
-        //    result.AddRangeToGroups(new[] {"aa", "ab", "ba"}, GetFirstLatterUpper);
-        //    return result;
-        //}
-    }
-
-    internal static class CollectionSorterTestData
-    {
-        public static IEnumerable<object[]> SortParams
+        public static IEnumerable<object[]> DataToRemove
         {
             get
             {
                 yield return new object[]
                 {
-                    true,
-                    new ObservableCollection<string> {"a", "c", "b", "A"},
-                    "aAbc"
+                    (GetFirstLatterLower, GetFirstLatterUpper, BuildCollection(), new List<string>
+                    {
+                        "ab",
+                        "ba"
+                    }),
+                    "values:aa,ab,ba,aa;keys:a,b,A;counts:3,2,1,1"
                 };
                 yield return new object[]
                 {
-                    false,
-                    new ObservableCollection<string> {"a", "c", "b", "A"},
-                    "cbAa"
+                    (default(Func<string, string>), GetFirstLatterUpper, BuildCollection(), new List<string>
+                    {
+                        "ab",
+                        "ba"
+                    }),
+                    "values:aa,ab,ba,aa;keys:a,b,A;counts:3,2,1,1"
+                };
+                yield return new object[]
+                {
+                    (GetFirstLatterLower, default(Func<string, string>), BuildCollection(), new List<string>
+                    {
+                        "ab",
+                        "ba"
+                    }),
+                    "values:aa,aa,ab,ba;keys:a,A,B;counts:3,1,2,1"
                 };
             }
+        }
+
+        private static ObservableKeyGroupsCollection<string, string> BuildCollection()
+        {
+            var result = new ObservableKeyGroupsCollection<string, string>(GetFirstLatterLower);
+            result.AddRangeToGroups(new[] { "aa", "ab", "ba" });
+            result.AddRangeToGroups(new[] { "aa", "ab", "ba" }, GetFirstLatterUpper);
+            return result;
         }
     }
 }

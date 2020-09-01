@@ -26,6 +26,10 @@
             Command="{Binding PermissionsCommand}"
             Text="Permissions" />
 
+        <Button
+            Command="{Binding ValidationCommand}"
+            Text="Validation" />
+
     </StackLayout>
 
 </ContentPage>

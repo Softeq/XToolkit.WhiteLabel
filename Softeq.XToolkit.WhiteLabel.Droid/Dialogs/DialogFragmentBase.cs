@@ -1,15 +1,16 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using Android.Content;
 using Android.OS;
+using Android.Views;
 using AndroidX.Fragment.App;
-using Plugin.CurrentActivity;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
@@ -17,13 +18,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable
         where TViewModel : IDialogViewModel
     {
-        public List<Binding> Bindings { get; } = new List<Binding>();
-
-        public object DataContext { get; private set; } = default!;
-
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
+        public List<Binding> Bindings { get; } = new List<Binding>();
+
+        public object DataContext { get; private set; } = default!;
 
         void IBindable.SetDataContext(object dataContext)
         {
@@ -34,8 +34,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             base.OnCreate(savedInstanceState);
 
-            ViewModel.OnInitialize();
-            ViewModel.DialogComponent.SetCommand(nameof(ViewModel.DialogComponent.Closed), new RelayCommand(Dismiss));
+            RestoreViewModelIfNeeded(savedInstanceState);
+
+            OnViewModelRestored();
+
+            if (!ViewModel.IsInitialized)
+            {
+                ViewModel.OnInitialize();
+            }
         }
 
         public override void OnResume()
@@ -58,14 +64,42 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             base.OnDismiss(dialog);
 
-            ViewModel.DialogComponent.CloseCommand.Execute(null);
+            ViewModel?.DialogComponent.CloseCommand.Execute(null);
+        }
+
+        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        {
+            base.OnViewCreated(view, savedInstanceState);
+
+            ViewModel.DialogComponent.Closed += DialogComponentOnClosed;
+        }
+
+        public override void OnDestroyView()
+        {
+            ViewModel.DialogComponent.Closed -= DialogComponentOnClosed;
+            DataContext = null;
+
+            base.OnDestroyView();
         }
 
         public void Show()
         {
             SetStyle(StyleNoFrame, ThemeId);
-            var baseActivity = (ActivityBase) CrossCurrentActivity.Current.Activity;
+
+            var contextProvider = Dependencies.Container.Resolve<IContextProvider>();
+            var baseActivity = (FragmentActivity) contextProvider.CurrentActivity;
+
+            Internal.ViewModelStore.Of(baseActivity).Add(GetKey(), ViewModel);
             Show(baseActivity.SupportFragmentManager, null);
+        }
+
+        protected virtual void RestoreViewModelIfNeeded(Bundle? savedInstanceState)
+        {
+            if (ViewModel == null && savedInstanceState != null)
+            {
+                var viewModelStore = Internal.ViewModelStore.Of(Activity);
+                DataContext = (TViewModel) viewModelStore.Get<IDialogViewModel>(GetKey());
+            }
         }
 
         protected virtual void DoAttachBindings()
@@ -75,6 +109,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         protected virtual void DoDetachBindings()
         {
             this.DetachBindings();
+        }
+
+        protected virtual void OnViewModelRestored()
+        {
+        }
+
+        private void DialogComponentOnClosed(object sender, EventArgs e)
+        {
+            Dismiss();
+
+            var contextProvider = Dependencies.Container.Resolve<IContextProvider>();
+            var baseActivity = (FragmentActivity) contextProvider.CurrentActivity;
+            Internal.ViewModelStore.Of(baseActivity).Remove(GetKey());
+        }
+
+        private string GetKey()
+        {
+            return GetType().Name;
         }
     }
 }

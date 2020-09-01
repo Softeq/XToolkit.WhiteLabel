@@ -22,5 +22,8 @@ jobs:
       displayName: Run Tests
       inputs:
         command: test
-        projects: '**/*.Tests.csproj'
+        projects: |
+          **/*.Tests.csproj
+          !**/*.iOS.Tests.csproj
+          !**/*.Droid.Tests.csproj
         arguments: '-c Release'

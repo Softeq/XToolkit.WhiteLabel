@@ -11,6 +11,7 @@ using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings.Droid.Handlers;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Weak;
 
@@ -21,9 +22,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     public abstract class BindableRecyclerViewAdapterBase<TItem, TItemHolder> : RecyclerView.Adapter
         where TItemHolder : BindableViewHolder<TItem>
     {
-        private protected readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
+        protected readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
 
-        private protected IDisposable _subscription;
+        protected IDisposable _subscription;
         private protected ICommand<TItem> _itemClick;
 
         public Type HeaderViewHolder { get; set; }
@@ -189,7 +190,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private protected abstract object GetDataContext(FlatItem flatItem);
+        protected abstract object GetDataContext(FlatItem flatItem);
     }
 
     public class BindableRecyclerViewAdapter<TItem, TItemHolder> : BindableRecyclerViewAdapterBase<TItem, TItemHolder>
@@ -233,7 +234,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private protected override object GetDataContext(FlatItem flatItem)
+        protected override object GetDataContext(FlatItem flatItem)
         {
             switch (flatItem.Type)
             {
@@ -289,6 +290,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
                     {
                         NotifyItemMoved(e.OldStartingIndex + i, e.NewStartingIndex + i);
                     }
+
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     NotifyItemRangeChanged(e.NewStartingIndex, e.NewItems.Count);
@@ -346,7 +348,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             }
         }
 
-        private protected override object GetDataContext(FlatItem flatItem)
+        protected override object GetDataContext(FlatItem flatItem)
         {
             switch (flatItem.Type)
             {
@@ -465,7 +467,8 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
-            DroidRecyclerDataSourceHandler.Handle(this,
+            DroidRecyclerDataSourceHandler.Handle(
+                this,
                 _dataSource,
                 _flatMapping,
                 HeaderSectionViewHolder != null,

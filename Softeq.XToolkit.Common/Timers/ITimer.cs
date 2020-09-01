@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.Common.Timers
     public interface ITimer
     {
         /// <summary>
-        ///     Gets or sets a value indicating whether the timer should run action.
+        ///     Gets a value indicating whether the timer should run action.
         /// </summary>
         /// <value><c>true</c> if Task should run; otherwise, <c>false</c>.</value>
         bool IsActive { get; }

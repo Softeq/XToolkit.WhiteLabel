@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
+using Softeq.XToolkit.WhiteLabel.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Threading;
-using Softeq.XToolkit.WhiteLabel.Extensions;
-using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services

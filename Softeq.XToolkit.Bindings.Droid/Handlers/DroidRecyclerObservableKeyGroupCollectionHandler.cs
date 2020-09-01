@@ -6,7 +6,7 @@ using System.Linq;
 using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
 using Softeq.XToolkit.Bindings.Handlers;
-using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Weak;
 
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Handlers
             _recyclerViewAdapterRef.Target?.NotifyDataSetChanged();
         }
 
-        protected override void HandleItemsAdd(int sectionIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        protected override void HandleItemsAdd(int sectionIndex, NotifyGroupCollectionChangedEventArgs<TItem> args)
         {
             foreach (var range in args.NewItemRanges)
             {
@@ -95,7 +95,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Handlers
             }
         }
 
-        protected override void HandleItemsRemove(int sectionIndex, NotifyGroupCollectionChangedArgs<TItem> args)
+        protected override void HandleItemsRemove(int sectionIndex, NotifyGroupCollectionChangedEventArgs<TItem> args)
         {
             foreach (var range in args.OldItemRanges)
             {
@@ -117,14 +117,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Handlers
             var flat = _flatMapping.LastOrDefault(x => x.SectionIndex == sectionIndex - 1)
                 ?? _flatMapping?.FirstOrDefault(x => x.Type == ItemType.Header);
 
-            if (flat == null)
-            {
-                positionStart = 0;
-            }
-            else
-            {
-                positionStart = _flatMapping.IndexOf(flat) + 1;
-            }
+            positionStart = flat == null ? 0 : _flatMapping.IndexOf(flat) + 1;
 
             if (_withSectionHeader)
             {
@@ -147,14 +140,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Handlers
 
             var flat = _flatMapping.FirstOrDefault(x => x.SectionIndex == sectionIndex);
 
-            if (flat == null)
-            {
-                positionStart = 0;
-            }
-            else
-            {
-                positionStart = _flatMapping.IndexOf(flat);
-            }
+            positionStart = flat == null ? 0 : _flatMapping.IndexOf(flat);
 
             var count = _flatMapping.Count(x => x.SectionIndex == sectionIndex);
 
@@ -170,14 +156,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Handlers
                 ?? _flatMapping?.LastOrDefault(x => x.SectionIndex == sectionIndex - 1)
                 ?? _flatMapping?.FirstOrDefault(x => x.Type == ItemType.Header);
 
-            if (flat == null)
-            {
-                positionStart = 0;
-            }
-            else
-            {
-                positionStart = _flatMapping.IndexOf(flat) + 1;
-            }
+            positionStart = flat == null ? 0 : _flatMapping.IndexOf(flat) + 1;
 
             _recyclerViewAdapterRef.Target?.NotifyItemRangeInserted(positionStart, count);
         }
@@ -187,14 +166,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Handlers
             int positionStart;
 
             var flat = _flatMapping?.FirstOrDefault(x => x.SectionIndex == sectionIndex && x.ItemIndex == startIndex);
-            if (flat == null)
-            {
-                positionStart = 0;
-            }
-            else
-            {
-                positionStart = _flatMapping.IndexOf(flat);
-            }
+            positionStart = flat == null ? 0 : _flatMapping.IndexOf(flat);
 
             _recyclerViewAdapterRef.Target?.NotifyItemRangeRemoved(positionStart, count);
         }

@@ -18,7 +18,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         public override void OnCreate(Bundle savedInstanceState)
         {
-            ToolbarComponent.OnCreate(ViewModel, bundle => base.OnCreate(bundle), savedInstanceState);
+            base.OnCreate(savedInstanceState);
+
+            ToolbarComponent.Initialize(ViewModel);
 
             _backPressedCallback = new BackPressedCallback(true, HandleBackPressed);
             Activity.OnBackPressedDispatcher.AddCallback(this, _backPressedCallback);
