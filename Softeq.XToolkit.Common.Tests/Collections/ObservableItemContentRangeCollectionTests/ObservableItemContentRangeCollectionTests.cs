@@ -19,21 +19,38 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableItemContentRangeCol
 
         [Theory]
         [MemberData(
-            nameof(ObservableItemContentRangeCollectionDataProvider.Data),
+            nameof(ObservableItemContentRangeCollectionDataProvider.CollectionData),
             MemberType = typeof(ObservableItemContentRangeCollectionDataProvider))]
         public void ObservableItemContentRangeCollection_WhenCreatedWithItems_AddsAllItems(
             IEnumerable<ObservableObject> items)
         {
-            var count = items?.Count() ?? 0;
             var collection = new ObservableItemContentRangeCollection<ObservableObject>(items);
 
             Assert.IsAssignableFrom<ObservableCollection<ObservableObject>>(collection);
-            Assert.Equal(count, collection.Count);
-            if (count > 0)
-            {
-                Assert.All(collection, (item) => items.Contains(item));
-                Assert.All(items, (item) => collection.Contains(item));
-            }
+            Assert.Equal(items.Count(), collection.Count);
+            Assert.Equal(collection, items);
+        }
+
+        [Theory]
+        [MemberData(
+            nameof(ObservableItemContentRangeCollectionDataProvider.EmptyCollectionData),
+            MemberType = typeof(ObservableItemContentRangeCollectionDataProvider))]
+        public void ObservableItemContentRangeCollection_WhenCreatedWithEmptyItems_CreatesEmptyCollection(
+            IEnumerable<ObservableObject> items)
+        {
+            var collection = new ObservableItemContentRangeCollection<ObservableObject>(items);
+
+            Assert.IsAssignableFrom<ObservableCollection<ObservableObject>>(collection);
+            Assert.Empty(collection);
+        }
+
+        [Fact]
+        public void ObservableItemContentRangeCollection_WhenCreatedWithoutItems_CreatesEmptyCollection()
+        {
+            var collection = new ObservableItemContentRangeCollection<ObservableObject>();
+
+            Assert.IsAssignableFrom<ObservableCollection<ObservableObject>>(collection);
+            Assert.Empty(collection);
         }
 
         [Fact]
@@ -53,13 +70,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableItemContentRangeCol
             Assert.Equal(NotifyCollectionChangedAction.Replace, raisedEvent.Arguments.Action);
             Assert.Equal(itemIndex, raisedEvent.Arguments.NewStartingIndex);
             Assert.Equal(itemIndex, raisedEvent.Arguments.OldStartingIndex);
-
-            collection.Remove(item);
-
-            CustomAsserts.Assert_NotRaises<NotifyCollectionChangedEventArgs>(
-                   handler => collection.CollectionChanged += (s, e) => handler.Invoke(s, e),
-                   handler => { },
-                   () => item.TestProperty = TestPropertyValue2);
         }
 
         [Fact]
@@ -82,13 +92,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableItemContentRangeCol
             Assert.Equal(NotifyCollectionChangedAction.Replace, raisedEvent.Arguments.Action);
             Assert.Equal(itemIndex, raisedEvent.Arguments.NewStartingIndex);
             Assert.Equal(itemIndex, raisedEvent.Arguments.OldStartingIndex);
-
-            collection.Remove(addedItem);
-
-            CustomAsserts.Assert_NotRaises<NotifyCollectionChangedEventArgs>(
-                   handler => collection.CollectionChanged += (s, e) => handler.Invoke(s, e),
-                   handler => { },
-                   () => addedItem.TestProperty = TestPropertyValue2);
         }
 
         [Fact]
@@ -108,7 +111,35 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableItemContentRangeCol
             Assert.Equal(NotifyCollectionChangedAction.Replace, raisedEvent.Arguments.Action);
             Assert.Equal(itemIndex, raisedEvent.Arguments.NewStartingIndex);
             Assert.Equal(itemIndex, raisedEvent.Arguments.OldStartingIndex);
+        }
 
+        [Fact]
+        public void ObservableItemContentRangeCollection_WhenCreatedWithItems_DoesNotNotifyForRemovedItems()
+        {
+            var item = new TestObservableObject();
+            var items = new List<TestObservableObject>() { item, new TestObservableObject(), new TestObservableObject() };
+            var collection = new ObservableItemContentRangeCollection<TestObservableObject>(items);
+
+            collection.Remove(item);
+
+            CustomAsserts.Assert_NotRaises<NotifyCollectionChangedEventArgs>(
+                   handler => collection.CollectionChanged += (s, e) => handler.Invoke(s, e),
+                   handler => { },
+                   () => item.TestProperty = TestPropertyValue2);
+        }
+
+        [Fact]
+        public void ObservableItemContentRangeCollection_WhenCreatedWithoutItems_DoesNotNotifyForRemovedItems()
+        {
+            var item = new TestObservableObject();
+            var collection = new ObservableItemContentRangeCollection<TestObservableObject>();
+
+            CustomAsserts.Assert_NotRaises<NotifyCollectionChangedEventArgs>(
+                    handler => collection.CollectionChanged += (s, e) => handler.Invoke(s, e),
+                    handler => { },
+                    () => item.TestProperty = TestPropertyValue);
+
+            collection.Add(item);
             collection.Remove(item);
 
             CustomAsserts.Assert_NotRaises<NotifyCollectionChangedEventArgs>(

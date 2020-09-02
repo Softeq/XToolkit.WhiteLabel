@@ -8,12 +8,19 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableItemContentRangeCol
 {
     internal static class ObservableItemContentRangeCollectionDataProvider
     {
-        public static TheoryData<IEnumerable<ObservableObject>> Data
+        public static TheoryData<IEnumerable<ObservableObject>> EmptyCollectionData
            => new TheoryData<IEnumerable<ObservableObject>>
            {
                 { null },
-                { new List<ObservableObject>() },
-                { new List<ObservableObject>() { new ObservableObject(), new ObservableObject(), new ObservableObject() } },
+                { new List<ObservableObject>() }
+           };
+
+        public static TheoryData<IEnumerable<ObservableObject>> CollectionData
+           => new TheoryData<IEnumerable<ObservableObject>>
+           {
+               { new List<ObservableObject>() { new ObservableObject() } },
+               { new List<ObservableObject>() { new ObservableObject(), new ObservableObject() } },
+               { new List<ObservableObject>() { new ObservableObject(), new ObservableObject(), new ObservableObject() } },
            };
     }
 }
