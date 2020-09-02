@@ -8,34 +8,43 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
 {
     public static class DateTimeExtensions
     {
+        /// <summary>
+        /// Converts input <see cref="NSDate"/> to C# <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="date"><see cref="NSDate"/> object to convert.</param>
+        /// <returns>
+        /// <see cref="DateTime"/> representation of the specified date in UTC.
+        /// No convertion is made since NSDate always represents date in UTC.
+        /// </returns>
         public static DateTime ToUtcDateTime(this NSDate date)
         {
             return (DateTime) date;
         }
 
+        /// <summary>
+        /// Converts input <see cref="NSDate"/> to C# <see cref="DateTime"/>.
+        /// </summary>
+        /// <param name="date"><see cref="NSDate"/> object to convert.</param>
+        /// <returns>
+        /// <see cref="DateTime"/> representation of the specified <see cref="NSDate"/>
+        /// whose <see cref="DateTime.Kind"/> property is <see cref="DateTimeKind.Local"/>
+        /// and whose value is the local time equivalent to the specified <see cref="NSDate"/>.
+        /// </returns>
         public static DateTime ToLocalDateTime(this NSDate date)
         {
             return ((DateTime) date).ToLocalTime();
         }
 
+        /// <summary>
+        /// Converts input <see cref="DateTime"/> to iOS specific <see cref="NSDate"/>.
+        /// Since <see cref="NSDate"/> objects encapsulate a single point in time, independent of any particular calendrical system or time zone,
+        /// we need to convert input date to <see cref="DateTimeKind.Utc"/>.
+        /// </summary>
+        /// <param name="date"><see cref="DateTime"/> object to convert.</param>
+        /// <returns><see cref="NSDate"/> representation of the specified date converted to UTC.</returns>
         public static NSDate ToNsDate(this DateTime date)
         {
-            return (NSDate) DateTime.SpecifyKind(date, DateTimeKind.Utc);
-        }
-
-        public static NSDate ToNsDateLocal(this DateTimeOffset dateTimeOffset)
-        {
-            var timeSpan = dateTimeOffset - new DateTimeOffset(2001, 1, 1, 0, 0, 0, DateTimeOffset.UtcNow.Offset);
-            var nsDate = NSDate.FromTimeIntervalSinceReferenceDate(timeSpan.TotalSeconds);
-            return nsDate;
-        }
-
-        public static DateTimeOffset ToDateTimeOffsetLocal(this NSDate date)
-        {
-            var dateTimeOffset = new DateTimeOffset(2001, 1, 1, 0, 0, 0, DateTimeOffset.Now.Offset)
-                .AddSeconds(date.SecondsSinceReferenceDate)
-                .AddSeconds(DateTimeOffset.Now.Offset.TotalSeconds);
-            return dateTimeOffset;
+            return (NSDate) date.ToUniversalTime();
         }
     }
 }

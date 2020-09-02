@@ -58,54 +58,18 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.DateTimeExtensionsTests
             Assert.Equal(localComponents.Second, dateTime.Second);
         }
 
-        //[Theory]
-        //[InlineData(-100000)]
-        //[InlineData(0)]
-        //[InlineData(100000)]
-        //public void ToLocalDateTimeAndBack_ForNsDate_ReturnsSameNsDate(double secondsSinceNow)
-        //{
-        //    var nsDate = NSDate.FromTimeIntervalSinceNow(secondsSinceNow);
-
-        //    var dateTime = nsDate.ToLocalDateTime();
-        //    var newNsDate = dateTime.ToNsDate();
-
-        //    Assert.Equal(nsDate, newNsDate);
-        //}
-
         [Theory]
         [InlineData(-100000)]
         [InlineData(0)]
         [InlineData(100000)]
-        public void ToDateTimeOffsetLocal_ForNsDate_ConvertsToDateTimeOffset(double secondsSinceNow)
-        {
-            var nsDate = NSDate.FromTimeIntervalSinceNow(secondsSinceNow);
-            var components = NSCalendar.CurrentCalendar.Components(
-                NSCalendarUnit.Second | NSCalendarUnit.Minute | NSCalendarUnit.Hour |
-                NSCalendarUnit.Day | NSCalendarUnit.Month | NSCalendarUnit.Year, nsDate);
-
-            var dateTimeOffset = nsDate.ToDateTimeOffsetLocal();
-
-            Assert.IsType<DateTimeOffset>(dateTimeOffset);
-            Assert.Equal(components.Year, dateTimeOffset.Year);
-            Assert.Equal(components.Month, dateTimeOffset.Month);
-            Assert.Equal(components.Day, dateTimeOffset.Day);
-            Assert.Equal(components.Hour, dateTimeOffset.Hour);
-            Assert.Equal(components.Minute, dateTimeOffset.Minute);
-            Assert.Equal(components.Second, dateTimeOffset.Second);
-        }
-
-        [Theory]
-        [InlineData(-100000)]
-        [InlineData(0)]
-        [InlineData(100000)]
-        public void ToDateTimeOffsetLocalAndBack_ForNsDate_ReturnsSameNsDate(double secondsSinceNow)
+        public void ToLocalDateTimeAndBack_ForNsDate_ReturnsSameNsDate(double secondsSinceNow)
         {
             var nsDate = NSDate.FromTimeIntervalSinceNow(secondsSinceNow);
 
-            var dateTime = nsDate.ToDateTimeOffsetLocal();
-            var newNsDate = dateTime.ToNsDateLocal();
+            var dateTime = nsDate.ToLocalDateTime();
+            var newNsDate = dateTime.ToNsDate();
 
-            Assert.Equal(nsDate, newNsDate);
+            Assert.Equal(nsDate.SecondsSince1970, newNsDate.SecondsSince1970, 3);
         }
     }
 }
