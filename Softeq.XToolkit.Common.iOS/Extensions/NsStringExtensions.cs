@@ -7,16 +7,21 @@ using Foundation;
 using Softeq.XToolkit.Common.Extensions;
 using UIKit;
 
-namespace Softeq.XToolkit.Common.iOS.Helpers
+namespace Softeq.XToolkit.Common.iOS.Extensions
 {
-    public static class AttributedStringHelper
+    public static class NsStringExtensions
     {
         /// <summary>
-        ///     Returns new instance of the default paragraph style.
+        ///     Gets new instance of the default paragraph style.
         /// </summary>
         public static NSMutableParagraphStyle NewParagraphStyle =>
             (NSMutableParagraphStyle)NSParagraphStyle.Default.MutableCopy();
 
+        /// <summary>
+        ///     Convert string to <see cref="T:Foundation.NSUrl"/> instance.
+        /// </summary>
+        /// <param name="link">Link.</param>
+        /// <returns>NSUrl instance.</returns>
         public static NSUrl ToNSUrl(this string link)
         {
             var uri = new Uri(link);
@@ -29,8 +34,8 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
             return new NSMutableAttributedString(inputString);
         }
 
-
-        public static NSMutableAttributedString BuildAttributedStringFromHtml(this string inputString,
+        public static NSMutableAttributedString BuildAttributedStringFromHtml(
+            this string inputString,
             NSStringEncoding encoding = NSStringEncoding.UTF8)
         {
             var importParams = new NSAttributedStringDocumentAttributes
@@ -51,16 +56,21 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
             return self;
         }
 
-        public static NSMutableAttributedString Underline(this NSMutableAttributedString self,
+        public static NSMutableAttributedString Underline(
+            this NSMutableAttributedString self,
             NSUnderlineStyle underlineStyle = NSUnderlineStyle.Single,
             NSRange? range = null)
         {
-            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int) underlineStyle),
+            self.AddAttribute(
+                UIStringAttributeKey.UnderlineStyle,
+                NSNumber.FromInt32((int) underlineStyle),
                 range ?? new NSRange(0, self.Length));
             return self;
         }
 
-        public static NSMutableAttributedString Foreground(this NSMutableAttributedString self, UIColor color,
+        public static NSMutableAttributedString Foreground(
+            this NSMutableAttributedString self,
+            UIColor color,
             NSRange? range = null)
         {
             self.AddAttribute(UIStringAttributeKey.ForegroundColor, color, range ?? new NSRange(0, self.Length));
@@ -83,15 +93,17 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
         /// </summary>
         /// <param name="self">Attributed string.</param>
         /// <param name="style">Paragraph style. Use <see cref="NewParagraphStyle" /> for create custom style.</param>
-        /// <returns></returns>
-        public static NSMutableAttributedString ParagraphStyle(this NSMutableAttributedString self,
+        /// <returns>An instance of a mutable string.</returns>
+        public static NSMutableAttributedString ParagraphStyle(
+            this NSMutableAttributedString self,
             NSMutableParagraphStyle style)
         {
             self.AddAttribute(UIStringAttributeKey.ParagraphStyle, style, new NSRange(0, self.Length));
             return self;
         }
 
-        public static NSMutableAttributedString DetectLinks(this NSMutableAttributedString self,
+        public static NSMutableAttributedString DetectLinks(
+            this NSMutableAttributedString self,
             UIColor color,
             NSUnderlineStyle style,
             bool highlightLink,
@@ -126,12 +138,17 @@ namespace Softeq.XToolkit.Common.iOS.Helpers
             return self;
         }
 
-        public static NSMutableAttributedString AddLink(this NSMutableAttributedString self, NSUrl url,
-            string linkName, UIColor color, NSUnderlineStyle style, NSRange range)
+        public static NSMutableAttributedString AddLink(
+            this NSMutableAttributedString self,
+            NSUrl url,
+            string linkName,
+            UIColor color,
+            NSUnderlineStyle style,
+            NSRange range)
         {
             self.AddAttribute(new NSString(linkName), url, range);
-            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, NSNumber.FromInt32((int) style), range);
             self.AddAttribute(UIStringAttributeKey.UnderlineColor, color, range);
+            self.Underline(style, range);
             return self;
         }
     }
