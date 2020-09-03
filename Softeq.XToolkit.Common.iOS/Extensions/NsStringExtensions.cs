@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         ///     Convert string to <see cref="T:Foundation.NSUrl"/> instance.
         /// </summary>
         /// <param name="link">Link.</param>
-        /// <returns>NSUrl instance.</returns>
+        /// <returns><see cref="T:Foundation.NSUrl"/> instance.</returns>
         public static NSUrl ToNSUrl(this string link)
         {
             var uri = new Uri(link);
@@ -29,13 +29,24 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             return url;
         }
 
-        public static NSMutableAttributedString BuildAttributedString(this string inputString)
+        /// <summary>
+        ///     Creates <see cref="T:Foundation.NSMutableAttributedString"/> instance from <see cref="input"/> string.
+        /// </summary>
+        /// <param name="input">Any string.</param>
+        /// <returns>New instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
+        public static NSMutableAttributedString BuildAttributedString(this string input)
         {
-            return new NSMutableAttributedString(inputString);
+            return new NSMutableAttributedString(input);
         }
 
+        /// <summary>
+        ///     Creates <see cref="T:Foundation.NSMutableAttributedString"/> instance from <see cref="html"/> string.
+        /// </summary>
+        /// <param name="html">Any HTML string.</param>
+        /// <param name="encoding">HTML encoding.</param>
+        /// <returns>New instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
         public static NSMutableAttributedString BuildAttributedStringFromHtml(
-            this string inputString,
+            this string html,
             NSStringEncoding encoding = NSStringEncoding.UTF8)
         {
             var importParams = new NSAttributedStringDocumentAttributes
@@ -46,28 +57,48 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
 
             var error = new NSError();
 
-            var attributedString = new NSAttributedString(inputString, importParams, ref error);
+            var attributedString = new NSAttributedString(html, importParams, ref error);
             return new NSMutableAttributedString(attributedString);
         }
 
-        public static NSMutableAttributedString Font(this NSMutableAttributedString self, UIFont font, NSRange? range = null)
+        /// <summary>
+        ///     Set font for range.
+        /// </summary>
+        /// <param name="self">Target.</param>
+        /// <param name="font">Font.</param>
+        /// <param name="range">Range to set font.</param>
+        /// <returns>Modified instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
+        public static NSMutableAttributedString Font(
+            this NSMutableAttributedString self, UIFont font, NSRange? range = null)
         {
             self.AddAttribute(UIStringAttributeKey.Font, font, range ?? new NSRange(0, self.Length));
             return self;
         }
 
+        /// <summary>
+        ///    Set underline for range.
+        /// </summary>
+        /// <param name="self">Target.</param>
+        /// <param name="underlineStyle">Style.</param>
+        /// <param name="range">Range to set underline.</param>
+        /// <returns>Modified instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
         public static NSMutableAttributedString Underline(
             this NSMutableAttributedString self,
             NSUnderlineStyle underlineStyle = NSUnderlineStyle.Single,
             NSRange? range = null)
         {
-            self.AddAttribute(
-                UIStringAttributeKey.UnderlineStyle,
-                NSNumber.FromInt32((int) underlineStyle),
-                range ?? new NSRange(0, self.Length));
+            var value = NSNumber.FromInt32((int) underlineStyle);
+            self.AddAttribute(UIStringAttributeKey.UnderlineStyle, value, range ?? new NSRange(0, self.Length));
             return self;
         }
 
+        /// <summary>
+        ///    Set foreground color for range.
+        /// </summary>
+        /// <param name="self">Target.</param>
+        /// <param name="color">Color.</param>
+        /// <param name="range">Range to set color.</param>
+        /// <returns>Modified instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
         public static NSMutableAttributedString Foreground(
             this NSMutableAttributedString self,
             UIColor color,
@@ -77,6 +108,13 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             return self;
         }
 
+        /// <summary>
+        ///    Set foreground color for the ranges.
+        /// </summary>
+        /// <param name="self">Target.</param>
+        /// <param name="ranges">Ranges to set color.</param>
+        /// <param name="color">Range to set color.</param>
+        /// <returns>Modified instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
         public static NSMutableAttributedString HighlightStrings(
             this NSMutableAttributedString self, IEnumerable<NSRange> ranges, UIColor color)
         {
@@ -89,7 +127,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         }
 
         /// <summary>
-        ///     Set paragraph style of attributed string.
+        ///     Set paragraph style.
         /// </summary>
         /// <param name="self">Attributed string.</param>
         /// <param name="style">Paragraph style. Use <see cref="NewParagraphStyle" /> for create custom style.</param>
@@ -102,12 +140,21 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             return self;
         }
 
+        /// <summary>
+        ///    Auto-detect links.
+        /// </summary>
+        /// <param name="self">Target.</param>
+        /// <param name="color">Link color.</param>
+        /// <param name="style">Link style.</param>
+        /// <param name="highlightLink">Flag to highlight link.</param>
+        /// <param name="resultLinkNames">List of link names.</param>
+        /// <returns>Modified instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
         public static NSMutableAttributedString DetectLinks(
             this NSMutableAttributedString self,
             UIColor color,
             NSUnderlineStyle style,
             bool highlightLink,
-            out string[] result)
+            out string[] resultLinkNames)
         {
             var linkNames = new List<string>();
             var i = 0;
@@ -133,11 +180,21 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 }
             }
 
-            result = linkNames.ToArray();
+            resultLinkNames = linkNames.ToArray();
 
             return self;
         }
 
+        /// <summary>
+        ///    Set link for range.
+        /// </summary>
+        /// <param name="self">Target.</param>
+        /// <param name="url">URL link.</param>
+        /// <param name="linkName">Link name.</param>
+        /// <param name="color">Link color.</param>
+        /// <param name="style">Link style.</param>
+        /// <param name="range">Range to set link.</param>
+        /// <returns>Modified instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
         public static NSMutableAttributedString AddLink(
             this NSMutableAttributedString self,
             NSUrl url,
