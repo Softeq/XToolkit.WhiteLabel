@@ -23,24 +23,21 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsLocaleExtensionsTests
             });
         }
 
-        [Fact]
-        public void Is24HourFormat_24HourLocaleFormat_ReturnsTrue()
+        [Theory]
+        [InlineData("en_US", false)]
+        [InlineData("en_CA", false)]
+        [InlineData("fil_PH", false)]
+        [InlineData("ru_RU", true)]
+        [InlineData("en_BY", true)]
+        [InlineData("de_DE", true)]
+        [InlineData("it_IT", true)]
+        public void Is24HourFormat_24HourLocaleFormat_ReturnsTrue(string localeId, bool expectedResult)
         {
-            var locale = NSLocale.FromLocaleIdentifier("ru_RU");
+            var locale = NSLocale.FromLocaleIdentifier(localeId);
 
             var result = locale.Is24HourFormat();
 
-            Assert.True(result);
-        }
-
-        [Fact]
-        public void Is24HourFormat_12HourLocaleFormat_ReturnsFalse()
-        {
-            var locale = NSLocale.FromLocaleIdentifier("en_US");
-
-            var result = locale.Is24HourFormat();
-
-            Assert.False(result);
+            Assert.Equal(expectedResult, result);
         }
     }
 }
