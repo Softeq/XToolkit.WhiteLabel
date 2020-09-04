@@ -27,8 +27,8 @@
         <dependency id="Xamarin.Essentials" version="1.5.3.2" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <!-- Android specific: -->
-        <dependency id="Xamarin.AndroidX.AppCompat" version="1.1.0" />
-        <dependency id="Xamarin.Google.Android.Material" version="1.1.0-rc3" />
+        <dependency id="Xamarin.AndroidX.AppCompat" version="1.2.0" />
+        <dependency id="Xamarin.Google.Android.Material" version="1.1.0.2-rc3" />
         <!-- XToolkit: -->
         <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta6" />
         <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta6" />
