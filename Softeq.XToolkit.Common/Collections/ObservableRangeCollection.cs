@@ -44,15 +44,15 @@ namespace Softeq.XToolkit.Common.Collections
             IEnumerable<T> collection,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
             if (notificationMode != NotifyCollectionChangedAction.Add &&
                 notificationMode != NotifyCollectionChangedAction.Reset)
             {
                 throw new ArgumentException("Mode must be either Add or Reset for AddRange.", nameof(notificationMode));
-            }
-
-            if (collection == null)
-            {
-                throw new ArgumentNullException(nameof(collection));
             }
 
             CheckReentrancy();
@@ -122,34 +122,34 @@ namespace Softeq.XToolkit.Common.Collections
         ///     Insert the elements of the specified collection and sort the collection.
         /// </summary>
         /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <param name="comparer">Method that compares <typeparamref name="T" /> objects.</param>
+        /// <param name="comparison">Method that compares <typeparamref name="T" /> objects.</param>
         /// <param name="notificationMode">Action that will called after deletion.</param>
         /// <returns>Inserted items indexes.</returns>
         public IList<int> InsertRangeSorted(
             IEnumerable<T> collection,
-            Comparison<T> comparer,
+            Comparison<T> comparison,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
+            if (collection == null || comparison == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
             if (notificationMode != NotifyCollectionChangedAction.Add &&
                 notificationMode != NotifyCollectionChangedAction.Reset)
             {
                 throw new ArgumentException("Mode must be either Add or Reset for InsertRangeSorted.", nameof(notificationMode));
             }
 
-            if (collection == null)
-            {
-                throw new ArgumentNullException(nameof(collection));
-            }
-
             CheckReentrancy();
 
             var itemsList = new List<T>(collection);
-            itemsList.Sort(comparer);
+            itemsList.Sort(comparison);
             var insertedItemsIndexes = new List<int>();
             foreach (var item in itemsList)
             {
                 var i = 0;
-                while (i < Items.Count && comparer(Items[i], item) <= 0)
+                while (i < Items.Count && comparison(Items[i], item) <= 0)
                 {
                     i++;
                 }
@@ -184,17 +184,17 @@ namespace Softeq.XToolkit.Common.Collections
             IEnumerable<T> collection,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Reset)
         {
+            if (collection == null)
+            {
+                throw new ArgumentNullException(nameof(collection));
+            }
+
             if (notificationMode != NotifyCollectionChangedAction.Remove &&
                 notificationMode != NotifyCollectionChangedAction.Reset)
             {
                 throw new ArgumentException(
                     "Mode must be either Remove or Reset for RemoveRange.",
                     nameof(notificationMode));
-            }
-
-            if (collection == null)
-            {
-                throw new ArgumentNullException(nameof(collection));
             }
 
             CheckReentrancy();
@@ -211,22 +211,19 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
-            var changedItems = collection is List<T> ? (List<T>) collection : new List<T>(collection);
-            var index = Items.IndexOf(changedItems[0]);
-
-            for (var i = 0; i < changedItems.Count; i++)
+            var removedItems = new List<T>();
+            foreach (var item in collection)
             {
-                if (!Items.Remove(changedItems[i]))
+                if (Items.Remove(item))
                 {
-                    changedItems.RemoveAt(i); // Can't use a foreach because changedItems is intended to be (carefully) modified
-                    i--;
+                    removedItems.Add(item);
                 }
             }
 
             OnPropertyChanged(EventArgsCache.CountPropertyChanged);
             OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
             OnCollectionChanged(
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, changedItems, index));
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removedItems));
         }
 
         /// <summary>
