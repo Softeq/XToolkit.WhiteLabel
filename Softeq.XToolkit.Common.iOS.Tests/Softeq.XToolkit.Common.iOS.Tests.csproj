@@ -102,6 +102,8 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\NsStringExtensions\NsStringExtensionsTests.cs" />
+    <Compile Include="Extensions\UIColorExtensionsTests\UIColorExtensionsTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Extensions\NsRangeExtensionsTests\NsRangeExtensionsTests.cs" />
