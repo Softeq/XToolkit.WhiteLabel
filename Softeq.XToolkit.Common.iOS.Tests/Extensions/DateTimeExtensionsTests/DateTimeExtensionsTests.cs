@@ -19,9 +19,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.DateTimeExtensionsTests
             var nsDate = NSDate.FromTimeIntervalSinceNow(secondsSinceNow);
             var calendar = NSCalendar.CurrentCalendar;
             calendar.TimeZone = NSTimeZone.FromGMT(0);
-            var utcComponents = calendar.Components(
-                NSCalendarUnit.Second | NSCalendarUnit.Minute | NSCalendarUnit.Hour |
-                NSCalendarUnit.Day | NSCalendarUnit.Month | NSCalendarUnit.Year, nsDate);
+            var utcComponents = CreateComponents(nsDate, calendar);
 
             var dateTime = nsDate.ToUtcDateTime();
 
@@ -42,9 +40,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.DateTimeExtensionsTests
         public void ToLocalDateTime_ForNsDate_ConvertsToLocalDateTime(double secondsSinceNow)
         {
             var nsDate = NSDate.FromTimeIntervalSinceNow(secondsSinceNow);
-            var localComponents = NSCalendar.CurrentCalendar.Components(
-                NSCalendarUnit.Second | NSCalendarUnit.Minute | NSCalendarUnit.Hour |
-                NSCalendarUnit.Day | NSCalendarUnit.Month | NSCalendarUnit.Year, nsDate);
+            var localComponents = CreateComponents(nsDate, NSCalendar.CurrentCalendar);
 
             var dateTime = nsDate.ToLocalDateTime();
 
@@ -70,6 +66,13 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.DateTimeExtensionsTests
             var newNsDate = dateTime.ToNsDate();
 
             Assert.Equal(nsDate.SecondsSince1970, newNsDate.SecondsSince1970, 3);
+        }
+
+        private NSDateComponents CreateComponents(NSDate date, NSCalendar calendar)
+        {
+            return calendar.Components(
+                NSCalendarUnit.Second | NSCalendarUnit.Minute | NSCalendarUnit.Hour |
+                NSCalendarUnit.Day | NSCalendarUnit.Month | NSCalendarUnit.Year, date);
         }
     }
 }
