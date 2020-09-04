@@ -17,10 +17,7 @@ namespace Softeq.XToolkit.Common.Collections
         public ObservableItemContentRangeCollection(IEnumerable<T> items)
             : this()
         {
-            if (items != null)
-            {
-                AddRange(items);
-            }
+            AddRange(items);
         }
 
         private void ObservableItemContentRangeCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
