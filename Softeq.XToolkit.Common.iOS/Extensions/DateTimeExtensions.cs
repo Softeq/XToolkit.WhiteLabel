@@ -9,11 +9,11 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
     public static class DateTimeExtensions
     {
         /// <summary>
-        /// Converts input <see cref="NSDate"/> to C# <see cref="DateTime"/>.
+        /// Converts input <see cref="T:Foundation.NSDate"/> to C# <see cref="T:System.DateTime"/>.
         /// </summary>
-        /// <param name="date"><see cref="NSDate"/> object to convert.</param>
+        /// <param name="date"><see cref="T:Foundation.NSDate"/> object to convert.</param>
         /// <returns>
-        /// <see cref="DateTime"/> representation of the specified date in UTC.
+        /// <see cref="T:System.DateTime"/> representation of the specified date in UTC.
         /// No convertion is made since NSDate always represents date in UTC.
         /// </returns>
         public static DateTime ToUtcDateTime(this NSDate date)
@@ -22,13 +22,13 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         }
 
         /// <summary>
-        /// Converts input <see cref="NSDate"/> to C# <see cref="DateTime"/>.
+        /// Converts input <see cref="T:Foundation.NSDate"/> to C# <see cref="T:System.DateTime"/>.
         /// </summary>
-        /// <param name="date"><see cref="NSDate"/> object to convert.</param>
+        /// <param name="date"><see cref="T:Foundation.NSDate"/> object to convert.</param>
         /// <returns>
-        /// <see cref="DateTime"/> representation of the specified <see cref="NSDate"/>
-        /// whose <see cref="DateTime.Kind"/> property is <see cref="DateTimeKind.Local"/>
-        /// and whose value is the local time equivalent to the specified <see cref="NSDate"/>.
+        /// <see cref="T:System.DateTime"/> representation of the specified <see cref="T:Foundation.NSDate"/>
+        /// whose <see cref="T:System.DateTime.Kind"/> property is <see cref="T:System.DateTimeKind.Local"/>
+        /// and whose value is the local time equivalent to the specified <see cref="T:Foundation.NSDate"/>.
         /// </returns>
         public static DateTime ToLocalDateTime(this NSDate date)
         {
@@ -36,12 +36,12 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         }
 
         /// <summary>
-        /// Converts input <see cref="DateTime"/> to iOS specific <see cref="NSDate"/>.
-        /// Since <see cref="NSDate"/> objects encapsulate a single point in time, independent of any particular calendrical system or time zone,
-        /// we need to convert input date to <see cref="DateTimeKind.Utc"/>.
+        /// Converts input <see cref="cref="DateTime"DateTime"/> to iOS specific <see cref="T:Foundation.NSDate"/>.
+        /// Since <see cref="T:Foundation.NSDate"/> objects encapsulate a single point in time, independent of any particular calendrical system or time zone,
+        /// we need to convert input date to <see cref="cref="DateTime"DateTimeKind.Utc"/>.
         /// </summary>
-        /// <param name="date"><see cref="DateTime"/> object to convert.</param>
-        /// <returns><see cref="NSDate"/> representation of the specified date converted to UTC.</returns>
+        /// <param name="date"><see cref="T:System.DateTime"/> object to convert.</param>
+        /// <returns><see cref="T:Foundation.NSDate"/> representation of the specified date converted to UTC.</returns>
         public static NSDate ToNsDate(this DateTime date)
         {
             return (NSDate) date.ToUniversalTime();
