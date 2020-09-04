@@ -21,8 +21,6 @@
       </group>
      <group targetFramework="MonoAndroid9.0">
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
-        <!-- Android specific: -->
-        <dependency id="Xamarin.AndroidX.Core" version="1.1.0" />
         <!-- XToolkit: -->
         <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta4]" />
         <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />

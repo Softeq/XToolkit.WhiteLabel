@@ -20,9 +20,9 @@
       <group targetFramework="MonoAndroid9.0">
         <dependency id="Softeq.XToolkit.Common" version="[1.1.0-beta6]" />
         <!-- Android specific: -->
-        <dependency id="Xamarin.AndroidX.AppCompat" version="1.1.0" />
-        <dependency id="Xamarin.AndroidX.Lifecycle.Process" version="2.2.0" />
-        <dependency id="Xamarin.Firebase.Messaging" version="71.1740.0" />
+        <dependency id="Xamarin.AndroidX.AppCompat" version="1.2.0" />
+        <dependency id="Xamarin.AndroidX.Lifecycle.Process" version="2.2.0.2" />
+        <dependency id="Xamarin.Firebase.Messaging" version="71.1740.4" />
         <dependency id="Xamarin.ShortcutBadger" version="1.1.21" />
       </group>
       <group targetFramework="Xamarin.iOS10">
