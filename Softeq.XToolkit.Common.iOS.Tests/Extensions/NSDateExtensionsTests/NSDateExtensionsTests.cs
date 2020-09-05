@@ -6,9 +6,9 @@ using Foundation;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.DateTimeExtensionsTests
+namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NSDateExtensionsTests
 {
-    public class DateTimeExtensionsTests
+    public class NSDateExtensionsTests
     {
         [Theory]
         [InlineData(-100000)]

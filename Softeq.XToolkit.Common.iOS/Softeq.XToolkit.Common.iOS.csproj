@@ -37,7 +37,7 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Extensions\NSDateExtensions.cs" />
     <Compile Include="Extensions\NsStringExtensions.cs" />
     <Compile Include="Extensions\UIImageExtensions.cs" />
     <Compile Include="Helpers\LocaleHelper.cs" />
