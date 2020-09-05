@@ -43,7 +43,7 @@
     <Compile Include="Extensions\UIImageExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\UIColorExtensions.cs" />
-    <Compile Include="Extensions\UI__ViewControllerExtensions.cs" />
+    <Compile Include="Extensions\UIViewControllerExtensions.cs" />
     <Compile Include="Controls\LengthValidator.cs" />
     <Compile Include="Extensions\NSRangeExtensions.cs" />
     <Compile Include="Controls\TextFieldWithoutPaste.cs" />
