@@ -11,7 +11,8 @@ namespace Softeq.XToolkit.Common.iOS.Controls
     [Register("TextFieldWithoutPaste")]
     public class TextFieldWithoutPaste : UITextField
     {
-        public TextFieldWithoutPaste(IntPtr handle) : base(handle)
+        public TextFieldWithoutPaste(IntPtr handle)
+            : base(handle)
         {
         }
 

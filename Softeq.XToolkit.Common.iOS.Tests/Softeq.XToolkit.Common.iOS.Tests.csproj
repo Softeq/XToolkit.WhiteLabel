@@ -108,6 +108,7 @@
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Extensions\NsRangeExtensionsTests\NsRangeExtensionsTests.cs" />
+    <Compile Include="Extensions\NSDateExtensionsTests\NSDateExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="xunit">
