@@ -38,9 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\NSDateExtensions.cs" />
+    <Compile Include="Extensions\NsLocaleExtensions.cs" />
     <Compile Include="Extensions\NsStringExtensions.cs" />
     <Compile Include="Extensions\UIImageExtensions.cs" />
-    <Compile Include="Helpers\LocaleHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\UIColorExtensions.cs" />
     <Compile Include="Extensions\UIViewControllerExtensions.cs" />
