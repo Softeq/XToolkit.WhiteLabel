@@ -7,10 +7,10 @@ using Foundation;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsLocaleExtensionsTests
+namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NSLocaleExtensionsTests
 {
     [SuppressMessage("ReSharper", "InvokeAsExtensionMethod", Justification = "Need for tests")]
-    public class NsLocaleExtensionsTests
+    public class NSLocaleExtensionsTests
     {
         [Fact]
         public void Is24HourFormat_Null_ThrowsArgumentNullException()
@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsLocaleExtensionsTests
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                NsLocaleExtensions.Is24HourFormat(locale!);
+                NSLocaleExtensions.Is24HourFormat(locale!);
             });
         }
 

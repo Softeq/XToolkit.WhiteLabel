@@ -6,7 +6,7 @@ using Foundation;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
 {
-    public static class NsLocaleExtensions
+    public static class NSLocaleExtensions
     {
         /// <summary>
         ///     Gets a value indicating whether <c>true</c> if times should be formatted as 24 hour times,
