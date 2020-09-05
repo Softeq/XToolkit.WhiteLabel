@@ -130,9 +130,14 @@ namespace Softeq.XToolkit.Common.Collections
             Comparison<T> comparison,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
         {
-            if (collection == null || comparison == null)
+            if (collection == null)
             {
                 throw new ArgumentNullException(nameof(collection));
+            }
+
+            if (comparison == null)
+            {
+                throw new ArgumentNullException(nameof(comparison));
             }
 
             if (notificationMode != NotifyCollectionChangedAction.Add &&
@@ -192,9 +197,7 @@ namespace Softeq.XToolkit.Common.Collections
             if (notificationMode != NotifyCollectionChangedAction.Remove &&
                 notificationMode != NotifyCollectionChangedAction.Reset)
             {
-                throw new ArgumentException(
-                    "Mode must be either Remove or Reset for RemoveRange.",
-                    nameof(notificationMode));
+                throw new ArgumentException("Mode must be either Remove or Reset for RemoveRange.", nameof(notificationMode));
             }
 
             CheckReentrancy();
