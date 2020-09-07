@@ -23,8 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
         {
             _viewModel = viewModel;
 
-            var containerId = Resource.Id.activity_main_page_navigation_container;
-            var config = new FrameNavigationConfig(fragmentManager, containerId);
+            var config = new FrameNavigationConfig(fragmentManager, ContainerId);
             ToolbarComponent = new ToolbarComponent<TViewModel, TKey>(config);
         }
 
@@ -37,6 +36,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
         protected virtual ColorStateList? BadgeBackgroundColor { get; }
 
         protected virtual ColorStateList? BadgeTextColor { get; }
+
+        protected virtual int ContainerId => Resource.Id.activity_main_page_navigation_container;
 
         protected virtual int BottomNavigationViewId => Resource.Id.activity_bottom_navigation_page_navigation_view;
 
