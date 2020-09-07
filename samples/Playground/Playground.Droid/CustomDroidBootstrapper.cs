@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using Playground.Droid.Extended;
 using Playground.Extended;
+using Playground.ViewModels.Frames;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
@@ -42,6 +43,8 @@ namespace Playground.Droid
 
             // connectivity
             builder.Singleton<ConnectivityService, IConnectivityService>();
+
+            builder.PerDependency<TopShellViewModel>();
         }
     }
 }

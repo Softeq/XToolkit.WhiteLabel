@@ -9,6 +9,7 @@ using Playground.ViewModels.Collections;
 using Playground.ViewModels.Components;
 using Playground.ViewModels.Controls;
 using Playground.ViewModels.Dialogs;
+using Playground.ViewModels.Frames;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
@@ -70,21 +71,15 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Without parameters")),
-
                 (Category.Navigation, new CommandAction(
                     new RelayCommand(() =>
                     {
                         _pageNavigationService
                             .For<DetailsPageViewModel>()
-                            .WithParam(x => x.Person, new Person
-                            {
-                                FirstName = "Ivan",
-                                LastName = "Ivanov"
-                            })
+                            .WithParam(x => x.Person, new Person { FirstName = "Ivan", LastName = "Ivanov" })
                             .Navigate();
                     }),
                     "With parameters")),
-
                 (Category.Navigation, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -93,7 +88,6 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Bottom Tabs")),
-
                 (Category.Navigation, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -102,7 +96,14 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Dialogs")),
-
+                (Category.Navigation, new CommandAction(
+                    new RelayCommand(() =>
+                    {
+                        _pageNavigationService
+                            .For<FramesViewModel>()
+                            .Navigate();
+                    }),
+                    "Frames")),
                 (Category.Collections, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -111,7 +112,6 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Observable list")),
-
                 (Category.Collections, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -120,7 +120,6 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Observable collection")),
-
                 (Category.Collections, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -129,7 +128,6 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Observable grouped list")),
-
                 (Category.Collections, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -138,7 +136,6 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Observable grouped collection")),
-
                 (Category.Collections, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -147,7 +144,6 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Compositional Layout")),
-
                 (Category.Controls, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -157,12 +153,12 @@ namespace Playground.ViewModels
                     }),
                     "Photo browser")),
 
-                 // (Category.Components, new CommandAction(
-                 //   new RelayCommand(() =>
-                 //   {
-                 //       _pageNavigationService.NavigateToViewModel<FilesViewModel>();
-                 //   }),
-                 //   "Files")),
+                // (Category.Components, new CommandAction(
+                //   new RelayCommand(() =>
+                //   {
+                //       _pageNavigationService.NavigateToViewModel<FilesViewModel>();
+                //   }),
+                //   "Files")),
                 (Category.Components, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -171,7 +167,6 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Permissions")),
-
                 (Category.Components, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -180,7 +175,6 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Connectivity")),
-
                 (Category.Components, new CommandAction(
                     new RelayCommand(() =>
                     {

@@ -10,14 +10,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
     {
         private const string ViewModelStoreTag = "WL_ViewModelStore";
 
-        internal static IViewModelStore Of(Fragment fragment)
+        internal static IViewModelStore Of(FragmentManager fragmentManager)
         {
-            return Of(fragment.Activity);
-        }
-
-        internal static IViewModelStore Of(FragmentActivity activity)
-        {
-            return Get(activity.SupportFragmentManager);
+            return Get(fragmentManager);
         }
 
         private static IViewModelStore Get(FragmentManager fragmentManager)
@@ -30,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 
                 if (viewModelStore == null)
                 {
-                    viewModelStore = ViewModelStoreFragment.NewInstance();
+                    viewModelStore = new ViewModelStoreFragment();
 
                     fragmentManager
                         .BeginTransaction()

@@ -18,9 +18,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable
         where TViewModel : IDialogViewModel
     {
+        private readonly Lazy<IContextProvider> _contextProviderLazy = Dependencies.Container.Resolve<Lazy<IContextProvider>>();
+
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
+
         public List<Binding> Bindings { get; } = new List<Binding>();
 
         public object DataContext { get; private set; } = default!;
@@ -86,18 +89,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             SetStyle(StyleNoFrame, ThemeId);
 
-            var contextProvider = Dependencies.Container.Resolve<IContextProvider>();
-            var baseActivity = (FragmentActivity) contextProvider.CurrentActivity;
+            var fragmentManager = GetFragmentManager();
 
-            Internal.ViewModelStore.Of(baseActivity).Add(GetKey(), ViewModel);
-            Show(baseActivity.SupportFragmentManager, null);
+            Internal.ViewModelStore.Of(fragmentManager).Add(GetKey(), ViewModel);
+            Show(fragmentManager, null);
         }
 
         protected virtual void RestoreViewModelIfNeeded(Bundle? savedInstanceState)
         {
             if (ViewModel == null && savedInstanceState != null)
             {
-                var viewModelStore = Internal.ViewModelStore.Of(Activity);
+                var viewModelStore = Internal.ViewModelStore.Of(GetFragmentManager());
                 DataContext = (TViewModel) viewModelStore.Get<IDialogViewModel>(GetKey());
             }
         }
@@ -119,14 +121,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             Dismiss();
 
-            var contextProvider = Dependencies.Container.Resolve<IContextProvider>();
-            var baseActivity = (FragmentActivity) contextProvider.CurrentActivity;
-            Internal.ViewModelStore.Of(baseActivity).Remove(GetKey());
+            Internal.ViewModelStore.Of(GetFragmentManager()).Remove(GetKey());
         }
 
         private string GetKey()
         {
             return GetType().Name;
+        }
+
+        private FragmentManager GetFragmentManager()
+        {
+            var contextProvider = _contextProviderLazy.Value;
+            var fragmentActivity = (FragmentActivity) contextProvider.CurrentActivity;
+            return fragmentActivity.SupportFragmentManager;
         }
     }
 }
