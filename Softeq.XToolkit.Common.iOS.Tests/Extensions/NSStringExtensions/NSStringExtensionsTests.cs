@@ -8,15 +8,15 @@ using Softeq.XToolkit.Common.iOS.Extensions;
 using UIKit;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsStringExtensions
+namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NSStringExtensions
 {
     [SuppressMessage("ReSharper", "InvokeAsExtensionMethod", Justification = "Need for tests")]
-    public class NsStringExtensionsTests
+    public class NSStringExtensionsTests
     {
         [Fact]
         public void NewParagraphStyle_CreateNewInstance_ReturnsInstance()
         {
-            var result = iOS.Extensions.NsStringExtensions.NewParagraphStyle;
+            var result = iOS.Extensions.NSStringExtensions.NewParagraphStyle;
 
             Assert.IsType<NSMutableParagraphStyle>(result);
         }
@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsStringExtensions
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                iOS.Extensions.NsStringExtensions.ToNSUrl(link!);
+                iOS.Extensions.NSStringExtensions.ToNSUrl(link!);
             });
         }
 
@@ -84,7 +84,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsStringExtensions
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                iOS.Extensions.NsStringExtensions.BuildAttributedString(input!);
+                iOS.Extensions.NSStringExtensions.BuildAttributedString(input!);
             });
         }
 
@@ -106,7 +106,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsStringExtensions
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                iOS.Extensions.NsStringExtensions.BuildAttributedStringFromHtml(input!);
+                iOS.Extensions.NSStringExtensions.BuildAttributedStringFromHtml(input!);
             });
         }
 
@@ -151,7 +151,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsStringExtensions
 
             Assert.Throws<NullReferenceException>(() =>
             {
-                iOS.Extensions.NsStringExtensions.DetectLinks(
+                iOS.Extensions.NSStringExtensions.DetectLinks(
                     obj!,
                     UIColor.Red,
                     NSUnderlineStyle.Single,

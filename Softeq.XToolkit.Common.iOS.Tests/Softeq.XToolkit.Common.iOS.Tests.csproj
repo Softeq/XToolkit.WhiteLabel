@@ -102,12 +102,13 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\NsLocaleExtensionsTests\NsLocaleExtensionsTests.cs" />
-    <Compile Include="Extensions\NsStringExtensions\NsStringExtensionsTests.cs" />
+    <Compile Include="Extensions\NSLocaleExtensionsTests\NSLocaleExtensionsTests.cs" />
+    <Compile Include="Extensions\NSStringExtensions\NSStringExtensionsTests.cs" />
     <Compile Include="Extensions\UIColorExtensionsTests\UIColorExtensionsTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Extensions\NsRangeExtensionsTests\NsRangeExtensionsTests.cs" />
+    <Compile Include="Extensions\NSRangeExtensionsTests\NSRangeExtensionsTests.cs" />
+    <Compile Include="Extensions\NSDateExtensionsTests\NSDateExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="xunit">

@@ -9,7 +9,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
 {
-    public static class NsStringExtensions
+    public static class NSStringExtensions
     {
         /// <summary>
         ///     Gets new instance of the default paragraph style.
