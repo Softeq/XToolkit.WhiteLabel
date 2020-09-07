@@ -179,9 +179,10 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        ///     Removes the first occurence of each item in the specified collection from ObservableCollection(Of T). NOTE: with
-        ///     notificationMode = Remove, removed items starting index is not set because items are not guaranteed to be
-        ///     consecutive.
+        ///     Removes the first occurence of each item in the specified collection from ObservableCollection(Of T).
+        ///     Removed items are not guaranteed to be consecutive.
+        ///     With <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Remove"/> removed items starting index is not set.
+        ///     With <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/> removed items starting index is set to the index of the first removed element.
         /// </summary>
         /// <param name="collection">The collection of items to delete.</param>
         /// <param name="notificationMode">Action that will called after deletion.</param>
@@ -204,9 +205,9 @@ namespace Softeq.XToolkit.Common.Collections
 
             if (notificationMode == NotifyCollectionChangedAction.Reset)
             {
-                foreach (var i in collection)
+                foreach (var item in collection)
                 {
-                    Items.Remove(i);
+                    Items.Remove(item);
                 }
 
                 OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
@@ -215,8 +216,14 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var removedItems = new List<T>();
+            var firstRemovedItemIndex = -1;
             foreach (var item in collection)
             {
+                if (firstRemovedItemIndex == -1)
+                {
+                    firstRemovedItemIndex = Items.IndexOf(item);
+                }
+
                 if (Items.Remove(item))
                 {
                     removedItems.Add(item);
@@ -226,7 +233,7 @@ namespace Softeq.XToolkit.Common.Collections
             OnPropertyChanged(EventArgsCache.CountPropertyChanged);
             OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
             OnCollectionChanged(
-                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removedItems));
+                new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, removedItems, firstRemovedItemIndex));
         }
 
         /// <summary>

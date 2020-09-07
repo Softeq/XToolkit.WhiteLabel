@@ -281,6 +281,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableRangeCollectionTest
 
             Assert.NotNull(raisedEvent);
             Assert.Equal(NotifyCollectionChangedAction.Reset, raisedEvent.Arguments.Action);
+            Assert.Equal(-1, raisedEvent.Arguments.OldStartingIndex);
             Assert.Equal(items, collection);
         }
 
@@ -313,6 +314,14 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableRangeCollectionTest
 
             var oldItems = raisedEvent.Arguments.OldItems.Cast<int>().ToList();
             Assert.Equal(actualRemovedItems, oldItems);
+            if (actualRemovedItems.Count == 0)
+            {
+                Assert.Equal(-1, raisedEvent.Arguments.OldStartingIndex);
+            }
+            else
+            {
+                Assert.True(raisedEvent.Arguments.OldStartingIndex > -1);
+            }
         }
 
         #endregion
