@@ -31,17 +31,19 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableItemContentRangeCol
             Assert.Equal(collection, items);
         }
 
-        [Theory]
-        [MemberData(
-            nameof(ObservableItemContentRangeCollectionDataProvider.EmptyCollectionData),
-            MemberType = typeof(ObservableItemContentRangeCollectionDataProvider))]
-        public void ObservableItemContentRangeCollection_WhenCreatedWithEmptyItems_CreatesEmptyCollection(
-            IEnumerable<ObservableObject> items)
+        [Fact]
+        public void ObservableItemContentRangeCollection_WhenCreatedWithEmptyItems_CreatesEmptyCollection()
         {
-            var collection = new ObservableItemContentRangeCollection<ObservableObject>(items);
+            var collection = new ObservableItemContentRangeCollection<ObservableObject>(new List<ObservableObject>());
 
             Assert.IsAssignableFrom<ObservableCollection<ObservableObject>>(collection);
             Assert.Empty(collection);
+        }
+
+        [Fact]
+        public void ObservableItemContentRangeCollection_WhenCreatedWithNullItems_ThrowsException()
+        {
+            Assert.Throws<ArgumentNullException>(() => new ObservableItemContentRangeCollection<ObservableObject>(null));
         }
 
         [Fact]
