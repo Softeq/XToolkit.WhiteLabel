@@ -99,7 +99,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             if (ViewModel == null && savedInstanceState != null)
             {
-                var viewModelStore = Internal.ViewModelStore.Of(GetFragmentManager());
+                var fragmentManager = GetFragmentManager();
+                var viewModelStore = Internal.ViewModelStore.Of(fragmentManager);
                 DataContext = (TViewModel) viewModelStore.Get<IDialogViewModel>(GetKey());
             }
         }

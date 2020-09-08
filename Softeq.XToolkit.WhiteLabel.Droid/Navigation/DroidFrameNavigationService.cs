@@ -31,7 +31,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _iocContainer = iocContainer;
         }
 
-        private IViewModelStore CurrentStore => ViewModelStore.Of(_config.Manager);
+        private IViewModelStore CurrentStore
+        {
+            get
+            {
+                if (_config == null)
+                {
+                    throw new InvalidOperationException("Navigation not initialized");
+                }
+
+                return ViewModelStore.Of(_config.Manager);
+            }
+        }
 
         public bool IsInitialized => _config != null;
 
@@ -152,14 +163,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return fragmentTransaction;
         }
 
-        private static string ToKey(Fragment fragment)
+        protected virtual string ToKey(Fragment fragment)
         {
             return fragment.GetType().Name;
         }
 
         private static IViewModelBase ExtractViewModel(Fragment fragment)
         {
-            return (IViewModelBase) ((IBindable) fragment).DataContext;
+            return (IViewModelBase)((IBindable) fragment).DataContext;
         }
 
         private void NavigateInternal(Fragment fragment, IViewModelBase viewModel)

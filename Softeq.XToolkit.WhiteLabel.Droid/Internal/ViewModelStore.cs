@@ -17,25 +17,21 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 
         private static IViewModelStore Get(FragmentManager fragmentManager)
         {
-            ViewModelStoreFragment viewModelStore;
-
-            if (!fragmentManager.IsDestroyed)
+            if (fragmentManager.IsDestroyed)
             {
-                viewModelStore = (ViewModelStoreFragment) fragmentManager.FindFragmentByTag(ViewModelStoreTag);
-
-                if (viewModelStore == null)
-                {
-                    viewModelStore = new ViewModelStoreFragment();
-
-                    fragmentManager
-                        .BeginTransaction()
-                        .Add(viewModelStore, ViewModelStoreTag)
-                        .Commit();
-                }
+                throw new InvalidOperationException("View Model store has been destroyed");
             }
-            else
+
+            var viewModelStore = (ViewModelStoreFragment?) fragmentManager.FindFragmentByTag(ViewModelStoreTag);
+
+            if (viewModelStore == null)
             {
-                throw new Exception("view model store has been destroyed");
+                viewModelStore = new ViewModelStoreFragment();
+
+                fragmentManager
+                    .BeginTransaction()
+                    .Add(viewModelStore, ViewModelStoreTag)
+                    .Commit();
             }
 
             return viewModelStore;

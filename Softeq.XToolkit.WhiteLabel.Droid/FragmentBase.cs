@@ -59,7 +59,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             if (ViewModel == null && savedInstanceState != null)
             {
-                DataContext = Internal.ViewModelStore.Of(ParentFragmentManager).Get<TViewModel>(GetType().Name);
+                var viewModelStore = Internal.ViewModelStore.Of(ParentFragmentManager);
+                var key = GetType().Name;
+                DataContext = viewModelStore.Get<TViewModel>(key);
             }
         }
 
