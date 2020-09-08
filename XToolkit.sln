@@ -91,6 +91,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playground", "Playground", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS.Tests", "Softeq.XToolkit.Common.iOS.Tests\Softeq.XToolkit.Common.iOS.Tests.csproj", "{8F494CF3-61BE-4140-AA49-D9660C0271C6}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid.Tests", "Softeq.XToolkit.Common.Droid.Tests\Softeq.XToolkit.Common.Droid.Tests.csproj", "{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -456,6 +458,14 @@ Global
 		{8F494CF3-61BE-4140-AA49-D9660C0271C6}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 		{8F494CF3-61BE-4140-AA49-D9660C0271C6}.Release|Any CPU.ActiveCfg = Release|iPhoneSimulator
 		{8F494CF3-61BE-4140-AA49-D9660C0271C6}.Release|Any CPU.Build.0 = Release|iPhoneSimulator
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}.Debug|iPhone.ActiveCfg = Debug|Any CPU
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}.Debug|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}.Release|iPhone.ActiveCfg = Release|Any CPU
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8}.Release|iPhoneSimulator.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24588814-B93D-4528-8917-9C2A3C4E85CA} = {2CC5305B-22A3-48B0-858A-98478AC14EF9}
@@ -493,5 +503,6 @@ Global
 		{6B7105F6-6F18-4999-BA4E-8069D92F3150} = {6A926916-1067-40F9-A266-A2F71C3B2DD4}
 		{56850655-3264-43CE-AAE6-4A59F9CCB0EF} = {730602C4-6848-412A-A457-724474A504B7}
 		{8F494CF3-61BE-4140-AA49-D9660C0271C6} = {2CC5305B-22A3-48B0-858A-98478AC14EF9}
+		{69A56CFD-E5A6-4A7D-9F41-25EB88975BF8} = {2CC5305B-22A3-48B0-858A-98478AC14EF9}
 	EndGlobalSection
 EndGlobal
