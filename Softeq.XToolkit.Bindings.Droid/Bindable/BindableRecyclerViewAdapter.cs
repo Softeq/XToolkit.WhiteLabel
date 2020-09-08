@@ -27,9 +27,17 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         protected IDisposable _subscription;
         private protected ICommand<TItem> _itemClick;
 
-        public Type HeaderViewHolder { get; set; }
+        public BindableRecyclerViewAdapterBase(
+            Type headerViewHolder,
+            Type footerViewHolder)
+        {
+            HeaderViewHolder = headerViewHolder;
+            FooterViewHolder = footerViewHolder;
+        }
 
-        public Type FooterViewHolder { get; set; }
+        protected Type HeaderViewHolder { get; }
+
+        protected Type FooterViewHolder { get; }
 
         public ICommand<TItem> ItemClick
         {
@@ -198,7 +206,11 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     {
         private readonly IEnumerable<TItem> _dataSource;
 
-        public BindableRecyclerViewAdapter(IEnumerable<TItem> items)
+        public BindableRecyclerViewAdapter(
+            IEnumerable<TItem> items,
+            Type headerViewHolder = null,
+            Type footerViewHolder = null)
+            : base(headerViewHolder, footerViewHolder)
         {
             _dataSource = items;
 
@@ -290,7 +302,6 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
                     {
                         NotifyItemMoved(e.OldStartingIndex + i, e.NewStartingIndex + i);
                     }
-
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     NotifyItemRangeChanged(e.NewStartingIndex, e.NewItems.Count);
@@ -310,7 +321,11 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     {
         private readonly IEnumerable<IGrouping<TKey, TItem>> _dataSource;
 
-        public BindableRecyclerViewAdapter(IEnumerable<IGrouping<TKey, TItem>> items)
+        public BindableRecyclerViewAdapter(
+            IEnumerable<IGrouping<TKey, TItem>> items,
+            Type headerViewHolder = null,
+            Type footerViewHolder = null)
+            : base(headerViewHolder, footerViewHolder)
         {
             _dataSource = items;
 
