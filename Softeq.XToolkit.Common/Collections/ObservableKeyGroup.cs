@@ -7,16 +7,16 @@ using System.Linq;
 namespace Softeq.XToolkit.Common.Collections
 {
     /// <summary>
-    ///     Defines a key/value pair that can be set or retrieved when value is ObservableRangeCollection.
+    ///     <see cref="ObservableRangeCollection{TValue}"/> with the additional Key property.
     /// </summary>
-    /// <typeparam name="TKey">The element type of the key</typeparam>
-    /// <typeparam name="TValue">The element type of the collection item</typeparam>
+    /// <typeparam name="TKey">The type of the key.</typeparam>
+    /// <typeparam name="TValue">The type of the collection items.</typeparam>
     public class ObservableKeyGroup<TKey, TValue> : ObservableRangeCollection<TValue>,
         IGrouping<TKey, TValue>
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Collections.ObservableKeyGroup`2" /> class with the
-        ///     specified key.
+        ///     Initializes a new instance of the
+        ///     <see cref="ObservableKeyGroup{TKey, TValue}"/> class with the specified key.
         /// </summary>
         /// <param name="key">Key.</param>
         public ObservableKeyGroup(TKey key)
@@ -25,12 +25,13 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="T:Softeq.XToolkit.Common.Collections.ObservableKeyGroup`2" /> class with the
-        ///     specified key and values.
+        ///     Initializes a new instance of the
+        ///     <see cref="ObservableKeyGroup{TKey, TValue}"/> class with the specified key and collection.
         /// </summary>
         /// <param name="key">Key.</param>
         /// <param name="collection">Collection.</param>
-        public ObservableKeyGroup(TKey key, IEnumerable<TValue> collection) : base(collection)
+        public ObservableKeyGroup(TKey key, IEnumerable<TValue> collection)
+            : base(collection)
         {
             Key = key;
         }
