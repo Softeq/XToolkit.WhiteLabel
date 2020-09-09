@@ -11,10 +11,10 @@ using Softeq.XToolkit.Common.Collections.EventArgs;
 namespace Softeq.XToolkit.Common.Collections
 {
     /// <summary>
-    ///     Represents a dynamic data collection that provides notifications
+    ///     Dynamic data collection that provides notifications
     ///     when items get added, removed, or when the whole list is refreshed.
     /// </summary>
-    /// <typeparam name="T">The element type of the collection.</typeparam>
+    /// <typeparam name="T">Collection elements type.</typeparam>
     public class ObservableRangeCollection<T> : ObservableCollection<T>
     {
         /// <summary>
@@ -25,21 +25,50 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="ObservableRangeCollection{T}"/> class that contains
-        ///     elements copied from the specified collection.
+        ///     Initializes a new instance of the <see cref="ObservableRangeCollection{T}"/> class
+        ///     that contains elements copied from the specified collection.
         /// </summary>
-        /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <exception cref="T:System.ArgumentNullException">The collection parameter cannot be null.</exception>
+        /// <param name="collection">
+        ///     The collection from which the elements are copied.
+        ///     <para/>
+        ///     The collection itself cannot be <see langword="null"/>,
+        ///     but it can contain elements that are <see langword="null"/>,
+        ///     if type T is a reference type.
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="collection"/> parameter cannot be <see langword="null"/>.
+        /// </exception>
         public ObservableRangeCollection(IEnumerable<T> collection)
             : base(collection)
         {
         }
 
         /// <summary>
-        ///     Adds the elements of the specified collection to the end of the ObservableCollection(Of T).
+        ///     Adds the elements of the specified collection
+        ///     to the end of the current <see cref="ObservableRangeCollection{T}"/>.
         /// </summary>
-        /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <param name="notificationMode">Action that will called after adding.</param>
+        /// <param name="collection">
+        ///     The collection from which the elements are copied.
+        ///     <para/>
+        ///     The collection itself cannot be <see langword="null"/>,
+        ///     but it can contain elements that are <see langword="null"/>,
+        ///     if type T is a reference type.
+        /// </param>
+        /// <param name="notificationMode">
+        ///     Description of an action that will be added to
+        ///     <see cref="ObservableCollection{T}.CollectionChanged"/> event.
+        ///     <para/>
+        ///     Can be only <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Add"/>
+        ///     or <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/>.
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="collection"/> parameter cannot be <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentException">
+        ///     <paramref name="notificationMode"/> parameter must be either
+        ///     <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Add"/>
+        ///     or <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/>.
+        /// </exception>
         public void AddRange(
             IEnumerable<T> collection,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Add)
@@ -52,7 +81,7 @@ namespace Softeq.XToolkit.Common.Collections
             if (notificationMode != NotifyCollectionChangedAction.Add &&
                 notificationMode != NotifyCollectionChangedAction.Reset)
             {
-                throw new ArgumentException("Mode must be either Add or Reset for AddRange.", nameof(notificationMode));
+                throw new ArgumentException("Notification mode must be either Add or Reset for AddRange.", nameof(notificationMode));
             }
 
             CheckReentrancy();
@@ -86,10 +115,25 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        ///     Insert the elements of the specified collection at a given index of the ObservableCollection(Of T).
+        ///     Insert the elements of the specified collection
+        ///     at a given index of the current <see cref="ObservableRangeCollection{T}"/>.
         /// </summary>
-        /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <param name="startIndex">The index in the array at which to insert items.</param>
+        /// <param name="collection">
+        ///     The collection from which the elements are copied.
+        ///     <para/>
+        ///     The collection itself cannot be <see langword="null"/>,
+        ///     but it can contain elements that are <see langword="null"/>,
+        ///     if type T is a reference type.
+        /// </param>
+        /// <param name="startIndex">
+        ///     The zero-based index at which the new elements should be inserted.
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="collection"/> parameter cannot be <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentOutOfRangeException">
+        ///     <paramref name="startIndex"/> parameter must be less than Count and greater than or equal to 0.
+        /// </exception>
         public void InsertRange(IEnumerable<T> collection, int startIndex)
         {
             if (collection == null)
@@ -99,7 +143,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             if (startIndex < 0 || startIndex > Count)
             {
-                throw new IndexOutOfRangeException(nameof(startIndex));
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
             }
 
             CheckReentrancy();
@@ -119,12 +163,38 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        ///     Insert the elements of the specified collection and sort the collection.
+        ///     Insert the elements of the specified collection in the ascending sort order.
+        ///     <para/>
+        ///     This method assumes that the current <see cref="ObservableRangeCollection{T}"/> is already sorted in ascending order.
         /// </summary>
-        /// <param name="collection">The collection from which the elements are copied.</param>
-        /// <param name="comparison">Method that compares <typeparamref name="T" /> objects.</param>
-        /// <param name="notificationMode">Action that will called after deletion.</param>
+        /// <param name="collection">
+        ///     The collection from which the elements are copied.
+        ///     <para/>
+        ///     The collection itself cannot be <see langword="null"/>,
+        ///     but it can contain elements that are <see langword="null"/>,
+        ///     if type T is a reference type.
+        /// </param>
+        /// <param name="comparison">
+        ///     Method that compares <typeparamref name="T" /> objects.
+        ///     <para/>
+        ///     Cannot be <see langword="null"/>.
+        /// </param>
+        /// <param name="notificationMode">
+        ///     Description of an action that will be added to
+        ///     <see cref="ObservableCollection{T}.CollectionChanged"/> event.
+        ///     <para/>
+        ///     Can be only <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Add"/>
+        ///     or <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/>.
+        /// </param>
         /// <returns>Inserted items indexes.</returns>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="collection"/> and <paramref name="comparison"/> parameters cannot be <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentException">
+        ///     <paramref name="notificationMode"/> parameter must be either
+        ///     <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Add"/>
+        ///     or <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/>.
+        /// </exception>
         public IList<int> InsertRangeSorted(
             IEnumerable<T> collection,
             Comparison<T> comparison,
@@ -143,7 +213,7 @@ namespace Softeq.XToolkit.Common.Collections
             if (notificationMode != NotifyCollectionChangedAction.Add &&
                 notificationMode != NotifyCollectionChangedAction.Reset)
             {
-                throw new ArgumentException("Mode must be either Add or Reset for InsertRangeSorted.", nameof(notificationMode));
+                throw new ArgumentException("Notification mode must be either Add or Reset for InsertRangeSorted.", nameof(notificationMode));
             }
 
             CheckReentrancy();
@@ -179,13 +249,36 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        ///     Removes the first occurence of each item in the specified collection from ObservableCollection(Of T).
+        ///     Removes the first occurence of each item in the specified collection
+        ///     from the current <see cref="ObservableRangeCollection{T}"/>.
         ///     Removed items are not guaranteed to be consecutive.
-        ///     With <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Remove"/> removed items starting index is not set.
-        ///     With <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/> removed items starting index is set to the index of the first removed element.
+        ///     <para/>
+        ///     With <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/> removed items starting index is not set.
+        ///     <para/>
+        ///     With <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Remove"/> removed items starting index is set to the index of the first removed element.
         /// </summary>
-        /// <param name="collection">The collection of items to delete.</param>
-        /// <param name="notificationMode">Action that will called after deletion.</param>
+        /// <param name="collection">
+        ///     The collection of items to delete.
+        ///     <para/>
+        ///     The collection itself cannot be <see langword="null"/>,
+        ///     but it can contain elements that are <see langword="null"/>,
+        ///     if type T is a reference type.
+        /// </param>
+        /// <param name="notificationMode">
+        ///     Description of an action that will be added to
+        ///     <see cref="ObservableCollection{T}.CollectionChanged"/> event.
+        ///     <para/>
+        ///     Can be only <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Remove"/>
+        ///     or <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/>.
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="collection"/> parameter cannot be <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentException">
+        ///     <paramref name="notificationMode"/> parameter must be either
+        ///     <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Remove"/>
+        ///     or <see cref="F:System.Collections.Specialized.NotifyCollectionChangedAction.Reset"/>.
+        /// </exception>
         public void RemoveRange(
             IEnumerable<T> collection,
             NotifyCollectionChangedAction notificationMode = NotifyCollectionChangedAction.Reset)
@@ -198,7 +291,7 @@ namespace Softeq.XToolkit.Common.Collections
             if (notificationMode != NotifyCollectionChangedAction.Remove &&
                 notificationMode != NotifyCollectionChangedAction.Reset)
             {
-                throw new ArgumentException("Mode must be either Remove or Reset for RemoveRange.", nameof(notificationMode));
+                throw new ArgumentException("Notification mode must be either Remove or Reset for RemoveRange.", nameof(notificationMode));
             }
 
             CheckReentrancy();
@@ -237,18 +330,29 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <summary>
-        ///     Clears the current collection and replaces it with the specified item.
+        ///     Clears the current <see cref="ObservableRangeCollection{T}"/>
+        ///     and replaces it with the specified item.
         /// </summary>
-        /// <param name="item">Item that will added to collection.</param>
+        /// <param name="item">Item that will added to the collection.</param>
         public void Replace(T item)
         {
             ReplaceRange(new[] { item });
         }
 
         /// <summary>
-        ///     Clears the current collection and replaces it with the specified collection.
+        ///     Clears the current <see cref="ObservableRangeCollection{T}"/>
+        ///     and replaces it with the items from the specified collection.
         /// </summary>
-        /// <param name="collection">The collection from which the elements are copied.</param>
+        /// <param name="collection">
+        ///     The collection from which the elements are copied.
+        ///     <para/>
+        ///     The collection itself cannot be <see langword="null"/>,
+        ///     but it can contain elements that are <see langword="null"/>,
+        ///     if type T is a reference type.
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="collection"/> parameter cannot be <see langword="null"/>.
+        /// </exception>
         public void ReplaceRange(IEnumerable<T> collection)
         {
             if (collection == null)

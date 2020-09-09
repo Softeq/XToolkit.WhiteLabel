@@ -13,96 +13,99 @@ namespace Softeq.XToolkit.Common.Collections
         where TValue : notnull
     {
         /// <summary>
-        ///     Add groups with specified keys and empty items.
+        ///     Add groups with the specified keys and empty items at the end of the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="keys">List of group keys to add</param>
+        /// <param name="keys">List of group keys to add.</param>
         void AddGroups(IEnumerable<TKey> keys);
 
         /// <summary>
-        ///     Add groups with specified keys and items.
+        ///     Add groups with the specified keys and items at the end of the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="items">List of group keys and items to add</param>
+        /// <param name="items">List of group keys and items to add.</param>
         void AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
 
         /// <summary>
-        ///     Insert groups with specified keys and empty items at the specified index.
+        ///     Insert groups with the specified keys and empty items at the specified index of the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="index">The zero-based index at which item should be inserted.</param>
-        /// <param name="keys">Group keys to insert</param>
+        /// <param name="index">The zero-based index at which groups should be inserted.</param>
+        /// <param name="keys">Group keys to insert.</param>
         void InsertGroups(int index, IEnumerable<TKey> keys);
 
         /// <summary>
-        ///     Insert groups with specified keys and items at the specified index.
+        ///     Insert groups with the specified keys and items at the specified index of the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="index">The zero-based index at which item should be inserted.</param>
-        /// <param name="items">List of group keys and items to add</param>
+        /// <param name="index">The zero-based index at which items should be inserted.</param>
+        /// <param name="items">List of group keys and items to add.</param>
         void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
 
         /// <summary>
-        ///     Clear collection and add groups with specified keys and empty items.
+        ///     Clear the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> and add groups with the specified keys and empty items.
         /// </summary>
-        /// <param name="keys">List of group keys to add</param>
+        /// <param name="keys">List of group keys to add.</param>
         void ReplaceGroups(IEnumerable<TKey> keys);
 
         /// <summary>
-        ///     Clear collection and add groups with specified keys and items.
+        ///     Clear the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> and add groups with the specified keys and items.
         /// </summary>
-        /// <param name="items">List of group keys and items to add</param>
+        /// <param name="items">List of group keys and items to add.</param>
         void ReplaceGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
 
         /// <summary>
-        ///     Remove groups from collection
+        ///     Remove the specified groups from the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        /// <param name="keys">Group keys to remove</param>
+        /// <param name="items">Group keys to remove.</param>
         void RemoveGroups(IEnumerable<TKey> items);
 
         /// <summary>
-        ///     Clear collection
+        ///     Clear current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
         void ClearGroups();
 
         /// <summary>
-        ///     Clear group with specified key.
+        ///     Clear group with the specified key.
         /// </summary>
-        /// <param name="key">Group keys</param>
+        /// <param name="key">Group key.</param>
         void ClearGroup(TKey key);
 
         /// <summary>
-        ///     Add items to collectios at specified group, add group when group key is not exists
+        ///     Add items to the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        /// <typeparam name="T">Object type</typeparam>
-        /// <param name="items">List of objects</param>
-        /// <param name="keySelector">Function returning a key from the object</param>
-        /// <param name="valueSelector">>Function returning an item from the object</param>
+        /// <typeparam name="T">Items type.</typeparam>
+        /// <param name="items">List of items to add.</param>
+        /// <param name="keySelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Key.</param>
+        /// <param name="valueSelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Value.</param>
         void AddItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector);
 
         /// <summary>
-        ///     Insert items to collectios at specified group
+        ///     Insert items to the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        /// <typeparam name="T">Object type</typeparam>
-        /// <param name="items">List of objects</param>
-        /// <param name="keySelector">Function returning a key from the object</param>
-        /// <param name="valueSelector">>Function returning an item from the object</param>
-        /// <param name="valueIndexSelector">Function returning an index at which item should be inserted.</param>
-        void InsertItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector,
-            Func<T, TValue> valueSelector, Func<T, int> valueIndexSelector);
+        /// <typeparam name="T">Items type.</typeparam>
+        /// <param name="items">List of items to insert.</param>
+        /// <param name="keySelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Key.</param>
+        /// <param name="valueSelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Value.</param>
+        /// <param name="valueIndexSelector">Function that converts input list item to the index inside <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> group.</param>
+        void InsertItems<T>(
+            IEnumerable<T> items,
+            Func<T, TKey> keySelector,
+            Func<T, TValue> valueSelector,
+            Func<T, int> valueIndexSelector);
 
         /// <summary>
-        ///     Clear collection and add items to collectios at specified group, add group when group key is not exists
+        ///     Clear current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> and add the items from the specified collection.
         /// </summary>
-        /// <typeparam name="T">Object type</typeparam>
-        /// <param name="items">List of objects</param>
-        /// <param name="keySelector">Function returning a key from the object</param>
-        /// <param name="valueSelector">>Function returning an item from the object</param>
+        /// <typeparam name="T">Items type.</typeparam>
+        /// <param name="items">List of items to add.</param>
+        /// <param name="keySelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Key.</param>
+        /// <param name="valueSelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Value.</param>
         void ReplaceItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector);
 
         /// <summary>
-        ///     Remove items to collectios frmom specified group
+        ///     Remove the specified items from the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        /// <typeparam name="T">Object type</typeparam>
-        /// <param name="items">List of objects</param>
-        /// <param name="keySelector">Function returning a key from the object</param>
-        /// <param name="valueSelector">>Function returning an item from the object</param>
+        /// <typeparam name="T">Items type.</typeparam>
+        /// <param name="items">List of items to remove.</param>
+        /// <param name="keySelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Key.</param>
+        /// <param name="valueSelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Value.</param>
         void RemoveItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector);
     }
 }

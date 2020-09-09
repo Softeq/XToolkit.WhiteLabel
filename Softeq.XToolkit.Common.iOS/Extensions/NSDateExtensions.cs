@@ -13,8 +13,8 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         /// </summary>
         /// <param name="date"><see cref="T:Foundation.NSDate"/> object to convert.</param>
         /// <returns>
-        /// <see cref="T:System.DateTime"/> representation of the specified date in UTC.
-        /// No conversion is made since NSDate always represents date in UTC.
+        ///     <see cref="T:System.DateTime"/> representation of the specified date in UTC.
+        ///     No conversion is made since <see cref="T:Foundation.NSDate"/> always represents date in UTC.
         /// </returns>
         public static DateTime ToUtcDateTime(this NSDate date)
         {

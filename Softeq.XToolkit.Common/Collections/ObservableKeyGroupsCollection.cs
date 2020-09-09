@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Softeq.XToolkit.Common.Collections.EventArgs;
+
 #nullable disable
 namespace Softeq.XToolkit.Common.Collections
 {
@@ -27,11 +28,11 @@ namespace Softeq.XToolkit.Common.Collections
             _defaultValueComparison = valueComparison;
         }
 
+        public event EventHandler<NotifyKeyGroupsCollectionChangedEventArgs> ItemsChanged;
+
         public ObservableRangeCollection<TKey> Keys { get; }
 
         public IEnumerable<TValue> Values => Items.SelectMany(x => x);
-
-        public event EventHandler<NotifyKeyGroupsCollectionChangedEventArgs> ItemsChanged;
 
         public void AddRangeToGroups<T>(
             IList<T> listItem,
