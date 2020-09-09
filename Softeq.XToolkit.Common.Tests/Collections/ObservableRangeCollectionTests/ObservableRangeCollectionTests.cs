@@ -151,7 +151,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableRangeCollectionTest
             IEnumerable<int> insertItems,
             int startIndex)
         {
-            Assert.Throws<IndexOutOfRangeException>(() => collection.InsertRange(insertItems, startIndex));
+            Assert.Throws<ArgumentOutOfRangeException>(() => collection.InsertRange(insertItems, startIndex));
         }
 
         [Theory]
@@ -563,7 +563,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableRangeCollectionTest
             IEnumerable<int> insertItems,
             int startIndex)
         {
-            Assert.Throws<IndexOutOfRangeException>(() =>
+            Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 foreach (var item in collection)
                 {

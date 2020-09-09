@@ -12,7 +12,7 @@ using Android.Widget;
 namespace Softeq.XToolkit.Bindings.Droid
 {
     /// <summary>
-    ///     A <see cref="BaseAdapter{T}" /> that can be used with an Android ListView. After setting
+    ///     A <see cref="T:Android.Widget.BaseAdapter{T}" /> that can be used with an Android ListView. After setting
     ///     the <see cref="DataSource" /> and the <see cref="GetTemplateDelegate" /> properties, the adapter is
     ///     suitable for a list control. If the DataSource is an <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />,
     ///     changes to the collection will be observed and the UI will automatically be updated.

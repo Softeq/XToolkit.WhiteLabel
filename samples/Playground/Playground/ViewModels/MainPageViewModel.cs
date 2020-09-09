@@ -13,6 +13,8 @@ using Playground.ViewModels.Frames;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -29,11 +31,14 @@ namespace Playground.ViewModels
     public class MainPageViewModel : ViewModelBase
     {
         private readonly IPageNavigationService _pageNavigationService;
+        private readonly IAppInfoService _appInfoService;
 
         public MainPageViewModel(
-            IPageNavigationService pageNavigationService)
+            IPageNavigationService pageNavigationService,
+            IAppInfoService appInfoService)
         {
             _pageNavigationService = pageNavigationService;
+            _appInfoService = appInfoService;
 
             Items = new ObservableKeyGroupsCollection<string, CommandAction>();
             GoToEmptyCommand = new RelayCommand(GoToEmpty);
@@ -139,11 +144,14 @@ namespace Playground.ViewModels
                 (Category.Collections, new CommandAction(
                     new RelayCommand(() =>
                     {
-                        _pageNavigationService
-                            .For<CompositionalLayoutPageViewModel>()
-                            .Navigate();
+                        if (_appInfoService.Platform == Platform.iOS)
+                        {
+                            _pageNavigationService
+                                .For<CompositionalLayoutPageViewModel>()
+                                .Navigate();
+                        }
                     }),
-                    "Compositional Layout")),
+                    "Compositional Layout (iOS 13+)")),
                 (Category.Controls, new CommandAction(
                     new RelayCommand(() =>
                     {
@@ -178,11 +186,14 @@ namespace Playground.ViewModels
                 (Category.Components, new CommandAction(
                     new RelayCommand(() =>
                     {
-                        _pageNavigationService
-                            .For<GesturesPageViewModel>()
-                            .Navigate();
+                        if (_appInfoService.Platform == Platform.iOS)
+                        {
+                            _pageNavigationService
+                                .For<GesturesPageViewModel>()
+                                .Navigate();
+                        }
                     }),
-                    "Gestures"))
+                    "Gestures (iOS)"))
             };
 
             Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());

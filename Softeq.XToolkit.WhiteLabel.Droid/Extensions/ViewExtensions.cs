@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Extensions
     public static class ViewExtensions
     {
         /// <summary>
-        ///     Returns <see cref="Color" /> by resourceId.
+        ///     Returns <see cref="T:Android.Graphics.Color" /> by ResourceId.
         /// </summary>
         /// <param name="view">Android View.</param>
         /// <param name="resourceId">ResourceId of color</param>
