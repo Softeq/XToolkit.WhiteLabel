@@ -46,7 +46,6 @@
     <Compile Include="Extensions\UIViewControllerExtensions.cs" />
     <Compile Include="Controls\LengthValidator.cs" />
     <Compile Include="Extensions\NSRangeExtensions.cs" />
-    <Compile Include="Controls\TextFieldWithoutPaste.cs" />
     <Compile Include="Extensions\UIViewExtensions.cs" />
     <Compile Include="Extensions\UITextFieldExtensions.cs" />
   </ItemGroup>
