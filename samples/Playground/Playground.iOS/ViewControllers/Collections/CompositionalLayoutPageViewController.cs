@@ -25,6 +25,20 @@ namespace Playground.iOS.ViewControllers.Collections
 
             NavigationItem.Title = "Compositional Layout";
 
+            if (!UIDevice.CurrentDevice.CheckSystemVersion(13, 0))
+            {
+                var label = new UILabel();
+                label.TranslatesAutoresizingMaskIntoConstraints = false;
+                label.Text = "Supported only for iOS 13+";
+                View!.AddSubview(label);
+                NSLayoutConstraint.ActivateConstraints(new[]
+                {
+                    label.CenterXAnchor.ConstraintEqualTo(View.CenterXAnchor),
+                    label.CenterYAnchor.ConstraintEqualTo(View.CenterYAnchor)
+                });
+                return;
+            }
+
             var tabBarViewController = new UITabBarController
             {
                 ViewControllers = new UIViewController[]

@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.Threading.Tasks;
 using Playground.ViewModels.Components;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
 using Softeq.XToolkit.Common.Commands;
@@ -13,7 +12,8 @@ namespace Playground.iOS.ViewControllers.Components
 {
     public partial class GesturesPageViewController : ViewControllerBase<GesturesPageViewModel>
     {
-        public GesturesPageViewController(IntPtr handle) : base(handle)
+        public GesturesPageViewController(IntPtr handle)
+            : base(handle)
         {
         }
 
@@ -21,28 +21,26 @@ namespace Playground.iOS.ViewControllers.Components
         {
             base.ViewDidLoad();
 
-            TapViewContainer.Tap().Command = new AsyncCommand(async () =>
-            {
-               await HighlightView(TapViewContainer);
-            });
+            var tapCommand = new RelayCommand(() => HighlightView(TapViewContainer));
+            TapViewContainer.Tap().Command = tapCommand;
 
-            SwipeViewContainer.Swipe(UISwipeGestureRecognizerDirection.Right).Command = new AsyncCommand(async () =>
-            {
-                await HighlightView(SwipeViewContainer);
-            });
+            var swipeDirection = UISwipeGestureRecognizerDirection.Right;
+            var swipeCommand = new RelayCommand(() => HighlightView(SwipeViewContainer));
+            SwipeViewContainer.Swipe(swipeDirection).Command = swipeCommand;
 
-            PanViewContainer.Pan().Command = new AsyncCommand(async () =>
-            {
-                await HighlightView(PanViewContainer);
-            });
+            var panCommand = new RelayCommand(() => HighlightView(PanViewContainer));
+            PanViewContainer.Pan().Command = panCommand;
         }
 
-        private async Task HighlightView (UIView view)
+        private void HighlightView(UIView view)
         {
-            view.BackgroundColor = UIColor.Red;
-            await Task.Delay(100);
-            view.BackgroundColor = UIColor.White;
+            var originalColor = view.BackgroundColor;
+            UIView.Animate(
+                0.05,
+                0,
+                UIViewAnimationOptions.CurveLinear,
+                () => view.BackgroundColor = UIColor.Red,
+                () => view.BackgroundColor = originalColor);
         }
     }
 }
-

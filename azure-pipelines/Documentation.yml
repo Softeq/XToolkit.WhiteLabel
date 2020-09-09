@@ -1,12 +1,9 @@
 resources:
 - repo: self
 trigger:
-  branches:
-    include:
-    - documentation/*
-  paths:
-    include:
-    - documentation/*
+  - master
+pr:
+  - documentation/*
 
 variables:
 - template: templates/vars.yml

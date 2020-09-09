@@ -5,7 +5,6 @@ using System;
 using System.Drawing;
 using CoreGraphics;
 using Softeq.XToolkit.Common.iOS.Extensions;
-using Softeq.XToolkit.Common.iOS.Helpers;
 using Softeq.XToolkit.WhiteLabel.Helpers;
 using UIKit;
 

@@ -17,9 +17,44 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 
         private string ViewModelStoreId { get; set; } = Guid.NewGuid().ToString();
 
-        internal static ViewModelStoreFragment NewInstance()
+        /// <inheritdoc />
+        public TViewModel Get<TViewModel>(string fragmentName)
+            where TViewModel : class, IViewModelBase
         {
-            return new ViewModelStoreFragment();
+            var viewModel = ViewModelCache.Get<TViewModel>(ViewModelStoreId, fragmentName);
+
+            if (viewModel != null)
+            {
+                return viewModel;
+            }
+
+            // Important case, when app process was restarted:
+            // If in-memory ViewModelCache was cleared -> create new ViewModel
+            return Dependencies.Container.Resolve<TViewModel>();
+        }
+
+        /// <inheritdoc />
+        public void Add(string fragmentName, IViewModelBase viewModel)
+        {
+            ViewModelCache.Add(ViewModelStoreId, fragmentName, viewModel);
+        }
+
+        /// <inheritdoc />
+        public void Remove(string fragmentName)
+        {
+            ViewModelCache.Remove(ViewModelStoreId, fragmentName);
+        }
+
+        /// <inheritdoc />
+        public void Remove(IReadOnlyList<string> fragmentNames)
+        {
+            ViewModelCache.Remove(ViewModelStoreId, fragmentNames);
+        }
+
+        /// <inheritdoc />
+        public void Clear()
+        {
+            ViewModelCache.Clear(ViewModelStoreId);
         }
 
         /// <inheritdoc />
@@ -62,46 +97,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
             {
                 Clear();
             }
-        }
-
-        /// <inheritdoc />
-        public TViewModel Get<TViewModel>(string fragmentName)
-            where TViewModel : class, IViewModelBase
-        {
-            var viewModel = ViewModelCache.Get<TViewModel>(ViewModelStoreId, fragmentName);
-
-            if (viewModel != null)
-            {
-                return viewModel;
-            }
-
-            // Important case, when app process was restarted:
-            // If in-memory ViewModelCache was cleared -> create new ViewModel
-            return Dependencies.Container.Resolve<TViewModel>();
-        }
-
-        /// <inheritdoc />
-        public void Add(string fragmentName, IViewModelBase viewModel)
-        {
-            ViewModelCache.Add(ViewModelStoreId, fragmentName, viewModel);
-        }
-
-        /// <inheritdoc />
-        public void Remove(string fragmentName)
-        {
-            ViewModelCache.Remove(ViewModelStoreId, fragmentName);
-        }
-
-        /// <inheritdoc />
-        public void Remove(IReadOnlyList<string> fragmentNames)
-        {
-            ViewModelCache.Remove(ViewModelStoreId, fragmentNames);
-        }
-
-        /// <inheritdoc />
-        public void Clear()
-        {
-            ViewModelCache.Clear(ViewModelStoreId);
         }
     }
 }

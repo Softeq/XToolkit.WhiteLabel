@@ -17,9 +17,10 @@ using UIKit;
 namespace Softeq.XToolkit.Bindings.iOS
 {
     /// <summary>
-    ///     A <see cref="UITableViewController" /> that can be used as an iOS view. After setting
+    ///     A <see cref="T:UIKit.UITableViewController" /> that can be used as an iOS view. After setting
     ///     the <see cref="DataSource" /> and the <see cref="BindCellDelegate" /> and <see cref="CreateCellDelegate" />
-    ///     properties, the controller can be loaded. If the DataSource is an <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />,
+    ///     properties, the controller can be loaded.
+    ///     If the DataSource is an <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />,
     ///     changes to the collection will be observed and the UI will automatically be updated.
     /// </summary>
     /// <remarks>
@@ -166,7 +167,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public UITableViewSource TableSource => _tableSource;
 
         /// <summary>
-        ///     Overrides <see cref="UITableViewController.TableView" />.
+        ///     Overrides <see cref="P:UIKit.UITableViewController.TableView" />.
         ///     Sets or gets the controllers TableView. If you use a TableView
         ///     placed in the UI manually, use this property's setter to assign
         ///     your TableView to this controller.
@@ -190,7 +191,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public event EventHandler LastItemRequested;
 
         /// <summary>
-        ///     Overrides the <see cref="UIViewController.ViewDidLoad" /> method.
+        ///     Overrides the <see cref="M:UIKit.UIViewController.ViewDidLoad" /> method.
         /// </summary>
         public override void ViewDidLoad()
         {
@@ -503,7 +504,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
 
             /// <summary>
-            ///     Overrides the <see cref="UITableViewSource.NumberOfSections" /> method.
+            ///     Overrides the <see cref="M:UIKit.UITableViewSource.NumberOfSections" /> method.
             /// </summary>
             /// <param name="tableView">The active TableView.</param>
             /// <returns>The number of sections of the UITableView.</returns>
@@ -514,7 +515,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
 
             /// <summary>
-            ///     Overrides the <see cref="UITableViewSource.RowSelected" /> method
+            ///     Overrides the <see cref="M:UIKit.UITableViewSource.RowSelected" /> method
             ///     and notifies the associated <see cref="ObservableTableViewController{T}" />
             ///     that a row has been selected, so that the corresponding events can be raised.
             /// </summary>
@@ -527,7 +528,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             }
 
             /// <summary>
-            ///     Overrides the <see cref="UITableViewSource.RowsInSection" /> method
+            ///     Overrides the <see cref="M:UIKit.UITableViewSource.RowsInSection" /> method
             ///     and returns the number of rows in the associated data source.
             /// </summary>
             /// <param name="tableView">The active TableView.</param>

@@ -7,7 +7,7 @@ using System.Linq.Expressions;
 using Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils;
 using Xunit;
 using Xunit.Sdk;
-using static Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils.CustomPropertyChangedAsserts;
+using static Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils.CustomAsserts;
 
 namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests
 {

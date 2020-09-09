@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Softeq.XToolkit.WhiteLabel.Forms</id>
-    <version>1.0.0-beta1</version>
+    <version>1.0.0-beta2</version>
     <title>Softeq.XToolkit.WhiteLabel.Forms</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
@@ -17,7 +17,7 @@
      <group targetFramework="netstandard2.1">
         <dependency id="Xamarin.Forms" version="4.5.0.530" />
         <!-- XToolkit -->
-        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />
+        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta8]" />
       </group>
    </dependencies>
   </metadata>

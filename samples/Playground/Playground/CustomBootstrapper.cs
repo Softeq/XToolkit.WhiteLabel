@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using Playground.Services;
+using Playground.ViewModels.Frames;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 
 namespace Playground
@@ -12,6 +13,8 @@ namespace Playground
         {
             // Playground
             builder.Singleton<DataService, IDataService>();
+
+            builder.PerDependency<TopShellViewModel>();
         }
     }
 }

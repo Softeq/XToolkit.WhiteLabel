@@ -28,19 +28,19 @@ namespace Softeq.XToolkit.Common.Collections
         private readonly IList<Group> _items;
         private readonly bool _withoutEmptyGroups;
 
-        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
-
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="ObservableKeyGroupsCollectionNew{TKey, TValue}"/> class.
         /// </summary>
-        /// <param name="withoutEmptyGroups">If true empty groups will be removed</param>
+        /// <param name="withoutEmptyGroups">If true empty groups will be removed.</param>
         public ObservableKeyGroupsCollectionNew(bool withoutEmptyGroups = true)
         {
             _withoutEmptyGroups = withoutEmptyGroups;
             _items = new List<Group>();
         }
+
+        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
+
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         #region IObservableKeyGroupCollection
 
@@ -204,7 +204,6 @@ namespace Softeq.XToolkit.Common.Collections
                 default,
                 default,
                 groupEvents);
-
         }
 
         /// <inheritdoc />
@@ -235,8 +234,8 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
-            List<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>? groupEvents = result
-                .Where(x => keysToAdd == null ? true : keysToAdd.All(y => !y.Equals(x.Key)))
+            var groupEvents = result
+                .Where(x => keysToAdd == null || keysToAdd.All(y => !y.Equals(x.Key)))
                 .Select(x =>
                     (
                         _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
@@ -402,6 +401,7 @@ namespace Softeq.XToolkit.Common.Collections
                 {
                     rangesToRemove.Add(groupInfo.GroupIndex, new List<(int, IReadOnlyList<TValue>)>());
                 }
+
                 rangesToRemove[groupInfo.GroupIndex].AddRange(GroupByIndex(groupInfo.Items).ToList());
             }
 
@@ -425,7 +425,7 @@ namespace Softeq.XToolkit.Common.Collections
                 .ToList();
 
             List<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>? groupEvents = rangesToRemove
-                .Where(x => keyIndexesToRemove == null ? true : keyIndexesToRemove.All(y => !y.Equals(x.Key)))
+                .Where(x => keyIndexesToRemove == null || keyIndexesToRemove.All(y => !y.Equals(x.Key)))
                 .Select(x =>
                     (
                         x.Key,
@@ -456,10 +456,7 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
         #endregion
 
@@ -513,11 +510,9 @@ namespace Softeq.XToolkit.Common.Collections
                 return null;
             }
 
-            int i = index;
-
             foreach (var item in toInsert)
             {
-                _items.Insert(i++, item);
+                _items.Insert(index++, item);
             }
 
             return toInsert;
@@ -545,17 +540,7 @@ namespace Softeq.XToolkit.Common.Collections
 
                 var val = valueSelector.Invoke(item);
 
-                int index;
-
-                if (indexSelector == null)
-                {
-                    index = _items.First(x => x.Key.Equals(key)).Count;
-                }
-                else
-                {
-                    index = indexSelector.Invoke(item);
-                }
-
+                var index = indexSelector == null ? _items.First(x => x.Key.Equals(key)).Count : indexSelector.Invoke(item);
                 if (!itemsToAdd.Any(x => x.Key.Equals(key)))
                 {
                     itemsToAdd.Add((key, new List<KeyValuePair<TValue, int>>()));

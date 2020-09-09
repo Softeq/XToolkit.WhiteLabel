@@ -9,12 +9,12 @@ using Java.Lang;
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
     /// <summary>
-    ///     Extensions related to <see cref="EditText" />
+    ///     Extensions related to <see cref="T:Android.Widget.EditText" />.
     /// </summary>
     public static class EditTextExtensions
     {
         /// <summary>
-        ///     Allows to move cursor to the end of text in EditText when it gains focus
+        ///     Allows to move cursor to the end of text in EditText when it gains focus.
         /// </summary>
         /// <param name="editText">Edit text.</param>
         public static void KeepFocusAtTheEndOfField(this EditText editText)
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
             /// <summary>
             ///     This filter will constrain edits not to make text contains forbidden symbols.
             /// </summary>
-            /// <param name="forbiddenCharacters">Char array of characters not allowed in the input. Ignored when null</param>
+            /// <param name="forbiddenCharacters">Char array of characters not allowed in the input. Ignored when null.</param>
             public ForbiddenCharsInputFilter(char[] forbiddenCharacters)
             {
                 _forbiddenCharacters = forbiddenCharacters;

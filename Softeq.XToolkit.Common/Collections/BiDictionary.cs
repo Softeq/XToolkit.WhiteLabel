@@ -8,7 +8,6 @@ using System.IO;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Permissions;
-using System.Text;
 
 namespace Softeq.XToolkit.Common.Collections
 {
@@ -72,10 +71,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         ICollection IDictionary.Values => ((IDictionary) _firstToSecond).Values;
 
-        IDictionaryEnumerator IDictionary.GetEnumerator()
-        {
-            return ((IDictionary) _firstToSecond).GetEnumerator();
-        }
+        IDictionaryEnumerator IDictionary.GetEnumerator() => ((IDictionary) _firstToSecond).GetEnumerator();
 
         void IDictionary.Add(object key, object value)
         {
@@ -129,10 +125,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         public ICollection<TSecond> Values => _firstToSecond.Values;
 
-        public IEnumerator<KeyValuePair<TFirst, TSecond>> GetEnumerator()
-        {
-            return _firstToSecond.GetEnumerator();
-        }
+        public IEnumerator<KeyValuePair<TFirst, TSecond>> GetEnumerator() => _firstToSecond.GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator()
         {
@@ -201,7 +194,8 @@ namespace Softeq.XToolkit.Common.Collections
         IEnumerable<TSecond> IReadOnlyDictionary<TFirst, TSecond>.Values =>
             ((IReadOnlyDictionary<TFirst, TSecond>) _firstToSecond).Values;
 
-        [SecurityPermission(SecurityAction.LinkDemand,
+        [SecurityPermission(
+            SecurityAction.LinkDemand,
             Flags = SecurityPermissionFlag.SerializationFormatter)]
         public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
         {
@@ -266,10 +260,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             ICollection IDictionary.Values => ((IDictionary) _owner._secondToFirst).Values;
 
-            IDictionaryEnumerator IDictionary.GetEnumerator()
-            {
-                return ((IDictionary) _owner._secondToFirst).GetEnumerator();
-            }
+            IDictionaryEnumerator IDictionary.GetEnumerator() => ((IDictionary) _owner._secondToFirst).GetEnumerator();
 
             void IDictionary.Add(object key, object value)
             {
@@ -323,15 +314,9 @@ namespace Softeq.XToolkit.Common.Collections
 
             public ICollection<TFirst> Values => _owner._secondToFirst.Values;
 
-            public IEnumerator<KeyValuePair<TSecond, TFirst>> GetEnumerator()
-            {
-                return _owner._secondToFirst.GetEnumerator();
-            }
+            public IEnumerator<KeyValuePair<TSecond, TFirst>> GetEnumerator() => _owner._secondToFirst.GetEnumerator();
 
-            IEnumerator IEnumerable.GetEnumerator()
-            {
-                return GetEnumerator();
-            }
+            IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 
             public void Add(TSecond key, TFirst value)
             {
@@ -384,7 +369,8 @@ namespace Softeq.XToolkit.Common.Collections
                 _owner._firstToSecond.Clear();
             }
 
-            void ICollection<KeyValuePair<TSecond, TFirst>>.CopyTo(KeyValuePair<TSecond, TFirst>[] array,
+            void ICollection<KeyValuePair<TSecond, TFirst>>.CopyTo(
+                KeyValuePair<TSecond, TFirst>[] array,
                 int arrayIndex)
             {
                 _owner._secondToFirst.CopyTo(array, arrayIndex);

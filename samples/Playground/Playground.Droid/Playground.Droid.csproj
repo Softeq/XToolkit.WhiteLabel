@@ -53,16 +53,16 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.1.0" />
-    <PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.Utils" Version="1.0.0" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.2.0" />
-</ItemGroup>
-  <ItemGroup>
     <Compile Include="Extended\DroidChooseBetterDateDialog.cs" />
     <Compile Include="Extended\DroidExtendedDialogsService.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
+    <Compile Include="Views\Frames\FramesActivity.cs" />
+    <Compile Include="Views\Frames\BlueFragment.cs" />
+    <Compile Include="Views\Frames\SplitFrameFragment.cs" />
+    <Compile Include="Views\Frames\RedFragment.cs" />
+    <Compile Include="Views\Frames\YellowFragment.cs" />
     <Compile Include="Views\SplashActivity.cs" />
     <Compile Include="CustomDroidBootstrapper.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
@@ -94,6 +94,9 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_frames.xml" />
+    <AndroidResource Include="Resources\layout\fragment_split.xml" />
+    <AndroidResource Include="Resources\layout\fragment_with_navigation.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\values\strings.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />

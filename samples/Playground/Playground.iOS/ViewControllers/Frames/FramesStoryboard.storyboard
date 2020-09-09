@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Frames View Controller-->
+        <scene sceneID="lkE-V4-TVU">
+            <objects>
+                <viewController storyboardIdentifier="FramesViewController" id="kcj-7h-BNM" customClass="FramesViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="OyX-hk-Jay">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="aL8-wk-ZLp">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="aL8-wk-ZLp" firstAttribute="leading" secondItem="Dno-he-gjg" secondAttribute="leading" id="Cfq-Y3-TkS"/>
+                            <constraint firstItem="Dno-he-gjg" firstAttribute="trailing" secondItem="aL8-wk-ZLp" secondAttribute="trailing" id="Gva-R8-Yqa"/>
+                            <constraint firstItem="aL8-wk-ZLp" firstAttribute="top" secondItem="Dno-he-gjg" secondAttribute="top" id="OW4-2A-QtI"/>
+                            <constraint firstItem="Dno-he-gjg" firstAttribute="bottom" secondItem="aL8-wk-ZLp" secondAttribute="bottom" id="aqS-SU-2UT"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="Dno-he-gjg"/>
+                    </view>
+                    <connections>
+                        <outlet property="ContentView" destination="aL8-wk-ZLp" id="fId-Ob-EsL"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ykd-C2-hSN" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="74" y="129"/>
+        </scene>
+    </scenes>
+</document>

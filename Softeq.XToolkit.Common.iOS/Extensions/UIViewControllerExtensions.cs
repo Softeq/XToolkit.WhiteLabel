@@ -5,7 +5,7 @@ using UIKit;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
 {
-    public static class UiViewControllerExtensions
+    public static class UIViewControllerExtensions
     {
         public static void AddAsChild(this UIViewController child, UIViewController parent, UIView? targetView = null)
         {
@@ -41,7 +41,9 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             NSLayoutConstraint.ActivateConstraints(new[] { right, left, top, bottom });
         }
 
-        public static void AddAsChildWithConstraints(this UIViewController child, UIViewController parent,
+        public static void AddAsChildWithConstraints(
+            this UIViewController child,
+            UIViewController parent,
             UIView? targetView = null)
         {
             parent.AddChildViewController(child);

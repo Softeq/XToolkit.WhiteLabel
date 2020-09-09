@@ -6,9 +6,9 @@ using Softeq.XToolkit.Common.Helpers;
 using Softeq.XToolkit.Common.iOS.Extensions;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NsRangeExtensionsTests
+namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NSRangeExtensionsTests
 {
-    public class NsRangeExtensionsTests
+    public class NSRangeExtensionsTests
     {
         [Theory]
         [InlineData(0, 0)]

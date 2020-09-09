@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Softeq.XToolkit.WhiteLabel.Essentials</id>
-    <version>1.0.0-beta1</version>
+    <version>1.0.0-beta2</version>
     <title>Softeq.XToolkit.WhiteLabel.Essentials</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
@@ -16,22 +16,20 @@
     <dependencies>
      <group targetFramework="netstandard2.1">
         <!-- XToolkit: -->
-        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta4]" />
-        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />
+        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta5]" />
+        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta8]" />
       </group>
      <group targetFramework="MonoAndroid9.0">
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
-        <!-- Android specific: -->
-        <dependency id="Xamarin.AndroidX.Core" version="1.1.0" />
         <!-- XToolkit: -->
-        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta4]" />
-        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />
+        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta5]" />
+        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta8]" />
       </group>
      <group targetFramework="Xamarin.iOS10">
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <!-- XToolkit: -->
-        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta4]" />
-        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta7]" />
+        <dependency id="Softeq.XToolkit.Permissions" version="[2.0.0-beta5]" />
+        <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta8]" />
       </group>
    </dependencies>
   </metadata>

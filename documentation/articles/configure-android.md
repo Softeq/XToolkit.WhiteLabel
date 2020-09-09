@@ -6,16 +6,6 @@
 
 ## Setup
 
-### NuGet dependencies
-
-Add to Droid csproj:
-
-```xml
-<PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.1.0" />
-<PackageReference Include="Xamarin.AndroidX.Legacy.Support.Core.Utils" Version="1.0.0" />
-<PackageReference Include="Xamarin.AndroidX.Lifecycle.LiveData" Version="2.2.0" />
-```
-
 ### Configure project
 
 1. Remove `MainActivity.cs`.
