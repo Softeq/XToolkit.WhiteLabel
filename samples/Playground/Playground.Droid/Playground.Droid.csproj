@@ -58,7 +58,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
-    <Compile Include="Views\Frames\FramesPageActivity.cs" />
+    <Compile Include="Views\Frames\FramesActivity.cs" />
     <Compile Include="Views\Frames\BlueFragment.cs" />
     <Compile Include="Views\Frames\SplitFrameFragment.cs" />
     <Compile Include="Views\Frames\RedFragment.cs" />

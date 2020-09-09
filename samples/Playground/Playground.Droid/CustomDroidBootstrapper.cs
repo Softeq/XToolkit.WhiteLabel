@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using Playground.Droid.Extended;
 using Playground.Extended;
-using Playground.ViewModels.Frames;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
@@ -22,8 +21,8 @@ namespace Playground.Droid
     {
         protected override IList<Assembly> SelectAssemblies()
         {
-            return base.SelectAssemblies()     // Softeq.XToolkit.WhiteLabel.Droid
-                .AddItem(GetType().Assembly);  // Playground.Droid
+            return base.SelectAssemblies() // Softeq.XToolkit.WhiteLabel.Droid
+                .AddItem(GetType().Assembly); // Playground.Droid
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)
@@ -43,8 +42,6 @@ namespace Playground.Droid
 
             // connectivity
             builder.Singleton<ConnectivityService, IConnectivityService>();
-
-            builder.PerDependency<TopShellViewModel>();
         }
     }
 }

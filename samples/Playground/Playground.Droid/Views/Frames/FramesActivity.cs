@@ -10,7 +10,7 @@ using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 namespace Playground.Droid.Views.Frames
 {
     [Activity]
-    public class FramesPageActivity : ActivityBase<FramesViewModel>
+    public class FramesActivity : ActivityBase<FramesViewModel>
     {
         protected override void OnCreate(Bundle savedInstanceState)
         {

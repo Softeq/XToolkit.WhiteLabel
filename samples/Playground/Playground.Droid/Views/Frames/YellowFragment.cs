@@ -7,7 +7,6 @@ using Android.Views;
 using Android.Widget;
 using Playground.ViewModels.Frames;
 using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Droid;
 
 namespace Playground.Droid.Views.Frames
@@ -27,7 +26,8 @@ namespace Playground.Droid.Views.Frames
             next.Visibility = ViewStates.Gone;
 
             var back = View.FindViewById<Button>(Resource.Id.fragment_with_navigation_back);
-            back.SetCommand(new RelayCommand(ViewModel.GoBack));
+            back.SetCommand(ViewModel.BackCommand);
+            back.Text = ViewModel.BackText;
 
             var container = View.FindViewById<View>(Resource.Id.fragment_with_navigation_view);
             container.SetBackgroundColor(Color.Yellow);
