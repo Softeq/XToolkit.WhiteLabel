@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         }
 
         /// <summary>
-        ///     Creates <see cref="T:Foundation.NSMutableAttributedString"/> instance from <see cref="input"/> string.
+        ///     Creates <see cref="T:Foundation.NSMutableAttributedString"/> instance from <paramref name="input"/> string.
         /// </summary>
         /// <param name="input">Any string.</param>
         /// <returns>New instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         }
 
         /// <summary>
-        ///     Creates <see cref="T:Foundation.NSMutableAttributedString"/> instance from <see cref="html"/> string.
+        ///     Creates <see cref="T:Foundation.NSMutableAttributedString"/> instance from <paramref name="html"/> string.
         /// </summary>
         /// <param name="html">Any HTML string.</param>
         /// <param name="encoding">HTML encoding.</param>

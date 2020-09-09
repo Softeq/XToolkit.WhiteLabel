@@ -160,7 +160,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         public event EventHandler SelectionChanged;
 
         /// <summary>
-        ///     Overrides the <see cref="UICollectionViewSource.GetCell" /> method.
+        ///     Overrides the <see cref="M:UIKit.UICollectionViewSource.GetCell" /> method.
         ///     Creates and returns a cell for the UICollectionView. Where needed, this method will
         ///     optimize the reuse of cells for a better performance.
         /// </summary>
@@ -199,7 +199,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UICollectionViewSource.GetItemsCount" /> method.
+        ///     Overrides the <see cref="M:UIKit.UICollectionViewSource.GetItemsCount" /> method.
         ///     Gets the number of items in the data source.
         /// </summary>
         /// <param name="collectionView">The UICollectionView associated to this source.</param>
@@ -220,7 +220,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UICollectionViewSource.GetViewForSupplementaryElement" /> method.
+        ///     Overrides the <see cref="M:UIKit.UICollectionViewSource.GetViewForSupplementaryElement" /> method.
         ///     When called, checks if the <see cref="GetSupplementaryViewDelegate" />
         ///     delegate has been set. If yes, calls that delegate to get a supplementary view for the UICollectionView.
         /// </summary>
@@ -244,7 +244,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UICollectionViewSource.ItemDeselected" /> method.
+        ///     Overrides the <see cref="M:UIKit.UICollectionViewSource.ItemDeselected" /> method.
         ///     Called when an item is deselected in the UICollectionView.
         ///     <remark>
         ///         If you subclass ObservableCollectionViewSource, you may override this method
@@ -261,7 +261,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UICollectionViewSource.ItemSelected" /> method.
+        ///     Overrides the <see cref="M:UIKit.UICollectionViewSource.ItemSelected" /> method.
         ///     Called when an item is selected in the UICollectionView.
         ///     <remark>
         ///         If you subclass ObservableCollectionViewSource, you may override this method
@@ -280,7 +280,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UICollectionViewSource.NumberOfSections" /> method.
+        ///     Overrides the <see cref="M:UIKit.UICollectionViewSource.NumberOfSections" /> method.
         ///     The number of sections in this UICollectionView. In the current implementation,
         ///     only one section is supported.
         /// </summary>
