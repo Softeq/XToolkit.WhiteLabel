@@ -3,7 +3,7 @@
 
 using System;
 using System.IO;
-using System.IO.Abstractions;
+using Softeq.XToolkit.Common.Files.Abstractions;
 
 namespace Softeq.XToolkit.Common.Files
 {
@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Common.Files
         private readonly string _rootFolderPath;
 
         public InternalStorageFileProvider()
-            : base(new FileSystem())
+            : base(new DefaultFileSystem())
         {
             _rootFolderPath = Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData);
         }

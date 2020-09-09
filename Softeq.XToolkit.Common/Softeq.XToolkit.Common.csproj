@@ -4,8 +4,4 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="System.IO.Abstractions" Version="12.1.1" />
-  </ItemGroup>
 </Project>

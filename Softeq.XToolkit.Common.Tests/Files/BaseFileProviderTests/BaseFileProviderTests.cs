@@ -9,7 +9,7 @@ using System.Text;
 using Softeq.XToolkit.Common.Files;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.Tests
+namespace Softeq.XToolkit.Common.Tests.Files.BaseFileProviderTests
 {
     public class BaseFileProviderTests
     {
@@ -26,12 +26,12 @@ namespace Softeq.XToolkit.Common.Tests
         private const string MissingFilePath2 = DirectoryPath1 + @"file3";
         private const string MissingFilePath3 = @"some_file.txt";
 
-        private readonly MockFileSystem _mockFileSystem;
+        private readonly MockFileSystemWrapper _mockFileSystem;
         private readonly BaseFileProvider _fileProvider;
 
         public BaseFileProviderTests()
         {
-            _mockFileSystem = new MockFileSystem(new Dictionary<string, MockFileData>
+            _mockFileSystem = new MockFileSystemWrapper(new Dictionary<string, MockFileData>
             {
                 { DirectoryPath1, new MockDirectoryData() },
                 { DirectoryPath2, new MockDirectoryData() },
