@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿namespace Softeq.XToolkit.Remote.Primitives
+namespace Softeq.XToolkit.Remote.Primitives
 {
     public static class Header
     {

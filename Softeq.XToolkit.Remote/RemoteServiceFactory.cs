@@ -1,12 +1,12 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Net.Http;
-﻿using Softeq.XToolkit.Remote.Api;
-﻿using Softeq.XToolkit.Remote.Client;
-﻿using Softeq.XToolkit.Remote.Executor;
+using System.Net.Http;
+using Softeq.XToolkit.Remote.Api;
+using Softeq.XToolkit.Remote.Client;
+using Softeq.XToolkit.Remote.Executor;
 
-﻿namespace Softeq.XToolkit.Remote
+namespace Softeq.XToolkit.Remote
 {
     public class RemoteServiceFactory : IRemoteServiceFactory
     {

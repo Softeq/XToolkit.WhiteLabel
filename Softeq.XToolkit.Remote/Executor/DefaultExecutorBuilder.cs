@@ -1,15 +1,15 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
-﻿using System.Collections.Generic;
-﻿using System.Linq;
-﻿using Polly;
-﻿using Polly.Retry;
-﻿using Polly.Timeout;
-﻿using Softeq.XToolkit.Remote.Exceptions;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Polly;
+using Polly.Retry;
+using Polly.Timeout;
+using Softeq.XToolkit.Remote.Exceptions;
 
-﻿namespace Softeq.XToolkit.Remote.Executor
+namespace Softeq.XToolkit.Remote.Executor
 {
     public class DefaultExecutorBuilder : IExecutorBuilder
     {

@@ -1,10 +1,10 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Softeq.XToolkit.Common.Logger;
-﻿using Softeq.XToolkit.Remote.Client.Handlers;
+using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.Remote.Client.Handlers;
 
-﻿namespace Softeq.XToolkit.Remote.Client
+namespace Softeq.XToolkit.Remote.Client
 {
     public static class Extensions
     {
