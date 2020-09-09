@@ -1,11 +1,10 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Data;
 using System.IO;
-using System.IO.Abstractions;
 using System.Linq;
 using System.Threading.Tasks;
+using Softeq.XToolkit.Common.Files.Abstractions;
 
 namespace Softeq.XToolkit.Common.Files
 {
