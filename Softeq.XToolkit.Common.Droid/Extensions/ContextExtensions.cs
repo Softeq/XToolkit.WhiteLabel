@@ -9,6 +9,9 @@ using Android.Util;
 
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:Android.Content.Context"/>.
+    /// </summary>
     public static class ContextExtensions
     {
         private const string StatusBarHeight = "status_bar_height";

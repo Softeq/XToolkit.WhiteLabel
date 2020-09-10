@@ -9,17 +9,17 @@ using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.Common.Files
 {
-    public class ResourceStorageProvider : IFilesProvider
+    public class ResourceFileProvider : IFileProvider
     {
         private readonly Assembly _assembly;
 
-        public ResourceStorageProvider(Assembly assembly)
+        public ResourceFileProvider(Assembly assembly)
         {
             _assembly = assembly;
         }
 
         /// <summary>
-        ///     Not Implemented
+        ///     Not Implemented.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
@@ -30,24 +30,25 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        ///     Not Implemented
+        ///     Not Implemented.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="newPath"></param>
+        /// <param name="srcPath"></param>
+        /// <param name="dstPath"></param>
+        /// <param name="overwrite"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task<string?> CopyFileFromAsync(string path, string newPath)
+        public Task CopyFileAsync(string srcPath, string dstPath, bool overwrite)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        ///     Not Implemented
+        ///     Not Implemented.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task<bool> ExistsAsync(string path)
+        public Task<bool> FileExistsAsync(string path)
         {
             throw new NotImplementedException();
         }
@@ -79,37 +80,40 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        ///     Not Implemented
+        ///     Not Implemented.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task<Stream> OpenStreamForWriteAsync(string path)
+        public Task<Stream> OpenFileForWriteAsync(string path)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        ///     Not Implemented
+        ///     Not Implemented.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task RemoveAsync(string path)
+        public Task RemoveFileAsync(string path)
         {
             throw new NotImplementedException();
         }
 
         /// <summary>
-        ///     Not Implemented
+        ///     Not Implemented.
         /// </summary>
-        /// <param name="str"></param>
+        /// <param name="path"></param>
         /// <param name="stream"></param>
         /// <returns></returns>
         /// <exception cref="NotImplementedException"></exception>
-        public Task<string> WriteStreamAsync(string str, Stream stream)
+        public Task WriteFileAsync(string path, Stream stream)
         {
             throw new NotImplementedException();
         }
+
+        /// <inheritdoc />
+        public string GetAbsolutePath(string relativePath) => relativePath;
     }
 }
