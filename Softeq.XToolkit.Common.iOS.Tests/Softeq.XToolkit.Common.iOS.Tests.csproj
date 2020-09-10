@@ -105,6 +105,7 @@
     <Compile Include="Extensions\NSLocaleExtensionsTests\NSLocaleExtensionsTests.cs" />
     <Compile Include="Extensions\NSStringExtensions\NSStringExtensionsTests.cs" />
     <Compile Include="Extensions\UIColorExtensionsTests\UIColorExtensionsTests.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Extensions\NSRangeExtensionsTests\NSRangeExtensionsTests.cs" />
