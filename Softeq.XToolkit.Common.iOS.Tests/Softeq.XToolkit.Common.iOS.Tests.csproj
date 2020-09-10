@@ -113,6 +113,7 @@
     <Compile Include="TextFilters\ForbiddenCharsFilterTests\ForbiddenCharsFilterTests.cs" />
     <Compile Include="TextFilters\GroupFilterTests\GroupFilterTests.cs" />
     <Compile Include="TextFilters\GroupFilterTests\MockTextFilter.cs" />
+    <Compile Include="TextFilters\LengthFilterTests\LengthFilterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="xunit">

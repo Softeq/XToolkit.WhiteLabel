@@ -20,6 +20,11 @@ namespace Softeq.XToolkit.Common.iOS.TextFilters
         /// <param name="maxLength">Maximum length of text allowed.</param>
         public LengthFilter(int maxLength)
         {
+            if (maxLength < 0)
+            {
+                throw new ArgumentException("The value is less than 0.", nameof(maxLength));
+            }
+
             _maxLength = maxLength;
         }
 
