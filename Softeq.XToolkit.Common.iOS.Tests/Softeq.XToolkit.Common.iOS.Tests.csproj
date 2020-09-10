@@ -110,6 +110,7 @@
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Extensions\NSRangeExtensionsTests\NSRangeExtensionsTests.cs" />
     <Compile Include="Extensions\NSDateExtensionsTests\NSDateExtensionsTests.cs" />
+    <Compile Include="TextFilters\ForbiddenCharsFilterTests\ForbiddenCharsFilterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="xunit">

@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Linq;
 using Foundation;
 using UIKit;
@@ -20,7 +21,7 @@ namespace Softeq.XToolkit.Common.iOS.TextFilters
         /// <param name="forbiddenChars">Char array of characters not allowed in the input.</param>
         public ForbiddenCharsFilter(params char[] forbiddenChars)
         {
-            _forbiddenChars = forbiddenChars;
+            _forbiddenChars = forbiddenChars ?? throw new ArgumentNullException(nameof(forbiddenChars));
         }
 
         /// <inheritdoc cref="ITextFilter" />
