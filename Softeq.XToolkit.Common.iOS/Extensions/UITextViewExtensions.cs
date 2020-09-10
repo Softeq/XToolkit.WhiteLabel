@@ -1,13 +1,21 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Softeq.XToolkit.Common.iOS.Controls;
+using Softeq.XToolkit.Common.iOS.TextFilters;
 using UIKit;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:UIKit.UITextField"/> and <see cref="T:UIKit.UITextView"/>.
+    /// </summary>
     public static class UITextViewExtensions
     {
+        /// <summary>
+        ///     Sets the filter that will be used for target view.
+        /// </summary>
+        /// <param name="textField">Target view.</param>
+        /// <param name="filter">Filter to apply.</param>
         public static void SetFilter(this UITextField textField, ITextFilter filter)
         {
             textField.ShouldChangeCharacters = (field, range, replacementString) =>
@@ -16,11 +24,16 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             };
         }
 
+        /// <summary>
+        ///     Sets the filter that will be used for target view.
+        /// </summary>
+        /// <param name="textField">Target view.</param>
+        /// <param name="filter">Filter to apply.</param>
         public static void SetFilter(this UITextView textField, ITextFilter filter)
         {
-            textField.ShouldChangeText = (field, range, replacementString) =>
+            textField.ShouldChangeText = (field, range, text) =>
             {
-                return filter.ShouldChangeText(field, field.Text, range, replacementString);
+                return filter.ShouldChangeText(field, field.Text, range, text);
             };
         }
     }

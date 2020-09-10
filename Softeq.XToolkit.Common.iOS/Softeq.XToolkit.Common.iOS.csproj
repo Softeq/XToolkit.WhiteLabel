@@ -37,9 +37,9 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\ForbiddenCharactersFilter.cs" />
-    <Compile Include="Controls\ITextFilter.cs" />
-    <Compile Include="Controls\LengthFilter.cs" />
+    <Compile Include="TextFilters\ForbiddenCharsFilter.cs" />
+    <Compile Include="TextFilters\ITextFilter.cs" />
+    <Compile Include="TextFilters\LengthFilter.cs" />
     <Compile Include="Extensions\NSDateExtensions.cs" />
     <Compile Include="Extensions\NSLocaleExtensions.cs" />
     <Compile Include="Extensions\NSStringExtensions.cs" />
@@ -47,7 +47,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\UIColorExtensions.cs" />
     <Compile Include="Extensions\UIViewControllerExtensions.cs" />
-    <Compile Include="Controls\GroupFilter.cs" />
+    <Compile Include="TextFilters\GroupFilter.cs" />
     <Compile Include="Extensions\NSRangeExtensions.cs" />
     <Compile Include="Extensions\UIViewExtensions.cs" />
     <Compile Include="Extensions\UITextViewExtensions.cs" />

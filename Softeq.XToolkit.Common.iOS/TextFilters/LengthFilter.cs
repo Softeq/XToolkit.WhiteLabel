@@ -5,10 +5,10 @@ using System;
 using Foundation;
 using UIKit;
 
-namespace Softeq.XToolkit.Common.iOS.Controls
+namespace Softeq.XToolkit.Common.iOS.TextFilters
 {
     /// <summary>
-    ///     Allows to apply limitations of input length.
+    ///     This filter will constrain edits not to make the length of the text greater than the specified length.
     /// </summary>
     public class LengthFilter : ITextFilter
     {
@@ -23,8 +23,12 @@ namespace Softeq.XToolkit.Common.iOS.Controls
             _maxLength = maxLength;
         }
 
-        protected int MaxLength => _maxLength;
+        /// <summary>
+        ///     Gets maximum length enforced by this filter.
+        /// </summary>
+        public int MaxLength => _maxLength;
 
+        /// <inheritdoc cref="ITextFilter" />
         public virtual bool ShouldChangeText(UIResponder responder, string? oldText, NSRange range, string inputText)
         {
             var newText = oldText ?? string.Empty;
@@ -38,20 +42,15 @@ namespace Softeq.XToolkit.Common.iOS.Controls
                 return true;
             }
 
-            ApplyCursorCorrection(responder, range, inputText, newText);
+            newText = newText.Substring(0, _maxLength);
+            var cursorPosition = (nint) Math.Min(range.Location + inputText.Length, newText.Length);
+
+            UpdateCursorPosition(responder, cursorPosition, newText);
 
             return false;
         }
 
-        protected virtual void ApplyCursorCorrection(UIResponder responder, NSRange range, string inputText, string newText)
-        {
-            newText = newText.Substring(0, _maxLength);
-            var cursorPosition = (nint) Math.Min(range.Location + inputText.Length, newText.Length);
-
-            ChangeSelectedRange(responder, cursorPosition, newText);
-        }
-
-        protected virtual void ChangeSelectedRange(UIResponder responder, nint cursorPosition, string newText)
+        protected virtual void UpdateCursorPosition(UIResponder responder, nint cursorPosition, string newText)
         {
             switch (responder)
             {
