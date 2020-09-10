@@ -8,7 +8,7 @@ using Android.Views;
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
     /// <summary>
-    ///     Extensions related to <see cref="T:Android.Views.View"/>.
+    ///     Extension methods for <see cref="T:Android.Views.View"/>.
     /// </summary>
     public static class ViewExtensions
     {
@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         /// <param name="view">Target view.</param>
         public static void RemoveFromParent(this View view)
         {
-            ((ViewGroup) view.Parent)?.RemoveView(view);
+            (view.Parent as ViewGroup)?.RemoveView(view);
         }
 
         /// <summary>
@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         /// <param name="action">Action to be executed.</param>
         public static void BeginInvokeOnMainThread(this View view, Action action)
         {
-            if (Looper.MainLooper.IsCurrentThread)
+            if (Looper.MainLooper?.IsCurrentThread ?? false)
             {
                 action.Invoke();
             }

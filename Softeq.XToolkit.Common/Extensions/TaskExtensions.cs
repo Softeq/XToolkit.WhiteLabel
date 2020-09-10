@@ -8,10 +8,13 @@ using Softeq.XToolkit.Common.Logger;
 
 namespace Softeq.XToolkit.Common.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:System.Threading.Tasks.Task"/>.
+    /// </summary>
     public static class TaskExtensions
     {
         /// <summary>
-        ///     Task extension to add a timeout.
+        ///     <see cref="T:System.Threading.Tasks.Task"/> extension to add a timeout.
         /// </summary>
         /// <returns>The task with timeout.</returns>
         /// <param name="task">Task.</param>
