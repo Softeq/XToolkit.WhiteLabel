@@ -8,6 +8,9 @@ using System.Text.RegularExpressions;
 
 namespace Softeq.XToolkit.Common.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:System.String"/>.
+    /// </summary>
     public static class StringExtensions
     {
         private const string LinkPattern = @"[a-z]+://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?";
@@ -15,19 +18,20 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <summary>
         ///     Finds links in specified string.
         /// </summary>
-        /// <returns>Strings that match the pattern xxx://xxxxxx.</returns>
-        /// <param name="self">Specified string.</param>
-        public static IEnumerable<Capture> FindLinks(this string self)
+        /// <returns>Strings that match the link pattern (xxx://xxxxxx).</returns>
+        /// <param name="str">The string to find links in.</param>
+        public static IEnumerable<Capture> FindLinks(this string str)
         {
-            foreach (Capture match in Regex.Matches(self, LinkPattern, RegexOptions.IgnoreCase))
+            foreach (Capture match in Regex.Matches(str, LinkPattern, RegexOptions.IgnoreCase))
             {
                 yield return match;
             }
         }
 
         /// <summary>
-        ///     Forms a string with initials for a given name string, can be used as text for avatar view for instance.
-        ///     <para>https://stackoverflow.com/a/28373431/5416939.</para>
+        ///     Forms a string with initials for a given name string. It can be used as text for avatar view for instance.
+        ///     <para/>
+        ///     <a href="https://stackoverflow.com/a/28373431/5416939">See this link for more details</a>
         /// </summary>
         /// <returns>The initials of the name.</returns>
         /// <param name="fullName">Full name.</param>
@@ -60,23 +64,24 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Returns a copy of this <see cref="T:System.String"></see> object
-        ///     where first latter converted to uppercase.
+        ///     Converts the first letter of the specified string to uppercase.
         /// </summary>
-        /// <param name="value">Input string.</param>
+        /// <param name="str">Input string.</param>
         /// <returns>
-        ///     A copy of this <see cref="T:System.String"></see> object
-        ///     where first latter converted to uppercase.
+        ///     A copy of this <see cref="T:System.String"/> object
+        ///     with the first letter converted to uppercase.
         /// </returns>
-        /// <exception cref="T:System.ArgumentException">The argument can't be null or empty.</exception>
-        public static string CapitalizeFirstLetter(this string value)
+        /// <exception cref="T:System.ArgumentException">
+        ///     <paramref name="str"/> parameter cannot be <see langword="null"/> or empty.
+        /// </exception>
+        public static string CapitalizeFirstLetter(this string str)
         {
-            if (string.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(str))
             {
-                throw new ArgumentException("The argument can't be null or empty.", nameof(value));
+                throw new ArgumentException("The argument can't be null or empty.", nameof(str));
             }
 
-            var chars = value.ToCharArray();
+            var chars = str.ToCharArray();
             chars[0] = char.ToUpper(chars[0]);
             return new string(chars);
         }
@@ -84,30 +89,43 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <summary>
         ///     Remove empty lines from the input string.
         /// </summary>
-        /// <param name="input">Input string.</param>
-        /// <returns>String with no empty lines in it.</returns>
-        public static string RemoveEmptyLines(this string input)
+        /// <param name="str">Input string.</param>
+        /// <returns>
+        ///     A copy of this <see cref="T:System.String"/> object with no empty lines in it.
+        /// </returns>
+        public static string RemoveEmptyLines(this string str)
         {
-            return Regex.Replace(input, @"[\r\n]*^\s*$[\r\n]*", string.Empty, RegexOptions.Multiline);
+            return Regex.Replace(str, @"[\r\n]*^\s*$[\r\n]*", string.Empty, RegexOptions.Multiline);
         }
 
         /// <summary>
-        ///     Try parse <see cref="T:System.String">text</see> to <see cref="T:System.Double">double</see> more easily
-        ///     for CurrentCulture.
+        ///     Converts the string representation of a number in the CurrentCulture format to its double-precision floating-point number equivalent.
+        ///     A return value indicates whether the conversion succeeded or failed.
         /// </summary>
-        /// <param name="text">Input string.</param>
-        /// <param name="result">Result.</param>
-        /// <returns>True when parsing was successful.</returns>
-        public static bool TryParseDouble(this string text, out double? result)
+        /// <param name="str">A string containing a number to convert.</param>
+        /// <param name="result">
+        ///     When this method returns, contains a double-precision floating-point number equivalent
+        ///     of the numeric value or symbol contained in <paramref name="s" />,
+        ///     if the conversion succeeded, or zero if the conversion failed.
+        ///     The conversion fails if the <paramref name="s" /> parameter is <see langword="null" />
+        ///     or <see cref="F:System.String.Empty" />, is not in a format compliant with <paramref name="style" />,
+        ///     represents a number less than <see cref="F:System.SByte.MinValue" /> or greater than <see cref="F:System.SByte.MaxValue" />,
+        ///     or if <paramref name="style" /> is not a valid combination of <see cref="T:System.Globalization.NumberStyles" /> enumerated constants.
+        ///     This parameter is passed uninitialized; any value originally supplied in <paramref name="result" /> will be overwritten.
+        /// </param>
+        /// <returns>
+        ///     <see langword="true" /> if <paramref name="str" /> was converted successfully; otherwise, <see langword="false" />.</returns>
+        /// </returns>
+        public static bool TryParseDouble(this string str, out double? result)
         {
-            if (double.TryParse(text, NumberStyles.Number | NumberStyles.AllowExponent, CultureInfo.CurrentCulture, out var number))
+            if (double.TryParse(str, NumberStyles.Number | NumberStyles.AllowExponent, CultureInfo.CurrentCulture, out var number))
             {
                 result = number;
                 return true;
             }
 
             result = null;
-            return string.IsNullOrEmpty(text);
+            return string.IsNullOrEmpty(str);
         }
     }
 }

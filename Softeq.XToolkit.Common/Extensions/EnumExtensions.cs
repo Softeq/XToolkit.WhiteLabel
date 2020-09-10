@@ -6,50 +6,82 @@ using System.ComponentModel;
 
 namespace Softeq.XToolkit.Common.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:System.Enum"/>.
+    /// </summary>
     public static class EnumExtensions
     {
         /// <summary>
-        ///     Adds a flag to enum value using bitwise OR operation.
+        ///     Adds a flag to the current <see cref="T:System.Enum"/> using bitwise OR operation.
         /// </summary>
         /// <typeparam name="TEnum">Enum type.</typeparam>
-        /// <param name="value">Initial enum value to add flags to.</param>
-        /// <param name="flags">Enum flags to be added.</param>
-        /// <returns>Enum value storing both initial value and flags.</returns>
+        /// <param name="value">Initial <see cref="T:System.Enum"/> value to add flags to.</param>
+        /// <param name="flags">Flags to be added.</param>
+        /// <returns>
+        ///     New <see cref="T:System.Enum"/> that stores both initial <see cref="T:System.Enum"/> value and flags.
+        ///     Initial <see cref="T:System.Enum"/> is not modified.
+        /// </returns>
         public static TEnum SetFlag<TEnum>(this TEnum value, TEnum flags) where TEnum : Enum
         {
             return (TEnum) Enum.ToObject(typeof(TEnum), Convert.ToUInt64(value) | Convert.ToUInt64(flags));
         }
 
         /// <summary>
-        ///     Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent
-        ///     enumerated object.
+        ///     Converts string to the specified <see cref="T:System.Enum"/>.
         /// </summary>
-        /// <returns>An object of type enumType whose value is represented by value.</returns>
-        /// <param name="value">A string containing the name or value to convert.</param>
+        /// <returns>An object of type <typeparamref name="TEnum"/> whose value is represented by <paramref name="value" />.</returns>
+        /// <param name="value">A string to convert.</param>
         /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="enumType"/> and <paramref name="value"/> parameters cannot be <see langword="null"/>.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentException">
+        ///     <paramref name="enumType" /> is not an <see cref="T:System.Enum" />.
+        ///     -or-
+        ///     <paramref name="value" /> is either an empty string or only contains white space.
+        ///     -or-
+        ///     <paramref name="value" /> is a name, but not one of the named constants defined for the enumeration.
+        /// </exception>
+        /// <exception cref="T:System.OverflowException">
+        ///   <paramref name="value" /> is outside the range of the underlying type of <paramref name="enumType" />.
+        /// </exception>
         public static TEnum Parse<TEnum>(this string value) where TEnum : Enum
         {
             return (TEnum) Enum.Parse(typeof(TEnum), value);
         }
 
         /// <summary>
-        ///     Converts the string representation of the name or numeric value of one or more enumerated constants to an equivalent
-        ///     enumerated object.
+        ///     Converts string to the specified <see cref="T:System.Enum"/>.
         /// </summary>
-        /// <returns>An object of type enumType whose value is represented by value.</returns>
-        /// <param name="value">A string containing the name or value to convert..</param>
-        /// <param name="ignoreCase">true to ignore case; false to regard case.</param>
+        /// <returns>An object of type <typeparamref name="TEnum"/> whose value is represented by <paramref name="value" />.</returns>
+        /// <param name="value">A string to convert.</param>
+        /// <param name="ignoreCase"><see langword="true"/> to ignore case; <see langword="false"/> to regard case.</param>
         /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     paramref name="enumType" /> or <paramref name="value" /> is <see langword="null" />.
+        /// </exception>
+        /// <exception cref="T:System.ArgumentException">
+        ///     <paramref name="enumType" /> is not an <see cref="T:System.Enum" />.
+        ///     -or-
+        ///     <paramref name="value" /> is either an empty string ("") or only contains white space.
+        ///     -or-
+        ///     <paramref name="value" /> is a name, but not one of the named constants defined for the enumeration.</exception>
+        /// <exception cref="T:System.OverflowException">
+        ///     <paramref name="value" /> is outside the range of the underlying type of <paramref name="enumType" />.
+        /// </exception>
         public static TEnum Parse<TEnum>(this string value, bool ignoreCase) where TEnum : Enum
         {
             return (TEnum) Enum.Parse(typeof(TEnum), value, ignoreCase);
         }
 
         /// <summary>
-        ///     Apply specified action to each value of enum.
+        ///     Apply the specified action to each value of <see cref="T:System.Enum"/>.
         /// </summary>
-        /// <param name="action">Specified action.</param>
-        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <param name="action">Action to apply.</param>
+        /// <typeparam name="TEnum"><see cref="T:System.Enum"/> type.</typeparam>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="action"/> parameter cannot be <see langword="null"/>.
+        /// </exception>
         public static void Apply<TEnum>(this Action<TEnum> action) where TEnum : Enum
         {
             if (action == null)
@@ -64,10 +96,10 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Returns <see cref="DescriptionAttribute" /> value of Enum.
+        ///     Returns <see cref="DescriptionAttribute"/> value of the specified <see cref="T:System.Enum"/>.
         /// </summary>
-        /// <param name="value">Enum.</param>
-        /// <returns>String of description.</returns>
+        /// <param name="value">Initial <see cref="T:System.Enum"/>.</param>
+        /// <returns>Description string.</returns>
         public static string? GetDescription(this Enum value)
         {
             var type = value.GetType();
@@ -92,11 +124,14 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Get enumeration that corresponds to byte value.
+        ///     Get <see cref="T:System.Enum"/> that corresponds to byte value.
         /// </summary>
-        /// <typeparam name="TEnum">Enum type.</typeparam>
+        /// <typeparam name="TEnum"><see cref="T:System.Enum"/> type.</typeparam>
         /// <param name="value">Enum value.</param>
-        /// <returns>Corresponding enumeration.</returns>
+        /// <returns>Corresponding <see cref="T:System.Enum"/>.</returns>
+        /// <exception cref="T:System.ArgumentException">
+        ///     <paramref name="value"/> is not defined in the specified <see cref="T:System.Enum"/>.
+        /// </exception>
         public static TEnum FindByValue<TEnum>(this byte value) where TEnum : Enum
         {
             var foundObject = Enum.ToObject(typeof(TEnum), value);

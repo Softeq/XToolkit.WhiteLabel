@@ -6,10 +6,13 @@ using Java.Lang;
 
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:System.String"/>.
+    /// </summary>
     public static class StringExtensions
     {
         /// <summary>
-        ///     Allows to apply multiple spans to the whole string
+        ///     Allows to apply multiple spans to the whole string.
         /// </summary>
         /// <returns>The spannable string with all spans apllied.</returns>
         /// <param name="unformattedString">Unformatted string.</param>
@@ -26,14 +29,17 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         }
 
         /// <summary>
-        ///     Allows to apply multiple spans to part of the string
+        ///     Allows to apply multiple spans to part of the string.
         /// </summary>
         /// <returns>The spannable string with all spans apllied.</returns>
         /// <param name="unformattedString">Unformatted string.</param>
         /// <param name="startingIndex">Starting index from which spans shall be applied.</param>
         /// <param name="length">Length of range to which spans shall be applied.</param>
         /// <param name="spans">An array of spans.</param>
-        public static SpannableString FormatSpannable(this string unformattedString, int startingIndex, int length,
+        public static SpannableString FormatSpannable(
+            this string unformattedString,
+            int startingIndex,
+            int length,
             params Object[] spans)
         {
             startingIndex = startingIndex < 0 ? 0 : startingIndex;
