@@ -111,6 +111,8 @@
     <Compile Include="Extensions\NSRangeExtensionsTests\NSRangeExtensionsTests.cs" />
     <Compile Include="Extensions\NSDateExtensionsTests\NSDateExtensionsTests.cs" />
     <Compile Include="TextFilters\ForbiddenCharsFilterTests\ForbiddenCharsFilterTests.cs" />
+    <Compile Include="TextFilters\GroupFilterTests\GroupFilterTests.cs" />
+    <Compile Include="TextFilters\GroupFilterTests\MockTextFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="xunit">

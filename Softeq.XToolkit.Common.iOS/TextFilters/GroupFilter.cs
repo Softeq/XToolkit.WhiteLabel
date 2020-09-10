@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Linq;
 using Foundation;
 using UIKit;
@@ -17,7 +18,7 @@ namespace Softeq.XToolkit.Common.iOS.TextFilters
 
         public GroupFilter(params ITextFilter[] filters)
         {
-            _filters = filters;
+            _filters = filters ?? throw new ArgumentNullException(nameof(filters));
         }
 
         /// <inheritdoc cref="ITextFilter" />
