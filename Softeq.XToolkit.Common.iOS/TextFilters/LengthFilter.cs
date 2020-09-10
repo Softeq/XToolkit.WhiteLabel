@@ -28,6 +28,11 @@ namespace Softeq.XToolkit.Common.iOS.TextFilters
         /// </summary>
         public int MaxLength => _maxLength;
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether extra characters will be removed.
+        /// </summary>
+        public bool IsCharacterOverwritingEnabled { get; set; }
+
         /// <inheritdoc cref="ITextFilter" />
         public virtual bool ShouldChangeText(UIResponder responder, string? oldText, NSRange range, string inputText)
         {
@@ -42,15 +47,18 @@ namespace Softeq.XToolkit.Common.iOS.TextFilters
                 return true;
             }
 
-            newText = newText.Substring(0, _maxLength);
-            var cursorPosition = (nint) Math.Min(range.Location + inputText.Length, newText.Length);
+            if (IsCharacterOverwritingEnabled)
+            {
+                newText = newText.Substring(0, _maxLength);
+                var cursorPosition = (nint) Math.Min(range.Location + inputText.Length, newText.Length);
 
-            UpdateCursorPosition(responder, cursorPosition, newText);
+                ChangeSelectedRange(responder, cursorPosition, newText);
+            }
 
             return false;
         }
 
-        protected virtual void UpdateCursorPosition(UIResponder responder, nint cursorPosition, string newText)
+        protected virtual void ChangeSelectedRange(UIResponder responder, nint cursorPosition, string newText)
         {
             switch (responder)
             {
