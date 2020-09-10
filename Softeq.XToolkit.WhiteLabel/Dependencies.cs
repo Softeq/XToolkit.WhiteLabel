@@ -17,6 +17,14 @@ namespace Softeq.XToolkit.WhiteLabel
     {
         public static bool IsInitialized { get; private set; }
 
+        public static IContainer Container { get; private set; } = default!;
+
+        public static IPageNavigationService PageNavigationService => Container.Resolve<IPageNavigationService>();
+
+        public static IJsonSerializer JsonSerializer => Container.Resolve<IJsonSerializer>();
+
+        public static IFileProvider InternalStorageProvider => Container.Resolve<InternalStorageFileProvider>();
+
         public static void Initialize(IContainer iocContainer)
         {
             if (IsInitialized)
@@ -27,13 +35,5 @@ namespace Softeq.XToolkit.WhiteLabel
             Container = iocContainer;
             IsInitialized = true;
         }
-
-        public static IContainer Container { get; private set; } = default!;
-
-        public static IPageNavigationService PageNavigationService => Container.Resolve<IPageNavigationService>();
-
-        public static IJsonSerializer JsonSerializer => Container.Resolve<IJsonSerializer>();
-
-        public static IFilesProvider InternalStorageProvider => Container.Resolve<InternalStorageProvider>();
     }
 }
