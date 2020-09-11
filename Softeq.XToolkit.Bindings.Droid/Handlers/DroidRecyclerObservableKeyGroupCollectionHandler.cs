@@ -78,8 +78,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Handlers
 
         protected override void HandleGroupsReplace(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> args)
         {
-            HandleGroupsAdd(args);
-            HandleGroupsRemove(args);
+            _recyclerViewAdapterRef.Target?.NotifyDataSetChanged();
         }
 
         protected override void HandleGroupsReset()

@@ -13,19 +13,25 @@ namespace Softeq.XToolkit.Bindings.Handlers
     {
         public void Handle(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> arg)
         {
-            if (arg.Action == NotifyCollectionChangedAction.Reset)
+            switch (arg.Action)
             {
-                HandleGroupsReset();
-                return;
-            }
+                case NotifyCollectionChangedAction.Reset:
+                    HandleGroupsReset();
+                    break;
+                case NotifyCollectionChangedAction.Replace:
+                    HandleGroupsReplace(arg);
+                    break;
+                default:
+                    if (BatchAction == null)
+                    {
+                        Update(arg);
+                    }
+                    else
+                    {
+                        BatchAction.Invoke(() => Update(arg));
+                    }
 
-            if (BatchAction == null)
-            {
-                Update(arg);
-            }
-            else
-            {
-                BatchAction.Invoke(() => Update(arg));
+                    break;
             }
         }
 
