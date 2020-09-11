@@ -55,8 +55,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Handlers
 
         protected override void HandleGroupsReplace(NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> args)
         {
-            HandleGroupsAdd(args);
-            HandleGroupsRemove(args);
+            _collectionViewRef.Target?.ReloadData();
         }
 
         protected override void HandleGroupsReset()

@@ -316,14 +316,9 @@ namespace Softeq.XToolkit.Common.Collections
                 .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>()));
 
             var keysToAdd = InsertGroupsWithoutNotify(insertionIndex, groups, false)
-                .Select(x => x.Key).ToList();
+                ?.Select(x => x.Key)?.ToList() ?? new List<TKey>();
 
             var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
-
-            if (!result.Any())
-            {
-                return;
-            }
 
             List<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>? groupEvents = result
                 .Where(x => keysToAdd.All(y => !y.Equals(x.Key)))
