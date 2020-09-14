@@ -3,6 +3,7 @@
 
 using System.Reflection;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using Xunit.Runners.UI;
 using Xunit.Sdk;
@@ -12,8 +13,12 @@ namespace Softeq.XToolkit.Common.Droid.Tests
     [Activity(MainLauncher = true, Theme = "@android:style/Theme.Material.Light")]
     public class MainActivity : RunnerActivity
     {
+        public static MainActivity Current { get; private set; }
+
         protected override void OnCreate(Bundle bundle)
         {
+            Current = this;
+
             // tests can be inside the main assembly
             AddTestAssembly(Assembly.GetExecutingAssembly());
 
