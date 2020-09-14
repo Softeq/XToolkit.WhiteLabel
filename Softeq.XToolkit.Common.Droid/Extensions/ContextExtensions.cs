@@ -5,7 +5,6 @@ using System;
 using System.Runtime.CompilerServices;
 using Android.Content;
 using Android.OS;
-using Android.Util;
 
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
