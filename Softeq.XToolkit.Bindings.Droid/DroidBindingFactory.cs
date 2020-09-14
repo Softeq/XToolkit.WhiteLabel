@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Windows.Input;
 using Android.Views;
 using Android.Widget;
-using Softeq.XToolkit.Common.Droid.Extensions;
+using Softeq.XToolkit.Common.Droid;
 
 #nullable disable
 
@@ -161,13 +161,13 @@ namespace Softeq.XToolkit.Bindings.Droid
                 ? default
                 : commandParameterBinding.Value;
 
-            view.BeginInvokeOnMainThread(
+            MainThread.BeginInvokeOnMainThread(
                 () => view.Enabled = command.CanExecute(commandParameter));
 
             // set by CanExecute
             command.CanExecuteChanged += (s, args) =>
             {
-                view.BeginInvokeOnMainThread(
+                MainThread.BeginInvokeOnMainThread(
                     () => view.Enabled = command.CanExecute(commandParameter));
             };
 
@@ -176,7 +176,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             {
                 commandParameterBinding.ValueChanged += (s, args) =>
                 {
-                    view.BeginInvokeOnMainThread(
+                    MainThread.BeginInvokeOnMainThread(
                         () => view.Enabled = command.CanExecute(commandParameterBinding.Value));
                 };
             }

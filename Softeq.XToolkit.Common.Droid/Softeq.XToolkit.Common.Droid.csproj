@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Converters\BoolToViewStateConverter.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
+    <Compile Include="MainThread.cs" />
     <Compile Include="Permissions\IPermissionRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\TextViewExtensions.cs" />
