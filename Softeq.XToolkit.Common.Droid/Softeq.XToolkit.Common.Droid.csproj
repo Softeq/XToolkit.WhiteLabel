@@ -48,7 +48,6 @@
     <Compile Include="Extensions\TextViewExtensions.cs" />
     <Compile Include="Extensions\EditTextExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\IntentExtensions.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
     <Compile Include="Converters\GoneConverter.cs" />
   </ItemGroup>

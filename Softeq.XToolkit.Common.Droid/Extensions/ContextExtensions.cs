@@ -5,6 +5,7 @@ using System;
 using System.Runtime.CompilerServices;
 using Android.Content;
 using Android.OS;
+using Android.Util;
 
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
@@ -103,6 +104,31 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
 
             var powerManager = (PowerManager) context.GetSystemService(Context.PowerService)!;
             return powerManager.IsPowerSaveMode;
+        }
+
+        /// <summary>
+        ///     Provides a check of whether there is a component that can launch given activity intent.
+        ///     <para>
+        ///         There might be cases when <see cref="M:Android.Content.Intent.ResolveActivity(Android.Content.PM.PackageManager)"/>
+        ///         returns a component but it can't be used to launch <see cref="T:Android.Content.Intent"/>
+        ///         (for instance not exported activity from different package).
+        ///     </para>
+        /// </summary>
+        /// <returns>
+        ///     <see langword="true"/>, if intent action was handled,
+        ///     <see langword="false"/> otherwise (if it can not be handled).
+        /// </returns>
+        /// <param name="context">Target context.</param>
+        /// <param name="intent">Intent that should be handled.</param>
+        public static bool TryStartActivity(this Context context, Intent intent)
+        {
+            var canResolveActivity = intent.ResolveActivity(context.PackageManager) != null;
+            if (canResolveActivity)
+            {
+                context.StartActivity(intent);
+            }
+
+            return canResolveActivity;
         }
     }
 }
