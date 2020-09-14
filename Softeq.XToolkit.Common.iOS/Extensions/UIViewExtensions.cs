@@ -8,8 +8,29 @@ using UIKit;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:UIKit.UIView" />.
+    /// </summary>
     public static class UIViewExtensions
     {
+        /// <summary>
+        ///     Adds view to parent subviews with parent size.
+        /// </summary>
+        /// <param name="view">Target view.</param>
+        /// <param name="parent">Parent view.</param>
+        public static void AddAsSubviewWithParentSize(this UIView view, UIView parent)
+        {
+            view.TranslatesAutoresizingMaskIntoConstraints = false;
+            parent.AddSubview(view);
+
+            var right = view.RightAnchor.ConstraintEqualTo(parent.RightAnchor);
+            var left = view.LeftAnchor.ConstraintEqualTo(parent.LeftAnchor);
+            var top = view.TopAnchor.ConstraintEqualTo(parent.TopAnchor);
+            var bottom = view.BottomAnchor.ConstraintEqualTo(parent.BottomAnchor);
+
+            NSLayoutConstraint.ActivateConstraints(new[] { right, left, top, bottom });
+        }
+
         /// <summary>
         ///     UIView with the colored border.
         /// </summary>

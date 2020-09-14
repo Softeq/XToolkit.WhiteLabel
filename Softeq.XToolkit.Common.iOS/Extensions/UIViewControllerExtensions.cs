@@ -5,57 +5,61 @@ using UIKit;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:UIKit.UIViewController" />.
+    /// </summary>
     public static class UIViewControllerExtensions
     {
-        public static void AddAsChild(this UIViewController child, UIViewController parent, UIView? targetView = null)
+        /// <summary>
+        ///     Adds the specified view controller as a child.
+        /// </summary>
+        /// <param name="child">Target child view controller.</param>
+        /// <param name="parent">Parent view controller to add child.</param>
+        /// <param name="parentView">Custom target view of parent view controller. By default <c>parent.View</c>.</param>
+        public static void AddAsChild(this UIViewController child, UIViewController parent, UIView? parentView = null)
         {
             parent.AddChildViewController(child);
-            if (targetView == null)
-            {
-                parent.View.AddSubview(child.View);
-            }
-            else
-            {
-                targetView.AddSubview(child.View);
-            }
-
+            (parentView ?? parent.View).AddSubview(child.View);
             child.DidMoveToParentViewController(parent);
         }
 
-        public static void SetBackButtonTitle(this UIViewController controller, string title)
-        {
-            controller.NavigationItem.BackBarButtonItem =
-                new UIBarButtonItem(title, UIBarButtonItemStyle.Plain, null);
-        }
-
-        public static void AddAsSubviewWithParentSize(this UIView view, UIView parent)
-        {
-            view.TranslatesAutoresizingMaskIntoConstraints = false;
-            parent.AddSubview(view);
-
-            var right = view.RightAnchor.ConstraintEqualTo(parent.RightAnchor);
-            var left = view.LeftAnchor.ConstraintEqualTo(parent.LeftAnchor);
-            var top = view.TopAnchor.ConstraintEqualTo(parent.TopAnchor);
-            var bottom = view.BottomAnchor.ConstraintEqualTo(parent.BottomAnchor);
-
-            NSLayoutConstraint.ActivateConstraints(new[] { right, left, top, bottom });
-        }
-
+        /// <summary>
+        ///      Adds the specified view controller as a child to parent with add constraints to view.
+        /// </summary>
+        /// <param name="child">Target child view controller.</param>
+        /// <param name="parent">Parent view controller to add child.</param>
+        /// <param name="parentView">Custom target view of parent view controller. By default <c>parent.View</c>.</param>
         public static void AddAsChildWithConstraints(
             this UIViewController child,
             UIViewController parent,
-            UIView? targetView = null)
+            UIView? parentView = null)
         {
             parent.AddChildViewController(child);
-            child.View.AddAsSubviewWithParentSize(targetView ?? parent.View);
+            child.View.AddAsSubviewWithParentSize(parentView ?? parent.View);
             child.DidMoveToParentViewController(parent);
         }
 
+        /// <summary>
+        ///     Removes the view controller from its parent.
+        /// </summary>
+        /// <param name="child">Target child ViewController.</param>
+        /// <param name="parent">Parent ViewController to remove child.</param>
         public static void RemoveFromParent(this UIViewController child, UIViewController parent)
         {
             child.WillMoveToParentViewController(parent);
             child.View.RemoveFromSuperview();
             child.RemoveFromParentViewController();
+        }
+
+        /// <summary>
+        ///    Sets new title to the back button on NavigationBar.
+        /// </summary>
+        /// <param name="controller">Target ViewController.</param>
+        /// <param name="title">New back button text.</param>
+        public static void SetBackButtonTitle(this UIViewController controller, string title)
+        {
+            var newBackButton = new UIBarButtonItem(title, UIBarButtonItemStyle.Plain, null);
+            controller.NavigationItem.BackBarButtonItem = newBackButton;
         }
     }
 }
