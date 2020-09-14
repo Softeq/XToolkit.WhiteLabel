@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             if (_placeholderBounds == null)
             {
                 var centerPoint = new PointF(canvas.Width / 2f, canvas.Height / 2f);
-                var width = _context.ToPixels(_size);
+                var width = _context.DpToPx(_size);
                 var sizeInPixels = new SizeF(width, width);
                 var x = centerPoint.X - (sizeInPixels.Width / 2f);
                 var y = centerPoint.Y - (sizeInPixels.Height / 2f);
