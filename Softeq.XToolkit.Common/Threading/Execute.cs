@@ -11,10 +11,22 @@ namespace Softeq.XToolkit.Common.Threading
     /// </summary>
     public static class Execute
     {
+        private static IMainThreadExecutor? _currentExecutor;
+
         /// <summary>
-        ///     Gets or sets the current <see cref="IMainThreadExecutor" />.
+        ///     Gets the current <see cref="IMainThreadExecutor" />.
         /// </summary>
-        public static IMainThreadExecutor? CurrentExecutor { get; set; }
+        public static IMainThreadExecutor CurrentExecutor =>
+            _currentExecutor ?? throw new InvalidOperationException($"{nameof(CurrentExecutor)} isn't initialized.");
+
+        /// <summary>
+        ///     Initializes <see cref="Execute"/> class.
+        /// </summary>
+        /// <param name="executor">Instance to initialize.</param>
+        public static void Initialize(IMainThreadExecutor executor)
+        {
+            _currentExecutor = executor ?? throw new ArgumentNullException();
+        }
 
         /// <summary>
         ///     Executes the action on the UI thread asynchronously.

@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
             _bootstrapper = bootstrapper;
 
             // Init UI thread helper
-            Execute.CurrentExecutor = new FormsMainThreadExecutor();
+            Execute.Initialize(new FormsMainThreadExecutor());
         }
 
         protected override void OnStart()

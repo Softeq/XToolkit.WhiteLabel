@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             BindingExtensions.Initialize(new AppleBindingFactory());
 
             // Init platform helpers
-            Execute.CurrentExecutor = new IosMainThreadExecutor();
+            Execute.Initialize(new IosMainThreadExecutor());
 
             // Init dependencies
             var bootstrapper = CreateBootstrapper();

@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             BindingExtensions.Initialize(new DroidBindingFactory());
 
             // Init platform helpers
-            Execute.CurrentExecutor = new DroidMainThreadExecutor();
+            Execute.Initialize(new DroidMainThreadExecutor());
 
             // Init dependencies
             var bootstrapper = CreateBootstrapper();
