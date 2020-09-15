@@ -15,6 +15,19 @@ namespace Softeq.XToolkit.Common.iOS
         /// <inheritdoc />
         public override bool IsMainThread => NSThread.Current.IsMainThread;
 
+        /// <inheritdoc />
+        public override void OnUIThread(Action action)
+        {
+            if (IsMainThread)
+            {
+                action();
+            }
+            else
+            {
+                NSRunLoop.Main.InvokeOnMainThread(action);
+            }
+        }
+
         protected override void PlatformBeginInvokeOnMainThread(Action action)
         {
             NSRunLoop.Main.BeginInvokeOnMainThread(action);
