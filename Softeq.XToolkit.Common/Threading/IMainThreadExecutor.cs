@@ -17,19 +17,19 @@ namespace Softeq.XToolkit.Common.Threading
         bool IsMainThread { get; }
 
         /// <summary>
-        ///     Executes the action on the UI thread asynchronously.
+        ///     Invokes asynchronously the specified code on the main UI thread.
         /// </summary>
         /// <param name="action">The action to execute.</param>
         void BeginOnUIThread(Action action);
 
         /// <summary>
-        ///     Executes the action on the UI thread asynchronously.
+        ///     Invokes asynchronously the specified code on the main UI thread.
         /// </summary>
         /// <param name="action">The action to execute.</param>
         Task OnUIThreadAsync(Action action);
 
         /// <summary>
-        ///     Executes the action on the UI thread synchronously.
+        ///     Invokes synchronously the specified code on the main UI thread.
         /// </summary>
         /// <param name="action">The action to execute.</param>
         void OnUIThread(Action action);
