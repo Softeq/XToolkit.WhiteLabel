@@ -3,10 +3,10 @@
 
 using System;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Tasks;
+using Softeq.XToolkit.Common.Threading;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.Tests.Tasks
+namespace Softeq.XToolkit.Common.Tests.Threading
 {
     public class TaskDeferralTests
     {

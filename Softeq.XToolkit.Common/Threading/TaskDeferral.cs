@@ -6,7 +6,7 @@ using System.Collections.Concurrent;
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.Common.Tasks
+namespace Softeq.XToolkit.Common.Threading
 {
     /// <summary>
     ///    Execution queue where all tasks get a result of the first task.
