@@ -5,20 +5,15 @@ using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
-using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.Common.Threading;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
+namespace Softeq.XToolkit.Common.Droid
 {
     /// <summary>
-    ///     A <see cref="IPlatformProvider" /> implementation for the Xamarin Android platfrom.
+    ///     A <see cref="IMainThreadExecutor" /> implementation for the Xamarin Android platform.
     /// </summary>
-    public class DroidPlatformProvider : IPlatformProvider
+    public class DroidMainThreadExecutor : IMainThreadExecutor
     {
-        /// <summary>
-        ///     Indicates whether or not the framework is in design-time mode.
-        /// </summary>
-        public bool InDesignMode => false;
-
         /// <summary>
         ///     Executes the action on the UI thread asynchronously.
         /// </summary>
@@ -36,7 +31,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
         {
             var completionSource = new TaskCompletionSource<bool>();
 
-            Application.SynchronizationContext.Post(s =>
+            Application.SynchronizationContext.Post(
+                s =>
             {
                 try
                 {

@@ -4,18 +4,13 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.WhiteLabel.Threading
+namespace Softeq.XToolkit.Common.Threading
 {
     /// <summary>
     ///     Interface for platform specific operations that need enlightenment.
     /// </summary>
-    public interface IPlatformProvider
+    public interface IMainThreadExecutor
     {
-        /// <summary>
-        ///     Indicates whether or not the framework is in design-time mode.
-        /// </summary>
-        bool InDesignMode { get; }
-
         /// <summary>
         ///     Executes the action on the UI thread asynchronously.
         /// </summary>

@@ -7,10 +7,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation

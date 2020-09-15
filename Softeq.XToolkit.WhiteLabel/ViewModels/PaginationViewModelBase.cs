@@ -9,8 +9,8 @@ using System.Windows.Input;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Model;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.ViewModels
 {

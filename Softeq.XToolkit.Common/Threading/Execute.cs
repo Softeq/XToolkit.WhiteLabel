@@ -4,7 +4,7 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.WhiteLabel.Threading
+namespace Softeq.XToolkit.Common.Threading
 {
     /// <summary>
     ///     Enables easy marshalling of code to the UI thread.
@@ -12,9 +12,9 @@ namespace Softeq.XToolkit.WhiteLabel.Threading
     public static class Execute
     {
         /// <summary>
-        ///     Indicates whether or not the framework is in design-time mode.
+        ///     Gets or sets the current <see cref="IMainThreadExecutor" />.
         /// </summary>
-        public static bool InDesignMode => PlatformProvider.Current.InDesignMode;
+        public static IMainThreadExecutor CurrentExecutor { get; set; } = default!;
 
         /// <summary>
         ///     Executes the action on the UI thread asynchronously.
@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Threading
         /// <param name="action">The action to execute.</param>
         public static void BeginOnUIThread(this Action action)
         {
-            PlatformProvider.Current.BeginOnUIThread(action);
+            CurrentExecutor.BeginOnUIThread(action);
         }
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace Softeq.XToolkit.WhiteLabel.Threading
         /// <param name="action">The action to execute.</param>
         public static Task OnUIThreadAsync(this Action action)
         {
-            return PlatformProvider.Current.OnUIThreadAsync(action);
+            return CurrentExecutor.OnUIThreadAsync(action);
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Threading
         /// <param name="action">The action to execute.</param>
         public static void OnUIThread(this Action action)
         {
-            PlatformProvider.Current.OnUIThread(action);
+            CurrentExecutor.OnUIThread(action);
         }
     }
 }

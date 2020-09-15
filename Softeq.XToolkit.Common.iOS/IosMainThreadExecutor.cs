@@ -4,21 +4,16 @@
 using System;
 using System.Threading.Tasks;
 using Foundation;
-using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.Common.Threading;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS
+namespace Softeq.XToolkit.Common.iOS
 {
     /// <summary>
-    ///     A <see cref="IPlatformProvider" /> implementation for the Xamarin iOS platfrom.
+    ///     A <see cref="IMainThreadExecutor" /> implementation for the Xamarin iOS platform.
     /// </summary>
-    public class IosPlatformProvider : IPlatformProvider
+    public class IosMainThreadExecutor : IMainThreadExecutor
     {
-        /// <summary>
-        ///     Indicates whether or not the framework is in design-time mode.
-        /// </summary>
-        public bool InDesignMode => false;
-
         /// <summary>
         ///     Executes the action on the UI thread asynchronously.
         /// </summary>

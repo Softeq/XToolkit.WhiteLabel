@@ -67,7 +67,6 @@
     <Compile Include="Navigation\FrameNavigationConfig.cs" />
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Providers\DroidPlatformProvider.cs" />
     <Compile Include="Providers\ContextProvider.cs" />
     <Compile Include="Services\DroidAppInfoService.cs" />
     <Compile Include="Services\DroidToastService.cs" />

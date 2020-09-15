@@ -3,9 +3,9 @@
 
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms
@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
             _bootstrapper = bootstrapper;
 
             // Init UI thread helper
-            PlatformProvider.Current = new FormsPlatformProvider();
+            Execute.CurrentExecutor = new FormsMainThreadExecutor();
         }
 
         protected override void OnStart()

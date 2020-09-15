@@ -4,9 +4,10 @@
 using Foundation;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.iOS;
+using Softeq.XToolkit.Common.iOS;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
@@ -51,7 +52,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             BindingExtensions.Initialize(new AppleBindingFactory());
 
             // Init platform helpers
-            PlatformProvider.Current = new IosPlatformProvider();
+            Execute.CurrentExecutor = new IosMainThreadExecutor();
 
             // Init dependencies
             var bootstrapper = CreateBootstrapper();

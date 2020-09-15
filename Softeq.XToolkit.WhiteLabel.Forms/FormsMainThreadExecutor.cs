@@ -3,15 +3,13 @@
 
 using System;
 using System.Threading.Tasks;
-using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.Common.Threading;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms
 {
-    public class FormsPlatformProvider : IPlatformProvider
+    public class FormsMainThreadExecutor : IMainThreadExecutor
     {
-        public bool InDesignMode => false;
-
         public void BeginOnUIThread(Action action)
         {
             Device.BeginInvokeOnMainThread(action);
