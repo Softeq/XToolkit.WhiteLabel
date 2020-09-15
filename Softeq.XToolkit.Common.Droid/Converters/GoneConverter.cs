@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Common.Droid.Converters
     /// </summary>
     public class GoneConverter : IConverter<ViewStates, bool>
     {
-        public static GoneConverter Instance { get; } = new GoneConverter();
+        public static IConverter<ViewStates, bool> Instance { get; } = new GoneConverter();
 
         /// <inheritdoc />
         public ViewStates ConvertValue(bool value, object? parameter = null, string? language = null)
