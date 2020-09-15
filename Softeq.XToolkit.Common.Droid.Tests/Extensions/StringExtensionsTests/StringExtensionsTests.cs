@@ -6,6 +6,7 @@ using System.Linq;
 using Android.Text;
 using Android.Text.Style;
 using Softeq.XToolkit.Common.Droid.Extensions;
+using Softeq.XToolkit.Common.Helpers;
 using Xunit;
 using Object = Java.Lang.Object;
 
@@ -17,31 +18,31 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.ContextExtensionsTests
 
         [Theory]
         [MemberData(
-            nameof(StringExtensionsDataProvider.FormatSpannableNullStringWithSpansTestData),
+            nameof(StringExtensionsDataProvider.FormatSpannableNullStringWithRangeAndSpansTestData),
             MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnNullString_WithStartingIndexAndLength_WithSpans_ThrowsCorrectException(
-            int startingIndex, int length, Object[] spans)
+        public void FormatSpannable_WhenCalledOnNullString_WithAnyTextRange_WithSpans_ThrowsCorrectException(
+            TextRange textRange, Object[] spans)
         {
             var str = null as string;
-            Assert.Throws<ArgumentNullException>(() => str!.FormatSpannable(startingIndex, length, spans));
+            Assert.Throws<ArgumentNullException>(() => str!.FormatSpannable(textRange, spans));
         }
 
         [Theory]
         [MemberData(
             nameof(StringExtensionsDataProvider.FormatSpannableNullStringWithoutSpansTestData),
             MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnNullString_WithStartingIndexAndLength_WithoutSpans_ThrowsCorrectException(
-            int startingIndex, int length)
+        public void FormatSpannable_WhenCalledOnNullString_WithAnyTextRange_WithoutSpans_ThrowsCorrectException(
+            TextRange textRange)
         {
             var str = null as string;
-            Assert.Throws<ArgumentNullException>(() => str!.FormatSpannable(startingIndex, length));
+            Assert.Throws<ArgumentNullException>(() => str!.FormatSpannable(textRange));
         }
 
         [Theory]
         [MemberData(
             nameof(StringExtensionsDataProvider.FormatSpannableNullStringWithSpansOnlyTestData),
             MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnNullString_WithoutStartingIndexAndLength_WithSpans_ThrowsCorrectException(
+        public void FormatSpannable_WhenCalledOnNullString_WithoutTextRange_WithSpans_ThrowsCorrectException(
             Object[] spans)
         {
             var str = null as string;
@@ -49,7 +50,7 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.ContextExtensionsTests
         }
 
         [Fact]
-        public void FormatSpannable_WhenCalledOnNullString_WithoutStartingIndexAndLength_WithoutSpans_ThrowsCorrectException()
+        public void FormatSpannable_WhenCalledOnNullString_WithoutTextRange_WithoutSpans_ThrowsCorrectException()
         {
             var str = null as string;
             Assert.Throws<ArgumentNullException>(() => str!.FormatSpannable());
@@ -59,106 +60,117 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.ContextExtensionsTests
 
         [Theory]
         [MemberData(
-            nameof(StringExtensionsDataProvider.FormatSpannableWithAnyStartingIndexOrLengthWithoutSpansTestData),
+            nameof(StringExtensionsDataProvider.FormatSpannableStringsTestData),
             MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithAnyStartingIndexAndLength_WithoutSpans_ThrowsCorrectException(
-            string str, int startingIndex, int length)
+        public void FormatSpannable_WhenCalledOnCorrectString_WithNullTextRange_ThrowsCorrectException(
+            string str)
         {
             var spans = new Object[] { };
-            Assert.Throws<ArgumentException>(() => str.FormatSpannable(startingIndex, length, spans));
+            Assert.Throws<ArgumentNullException>(() => str.FormatSpannable(StringExtensionsDataProvider.NullTextRange, spans));
         }
 
         [Theory]
         [MemberData(
-            nameof(StringExtensionsDataProvider.FormatSpannableWithIncorrectStartingIndexOrLengthWithSpansTestData),
+            nameof(StringExtensionsDataProvider.FormatSpannableWithNonNullTextRangeWithoutSpansTestData),
             MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithIncorrectStartingIndexOrLength_WithSpans_ThrowsCorrectException(
-            string str, int startingIndex, int length, Object[] spans)
+        public void FormatSpannable_WhenCalledOnCorrectString_WithNonNullTextRange_WithoutSpans_ThrowsCorrectException(
+            string str, TextRange textRange)
         {
-            Assert.Throws<ArgumentOutOfRangeException>(() => str.FormatSpannable(startingIndex, length, spans));
+            var spans = new Object[] { };
+            Assert.Throws<ArgumentException>(() => str.FormatSpannable(textRange, spans));
         }
 
         [Theory]
         [MemberData(
-            nameof(StringExtensionsDataProvider.FormatSpannableWithCorrectStartingIndexAndLengthWithStyleSpansTestData),
+            nameof(StringExtensionsDataProvider.FormatSpannableWithIncorrectTextRangeWithSpansTestData),
             MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithCorrectStartingIndexAndLength_WithStyleSpans_AppliesSpans(
-            string str, int startingIndex, int length, Object[] spans)
+        public void FormatSpannable_WhenCalledOnCorrectString_WithIncorrectTextRange_WithSpans_ThrowsCorrectException(
+            string str, TextRange textRange, Object[] spans)
         {
-            var spannable = str.FormatSpannable(startingIndex, length, spans);
-            var appliedSpans = GetSpans<StyleSpan>(spannable, startingIndex, length);
+            Assert.Throws<ArgumentOutOfRangeException>(() => str.FormatSpannable(textRange, spans));
+        }
+
+        [Theory]
+        [MemberData(
+            nameof(StringExtensionsDataProvider.FormatSpannableWithCorrectTextRangeWithStyleSpansTestData),
+            MemberType = typeof(StringExtensionsDataProvider))]
+        public void FormatSpannable_WhenCalledOnCorrectString_WithCorrectTextRange_WithStyleSpans_AppliesSpans(
+            string str, TextRange textRange, Object[] spans)
+        {
+            var spannable = str.FormatSpannable(textRange, spans);
+            var appliedSpans = GetSpans<StyleSpan>(spannable, textRange);
 
             AssertAppliedSpans(spans, appliedSpans);
-            AssertNoSpansOutsideSpecifiedIntervalApplied<StyleSpan>(spannable, startingIndex, length);
+            AssertNoSpansOutsideSpecifiedIntervalApplied<StyleSpan>(spannable, textRange);
         }
 
         [Theory]
         [MemberData(
-           nameof(StringExtensionsDataProvider.FormatSpannableWithCorrectStartingIndexAndLengthWithForegroundColorSpansTestData),
+           nameof(StringExtensionsDataProvider.FormatSpannableWithCorrectTextRangeWithForegroundColorSpansTestData),
            MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithCorrectStartingIndexAndLength_WithForegroundColorSpans_AppliesSpans(
-           string str, int startingIndex, int length, Object[] spans)
+        public void FormatSpannable_WhenCalledOnCorrectString_WithCorrectTextRange_WithForegroundColorSpans_AppliesSpans(
+           string str, TextRange textRange, Object[] spans)
         {
-            var spannable = str.FormatSpannable(startingIndex, length, spans);
-            var appliedSpans = GetSpans<ForegroundColorSpan>(spannable, startingIndex, length);
+            var spannable = str.FormatSpannable(textRange, spans);
+            var appliedSpans = GetSpans<ForegroundColorSpan>(spannable, textRange);
 
             AssertAppliedSpans(spans, appliedSpans);
-            AssertNoSpansOutsideSpecifiedIntervalApplied<ForegroundColorSpan>(spannable, startingIndex, length);
+            AssertNoSpansOutsideSpecifiedIntervalApplied<ForegroundColorSpan>(spannable, textRange);
         }
 
         [Theory]
         [MemberData(
-           nameof(StringExtensionsDataProvider.FormatSpannableWithCorrectStartingIndexAndLengthWithDifferentSpansTestData),
+           nameof(StringExtensionsDataProvider.FormatSpannableWithCorrectTextRangeWithDifferentSpansTestData),
            MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithCorrectStartingIndexAndLength_WithDifferentSpans_AppliesSpans(
-           string str, int startingIndex, int length, Object[] spans)
+        public void FormatSpannable_WhenCalledOnCorrectString_WithCorrectTextRange_WithDifferentSpans_AppliesSpans(
+           string str, TextRange textRange, Object[] spans)
         {
-            var spannable = str.FormatSpannable(startingIndex, length, spans);
-            var appliedStyleSpans = GetSpans<StyleSpan>(spannable, startingIndex, length);
-            var appliedForegroundColorSpans = GetSpans<ForegroundColorSpan>(spannable, startingIndex, length);
+            var spannable = str.FormatSpannable(textRange, spans);
+            var appliedStyleSpans = GetSpans<StyleSpan>(spannable, textRange);
+            var appliedForegroundColorSpans = GetSpans<ForegroundColorSpan>(spannable, textRange);
             var appliedSpans = appliedStyleSpans.Concat(appliedForegroundColorSpans).ToArray();
 
             AssertAppliedSpans(spans, appliedSpans);
-            AssertNoSpansOutsideSpecifiedIntervalApplied<StyleSpan>(spannable, startingIndex, length);
-            AssertNoSpansOutsideSpecifiedIntervalApplied<ForegroundColorSpan>(spannable, startingIndex, length);
+            AssertNoSpansOutsideSpecifiedIntervalApplied<StyleSpan>(spannable, textRange);
+            AssertNoSpansOutsideSpecifiedIntervalApplied<ForegroundColorSpan>(spannable, textRange);
         }
 
         [Theory]
         [MemberData(
-            nameof(StringExtensionsDataProvider.FormatSpannableWithoutStartingIndexAndLengthWithStyleSpansTestData),
+            nameof(StringExtensionsDataProvider.FormatSpannableWithoutTextRangeWithStyleSpansTestData),
             MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithoutStartingIndexAndLength_WithStyleSpans_AppliesSpans(
+        public void FormatSpannable_WhenCalledOnCorrectString_WithoutTextRange_WithStyleSpans_AppliesSpans(
             string str, Object[] spans)
         {
             var spannable = str.FormatSpannable(spans);
-            var appliedSpans = GetSpans<StyleSpan>(spannable, 0, str.Length);
+            var appliedSpans = GetSpans<StyleSpan>(spannable, new TextRange(0, str.Length));
 
             AssertAppliedSpans(spans, appliedSpans);
         }
 
         [Theory]
         [MemberData(
-           nameof(StringExtensionsDataProvider.FormatSpannableWithoutStartingIndexAndLengthWithForegroundColorSpansTestData),
+           nameof(StringExtensionsDataProvider.FormatSpannableWithoutTextRangeWithForegroundColorSpansTestData),
            MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithoutStartingIndexAndLength_WithForegroundColorSpans_AppliesSpans(
+        public void FormatSpannable_WhenCalledOnCorrectString_WithoutTextRange_WithForegroundColorSpans_AppliesSpans(
             string str, Object[] spans)
         {
             var spannable = str.FormatSpannable(spans);
-            var appliedSpans = GetSpans<ForegroundColorSpan>(spannable, 0, str.Length);
+            var appliedSpans = GetSpans<ForegroundColorSpan>(spannable, new TextRange(0, str.Length));
 
             AssertAppliedSpans(spans, appliedSpans);
         }
 
         [Theory]
         [MemberData(
-           nameof(StringExtensionsDataProvider.FormatSpannableWithoutStartingIndexAndLengthWithDifferentSpansTestData),
+           nameof(StringExtensionsDataProvider.FormatSpannableWithoutTextRangeWithDifferentSpansTestData),
            MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithoutStartingIndexAndLength_WithDifferentSpans_AppliesSpans(
+        public void FormatSpannable_WhenCalledOnCorrectString_WithoutTextRange_WithDifferentSpans_AppliesSpans(
             string str, Object[] spans)
         {
             var spannable = str.FormatSpannable(spans);
-            var appliedStyleSpans = GetSpans<StyleSpan>(spannable, 0, str.Length);
-            var appliedForegroundColorSpans = GetSpans<ForegroundColorSpan>(spannable, 0, str.Length);
+            var appliedStyleSpans = GetSpans<StyleSpan>(spannable, new TextRange(0, str.Length));
+            var appliedForegroundColorSpans = GetSpans<ForegroundColorSpan>(spannable, new TextRange(0, str.Length));
             var appliedSpans = appliedStyleSpans.Concat(appliedForegroundColorSpans).ToArray();
 
             AssertAppliedSpans(spans, appliedSpans);
@@ -168,7 +180,7 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.ContextExtensionsTests
         [MemberData(
             nameof(StringExtensionsDataProvider.FormatSpannableStringsTestData),
             MemberType = typeof(StringExtensionsDataProvider))]
-        public void FormatSpannable_WhenCalledOnCorrectString_WithoutStartingIndexAndLength_WithoutSpans_ThrowsCorrectException(
+        public void FormatSpannable_WhenCalledOnCorrectString_WithoutTextRange_WithoutSpans_ThrowsCorrectException(
             string str)
         {
             Assert.Throws<ArgumentException>(() => str.FormatSpannable());
@@ -191,25 +203,28 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.ContextExtensionsTests
             }
         }
 
-        private void AssertNoSpansOutsideSpecifiedIntervalApplied<T>(SpannableString? spannable, int startingIndex, int length)
+        private void AssertNoSpansOutsideSpecifiedIntervalApplied<T>(SpannableString? spannable, TextRange textRange)
         {
             int spannableLength = spannable?.Length() ?? 0;
-            if (startingIndex > 0)
+            if (textRange.Position > 0)
             {
-                var spansBefore = GetSpans<T>(spannable, 0, startingIndex - 1);
+                var spansBefore = GetSpans<T>(spannable, new TextRange(0, textRange.Position - 1));
                 Assert.Empty(spansBefore);
             }
 
-            if (startingIndex + length < spannableLength - 1)
+            if (textRange.Position + textRange.Length < spannableLength - 1)
             {
-                var spansAfter = GetSpans<T>(spannable, startingIndex + length + 1, spannableLength - 1);
+                var spansAfter = GetSpans<T>(spannable, new TextRange(textRange.Position + textRange.Length + 1, spannableLength - 1));
                 Assert.Empty(spansAfter);
             }
         }
 
-        private Object[] GetSpans<T>(SpannableString? spannable, int startingIndex, int length)
+        private Object[] GetSpans<T>(SpannableString? spannable, TextRange textRange)
         {
-            return spannable?.GetSpans(startingIndex, startingIndex + length, Java.Lang.Class.FromType(typeof(T))) ?? new Object[] { };
+            return spannable?.GetSpans(
+                textRange.Position,
+                textRange.Position + textRange.Length,
+                Java.Lang.Class.FromType(typeof(T))) ?? new Object[] { };
         }
     }
 }
