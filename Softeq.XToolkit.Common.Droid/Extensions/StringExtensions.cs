@@ -16,9 +16,11 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         /// <summary>
         ///     Allows to apply multiple spans to part of the string.
         /// </summary>
-        /// <returns>The spannable string with all spans apllied.</returns>
+        /// <returns>The spannable string with all spans applied.</returns>
         /// <param name="unformattedString">Unformatted string.</param>
-        /// <param name="textRange">Instance containing the starting index and the length of the range to which spans shall be applied.</param>
+        /// <param name="textRange">
+        ///     Instance containing the starting index and the length of the range to which spans shall be applied.
+        /// </param>
         /// <param name="spans">An array of spans.</param>
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="unformattedString"/> and <paramref name="textRange"/> parameters cannot be <see langword="null"/>.
@@ -29,7 +31,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         /// <exception cref="T:System.ArgumentOutOfRangeException">
         ///     Starting index of the <paramref name="textRange"/> must be less than the size of the string.
         ///     - and -
-        ///     Length of the <paramref name="length"/> must be less than the size of the string.
+        ///     Length of the <paramref name="textRange"/> must be less than the size of the string.
         ///     - and -
         ///     End index of the <paramref name="textRange"/> must be less than the size of the string.
         /// </exception>
@@ -80,7 +82,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         /// <summary>
         ///     Allows to apply multiple spans to the whole string.
         /// </summary>
-        /// <returns>The spannable string with all spans apllied.</returns>
+        /// <returns>The spannable string with all spans applied.</returns>
         /// <param name="unformattedString">Unformatted string.</param>
         /// <param name="spans">An array of spans.</param>
         /// <exception cref="T:System.ArgumentNullException">
@@ -90,7 +92,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         {
             if (unformattedString == null)
             {
-                throw new ArgumentNullException($"{nameof(unformattedString)} cannot be null");
+                throw new ArgumentNullException(nameof(unformattedString));
             }
 
             return unformattedString.FormatSpannable(new TextRange(0, unformattedString.Length), spans);
