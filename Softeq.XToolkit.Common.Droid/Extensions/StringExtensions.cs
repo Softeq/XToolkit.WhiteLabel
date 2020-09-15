@@ -40,12 +40,12 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         {
             if (unformattedString == null)
             {
-                throw new ArgumentNullException($"{nameof(unformattedString)} cannot be null");
+                throw new ArgumentNullException(nameof(unformattedString));
             }
 
             if (textRange == null)
             {
-                throw new ArgumentNullException($"{nameof(textRange)} cannot be null");
+                throw new ArgumentNullException(nameof(textRange));
             }
 
             if (spans.Length == 0)
