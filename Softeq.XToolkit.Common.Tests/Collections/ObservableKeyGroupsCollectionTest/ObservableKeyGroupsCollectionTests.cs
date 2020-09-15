@@ -15,6 +15,24 @@ namespace ObservableKeyGroupsCollection
 {
     public class ObservableKeyGroupsCollectionTests
     {
+        private const string KeysParameterName = "keys";
+        private const string ItemsParameterName = "items";
+        private const string AddDuplicateItemExceptionMessage = "An item with the same key has already been added.";
+
+        public static IEnumerable<object[]> CollectionOptions =>
+            new List<object[]>
+            {
+                new object[] {CollectionHelper.CreateWithEmptyGroups() },
+                new object[] {CollectionHelper.CreateWithoutEmptyGroups() }
+            };
+
+        public static IEnumerable<object[]> FillCollectionOptions =>
+         new List<object[]>
+         {
+                new object[] {CollectionHelper.CreateWithItemsWithEmptyGroups() },
+                new object[] {CollectionHelper.CreateWithItemsWithoutEmptyGroups() }
+         };
+
         [Fact]
         // event NotifyCollectionChangedEventHandler CollectionChanged;
         public void CollectionChanged_Test_Miss()
@@ -23,13 +41,12 @@ namespace ObservableKeyGroupsCollection
         }
 
         [Fact] // +++
-        public void CollectionChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_CollectionChangedNotifyAddEvent()
+        public void CollectionChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotifyAddEvent()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
+            var keys = CollectionHelper.KeysTwoFill;
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
-
-            var keys = CollectionHelper.KeysTwoFill;
 
             collection.AddGroups(keys);
 
@@ -37,13 +54,38 @@ namespace ObservableKeyGroupsCollection
         }
 
         [Fact] // +++
-        public void CollectionChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_CollectionChangedNotifyOneTime()
+        public void CollectionChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotifyOneTime()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
             collection.AddGroups(CollectionHelper.KeysTwoFill);
+
+            Assert.Equal(1, catcher.EventCount);
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void CollectionChanged_AddGroupsWithItemsUniqueKeysWithItems_NotifyAddEvent(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var pairs = CollectionHelper.PairsWithKeysWithItems;
+            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddGroups(pairs);
+
+            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, pairs));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void CollectionChanged_AddGroupsWithItemsUniqueKeysWithItems_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddGroups(CollectionHelper.PairsWithKeysWithItems);
 
             Assert.Equal(1, catcher.EventCount);
         }
@@ -56,7 +98,7 @@ namespace ObservableKeyGroupsCollection
         }
 
         [Fact] // +++
-        public void ItemsChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_ItemsChangedNotifyAddEvent()
+        public void ItemsChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotifyAddEvent()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
             var keys = CollectionHelper.KeysTwoFill;
@@ -69,7 +111,7 @@ namespace ObservableKeyGroupsCollection
         }
 
         [Fact] // +++
-        public void ItemsChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_ItemsChangedNotifyOneTime()
+        public void ItemsChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotifyOneTime()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
@@ -80,19 +122,44 @@ namespace ObservableKeyGroupsCollection
             Assert.Equal(1, catcher.EventCount);
         }
 
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void ItemChanged_AddGroupsWithItemsUniqueKeysWithItems_NotifyAddEvent(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var pairs = CollectionHelper.PairsWithKeysWithItems;
+            var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddGroups(pairs);
+
+            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, pairs));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void ItemChanged_AddGroupsWithItemsUniqueKeysWithItems_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddGroups(CollectionHelper.PairsWithKeysWithItems);
+
+            Assert.Equal(1, catcher.EventCount);
+        }
+
         // AddGroups(keys)
         [Fact] // +++
         public void AddGroups_KeysOnlyAllowEmptyGroupNullListOfKeys_ArgumentNullException()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
-            var expectedException = new ArgumentNullException(CollectionHelper.KeysParameterName); // how can we use real variable name?
+            var expectedException = new ArgumentNullException(KeysParameterName);
             var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(CollectionHelper.KeysNull));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
         [Fact] // +++
-        public void AddGroups_KeysOnlyAllowEmptyGroupsEmptyListOfKeys_KeysCountNotChanged()
+        public void AddGroups_KeysOnlyAllowEmptyGroupsEmptyListOfKeys_CollectionSizeNotChanged()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
             var expected = collection.Keys.Count;
@@ -106,14 +173,14 @@ namespace ObservableKeyGroupsCollection
         public void AddGroups_KeysOnlyAllowEmptyGroupsNullKey_ArgumentNullException()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
-            var expectedException = new ArgumentNullException(CollectionHelper.KeysParameterName); // how can we use real variable name?
+            var expectedException = new ArgumentNullException(KeysParameterName);
             var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(CollectionHelper.KeysOneFillOneNull));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
         [Fact] // +++
-        public void AddGroups_KeysOnlyAllowEmptyGroupsUniqueKeys_KeyCountIncreaseByNumberOfUniqueKeys()
+        public void AddGroups_KeysOnlyAllowEmptyGroupsUniqueKeys_CollectionSizeIncreased()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
             var keys = CollectionHelper.KeysOneFillOneEmpty;
@@ -128,7 +195,7 @@ namespace ObservableKeyGroupsCollection
         public void AddGroups_KeysOnlyAllowEmptyGroupsDuplicateKeys_ArgumentException()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
-            var expectedException = new ArgumentException("An item with the same key has already been added."); // should solve message
+            var expectedException = new ArgumentException(AddDuplicateItemExceptionMessage);
             var actualException = Assert.Throws<ArgumentException>(() => collection.AddGroups(CollectionHelper.KeysDuplicate));
 
             Assert.Equal(expectedException.Message, actualException.Message);
@@ -138,38 +205,27 @@ namespace ObservableKeyGroupsCollection
         public void AddGroups_KeysOnlyForbidEmptyGroup_InvalidOperationException()
         {
             var collection = CollectionHelper.CreateWithoutEmptyGroups();
-            var keys = CollectionHelper.KeysNull;
             var exception = new InvalidOperationException();
-            var actual = Assert.Throws<InvalidOperationException>(() => collection.AddGroups(keys));
+            var actual = Assert.Throws<InvalidOperationException>(() => collection.AddGroups(CollectionHelper.KeysNull));
 
             Assert.Equal(exception.Message, actual.Message);
         }
 
         // AddGroups(keys, items)
-        [Fact] // +++
-        public void AddGroups_WithItemsAllowEmptyGroupsNullListOfPairs_ArgumentNullException()
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void AddGroups_WithItemsNullListOfPairs_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateWithEmptyGroups();
-            var expectedException = new ArgumentNullException(CollectionHelper.ItemsParameterName); // how can we use real variable name?
+            var expectedException = new ArgumentNullException(ItemsParameterName);
             var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(CollectionHelper.PairsNull));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
-        [Fact] // +++
-        public void AddGroups_WithItemsForbidEmptyGroupsNullListOfPairs_ArgumentNullException()
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void AddGroups_WithItemsEmptyListOfPairs_CollectionSizeNotChanged(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateWithoutEmptyGroups();
-            var expectedException = new ArgumentNullException(CollectionHelper.ItemsParameterName); // how can we use real variable name?
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(CollectionHelper.PairsNull));
-
-            Assert.Equal(expectedException.Message, actualException.Message);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsForEmptyListOfPairs_CollectionSizeNotChanged()
-        {
-            var collection = CollectionHelper.CreateWithEmptyGroups();
             var expectedCount = collection.Count;
 
             collection.AddGroups(CollectionHelper.PairsEmpty);
@@ -177,21 +233,10 @@ namespace ObservableKeyGroupsCollection
             Assert.Equal(expectedCount, collection.Count);
         }
 
-        [Fact]
-        public void AddGroups_WithItemsWithoutEmptyGroupsForEmptyListOfPairs_CollectionSizeNotChanged()
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void AddGroups_WithItemsUniqueKeysWithItems_CollectionSizeIncreased(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateWithoutEmptyGroups();
-            var expectedCount = collection.Count;
-
-            collection.AddGroups(CollectionHelper.PairsEmpty);
-
-            Assert.Equal(expectedCount, collection.Count);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsForUniqueKeysWithItems_CollectionSizeIncreasedByPairsNumber()
-        {
-            var collection = CollectionHelper.CreateWithEmptyGroups();
             var pairs = CollectionHelper.PairsWithKeysWithItems;
             var expectedCount = collection.Count + pairs.Count;
 
@@ -200,42 +245,18 @@ namespace ObservableKeyGroupsCollection
             Assert.Equal(expectedCount, collection.Count);
         }
 
-        [Fact]
-        public void AddGroups_WithItemsWithoutEmptyGroupsForUniqueKeysWithItems_CollectionSizeIncreasedByPairsNumber()
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void AddGroups_WithItemsUniqueKeysWithNullItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateWithoutEmptyGroups();
-            var pairs = CollectionHelper.PairsWithKeysWithItems;
-            var expectedCount = collection.Count + pairs.Count;
-
-            collection.AddGroups(pairs);
-
-            Assert.Equal(expectedCount, collection.Count);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsForUniqueKeysWithNullItems_ArgumentNullException()
-        {
-            var collection = CollectionHelper.CreateWithEmptyGroups();
-            var pair = CollectionHelper.PairWithKeyWithNullItems;
             var expectedException = new ArgumentNullException();
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(pair));
+            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(CollectionHelper.PairWithKeyWithNullItems));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
-        [Fact]
-        public void AddGroups_WithItemsWithoutEmptyGroupsForUniqueKeysWithNullItems_ArgumentNullException()
-        {
-            var collection = CollectionHelper.CreateWithoutEmptyGroups();
-            var pair = CollectionHelper.PairWithKeyWithNullItems;
-            var expectedException = new ArgumentNullException();
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(pair));
-
-            Assert.Equal(expectedException.Message, actualException.Message);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsForUniqueKeysWithEmptyItems_CollectionSizeIncreasedByPairsNumber()
+        [Fact] // +++
+        public void AddGroups_WithItemsAllowEmptyGroupsUniqueKeysWithEmptyItems_CollectionSizeIncreased()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
             var pair = CollectionHelper.PairWithKeyWithEmptyItem;
@@ -246,152 +267,56 @@ namespace ObservableKeyGroupsCollection
             Assert.Equal(expectedCount, collection.Count);
         }
 
-        [Fact]
-        public void AddGroups_WithItemsWithoutEmptyGroupsForUniqueKeysWithEmptyItems_InvalidOperationException()
+        [Fact] // +++
+        public void AddGroups_WithItemsForbidEmptyGroupsUniqueKeysWithEmptyItems_InvalidOperationException()
         {
             var collection = CollectionHelper.CreateWithoutEmptyGroups();
-            var pair = CollectionHelper.PairWithKeyWithEmptyItem;
             var expectedException = new InvalidOperationException();
-
-            var actualException = Assert.Throws<InvalidOperationException>(() => collection.AddGroups(pair));
+            var actualException = Assert.Throws<InvalidOperationException>(() => collection.AddGroups(CollectionHelper.PairWithKeyWithEmptyItem));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
-        [Fact]
-        public void AddGroups_WithItemsWithoutEmptyGroupsForDuplicateKeyWithAnyItems_ArgumentException()
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void AddGroups_WithItemsDuplicateKeyWithItems_ArgumentException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateWithItemsWithoutEmptyGroups();
-            var pair = CollectionHelper.PairDuplicateKeyWithEmptyItem;
-            var expectedException = new ArgumentException();
-
+            var pair = CollectionHelper.PairDuplicateKeyWithItems;
+            var expectedException = new ArgumentException(AddDuplicateItemExceptionMessage);
+            collection.AddGroups(pair);
             var actualException = Assert.Throws<ArgumentException>(() => collection.AddGroups(pair));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsForNullKeyWithItems_ArgumentNullException()
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void AddGroups_WithItemsNullKeyWithItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateWithItemsWithEmptyGroups();
-            var pair = CollectionHelper.PairNullKeyWithItems;
             var expectedException = new ArgumentNullException();
-
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(pair));
+            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(CollectionHelper.PairNullKeyWithItems));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
-        [Fact]
-        public void AddGroups_WithItemsWithoutEmptyGroupsForNullKeyWithItems_ArgumentNullException()
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void AddGroups_WithItemsNullKeyWithEmptyItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateWithItemsWithoutEmptyGroups();
-            var pair = CollectionHelper.PairNullKeyWithItems;
             var expectedException = new ArgumentNullException();
-
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(pair));
+            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(CollectionHelper.PairNullKeyWithEmptyItems));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }
 
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsForNullKeyWithEmptyItems_ArgumentNullException()
+        [Theory] // +++
+        [MemberData(nameof(CollectionOptions))]
+        public void AddGroups_WithItemsNullKeyWithNullItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateWithItemsWithEmptyGroups();
-            var pair = CollectionHelper.PairNullKeyWithEmptyItems;
             var expectedException = new ArgumentNullException();
-
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(pair));
+            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(CollectionHelper.PairNullKeyWithNullItems));
 
             Assert.Equal(expectedException.Message, actualException.Message);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithoutEmptyGroupsForNullKeyWithEmptyItems_ArgumentNullException()
-        {
-            var collection = CollectionHelper.CreateWithItemsWithoutEmptyGroups();
-            var pair = CollectionHelper.PairNullKeyWithEmptyItems;
-            var expectedException = new ArgumentNullException();
-
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(pair));
-
-            Assert.Equal(expectedException.Message, actualException.Message);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsForNullKeyWithNullItems_ArgumentNullException()
-        {
-            var collection = CollectionHelper.CreateWithItemsWithEmptyGroups();
-            var pair = CollectionHelper.PairNullKeyWithNullItems;
-            var expectedException = new ArgumentNullException();
-
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(pair));
-
-            Assert.Equal(expectedException.Message, actualException.Message);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithoutEmptyGroupsForNullKeyWithNullItems_ArgumentNullException()
-        {
-            var collection = CollectionHelper.CreateWithItemsWithoutEmptyGroups();
-            var pair = CollectionHelper.PairNullKeyWithNullItems;
-            var expectedException = new ArgumentNullException();
-
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.AddGroups(pair));
-
-            Assert.Equal(expectedException.Message, actualException.Message);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsUniqueKeysWithItems_CollectionChangedNotifyAddEvent()
-        {
-            var collection = CollectionHelper.CreateWithEmptyGroups();
-            var pairs = CollectionHelper.PairsWithKeysWithItems;
-            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
-            catcher.Subscribe();
-
-            collection.AddGroups(pairs);
-
-            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, pairs));
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsUniqueKeysWithItems_CollectionChangedNotifyOneTime()
-        {
-            var collection = CollectionHelper.CreateWithEmptyGroups();
-            var pairs = CollectionHelper.PairsWithKeysWithItems;
-            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
-            catcher.Subscribe();
-
-            collection.AddGroups(pairs);
-
-            Assert.Equal(1, catcher.EventCount);
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsUniqueKeysWithItems_ItemsChangedNotifyAddEvent()
-        {
-            var collection = CollectionHelper.CreateWithEmptyGroups();
-            var pairs = CollectionHelper.PairsWithKeysWithItems;
-            var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
-            catcher.Subscribe();
-
-            collection.AddGroups(pairs);
-
-            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, pairs));
-        }
-
-        [Fact]
-        public void AddGroups_WithItemsWithEmptyGroupsUniqueKeysWithItems_ItemsChangedNotifyOneTime()
-        {
-            var collection = CollectionHelper.CreateWithEmptyGroups();
-            var pairs = CollectionHelper.PairsWithKeysWithItems;
-            var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
-            catcher.Subscribe();
-
-            collection.AddGroups(pairs);
-
-            Assert.Equal(1, catcher.EventCount);
         }
 
         [Fact]
@@ -422,11 +347,36 @@ namespace ObservableKeyGroupsCollection
             Assert.True(false);
         }
 
-        [Fact]
-        // RemoveGroups(IEnumerable<TKey> keys)
-        public void RemoveGroups_Test_Miss()
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void RemoveGroups_NullKey_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            Assert.True(false);
+            var expectedException = new ArgumentNullException(KeysParameterName);
+            var actualException = Assert.Throws<ArgumentNullException>(() => collection.RemoveGroups(CollectionHelper.KeysNull));
+
+            Assert.Equal(expectedException.Message, actualException.Message);
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void RemoveGroups_ContainsKey_CollectionSizeDecreased(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var keys = CollectionHelper.KeysOneFill;
+            var expectedCount = collection.Count - keys.Count;
+
+            collection.RemoveGroups(keys);
+
+            Assert.Equal(expectedCount, collection.Count);
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void RemoveGroups_MissKey_KeyNotFoundException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var expectedException = new KeyNotFoundException();
+            var actualException = Assert.Throws<ArgumentNullException>(() => collection.RemoveGroups(CollectionHelper.KeysNotContained));
+
+            Assert.Equal(expectedException.Message, actualException.Message);
         }
 
         #region ClearGroups
