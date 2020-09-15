@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Threading
         /// <summary>
         ///     Gets or sets the current <see cref="IMainThreadExecutor" />.
         /// </summary>
-        public static IMainThreadExecutor CurrentExecutor { get; set; } = default!;
+        public static IMainThreadExecutor? CurrentExecutor { get; set; } = default!;
 
         /// <summary>
         ///     Executes the action on the UI thread asynchronously.

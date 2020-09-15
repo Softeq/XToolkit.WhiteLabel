@@ -12,6 +12,11 @@ namespace Softeq.XToolkit.Common.Threading
     public interface IMainThreadExecutor
     {
         /// <summary>
+        ///     Gets a value indicating whether it is the current main UI thread.
+        /// </summary>
+        bool IsMainThread { get; }
+
+        /// <summary>
         ///     Executes the action on the UI thread asynchronously.
         /// </summary>
         /// <param name="action">The action to execute.</param>
@@ -24,7 +29,7 @@ namespace Softeq.XToolkit.Common.Threading
         Task OnUIThreadAsync(Action action);
 
         /// <summary>
-        ///     Executes the action on the UI thread.
+        ///     Executes the action on the UI thread synchronously.
         /// </summary>
         /// <param name="action">The action to execute.</param>
         void OnUIThread(Action action);
