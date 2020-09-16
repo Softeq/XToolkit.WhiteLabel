@@ -66,6 +66,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StringExtensionsTests\StringExtensionsDataProvider.cs" />
     <Compile Include="Extensions\StringExtensionsTests\StringExtensionsTests.cs" />
+    <Compile Include="Extensions\EditTextExtensionsTests\EditTextExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
