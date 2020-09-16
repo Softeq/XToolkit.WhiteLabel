@@ -40,7 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\BoolToViewStateConverter.cs" />
     <Compile Include="DroidMainThreadExecutor.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Permissions\IPermissionRequestHandler.cs" />
