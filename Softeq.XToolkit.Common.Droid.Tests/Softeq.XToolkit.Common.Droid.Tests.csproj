@@ -60,7 +60,9 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DroidMainThreadExecutorTests\DroidMainThreadExecutorTests.cs" />
     <Compile Include="Extensions\ContextExtensionsTests\ContextExtensionsTests.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
