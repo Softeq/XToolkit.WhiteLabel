@@ -4,7 +4,6 @@
 using Android.Text;
 using Android.Widget;
 using Softeq.XToolkit.Common.Droid.Extensions;
-using Softeq.XToolkit.Common.Droid.TextFilters;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.EditTextExtensionsTests
@@ -29,9 +28,9 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.EditTextExtensionsTests
         {
             EditText editText = new EditText(MainActivity.Current);
 
-            var filter1 = new ForbiddenCharsInputFilter(new char[] { 'a' });
-            var filter2 = new ForbiddenCharsInputFilter(new char[] { 'b' });
-            var filter3 = new ForbiddenCharsInputFilter(new char[] { 'a' });
+            var filter1 = new InputFilterMock();
+            var filter2 = new InputFilterMock();
+            var filter3 = new InputFilterMock();
             var filters = new IInputFilter[] { filter1, filter2, filter3 };
 
             editText.SetFilters(filter1, filter2, filter3);
@@ -45,9 +44,9 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.EditTextExtensionsTests
         {
             EditText editText = new EditText(MainActivity.Current);
 
-            var filter1 = new ForbiddenCharsInputFilter(new char[] { 'a' });
-            var filter2 = new ForbiddenCharsInputFilter(new char[] { 'b' });
-            var filter3 = new ForbiddenCharsInputFilter(new char[] { 'a' });
+            var filter1 = new InputFilterMock();
+            var filter2 = new InputFilterMock();
+            var filter3 = new InputFilterMock();
             var nullFilter = null as IInputFilter;
             var filters = new IInputFilter[] { filter1, filter2, nullFilter, filter3, filter2, nullFilter, filter1, filter2 };
 
