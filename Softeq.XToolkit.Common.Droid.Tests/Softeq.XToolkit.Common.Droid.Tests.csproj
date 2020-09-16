@@ -67,6 +67,7 @@
     <Compile Include="Extensions\StringExtensionsTests\StringExtensionsDataProvider.cs" />
     <Compile Include="Extensions\StringExtensionsTests\StringExtensionsTests.cs" />
     <Compile Include="Extensions\EditTextExtensionsTests\EditTextExtensionsTests.cs" />
+    <Compile Include="TextFilters\ForbiddenCharsInputFilterTests.cs" />
     <Compile Include="Extensions\EditTextExtensionsTests\MockInputFilter.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -88,6 +89,9 @@
     </PackageReference>
     <PackageReference Include="xunit.runner.devices">
       <Version>2.5.25</Version>
+    </PackageReference>
+    <PackageReference Include="Xunit.Combinatorial">
+      <Version>1.4.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
