@@ -37,18 +37,20 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="TextFilters\ForbiddenCharsFilter.cs" />
+    <Compile Include="TextFilters\ITextFilter.cs" />
+    <Compile Include="TextFilters\LengthFilter.cs" />
+    <Compile Include="Extensions\NSDateExtensions.cs" />
+    <Compile Include="Extensions\NSLocaleExtensions.cs" />
+    <Compile Include="Extensions\NSStringExtensions.cs" />
     <Compile Include="Extensions\UIImageExtensions.cs" />
-    <Compile Include="Helpers\LocaleHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\UIColorExtensions.cs" />
-    <Compile Include="Extensions\UiViewControllerExtensions.cs" />
-    <Compile Include="Controls\LengthValidator.cs" />
-    <Compile Include="Extensions\NsRangeExtensions.cs" />
-    <Compile Include="Controls\TextFieldWithoutPaste.cs" />
-    <Compile Include="Helpers\AttributedStringHelper.cs" />
+    <Compile Include="Extensions\UIViewControllerExtensions.cs" />
+    <Compile Include="TextFilters\GroupFilter.cs" />
+    <Compile Include="Extensions\NSRangeExtensions.cs" />
     <Compile Include="Extensions\UIViewExtensions.cs" />
-    <Compile Include="Extensions\UITextFieldExtensions.cs" />
+    <Compile Include="Extensions\UITextViewExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">

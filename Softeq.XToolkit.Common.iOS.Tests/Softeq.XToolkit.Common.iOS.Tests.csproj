@@ -102,9 +102,19 @@
     <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extensions\NSLocaleExtensionsTests\NSLocaleExtensionsTests.cs" />
+    <Compile Include="Extensions\NSStringExtensions\NSStringExtensionsTests.cs" />
+    <Compile Include="Extensions\UIColorExtensionsTests\UIColorExtensionsTests.cs" />
+    <Compile Include="Extensions\UITextViewExtensionsTests\UITextViewExtensionsTests.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
-    <Compile Include="Extensions\NsRangeExtensionsTests\NsRangeExtensionsTests.cs" />
+    <Compile Include="Extensions\NSRangeExtensionsTests\NSRangeExtensionsTests.cs" />
+    <Compile Include="Extensions\NSDateExtensionsTests\NSDateExtensionsTests.cs" />
+    <Compile Include="TextFilters\ForbiddenCharsFilterTests\ForbiddenCharsFilterTests.cs" />
+    <Compile Include="TextFilters\GroupFilterTests\GroupFilterTests.cs" />
+    <Compile Include="TextFilters\GroupFilterTests\MockTextFilter.cs" />
+    <Compile Include="TextFilters\LengthFilterTests\LengthFilterTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="xunit">

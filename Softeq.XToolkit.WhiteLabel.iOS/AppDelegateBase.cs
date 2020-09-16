@@ -40,7 +40,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             Window = new UIWindow(UIScreen.MainScreen.Bounds)
             {
-                BackgroundColor = UIColor.SystemBackgroundColor,
                 RootViewController = rootViewController
             };
             Window.MakeKeyAndVisible();

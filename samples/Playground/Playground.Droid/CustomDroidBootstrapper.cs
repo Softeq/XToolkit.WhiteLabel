@@ -12,7 +12,9 @@ using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
+using Softeq.XToolkit.WhiteLabel.Droid.Services;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
 using IImagePickerService = Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker.IImagePickerService;
 
 namespace Playground.Droid
@@ -21,14 +23,16 @@ namespace Playground.Droid
     {
         protected override IList<Assembly> SelectAssemblies()
         {
-            return base.SelectAssemblies()     // Softeq.XToolkit.WhiteLabel.Droid
-                .AddItem(GetType().Assembly);  // Playground.Droid
+            return base.SelectAssemblies() // Softeq.XToolkit.WhiteLabel.Droid
+                .AddItem(GetType().Assembly); // Playground.Droid
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
             // core
             CustomBootstrapper.Configure(builder);
+
+            builder.Singleton<DroidAppInfoService, IAppInfoService>();
 
             builder.Singleton<DroidExtendedDialogsService, IExtendedDialogsService>();
 

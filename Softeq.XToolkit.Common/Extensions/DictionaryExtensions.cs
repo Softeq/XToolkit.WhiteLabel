@@ -5,6 +5,9 @@ using System.Collections.Generic;
 
 namespace Softeq.XToolkit.Common.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+    /// </summary>
     public static class DictionaryExtensions
     {
         /// <summary>

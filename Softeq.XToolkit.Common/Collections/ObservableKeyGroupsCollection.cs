@@ -28,9 +28,6 @@ namespace Softeq.XToolkit.Common.Collections
         private readonly IList<Group> _items;
         private readonly bool _withoutEmptyGroups;
 
-        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
-        public event NotifyCollectionChangedEventHandler? CollectionChanged;
-
         public IList<TKey> Keys => _items?.Select(item => item.Key).ToList();
         //public IList<IList<TValue>> Values => _items?.Select(item => _items).ToList();
 
@@ -45,6 +42,10 @@ namespace Softeq.XToolkit.Common.Collections
             _withoutEmptyGroups = withoutEmptyGroups;
             _items = new List<Group>();
         }
+
+        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
+
+        public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
         #region IObservableKeyGroupCollection
 
@@ -245,7 +246,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var groupEvents = result
-                .Where(x => keysToAdd == null ? true : keysToAdd.All(y => !y.Equals(x.Key)))
+                .Where(x => keysToAdd == null || keysToAdd.All(y => !y.Equals(x.Key)))
                 .Select(x =>
                     (
                         _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
@@ -326,15 +327,8 @@ namespace Softeq.XToolkit.Common.Collections
                 .Where(x => _items.All(y => !y.Key.Equals(x)))
                 .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>()));
 
-            var keysToAdd = InsertGroupsWithoutNotify(insertionIndex, groups, false)?.Select(x => x.Key).ToList();
-
+            var keysToAdd = InsertGroupsWithoutNotify(insertionIndex, groups, false)?.Select(x => x.Key)?.ToList() ?? new List<TKey>();
             var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
-
-            if (!result.Any())
-            {
-                return;
-            }
-
             var groupEvents = result
                 .Where(x => keysToAdd == null ? true : keysToAdd.All(y => !y.Equals(x.Key)))
                 .Select(x =>
@@ -434,7 +428,7 @@ namespace Softeq.XToolkit.Common.Collections
                 .ToList();
 
             var groupEvents = rangesToRemove
-                .Where(x => keyIndexesToRemove == null ? true : keyIndexesToRemove.All(y => !y.Equals(x.Key)))
+                .Where(x => keyIndexesToRemove == null || keyIndexesToRemove.All(y => !y.Equals(x.Key)))
                 .Select(x =>
                     (
                         x.Key,
@@ -459,16 +453,10 @@ namespace Softeq.XToolkit.Common.Collections
         #region IEnumerable
 
         /// <inheritdoc />
-        public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
+        public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator() => _items.GetEnumerator();
 
         /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return _items.GetEnumerator();
-        }
+        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
 
         #endregion
 
@@ -524,11 +512,9 @@ namespace Softeq.XToolkit.Common.Collections
                 return null;
             }
 
-            int i = index;
-
             foreach (var item in toInsert)
             {
-                _items.Insert(i++, item);
+                _items.Insert(index++, item);
             }
 
             return toInsert;
@@ -555,17 +541,7 @@ namespace Softeq.XToolkit.Common.Collections
                 }
 
                 var val = valueSelector.Invoke(item);
-
-                int index;
-
-                if (indexSelector == null)
-                {
-                    index = _items.First(x => x.Key.Equals(key)).Count;
-                }
-                else
-                {
-                    index = indexSelector.Invoke(item);
-                }
+                var index = indexSelector == null ? _items.First(x => x.Key.Equals(key)).Count : indexSelector.Invoke(item);
 
                 if (!itemsToAdd.Any(x => x.Key.Equals(key)))
                 {

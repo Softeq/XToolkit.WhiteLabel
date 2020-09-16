@@ -139,6 +139,11 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Frames\FramesBlueStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Frames\FramesRedStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Frames\FramesStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Frames\FramesYellowStoryboard.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Frames\SplitFrameStoryboard.storyboard" />
     <InterfaceDefinition Include="Views\MovieCollectionViewCell.xib" />
     <InterfaceDefinition Include="Views\MainPageGroupHeaderViewCell.xib" />
     <InterfaceDefinition Include="Views\MainPageItemViewCell.xib" />
@@ -174,11 +179,31 @@
   <ItemGroup>
     <Compile Include="Extended\IosChooseBetterDateDialog.cs" />
     <Compile Include="Extended\IosExtendedDialogsService.cs" />
+    <Compile Include="ViewControllers\Frames\FramesBlueViewController.cs" />
+    <Compile Include="ViewControllers\Frames\FramesBlueViewController.designer.cs">
+      <DependentUpon>FramesBlueViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Frames\FramesRedViewController.cs" />
+    <Compile Include="ViewControllers\Frames\FramesRedViewController.designer.cs">
+      <DependentUpon>FramesRedViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Frames\FramesViewController.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="ViewControllers\Collections\CompositionalLayout\AdaptiveSectionsViewController.cs" />
     <Compile Include="ViewControllers\Collections\CompositionalLayout\NestedGroupsViewController.cs" />
     <Compile Include="ViewControllers\Collections\CompositionalLayout\NSUtils.cs" />
+    <Compile Include="ViewControllers\Frames\FramesViewController.designer.cs">
+      <DependentUpon>FramesViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Frames\FramesYellowViewController.cs" />
+    <Compile Include="ViewControllers\Frames\FramesYellowViewController.designer.cs">
+      <DependentUpon>FramesYellowViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ViewControllers\Frames\SplitFrameViewController.cs" />
+    <Compile Include="ViewControllers\Frames\SplitFrameViewController.designer.cs">
+      <DependentUpon>SplitFrameViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="Views\MovieCollectionViewCell.cs" />
     <Compile Include="Views\MovieCollectionViewCell.designer.cs">
       <DependentUpon>MovieCollectionViewCell.cs</DependentUpon>

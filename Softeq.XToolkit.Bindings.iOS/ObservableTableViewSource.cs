@@ -338,7 +338,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UITableViewSource.NumberOfSections" /> method.
+        ///     Overrides the <see cref="M:UIKit.UITableViewSource.NumberOfSections" /> method.
         /// </summary>
         /// <param name="tableView">The active TableView.</param>
         /// <returns>The number of sections of the UITableView.</returns>
@@ -349,7 +349,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UITableViewSource.RowDeselected" /> method. When called, sets the
+        ///     Overrides the <see cref="M:UIKit.UITableViewSource.RowDeselected" /> method. When called, sets the
         ///     <see cref="SelectedItem" /> property to null and raises the PropertyChanged and the SelectionChanged events.
         /// </summary>
         /// <param name="tableView">The active TableView.</param>
@@ -362,7 +362,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UITableViewSource.RowSelected" /> method. When called, sets the
+        ///     Overrides the <see cref="M:UIKit.UITableViewSource.RowSelected" /> method. When called, sets the
         ///     <see cref="SelectedItem" /> property and raises the PropertyChanged and the SelectionChanged events.
         /// </summary>
         /// <param name="tableView">The active TableView.</param>
@@ -376,7 +376,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Overrides the <see cref="UITableViewSource.RowsInSection" /> method
+        ///     Overrides the <see cref="M:UIKit.UITableViewSource.RowsInSection" /> method
         ///     and returns the number of rows in the associated data source.
         /// </summary>
         /// <param name="tableview">The active TableView.</param>

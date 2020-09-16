@@ -37,10 +37,13 @@ namespace Softeq.XToolkit.PushNotifications
         #region Changing badge number
 
         /// <summary>
-        /// Set specific value for the app Badge number manually. Negative or zero value will remove the badge
-        /// NOTE: on Android <see cref="https://github.com/wcoder/ShortcutBadger"/> library is used. See wiki for details, not all devices are supported
+        ///     Set specific value for the app Badge number manually. Negative or zero value will remove the badge.
         /// </summary>
-        /// <param name="badgeNumber">Number to be displayed on the Badge</param>
+        /// <param name="badgeNumber">Number to be displayed on the Badge.</param>
+        /// <remarks>
+        ///     On Android <see href="https://github.com/wcoder/ShortcutBadger"/> library is used.
+        ///     See wiki for details, not all devices are supported.
+        /// </remarks>
         void SetBadgeNumber(int badgeNumber);
 
         #endregion
@@ -48,12 +51,12 @@ namespace Softeq.XToolkit.PushNotifications
         #region Registration
 
         /// <summary>
-        ///     Registers application for push notifications
+        ///     Registers application for push notifications.
         /// </summary>
         void RegisterForPushNotifications();
 
         /// <summary>
-        ///     Registers application for push notifications asynchronously
+        ///     Registers application for push notifications asynchronously.
         /// </summary>
         /// <returns>Task with <see cref="PushNotificationRegistrationResult" /> about registration status in system and on server.</returns>
         Task<PushNotificationRegistrationResult> RegisterForPushNotificationsAsync();
@@ -63,19 +66,19 @@ namespace Softeq.XToolkit.PushNotifications
         ///     On iOS should be called in AppDelegate's RegisteredForRemoteNotifications
         ///     On Android is called internally
         /// </summary>
-        /// <param name="token">Push notifications token</param>
+        /// <param name="token">Push notifications token.</param>
         void OnRegisteredForPushNotifications(string token);
 
         /// <summary>
         ///     Callback to notify the service that registration for push notifications failed.
         ///     On iOS should be called in AppDelegate's FailedToRegisterForRemoteNotifications
-        ///     On Android is called internally
+        ///     On Android is called internally.
         /// </summary>
-        /// <param name="errorMessage">Error Message</param>
+        /// <param name="errorMessage">Error Message.</param>
         void OnFailedToRegisterForPushNotifications(string errorMessage);
 
         /// <summary>
-        ///     Unregisters application from push notifications
+        ///     Unregisters application from push notifications.
         /// </summary>
         /// <param name="unregisterInSystem">
         ///     If true application will be unregistered from push notifications inside OS system.

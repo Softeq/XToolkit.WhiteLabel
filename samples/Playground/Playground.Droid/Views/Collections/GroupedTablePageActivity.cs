@@ -98,7 +98,7 @@ namespace Playground.Droid.Views.Collections
     }
 
     /// <summary>
-    ///     Sample of custom <see cref="T:BindableGroupRecyclerViewAdapter"/>
+    ///     Sample of custom <see cref="BindableRecyclerViewAdapter{TKey,TItem,TItemHolder}"/>.
     /// </summary>
     internal class CustomAdapter : BindableRecyclerViewAdapter<
         ProductHeaderViewModel, // header data type

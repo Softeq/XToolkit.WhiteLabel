@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097.3" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Split Frame View Controller-->
+        <scene sceneID="GUu-rK-sP6">
+            <objects>
+                <viewController storyboardIdentifier="SplitFrameViewController" id="NS7-7M-5U6" customClass="SplitFrameViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="2eU-7z-eVd">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mXg-r0-2OB">
+                                <rect key="frame" x="0.0" y="447.5" width="414" height="1"/>
+                                <color key="backgroundColor" systemColor="systemPinkColor" red="1" green="0.1764705882" blue="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="jKi-a3-UmT"/>
+                                </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="COs-gI-ESX">
+                                <rect key="frame" x="0.0" y="44" width="414" height="403.5"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="uE0-K2-G78" firstAttribute="trailing" secondItem="mXg-r0-2OB" secondAttribute="trailing" id="9G4-yK-sTL"/>
+                            <constraint firstItem="mXg-r0-2OB" firstAttribute="top" secondItem="COs-gI-ESX" secondAttribute="bottom" id="9Hw-g2-786"/>
+                            <constraint firstItem="mXg-r0-2OB" firstAttribute="leading" secondItem="uE0-K2-G78" secondAttribute="leading" id="MdJ-Tu-wr8"/>
+                            <constraint firstItem="mXg-r0-2OB" firstAttribute="centerY" secondItem="2eU-7z-eVd" secondAttribute="centerY" id="SRT-jc-fMB"/>
+                            <constraint firstItem="COs-gI-ESX" firstAttribute="leading" secondItem="uE0-K2-G78" secondAttribute="leading" id="aWC-5q-OvY"/>
+                            <constraint firstItem="COs-gI-ESX" firstAttribute="top" secondItem="uE0-K2-G78" secondAttribute="top" id="iAo-ry-P6L"/>
+                            <constraint firstItem="uE0-K2-G78" firstAttribute="trailing" secondItem="COs-gI-ESX" secondAttribute="trailing" id="sMo-Xg-1Cm"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="uE0-K2-G78"/>
+                    </view>
+                    <connections>
+                        <outlet property="ContentView" destination="COs-gI-ESX" id="IMR-pe-4LS"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Aqd-jn-2hy" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="6" y="60"/>
+        </scene>
+    </scenes>
+</document>
