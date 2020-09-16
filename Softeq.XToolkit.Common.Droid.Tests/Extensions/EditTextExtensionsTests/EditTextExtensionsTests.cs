@@ -28,9 +28,9 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.EditTextExtensionsTests
         {
             EditText editText = new EditText(MainActivity.Current);
 
-            var filter1 = new InputFilterMock();
-            var filter2 = new InputFilterMock();
-            var filter3 = new InputFilterMock();
+            var filter1 = new MockInputFilter();
+            var filter2 = new MockInputFilter();
+            var filter3 = new MockInputFilter();
             var filters = new IInputFilter[] { filter1, filter2, filter3 };
 
             editText.SetFilters(filter1, filter2, filter3);
@@ -44,9 +44,9 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.EditTextExtensionsTests
         {
             EditText editText = new EditText(MainActivity.Current);
 
-            var filter1 = new InputFilterMock();
-            var filter2 = new InputFilterMock();
-            var filter3 = new InputFilterMock();
+            var filter1 = new MockInputFilter();
+            var filter2 = new MockInputFilter();
+            var filter3 = new MockInputFilter();
             var nullFilter = null as IInputFilter;
             var filters = new IInputFilter[] { filter1, filter2, nullFilter, filter3, filter2, nullFilter, filter1, filter2 };
 

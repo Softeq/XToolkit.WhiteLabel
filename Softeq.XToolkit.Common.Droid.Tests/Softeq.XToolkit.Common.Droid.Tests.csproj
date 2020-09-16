@@ -67,7 +67,7 @@
     <Compile Include="Extensions\StringExtensionsTests\StringExtensionsDataProvider.cs" />
     <Compile Include="Extensions\StringExtensionsTests\StringExtensionsTests.cs" />
     <Compile Include="Extensions\EditTextExtensionsTests\EditTextExtensionsTests.cs" />
-    <Compile Include="Extensions\EditTextExtensionsTests\InputFilterMock.cs" />
+    <Compile Include="Extensions\EditTextExtensionsTests\MockInputFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
