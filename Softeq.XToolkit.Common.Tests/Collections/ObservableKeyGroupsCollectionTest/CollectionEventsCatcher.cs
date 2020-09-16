@@ -1,8 +1,11 @@
-﻿using System.Linq;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
 using System.Collections.Generic;
-using System.Collections.Specialized;
-using Softeq.XToolkit.Common.Collections;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Linq;
+using Softeq.XToolkit.Common.Collections;
 
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest
 {
@@ -28,6 +31,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             _collection.CollectionChanged += CatchEvents;
         }
 
+        public void Unsubscribe()
+        {
+            _collection.CollectionChanged -= CatchEvents;
+        }
+
         public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<KeyValuePair<TKey, IList<TValue>>> pairs)
         {
             return IsExpectedEvent(action, pairs.Select(x => x.Key).ToList());
@@ -35,13 +43,28 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<TKey> keys = null)
         {
-            _collection.CollectionChanged -= CatchEvents;
-
             try
             {
                 var isActionSame = _events[0].Action == action;
                 var isKeysMatched = true;
-                var actualKeys = _events[0].NewItems != null ? (_events[0].NewItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+                var actualKeys = new List<TKey>();
+
+                switch (action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        actualKeys = _events[0].NewItems != null ? (_events[0].NewItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+                        break;
+
+                    case NotifyCollectionChangedAction.Remove:
+                        //actualKeys = _events[0].OldItems != null ? (_events[0].OldItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+
+                        var xxx = _events[0].OldItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>;
+                        var yyy = xxx[0];
+                        actualKeys = yyy.Keys.ToList();
+                        break;
+                        //default:
+                        //    break;
+                }
 
                 if (keys != null)
                 {

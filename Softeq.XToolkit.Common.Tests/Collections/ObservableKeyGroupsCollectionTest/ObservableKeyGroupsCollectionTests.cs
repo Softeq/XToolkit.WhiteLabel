@@ -33,13 +33,6 @@ namespace ObservableKeyGroupsCollection
                 new object[] {CollectionHelper.CreateWithItemsWithoutEmptyGroups() }
          };
 
-        [Fact]
-        // event NotifyCollectionChangedEventHandler CollectionChanged;
-        public void CollectionChanged_Test_Miss()
-        {
-            Assert.True(false);
-        }
-
         [Fact] // +++
         public void CollectionChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotifyAddEvent()
         {
@@ -49,6 +42,8 @@ namespace ObservableKeyGroupsCollection
             catcher.Subscribe();
 
             collection.AddGroups(keys);
+
+            catcher.Unsubscribe();
 
             Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, keys));
         }
@@ -61,6 +56,8 @@ namespace ObservableKeyGroupsCollection
             catcher.Subscribe();
 
             collection.AddGroups(CollectionHelper.KeysTwoFill);
+
+            catcher.Unsubscribe();
 
             Assert.Equal(1, catcher.EventCount);
         }
@@ -75,6 +72,8 @@ namespace ObservableKeyGroupsCollection
 
             collection.AddGroups(pairs);
 
+            catcher.Unsubscribe();
+
             Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, pairs));
         }
 
@@ -87,15 +86,46 @@ namespace ObservableKeyGroupsCollection
 
             collection.AddGroups(CollectionHelper.PairsWithKeysWithItems);
 
+            catcher.Unsubscribe();
+
             Assert.Equal(1, catcher.EventCount);
         }
 
-        [Fact]
-        // event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> ItemsChanged;
-        public void ItemsChanged_Test_Miss()
+        [Theory] // 
+        [MemberData(nameof(FillCollectionOptions))]
+        public void CollectionChanged_RemoveGroupsExistKeys_NotifyRemoveEvent(ObservableKeyGroupsCollection<string, int> collection)
         {
-            Assert.True(false);
+            var keys = CollectionHelper.KeysTwoFill;
+            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.RemoveGroups(keys);
+
+            catcher.Unsubscribe();
+
+            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Remove, keys));
         }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void CollectionChanged_RemoveGroupsExistKeys_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.RemoveGroups(CollectionHelper.KeysTwoFill);
+
+            catcher.Unsubscribe();
+
+            Assert.Equal(1, catcher.EventCount);
+        }
+
+
+
+
+
+
+
 
         [Fact] // +++
         public void ItemsChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotifyAddEvent()
@@ -106,6 +136,8 @@ namespace ObservableKeyGroupsCollection
             catcher.Subscribe();
 
             collection.AddGroups(keys);
+
+            catcher.Unsubscribe();
 
             Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, keys));
         }
@@ -118,6 +150,8 @@ namespace ObservableKeyGroupsCollection
             catcher.Subscribe();
 
             collection.AddGroups(CollectionHelper.KeysTwoFill);
+
+            catcher.Unsubscribe();
 
             Assert.Equal(1, catcher.EventCount);
         }
@@ -132,6 +166,8 @@ namespace ObservableKeyGroupsCollection
 
             collection.AddGroups(pairs);
 
+            catcher.Unsubscribe();
+
             Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, pairs));
         }
 
@@ -144,8 +180,46 @@ namespace ObservableKeyGroupsCollection
 
             collection.AddGroups(CollectionHelper.PairsWithKeysWithItems);
 
+            catcher.Unsubscribe();
+
             Assert.Equal(1, catcher.EventCount);
         }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void ItemChanged_RemoveGroupsExistKeys_NotifyRemoveEvent(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var keys = CollectionHelper.KeysTwoFill;
+            var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.RemoveGroups(keys);
+
+            catcher.Unsubscribe();
+
+            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Remove, keys));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void ItemChanged_RemoveGroupsExistKeys_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.RemoveGroups(CollectionHelper.KeysTwoFill);
+
+            catcher.Unsubscribe();
+
+            Assert.Equal(1, catcher.EventCount);
+        }
+
+
+
+
+
+
+
 
         // AddGroups(keys)
         [Fact] // +++
@@ -374,7 +448,17 @@ namespace ObservableKeyGroupsCollection
         public void RemoveGroups_MissKey_KeyNotFoundException(ObservableKeyGroupsCollection<string, int> collection)
         {
             var expectedException = new KeyNotFoundException();
-            var actualException = Assert.Throws<ArgumentNullException>(() => collection.RemoveGroups(CollectionHelper.KeysNotContained));
+            var actualException = Assert.Throws<KeyNotFoundException>(() => collection.RemoveGroups(CollectionHelper.KeysNotContained));
+
+            Assert.Equal(expectedException.Message, actualException.Message);
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void RemoveGroups_ContainsAndMissKeys_KeyNotFoundException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var expectedException = new KeyNotFoundException();
+            var actualException = Assert.Throws<KeyNotFoundException>(() => collection.RemoveGroups(CollectionHelper.KeysOneContainedOneNotContained));
 
             Assert.Equal(expectedException.Message, actualException.Message);
         }

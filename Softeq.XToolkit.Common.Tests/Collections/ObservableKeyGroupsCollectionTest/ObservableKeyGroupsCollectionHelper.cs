@@ -23,6 +23,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public static IList<string> KeysOneFillOneEmpty = new List<string> { GroupKeyFirst, GroupKeyEmpty };
         public static IList<string> KeysDuplicate = new List<string> { GroupKeyFirst, GroupKeyFirst };
         public static IList<string> KeysNotContained = new List<string> { GroupKeyThird };
+        public static IList<string> KeysOneContainedOneNotContained = new List<string> { GroupKeyFirst, GroupKeyThird };
 
         public static IList<int> ItemsNull;
         public static IList<int> ItemsEmpty = new List<int>();
@@ -124,6 +125,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             return new List<KeyValuePair<string, IList<int>>>
             {
                  new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst ),
+                 new KeyValuePair<string, IList<int>>(GroupKeySecond, ItemsSecond ),
                  new KeyValuePair<string, IList<int>>(GroupKeyEmpty, ItemsEmpty ),
             };
         }

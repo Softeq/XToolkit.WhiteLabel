@@ -28,6 +28,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             _collection.ItemsChanged += CatchEvents;
         }
 
+        public void Unsubscribe()
+        {
+            _collection.ItemsChanged -= CatchEvents;
+        }
+
         public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<KeyValuePair<TKey, IList<TValue>>> pairs)
         {
             return IsExpectedEvent(action, pairs.Select(x => x.Key).ToList());
@@ -35,13 +40,23 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<TKey> keys = null)
         {
-            _collection.ItemsChanged -= CatchEvents;
-
             try
             {
                 var isActionSame = _events[0].Action == action;
                 var isKeysMatched = true;
-                var actualKeys = _events[0].NewItemRanges != null ? _events[0].NewItemRanges[0].NewItems.ToList() : new List<TKey>();
+                var actualKeys = new List<TKey>();
+
+                switch (action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        actualKeys = _events[0].NewItemRanges != null ? _events[0].NewItemRanges[0].NewItems.ToList() : new List<TKey>();
+                        break;
+                    case NotifyCollectionChangedAction.Remove:
+                        actualKeys = _events[0].OldItemRanges != null ? _events[0].OldItemRanges[0].OldItems.ToList() : new List<TKey>();
+                        break;
+                        //default:
+                        //    break;
+                }
 
                 if (keys != null)
                 {
