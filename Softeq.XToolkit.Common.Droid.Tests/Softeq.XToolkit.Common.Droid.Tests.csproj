@@ -64,6 +64,8 @@
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Extensions\StringExtensionsTests\StringExtensionsDataProvider.cs" />
+    <Compile Include="Extensions\StringExtensionsTests\StringExtensionsTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -90,6 +92,10 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
       <Project>{18d3fdc1-b0a1-401e-87f2-1c43034e610c}</Project>
       <Name>Softeq.XToolkit.Common.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
