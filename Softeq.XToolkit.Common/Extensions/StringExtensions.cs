@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Common.Extensions
     /// </summary>
     public static class StringExtensions
     {
-        private const string LinkPattern = @"[a-z]+://([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?";
+        private const string LinkPattern = @"([a-z]+://)?([\w_-]+(?:(?:\.[\w_-]+)+))([\w.,@?^=%&:/~+#-]*[\w@?^=%&/~+#-])?";
 
         /// <summary>
         ///     Finds links in specified string.
