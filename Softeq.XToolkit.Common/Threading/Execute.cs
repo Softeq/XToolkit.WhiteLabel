@@ -34,6 +34,11 @@ namespace Softeq.XToolkit.Common.Threading
         /// <param name="action">The action to execute.</param>
         public static void BeginOnUIThread(this Action action)
         {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
             CurrentExecutor.BeginOnUIThread(action);
         }
 
@@ -41,8 +46,14 @@ namespace Softeq.XToolkit.Common.Threading
         ///     Executes the action on the UI thread asynchronously.
         /// </summary>
         /// <param name="action">The action to execute.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         public static Task OnUIThreadAsync(this Action action)
         {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
             return CurrentExecutor.OnUIThreadAsync(action);
         }
 
@@ -52,6 +63,11 @@ namespace Softeq.XToolkit.Common.Threading
         /// <param name="action">The action to execute.</param>
         public static void OnUIThread(this Action action)
         {
+            if (action == null)
+            {
+                throw new ArgumentNullException(nameof(action));
+            }
+
             CurrentExecutor.OnUIThread(action);
         }
     }
