@@ -20,11 +20,15 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         /// <summary>
         ///     Convert string to <see cref="T:Foundation.NSUrl"/> instance.
         /// </summary>
+        /// <remarks>
+        ///     If the pattern matches example.com, which does not have a URL scheme prefix,
+        ///     the supplied scheme will be prepended to create http://example.com when the clickable URL link is created.
+        /// </remarks>
         /// <param name="link">Link.</param>
         /// <returns><see cref="T:Foundation.NSUrl"/> instance.</returns>
         public static NSUrl ToNSUrl(this string link)
         {
-            var uri = new Uri(link);
+            var uri = new UriBuilder(link).Uri;
             var url = NSUrl.FromString(uri.AbsoluteUri);
             return url;
         }
@@ -143,6 +147,11 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         /// <summary>
         ///    Auto-detect links.
         /// </summary>
+        /// <remarks>
+        ///     If you are matching web URLs you would supply the scheme http://.
+        ///     If the pattern matches example.com, which does not have a URL scheme prefix,
+        ///     the supplied scheme will be prepended to create http://example.com when the clickable URL link is created.
+        /// </remarks>
         /// <param name="self">Target.</param>
         /// <param name="color">Link color.</param>
         /// <param name="style">Link style.</param>
