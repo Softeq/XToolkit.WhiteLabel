@@ -142,6 +142,8 @@
     <AndroidResource Include="Resources\layout\activity_imagepicker.xml" />
     <AndroidResource Include="Resources\layout\activity_connectivity.xml" />
     <AndroidResource Include="Resources\xml\file_paths.xml" />
+    <AndroidResource Include="Resources\anim\slide_up_dialog.xml" />
+    <AndroidResource Include="Resources\anim\slide_down_dialog.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
