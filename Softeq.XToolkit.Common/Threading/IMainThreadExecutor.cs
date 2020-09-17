@@ -4,32 +4,32 @@
 using System;
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.WhiteLabel.Threading
+namespace Softeq.XToolkit.Common.Threading
 {
     /// <summary>
     ///     Interface for platform specific operations that need enlightenment.
     /// </summary>
-    public interface IPlatformProvider
+    public interface IMainThreadExecutor
     {
         /// <summary>
-        ///     Indicates whether or not the framework is in design-time mode.
+        ///     Gets a value indicating whether it is the current main UI thread.
         /// </summary>
-        bool InDesignMode { get; }
+        bool IsMainThread { get; }
 
         /// <summary>
-        ///     Executes the action on the UI thread asynchronously.
+        ///     Invokes asynchronously the specified code on the main UI thread.
         /// </summary>
         /// <param name="action">The action to execute.</param>
         void BeginOnUIThread(Action action);
 
         /// <summary>
-        ///     Executes the action on the UI thread asynchronously.
+        ///     Invokes asynchronously the specified code on the main UI thread.
         /// </summary>
         /// <param name="action">The action to execute.</param>
         Task OnUIThreadAsync(Action action);
 
         /// <summary>
-        ///     Executes the action on the UI thread.
+        ///     Invokes synchronously the specified code on the main UI thread.
         /// </summary>
         /// <param name="action">The action to execute.</param>
         void OnUIThread(Action action);

@@ -3,7 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
-using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.Common.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Extensions
 {

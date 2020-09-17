@@ -7,10 +7,10 @@ using Android.OS;
 using Android.Runtime;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid;
+using Softeq.XToolkit.Common.Droid;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
-using Softeq.XToolkit.WhiteLabel.Droid.Providers;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             BindingExtensions.Initialize(new DroidBindingFactory());
 
             // Init platform helpers
-            PlatformProvider.Current = new DroidPlatformProvider();
+            Execute.Initialize(new DroidMainThreadExecutor());
 
             // Init dependencies
             var bootstrapper = CreateBootstrapper();

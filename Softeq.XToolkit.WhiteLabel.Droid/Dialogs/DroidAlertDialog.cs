@@ -2,8 +2,8 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {

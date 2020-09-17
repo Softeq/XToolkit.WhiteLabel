@@ -5,8 +5,8 @@ using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs

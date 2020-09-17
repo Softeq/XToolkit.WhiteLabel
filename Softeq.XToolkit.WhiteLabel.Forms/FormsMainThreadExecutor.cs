@@ -3,28 +3,36 @@
 
 using System;
 using System.Threading.Tasks;
-using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.Common.Threading;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms
 {
-    public class FormsPlatformProvider : IPlatformProvider
+    /// <summary>
+    ///     A <see cref="IMainThreadExecutor" /> implementation for Xamarin.Forms.
+    /// </summary>
+    public class FormsMainThreadExecutor : IMainThreadExecutor
     {
-        public bool InDesignMode => false;
+        /// <inheritdoc />
+        public bool IsMainThread => MainThread.IsMainThread;
 
+        /// <inheritdoc />
         public void BeginOnUIThread(Action action)
         {
             Device.BeginInvokeOnMainThread(action);
         }
 
+        /// <inheritdoc />
         public Task OnUIThreadAsync(Action action)
         {
             return Device.InvokeOnMainThreadAsync(action);
         }
 
+        /// <inheritdoc />
         public void OnUIThread(Action action)
         {
-            throw new NotImplementedException("Method unsupported");
+            OnUIThreadAsync(action).GetAwaiter().GetResult();
         }
     }
 }

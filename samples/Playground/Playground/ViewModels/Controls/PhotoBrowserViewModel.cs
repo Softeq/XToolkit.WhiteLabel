@@ -5,9 +5,9 @@ using System;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Playground.ViewModels.Controls
 {
