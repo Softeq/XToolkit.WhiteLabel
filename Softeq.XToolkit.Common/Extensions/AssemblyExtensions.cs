@@ -5,6 +5,9 @@ using System.Reflection;
 
 namespace Softeq.XToolkit.Common.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:System.Reflection.Assembly"/>.
+    /// </summary>
     public static class AssemblyExtensions
     {
         /// <summary>

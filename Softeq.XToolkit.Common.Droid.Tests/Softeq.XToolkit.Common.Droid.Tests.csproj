@@ -18,7 +18,7 @@
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TargetFrameworkVersion>v9.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
     <MonoAndroidAssetsPrefix>Assets</MonoAndroidAssetsPrefix>
@@ -60,10 +60,17 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Extensions\Class1.cs" />
+    <Compile Include="DroidMainThreadExecutorTests\DroidMainThreadExecutorTests.cs" />
+    <Compile Include="Extensions\ContextExtensionsTests\ContextExtensionsTests.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Extensions\StringExtensionsTests\StringExtensionsDataProvider.cs" />
+    <Compile Include="Extensions\StringExtensionsTests\StringExtensionsTests.cs" />
+    <Compile Include="Extensions\EditTextExtensionsTests\EditTextExtensionsTests.cs" />
+    <Compile Include="TextFilters\ForbiddenCharsInputFilterTests.cs" />
+    <Compile Include="Extensions\EditTextExtensionsTests\MockInputFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -85,6 +92,19 @@
     <PackageReference Include="xunit.runner.devices">
       <Version>2.5.25</Version>
     </PackageReference>
+    <PackageReference Include="Xunit.Combinatorial">
+      <Version>1.4.1</Version>
+    </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
+      <Project>{18d3fdc1-b0a1-401e-87f2-1c43034e610c}</Project>
+      <Name>Softeq.XToolkit.Common.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
+      <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

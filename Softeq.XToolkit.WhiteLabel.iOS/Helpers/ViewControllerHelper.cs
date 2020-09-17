@@ -4,7 +4,7 @@
 using System;
 using Foundation;
 using Softeq.XToolkit.Common.Logger;
-using Softeq.XToolkit.WhiteLabel.Threading;
+using Softeq.XToolkit.Common.Threading;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers

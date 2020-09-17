@@ -23,8 +23,8 @@ namespace Playground.Droid
     {
         protected override IList<Assembly> SelectAssemblies()
         {
-            return base.SelectAssemblies()     // Softeq.XToolkit.WhiteLabel.Droid
-                .AddItem(GetType().Assembly);  // Playground.Droid
+            return base.SelectAssemblies() // Softeq.XToolkit.WhiteLabel.Droid
+                .AddItem(GetType().Assembly); // Playground.Droid
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)

@@ -34,8 +34,6 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NSStringExtensions
 
         [Theory]
         [InlineData("")]
-        [InlineData("localhost")]
-        [InlineData("example.com")]
         public void ToNSUrl_InvalidLink_ThrowsUriFormatException(string link)
         {
             Assert.Throws<UriFormatException>(() =>
@@ -45,6 +43,9 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NSStringExtensions
         }
 
         [Theory]
+        [InlineData("localhost", "http://localhost/")]
+        [InlineData("softeq.com", "http://softeq.com/")]
+        [InlineData("www.softeq.com", "http://www.softeq.com/")]
         [InlineData("http://softeq.com", "http://softeq.com/")]
         [InlineData("https://softeq.com", "https://softeq.com/")]
         [InlineData("https://www.softeq.com/", "https://www.softeq.com/")]
@@ -173,7 +174,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.Extensions.NSStringExtensions
 
         [Theory]
         [InlineData("link: https://softeq.com", 1)]
-        [InlineData("link: https://softeq.com, google: google.com", 1)]
+        [InlineData("link: https://softeq.com, google: google.com", 2)]
         [InlineData("test string: https://www.softeq.com/featured_projects#mobile, example: http://example.com/test/page", 2)]
         public void DetectLinks_TextWithLinks_ExecutesWithoutExceptions(string text, int linkCount)
         {

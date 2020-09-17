@@ -4,37 +4,44 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
+using Softeq.XToolkit.Bindings.Abstract;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Internal;
-using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public class DroidFrameNavigationService : IFrameNavigationService
     {
-        private readonly BackStack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
+        private readonly BackStack<Fragment> _backStack = new BackStack<Fragment>();
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
-        private readonly IViewModelStore _viewModelStore;
 
         private FrameNavigationConfig? _config;
 
         public DroidFrameNavigationService(
             IViewLocator viewLocator,
-            IContainer iocContainer,
-            IContextProvider contextProvider)
+            IContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
+        }
 
-            _backStack = new BackStack<(IViewModelBase ViewModel, Fragment Fragment)>();
-            _viewModelStore = ViewModelStore.Of((AppCompatActivity) contextProvider.CurrentActivity);
+        private IViewModelStore CurrentStore
+        {
+            get
+            {
+                if (_config == null)
+                {
+                    throw new InvalidOperationException("Navigation not initialized");
+                }
+
+                return ViewModelStore.Of(_config.Manager);
+            }
         }
 
         public bool IsInitialized => _config != null;
@@ -52,10 +59,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             // navigation
             var currentEntry = _backStack.CurrentWithRemove();
-            var currentFrameName = ToKey(currentEntry.Fragment);
+            var currentFrameName = ToKey(currentEntry);
 
             // cleanup
-            _viewModelStore.Remove(currentFrameName);
+            CurrentStore.Remove(currentFrameName);
 
             // show
             RestoreNavigation();
@@ -64,16 +71,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         public void GoBack<T>() where T : IViewModelBase
         {
             // navigation
-            var dumpBefore = _backStack.Dump(x => ToKey(x.Fragment));
+            var dumpBefore = _backStack.Dump(ToKey);
 
-            _backStack.GoBackWhile(x => !(x.ViewModel is T));
+            _backStack.GoBackWhile(x => !(ExtractViewModel(x) is T));
 
-            var dumpAfter = _backStack.Dump(x => ToKey(x.Fragment));
+            var dumpAfter = _backStack.Dump(ToKey);
 
             var fragmentNamesForRemove = dumpBefore.Except(dumpAfter).ToArray();
 
             // cleanup
-            _viewModelStore.Remove(fragmentNamesForRemove);
+            CurrentStore.Remove(fragmentNamesForRemove);
 
             // show
             RestoreNavigation();
@@ -91,7 +98,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 ClearBackStack();
             }
 
-            NavigateInternal(viewModel);
+            var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
+
+            NavigateInternal(fragment, viewModel);
         }
 
         /// <inheritdoc />
@@ -102,42 +111,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 return;
             }
 
-            var entry = _backStack.ResetToFirst();
+            var fragment = _backStack.ResetToFirst();
+            var viewModel = ExtractViewModel(fragment);
 
-            NavigateInternal(entry.ViewModel, entry.Fragment);
+            NavigateInternal(fragment, viewModel);
         }
 
         /// <inheritdoc />
         public void RestoreNavigation()
         {
-            var entry = _backStack.Current();
-
-            ReplaceFragment(entry.Fragment);
-        }
-
-        private static string ToKey(object fragment)
-        {
-            return fragment.GetType().Name;
-        }
-
-        private void NavigateInternal(IViewModelBase viewModel, Fragment? fragmentToNavigate = null)
-        {
-            var fragment = fragmentToNavigate ?? (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
-
-            _backStack.Add((viewModel, fragment));
-
-            _viewModelStore.Add(ToKey(fragment), viewModel);
-
-            ReplaceFragment(fragment);
-        }
-
-        private void ClearBackStack()
-        {
-            var fragmentNames = _backStack.Dump(x => ToKey(x.Fragment));
-
-            _backStack.Clear();
-
-            _viewModelStore.Remove(fragmentNames);
+            ReplaceFragment(_backStack.Current());
         }
 
         protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel>? parameters)
@@ -178,6 +161,32 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         protected virtual FragmentTransaction PrepareTransaction(FragmentTransaction fragmentTransaction)
         {
             return fragmentTransaction;
+        }
+
+        protected virtual string ToKey(Fragment fragment)
+        {
+            return fragment.GetType().Name;
+        }
+
+        private static IViewModelBase ExtractViewModel(Fragment fragment)
+        {
+            return (IViewModelBase)((IBindable) fragment).DataContext;
+        }
+
+        private void NavigateInternal(Fragment fragment, IViewModelBase viewModel)
+        {
+            _backStack.Add(fragment);
+            CurrentStore.Add(ToKey(fragment), viewModel);
+            ReplaceFragment(fragment);
+        }
+
+        private void ClearBackStack()
+        {
+            var fragmentNames = _backStack.Dump(ToKey);
+
+            _backStack.Clear();
+
+            CurrentStore.Remove(fragmentNames);
         }
     }
 }

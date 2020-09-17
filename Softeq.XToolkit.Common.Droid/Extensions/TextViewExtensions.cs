@@ -9,21 +9,25 @@ using Android.Widget;
 
 namespace Softeq.XToolkit.Common.Droid.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:Android.Widget.TextView"/>.
+    /// </summary>
     public static class TextViewExtensions
     {
-        public static void HighlightStrings(this TextView textView,
+        public static void HighlightStrings(
+            this TextView textView,
             IEnumerable<(int Start, int Length)> ranges,
             Color color)
         {
             var text = textView.Text;
             var spannedString = new SpannableString(text);
 
-            foreach (var (Start, Length) in ranges)
+            foreach (var (start, length) in ranges)
             {
                 spannedString.SetSpan(
                     new ForegroundColorSpan(color),
-                    Start,
-                    Start + Length,
+                    start,
+                    start + length,
                     SpanTypes.InclusiveInclusive);
             }
 

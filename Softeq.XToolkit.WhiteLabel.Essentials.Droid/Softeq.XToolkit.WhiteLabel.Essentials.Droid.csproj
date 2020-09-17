@@ -50,6 +50,10 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
+        <Project>{24588814-b93d-4528-8917-9c2a3c4e85ca}</Project>
+        <Name>Softeq.XToolkit.Common</Name>
+      </ProjectReference>
       <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
         <Project>{c8da5ea8-703b-481f-9ed8-ab3ad29e5409}</Project>
         <Name>Softeq.XToolkit.Permissions</Name>

@@ -58,6 +58,11 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
+    <Compile Include="Views\Frames\FramesActivity.cs" />
+    <Compile Include="Views\Frames\BlueFragment.cs" />
+    <Compile Include="Views\Frames\SplitFrameFragment.cs" />
+    <Compile Include="Views\Frames\RedFragment.cs" />
+    <Compile Include="Views\Frames\YellowFragment.cs" />
     <Compile Include="Views\SplashActivity.cs" />
     <Compile Include="CustomDroidBootstrapper.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
@@ -89,6 +94,9 @@
     <None Include="Assets\AboutAssets.txt" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidResource Include="Resources\layout\activity_frames.xml" />
+    <AndroidResource Include="Resources\layout\fragment_split.xml" />
+    <AndroidResource Include="Resources\layout\fragment_with_navigation.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
     <AndroidResource Include="Resources\values\strings.xml" />
     <AndroidResource Include="Resources\values\styles.xml" />
@@ -134,6 +142,8 @@
     <AndroidResource Include="Resources\layout\activity_imagepicker.xml" />
     <AndroidResource Include="Resources\layout\activity_connectivity.xml" />
     <AndroidResource Include="Resources\xml\file_paths.xml" />
+    <AndroidResource Include="Resources\anim\slide_up_dialog.xml" />
+    <AndroidResource Include="Resources\anim\slide_down_dialog.xml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">

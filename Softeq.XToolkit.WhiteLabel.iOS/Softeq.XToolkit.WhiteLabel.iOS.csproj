@@ -67,7 +67,6 @@
     <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
     <Compile Include="Helpers\ViewControllerHelper.cs" />
     <Compile Include="Interfaces\IViewControllerProvider.cs" />
-    <Compile Include="IosPlatformProvider.cs" />
     <Compile Include="IViewControllerComponent.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
     <Compile Include="Navigation\StoryboardFrameNavigationService.cs" />

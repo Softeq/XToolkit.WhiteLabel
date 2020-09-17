@@ -18,10 +18,10 @@ More samples about using those sources you can see in our [Playground](https://g
 var source = new BindableTableViewSource<ItemViewModel, ItemViewCell>(ViewModel.Items);
 ```
 
-- [BindableGroupTableViewSource<TKey, TItem, TGroupCell, TItemCell>](xref:Softeq.XToolkit.Bindings.iOS.Bindable.BindableGroupCollectionViewSource`4)
+- [BindableTableViewSource<TKey, TItem, TGroupCell, TItemCell>](xref:Softeq.XToolkit.Bindings.iOS.Bindable.BindableTableViewSource`4)
 
 ```cs
-var source = new BindableGroupTableViewSource<HeaderViewModel, ItemViewModel, HeaderViewCell, ItemViewCell>(TableView, ViewModel.Items);
+var source = new BindableTableViewSource<HeaderViewModel, ItemViewModel, HeaderViewCell, ItemViewCell>(TableView, ViewModel.Items);
 ```
 
 ### UICollectionViewSource
@@ -47,13 +47,12 @@ More samples about using those sources you can see in our [Playground](https://g
 var adapter = new BindableRecyclerViewAdapter<ItemViewModel, ItemViewHolder>(ViewModel.Items);
 ```
 
-- [BindableGroupRecyclerViewAdapter<TKey, TItem, TItemHolder>](xref:Softeq.XToolkit.Bindings.Droid.Bindable.BindableRecyclerViewAdapter`3)
+- [BindableRecyclerViewAdapter<TKey, TItem, TItemHolder>](xref:Softeq.XToolkit.Bindings.Droid.Bindable.BindableRecyclerViewAdapter`3)
 
 ```cs
-var adapter = new BindableGroupRecyclerViewAdapter<HeaderViewModel, ItemViewModel, ItemViewHolder>(ViewModel.Items)
-{
-    HeaderSectionViewHolder = typeof(HeaderViewHolder)
-};
+var adapter = new BindableRecyclerViewAdapter<HeaderViewModel, ItemViewModel, ItemViewHolder>(
+    items: ViewModel.Items,
+    headerViewHolder: typeof(HeaderViewHolder));
 ```
 
 ---

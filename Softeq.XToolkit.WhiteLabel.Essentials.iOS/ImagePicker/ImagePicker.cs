@@ -7,10 +7,10 @@ using CoreGraphics;
 using FFImageLoading;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Files;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 using CameraPermission = Xamarin.Essentials.Permissions.Camera;
 using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
@@ -23,9 +23,10 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
     {
         private readonly UIImagePickerController _imagePicker;
         private readonly WeakReferenceEx<UIViewController> _viewController;
-        private RelayCommand<ImageOpenedEventArgs> _openCommand;
-        private readonly IFilesProvider _fileProvider;
+        private readonly IFileProvider _fileProvider;
         private readonly IPermissionsManager _permissionManager;
+
+        private RelayCommand<ImageOpenedEventArgs> _openCommand;
         private ImagePickerOptions _options;
 
         public ImagePicker(UIViewController viewController)
@@ -75,7 +76,8 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 
             var stream = await Task.Run(() => image.AsPNG().AsStream()).ConfigureAwait(false);
 
-            var path = await _fileProvider.WriteStreamAsync(name, stream).ConfigureAwait(false);
+            await _fileProvider.WriteFileAsync(name, stream).ConfigureAwait(false);
+            var path = _fileProvider.GetAbsolutePath(name);
 
             var thumbnail = await ImageService.Instance
                 .LoadFileFromApplicationBundle(path)
@@ -100,7 +102,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 
         private async Task<bool> IsPermissionGranted()
         {
-            Permissions.PermissionStatus status;
+            PermissionStatus status;
             if (_options.ImagePickerOpenType == ImagePickerOpenTypes.Camera)
             {
                 status = await _permissionManager.CheckWithRequestAsync<CameraPermission>().ConfigureAwait(false);
@@ -109,7 +111,8 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
             {
                 status = await _permissionManager.CheckWithRequestAsync<PhotosPermission>().ConfigureAwait(false);
             }
-            return status == Permissions.PermissionStatus.Granted;
+
+            return status == PermissionStatus.Granted;
         }
 
         private void OnCanceled(object sender, EventArgs e)
@@ -138,21 +141,13 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
             }
 
             int degree = 0;
-            switch (orientation)
+            degree = orientation switch
             {
-                case UIImageOrientation.Down:
-                    degree = 180;
-                    break;
-                case UIImageOrientation.Left:
-                    degree = 270;
-                    break;
-                case UIImageOrientation.Right:
-                    degree = 90;
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-
+                UIImageOrientation.Down => 180,
+                UIImageOrientation.Left => 270,
+                UIImageOrientation.Right => 90,
+                _ => throw new ArgumentOutOfRangeException(),
+            };
             var rect = orientation == UIImageOrientation.Down
                 ? new CGRect(0, 0, image.Size.Width, image.Size.Height)
                 : new CGRect(0, 0, image.Size.Height, image.Size.Width);

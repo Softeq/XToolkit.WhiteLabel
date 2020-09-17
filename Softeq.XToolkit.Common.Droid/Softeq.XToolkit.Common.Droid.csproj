@@ -40,16 +40,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Converters\BoolToViewStateConverter.cs" />
+    <Compile Include="DroidMainThreadExecutor.cs" />
     <Compile Include="Extensions\ContextExtensions.cs" />
     <Compile Include="Permissions\IPermissionRequestHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Helpers\LocaleHelper.cs" />
     <Compile Include="Extensions\TextViewExtensions.cs" />
     <Compile Include="Extensions\EditTextExtensions.cs" />
     <Compile Include="Extensions\StringExtensions.cs" />
-    <Compile Include="Extensions\IntentExtensions.cs" />
     <Compile Include="Extensions\ViewExtensions.cs" />
+    <Compile Include="Converters\GoneConverter.cs" />
+    <Compile Include="TextFilters\ForbiddenCharsInputFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
