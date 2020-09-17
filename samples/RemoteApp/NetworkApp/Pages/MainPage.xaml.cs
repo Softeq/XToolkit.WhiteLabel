@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using NetworkApp.ViewModels;
+using NetworkApp.ViewModels;
 using Xamarin.Forms;
 
 namespace NetworkApp.Pages

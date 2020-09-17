@@ -1,21 +1,21 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Net.Http;
-using Xamarin.Forms;
+using System.Net.Http;
 using DryIoc;
-using Softeq.XToolkit.Remote;
-using Softeq.XToolkit.Common.Logger;
-using Softeq.XToolkit.Remote.Auth;
-using Softeq.XToolkit.Remote.Client;
-using RemoteServices.Auth;
-using RemoteServices.Auth.Models;
-using RemoteServices.Profile;
-using RemoteServices.Profile.Models;
-using RemoteServices.GitHub;
-using RemoteServices.Test;
 using NetworkApp.Pages;
 using NetworkApp.ViewModels;
+using RemoteServices.Auth;
+using RemoteServices.Auth.Models;
+using RemoteServices.GitHub;
+using RemoteServices.Profile;
+using RemoteServices.Profile.Models;
+using RemoteServices.Test;
+using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.Remote;
+using Softeq.XToolkit.Remote.Auth;
+using Softeq.XToolkit.Remote.Client;
+using Xamarin.Forms;
 
 namespace NetworkApp
 {
