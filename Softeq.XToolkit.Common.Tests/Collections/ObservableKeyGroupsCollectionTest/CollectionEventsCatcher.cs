@@ -56,12 +56,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        //actualKeys = _events[0].OldItems != null ? (_events[0].OldItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
-
-                        var xxx = _events[0].OldItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>;
-                        var yyy = xxx[0];
-                        actualKeys = yyy.Keys.ToList();
+                        actualKeys = _events[0].OldItems != null ? (_events[0].OldItems as IReadOnlyList<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
                         break;
+
                         //default:
                         //    break;
                 }

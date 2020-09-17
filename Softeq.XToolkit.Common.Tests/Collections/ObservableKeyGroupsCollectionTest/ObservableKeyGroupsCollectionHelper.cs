@@ -29,6 +29,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public static IList<int> ItemsEmpty = new List<int>();
         public static IList<int> ItemsFirst = new List<int> { 1, 2, 3 };
         public static IList<int> ItemsSecond = new List<int> { 4, 5, 6, 7, 8 };
+        public static IList<int> ItemsThird = new List<int> { 6, 7, 8 };
 
         public static IList<KeyValuePair<string, IList<int>>> PairsNull;
         public static IList<KeyValuePair<string, IList<int>>> PairsEmpty = new List<KeyValuePair<string, IList<int>>>();
@@ -86,6 +87,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             new KeyValuePair<string, IList<int>>(null, new List<int>()),
         };
 
+        public static IList<KeyValuePair<string, IList<int>>> PairNotContainedKeyWithItems = new List<KeyValuePair<string, IList<int>>>()
+        {
+            new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
+        };
+
         public static ObservableKeyGroupsCollection<string, int> CreateWithEmptyGroups()
         {
             return new ObservableKeyGroupsCollection<string, int>(false);
@@ -96,17 +102,17 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             return new ObservableKeyGroupsCollection<string, int>(true);
         }
 
-        public static ObservableKeyGroupsCollection<string, int> CreateWithItemsWithEmptyGroups()
+        public static ObservableKeyGroupsCollection<string, int> CreateFilledGroupsWithEmpty()
         {
             var collection = new ObservableKeyGroupsCollection<string, int>(false);
-            collection.AddGroups(CreateTwoItemGroupWithEmpty());
+            collection.AddGroups(CreateGroupsWithEmpty());
             return collection;
         }
 
-        public static ObservableKeyGroupsCollection<string, int> CreateWithItemsWithoutEmptyGroups()
+        public static ObservableKeyGroupsCollection<string, int> CreateFilledGroupsWithoutEmpty()
         {
             var collection = new ObservableKeyGroupsCollection<string, int>(true);
-            collection.AddGroups(CreateTwoItemGroupWithoutEmpty());
+            collection.AddGroups(CreateGroupWithoutEmpty());
             return collection;
         }
 
@@ -120,7 +126,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             return ItemsEventsCatcher<string, int>.Create(collection);
         }
 
-        private static IList<KeyValuePair<string, IList<int>>> CreateTwoItemGroupWithEmpty()
+        private static IList<KeyValuePair<string, IList<int>>> CreateGroupsWithEmpty()
         {
             return new List<KeyValuePair<string, IList<int>>>
             {
@@ -130,7 +136,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             };
         }
 
-        private static IList<KeyValuePair<string, IList<int>>> CreateTwoItemGroupWithoutEmpty()
+        private static IList<KeyValuePair<string, IList<int>>> CreateGroupWithoutEmpty()
         {
             return new List<KeyValuePair<string, IList<int>>>
             {

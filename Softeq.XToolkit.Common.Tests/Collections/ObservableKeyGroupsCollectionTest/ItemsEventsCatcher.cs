@@ -54,6 +54,19 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                     case NotifyCollectionChangedAction.Remove:
                         actualKeys = _events[0].OldItemRanges != null ? _events[0].OldItemRanges[0].OldItems.ToList() : new List<TKey>();
                         break;
+
+                    case NotifyCollectionChangedAction.Move:
+
+                        break;
+
+                    case NotifyCollectionChangedAction.Replace:
+
+                        break;
+
+                    case NotifyCollectionChangedAction.Reset:
+
+                        break;
+
                         //default:
                         //    break;
                 }
@@ -71,7 +84,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                     {
                         isKeysMatched = false;
                     }
-
                 }
                 else if (actualKeys.Count != 0)
                 {

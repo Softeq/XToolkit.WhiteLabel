@@ -44,10 +44,7 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
-
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
-
-        #region IObservableKeyGroupCollection
 
         /// <inheritdoc />
         public void AddGroups(IEnumerable<TKey> keys)
@@ -169,6 +166,7 @@ namespace Softeq.XToolkit.Common.Collections
                 NotifyCollectionChangedAction.Remove,
                 default,
                 oldItemsRange,
+                //new Collection<(int, IReadOnlyList<TKey>)>(oldItemsRange.Select(item => (item.Index, item.Keys)).ToList()),
                 default);
         }
 
@@ -197,7 +195,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             if (item == null)
             {
-                throw new KeyNotFoundException($"Can't be found key: {key.ToString()}");
+                throw new KeyNotFoundException();
             }
 
             item.Clear();
@@ -368,7 +366,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             var rangesToRemove = new Dictionary<int, IList<(int ValIndex, IReadOnlyList<TValue> Vals)>>();
             var groupsInfos = new List<(int GroupIndex, List<KeyValuePair<TValue, int>> Items)>();
-            IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)>? groupsToRemove = null;
+            IReadOnlyList<(int Index, IReadOnlyList<TKey> Keys)>? groupsToRemove = null;
 
             foreach (var item in items)
             {
@@ -405,6 +403,7 @@ namespace Softeq.XToolkit.Common.Collections
                 {
                     rangesToRemove.Add(groupInfo.GroupIndex, new List<(int, IReadOnlyList<TValue>)>());
                 }
+
                 rangesToRemove[groupInfo.GroupIndex].AddRange(GroupByIndex(groupInfo.Items).ToList());
             }
 
@@ -423,7 +422,7 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var keyIndexesToRemove = groupsToRemove?
-                .Select(x => Enumerable.Range(x.Index, x.NewItems.Count))
+                .Select(x => Enumerable.Range(x.Index, x.Keys.Count))
                 .SelectMany(x => x)
                 .ToList();
 
@@ -448,17 +447,11 @@ namespace Softeq.XToolkit.Common.Collections
                 groupEvents);
         }
 
-        #endregion
-
-        #region IEnumerable
-
         /// <inheritdoc />
         public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator() => _items.GetEnumerator();
 
         /// <inheritdoc />
         IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
-
-        #endregion
 
         private void OnChanged(
             NotifyCollectionChangedAction? action,
@@ -537,7 +530,7 @@ namespace Softeq.XToolkit.Common.Collections
 
                 if (!_items.Any(x => x.Key.Equals(key)))
                 {
-                    throw new KeyNotFoundException($"Can't be found key: {key.ToString()}");
+                    throw new KeyNotFoundException();
                 }
 
                 var val = valueSelector.Invoke(item);
@@ -569,7 +562,7 @@ namespace Softeq.XToolkit.Common.Collections
             return groupedItemsToAdd;
         }
 
-        private IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)> RemoveGroupsWithoutNotify(IEnumerable<TKey> keys)
+        private IReadOnlyList<(int Index, IReadOnlyList<TKey> Keys)> RemoveGroupsWithoutNotify(IEnumerable<TKey> keys)
         {
             if (keys.Any(key => _items.All(item => !item.Key.Equals(key))))
             {
@@ -636,13 +629,13 @@ namespace Softeq.XToolkit.Common.Collections
 
         private class Group : List<TValue>, IGrouping<TKey, TValue>
         {
+            public TKey Key { get; }
+
             public Group(KeyValuePair<TKey, IList<TValue>> keyValuePair)
             {
                 Key = keyValuePair.Key;
                 AddRange(keyValuePair.Value);
             }
-
-            public TKey Key { get; }
         }
     }
 }
