@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
 
-        protected virtual int? DialogAnimationsId { get; }
+        protected virtual int? DialogAnimationId { get; }
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 
@@ -54,10 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             var dialog = base.OnCreateDialog(savedInstanceState);
 
-            if (DialogAnimationsId.HasValue && dialog?.Window?.Attributes != null)
-            {
-                dialog.Window.Attributes.WindowAnimations = DialogAnimationsId.Value;
-            }
+            SetupDialogAnimation(dialog);
 
             return dialog;
         }
@@ -108,6 +105,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
             Internal.ViewModelStore.Of(fragmentManager).Add(GetKey(), ViewModel);
             Show(fragmentManager, null);
+        }
+
+        protected void SetupDialogAnimation(Dialog dialog)
+        {
+            if (DialogAnimationId.HasValue && dialog?.Window?.Attributes != null)
+            {
+                dialog.Window.Attributes.WindowAnimations = DialogAnimationId.Value;
+            }
         }
 
         protected virtual void RestoreViewModelIfNeeded(Bundle? savedInstanceState)

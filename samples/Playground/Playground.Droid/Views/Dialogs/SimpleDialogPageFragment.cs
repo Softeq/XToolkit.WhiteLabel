@@ -15,7 +15,7 @@ namespace Playground.Droid.Views.Dialogs
         private Button? _closeButton;
         private Button? _doneButton;
 
-        protected override int? DialogAnimationsId => Resource.Style.DialogAnimation;
+        protected override int? DialogAnimationId => Resource.Style.DialogAnimation;
 
         // TODO YP: move inflate to WL
         public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
