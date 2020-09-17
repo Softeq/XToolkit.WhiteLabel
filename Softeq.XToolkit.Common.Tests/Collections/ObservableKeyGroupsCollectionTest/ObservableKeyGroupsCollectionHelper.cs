@@ -8,6 +8,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 {
     public static class ObservableKeyGroupsCollectionHelper
     {
+        public static string GroupKeyNull = "Zero";
         public static string GroupKeyEmpty = string.Empty;
         public static string GroupKeyFirst = "First";
         public static string GroupKeySecond = "Second";
@@ -47,30 +48,31 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public static IList<KeyValuePair<string, IList<int>>> PairWithKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsNull),
+            new KeyValuePair<string, IList<int>>(GroupKeyNull, ItemsNull),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairWithKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsEmpty),
+            new KeyValuePair<string, IList<int>>(GroupKeyEmpty, ItemsEmpty),
         };
 
         public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithItems = new List<KeyValuePair<string, IList<int>>>()
         {
-            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst),
-            new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst),
+            new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
+            new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
         };
 
-        //public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
-        //{
-        //    new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsNull),
-        //};
+        public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
+        {
+            new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
+            new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsNull),
+        };
 
-        //public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
-        //{
-        //    new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst),
-        //    new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsEmpty),
-        //};
+        public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
+        {
+            new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
+            new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsEmpty),
+        };
 
         public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithItems = new List<KeyValuePair<string, IList<int>>>()
         {
