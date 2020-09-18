@@ -468,11 +468,41 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
         {
-            var items = args.Action == NotifyCollectionChangedAction.Add ? args.NewItemRanges : args.OldItemRanges;
+            NotifyCollectionChangedEventArgs notifyArgs;
 
-            CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(args.Action.Value, items)); // NotifyCollectionChangedAction.Reset));
+            switch (args.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, args.NewItemRanges);
+                    break;
+
+                case NotifyCollectionChangedAction.Replace:
+                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, args.NewItemRanges, args.OldItemRanges);
+                    break;
+
+                case NotifyCollectionChangedAction.Reset:
+                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, args.NewItemRanges);
+                    break;
+
+                case NotifyCollectionChangedAction.Remove:
+                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, args.OldItemRanges);
+                    break;
+
+                default:
+                    notifyArgs = new NotifyCollectionChangedEventArgs(args.Action.Value, args.NewItemRanges, args.OldItemRanges);
+                    break;
+            }
+
+            CollectionChanged?.Invoke(this, notifyArgs);
 
             ItemsChanged?.Invoke(this, args);
+
+            // -----
+            //var items = args.Action == NotifyCollectionChangedAction.Add ? args.NewItemRanges : args.OldItemRanges;
+
+            //CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(args.Action.Value, items)); // NotifyCollectionChangedAction.Reset));
+
+            //ItemsChanged?.Invoke(this, args);
         }
 
         private IEnumerable<Group>? InsertGroupsWithoutNotify(

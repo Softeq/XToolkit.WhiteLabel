@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public static IList<int> ItemsNull;
         public static IList<int> ItemsEmpty = new List<int>();
-        public static IList<int> ItemsFirst = new List<int> { 1, 2, 3 };
+        public static IList<int> ItemsFirst = new List<int> { 1, 2, 3, 4 };
         public static IList<int> ItemsSecond = new List<int> { 4, 5, 6, 7, 8 };
         public static IList<int> ItemsThird = new List<int> { 6, 7, 8 };
 
@@ -145,6 +145,18 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                  new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst ),
                  new KeyValuePair<string, IList<int>>(GroupKeySecond, ItemsSecond ),
             };
+        }
+
+        // -- Selectors Object
+
+        public static List<ObservableKeyGroupsCollectionObject<string, List<int>>> CreateEmptyObjectsList()
+        {
+            return new List<ObservableKeyGroupsCollectionObject<string, List<int>>>();
+        }
+
+        public static List<ObservableKeyGroupsCollectionObject<string, List<int>>> CreateFillObjectsList()
+        {
+            return new List<ObservableKeyGroupsCollectionObject<string, List<int>>>();
         }
     }
 }

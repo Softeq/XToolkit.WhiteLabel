@@ -59,8 +59,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                         actualKeys = _events[0].OldItems != null ? (_events[0].OldItems as IReadOnlyList<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
                         break;
 
-                        //default:
-                        //    break;
+                    case NotifyCollectionChangedAction.Replace:
+                        actualKeys = _events[0].NewItems != null ? (_events[0].NewItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+                        break;
                 }
 
                 if (keys != null)
