@@ -67,15 +67,4 @@ namespace Softeq.XToolkit.Remote.Tests
             await Assert.ThrowsAsync<Exception>(() => task);
         }
     }
-
-    public interface IStubApiInterface
-    {
-        Task SentData(string data, CancellationToken ct);
-
-        Task<string> GetData(CancellationToken ct);
-
-        Task DoException();
-
-        Task<string> DoException(CancellationToken ct);
-    }
 }
