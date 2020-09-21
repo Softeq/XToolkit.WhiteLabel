@@ -20,5 +20,8 @@
   <ItemGroup>
     <Folder Include="Location\" />
     <Folder Include="Location\LocationModelTests\" />
+    <Folder Include="Navigation\" />
+    <Folder Include="Navigation\PageNavigationServiceTests\" />
+    <Folder Include="Navigation\PropertyInfoModelTests\" />
   </ItemGroup>
 </Project>

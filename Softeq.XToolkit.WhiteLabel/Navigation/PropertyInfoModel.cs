@@ -8,24 +8,54 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public class PropertyInfoModel
     {
-        public PropertyInfoModel(string propertyName, string typeName)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PropertyInfoModel"/> class.
+        /// </summary>
+        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="assemblyQualifiedTypeName">
+        ///     The assembly-qualified name of the type.
+        ///     See <see cref="P:System.Type.AssemblyQualifiedName"/>.
+        ///     <para/>
+        ///     If the type is in the currently executing assembly or in mscorlib.dll/System.Private.CoreLib.dll,
+        ///     it is sufficient to supply the type name qualified by its namespace.
+        /// </param>
+        public PropertyInfoModel(string propertyName, string assemblyQualifiedTypeName)
         {
             PropertyName = propertyName;
-            TypeName = typeName;
+            AssemblyQualifiedTypeName = assemblyQualifiedTypeName;
         }
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="PropertyInfoModel"/> class.
+        /// </summary>
+        /// <param name="propertyInfo">Property information.</param>
+        public PropertyInfoModel(PropertyInfo propertyInfo)
+            : this(propertyInfo.Name, propertyInfo.DeclaringType.AssemblyQualifiedName)
+        {
+        }
+
+        /// <summary>
+        ///     Gets the name of the property.
+        /// </summary>
         public string PropertyName { get; }
-        
-        public string TypeName { get; }
 
-        public static PropertyInfoModel FromProperty(MemberInfo memberInfo)
-        {
-            return new PropertyInfoModel(memberInfo.Name, memberInfo.DeclaringType.AssemblyQualifiedName);
-        }
+        /// <summary>
+        ///     Gets the assembly-qualified name of the type.
+        ///     See <see cref="P:System.Type.AssemblyQualifiedName"/>.
+        ///     <para/>
+        ///     If the type is in the currently executing assembly or in mscorlib.dll/System.Private.CoreLib.dll,
+        ///     it is sufficient to supply the type name qualified by its namespace.
+        /// </summary>
+        public string AssemblyQualifiedTypeName { get; }
 
-        public PropertyInfo ToProperty()
-        {
-            return Type.GetType(TypeName).GetProperty(PropertyName);
-        }
+        /// <summary>
+        ///     Converts current model to <see cref="T:System.Reflection.PropertyInfo"/>.
+        /// </summary>
+        /// <returns>
+        ///     <see cref="T:System.Reflection.PropertyInfo"/> instance
+        ///     that corresponds to the current model.
+        /// </returns>
+        public PropertyInfo ToPropertyInfo()
+            => Type.GetType(AssemblyQualifiedTypeName).GetProperty(PropertyName);
     }
 }

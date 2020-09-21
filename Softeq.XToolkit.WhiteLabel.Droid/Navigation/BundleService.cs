@@ -85,7 +85,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private static void SetValueToProperty(ViewModelBase viewModel, NavigationParameterModel parameter)
         {
-            var property = parameter.PropertyInfo.ToProperty();
+            var property = parameter.PropertyInfo.ToPropertyInfo();
 
             object? GetValue(object? value)
             {
