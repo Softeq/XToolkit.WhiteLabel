@@ -106,6 +106,7 @@
     <Compile Include="Internal\ViewModelStoreFragment.cs" />
     <Compile Include="Internal\IViewModelStore.cs" />
     <Compile Include="Views\ToolbarFragmentBase.cs" />
+    <Compile Include="Navigation\BackPressedCallback.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
