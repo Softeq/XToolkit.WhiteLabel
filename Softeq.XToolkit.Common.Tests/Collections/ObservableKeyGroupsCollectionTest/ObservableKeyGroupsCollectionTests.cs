@@ -305,7 +305,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [MemberData(nameof(FillCollectionOptions))]
         public void CollectionChanged_AddItems_NotifyAddEvent(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var items = CollectionHelper.CreateFillItemsList();
+            var items = CollectionHelper.CreateFillItemsListWithNewKeys();
             var newKeys = items.Select(x => x.Key).Distinct().Where(x => !collection.Keys.Contains(x)).ToList();
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
@@ -324,7 +324,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [MemberData(nameof(FillCollectionOptions))]
         public void CollectionChanged_AddItems_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var items = CollectionHelper.CreateFillItemsList();
+            var items = CollectionHelper.CreateFillItemsListWithNewKeys();
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
@@ -610,7 +610,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [MemberData(nameof(FillCollectionOptions))]
         public void ItemsChanged_AddItems_NotifyAddEvent(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var items = CollectionHelper.CreateFillItemsList();
+            var items = CollectionHelper.CreateFillItemsListWithNewKeys();
             var newKeys = items.Select(x => x.Key).Distinct().Where(x => !collection.Keys.Contains(x)).ToList();
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
             catcher.Subscribe();
@@ -630,7 +630,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [MemberData(nameof(FillCollectionOptions))]
         public void ItemsChanged_AddItems_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var items = CollectionHelper.CreateFillItemsList();
+            var items = CollectionHelper.CreateFillItemsListWithNewKeys();
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
             catcher.Subscribe();
 
@@ -1223,7 +1223,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_NullListItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.AddItems<TestItem<string, int>>(
+                () => collection.AddItems(
                     CollectionHelper.CreateNullItemsList(),
                     (x) => x.SelectKey(),
                     (x) => x.SelectValue()));
@@ -1235,7 +1235,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             var size = collection.Select(x => (x.Key, x.Count()));
 
-            collection.AddItems<TestItem<string, int>>(
+            collection.AddItems(
                      CollectionHelper.CreateEmptyItemsList(),
                      (x) => x.SelectKey(),
                      (x) => x.SelectValue());
@@ -1251,7 +1251,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_NullItem_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<NullReferenceException>(
-               () => collection.AddItems<TestItem<string, int>>(
+               () => collection.AddItems(
                    CollectionHelper.CreateFillItemsListWithNull(),
                    (x) => x.SelectKey(),
                    (x) => x.SelectValue()));
@@ -1262,9 +1262,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_ListCorrectItems_CollectionContainsNewItems(ObservableKeyGroupsCollection<string, int> collection)
         {
             var referenceValues = collection.ToDictionary(x => x.Key, x => x.ToList());
-            var items = CollectionHelper.CreateFillItemsList();
+            var items = CollectionHelper.CreateFillItemsListWithNewKeys();
 
-            collection.AddItems<TestItem<string, int>>(
+            collection.AddItems(
                      items,
                      (x) => x.SelectKey(),
                      (x) => x.SelectValue());
@@ -1292,8 +1292,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_NullKeySelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.AddItems<TestItem<string, int>>(
-                    CollectionHelper.CreateFillItemsList(),
+                () => collection.AddItems(
+                    CollectionHelper.CreateFillItemsListWithNewKeys(),
                     null,
                     (x) => x.SelectValue()));
         }
@@ -1303,8 +1303,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_NullValueSelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.AddItems<TestItem<string, int>>(
-                    CollectionHelper.CreateFillItemsList(),
+                () => collection.AddItems(
+                    CollectionHelper.CreateFillItemsListWithNewKeys(),
                     (x) => x.SelectKey(),
                     null));
         }
@@ -1314,8 +1314,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_SelectNullKey_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<NullReferenceException>(
-                () => collection.AddItems<TestItem<string, int>>(
-                    CollectionHelper.CreateFillItemsList(),
+                () => collection.AddItems(
+                    CollectionHelper.CreateFillItemsListWithNewKeys(),
                     (x) => null,
                     (x) => x.SelectValue()));
         }
@@ -1330,7 +1330,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             var collection = new ObservableKeyGroupsCollection<string, object>();
 
-            collection.AddItems<TestItem<string, object>>(
+            collection.AddItems(
                     items,
                     (x) => x.SelectKey(),
                     (x) => x.SelectValue());
@@ -1343,7 +1343,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void InsertItems_NullListItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.InsertItems<TestItem<string, int>>(
+                () => collection.InsertItems(
                     CollectionHelper.CreateNullItemsList(),
                     (x) => x.SelectKey(),
                     (x) => x.SelectValue(),
@@ -1356,7 +1356,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             var size = collection.Select(x => (x.Key, x.Count()));
 
-            collection.InsertItems<TestItem<string, int>>(
+            collection.InsertItems(
                      CollectionHelper.CreateEmptyItemsList(),
                      (x) => x.SelectKey(),
                      (x) => x.SelectValue(),
@@ -1373,7 +1373,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void InsertItems_NullItem_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<NullReferenceException>(
-               () => collection.InsertItems<TestItem<string, int>>(
+               () => collection.InsertItems(
                    CollectionHelper.CreateFillItemsListWithNull(),
                    (x) => x.SelectKey(),
                    (x) => x.SelectValue(),
@@ -1383,12 +1383,12 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         // several unique items / duplicate keys, ok, ok , ok
         [Theory] // +++
         [MemberData(nameof(FillCollectionOptions))]
-        public void InsertItems_ListCorrectItems_CollectionContainsNewItems(ObservableKeyGroupsCollection<string, int> collection)
+        public void InsertItems_ListItemsWithExistKeys_CollectionContainsNewItems(ObservableKeyGroupsCollection<string, int> collection)
         {
             var referenceValues = collection.ToDictionary(x => x.Key, x => x.ToList());
-            var items = CollectionHelper.CreateFillItemsList();
+            var items = CollectionHelper.CreateFillItemsListWithExistKeys();
 
-            collection.InsertItems<TestItem<string, int>>(
+            collection.InsertItems(
                      items,
                      (x) => x.SelectKey(),
                      (x) => x.SelectValue(),
@@ -1412,13 +1412,24 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             }
         }
 
+        [Theory] // review night
+        [MemberData(nameof(FillCollectionOptions))]
+        public void InsertItems_ListItemsWithNewKeys_Key(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<KeyNotFoundException>(() => collection.InsertItems(
+                     CollectionHelper.CreateFillItemsListWithNewKeys(),
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue(),
+                     (x) => x.SelectIndex()));
+        }
+
         [Theory] // +++
         [MemberData(nameof(FillCollectionOptions))]
         public void InsertItems_NullKeySelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.InsertItems<TestItem<string, int>>(
-                    CollectionHelper.CreateFillItemsList(),
+                () => collection.InsertItems(
+                    CollectionHelper.CreateFillItemsListWithNewKeys(),
                     null,
                     (x) => x.SelectValue(),
                     (x) => x.SelectIndex()));
@@ -1429,8 +1440,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void InsertItems_NullValueSelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.InsertItems<TestItem<string, int>>(
-                    CollectionHelper.CreateFillItemsList(),
+                () => collection.InsertItems(
+                    CollectionHelper.CreateFillItemsListWithNewKeys(),
                     (x) => x.SelectKey(),
                     null,
                     (x) => x.SelectIndex()));
@@ -1442,7 +1453,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             Assert.Throws<ArgumentNullException>(
                 () => collection.InsertItems<TestItem<string, int>>(
-                    CollectionHelper.CreateFillItemsList(),
+                    CollectionHelper.CreateFillItemsListWithNewKeys(),
                     (x) => x.SelectKey(),
                     (x) => x.SelectValue(),
                     null));

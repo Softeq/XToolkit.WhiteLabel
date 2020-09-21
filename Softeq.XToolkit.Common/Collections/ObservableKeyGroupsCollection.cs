@@ -488,9 +488,12 @@ namespace Softeq.XToolkit.Common.Collections
                     notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, args.OldItemRanges);
                     break;
 
+                //case NotifyCollectionChangedAction.Move:
+                   // break;
+
                 default:
-                    notifyArgs = new NotifyCollectionChangedEventArgs(args.Action.Value, args.NewItemRanges, args.OldItemRanges);
-                    break;
+                    //notifyArgs = new NotifyCollectionChangedEventArgs(args.Action.Value, args.NewItemRanges, args.OldItemRanges);
+                    return;
             }
 
             CollectionChanged?.Invoke(this, notifyArgs);

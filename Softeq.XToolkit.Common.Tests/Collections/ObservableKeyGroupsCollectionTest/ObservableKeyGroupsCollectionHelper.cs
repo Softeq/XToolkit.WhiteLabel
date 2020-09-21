@@ -168,7 +168,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             };
         }
 
-        public static List<TestItem<string, int>> CreateFillItemsList()
+        public static List<TestItem<string, int>> CreateFillItemsListWithNewKeys()
         {
             return new List<TestItem<string, int>>
             {
@@ -177,6 +177,17 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 new TestItem<string, int>(GroupKeyFirst, 13, 1),
                 new TestItem<string, int>(GroupKeySecond, 14, 1),
                 new TestItem<string, int>(GroupKeyThird, 15, 0),
+            };
+        }
+
+        public static List<TestItem<string, int>> CreateFillItemsListWithExistKeys()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyFirst, 11, 1),
+                new TestItem<string, int>(GroupKeySecond, 12, 1),
+                new TestItem<string, int>(GroupKeyFirst, 13, 0),
+                new TestItem<string, int>(GroupKeySecond, 14, 0)
             };
         }
     }
