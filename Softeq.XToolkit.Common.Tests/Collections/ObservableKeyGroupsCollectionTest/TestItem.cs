@@ -3,7 +3,7 @@
 
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest
 {
-    public class ObservableKeyGroupsCollectionObject<TKey, TValue>
+    public class TestItem<TKey, TValue>
         where TKey : notnull
         where TValue : notnull
     {
@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public bool IsValueSelectedFire { get; private set; }
         public bool IsIndexSelectedFire { get; private set; }
 
-        public ObservableKeyGroupsCollectionObject(TKey key, TValue value, int index = 0)
+        public TestItem(TKey key, TValue value, int index = 0)
         {
             Key = key;
             Value = value;

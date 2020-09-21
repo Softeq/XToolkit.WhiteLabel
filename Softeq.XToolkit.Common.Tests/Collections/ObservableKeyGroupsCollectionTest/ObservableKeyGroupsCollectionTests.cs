@@ -10,7 +10,7 @@ using Xunit;
 
 using CollectionHelper = Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest.ObservableKeyGroupsCollectionHelper;
 
-namespace ObservableKeyGroupsCollection
+namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest.ObservableKeyGroupsCollection
 {
     public class ObservableKeyGroupsCollectionTests
     {
@@ -301,6 +301,52 @@ namespace ObservableKeyGroupsCollection
             Assert.Equal(1, catcher.EventCount);
         }
 
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void CollectionChanged_AddItems_NotifyAddEvent(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var items = CollectionHelper.CreateFillItemsList();
+            var newKeys = items.Select(x => x.Key).Distinct().Where(x => !collection.Keys.Contains(x)).ToList();
+            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddItems<TestItem<string, int>>(
+                     items,
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue());
+
+            catcher.Unsubscribe();
+
+            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, newKeys));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void CollectionChanged_AddItems_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var items = CollectionHelper.CreateFillItemsList();
+            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddItems<TestItem<string, int>>(
+                     items,
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue());
+
+            catcher.Unsubscribe();
+
+            Assert.Equal(1, catcher.EventCount);
+        }
+
+
+
+
+
+
+
+
+
+
         [Fact] // +++
         public void ItemsChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotifyAddEvent()
         {
@@ -559,6 +605,51 @@ namespace ObservableKeyGroupsCollection
 
             Assert.Equal(1, catcher.EventCount);
         }
+
+        [Theory] // Check Result / group items
+        [MemberData(nameof(FillCollectionOptions))]
+        public void ItemsChanged_AddItems_NotifyAddEvent(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var items = CollectionHelper.CreateFillItemsList();
+            var newKeys = items.Select(x => x.Key).Distinct().Where(x => !collection.Keys.Contains(x)).ToList();
+            var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddItems<TestItem<string, int>>(
+                     items,
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue());
+
+            catcher.Unsubscribe();
+
+            Assert.True(false);
+            //Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Add, newKeys));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void ItemsChanged_AddItems_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var items = CollectionHelper.CreateFillItemsList();
+            var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.AddItems<TestItem<string, int>>(
+                     items,
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue());
+
+            catcher.Unsubscribe();
+
+            Assert.Equal(1, catcher.EventCount);
+        }
+
+
+
+
+
+
+
 
         [Fact] // +++
         public void AddGroups_KeysOnlyForbidEmptyGroup_InvalidOperationException()
@@ -988,7 +1079,7 @@ namespace ObservableKeyGroupsCollection
             Assert.Throws<ArgumentNullException>(() => collection.ReplaceGroups(CollectionHelper.PairNullKeyWithEmptyItems));
         }
 
-        [Theory] // review night
+        [Theory] // +++
         [MemberData(nameof(FillCollectionOptions))]
         public void ReplaceGroups_WithItemsNullKeyWithNullItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
@@ -1127,22 +1218,297 @@ namespace ObservableKeyGroupsCollection
             Assert.Throws<KeyNotFoundException>(() => collection.ClearGroup(CollectionHelper.GroupKeyThird));
         }
 
-        [Fact]
-        // AddItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)
-        public void _AddItemsWithSelectors_Test_Miss()
+        [Theory] // +++
+        [MemberData(nameof(EmptyCollectionOptions))]
+        public void AddItems_NullListItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            Assert.True(false);
-
-            var collection = CollectionHelper.CreateWithEmptyGroups();
-            collection.AddItems();
+            Assert.Throws<ArgumentNullException>(
+                () => collection.AddItems<TestItem<string, int>>(
+                    CollectionHelper.CreateNullItemsList(),
+                    (x) => x.SelectKey(),
+                    (x) => x.SelectValue()));
         }
 
-        [Fact]
-        // InsertItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector, Func<T, int> valueIndexSelector)
-        public void _InsertItemsWithSelectors_Test_Miss()
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void AddItems_EmptyListItems_CollectionNotChanged(ObservableKeyGroupsCollection<string, int> collection)
         {
+            var size = collection.Select(x => (x.Key, x.Count()));
+
+            collection.AddItems<TestItem<string, int>>(
+                     CollectionHelper.CreateEmptyItemsList(),
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue());
+
+            foreach (var item in collection)
+            {
+                Assert.True(item.Count() == size.FirstOrDefault(x => x.Key == item.Key).Item2);
+            }
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void AddItems_NullItem_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<NullReferenceException>(
+               () => collection.AddItems<TestItem<string, int>>(
+                   CollectionHelper.CreateFillItemsListWithNull(),
+                   (x) => x.SelectKey(),
+                   (x) => x.SelectValue()));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void AddItems_ListCorrectItems_CollectionContainsNewItems(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var referenceValues = collection.ToDictionary(x => x.Key, x => x.ToList());
+            var items = CollectionHelper.CreateFillItemsList();
+
+            collection.AddItems<TestItem<string, int>>(
+                     items,
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue());
+
+            foreach (var item in items)
+            {
+                if (!referenceValues.ContainsKey(item.Key))
+                {
+                    referenceValues.Add(item.Key, new List<int>());
+                }
+
+                referenceValues[item.Key].Add(item.Value);
+            }
+
+            Assert.Equal(referenceValues.Count(), collection.Keys.Count);
+
+            foreach (var item in collection)
+            {
+                Assert.True(item.SequenceEqual(referenceValues[item.Key]));
+            }
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(EmptyCollectionOptions))]
+        public void AddItems_NullKeySelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => collection.AddItems<TestItem<string, int>>(
+                    CollectionHelper.CreateFillItemsList(),
+                    null,
+                    (x) => x.SelectValue()));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(EmptyCollectionOptions))]
+        public void AddItems_NullValueSelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => collection.AddItems<TestItem<string, int>>(
+                    CollectionHelper.CreateFillItemsList(),
+                    (x) => x.SelectKey(),
+                    null));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(EmptyCollectionOptions))]
+        public void AddItems_SelectNullKey_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<NullReferenceException>(
+                () => collection.AddItems<TestItem<string, int>>(
+                    CollectionHelper.CreateFillItemsList(),
+                    (x) => null,
+                    (x) => x.SelectValue()));
+        }
+
+        [Fact] // unknown result
+        public void AddItems_SelectNullValue_xxxx()
+        {
+            var items = new List<TestItem<string, object>>()
+            {
+                new TestItem<string, object>("key", null)
+            };
+
+            var collection = new ObservableKeyGroupsCollection<string, object>();
+
+            collection.AddItems<TestItem<string, object>>(
+                    items,
+                    (x) => x.SelectKey(),
+                    (x) => x.SelectValue());
+
             Assert.True(false);
         }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void InsertItems_NullListItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => collection.InsertItems<TestItem<string, int>>(
+                    CollectionHelper.CreateNullItemsList(),
+                    (x) => x.SelectKey(),
+                    (x) => x.SelectValue(),
+                    (x) => x.SelectIndex()));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void InsertItems_EmptyListItems_CollectionNotChanged(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var size = collection.Select(x => (x.Key, x.Count()));
+
+            collection.InsertItems<TestItem<string, int>>(
+                     CollectionHelper.CreateEmptyItemsList(),
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue(),
+                     (x) => x.SelectIndex());
+
+            foreach (var item in collection)
+            {
+                Assert.True(item.Count() == size.FirstOrDefault(x => x.Key == item.Key).Item2);
+            }
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void InsertItems_NullItem_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<NullReferenceException>(
+               () => collection.InsertItems<TestItem<string, int>>(
+                   CollectionHelper.CreateFillItemsListWithNull(),
+                   (x) => x.SelectKey(),
+                   (x) => x.SelectValue(),
+                   (x) => x.SelectIndex()));
+        }
+
+        // several unique items / duplicate keys, ok, ok , ok
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void InsertItems_ListCorrectItems_CollectionContainsNewItems(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var referenceValues = collection.ToDictionary(x => x.Key, x => x.ToList());
+            var items = CollectionHelper.CreateFillItemsList();
+
+            collection.InsertItems<TestItem<string, int>>(
+                     items,
+                     (x) => x.SelectKey(),
+                     (x) => x.SelectValue(),
+                     (x) => x.SelectIndex());
+
+            foreach (var item in items)
+            {
+                if (!referenceValues.ContainsKey(item.Key))
+                {
+                    referenceValues.Add(item.Key, new List<int>());
+                }
+
+                referenceValues[item.Key].Add(item.Value);
+            }
+
+            Assert.Equal(referenceValues.Count(), collection.Keys.Count);
+
+            foreach (var item in collection)
+            {
+                Assert.True(item.SequenceEqual(referenceValues[item.Key]));
+            }
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void InsertItems_NullKeySelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => collection.InsertItems<TestItem<string, int>>(
+                    CollectionHelper.CreateFillItemsList(),
+                    null,
+                    (x) => x.SelectValue(),
+                    (x) => x.SelectIndex()));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void InsertItems_NullValueSelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => collection.InsertItems<TestItem<string, int>>(
+                    CollectionHelper.CreateFillItemsList(),
+                    (x) => x.SelectKey(),
+                    null,
+                    (x) => x.SelectIndex()));
+        }
+
+        [Theory] // +++
+        [MemberData(nameof(FillCollectionOptions))]
+        public void InsertItems_NullIndexSelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            Assert.Throws<ArgumentNullException>(
+                () => collection.InsertItems<TestItem<string, int>>(
+                    CollectionHelper.CreateFillItemsList(),
+                    (x) => x.SelectKey(),
+                    (x) => x.SelectValue(),
+                    null));
+        }
+
+        // ok, null key, ok, ok - forbid empty / allow empty ?
+        //[Theory] // +++
+        //[MemberData(nameof(EmptyCollectionOptions))]
+        //public void InsertItems_SelectNullKey_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        //{
+        //    Assert.Throws<NullReferenceException>(
+        //        () => collection.AddItems<TestItem<string, int>>(
+        //            CollectionHelper.CreateFillItemsList(),
+        //            (x) => null,
+        //            (x) => x.SelectValue()));
+        //}
+
+        // ok, ok, empty value, ok - forbid empty
+        // ok, ok, empty value, ok - allow empty
+        //[Fact] // unknown result
+        //public void InsertItems_SelectNullValue_xxxx()
+        //{
+        //    var items = new List<TestItem<string, object>>()
+        //    {
+        //        new TestItem<string, object>("key", null)
+        //    };
+
+        //    var collection = new ObservableKeyGroupsCollection<string, object>(false);
+
+        //    collection.InsertItems<TestItem<string, object>>(
+        //            items,
+        //            (x) => x.SelectKey(),
+        //            (x) => x.SelectValue(),
+        //            (x) => x.SelectIndex());
+
+        //    Assert.True(false);
+        //}
+
+        // ok, ok, ok, negative index
+        //[Theory] // +++
+        //[MemberData(nameof(FillCollectionOptions))]
+        //public void InsertItems_NegativeIndexValue_ArgumentOutOfRangeException(ObservableKeyGroupsCollection<string, int> collection)
+        //{
+        //    Assert.Throws<ArgumentOutOfRangeException>(
+        //        () => collection.InsertItems<TestItem<string, int>>(
+        //            CollectionHelper.CreateFillItemsList(),
+        //            (x) => x.SelectKey(),
+        //            (x) => x.SelectValue(),
+        //            (x) => 0));
+        //}
+
+        // ok, ok, ok, overhead index
+        //[Theory] // +++
+        //[MemberData(nameof(FillCollectionOptions))]
+        //public void InsertItems_OverHeadIndexValue_ArgumentOutOfRangeException(ObservableKeyGroupsCollection<string, int> collection)
+        //{
+        //    Assert.Throws<ArgumentOutOfRangeException>(
+        //        () => collection.InsertItems<TestItem<string, int>>(
+        //            CollectionHelper.CreateFillItemsList(),
+        //            (x) => x.SelectKey(),
+        //            (x) => x.SelectIndex(),
+        //            (x) => 0));
+        //}
+
+        // event on success one time
+        // event on success with 'Insert' type
 
         [Fact]
         // ReplaceItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector)

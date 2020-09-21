@@ -148,15 +148,36 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         // -- Selectors Object
-
-        public static List<ObservableKeyGroupsCollectionObject<string, List<int>>> CreateEmptyObjectsList()
+        public static List<TestItem<string, int>> CreateEmptyItemsList()
         {
-            return new List<ObservableKeyGroupsCollectionObject<string, List<int>>>();
+            return new List<TestItem<string, int>>();
         }
 
-        public static List<ObservableKeyGroupsCollectionObject<string, List<int>>> CreateFillObjectsList()
+        public static List<TestItem<string, int>> CreateNullItemsList()
         {
-            return new List<ObservableKeyGroupsCollectionObject<string, List<int>>>();
+            return null;
+        }
+
+        public static List<TestItem<string, int>> CreateFillItemsListWithNull()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyFirst, 13, 1),
+                null,
+                new TestItem<string, int>(GroupKeySecond, 12, 1)
+            };
+        }
+
+        public static List<TestItem<string, int>> CreateFillItemsList()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyFirst, 11, 1),
+                new TestItem<string, int>(GroupKeySecond, 12, 1),
+                new TestItem<string, int>(GroupKeyFirst, 13, 1),
+                new TestItem<string, int>(GroupKeySecond, 14, 1),
+                new TestItem<string, int>(GroupKeyThird, 15, 0),
+            };
         }
     }
 }
