@@ -6,6 +6,11 @@ using System.Reflection;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
+    /// <summary>
+    ///     Simple wrapper for <see cref="T:System.Reflection.PropertyInfo"/>
+    ///     that contains only property and type names.
+    ///     Used for serialization.
+    /// </summary>
     public class PropertyInfoModel
     {
         /// <summary>
