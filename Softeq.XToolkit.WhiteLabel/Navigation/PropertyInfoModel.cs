@@ -16,18 +16,18 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         /// <summary>
         ///     Initializes a new instance of the <see cref="PropertyInfoModel"/> class.
         /// </summary>
-        /// <param name="propertyName">The name of the property.</param>
+        /// <param name="propertyName">The string containing the name of the public property.</param>
         /// <param name="assemblyQualifiedTypeName">
-        ///     The assembly-qualified name of the type.
+        ///     The string containing the assembly-qualified name of the type.
         ///     See <see cref="P:System.Type.AssemblyQualifiedName"/>.
         ///     <para/>
         ///     If the type is in the currently executing assembly or in mscorlib.dll/System.Private.CoreLib.dll,
         ///     it is sufficient to supply the type name qualified by its namespace.
         /// </param>
-        public PropertyInfoModel(string propertyName, string assemblyQualifiedTypeName)
+        public PropertyInfoModel(string? propertyName, string? assemblyQualifiedTypeName)
         {
-            PropertyName = propertyName;
-            AssemblyQualifiedTypeName = assemblyQualifiedTypeName;
+            PropertyName = propertyName ?? string.Empty;
+            AssemblyQualifiedTypeName = assemblyQualifiedTypeName ?? string.Empty;
         }
 
         /// <summary>
@@ -35,12 +35,12 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         /// </summary>
         /// <param name="propertyInfo">Property information.</param>
         public PropertyInfoModel(PropertyInfo propertyInfo)
-            : this(propertyInfo.Name, propertyInfo.DeclaringType.AssemblyQualifiedName)
+            : this(propertyInfo?.Name, propertyInfo?.DeclaringType?.AssemblyQualifiedName)
         {
         }
 
         /// <summary>
-        ///     Gets the name of the property.
+        ///     Gets the name of the public property.
         /// </summary>
         public string PropertyName { get; }
 
@@ -54,13 +54,50 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         public string AssemblyQualifiedTypeName { get; }
 
         /// <summary>
-        ///     Converts current model to <see cref="T:System.Reflection.PropertyInfo"/>.
+        ///     Converts current model to the <see cref="T:System.Reflection.PropertyInfo"/>.
         /// </summary>
         /// <returns>
-        ///     <see cref="T:System.Reflection.PropertyInfo"/> instance
-        ///     that corresponds to the current model.
+        ///     An object representing the public property with the specified name and type.
         /// </returns>
+        /// <exception cref="T:Softeq.XToolkit.WhiteLabel.Navigation.PropertyNotFoundException">
+        ///     Property with the given name not found on the type with the given name.
+        /// </exception>
         public PropertyInfo ToPropertyInfo()
-            => Type.GetType(AssemblyQualifiedTypeName).GetProperty(PropertyName);
+        {
+            Type type;
+            PropertyInfo propertyInfo;
+
+            try
+            {
+                type = Type.GetType(AssemblyQualifiedTypeName);
+            }
+            catch (Exception ex)
+            {
+                throw new PropertyNotFoundException("Type load exception", ex);
+            }
+
+            if (type == null)
+            {
+                throw new PropertyNotFoundException(
+                    $"Type with the name {AssemblyQualifiedTypeName} not found");
+            }
+
+            try
+            {
+                propertyInfo = type.GetProperty(PropertyName);
+            }
+            catch (Exception ex)
+            {
+                throw new PropertyNotFoundException("Property load exception", ex);
+            }
+
+            if (propertyInfo == null)
+            {
+                throw new PropertyNotFoundException(
+                    $"Property with the name {PropertyName} not found in the type {AssemblyQualifiedTypeName}");
+            }
+
+            return propertyInfo;
+        }
     }
 }
