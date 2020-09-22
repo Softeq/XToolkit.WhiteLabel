@@ -1,9 +1,8 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using Android.OS;
-using AndroidX.Activity;
+using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.ViewComponents;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 
@@ -49,28 +48,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
                 {
                     _backPressedCallback.Enabled = true;
                 }
-            }
-        }
-
-        private class BackPressedCallback : OnBackPressedCallback
-        {
-            private Action? _handler;
-
-            public BackPressedCallback(bool enabled, Action handler)
-                : base(enabled)
-            {
-                _handler = handler;
-            }
-
-            public override void HandleOnBackPressed()
-            {
-                _handler?.Invoke();
-            }
-
-            public void Detach()
-            {
-                _handler = null;
-                Remove();
             }
         }
     }

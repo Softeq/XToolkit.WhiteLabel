@@ -6,7 +6,7 @@ using Java.Lang;
 using Softeq.XToolkit.Common.Droid.TextFilters;
 using Xunit;
 
-namespace Softeq.XToolkit.Common.iOS.Tests.TextFilters.ForbiddenCharsFilterTests
+namespace Softeq.XToolkit.Common.Droid.Tests.TextFilters
 {
     public class ForbiddenCharsInputFilterTests
     {

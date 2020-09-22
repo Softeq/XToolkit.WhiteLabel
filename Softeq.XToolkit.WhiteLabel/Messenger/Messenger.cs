@@ -23,6 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
         private readonly object _registerLock = new object();
         private Dictionary<Type, List<WeakActionAndToken>> _recipientsOfSubclassesAction;
         private Dictionary<Type, List<WeakActionAndToken>> _recipientsStrictAction;
+        private bool _isCleanupRegistered;
 
         /// <summary>
         ///     Gets the Messenger's default instance, allowing
@@ -135,8 +136,8 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
                         && (messageTargetType == null
                             || item.Action.Target.GetType() == messageTargetType
                             || messageTargetType.IsAssignableFrom(item.Action.Target.GetType()))
-                        && (item.Token == null && token == null
-                            || item.Token != null && item.Token.Equals(token)))
+                        && ((item.Token == null && token == null)
+                            || (item.Token != null && item.Token.Equals(token))))
                     {
                         executeAction.ExecuteWithObject(message);
                     }
@@ -379,7 +380,9 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
         ///     of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
-        public virtual void Register<TMessage>(object recipient, bool receiveDerivedMessagesToo,
+        public virtual void Register<TMessage>(
+            object recipient,
+            bool receiveDerivedMessagesToo,
             Action<TMessage> action)
         {
             Register(recipient, null, receiveDerivedMessagesToo, action);
@@ -519,8 +522,6 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
 
             RequestCleanup();
         }
-
-        private bool _isCleanupRegistered;
 
         /// <summary>
         ///     Sends a message to registered recipients. The message will
