@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Remote.Auth.Handlers
             Func<Task> getRefreshedToken)
             : base(getAccessToken)
         {
-            _getRefreshedToken = getRefreshedToken;
+            _getRefreshedToken = getRefreshedToken ?? throw new ArgumentNullException(nameof(getRefreshedToken));
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(
