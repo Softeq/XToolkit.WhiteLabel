@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Net.Http;
 using Softeq.XToolkit.Remote.Api;
 using Softeq.XToolkit.Remote.Client;
@@ -21,6 +22,11 @@ namespace Softeq.XToolkit.Remote
 
         public IRemoteService<T> Create<T>(string baseUrl)
         {
+            if (string.IsNullOrEmpty(baseUrl))
+            {
+                throw new ArgumentNullException(nameof(baseUrl), "Parameter can't be null or empty.");
+            }
+
             var httpClient = new HttpClientBuilder(baseUrl).Build();
 
             return Create<T>(httpClient);
@@ -28,6 +34,11 @@ namespace Softeq.XToolkit.Remote
 
         public IRemoteService<T> Create<T>(HttpClient httpClient)
         {
+            if (httpClient == null)
+            {
+                throw new ArgumentNullException(nameof(httpClient));
+            }
+
             var apiService = _apiServiceFactory.CreateService<T>(httpClient);
 
             return new RemoteService<T>(apiService, _executorBuilderFactory);
