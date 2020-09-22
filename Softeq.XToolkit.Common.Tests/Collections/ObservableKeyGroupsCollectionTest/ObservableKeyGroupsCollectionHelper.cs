@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using Softeq.XToolkit.Common.Collections;
+using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest
 {
@@ -28,7 +29,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public static IList<int> ItemsNull;
         public static IList<int> ItemsEmpty = new List<int>();
-        public static IList<int> ItemsFirst = new List<int> { 1, 2, 3, 4 };
+        private static readonly IList<int> ItemsFirst = new List<int> { 1, 2, 3, 4 };
         public static IList<int> ItemsSecond = new List<int> { 4, 5, 6, 7, 8 };
         public static IList<int> ItemsThird = new List<int> { 6, 7, 8 };
 
@@ -184,11 +185,216 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             return new List<TestItem<string, int>>
             {
-                new TestItem<string, int>(GroupKeyFirst, 11, 1),
+                new TestItem<string, int>(GroupKeyFirst, 11, 2),
                 new TestItem<string, int>(GroupKeySecond, 12, 1),
-                new TestItem<string, int>(GroupKeyFirst, 13, 0),
+                new TestItem<string, int>(GroupKeyFirst, 13, 2),
                 new TestItem<string, int>(GroupKeySecond, 14, 0)
             };
+        }
+
+        public static TheoryData<ObservableKeyGroupsCollection<string, int>> EmptyCollectionOptionsTestData
+            => new TheoryData<ObservableKeyGroupsCollection<string, int>>
+            {
+                CreateWithEmptyGroups(),
+                CreateWithoutEmptyGroups()
+            };
+
+        public static TheoryData<ObservableKeyGroupsCollection<string, int>> FillCollectionOptionsTestData
+            => new TheoryData<ObservableKeyGroupsCollection<string, int>>
+            {
+                CreateFilledGroupsWithEmpty(),
+                CreateFilledGroupsWithoutEmpty()
+            };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>,
+            ObservableKeyGroupsCollection<string, int>> InsertItemsListItemsWithExistKeysTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>,
+                ObservableKeyGroupsCollection<string, int>>
+            {
+                { CreateFilledGroupsWithEmpty(), CreateFillItemsListWithExistKeys(), InsertItemsListItemsWithExistKeysWithEmptyResult() },
+                { CreateFilledGroupsWithoutEmpty(), CreateFillItemsListWithExistKeys(), InsertItemsListItemsWithExistKeysWithoutEmptyResult() }
+            };
+
+        public static TheoryData<ObservableKeyGroupsCollection<string, int>, List<TestItem<string, int>>, int>
+            InsertItemsIndexOutOfBoundsTestData
+            => new TheoryData<ObservableKeyGroupsCollection<string, int>, List<TestItem<string, int>>, int>
+            {
+                { CreateFilledGroupsWithEmpty(), InserItemsWithExistKeys(), int.MinValue },
+                { CreateFilledGroupsWithoutEmpty(), InserItemsWithExistKeys(), int.MaxValue }
+            };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>,
+            ObservableKeyGroupsCollection<string, int>> RemoveItemsListItemsWithExistKeysTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>,
+                ObservableKeyGroupsCollection<string, int>>
+                {
+                        { CreateFilledGroupsWithEmpty(), RemovedExistItems(), RemoveItemsExistKeysWithEmptyResult() },
+                        { CreateFilledGroupsWithoutEmpty(), RemovedExistItems(), RemoveItemsExistKeysWithoutEmptyResult() }
+                };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>,
+            ObservableKeyGroupsCollection<string, int>> RemoveItemsAllItemsForExistKeyForbidEmptyTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>,
+                ObservableKeyGroupsCollection<string, int>>
+                {
+                    { CreateFilledGroupsWithoutEmpty(), RemoveItemsAllExistItemsForGroup(), RemoveItemsAllItemsForExistKeyForbidEmptyResult() }
+                };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>,
+            ObservableKeyGroupsCollection<string, int>> RemoveItemsAllItemsForExistKeyAllowEmptyTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>,
+                ObservableKeyGroupsCollection<string, int>>
+                {
+                    { CreateFilledGroupsWithEmpty(), RemoveItemsAllExistItemsForGroup(), RemoveItemsAllItemsForExistKeyAllowEmptyResult() }
+                };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>, int> RemoveItemsEventsTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>,
+                int>
+                {
+                        { CreateFilledGroupsWithEmpty(), RemoveItemsAllExistItemsForGroup(), 0 },
+                        { CreateFilledGroupsWithoutEmpty(), RemoveItemsAllExistItemsForGroup(), 1 }
+                };
+
+        private static List<TestItem<string, int>> InserItemsWithExistKeys()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyFirst, 11, 2),
+                new TestItem<string, int>(GroupKeySecond, 12, 1),
+                new TestItem<string, int>(GroupKeyFirst, 13, 2),
+                new TestItem<string, int>(GroupKeySecond, 14, 0)
+            };
+        }
+
+        private static ObservableKeyGroupsCollection<string, int> InsertItemsListItemsWithExistKeysWithEmptyResult()
+        {
+            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var items = new List<KeyValuePair<string, IList<int>>>
+            {
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 1, 2, 11, 13, 3, 4 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeySecond, new List<int> { 14, 12, 4, 5, 6, 7, 8 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeyEmpty, new List<int>()),
+            };
+
+            collection.AddGroups(items);
+
+            return collection;
+        }
+
+        private static ObservableKeyGroupsCollection<string, int> InsertItemsListItemsWithExistKeysWithoutEmptyResult()
+        {
+            var collection = new ObservableKeyGroupsCollection<string, int>(true);
+            var items = new List<KeyValuePair<string, IList<int>>>
+            {
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 1, 2, 11, 13, 3, 4 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeySecond, new List<int> { 14, 12, 4, 5, 6, 7, 8 }),
+            };
+
+            collection.AddGroups(items);
+
+            return collection;
+        }
+
+        private static List<TestItem<string, int>> RemovedExistItems()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyFirst, 1),
+                new TestItem<string, int>(GroupKeySecond, 5),
+                new TestItem<string, int>(GroupKeyFirst, 3),
+                new TestItem<string, int>(GroupKeySecond, 8)
+            };
+        }
+
+        private static ObservableKeyGroupsCollection<string, int> RemoveItemsExistKeysWithEmptyResult()
+        {
+            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var items = new List<KeyValuePair<string, IList<int>>>
+            {
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 2, 4 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeySecond, new List<int> { 4, 6, 7 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeyEmpty, new List<int>()),
+            };
+
+            collection.AddGroups(items);
+
+            return collection;
+        }
+
+        private static ObservableKeyGroupsCollection<string, int> RemoveItemsExistKeysWithoutEmptyResult()
+        {
+            var collection = new ObservableKeyGroupsCollection<string, int>(true);
+            var items = new List<KeyValuePair<string, IList<int>>>
+            {
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 2, 4 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeySecond, new List<int> { 4, 6, 7 }),
+            };
+
+            collection.AddGroups(items);
+
+            return collection;
+        }
+
+        private static List<TestItem<string, int>> RemoveItemsAllExistItemsForGroup()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyFirst, 1),
+                new TestItem<string, int>(GroupKeyFirst, 3),
+                new TestItem<string, int>(GroupKeySecond, 8),
+                new TestItem<string, int>(GroupKeySecond, 5),
+                new TestItem<string, int>(GroupKeyFirst, 2),
+                new TestItem<string, int>(GroupKeyFirst, 4),
+            };
+        }
+
+        private static ObservableKeyGroupsCollection<string, int> RemoveItemsAllItemsForExistKeyAllowEmptyResult()
+        {
+            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var items = new List<KeyValuePair<string, IList<int>>>
+            {
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int>()),
+                 new KeyValuePair<string, IList<int>>(GroupKeySecond, new List<int> { 4, 6, 7 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeyEmpty, new List<int>()),
+            };
+
+            collection.AddGroups(items);
+
+            return collection;
+        }
+
+        private static ObservableKeyGroupsCollection<string, int> RemoveItemsAllItemsForExistKeyForbidEmptyResult()
+        {
+            var collection = new ObservableKeyGroupsCollection<string, int>(true);
+            var items = new List<KeyValuePair<string, IList<int>>>
+            {
+                 new KeyValuePair<string, IList<int>>(GroupKeySecond, new List<int> { 4, 6, 7 }),
+            };
+
+            collection.AddGroups(items);
+
+            return collection;
         }
     }
 }
