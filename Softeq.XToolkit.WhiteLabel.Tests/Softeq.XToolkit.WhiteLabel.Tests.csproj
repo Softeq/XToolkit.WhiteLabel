@@ -16,9 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Location\" />
-    <Folder Include="Location\LocationModelTests\" />
-  </ItemGroup>
 </Project>
