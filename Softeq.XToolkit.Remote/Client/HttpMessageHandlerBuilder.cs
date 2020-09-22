@@ -4,7 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Reflection;
 
 namespace Softeq.XToolkit.Remote.Client
 {
@@ -71,21 +70,16 @@ namespace Softeq.XToolkit.Remote.Client
                 var handler = additionalHandlers[i];
                 if (handler == null)
                 {
-                    var message = string.Format("The '{0}' must not contain a null entry.", nameof(handler));
-                    throw new InvalidOperationException(message);
+                    throw new InvalidOperationException($"The '{nameof(handler)}' must not contain a null entry.");
                 }
 
                 // Checking for this allows us to catch cases where someone has tried to re-use a handler. That really won't
                 // work the way you want and it can be tricky for callers to figure out.
                 if (handler.InnerHandler != null)
                 {
-                    var message = string.Format(
-                        "The '{0}' property must be null. '{1}' instances provided to '{2}' must not be reused or cached.{3}Handler: '{4}'",
-                        nameof(DelegatingHandler.InnerHandler),
-                        nameof(DelegatingHandler),
-                        nameof(HttpMessageHandlerBuilder),
-                        Environment.NewLine,
-                        handler.ToString());
+                    var message = $"The '{nameof(DelegatingHandler.InnerHandler)}' property must be null. " +
+                        $"'{nameof(DelegatingHandler)}' instances provided to '{nameof(HttpMessageHandlerBuilder)}' must not be reused or cached." +
+                        $"{Environment.NewLine}Handler: '{handler}'";
 
                     throw new InvalidOperationException(message);
                 }
@@ -95,22 +89,6 @@ namespace Softeq.XToolkit.Remote.Client
             }
 
             return next;
-        }
-
-        private static HttpMessageHandler? _cachedNativeHttpMessageHandler;
-        protected static HttpMessageHandler? CreateDefaultHandler()
-        {
-            if (_cachedNativeHttpMessageHandler == null)
-            {
-                // HACK YP: need check, because linker can change assembly.
-                // Sources: https://github.com/mono/mono/blob/master/mcs/class/System.Net.Http/HttpClient.DefaultHandler.cs#L5
-
-                var createHandler = typeof(HttpClient).GetMethod("CreateDefaultHandler", BindingFlags.NonPublic | BindingFlags.Static);
-                var nativeHandler = createHandler?.Invoke(null, null);
-                _cachedNativeHttpMessageHandler = nativeHandler as HttpMessageHandler;
-            }
-
-            return _cachedNativeHttpMessageHandler;
         }
     }
 }
