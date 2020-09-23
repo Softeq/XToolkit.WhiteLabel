@@ -206,6 +206,30 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 CreateFilledGroupsWithoutEmpty()
             };
 
+        public static TheoryData<ObservableKeyGroupsCollection<string, int>> CollectionOptionsTestData
+            => new TheoryData<ObservableKeyGroupsCollection<string, int>>
+            {
+                CreateWithEmptyGroups(),
+                CreateWithoutEmptyGroups(),
+                CreateFilledGroupsWithEmpty(),
+                CreateFilledGroupsWithoutEmpty()
+            };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            IList<KeyValuePair<string, IList<int>>>> ReplaceGroupsWithItemsNullKeyTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                IList<KeyValuePair<string, IList<int>>>>
+            {
+                { CreateFilledGroupsWithEmpty(), PairNullKeyWithItems },
+                { CreateFilledGroupsWithoutEmpty(), PairNullKeyWithItems },
+                { CreateFilledGroupsWithEmpty(), PairNullKeyWithEmptyItems },
+                { CreateFilledGroupsWithoutEmpty(), PairNullKeyWithEmptyItems },
+                { CreateFilledGroupsWithEmpty(), PairNullKeyWithNullItems },
+                { CreateFilledGroupsWithoutEmpty(), PairNullKeyWithNullItems }
+            };
+
         public static TheoryData<
             ObservableKeyGroupsCollection<string, int>,
             List<TestItem<string, int>>,
@@ -266,14 +290,39 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public static TheoryData<
             ObservableKeyGroupsCollection<string, int>,
-            List<TestItem<string, int>>, int> RemoveItemsEventsTestData
+            List<TestItem<string, int>>,
+            List<string>> RemoveItemsEventsTestData
             => new TheoryData<
                 ObservableKeyGroupsCollection<string, int>,
                 List<TestItem<string, int>>,
-                int>
+                List<string>>
                 {
-                        { CreateFilledGroupsWithEmpty(), RemoveItemsAllExistItemsForGroup(), 0 },
-                        { CreateFilledGroupsWithoutEmpty(), RemoveItemsAllExistItemsForGroup(), 1 }
+                    { CreateFilledGroupsWithEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string>() },
+                    { CreateFilledGroupsWithoutEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string> { GroupKeyFirst } }
+                };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>,
+            ObservableKeyGroupsCollection<string, int>> ReplaceItemsListItemsTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>,
+                ObservableKeyGroupsCollection<string, int>>
+                {
+                    { CreateFilledGroupsWithEmpty(), ReplaceItemsItemsList(), ReplaceItemsListItemsResult() },
+                    { CreateFilledGroupsWithoutEmpty(), ReplaceItemsItemsList(), ReplaceItemsListItemsResult() }
+                };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>> ReplaceItemsEventsTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>>
+                {
+                    { CreateFilledGroupsWithEmpty(), ReplaceItemsItemsList() },
+                    { CreateFilledGroupsWithoutEmpty(), ReplaceItemsItemsList() }
                 };
 
         private static List<TestItem<string, int>> InserItemsWithExistKeys()
@@ -390,6 +439,30 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var items = new List<KeyValuePair<string, IList<int>>>
             {
                  new KeyValuePair<string, IList<int>>(GroupKeySecond, new List<int> { 4, 6, 7 }),
+            };
+
+            collection.AddGroups(items);
+
+            return collection;
+        }
+
+        private static List<TestItem<string, int>> ReplaceItemsItemsList()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyThird, 1),
+                new TestItem<string, int>(GroupKeyThird, 3),
+                new TestItem<string, int>(GroupKeyFirst, 4),
+            };
+        }
+
+        private static ObservableKeyGroupsCollection<string, int> ReplaceItemsListItemsResult()
+        {
+            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var items = new List<KeyValuePair<string, IList<int>>>
+            {
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int>() { 4 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeyThird, new List<int>() { 1, 3 }),
             };
 
             collection.AddGroups(items);

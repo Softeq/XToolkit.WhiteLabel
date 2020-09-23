@@ -518,7 +518,7 @@ namespace Softeq.XToolkit.Common.Collections
                 return null;
             }
 
-            if (items.Any(x => x.Value == null))
+            if (items.Any(x => x.Key == null || x.Value == null))
             {
                 throw new ArgumentNullException();
             }

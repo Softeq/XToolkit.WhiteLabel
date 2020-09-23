@@ -77,7 +77,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                     {
                         isKeysMatched = false;
                     }
-
                 }
                 else if (actualKeys.Count != 0)
                 {
