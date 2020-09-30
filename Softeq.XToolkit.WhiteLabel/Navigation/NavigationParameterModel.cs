@@ -4,7 +4,7 @@
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     /// <summary>
-    ///     Model for transferring information while navigating from one screento another.
+    ///     Model for transferring information while navigating from one screen to another.
     /// </summary>
     public class NavigationParameterModel
     {
