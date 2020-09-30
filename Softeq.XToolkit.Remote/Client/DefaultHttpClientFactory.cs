@@ -13,7 +13,10 @@ namespace Softeq.XToolkit.Remote.Client
         {
             var builder = new HttpClientBuilder(baseUrl);
 
-            AddLoggerIfNeeded(builder, logger);
+            if (logger != null)
+            {
+                builder.WithLogger(logger);
+            }
 
             return builder.Build();
         }
@@ -22,19 +25,14 @@ namespace Softeq.XToolkit.Remote.Client
         {
             var builder = new HttpClientBuilder(baseUrl);
 
-            AddLoggerIfNeeded(builder, logger);
-
-            builder.WithSessionContext(sessionContext);
-
-            return builder.Build();
-        }
-
-        protected static void AddLoggerIfNeeded(IHttpClientBuilder builder, ILogger? logger)
-        {
             if (logger != null)
             {
                 builder.WithLogger(logger);
             }
+
+            builder.WithSessionContext(sessionContext);
+
+            return builder.Build();
         }
     }
 }

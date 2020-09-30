@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Remote.Client
 
         public DefaultHttpMessageHandlerBuilder(HttpMessageHandler? primaryHandler)
         {
-            PrimaryHandler = primaryHandler;
+            PrimaryHandler = primaryHandler ?? throw new ArgumentNullException(nameof(primaryHandler));
             AdditionalHandlers = new List<DelegatingHandler>();
         }
 

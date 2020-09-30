@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.Remote.Tests.Auth.Handlers
 {
-    public static class AuthenticatedHttpClientHandlerTestsDataProvider
+    internal static class AuthenticatedHttpClientHandlerTestsDataProvider
     {
         private const string TestAuthHeaderSchema = "test-auth";
         public const string TestAuthTokenValue = "test-token-xxx";

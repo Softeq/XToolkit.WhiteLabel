@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Net.Http;
 
 namespace Softeq.XToolkit.Remote.Client
@@ -40,7 +41,8 @@ namespace Softeq.XToolkit.Remote.Client
         }
 
         /// <summary>
-        ///     Creates an <see cref="T:System.Net.Http.HttpMessageHandler"/>. Adds <see cref="T:System.Net.Http.DelegatingHandler"/> as the last link of the chain.
+        ///     Creates an <see cref="T:System.Net.Http.HttpMessageHandler"/>.
+        ///     Adds <see cref="T:System.Net.Http.DelegatingHandler"/> as the last link of the chain.
         /// </summary>
         /// <returns>
         ///     An <see cref="T:System.Net.Http.HttpMessageHandler"/> built from the <see cref="PrimaryHandler"/> and
@@ -48,26 +50,45 @@ namespace Softeq.XToolkit.Remote.Client
         /// </returns>
         public abstract HttpMessageHandler Build();
 
+        /// <summary>
+        ///     Creates an instance of an <see cref="T:System.Net.Http.HttpMessageHandler"/>
+        ///     using the <see cref="T:System.Net.Http.DelegatingHandler"/> instances
+        ///     provided by <paramref name="additionalHandlers"/>.
+        ///
+        ///     The resulting pipeline can be used to manually create <see cref="HttpClient"/>
+        ///     or <see cref="T:System.Net.Http.HttpMessageInvoker"/> instances with customized message handlers.
+        /// </summary>
+        /// <param name="primaryHandler">The inner handler represents the destination of the HTTP message channel.</param>
+        /// <param name="additionalHandlers">
+        ///     An ordered list of <see cref="T:System.Net.Http.DelegatingHandler"/> instances to be invoked as part
+        ///     of sending an <see cref="T:System.Net.Http.HttpRequestMessage"/> and receiving
+        ///     an <see cref="T:System.Net.Http.HttpResponseMessage"/>.
+        ///
+        ///     The handlers are invoked in a top-down fashion. That is, the first entry is invoked first for
+        ///     an outbound request message but last for an inbound response message.
+        /// </param>
+        /// <returns>The HTTP message channel.</returns>
         protected static HttpMessageHandler CreateHandlerPipeline(
             HttpMessageHandler primaryHandler,
-            IList<DelegatingHandler> additionalHandlers)
+            IList<DelegatingHandler>? additionalHandlers)
         {
-            // This is similar to https://github.com/aspnet/AspNetWebStack/blob/master/src/System.Net.Http.Formatting/HttpClientFactory.cs#L58
+            // This is similar to https://github.com/aspnet/AspNetWebStack/blob/1a987f82d648a95aabed7d35e4c2bee17185c44d/src/System.Net.Http.Formatting/HttpClientFactory.cs#L58
             // but we don't want to take that package as a dependency.
             if (primaryHandler == null)
             {
                 throw new ArgumentNullException(nameof(primaryHandler));
             }
 
-            if (additionalHandlers == null)
+            if (additionalHandlers == null || additionalHandlers.Count == 0)
             {
-                throw new ArgumentNullException(nameof(additionalHandlers));
+                return primaryHandler;
             }
 
-            var next = primaryHandler;
-            for (var i = additionalHandlers.Count - 1; i >= 0; i--)
+            // Wire handlers up in reverse order starting with the primary handler
+            HttpMessageHandler pipeline = primaryHandler;
+            IEnumerable<DelegatingHandler> reversedHandlers = additionalHandlers.Reverse();
+            foreach (DelegatingHandler handler in reversedHandlers)
             {
-                var handler = additionalHandlers[i];
                 if (handler == null)
                 {
                     throw new InvalidOperationException($"The '{nameof(handler)}' must not contain a null entry.");
@@ -78,17 +99,17 @@ namespace Softeq.XToolkit.Remote.Client
                 if (handler.InnerHandler != null)
                 {
                     var message = $"The '{nameof(DelegatingHandler.InnerHandler)}' property must be null. " +
-                        $"'{nameof(DelegatingHandler)}' instances provided to '{nameof(HttpMessageHandlerBuilder)}' must not be reused or cached." +
-                        $"{Environment.NewLine}Handler: '{handler}'";
+                      $"'{nameof(DelegatingHandler)}' instances provided to '{nameof(HttpMessageHandlerBuilder)}' must not be reused or cached." +
+                      $"{Environment.NewLine}Handler: '{handler}'";
 
                     throw new InvalidOperationException(message);
                 }
 
-                handler.InnerHandler = next;
-                next = handler;
+                handler.InnerHandler = pipeline;
+                pipeline = handler;
             }
 
-            return next;
+            return pipeline;
         }
     }
 }
