@@ -27,6 +27,11 @@ namespace Softeq.XToolkit.Remote.Auth.Handlers
             HttpRequestMessage request,
             CancellationToken cancellationToken)
         {
+            if (request.Headers.Authorization == null)
+            {
+                return await base.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            }
+
             const int RetryStatesCount = 2;
 
             return await Policy
