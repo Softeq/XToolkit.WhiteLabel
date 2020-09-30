@@ -11,10 +11,18 @@ using Softeq.XToolkit.Remote.Exceptions;
 
 namespace Softeq.XToolkit.Remote.Auth.Handlers
 {
+    /// <summary>
+    ///    The message handler to refreshing token when access token is expired.
+    /// </summary>
     public class RefreshTokenHttpClientHandler : AuthenticatedHttpClientHandler
     {
         private readonly Func<Task> _getRefreshedToken;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RefreshTokenHttpClientHandler"/> class.
+        /// </summary>
+        /// <param name="getAccessToken">Access token provider.</param>
+        /// <param name="getRefreshedToken">Provider to refresh token.</param>
         public RefreshTokenHttpClientHandler(
             Func<Task<string>> getAccessToken,
             Func<Task> getRefreshedToken)
