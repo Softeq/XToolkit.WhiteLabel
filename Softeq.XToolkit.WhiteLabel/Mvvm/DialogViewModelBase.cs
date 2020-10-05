@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         /// <summary>
-        ///     Gets the instance of <see cref="T:Softeq.XToolkit.WhiteLabel.Mvvm.DialogViewModelComponent"/>
+        ///     Gets the instance of <see cref="DialogViewModelComponent"/>
         ///     that contains all the required methods and properties
         ///     to close the dialog and track its state.
         /// </summary>
