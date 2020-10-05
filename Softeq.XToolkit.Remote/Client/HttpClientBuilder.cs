@@ -19,8 +19,13 @@ namespace Softeq.XToolkit.Remote.Client
 
         public HttpClientBuilder(string baseUrl, HttpMessageHandlerBuilder httpMessageHandlerBuilder)
         {
+            if (string.IsNullOrEmpty(baseUrl))
+            {
+                throw new ArgumentException("Can't be null or empty", nameof(baseUrl));
+            }
+
             _baseUrl = baseUrl;
-            _httpMessageHandlerBuilder = httpMessageHandlerBuilder;
+            _httpMessageHandlerBuilder = httpMessageHandlerBuilder ?? throw new ArgumentNullException(nameof(httpMessageHandlerBuilder));
         }
 
         /// <inheritdoc />

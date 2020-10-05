@@ -7,8 +7,13 @@ using Softeq.XToolkit.Remote.Auth;
 
 namespace Softeq.XToolkit.Remote.Client
 {
+    /// <summary>
+    ///     Default factory to create <see cref="T:System.Net.Http.HttpClient"/> instances
+    ///     with custom configuration.
+    /// </summary>
     public class DefaultHttpClientFactory : IHttpClientFactory
     {
+        /// <inheritdoc />
         public virtual HttpClient CreateClient(string baseUrl, ILogger? logger = null)
         {
             var builder = new HttpClientBuilder(baseUrl);
@@ -21,7 +26,11 @@ namespace Softeq.XToolkit.Remote.Client
             return builder.Build();
         }
 
-        public virtual HttpClient CreateAuthClient(string baseUrl, ISessionContext sessionContext, ILogger? logger = null)
+        /// <inheritdoc />
+        public virtual HttpClient CreateAuthClient(
+            string baseUrl,
+            ISessionContext sessionContext,
+            ILogger? logger = null)
         {
             var builder = new HttpClientBuilder(baseUrl);
 
