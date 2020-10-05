@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests
@@ -10,5 +11,10 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         public int IntParameter { get; set; }
         public string StringParameter { get; set; }
         public object ObjectParameter { get; set; }
+    }
+
+    public class ViewModelStub<T> : ViewModelBase, IViewModelParameter<T>
+    {
+        public T Parameter { get; set; }
     }
 }
