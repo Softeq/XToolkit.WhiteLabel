@@ -39,13 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Mvvm.ViewModelBaseTests
                 IsBusy = initialIsBusy
             };
 
-            var raisedEvent = Assert.Raises<PropertyChangedEventArgs>(
-                    handler => vm.PropertyChanged += (s, e) => handler.Invoke(s, e),
-                    handler => { },
-                    () => vm.IsBusy = changedIsBusy);
-
-            Assert.NotNull(raisedEvent);
-            Assert.Equal(nameof(vm.IsBusy), raisedEvent.Arguments.PropertyName);
+            Assert.PropertyChanged(vm, nameof(vm.IsBusy), () => vm.IsBusy = changedIsBusy);
         }
 
         [Theory]
@@ -58,10 +52,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Mvvm.ViewModelBaseTests
                 IsBusy = initialIsBusy
             };
 
-            Assert.Throws<RaisesException>(() => Assert.Raises<PropertyChangedEventArgs>(
-                handler => vm.PropertyChanged += (s, e) => handler.Invoke(s, e),
-                handler => { },
-                () => vm.IsBusy = initialIsBusy));
+            Assert.Throws<PropertyChangedException>(() =>
+                Assert.PropertyChanged(vm, nameof(vm.IsBusy), () => vm.IsBusy = initialIsBusy));
         }
     }
 }
