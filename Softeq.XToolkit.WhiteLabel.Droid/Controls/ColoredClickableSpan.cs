@@ -3,6 +3,7 @@
 
 using System;
 using Android.Content;
+using Android.Graphics;
 using Android.Text;
 using Android.Text.Style;
 using Android.Views;
@@ -18,9 +19,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
     {
         private readonly Context _context;
         private readonly Action _clickAction;
-        private readonly int _colorResourceId;
+        private readonly int? _colorResourceId;
 
-        public ColoredClickableSpan(Context context, Action clickAction, int colorResourceId)
+        public ColoredClickableSpan(Context context, Action clickAction, int? colorResourceId = null)
         {
             _context = context;
             _clickAction = clickAction;
@@ -36,7 +37,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         {
             base.UpdateDrawState(ds);
             ds.UnderlineText = false;
-            ds.BgColor = ContextCompat.GetColor(_context, _colorResourceId);
+            if (_colorResourceId.HasValue)
+            {
+                ds.Color = new Color(ContextCompat.GetColor(_context, _colorResourceId.Value));
+            }
         }
     }
 }
