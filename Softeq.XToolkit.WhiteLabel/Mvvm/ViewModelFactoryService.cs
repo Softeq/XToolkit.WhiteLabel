@@ -30,15 +30,6 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         /// <inheritdoc/>
-        public TViewModel ResolveViewModel<TViewModel, TParam>(TParam param)
-            where TViewModel : ObservableObject, IViewModelParameter<TParam>
-        {
-            var viewModel = _iocContainer.Resolve<TViewModel>();
-            viewModel.Parameter = param;
-            return viewModel;
-        }
-
-        /// <inheritdoc/>
         public TViewModel ResolveViewModel<TViewModel>() where TViewModel : ObservableObject
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();

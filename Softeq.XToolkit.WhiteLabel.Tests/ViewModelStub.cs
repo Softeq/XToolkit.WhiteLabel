@@ -12,9 +12,4 @@ namespace Softeq.XToolkit.WhiteLabel.Tests
         public string StringParameter { get; set; }
         public object ObjectParameter { get; set; }
     }
-
-    public class ViewModelStub<T> : ViewModelBase, IViewModelParameter<T>
-    {
-        public T Parameter { get; set; }
-    }
 }

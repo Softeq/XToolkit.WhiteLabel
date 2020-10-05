@@ -12,23 +12,6 @@ namespace Softeq.XToolkit.WhiteLabel.Interfaces
     public interface IViewModelFactoryService
     {
         /// <summary>
-        ///     Gets the instance of the specified ViewModel with the specified parameter.
-        /// </summary>
-        /// <typeparam name="TViewModel">
-        ///     Type of ViewModel to resolve.
-        /// </typeparam>
-        /// <typeparam name="TParam">
-        ///     Type of ViewModel parameter.
-        /// </typeparam>
-        /// <param name="param">ViewModel parameter.</param>
-        /// <returns>
-        ///     Instance of the <typeparamref name="TViewModel"/>
-        ///     with the Parameter property set to <paramref name="param"/>.
-        /// </returns>
-        TViewModel ResolveViewModel<TViewModel, TParam>(TParam param)
-            where TViewModel : ObservableObject, IViewModelParameter<TParam>;
-
-        /// <summary>
         ///     Gets the instance of the specified ViewModel.
         /// </summary>
         /// <typeparam name="TViewModel">
