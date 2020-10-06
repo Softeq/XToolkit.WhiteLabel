@@ -12,7 +12,7 @@ using Softeq.XToolkit.Remote.Exceptions;
 namespace Softeq.XToolkit.Remote.Auth.Handlers
 {
     /// <summary>
-    ///    The message handler to refreshing token when access token is expired.
+    ///    The message handler that refreshes token when the access token is expired.
     /// </summary>
     public class RefreshTokenHttpClientHandler : AuthenticatedHttpClientHandler
     {
