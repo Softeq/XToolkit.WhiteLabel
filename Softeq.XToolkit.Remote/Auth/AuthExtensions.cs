@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Remote.Auth
     public static class AuthExtensions
     {
         /// <summary>
-        ///    Configure <paramref name="httpClientBuilder"/> to handle Authorization header with Access and Refresh tokens.
+        ///    Configures <paramref name="httpClientBuilder"/> to handle Authorization header with Access and Refresh tokens.
         /// </summary>
         /// <param name="httpClientBuilder">Target builder.</param>
         /// <param name="sessionContext">Session context instance.</param>
