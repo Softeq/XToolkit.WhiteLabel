@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Remote.Tests.Api
         }
 
         [Fact]
-        public void CreateService_HttpClient_ThrowsArgumentNullException()
+        public void CreateService_HttpClient_ReturnsCorrectInstance()
         {
             var httpClient = Substitute.For<HttpClient>();
 
