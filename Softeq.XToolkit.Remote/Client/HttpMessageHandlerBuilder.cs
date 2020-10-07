@@ -32,9 +32,17 @@ namespace Softeq.XToolkit.Remote.Client
         ///     Adds a <see cref="T:System.Net.Http.HttpMessageHandler"/> to the chain of handlers.
         /// </summary>
         /// <param name="handler">Handler.</param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     When the <paramref name="handler"/> parameter is null.
+        /// </exception>
         /// <returns>Current builder.</returns>
         public HttpMessageHandlerBuilder AddHandler(DelegatingHandler handler)
         {
+            if (handler == null)
+            {
+                throw new ArgumentNullException(nameof(handler));
+            }
+
             AdditionalHandlers.Add(handler);
 
             return this;

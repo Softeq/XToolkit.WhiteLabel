@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.Remote.Tests.Auth.Handlers.RefreshTokenHttpClientHandl
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = new RefreshTokenHttpClientHandler(null!, getRefreshToken);
+                new RefreshTokenHttpClientHandler(null!, getRefreshToken);
             });
         }
 
@@ -60,7 +60,7 @@ namespace Softeq.XToolkit.Remote.Tests.Auth.Handlers.RefreshTokenHttpClientHandl
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = new RefreshTokenHttpClientHandler(getAccessToken, null!);
+                new RefreshTokenHttpClientHandler(getAccessToken, null!);
             });
         }
 

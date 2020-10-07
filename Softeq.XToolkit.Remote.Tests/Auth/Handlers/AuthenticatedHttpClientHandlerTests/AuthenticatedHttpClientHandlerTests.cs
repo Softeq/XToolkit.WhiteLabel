@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.Remote.Tests.Auth.Handlers.AuthenticatedHttpClientHand
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                var _ = new AuthenticatedHttpClientHandler(null!);
+                new AuthenticatedHttpClientHandler(null!);
             });
         }
 
