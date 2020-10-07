@@ -11,6 +11,21 @@ namespace Softeq.XToolkit.Remote.Client
     {
         private static HttpMessageHandler? _cachedNativeHttpMessageHandler;
 
+        /// <summary>
+        ///     Creates default system <see cref="T:System.Net.Http.HttpClientHandler"/> instance, depends on platform:
+        ///     .NET Core (<see cref="T:System.Net.Http.HttpClientHandler"/>),
+        ///     Apple (<see cref="T:System.Net.Http.NSUrlSessionHandler"/>),
+        ///     Android (<see cref="T:Xamarin.Android.Net.AndroidClientHandler"/>).
+        /// </summary>
+        /// <remarks>
+        ///     Uses reflection to create private default <see cref="T:System.Net.Http.HttpClientHandler"/> instance
+        ///     from <see cref="T:System.Net.Http.HttpClient"/> class.
+        ///
+        ///     Also, see how to setup default http stack for:
+        ///     <see href="https://docs.microsoft.com/en-us/xamarin/cross-platform/macios/http-stack">iOS</see>
+        ///     <see href="https://docs.microsoft.com/en-us/xamarin/android/app-fundamentals/http-stack?tabs=macos">Android</see>.
+        /// </remarks>
+        /// <returns>New instance of <see cref="T:System.Net.Http.HttpClientHandler"/>.</returns>
         public static HttpMessageHandler? CreateDefaultHandler()
         {
             if (!IsRunningOnMono)
