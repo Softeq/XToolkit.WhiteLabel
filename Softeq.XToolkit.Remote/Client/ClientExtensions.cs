@@ -2,41 +2,33 @@
 // http://www.softeq.com
 
 using System;
-using System.Threading.Tasks;
-using Softeq.XToolkit.Remote.Auth.Handlers;
-using Softeq.XToolkit.Remote.Client;
+using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.Remote.Client.Handlers;
 
-namespace Softeq.XToolkit.Remote.Auth
+namespace Softeq.XToolkit.Remote.Client
 {
-    public static class AuthExtensions
+    public static class ClientExtensions
     {
         /// <summary>
         ///    Configures <paramref name="httpClientBuilder"/> to handle Authorization header with Access and Refresh tokens.
         /// </summary>
         /// <param name="httpClientBuilder">Target builder.</param>
-        /// <param name="sessionContext">Session context instance.</param>
+        /// <param name="logger">Logger instance.</param>
         /// <returns>Modified builder.</returns>
         /// <exception cref="T:System.ArgumentNullException">
         ///     When the <paramref name="httpClientBuilder"/> parameter cannot be <see langword="null"/> or
-        ///     the <paramref name="sessionContext"/> parameter cannot be <see langword="null"/>.
+        ///     the <paramref name="logger"/> parameter cannot be <see langword="null"/>.
         /// </exception>
-        public static IHttpClientBuilder WithSessionContext(
+        public static IHttpClientBuilder WithLogger(
             this IHttpClientBuilder httpClientBuilder,
-            ISessionContext sessionContext)
+            ILogger logger)
         {
             if (httpClientBuilder == null)
             {
                 throw new ArgumentNullException(nameof(httpClientBuilder));
             }
 
-            if (sessionContext == null)
-            {
-                throw new ArgumentNullException(nameof(sessionContext));
-            }
-
-            var handler = new RefreshTokenHttpClientHandler(
-                () => Task.FromResult(sessionContext.AccessToken),
-                sessionContext.RefreshTokenAsync);
+            var handler = new HttpDiagnosticsHandler(logger);
 
             return httpClientBuilder.AddHandler(handler);
         }
