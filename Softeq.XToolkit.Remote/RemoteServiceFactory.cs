@@ -9,6 +9,10 @@ using Softeq.XToolkit.Remote.Executor;
 
 namespace Softeq.XToolkit.Remote
 {
+    /// <summary>
+    ///     Default factory to create <see cref="IRemoteService{T}"/> instances
+    ///     with custom configuration.
+    /// </summary>
     public class RemoteServiceFactory : IRemoteServiceFactory
     {
         private readonly IApiServiceFactory _apiServiceFactory;
@@ -20,6 +24,7 @@ namespace Softeq.XToolkit.Remote
             _executorBuilderFactory = new DefaultExecutorBuilderFactory();
         }
 
+        /// <inheritdoc />
         public IRemoteService<T> Create<T>(string baseUrl)
         {
             if (string.IsNullOrEmpty(baseUrl))
@@ -32,6 +37,7 @@ namespace Softeq.XToolkit.Remote
             return Create<T>(httpClient);
         }
 
+        /// <inheritdoc />
         public IRemoteService<T> Create<T>(HttpClient httpClient)
         {
             if (httpClient == null)
