@@ -2,35 +2,36 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
 using System.Net.Http;
 
 namespace Softeq.XToolkit.Remote.Client
 {
     public class DefaultHttpMessageHandlerBuilder : HttpMessageHandlerBuilder
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DefaultHttpMessageHandlerBuilder"/> class.
+        ///     With default primary handler provided by <see cref="HttpMessageHandlerProvider"/>.
+        /// </summary>
         public DefaultHttpMessageHandlerBuilder()
-            : this(HttpMessageHandlerProvider.CreateDefaultHandler())
+            : this(HttpMessageHandlerProvider.CreateDefaultHandler()!)
         {
         }
 
-        public DefaultHttpMessageHandlerBuilder(HttpMessageHandler? primaryHandler)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DefaultHttpMessageHandlerBuilder"/> class.
+        /// </summary>
+        /// <param name="primaryHandler">Primary HttpMessageHandler.</param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     When the <paramref name="primaryHandler"/> is <see langword="null"/>.
+        /// </exception>
+        public DefaultHttpMessageHandlerBuilder(HttpMessageHandler primaryHandler)
         {
             PrimaryHandler = primaryHandler ?? throw new ArgumentNullException(nameof(primaryHandler));
-            AdditionalHandlers = new List<DelegatingHandler>();
         }
-
-        /// <inheritdoc />
-        public override IList<DelegatingHandler> AdditionalHandlers { get; }
 
         /// <inheritdoc />
         public override HttpMessageHandler Build()
         {
-            if (PrimaryHandler == null)
-            {
-                throw new InvalidOperationException($"The '{nameof(PrimaryHandler)}' must not be null.");
-            }
-
             return CreateHandlerPipeline(PrimaryHandler, AdditionalHandlers);
         }
     }

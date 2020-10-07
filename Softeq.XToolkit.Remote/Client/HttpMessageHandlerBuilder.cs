@@ -18,18 +18,19 @@ namespace Softeq.XToolkit.Remote.Client
     public abstract class HttpMessageHandlerBuilder
     {
         /// <summary>
-        ///     Gets or sets the primary <see cref="T:System.Net.Http.HttpMessageHandler"/>.
+        ///     Gets or sets the primary <see cref="T:System.Net.Http.HttpMessageHandler"/> that
+        ///     represents the destination of the HTTP message channel.
         /// </summary>
-        public virtual HttpMessageHandler? PrimaryHandler { get; set; }
+        public HttpMessageHandler PrimaryHandler { get; set; } = null!;
 
         /// <summary>
         ///     Gets a list of additional <see cref="T:System.Net.Http.DelegatingHandler"/> instances used to configure an
         ///     <see cref="T:System.Net.Http.HttpClient"/> pipeline.
         /// </summary>
-        public abstract IList<DelegatingHandler> AdditionalHandlers { get; }
+        public IList<DelegatingHandler> AdditionalHandlers { get; } = new List<DelegatingHandler>();
 
         /// <summary>
-        ///     Adds a <see cref="T:System.Net.Http.HttpMessageHandler"/> to the chain of handlers.
+        ///     Adds a <see cref="T:System.Net.Http.HttpMessageHandler"/> to the end of the handlers list.
         /// </summary>
         /// <param name="handler">Handler.</param>
         /// <exception cref="T:System.ArgumentNullException">
@@ -51,6 +52,9 @@ namespace Softeq.XToolkit.Remote.Client
         /// <summary>
         ///     Creates an <see cref="T:System.Net.Http.HttpMessageHandler"/>.
         ///     Adds <see cref="T:System.Net.Http.DelegatingHandler"/> as the last link of the chain.
+        ///
+        ///     The handlers are invoked in a top-down fashion. That is, the first entry is invoked first for
+        ///     an outbound request message but last for an inbound response message.
         /// </summary>
         /// <returns>
         ///     An <see cref="T:System.Net.Http.HttpMessageHandler"/> built from the <see cref="PrimaryHandler"/> and
