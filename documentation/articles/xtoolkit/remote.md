@@ -163,4 +163,7 @@ var result = await remoteService.MakeRequest(
     options);
 ```
 
+## Examples
+
+- [RemoteApp](https://github.com/Softeq/XToolkit.WhiteLabel/tree/master/samples/RemoteApp)
 ---
