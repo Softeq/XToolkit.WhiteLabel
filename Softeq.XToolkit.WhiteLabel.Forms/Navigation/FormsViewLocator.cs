@@ -24,6 +24,11 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                 {
                     return FindNavigationForViewModel(masterDetailPage.Detail.Navigation, viewModel);
                 }
+
+                if (page is TabbedPage tabbedPage)
+                {
+                    return FindNavigationForViewModel(tabbedPage.CurrentPage.Navigation, viewModel);
+                }
             }
 
             return null;
