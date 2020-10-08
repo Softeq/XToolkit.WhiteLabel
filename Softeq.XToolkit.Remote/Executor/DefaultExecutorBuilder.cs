@@ -18,6 +18,7 @@ namespace Softeq.XToolkit.Remote.Executor
     {
         private readonly IList<IAsyncPolicy> _policies = new List<IAsyncPolicy>();
 
+        // Ignore RefreshTokenHttpClientHandler exceptions.
         protected readonly Type[] AllowedExceptions =
         {
             typeof(InvalidOperationException),
@@ -34,6 +35,11 @@ namespace Softeq.XToolkit.Remote.Executor
         /// <inheritdoc />
         public IExecutorBuilder WithRetry(int retryCount, Func<Exception, bool> shouldRetry)
         {
+            if (shouldRetry == null)
+            {
+                throw new ArgumentNullException(nameof(shouldRetry));
+            }
+
             _policies.Add(CreateRetryPolicy(retryCount, shouldRetry));
             return this;
         }
@@ -41,7 +47,12 @@ namespace Softeq.XToolkit.Remote.Executor
         /// <inheritdoc />
         public IAsyncPolicy Build()
         {
-            return Policy.WrapAsync(_policies.ToArray());
+            if (_policies.Count > 0)
+            {
+                return Policy.WrapAsync(_policies.ToArray());
+            }
+
+            return Policy.NoOpAsync();
         }
 
         protected virtual AsyncTimeoutPolicy CreateTimeoutPolicy(int timeout)
