@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.Remote.Primitives
         public Func<Exception, bool> ShouldRetry { get; set; } = DefaultShouldRetry;
 
         /// <summary>
-        ///     Gets or sets token to cancel the request.
+        ///     Gets or sets token for canceling the request.
         /// </summary>
         public CancellationToken CancellationToken { get; set; } = DefaultCancellationToken;
 
