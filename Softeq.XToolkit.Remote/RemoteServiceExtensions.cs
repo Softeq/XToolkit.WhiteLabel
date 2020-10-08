@@ -13,6 +13,7 @@ namespace Softeq.XToolkit.Remote
     {
         /// <summary>
         ///     Make a safe remote request with getting result and logging errors.
+        ///     Returns <see langword="null"/> when an exception was thrown during execution.
         /// </summary>
         /// <param name="remoteService">Instance of <see cref="IRemoteService{TApiService}"/>.</param>
         /// <param name="operation">
