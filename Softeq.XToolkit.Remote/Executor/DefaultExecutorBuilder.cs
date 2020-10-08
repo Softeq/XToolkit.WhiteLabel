@@ -11,6 +11,9 @@ using Softeq.XToolkit.Remote.Exceptions;
 
 namespace Softeq.XToolkit.Remote.Executor
 {
+    /// <summary>
+    ///     The default builder for configuring Polly <see cref="T:Polly.IAsyncPolicy"/> instances.
+    /// </summary>
     public class DefaultExecutorBuilder : IExecutorBuilder
     {
         private readonly IList<IAsyncPolicy> _policies = new List<IAsyncPolicy>();
@@ -21,18 +24,21 @@ namespace Softeq.XToolkit.Remote.Executor
             typeof(ExpiredRefreshTokenException)
         };
 
+        /// <inheritdoc />
         public IExecutorBuilder WithTimeout(int timeout)
         {
             _policies.Add(CreateTimeoutPolicy(timeout));
             return this;
         }
 
+        /// <inheritdoc />
         public IExecutorBuilder WithRetry(int retryCount, Func<Exception, bool> shouldRetry)
         {
             _policies.Add(CreateRetryPolicy(retryCount, shouldRetry));
             return this;
         }
 
+        /// <inheritdoc />
         public IAsyncPolicy Build()
         {
             return Policy.WrapAsync(_policies.ToArray());
