@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// </summary>
         /// <param name="baseUrl">The base address is used in HttpClient.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        ///     When the <paramref name="baseUrl"/> parameter is null or is an empty string.
+        ///     When the <paramref name="baseUrl"/> parameter is <see langword="null"/> or an empty string.
         /// </exception>
         public HttpClientBuilder(string baseUrl)
             : this(baseUrl, new DefaultHttpMessageHandlerBuilder())
