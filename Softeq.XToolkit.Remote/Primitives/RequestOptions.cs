@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.Remote.Primitives
 
         /// <summary>
         ///     Gets default should retry condition.
-        ///     Default value is "() => true" - always retry.
+        ///     The value is "() => true" - always retry.
         /// </summary>
         public static Func<Exception, bool> DefaultShouldRetry { get; } = _ => true;
 
