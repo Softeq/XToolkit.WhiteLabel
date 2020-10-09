@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Remote.Primitives
         public static CancellationToken DefaultCancellationToken { get; } = CancellationToken.None;
 
         /// <summary>
-        ///     Gets or sets the count of request retries when errors happened.
+        ///     Gets or sets the number of request retries when errors happen.
         ///     Default value is <see cref="DefaultRetryCount"/>.
         /// </summary>
         public int RetryCount { get; set; } = DefaultRetryCount;
