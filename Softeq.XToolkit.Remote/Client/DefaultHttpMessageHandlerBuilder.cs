@@ -9,8 +9,8 @@ namespace Softeq.XToolkit.Remote.Client
     public class DefaultHttpMessageHandlerBuilder : HttpMessageHandlerBuilder
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="DefaultHttpMessageHandlerBuilder"/> class.
-        ///     With default primary handler provided by <see cref="HttpMessageHandlerProvider"/>.
+        ///     Initializes a new instance of the <see cref="DefaultHttpMessageHandlerBuilder"/> class
+        ///     with default primary handler provided by <see cref="HttpMessageHandlerProvider"/>.
         /// </summary>
         public DefaultHttpMessageHandlerBuilder()
             : this(HttpMessageHandlerProvider.CreateDefaultHandler()!)
