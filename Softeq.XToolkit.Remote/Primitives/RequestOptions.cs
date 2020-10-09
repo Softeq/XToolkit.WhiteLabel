@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Remote.Primitives
         public int Timeout { get; set; } = DefaultTimeout;
 
         /// <summary>
-        ///     Gets or sets the condition when request should be retry.
+        ///     Gets or sets the condition when the request should be retried.
         ///     Default value is <see cref="DefaultShouldRetry"/>.
         /// </summary>
         public Func<Exception, bool> ShouldRetry { get; set; } = DefaultShouldRetry;
