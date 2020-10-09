@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.Remote.Primitives
 
         /// <summary>
         ///     Gets default cancellation token.
-        ///     Default value is <see cref="P:System.Threading.CancellationToken.None"/>.
+        ///     The value is <see cref="P:System.Threading.CancellationToken.None"/>.
         /// </summary>
         public static CancellationToken DefaultCancellationToken { get; } = CancellationToken.None;
 
