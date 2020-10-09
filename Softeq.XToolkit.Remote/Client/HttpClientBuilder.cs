@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// <summary>
         ///     Initializes a new instance of the <see cref="HttpClientBuilder"/> class with custom HttpMessageHandler builder.
         /// </summary>
-        /// <param name="baseUrl">The base address is used in HttpClient.</param>
+        /// <param name="baseUrl">The base address that is used in HttpClient.</param>
         /// <param name="httpMessageHandlerBuilder">Builder to create a chain of HttpMessageHandler.</param>
         /// <exception cref="T:System.ArgumentNullException">
         ///     When the <paramref name="baseUrl"/> parameter is <see langword="null"/> or an empty string.
