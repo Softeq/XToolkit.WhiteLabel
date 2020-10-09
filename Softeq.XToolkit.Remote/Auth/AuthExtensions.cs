@@ -17,8 +17,8 @@ namespace Softeq.XToolkit.Remote.Auth
         /// <param name="sessionContext">Session context instance.</param>
         /// <returns>Modified builder.</returns>
         /// <exception cref="T:System.ArgumentNullException">
-        ///     When the <paramref name="httpClientBuilder"/> parameter cannot be <see langword="null"/> or
-        ///     the <paramref name="sessionContext"/> parameter cannot be <see langword="null"/>.
+        ///     When the <paramref name="httpClientBuilder"/> parameter is <see langword="null"/> or
+        ///     the <paramref name="sessionContext"/> parameter is <see langword="null"/>.
         /// </exception>
         public static IHttpClientBuilder WithSessionContext(
             this IHttpClientBuilder httpClientBuilder,
