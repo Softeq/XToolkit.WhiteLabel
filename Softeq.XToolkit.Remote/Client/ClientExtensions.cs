@@ -28,6 +28,11 @@ namespace Softeq.XToolkit.Remote.Client
                 throw new ArgumentNullException(nameof(httpClientBuilder));
             }
 
+            if (logger == null)
+            {
+                throw new ArgumentNullException(nameof(logger));
+            }
+
             var handler = new HttpDiagnosticsHandler(logger);
 
             return httpClientBuilder.AddHandler(handler);

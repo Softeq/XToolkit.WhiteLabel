@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// <summary>
         ///     Creates an <see cref="T:System.Net.Http.HttpMessageHandler"/>.
         ///     Adds <see cref="T:System.Net.Http.DelegatingHandler"/> as the last link of the chain.
-        ///
+        ///     <para/>
         ///     The handlers are invoked in a top-down fashion. That is, the first entry is invoked first for
         ///     an outbound request message but last for an inbound response message.
         /// </summary>
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.Remote.Client
         ///     Creates an instance of an <see cref="T:System.Net.Http.HttpMessageHandler"/>
         ///     using the <see cref="T:System.Net.Http.DelegatingHandler"/> instances
         ///     provided by <paramref name="additionalHandlers"/>.
-        ///
+        ///     <para/>
         ///     The resulting pipeline can be used to manually create <see cref="HttpClient"/>
         ///     or <see cref="T:System.Net.Http.HttpMessageInvoker"/> instances with customized message handlers.
         /// </summary>
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.Remote.Client
         ///     An ordered list of <see cref="T:System.Net.Http.DelegatingHandler"/> instances to be invoked as part
         ///     of sending an <see cref="T:System.Net.Http.HttpRequestMessage"/> and receiving
         ///     an <see cref="T:System.Net.Http.HttpResponseMessage"/>.
-        ///
+        ///     <para/>
         ///     The handlers are invoked in a top-down fashion. That is, the first entry is invoked first for
         ///     an outbound request message but last for an inbound response message.
         /// </param>
