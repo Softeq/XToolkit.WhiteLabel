@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Remote
         /// </param>
         /// <param name="cancellationToken">Token for canceling the request.</param>
         /// <param name="logger">Instance of <see cref="ILogger"/> (optional).</param>
-        /// <typeparam name="TApiService">Type of API service.</typeparam>
+        /// <typeparam name="TApiService">The type of API service.</typeparam>
         /// <typeparam name="TResult">The type of request result.</typeparam>
         /// <returns>Task with result.</returns>
         public static async Task<TResult> SafeRequest<TApiService, TResult>(
