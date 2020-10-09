@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Remote
         IRemoteService<T> Create<T>(string baseUrl);
 
         /// <summary>
-        ///     Creates instance of <see cref="IRemoteService{T}"/> for <paramref name="httpClient"/>.
+        ///     Creates an instance of <see cref="IRemoteService{T}"/> for <paramref name="httpClient"/>.
         /// </summary>
         /// <param name="httpClient">Custom instance of <see cref="T:System.Net.Http.HttpClient"/>.</param>
         /// <typeparam name="T">Type of Refit interface.</typeparam>
