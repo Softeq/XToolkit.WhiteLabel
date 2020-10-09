@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// </summary>
         /// <param name="handler">Handler.</param>
         /// <exception cref="T:System.ArgumentNullException">
-        ///     When the <paramref name="handler"/> parameter is null.
+        ///     When the <paramref name="handler"/> parameter is <see langword="null"/>.
         /// </exception>
         /// <returns>Current builder.</returns>
         public HttpMessageHandlerBuilder AddHandler(DelegatingHandler handler)
