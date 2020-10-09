@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.Remote.Executor
         ///      Add a retry policy to the executor.
         /// </summary>
         /// <param name="retryCount">The count of request retries when errors happened.</param>
-        /// <param name="shouldRetry">The condition when request should be retry.</param>
+        /// <param name="shouldRetry">The condition when the request should be retried.</param>
         /// <returns>Modified instance of <see cref="IExecutorBuilder"/>.</returns>
         IExecutorBuilder WithRetry(int retryCount, Func<Exception, bool> shouldRetry);
 
