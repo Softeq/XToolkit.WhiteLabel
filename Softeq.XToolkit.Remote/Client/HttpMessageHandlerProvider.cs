@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Remote.Client
         private static HttpMessageHandler? _cachedNativeHttpMessageHandler;
 
         /// <summary>
-        ///     Creates default system <see cref="T:System.Net.Http.HttpClientHandler"/> instance, depends on platform:
+        ///     Creates default system <see cref="T:System.Net.Http.HttpClientHandler"/> instance, depends on the platform:
         ///     .NET Core (<see cref="T:System.Net.Http.HttpClientHandler"/>),
         ///     Apple (<see cref="T:System.Net.Http.NSUrlSessionHandler"/>),
         ///     Android (<see cref="T:Xamarin.Android.Net.AndroidClientHandler"/>).
