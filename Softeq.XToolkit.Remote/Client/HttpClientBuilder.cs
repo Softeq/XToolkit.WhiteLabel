@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.Remote.Client
 
         /// <inheritdoc />
         /// <exception cref="T:System.ArgumentNullException">
-        ///     When the <paramref name="delegatingHandler"/> parameter is null.
+        ///     When the <paramref name="delegatingHandler"/> parameter is <see langword="null"/>.
         /// </exception>
         public IHttpClientBuilder AddHandler(DelegatingHandler delegatingHandler)
         {
