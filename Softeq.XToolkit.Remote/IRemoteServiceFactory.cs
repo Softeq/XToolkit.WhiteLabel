@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Remote
     public interface IRemoteServiceFactory
     {
         /// <summary>
-        ///     Creates instance of <see cref="IRemoteService{T}"/> for <paramref name="baseUrl"/>.
+        ///     Creates an instance of <see cref="IRemoteService{T}"/> for <paramref name="baseUrl"/>.
         /// </summary>
         /// <param name="baseUrl">The base address used when sending requests.</param>
         /// <typeparam name="T">Type of Refit interface.</typeparam>
