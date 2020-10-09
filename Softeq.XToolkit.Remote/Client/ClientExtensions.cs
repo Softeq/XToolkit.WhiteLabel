@@ -16,8 +16,8 @@ namespace Softeq.XToolkit.Remote.Client
         /// <param name="logger">Logger instance.</param>
         /// <returns>Modified builder.</returns>
         /// <exception cref="T:System.ArgumentNullException">
-        ///     When the <paramref name="httpClientBuilder"/> parameter cannot be <see langword="null"/> or
-        ///     the <paramref name="logger"/> parameter cannot be <see langword="null"/>.
+        ///     When the <paramref name="httpClientBuilder"/> parameter is <see langword="null"/> or
+        ///     the <paramref name="logger"/> parameter is <see langword="null"/>.
         /// </exception>
         public static IHttpClientBuilder WithLogger(
             this IHttpClientBuilder httpClientBuilder,
