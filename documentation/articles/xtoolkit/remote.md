@@ -57,7 +57,7 @@ var httpClient = new HttpClient
 };
 ```
 
-> The library provides an advanced way to create HttpClient. See `DefaultHttpClientFactory`, `HttpClientBuilder`.
+> The library provides an advanced way to create HttpClient. See [DefaultHttpClientFactory](xref:Softeq.XToolkit.Remote.Client.DefaultHttpClientFactory), [HttpClientBuilder](xref:Softeq.XToolkit.Remote.Client.HttpClientBuilder).
 
 ### Step 3
 
@@ -65,6 +65,7 @@ Create instance of RemoteService:
 
 ```cs
 var remoteServiceFactory = new RemoteServiceFactory();
+
 var remoteService = remoteServiceFactory.Create<IApi>(httpClient);
 ```
 
@@ -81,6 +82,17 @@ Make simple request:
 var result = await remoteService.MakeRequest((s, ct) => s.GetHomePage());
 ```
 
+or safe call example:
+
+```cs
+ILogger logger = ...;
+
+var result = await remoteService.SafeRequest(
+    (s, ct) => s.GetHomePage(),
+    CancellationToken.None,
+    logger)
+````
+
 ## Advanced
 
 ### Custom primary handler
@@ -94,8 +106,10 @@ var customPrimaryHandler = new SocketsHttpHandler();
 Use custom handler for HttpClientBuilder:
 
 ```cs
-var httpMessageHandler = new DefaultHttpMessageHandlerBuilder(customPrimaryHandler);
-var httpClientBuilder = new HttpClientBuilder("https://google.com", httpMessageHandler);
+var messageHandlerBuilder = new DefaultHttpMessageHandlerBuilder(customPrimaryHandler);
+
+var httpClientBuilder = new HttpClientBuilder("https://softeq.com", messageHandlerBuilder);
+
 var httpClient = httpClientBuilder.Build();
 ```
 
@@ -103,7 +117,37 @@ var httpClient = httpClientBuilder.Build();
 
 > HttpClient <- [DefaultHttpClientFactory] <- HttpClientBuilder <- [DefaultHttpMessageHandlerBuilder] <- HttpMessageHandler
 
-// TODO:
+#### Enable logging
+
+Create HttpClient with pre-configure logging:
+
+1. Create any `ILogger` instance:
+
+```cs
+ILogger logger = ...;
+```
+
+2. via [IHttpClientFactory](xref:Softeq.XToolkit.Remote.Client.IHttpClientFactory):
+
+```cs
+var httpClientFactory = new DefaultHttpClientFactory();
+
+var httpClient = httpClientFactory.CreateClient("https://softeq.com", logger);
+```
+
+2. via [HttpClientBuilder](xref:Softeq.XToolkit.Remote.Client.HttpClientBuilder):
+
+```cs
+var httpClient = new HttpClientBuilder("https://softeq.com")
+    .WithLogger(logger)
+    .Build();
+```
+
+3. Use configured HttpClient:
+
+```cs
+var remoteService = remoteServiceFactory.Create<IApi>(httpClient);
+```
 
 ### Request options
 
@@ -113,13 +157,13 @@ var options = new RequestOptions
     Timeout = 5,
     RetryCount = 2
 };
-var result = await remoteService.MakeRequest((s, ct) => s.GetHomePage(), options);
+
+var result = await remoteService.MakeRequest(
+    (s, ct) => s.GetHomePage(),
+    options);
 ```
 
-### Enable logging
+## Examples
 
-- Create HttpClient with pre-configure logging.
-
-// TODO:
-
+- [RemoteApp](https://github.com/Softeq/XToolkit.WhiteLabel/tree/master/samples/RemoteApp)
 ---

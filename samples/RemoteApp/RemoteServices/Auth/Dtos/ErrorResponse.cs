@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Newtonsoft.Json;
+using Newtonsoft.Json;
 
 namespace RemoteServices.Auth.Dtos
 {
