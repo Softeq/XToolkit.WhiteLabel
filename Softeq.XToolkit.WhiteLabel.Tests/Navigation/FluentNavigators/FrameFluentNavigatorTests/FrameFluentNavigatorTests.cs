@@ -36,7 +36,13 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FrameFlue
         }
 
         [Fact]
-        public void Initialize_InitializesNavigationService()
+        public void Initialize_Null_ThrowsCorrectException()
+        {
+            Assert.Throws<ArgumentNullException>(() => _navigator.Initialize(null));
+        }
+
+        [Fact]
+        public void Initialize_NotNull_InitializesNavigationService()
         {
             var param = new object();
             _navigator.Initialize(param);

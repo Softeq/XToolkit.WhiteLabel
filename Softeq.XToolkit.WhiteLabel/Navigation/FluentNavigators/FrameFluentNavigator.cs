@@ -80,8 +80,16 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         ///      Navigation object (usually platform-specific) that is used for initialization.
         /// </param>
         /// <returns>Self.</returns>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="initParameter"/> cannot be <see langword="null"/>.
+        /// </exception>
         public FrameFluentNavigator<TViewModel> Initialize(object initParameter)
         {
+            if (initParameter == null)
+            {
+                throw new ArgumentNullException(nameof(initParameter));
+            }
+
             _navigationService.Initialize(initParameter);
             return this;
         }

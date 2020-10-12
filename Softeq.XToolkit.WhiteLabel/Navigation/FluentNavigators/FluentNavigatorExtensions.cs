@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// </exception>
         public static void ApplyParameters(
             this IViewModelBase viewModel,
-            IEnumerable<NavigationParameterModel>? parameters)
+            IEnumerable<NavigationParameterModel> parameters)
         {
             if (viewModel == null)
             {
