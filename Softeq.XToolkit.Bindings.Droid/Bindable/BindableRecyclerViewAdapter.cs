@@ -35,9 +35,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             FooterViewHolder = footerViewHolder;
         }
 
-        protected Type HeaderViewHolder { get; }
+        protected Type HeaderViewHolder { get; set; }
 
-        protected Type FooterViewHolder { get; }
+        protected Type FooterViewHolder { get; set; }
 
         public ICommand<TItem> ItemClick
         {
