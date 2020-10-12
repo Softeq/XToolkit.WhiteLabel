@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.ComponentModel;
+using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
 using Xunit;
 using Xunit.Sdk;
 

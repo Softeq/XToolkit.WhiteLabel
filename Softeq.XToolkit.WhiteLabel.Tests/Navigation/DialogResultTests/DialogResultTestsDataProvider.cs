@@ -6,7 +6,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.DialogResultTests
 {
-    internal static class DialogResultDataProvider
+    internal static class DialogResultTestsDataProvider
     {
         private static readonly Task<bool> CompletedTask = Task.FromResult(true);
 
