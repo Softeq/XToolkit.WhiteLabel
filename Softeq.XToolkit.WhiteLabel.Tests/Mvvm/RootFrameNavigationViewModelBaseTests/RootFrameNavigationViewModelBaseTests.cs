@@ -41,7 +41,13 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Mvvm.RootFrameNavigationViewModelBase
         }
 
         [Fact]
-        public void InitializeNavigation_InitializesNavigationService()
+        public void InitializeNavigation_Null_ThrowsCorrectException()
+        {
+            Assert.Throws<ArgumentNullException>(() => _vm.InitializeNavigation(null));
+        }
+
+        [Fact]
+        public void InitializeNavigation_NotNull_InitializesNavigationService()
         {
             var param = new object();
             _vm.InitializeNavigation(param);

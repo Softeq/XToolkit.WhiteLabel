@@ -33,8 +33,16 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         /// <param name="navigation">
         ///     Navigation object (usually platform-specific) that is used for initialization.
         /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="navigation"/> cannot be <see langword="null"/>.
+        /// </exception>
         public void InitializeNavigation(object navigation)
         {
+            if (navigation == null)
+            {
+                throw new ArgumentNullException(nameof(navigation));
+            }
+
             FrameNavigationService.Initialize(navigation);
         }
 
