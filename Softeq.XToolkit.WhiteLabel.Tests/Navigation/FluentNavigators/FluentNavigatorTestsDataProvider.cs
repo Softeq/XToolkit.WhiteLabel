@@ -19,15 +19,15 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators
         public static readonly string NavigationParamValue = new string("abc");
 
         public static TheoryData<IEnumerable<NavigationParameterModel>> NavigationParams
-           => new TheoryData<IEnumerable<NavigationParameterModel>>
-           {
+          => new TheoryData<IEnumerable<NavigationParameterModel>>
+          {
                { new List<NavigationParameterModel> { null } },
                { new List<NavigationParameterModel> { null, NavigationParam1 } },
                { new List<NavigationParameterModel> { NavigationParam1, NavigationParam1 } },
                { new List<NavigationParameterModel> { NavigationParam1, NavigationParam2 } },
                { new List<NavigationParameterModel> { NavigationParam1, NavigationParam2, NavigationParam3 } },
                { new List<NavigationParameterModel> { NavigationParam1, NavigationParam2, NavigationParam3, NavigationParam2 } },
-           };
+          };
 
         public static TheoryData<IEnumerable<NavigationParameterModel>, IEnumerable<NavigationParameterModel>> PairOfNavigationParams
            => new TheoryData<IEnumerable<NavigationParameterModel>, IEnumerable<NavigationParameterModel>>

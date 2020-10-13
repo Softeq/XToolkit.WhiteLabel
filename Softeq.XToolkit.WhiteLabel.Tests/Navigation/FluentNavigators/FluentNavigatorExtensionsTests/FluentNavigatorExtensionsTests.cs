@@ -38,29 +38,28 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FluentNav
             Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null));
         }
 
+        [Theory]
+        [MemberData(
+            nameof(FluentNavigatorExtensionsTestsDataProvider.InvalidNavigationParams),
+            MemberType = typeof(FluentNavigatorExtensionsTestsDataProvider))]
+        public void ApplyParameters_CalledOnNonNull_WithNonNullInvalidParams_ThrowsCorrectException(
+            List<NavigationParameterModel> parameters)
+        {
+            IViewModelBase viewModel = new ViewModelStub();
+
+            Assert.ThrowsAny<Exception>(() => viewModel.ApplyParameters(parameters));
+        }
+
         [Fact]
-        public void ApplyParameters_CalledOnNonNull_WithNonNullParams_SetsCorrectProperties()
+        public void ApplyParameters_CalledOnNonNull_WithNonNullValidParams_SetsCorrectProperties()
         {
             var viewModel = new ViewModelStub();
-
-            var propertyInfo1 = typeof(ViewModelStub).GetProperty(nameof(ViewModelStub.StringParameter));
-            var propertyInfoModel1 = new PropertyInfoModel(propertyInfo1);
-            var propertyValue1 = FluentNavigatorTestsDataProvider.NavigationParamValue;
-
-            var propertyInfo2 = typeof(ViewModelStub).GetProperty(nameof(ViewModelStub.IntParameter));
-            var propertyInfoModel2 = new PropertyInfoModel(propertyInfo2);
-            var propertyValue2 = 5;
-
-            var parameters = new List<NavigationParameterModel>
-            {
-                new NavigationParameterModel(propertyValue1, propertyInfoModel1),
-                new NavigationParameterModel(propertyValue2, propertyInfoModel2),
-            };
+            var parameters = FluentNavigatorExtensionsTestsDataProvider.ValidNavigationParams;
 
             viewModel.ApplyParameters(parameters);
 
-            Assert.Equal(propertyValue1, viewModel.StringParameter);
-            Assert.Equal(propertyValue2, viewModel.IntParameter);
+            Assert.Equal(FluentNavigatorExtensionsTestsDataProvider.PropertyValue1, viewModel.StringParameter);
+            Assert.Equal(FluentNavigatorExtensionsTestsDataProvider.PropertyValue2, viewModel.IntParameter);
         }
     }
 }
