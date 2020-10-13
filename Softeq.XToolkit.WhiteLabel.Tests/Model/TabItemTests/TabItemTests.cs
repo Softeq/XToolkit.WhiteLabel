@@ -5,6 +5,7 @@ using NSubstitute;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using Xunit;
 

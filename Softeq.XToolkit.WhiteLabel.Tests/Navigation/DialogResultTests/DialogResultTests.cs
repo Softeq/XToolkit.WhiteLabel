@@ -11,8 +11,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.DialogResultTests
     {
         [Theory]
         [MemberData(
-            nameof(DialogResultDataProvider.CtorData),
-            MemberType = typeof(DialogResultDataProvider))]
+            nameof(DialogResultTestsDataProvider.CtorData),
+            MemberType = typeof(DialogResultTestsDataProvider))]
         public void Ctor_InitializesProperties(Task<bool> dialogDismissTask)
         {
             var dialogResult = new DialogResult(dialogDismissTask);
@@ -23,8 +23,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.DialogResultTests
 
         [Theory]
         [MemberData(
-            nameof(DialogResultDataProvider.GenericCtorData),
-            MemberType = typeof(DialogResultDataProvider))]
+            nameof(DialogResultTestsDataProvider.GenericCtorData),
+            MemberType = typeof(DialogResultTestsDataProvider))]
         public void Ctor_Generic_InitializesProperties(string value, Task<bool> dialogDismissTask)
         {
             var dialogResult = new DialogResult<string>(value, dialogDismissTask);
