@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Threading;
+using System.Threading;
 using System.Threading.Tasks;
 using Refit;
 using RemoteServices.Auth.Dtos;
@@ -9,7 +9,7 @@ using RemoteServices.Auth.Dtos;
 namespace RemoteServices.Auth
 {
     /// <summary>
-    ///     API Client for https://github.com/Softeq/NetKit.Auth
+    ///     API Client for https://github.com/Softeq/NetKit.Auth.
     /// </summary>
     public interface IAuthApiService
     {

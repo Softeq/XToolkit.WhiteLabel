@@ -224,7 +224,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public bool ShouldNotifyByAction { get; set; }
 
-        public override int ItemCount => _dataSource.Count();
+        public override int ItemCount => _flatMapping.Count;
 
         private void ReloadMapping()
         {

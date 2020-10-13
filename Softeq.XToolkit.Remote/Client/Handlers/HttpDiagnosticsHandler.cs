@@ -1,13 +1,14 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System.Diagnostics;
-﻿using System.Net.Http;
-﻿using System.Threading;
-﻿using System.Threading.Tasks;
-﻿using Softeq.XToolkit.Common.Logger;
+using System;
+using System.Diagnostics;
+using System.Net.Http;
+using System.Threading;
+using System.Threading.Tasks;
+using Softeq.XToolkit.Common.Logger;
 
-﻿namespace Softeq.XToolkit.Remote.Client.Handlers
+namespace Softeq.XToolkit.Remote.Client.Handlers
 {
     internal class HttpDiagnosticsHandler : DelegatingHandler
     {
@@ -15,7 +16,7 @@
 
         public HttpDiagnosticsHandler(ILogger logger)
         {
-            _logger = logger;
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(

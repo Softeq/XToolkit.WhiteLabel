@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Foundation;
+using Foundation;
 using NetworkApp.iOS.CustomHandlers;
 using UIKit;
 

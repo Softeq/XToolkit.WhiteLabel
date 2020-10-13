@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Globalization;
 using Xamarin.Forms;
 
@@ -15,6 +15,7 @@ namespace NetworkApp.Converters
             {
                 return !val;
             }
+
             throw new ArgumentException(value.ToString(), nameof(value));
         }
 

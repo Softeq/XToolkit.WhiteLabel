@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Xamarin.Forms;
+using Xamarin.Forms;
 
 namespace NetworkApp.Templates
 {
