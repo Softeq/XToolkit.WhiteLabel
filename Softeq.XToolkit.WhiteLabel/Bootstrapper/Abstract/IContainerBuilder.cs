@@ -6,7 +6,8 @@ using System;
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
 {
     /// <summary>
-    ///    An interface that decouples from any implementation of DI container that used for registering dependencies.
+    ///    An interface that decouples from any implementation of IoC container
+    ///    that is used for registering dependencies.
     /// </summary>
     public interface IContainerBuilder
     {
