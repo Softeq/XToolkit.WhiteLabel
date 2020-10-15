@@ -70,6 +70,11 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(items));
             }
 
+            if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
+            {
+                throw new InvalidOperationException("Empty group isn't supported");
+            }
+
             var insertionIndex = _items.Count;
 
             InsertGroups(insertionIndex, items);
@@ -489,7 +494,7 @@ namespace Softeq.XToolkit.Common.Collections
                     break;
 
                 //case NotifyCollectionChangedAction.Move:
-                   // break;
+                // break;
 
                 default:
                     //notifyArgs = new NotifyCollectionChangedEventArgs(args.Action.Value, args.NewItemRanges, args.OldItemRanges);
