@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿namespace RemoteServices.Auth.Dtos
+namespace RemoteServices.Auth.Dtos
 {
     internal static class AuthConsts
     {

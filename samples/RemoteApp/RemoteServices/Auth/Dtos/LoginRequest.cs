@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Refit;
+using Refit;
 
 namespace RemoteServices.Auth.Dtos
 {

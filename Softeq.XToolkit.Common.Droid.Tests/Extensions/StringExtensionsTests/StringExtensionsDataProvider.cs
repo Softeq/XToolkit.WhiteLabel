@@ -7,7 +7,7 @@ using Xunit;
 using Object = Java.Lang.Object;
 using String = Java.Lang.String;
 
-namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.ContextExtensionsTests
+namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.StringExtensionsTests
 {
     internal static class StringExtensionsDataProvider
     {

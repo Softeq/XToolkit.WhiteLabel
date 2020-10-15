@@ -52,6 +52,12 @@ namespace Playground.Droid.Views
 
                     return view;
                 }));
+
+            // expand all groups
+            for (int i = 0; i < ViewModel.Items.Keys.Count; i++)
+            {
+                _listView.ExpandGroup(i);
+            }
         }
 
         public override bool OnCreateOptionsMenu(IMenu menu)

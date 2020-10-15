@@ -12,6 +12,7 @@ using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Dialog = Android.App.Dialog;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
@@ -23,6 +24,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
         protected virtual int ThemeId { get; } = Resource.Style.CoreDialogTheme;
+
+        protected virtual int? DialogAnimationId { get; }
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 
@@ -45,6 +48,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             {
                 ViewModel.OnInitialize();
             }
+        }
+
+        public override Dialog OnCreateDialog(Bundle savedInstanceState)
+        {
+            var dialog = base.OnCreateDialog(savedInstanceState);
+
+            SetupDialogAnimation(dialog);
+
+            return dialog;
         }
 
         public override void OnResume()
@@ -93,6 +105,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
             Internal.ViewModelStore.Of(fragmentManager).Add(GetKey(), ViewModel);
             Show(fragmentManager, null);
+        }
+
+        protected void SetupDialogAnimation(Dialog dialog)
+        {
+            if (DialogAnimationId.HasValue && dialog?.Window?.Attributes != null)
+            {
+                dialog.Window.Attributes.WindowAnimations = DialogAnimationId.Value;
+            }
         }
 
         protected virtual void RestoreViewModelIfNeeded(Bundle? savedInstanceState)

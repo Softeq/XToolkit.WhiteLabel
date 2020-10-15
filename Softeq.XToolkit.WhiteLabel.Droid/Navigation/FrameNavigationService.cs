@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.Linq;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
@@ -28,7 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
-            _backStack = new Stack<(IViewModelBase viewModelBase, Fragment fragment)>();
+            _backStack = new Stack<(IViewModelBase ViewModel, Fragment Fragment)>();
         }
 
         public IViewModelBase CurrentViewModel => _backStack.Peek().ViewModel;
@@ -98,16 +97,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             IReadOnlyList<NavigationParameterModel>? parameters = null) where TViewModel : IViewModelBase
         {
             throw new NotImplementedException();
-        }
-
-        // TODO: replace with For<>.WithParam implementation
-        public void NavigateToViewModel<T, TParameter>(TParameter parameter)
-            where T : IViewModelBase, IViewModelParameter<TParameter>
-        {
-            var viewModel = _iocContainer.Resolve<T>(this);
-
-            viewModel.Parameter = parameter;
-            NavigateInternal(viewModel);
         }
 
         public void NavigateToViewModel<T>(bool clearBackStack = false) where T : IViewModelBase

@@ -6,9 +6,9 @@ using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
 using Playground.ViewModels.Dialogs;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Playground.Droid.Extended
 {

@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿namespace RemoteServices.Profile.Models
+namespace RemoteServices.Profile.Models
 {
     public class ProfileConfig
     {

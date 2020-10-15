@@ -2,11 +2,11 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
-using Softeq.XToolkit.WhiteLabel.Threading;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation

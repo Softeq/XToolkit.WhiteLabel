@@ -10,7 +10,7 @@ using Softeq.XToolkit.Common.Helpers;
 using Xunit;
 using Object = Java.Lang.Object;
 
-namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.ContextExtensionsTests
+namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.StringExtensionsTests
 {
     public class StringExtensionsTests
     {

@@ -1,10 +1,10 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using Android.App;
+using Android.App;
 using Android.Content.PM;
-using Android.Runtime;
 using Android.OS;
+using Android.Runtime;
 using NetworkApp.Droid.CustomHandlers;
 
 namespace NetworkApp.Droid
@@ -31,6 +31,7 @@ namespace NetworkApp.Droid
 
             LoadApplication(new App(customHttpMessageHandler));
         }
+
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);

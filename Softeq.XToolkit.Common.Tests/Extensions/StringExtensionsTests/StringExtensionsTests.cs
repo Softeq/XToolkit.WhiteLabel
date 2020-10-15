@@ -237,7 +237,10 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
         [Theory]
         [InlineData("Text with http://link.link", 1)]
         [InlineData("https://google.com", 1)]
-        [InlineData("Links:http://link.link ; custom://somelink.ru ; https://link.to.link.from.link", 3)]
+        [InlineData("Links:http://link.link ; custom://softeq.com ; https://link.to.softeq.com.link", 3)]
+        [InlineData("text softeq.com la-la-la softeq.com", 2)]
+        [InlineData("softeq.com/test", 1)]
+        [InlineData("www.softeq.com", 1)]
         public void FindLinks_TextWithLinks_ReturnsCorrectAmountOfLinks(string text, int linksCount)
         {
             var result = text.FindLinks();

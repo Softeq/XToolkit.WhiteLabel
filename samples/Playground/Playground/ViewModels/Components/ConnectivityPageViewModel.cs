@@ -2,9 +2,9 @@
 // http://www.softeq.com
 
 using Plugin.Connectivity.Abstractions;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Threading;
 
 namespace Playground.ViewModels.Components
 {

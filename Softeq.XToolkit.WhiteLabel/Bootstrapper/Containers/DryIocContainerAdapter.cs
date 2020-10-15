@@ -3,8 +3,8 @@
 
 using System;
 using DryIoc;
-using IDryContainer = DryIoc.IContainer;
 using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
+using IDryContainer = DryIoc.IContainer;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 {
@@ -17,6 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             _container = container;
         }
 
+        /// <inheritdoc/>
         public TService Resolve<TService>(params object[] parameters) where TService : notnull
         {
             return _container.Resolve<TService>(parameters);

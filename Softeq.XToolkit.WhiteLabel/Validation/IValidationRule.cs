@@ -4,7 +4,8 @@
 namespace Softeq.XToolkit.WhiteLabel.Validation
 {
     /// <summary>
-    ///    Verify that the data a user enters in a record meets the standards you specify before the user can save the record.
+    ///    Verifies that the data a user enters in a record meets the standards you specify
+    ///    before the user can save the record.
     /// </summary>
     /// <typeparam name="T">Type of rule.</typeparam>
     public interface IValidationRule<in T>
@@ -18,7 +19,10 @@ namespace Softeq.XToolkit.WhiteLabel.Validation
         ///     Used to perform the required validation.
         /// </summary>
         /// <param name="value">Value to validate.</param>
-        /// <returns>Returns <c>true</c> when value is valid.</returns>
+        /// <returns>
+        ///     <see langword="true"/> when value is valid,
+        ///     <see langword="false"/> otherwise.
+        /// </returns>
         bool Check(T value);
     }
 }

@@ -117,6 +117,7 @@
     <Compile Include="Extensions\UIColorExtensionsTests\UIColorExtensionsTests.cs" />
     <Compile Include="Extensions\UITextViewExtensionsTests\UITextViewExtensionsTests.cs" />
     <Compile Include="Helpers.cs" />
+    <Compile Include="IosMainThreadExecutorTests\IosMainThreadExecutorTests.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="AppDelegate.cs" />
     <Compile Include="Extensions\NSRangeExtensionsTests\NSRangeExtensionsTests.cs" />

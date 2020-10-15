@@ -60,12 +60,17 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DroidMainThreadExecutorTests\DroidMainThreadExecutorTests.cs" />
     <Compile Include="Extensions\ContextExtensionsTests\ContextExtensionsTests.cs" />
+    <Compile Include="Helpers.cs" />
     <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Extensions\StringExtensionsTests\StringExtensionsDataProvider.cs" />
     <Compile Include="Extensions\StringExtensionsTests\StringExtensionsTests.cs" />
+    <Compile Include="Extensions\EditTextExtensionsTests\EditTextExtensionsTests.cs" />
+    <Compile Include="TextFilters\ForbiddenCharsInputFilterTests.cs" />
+    <Compile Include="Extensions\EditTextExtensionsTests\MockInputFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AndroidManifest.xml" />
@@ -86,6 +91,9 @@
     </PackageReference>
     <PackageReference Include="xunit.runner.devices">
       <Version>2.5.25</Version>
+    </PackageReference>
+    <PackageReference Include="Xunit.Combinatorial">
+      <Version>1.4.1</Version>
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
