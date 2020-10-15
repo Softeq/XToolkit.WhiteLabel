@@ -3,7 +3,7 @@
 
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.Whitelabel.Tests.Bootstrapper.DefaultViewModelFinderTests
+namespace Softeq.XToolkit.WhiteLabel.Tests.Stubs
 {
     internal interface IDroidViewStub { }
 
