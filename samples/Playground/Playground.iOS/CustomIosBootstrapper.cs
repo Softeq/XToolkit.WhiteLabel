@@ -12,10 +12,12 @@ using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.iOS;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
+using Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.iOS
 {
@@ -23,8 +25,9 @@ namespace Playground.iOS
     {
         protected override IList<Assembly> SelectAssemblies()
         {
-            return base.SelectAssemblies()     // Softeq.XToolkit.WhiteLabel.iOS
-                .AddItem(GetType().Assembly);  // Playground.iOS
+            return base.SelectAssemblies() // Softeq.XToolkit.WhiteLabel.iOS
+                .AddItem(typeof(FullScreenImageViewController).Assembly) // Softeq.XToolkit.WhiteLabel.Essentials.iOS
+                .AddItem(GetType().Assembly); // Playground.iOS
         }
 
         protected override void ConfigureIoc(IContainerBuilder builder)
@@ -34,6 +37,7 @@ namespace Playground.iOS
 
             builder.Singleton<IosAppInfoService, IAppInfoService>();
 
+            builder.Singleton<StoryboardDialogsService, IDialogsService>();
             builder.Singleton<IosExtendedDialogsService, IExtendedDialogsService>();
 
             // permissions
