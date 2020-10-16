@@ -7,10 +7,8 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.FullScreenImage
 {
     public class FullScreenImageViewModel : DialogViewModelBase
     {
-        public string? ImageUrl => FullScreenImageOptions.ImageUrl;
+        public string? ImageUrl { get; set; }
 
-        public string? ImagePath => FullScreenImageOptions.ImagePath;
-
-        public FullScreenImageOptions FullScreenImageOptions { get; set; } = new FullScreenImageOptions();
+        public string? ImagePath { get; set; }
     }
 }
