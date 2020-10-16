@@ -5,22 +5,20 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using FFImageLoading;
-using FFImageLoading.Work;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
-using Softeq.XToolkit.WhiteLabel.ViewModels;
+using Softeq.XToolkit.WhiteLabel.Essentials.FullScreenImage;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.Views
+namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
 {
     public class FullScreenImageDialogFragment : DialogFragmentBase<FullScreenImageViewModel>
     {
-        private ImageButton _closeButton = default!;
-        private ImageView _imageView = default!;
+        private ImageButton? _closeButton;
 
         protected override int ThemeId => Resource.Style.CoreFullScreenImageTheme;
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             return LayoutInflater.Inflate(Resource.Layout.dialog_full_screen_image, container, true);
         }
@@ -30,32 +28,28 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             base.OnViewCreated(view, savedInstanceState);
 
             _closeButton = View.FindViewById<ImageButton>(Resource.Id.dialog_full_screen_image_close_button);
-            _closeButton.SetCommand(nameof(_closeButton.Click),
+            _closeButton.SetCommand(
+                nameof(_closeButton.Click),
                 new RelayCommand(() =>
                 {
                     ViewModel.DialogComponent.CloseCommand.Execute(true);
                 }));
-            _closeButton.SetImageResource(Resource.Drawable.core_ic_close);
+            _closeButton!.SetImageResource(Resource.Drawable.core_ic_close);
 
-            _imageView = View.FindViewById<ImageView>(Resource.Id.dialog_full_screen_image_image);
+            var imageView = View.FindViewById<ImageView>(Resource.Id.dialog_full_screen_image_image);
 
-            LoadImage();
+            LoadImageInto(imageView!);
         }
 
-        private void LoadImage()
+        private void LoadImageInto(ImageView imageView)
         {
-            TaskParameter task;
+            var imageService = ImageService.Instance;
 
-            if (string.IsNullOrEmpty(ViewModel.ImagePath) == false)
-            {
-                task = ImageService.Instance.LoadFile(ViewModel.ImagePath);
-            }
-            else
-            {
-                task = ImageService.Instance.LoadUrl(ViewModel.ImageUrl);
-            }
+            var task = string.IsNullOrEmpty(ViewModel.ImagePath) == false
+                ? imageService.LoadFile(ViewModel.ImagePath)
+                : imageService.LoadUrl(ViewModel.ImageUrl);
 
-            task.IntoAsync(_imageView);
+            task.IntoAsync(imageView);
         }
     }
 }

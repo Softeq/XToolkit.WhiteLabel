@@ -3,17 +3,18 @@
 
 using System;
 using FFImageLoading;
-using FFImageLoading.Work;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.iOS.Extensions;
-using Softeq.XToolkit.WhiteLabel.ViewModels;
+using Softeq.XToolkit.WhiteLabel.Essentials.FullScreenImage;
+using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
+namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
 {
     public partial class FullScreenImageViewController : ViewControllerBase<FullScreenImageViewModel>
     {
-        public FullScreenImageViewController(IntPtr handle) : base(handle)
+        public FullScreenImageViewController(IntPtr handle)
+            : base(handle)
         {
         }
 
@@ -37,7 +38,13 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 
             //TODO VPY: find better solution
             CloseButton.TintColor = ViewModel.FullScreenImageOptions.CloseButtonTintColor?.UIColorFromHex();
-            CloseButton.SetImage(UIImage.FromBundle(ViewModel.FullScreenImageOptions.IosCloseButtonImageBundleName), UIControlState.Normal);
+
+            var closeIconName = ViewModel.FullScreenImageOptions.IosCloseButtonImageBundleName;
+            if (!string.IsNullOrEmpty(closeIconName))
+            {
+                CloseButton.SetImage(UIImage.FromBundle(closeIconName!), UIControlState.Normal);
+            }
+
             CloseButton.SetCommand(ViewModel.DialogComponent.CloseCommand, true);
 
             LoadImage();
@@ -59,16 +66,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
 
         private void LoadImage()
         {
-            TaskParameter task;
+            var imageService = ImageService.Instance;
 
-            if (string.IsNullOrEmpty(ViewModel.ImagePath) == false)
-            {
-                task = ImageService.Instance.LoadFile(ViewModel.ImagePath);
-            }
-            else
-            {
-                task = ImageService.Instance.LoadUrl(ViewModel.ImageUrl);
-            }
+            var task = string.IsNullOrEmpty(ViewModel.ImagePath) == false
+                ? imageService.LoadFile(ViewModel.ImagePath)
+                : imageService.LoadUrl(ViewModel.ImageUrl);
 
             task.IntoAsync(ImageView);
         }
