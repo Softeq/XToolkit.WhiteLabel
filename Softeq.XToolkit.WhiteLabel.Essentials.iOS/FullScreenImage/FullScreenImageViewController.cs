@@ -3,6 +3,7 @@
 
 using System;
 using FFImageLoading;
+using Softeq.XToolkit.Bindings.iOS.Gestures;
 using Softeq.XToolkit.WhiteLabel.Essentials.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;
@@ -34,6 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
         {
             base.ViewDidLoad();
 
+            InitView();
 
             LoadImage();
         }
@@ -50,6 +52,11 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
             base.ViewWillDisappear(animated);
 
             StatusBarHidden = false;
+        }
+
+        private void InitView()
+        {
+            View.Swipe(UISwipeGestureRecognizerDirection.Down).Command = ViewModel.DialogComponent.CloseCommand;
         }
 
         private void LoadImage()

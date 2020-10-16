@@ -50,6 +50,10 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
+        <Project>{2d399ba9-1878-43e2-af05-6873eae9151b}</Project>
+        <Name>Softeq.XToolkit.Bindings.iOS</Name>
+      </ProjectReference>
       <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
         <Project>{0f1f09a8-9cdb-4933-aa1b-898ab43d394c}</Project>
         <Name>Softeq.XToolkit.Bindings</Name>
