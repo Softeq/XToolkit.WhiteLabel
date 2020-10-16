@@ -3,8 +3,6 @@
 
 using System;
 using FFImageLoading;
-using Softeq.XToolkit.Bindings;
-using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.Essentials.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;
@@ -36,16 +34,6 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
         {
             base.ViewDidLoad();
 
-            //TODO VPY: find better solution
-            CloseButton.TintColor = ViewModel.FullScreenImageOptions.CloseButtonTintColor?.UIColorFromHex();
-
-            var closeIconName = ViewModel.FullScreenImageOptions.IosCloseButtonImageBundleName;
-            if (!string.IsNullOrEmpty(closeIconName))
-            {
-                CloseButton.SetImage(UIImage.FromBundle(closeIconName!), UIControlState.Normal);
-            }
-
-            CloseButton.SetCommand(ViewModel.DialogComponent.CloseCommand, true);
 
             LoadImage();
         }
