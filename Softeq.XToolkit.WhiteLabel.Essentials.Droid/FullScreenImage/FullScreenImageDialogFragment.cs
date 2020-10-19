@@ -18,6 +18,8 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
 
         protected override int ThemeId => Resource.Style.CoreFullScreenImageTheme;
 
+        protected override int? DialogAnimationId => Resource.Style.CoreFullScreenImageDialogAnimation;
+
         public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             return LayoutInflater.Inflate(Resource.Layout.dialog_full_screen_image, container, true);
