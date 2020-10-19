@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
 {
     public class FullScreenImageDialogFragment : DialogFragmentBase<FullScreenImageViewModel>, View.IOnTouchListener
     {
-        private GestureDetector? _detector;
+        private GestureDetector? _gestureDetector;
 
         protected override int ThemeId => Resource.Style.FullScreenImageDialogTheme;
 
@@ -32,10 +32,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
             // Setup Swipe handling
             view.SetOnTouchListener(this);
 
-            var listener = new GestureListener();
+            var listener = new SwipeListener();
             listener.SetCommand(nameof(listener.SwipedBottom), (ICommand) ViewModel.DialogComponent.CloseCommand);
-
-            _detector = new GestureDetector(Context, listener);
+            _gestureDetector = new GestureDetector(Context, listener);
 
             // Load Image
             var imageView = View.FindViewById<ImageView>(Resource.Id.dialog_full_screen_image_image);
@@ -45,7 +44,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
 
         public bool OnTouch(View? v, MotionEvent? e)
         {
-            return _detector!.OnTouchEvent(e);
+            return _gestureDetector!.OnTouchEvent(e);
         }
 
         private void LoadImageInto(ImageView imageView)

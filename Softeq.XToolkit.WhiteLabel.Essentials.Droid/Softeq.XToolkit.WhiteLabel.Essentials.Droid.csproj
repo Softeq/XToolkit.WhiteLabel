@@ -43,7 +43,7 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="FullScreenImage\FullScreenImageDialogFragment.cs" />
-        <Compile Include="FullScreenImage\GestureListener.cs" />
+        <Compile Include="FullScreenImage\SwipeListener.cs" />
         <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
         <Compile Include="ImagePicker\DroidImagePickerService.cs" />
         <Compile Include="ImagePicker\ImagePicker.cs" />

@@ -7,7 +7,7 @@ using Android.Views;
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
 {
     // TODO WL: Export to WL.Droid
-    public class GestureListener : GestureDetector.SimpleOnGestureListener
+    public class SwipeListener : GestureDetector.SimpleOnGestureListener
     {
         private const int SwipeThreshold = 100;
         private const int SwipeVelocityThreshold = 100;
