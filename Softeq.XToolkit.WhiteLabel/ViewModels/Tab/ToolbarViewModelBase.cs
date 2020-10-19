@@ -13,9 +13,15 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
     {
         private int _selectedIndex;
 
-        public IList<TabItem<TKey>> TabModels { get; protected set; } = default!;
+        public ToolbarViewModelBase()
+        {
+            TabModels = new List<TabItem<TKey>>();
+            TabViewModels = new List<TabViewModel<TKey>>();
+        }
 
-        public IList<TabViewModel<TKey>> TabViewModels { get; protected set; } = default!;
+        public IList<TabItem<TKey>> TabModels { get; protected set; }
+
+        public IList<TabViewModel<TKey>> TabViewModels { get; protected set; }
 
         public int SelectedIndex
         {
