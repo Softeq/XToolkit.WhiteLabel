@@ -16,9 +16,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
     {
         private GestureDetector? _detector;
 
-        protected override int ThemeId => Resource.Style.CoreFullScreenImageTheme;
+        protected override int ThemeId => Resource.Style.FullScreenImageDialogTheme;
 
-        protected override int? DialogAnimationId => Resource.Style.CoreFullScreenImageDialogAnimation;
+        protected override int? DialogAnimationId => Resource.Style.FullScreenImageDialogAnimation;
 
         public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {

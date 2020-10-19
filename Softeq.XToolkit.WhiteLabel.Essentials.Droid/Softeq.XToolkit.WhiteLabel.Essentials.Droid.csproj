@@ -52,8 +52,8 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
-        <AndroidResource Include="Resources\anim\core_fullscreen_fade_in.xml" />
-        <AndroidResource Include="Resources\anim\core_fullscreen_fade_out.xml" />
+        <AndroidResource Include="Resources\anim\fullscreen_fade_in.xml" />
+        <AndroidResource Include="Resources\anim\fullscreen_fade_out.xml" />
         <AndroidResource Include="Resources\layout\dialog_full_screen_image.xml" />
         <AndroidResource Include="Resources\values\styles.xml" />
     </ItemGroup>
