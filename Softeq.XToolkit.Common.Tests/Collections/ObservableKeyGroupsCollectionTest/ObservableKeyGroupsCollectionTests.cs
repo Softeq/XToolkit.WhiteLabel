@@ -1000,7 +1000,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Throws<ArgumentOutOfRangeException>(() => collection.InsertGroups(collection.Keys.Count + 1, CollectionHelper.KeysNotContained));
         }
 
-        [Fact] // ---
+        [Fact]
         public void InsertGroups_KeysOnlyForbidEmptyGroup_InvalidOperationException()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithoutEmpty();
@@ -1136,14 +1136,14 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Equal(expectedCount, collection.Count);
         }
 
-        [Fact] // ---
+        [Fact]
         public void InsertGroups_WithItemsForbidEmptyGroupsUniqueKeysWithEmptyItems_InvalidOperationException()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithoutEmpty();
             Assert.Throws<InvalidOperationException>(() => collection.InsertGroups(0, CollectionHelper.PairWithKeyWithEmptyItem));
         }
 
-        [Theory] // ---
+        [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
         public void InsertGroups_WithItemsDuplicateKeyWithItems_ArgumentException(ObservableKeyGroupsCollection<string, int> collection)
         {
@@ -1157,21 +1157,14 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Throws<ArgumentNullException>(() => collection.InsertGroups(0, CollectionHelper.PairDuplicateKeyWithNullItems));
         }
 
-        [Fact] // ---
-        public void InsertGroups_WithItemsAllowEmptyGroupsDuplicateKeysWithEmptyItems_ArgumentException()
+        [Theory]
+        [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
+        public void InsertGroups_WithItemsDuplicateKeysWithEmptyItems_ArgumentException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
             Assert.Throws<ArgumentException>(() => collection.InsertGroups(0, CollectionHelper.PairDuplicateKeyWithEmptyItem));
         }
 
-        [Fact] // ---
-        public void InsertGroups_WithItemsForbidEmptyGroupsDuplicateKeysWithEmptyItems_InvalidOperationException()
-        {
-            var collection = CollectionHelper.CreateFilledGroupsWithoutEmpty();
-            Assert.Throws<InvalidOperationException>(() => collection.InsertGroups(0, CollectionHelper.PairDuplicateKeyWithEmptyItem));
-        }
-
-        [Fact] // ---
+        [Fact]
         public void ReplaceGroups_KeysOnlyForbidEmptyGroup_InvalidOperationException()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithoutEmpty();
@@ -1279,7 +1272,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             }
         }
 
-        [Fact] // ---
+        [Fact]
         public void ReplaceGroups_WithItemsForbidEmptyGroupsCorrectKeysWithEmptyItems_InvalidOperationException()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithoutEmpty();
@@ -1337,14 +1330,14 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Equal(0, collection.Count);
         }
 
-        [Fact] // ---
+        [Fact]
         public void ClearGroup_ForbidEmptyGroup_InvalidOperationException()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithoutEmpty();
             Assert.Throws<InvalidOperationException>(() => collection.ClearGroup(CollectionHelper.GroupKeyFirst));
         }
 
-        [Fact] // ---
+        [Fact]
         public void ClearGroup_AllowEmptyGroupNullKey_ArgumentNullException()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
@@ -1465,9 +1458,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         [Theory]
         [MemberData(nameof(CollectionHelper.EmptyCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void AddItems_SelectNullKey_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        public void AddItems_SelectNullKey_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            Assert.Throws<NullReferenceException>(
+            Assert.Throws<ArgumentNullException>(
                 () => collection.AddItems(
                     CollectionHelper.CreateFillItemsListWithNewKeys(),
                     (x) => null,
@@ -1586,9 +1579,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         [Theory] // ---
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void InsertItems_SelectNullKey_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        public void InsertItems_SelectNullKey_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            Assert.Throws<NullReferenceException>(
+            Assert.Throws<ArgumentNullException>(
                 () => collection.InsertItems(
                     CollectionHelper.CreateFillItemsListWithExistKeys(),
                     (x) => null,
@@ -1694,9 +1687,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void ReplaceItems_SelectNullKey_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        public void ReplaceItems_SelectNullKey_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            Assert.Throws<NullReferenceException>(
+            Assert.Throws<ArgumentNullException>(
                 () => collection.ReplaceItems(
                     CollectionHelper.CreateFillItemsListWithExistKeys(),
                     (x) => null,
@@ -1731,11 +1724,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             }
         }
 
-        [Theory] // ---
+        [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void RemoveItems_NullItem_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        public void RemoveItems_NullItem_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            Assert.Throws<NullReferenceException>(
+            Assert.Throws<ArgumentNullException>(
                () => collection.RemoveItems(
                    CollectionHelper.CreateFillItemsListWithNull(),
                    (x) => x.SelectKey(),
@@ -1846,9 +1839,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         [Theory] // ---
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void RemoveItems_SelectNullKey_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
+        public void RemoveItems_SelectNullKey_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
-            Assert.Throws<NullReferenceException>(
+            Assert.Throws<ArgumentNullException>(
                 () => collection.RemoveItems(
                     CollectionHelper.CreateFillItemsListWithExistKeys(),
                     (x) => null,

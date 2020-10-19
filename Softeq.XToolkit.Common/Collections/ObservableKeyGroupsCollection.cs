@@ -25,6 +25,8 @@ namespace Softeq.XToolkit.Common.Collections
         where TKey : notnull
         where TValue : notnull
     {
+        private const string UnsupportEmptyGroupExceptionMessage = "Empty group isn't supported";
+
         private readonly IList<Group> _items;
         private readonly bool _withoutEmptyGroups;
 
@@ -51,7 +53,7 @@ namespace Softeq.XToolkit.Common.Collections
         {
             if (_withoutEmptyGroups)
             {
-                throw new InvalidOperationException();
+                throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
             }
 
             if (keys == null)
@@ -70,10 +72,10 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(items));
             }
 
-            if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
-            {
-                throw new InvalidOperationException("Empty group isn't supported");
-            }
+            //if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
+            //{
+            //    throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
+            //}
 
             var insertionIndex = _items.Count;
 
@@ -83,6 +85,11 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void InsertGroups(int index, IEnumerable<TKey> keys)
         {
+            if (_withoutEmptyGroups)
+            {
+                throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
+            }
+
             if (keys == null)
             {
                 throw new ArgumentNullException(nameof(keys));
@@ -97,6 +104,11 @@ namespace Softeq.XToolkit.Common.Collections
             if (items == null)
             {
                 throw new ArgumentNullException(nameof(items));
+            }
+
+            if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
+            {
+                throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
             }
 
             var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
@@ -115,6 +127,11 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void ReplaceGroups(IEnumerable<TKey> keys)
         {
+            if (_withoutEmptyGroups)
+            {
+                throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
+            }
+
             if (keys == null)
             {
                 throw new ArgumentNullException(nameof(keys));
@@ -192,8 +209,12 @@ namespace Softeq.XToolkit.Common.Collections
         {
             if (_withoutEmptyGroups)
             {
-                RemoveGroups(new Collection<TKey> { key });
-                return;
+                throw new InvalidOperationException(nameof(key));
+            }
+
+            if (key == null)
+            {
+                throw new ArgumentNullException(nameof(key));
             }
 
             var item = _items.FirstOrDefault(x => x.Key.Equals(key));
@@ -375,7 +396,17 @@ namespace Softeq.XToolkit.Common.Collections
 
             foreach (var item in items)
             {
-                var key = keySelector(item);
+                if (item == null)
+                {
+                    throw new ArgumentNullException();
+                }
+
+                var key = keySelector.Invoke(item);
+
+                if (key == null)
+                {
+                    throw new ArgumentNullException(nameof(key));
+                }
 
                 if (!_items.Any(x => x.Key.Equals(key)))
                 {
@@ -386,10 +417,10 @@ namespace Softeq.XToolkit.Common.Collections
                 var val = valueSelector(item);
                 var valIndex = _items.ElementAt(groupIndex).IndexOf(val);
 
-                if (!_items.ElementAt(groupIndex).Any(x => x.Equals(val)))
-                {
-                    throw new KeyNotFoundException();
-                }
+                //if (!_items.ElementAt(groupIndex).Any(x => x.Equals(val)))
+                //{
+                //    throw new KeyNotFoundException();
+                //}
 
                 if (groupsInfos.All(x => x.GroupIndex != groupIndex))
                 {
@@ -533,6 +564,11 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentOutOfRangeException();
             }
 
+            if (_items.Select(x => x.Key).Concat(items.Select(x => x.Key)).GroupBy(x => x).Any(g => g.Count() > 1))
+            {
+                throw new ArgumentException("An item with the same key has already been added.");
+            }
+
             var toInsert = items
                 .Where(x => !withoutEmptyGroups || x.Value.Count > 0)
                 .Select(x => new Group(x))
@@ -559,12 +595,16 @@ namespace Softeq.XToolkit.Common.Collections
                 Func<T, int>? indexSelector)
         {
             var groupedItemsToAdd = new List<(TKey Key, IEnumerable<(int Index, IReadOnlyList<TValue> Values)> Ranges)>();
-
             var itemsToAdd = new List<(TKey Key, IList<KeyValuePair<TValue, int>> Values)>();
 
             foreach (var item in items)
             {
                 var key = keySelector.Invoke(item);
+
+                if (key == null)
+                {
+                    throw new ArgumentNullException(nameof(key));
+                }
 
                 if (!_items.Any(x => x.Key.Equals(key)))
                 {
