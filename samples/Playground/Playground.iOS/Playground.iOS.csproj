@@ -179,6 +179,7 @@
   <ItemGroup>
     <Compile Include="Extended\IosChooseBetterDateDialog.cs" />
     <Compile Include="Extended\IosExtendedDialogsService.cs" />
+    <Compile Include="PlaygroundStyles.cs" />
     <Compile Include="ViewControllers\Controls\PhotoViewerViewController.cs" />
     <Compile Include="ViewControllers\Frames\FramesBlueViewController.cs" />
     <Compile Include="ViewControllers\Frames\FramesBlueViewController.designer.cs">

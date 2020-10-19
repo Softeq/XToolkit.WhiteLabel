@@ -20,7 +20,7 @@ namespace Playground.iOS.ViewControllers.Controls
 
         private void InitView()
         {
-            View.BackgroundColor = UIColor.White;
+            View.BackgroundColor = PlaygroundStyles.DefaultBackgroundColor;
         }
 
         private void InitButton()

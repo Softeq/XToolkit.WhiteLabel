@@ -13,14 +13,7 @@ namespace Playground.iOS.ViewControllers
         {
             base.ViewDidLoad();
 
-            View!.BackgroundColor = GetDefaultColor();
-        }
-
-        private static UIColor GetDefaultColor()
-        {
-            return UIDevice.CurrentDevice.CheckSystemVersion(13, 0)
-                ? UIColor.SystemBackgroundColor
-                : UIColor.White;
+            View!.BackgroundColor = PlaygroundStyles.DefaultBackgroundColor;
         }
     }
 }
