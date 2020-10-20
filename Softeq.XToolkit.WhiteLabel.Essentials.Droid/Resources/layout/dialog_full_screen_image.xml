@@ -10,9 +10,4 @@
         android:adjustViewBounds="true"
         android:id="@+id/dialog_full_screen_image_image"
         android:layout_centerVertical="true" />
-    <ImageButton
-        android:id="@+id/dialog_full_screen_image_close_button"
-        android:background="@android:color/transparent"
-        android:layout_width="56dp"
-        android:layout_height="56dp" />
 </RelativeLayout>

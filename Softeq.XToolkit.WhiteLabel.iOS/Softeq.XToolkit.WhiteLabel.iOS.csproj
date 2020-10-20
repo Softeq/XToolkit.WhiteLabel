@@ -84,10 +84,6 @@
     <Compile Include="Controls\GradientFadeView.cs" />
     <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
-    <Compile Include="ViewControllers\FullScreenImageViewController.cs" />
-    <Compile Include="ViewControllers\FullScreenImageViewController.designer.cs">
-      <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
     <Compile Include="Controls\BindableTabBarItem.cs" />
@@ -115,9 +111,6 @@
       <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <InterfaceDefinition Include="ViewControllers\FullScreenImageStoryboard.storyboard" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
