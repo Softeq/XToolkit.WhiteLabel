@@ -71,8 +71,7 @@ namespace Softeq.XToolkit.WhiteLabel.Model
         public override TabViewModel<TKey> CreateViewModel()
         {
             var frameNavigationService = Container.Resolve<IFrameNavigationService>();
-            var tabViewModel = new TabViewModel<TFirstViewModel, TKey>(frameNavigationService);
-            tabViewModel.Initialize(this);
+            var tabViewModel = new TabViewModel<TFirstViewModel, TKey>(frameNavigationService, this);
             return tabViewModel;
         }
     }
