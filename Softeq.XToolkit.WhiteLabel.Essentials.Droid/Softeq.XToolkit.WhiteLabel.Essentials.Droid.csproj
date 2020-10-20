@@ -46,7 +46,6 @@
         <Compile Include="FullScreenImage\SwipeListener.cs" />
         <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
         <Compile Include="ImagePicker\DroidImagePickerService.cs" />
-        <Compile Include="ImagePicker\ImagePicker.cs" />
         <Compile Include="ImagePicker\ImagePickerActivity.cs" />
         <Compile Include="Resources\Resource.Designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
