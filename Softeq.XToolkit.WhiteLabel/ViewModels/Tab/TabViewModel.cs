@@ -14,17 +14,17 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
     /// <typeparam name="TKey">The type of the tab key.</typeparam>
     public abstract class TabViewModel<TKey> : RootFrameNavigationViewModelBase
     {
-        private readonly TabItem<TKey> _tab;
+        private readonly TabItem<TKey> _tabItem;
 
         private string? _badgeText;
         private bool _isBadgeVisible;
 
         protected TabViewModel(
             IFrameNavigationService frameNavigationService,
-            TabItem<TKey> tab)
+            TabItem<TKey> tabItem)
             : base(frameNavigationService)
         {
-            _tab = tab ?? throw new ArgumentNullException(nameof(tab));
+            _tabItem = tabItem ?? throw new ArgumentNullException(nameof(tabItem));
         }
 
         /// <summary>
@@ -46,10 +46,10 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         }
 
         /// <inheritdoc cref="TabItem{TKey}.Title" />
-        public string Title => _tab.Title;
+        public string Title => _tabItem.Title;
 
         /// <inheritdoc cref="TabItem{TKey}.Key" />
-        public TKey Key => _tab.Key;
+        public TKey Key => _tabItem.Key;
 
         /// <inheritdoc cref="IFrameNavigationService.CanGoBack"/>
         public bool CanGoBack => FrameNavigationService.CanGoBack;
@@ -68,8 +68,8 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
     {
         public TabViewModel(
             IFrameNavigationService frameNavigationService,
-            TabItem<TKey> tab)
-            : base(frameNavigationService, tab)
+            TabItem<TKey> tabItem)
+            : base(frameNavigationService, tabItem)
         {
         }
 
