@@ -62,5 +62,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         ///     Restores the last fragment after a switch between tabs or back navigation.
         /// </summary>
         void RestoreNavigation();
+
+        /// <summary>
+        ///     Restores the last fragment only if there was an unfinished navigation transaction.
+        /// </summary>
+        void RestoreUnfinishedNavigation();
     }
 }

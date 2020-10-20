@@ -22,6 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private readonly IViewLocator _viewLocator;
 
         private FrameNavigationConfig? _config;
+        private bool _hasUnfinishedNavigation;
 
         public DroidFrameNavigationService(
             IViewLocator viewLocator,
@@ -123,6 +124,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             ReplaceFragment(_backStack.Current());
         }
 
+        /// <inheritdoc />
+        public void RestoreUnfinishedNavigation()
+        {
+            if (_hasUnfinishedNavigation)
+            {
+                RestoreNavigation();
+            }
+        }
+
         protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel>? parameters)
             where TViewModel : notnull
         {
@@ -145,11 +155,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                if (_config == null)
+                if (_config?.Manager == null
+                    || _config.Manager.IsDestroyed
+                    || _config.Manager.IsStateSaved)
                 {
+                    _hasUnfinishedNavigation = true;
                     return;
                 }
 
+                _hasUnfinishedNavigation = false;
                 var transaction = _config.Manager
                     .BeginTransaction()
                     .Replace(_config.ContainerId, fragment);
@@ -170,7 +184,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private static IViewModelBase ExtractViewModel(Fragment fragment)
         {
-            return (IViewModelBase)((IBindable) fragment).DataContext;
+            return (IViewModelBase) ((IBindable) fragment).DataContext;
         }
 
         private void NavigateInternal(Fragment fragment, IViewModelBase viewModel)
