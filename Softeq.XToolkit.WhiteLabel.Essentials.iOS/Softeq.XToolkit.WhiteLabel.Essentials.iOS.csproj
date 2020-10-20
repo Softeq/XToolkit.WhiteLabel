@@ -41,12 +41,8 @@
         <Compile Include="FullScreenImage\FullScreenImageViewController.designer.cs">
           <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
         </Compile>
-        <Compile Include="ImagePicker\ImageOpenedEventArgs.cs" />
-        <Compile Include="ImagePicker\ImagePicker.cs" />
-        <Compile Include="ImagePicker\ImagePickerOptions.cs" />
         <Compile Include="ImagePicker\IosImagePickerResult.cs" />
         <Compile Include="ImagePicker\IosImagePickerService.cs" />
-        <Compile Include="ImagePicker\SimpleImagePicker.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
