@@ -217,7 +217,6 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StringExtensionsTests
 
             var result = text.FindLinks();
 
-
             Assert.NotNull(result);
             Assert.Throws<ArgumentNullException>(() => result.ToList());
         }

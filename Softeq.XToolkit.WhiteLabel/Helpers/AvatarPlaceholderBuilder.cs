@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using System;
-using System.Linq;
+using Softeq.XToolkit.Common.Extensions;
 
 namespace Softeq.XToolkit.WhiteLabel.Helpers
 {
@@ -27,7 +27,12 @@ namespace Softeq.XToolkit.WhiteLabel.Helpers
         /// </exception>
         public static (string Text, string Color) GetAbbreviationAndColor(string userName)
         {
-            var abbr = GetAbbreviation(userName);
+            if (userName == null)
+            {
+                throw new ArgumentNullException(nameof(userName));
+            }
+
+            var abbr = userName.GetInitialsForName();
             var color = GetColor(abbr);
 
             return (abbr, color);
@@ -56,7 +61,22 @@ namespace Softeq.XToolkit.WhiteLabel.Helpers
         /// </exception>
         public static (string Text, string Color) GetAbbreviationAndColor(string userName, string[] colors)
         {
-            var abbr = GetAbbreviation(userName);
+            if (userName == null)
+            {
+                throw new ArgumentNullException(nameof(userName));
+            }
+
+            if (colors == null)
+            {
+                throw new ArgumentNullException(nameof(colors));
+            }
+
+            if (colors.Length == 0)
+            {
+                throw new ArgumentException("Colors array cannot be empty", nameof(colors));
+            }
+
+            var abbr = userName.GetInitialsForName();
             var color = GetColor(abbr, colors);
 
             return (abbr, color);
@@ -77,27 +97,27 @@ namespace Softeq.XToolkit.WhiteLabel.Helpers
         public static string GetColor(string userName)
         {
             var colors = new[]
-                {
-                    "#1abc9c",
-                    "#2ecc71",
-                    "#3498db",
-                    "#9b59b6",
-                    "#34495e",
-                    "#16a085",
-                    "#27ae60",
-                    "#2980b9",
-                    "#8e44ad",
-                    "#2c3e50",
-                    "#f1c40f",
-                    "#e67e22",
-                    "#e74c3c",
-                    "#95a5a6",
-                    "#f39c12",
-                    "#d35400",
-                    "#c0392b",
-                    "#bdc3c7",
-                    "#7f8c8d"
-                };
+            {
+                "#1abc9c",
+                "#2ecc71",
+                "#3498db",
+                "#9b59b6",
+                "#34495e",
+                "#16a085",
+                "#27ae60",
+                "#2980b9",
+                "#8e44ad",
+                "#2c3e50",
+                "#f1c40f",
+                "#e67e22",
+                "#e74c3c",
+                "#95a5a6",
+                "#f39c12",
+                "#d35400",
+                "#c0392b",
+                "#bdc3c7",
+                "#7f8c8d"
+            };
             return GetColor(userName, colors);
         }
 
@@ -136,62 +156,6 @@ namespace Softeq.XToolkit.WhiteLabel.Helpers
 
             var index = Math.Abs(userName.GetHashCode()) % Math.Max(1, colors.Length - 1);
             return colors[index];
-        }
-
-        /// <summary>
-        ///     Creates an abbreviation from the specified username.
-        ///     Abbreviation will contain no more than 3 uppercase letters.
-        /// </summary>
-        /// <param name="userName">String containing the username to create abbreviation from.</param>
-        /// <returns>
-        ///     String containing the abbreviation
-        ///     or empty string if the <paramref name="userName"/> string is empty or contains only whitespace characters.
-        /// </returns>
-        /// <exception cref="T:System.ArgumentNullException">
-        ///     <paramref name="userName"/> cannot be <see langword="null"/>.
-        /// </exception>
-        public static string GetAbbreviation(string userName)
-        {
-            if (userName == null)
-            {
-                throw new ArgumentNullException(nameof(userName));
-            }
-
-            if (string.IsNullOrWhiteSpace(userName))
-            {
-                return string.Empty;
-            }
-
-            var trimmedData = userName.Trim();
-
-            // case for: First Last -> FL
-            if (trimmedData.Contains(' '))
-            {
-                var splitted = trimmedData.Split(' ');
-                if (splitted.Length == 2)
-                {
-                    var firstSymbol = char.ToUpper(splitted[0].FirstOrDefault());
-                    var secondSymbol = char.ToUpper(splitted[1].FirstOrDefault());
-                    return string.Concat(firstSymbol, secondSymbol);
-                }
-            }
-
-            // case for: First .* Last -> FL
-            var pascalCase = char.ToUpper(trimmedData[0]) + trimmedData.Substring(1);
-            var upperCaseOnly = string.Concat(pascalCase.Where(char.IsUpper));
-            if (upperCaseOnly.Length > 1 && upperCaseOnly.Length <= 3)
-            {
-                return upperCaseOnly.ToUpper();
-            }
-
-            // case for: fl -> FL
-            if (trimmedData.Length <= 3)
-            {
-                return trimmedData.ToUpper();
-            }
-
-            // case for: SuperLongName -> SUP
-            return trimmedData.Substring(0, 3).ToUpper();
         }
     }
 }
