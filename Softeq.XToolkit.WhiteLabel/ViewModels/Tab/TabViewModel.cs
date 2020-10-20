@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         }
 
         /// <summary>
-        ///     Gets or sets a value indicating whether the tab badge visible.
+        ///     Gets or sets a value indicating whether the tab badge is visible.
         /// </summary>
         public bool IsBadgeVisible
         {
