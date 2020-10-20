@@ -1,18 +1,18 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Softeq.XToolkit.Common;
-using Softeq.XToolkit.Common.Collections;
-using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.Common.Extensions;
 using RemoteServices.Auth;
 using RemoteServices.GitHub;
 using RemoteServices.Profile;
 using RemoteServices.Test;
+using Softeq.XToolkit.Common;
+using Softeq.XToolkit.Common.Collections;
+using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Extensions;
 
 namespace NetworkApp.ViewModels
 {

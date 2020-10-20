@@ -37,6 +37,10 @@
         <Reference Include="Xamarin.iOS" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="FullScreenImage\FullScreenImageViewController.cs" />
+        <Compile Include="FullScreenImage\FullScreenImageViewController.designer.cs">
+          <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
+        </Compile>
         <Compile Include="ImagePicker\ImageOpenedEventArgs.cs" />
         <Compile Include="ImagePicker\ImagePicker.cs" />
         <Compile Include="ImagePicker\ImagePickerOptions.cs" />
@@ -46,6 +50,14 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
+        <Project>{2d399ba9-1878-43e2-af05-6873eae9151b}</Project>
+        <Name>Softeq.XToolkit.Bindings.iOS</Name>
+      </ProjectReference>
+      <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
+        <Project>{0f1f09a8-9cdb-4933-aa1b-898ab43d394c}</Project>
+        <Name>Softeq.XToolkit.Bindings</Name>
+      </ProjectReference>
       <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
         <Project>{6bcb2009-2e46-458c-bcaa-afc27a631924}</Project>
         <Name>Softeq.XToolkit.Common.iOS</Name>
@@ -62,6 +74,10 @@
         <Project>{887c6ce5-075b-420d-a88f-60479c4dc25a}</Project>
         <Name>Softeq.XToolkit.WhiteLabel.Essentials</Name>
       </ProjectReference>
+      <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj">
+        <Project>{cc89dbc6-e68a-4c85-91c4-e276d3bc3c2e}</Project>
+        <Name>Softeq.XToolkit.WhiteLabel.iOS</Name>
+      </ProjectReference>
       <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
         <Project>{98c3b9f4-4e4f-4c0b-baa6-c61685e0ac49}</Project>
         <Name>Softeq.XToolkit.WhiteLabel</Name>
@@ -69,6 +85,9 @@
     </ItemGroup>
     <ItemGroup>
       <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    </ItemGroup>
+    <ItemGroup>
+      <InterfaceDefinition Include="FullScreenImage\FullScreenImageStoryboard.storyboard" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

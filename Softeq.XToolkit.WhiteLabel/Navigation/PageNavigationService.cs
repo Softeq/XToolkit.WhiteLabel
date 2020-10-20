@@ -9,7 +9,7 @@ using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     /// <summary>
-    /// This class supports only xamarin native navigation
+    ///     This class supports Xamarin Native navigation only.
     /// </summary>
     public class PageNavigationService : IPageNavigationService
     {
@@ -27,12 +27,12 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _container = container;
         }
 
+        public bool CanGoBack => _platformNavigationService.CanGoBack;
+
         public void Initialize(object navigation)
         {
             _platformNavigationService.Initialize(navigation);
         }
-
-        public bool CanGoBack => _platformNavigationService.CanGoBack;
 
         public void GoBack()
         {
@@ -61,7 +61,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
             var viewModel = _container.Resolve<T>();
 
-            viewModel.ApplyParameters(parameters);
+            if (parameters != null)
+            {
+                viewModel.ApplyParameters(parameters);
+            }
 
             _platformNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
 

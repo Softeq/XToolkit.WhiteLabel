@@ -62,6 +62,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 
         protected abstract int GetImageResourceId(TKey key);
 
+        protected virtual void HandleTabSelected(int index)
+        {
+            ToolbarComponent.TabSelected(_viewModel, index);
+        }
+
         private void InflateMenu(Context context)
         {
             if (BottomNavigationView == null)
@@ -110,7 +115,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
             }
 
             var index = BottomNavigationView.GetIndex(e.Item);
-            ToolbarComponent.TabSelected(_viewModel, index);
+            HandleTabSelected(index);
         }
     }
 }

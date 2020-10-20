@@ -23,8 +23,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             IViewLocator viewLocator,
             IContainer container)
         {
-            _viewLocator = viewLocator;
             _container = container;
+            _viewLocator = viewLocator;
         }
 
         [Obsolete("Use ShowDialogAsync(new ConfirmDialogConfig()) instead.")]
@@ -35,13 +35,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             string? cancelButtonText = null,
             OpenDialogOptions? openDialogOptions = null)
         {
-            return ShowDialogAsync(new ConfirmDialogConfig
-            {
-                Title = title,
-                Message = message,
-                AcceptButtonText = okButtonText,
-                CancelButtonText = cancelButtonText
-            });
+            return ShowDialogAsync(new ConfirmDialogConfig(
+                title, message, okButtonText, cancelButtonText));
         }
 
         public Task ShowDialogAsync(AlertDialogConfig config)
@@ -104,7 +99,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             where TViewModel : IDialogViewModel
         {
             var viewModel = _container.Resolve<TViewModel>();
-            viewModel.ApplyParameters(parameters);
+
+            if (parameters != null)
+            {
+                viewModel.ApplyParameters(parameters);
+            }
+
             return viewModel;
         }
 

@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -27,7 +27,7 @@ namespace RemoteServices.Test
             _logger = logManager.GetLogger<SslTestRemoteService>();
 
             var customHttpMessageHandlerBuilder = new DefaultHttpMessageHandlerBuilder(customHttpMessageHandler);
-            
+
             var httpClientBuilder = new HttpClientBuilder(ApiUrl, customHttpMessageHandlerBuilder)
                 .WithLogger(_logger)
                 .Build();

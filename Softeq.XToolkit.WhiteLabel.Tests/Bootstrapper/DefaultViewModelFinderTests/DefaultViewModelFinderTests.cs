@@ -5,9 +5,10 @@ using System;
 using System.Linq;
 using System.Reflection;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
+using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
 using Xunit;
 
-namespace Softeq.XToolkit.Whitelabel.Tests.Bootstrapper.DefaultViewModelFinderTests
+namespace Softeq.XToolkit.WhiteLabel.Tests.Bootstrapper.DefaultViewModelFinderTests
 {
     public class DefaultViewModelFinderTests
     {

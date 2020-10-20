@@ -1,17 +1,17 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
-﻿using System.Diagnostics.CodeAnalysis;
-﻿using System.Threading;
-﻿using System.Threading.Tasks;
-﻿using NSubstitute;
-﻿using NSubstitute.ExceptionExtensions;
-﻿using Softeq.XToolkit.Remote.Executor;
-﻿using Softeq.XToolkit.Remote.Primitives;
-﻿using Xunit;
+using System;
+using System.Diagnostics.CodeAnalysis;
+using System.Threading;
+using System.Threading.Tasks;
+using NSubstitute;
+using NSubstitute.ExceptionExtensions;
+using Softeq.XToolkit.Remote.Executor;
+using Softeq.XToolkit.Remote.Primitives;
+using Xunit;
 
-﻿namespace Softeq.XToolkit.Remote.Tests
+namespace Softeq.XToolkit.Remote.Tests
 {
     public class RemoteServiceTests
     {
@@ -66,16 +66,5 @@
 
             await Assert.ThrowsAsync<Exception>(() => task);
         }
-    }
-
-    public interface IStubApiInterface
-    {
-        Task SentData(string data, CancellationToken ct);
-
-        Task<string> GetData(CancellationToken ct);
-
-        Task DoException();
-
-        Task<string> DoException(CancellationToken ct);
     }
 }
