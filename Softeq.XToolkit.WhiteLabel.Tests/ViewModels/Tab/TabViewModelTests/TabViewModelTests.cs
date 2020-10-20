@@ -10,7 +10,7 @@ using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using Xunit;
 
-namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.Tab
+namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.Tab.TabViewModelTests
 {
     public class TabViewModelTests
     {

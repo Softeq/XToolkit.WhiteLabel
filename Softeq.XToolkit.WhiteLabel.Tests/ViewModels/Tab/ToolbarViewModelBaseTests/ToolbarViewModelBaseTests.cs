@@ -9,7 +9,7 @@ using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using Xunit;
 
-namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.Tab
+namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.Tab.ToolbarViewModelBaseTests
 {
     public class ToolbarViewModelBaseTests
     {
@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.Tab
 
         public ToolbarViewModelBaseTests()
         {
-            _viewModel = new ToolbarViewModelBaseStub();
+            _viewModel = new TestToolbarViewModelBase();
         }
 
         [Fact]
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.Tab
                 new TabItem<ViewModelStub, string>("title1", "key1", container),
                 new TabItem<ViewModelStub, string>("title2", "key2", container)
             };
-            ((ToolbarViewModelBaseStub)_viewModel).PublicSetTabModels(tabs);
+            ((TestToolbarViewModelBase)_viewModel).SetTabModels(tabs);
 
             _viewModel.OnInitialize();
 
