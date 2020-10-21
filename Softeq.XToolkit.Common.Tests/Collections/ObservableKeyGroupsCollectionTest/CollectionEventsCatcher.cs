@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -56,7 +57,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        actualKeys = _events[0].OldItems != null ? (_events[0].OldItems as IReadOnlyList<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+                        actualKeys = _events[0].OldItems != null ? (_events[0].OldItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
                         break;
 
                     case NotifyCollectionChangedAction.Replace:

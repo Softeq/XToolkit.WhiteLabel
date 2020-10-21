@@ -95,6 +95,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
         };
 
+        public static IList<KeyValuePair<string, IList<int>>> PairNotContainedKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
+        {
+            new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsEmpty),
+        };
+
         public static ObservableKeyGroupsCollection<string, int> CreateWithEmptyGroups()
         {
             return new ObservableKeyGroupsCollection<string, int>(false);
@@ -163,8 +168,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             return new List<TestItem<string, int>>
             {
-                new TestItem<string, int>(GroupKeyFirst, 13, 1),
                 null,
+                new TestItem<string, int>(GroupKeyFirst, 13, 1),
                 new TestItem<string, int>(GroupKeySecond, 12, 1)
             };
         }

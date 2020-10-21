@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Equal(1, catcher.EventCount);
         }
 
-        [Theory] // ---
+        [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
         public void CollectionChanged_RemoveGroupsExistKeys_NotifyRemoveEvent(ObservableKeyGroupsCollection<string, int> collection)
         {
@@ -102,8 +102,22 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Theory]
-        [MemberData(nameof(CollectionHelper.CollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void CollectionChanged_ClearGroups_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
+        [MemberData(nameof(CollectionHelper.EmptyCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
+        public void CollectionChanged_ClearGroupsEmptyCollection_NotNotify(ObservableKeyGroupsCollection<string, int> collection)
+        {
+            var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
+            catcher.Subscribe();
+
+            collection.ClearGroups();
+
+            catcher.Unsubscribe();
+
+            Assert.Equal(0, catcher.EventCount);
+        }
+
+        [Theory]
+        [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
+        public void CollectionChanged_ClearGroupsFilledCollection_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
@@ -116,7 +130,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Theory]
-        [MemberData(nameof(CollectionHelper.CollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
+        [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
         public void CollectionChanged_ClearGroups_NotifyResetEvent(ObservableKeyGroupsCollection<string, int> collection)
         {
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
@@ -127,7 +141,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Reset));
         }
 
-        [Fact] // ---
+        [Fact]
         public void CollectionChanged_ClearGroupOnlyAllowEmptyExistKey_NotifyResetEvent()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
@@ -138,10 +152,10 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Reset, new List<string> { CollectionHelper.GroupKeyFirst }));
+            Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Reset));
         }
 
-        [Fact] // ---
+        [Fact]
         public void CollectionChanged_ClearGroupOnlyAllowEmptyExistKey_NotifyOneTime()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
@@ -311,9 +325,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Equal(1, catcher.EventCount);
         }
 
-        [Theory] // ---
+        [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void CollectionChanged_InsertItems_NotifyAddEvent(ObservableKeyGroupsCollection<string, int> collection)
+        public void CollectionChanged_InsertItems_NotifyReplaceEvent(ObservableKeyGroupsCollection<string, int> collection)
         {
             var items = CollectionHelper.CreateFillItemsListWithExistKeys();
             var newKeys = items.Select(x => x.Key).Distinct().Where(x => !collection.Keys.Contains(x)).ToList();
@@ -546,7 +560,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Reset));
         }
 
-        [Fact] // ---
+        [Fact]
         public void ItemsChanged_ClearGroupOnlyAllowEmptyExistKey_NotifyResetEvent()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
@@ -560,7 +574,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.True(catcher.IsExpectedEvent(NotifyCollectionChangedAction.Reset, new List<string> { CollectionHelper.GroupKeyFirst }));
         }
 
-        [Fact] // ---
+        [Fact]
         public void ItemsChanged_ClearGroupOnlyAllowEmptyExistKey_NotifyOneTime()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
@@ -1128,7 +1142,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void InsertGroups_WithItemsAllowEmptyGroupsUniqueKeysWithEmptyItems_CollectionSizeIncreased()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
-            var pair = CollectionHelper.PairWithKeyWithEmptyItem;
+            var pair = CollectionHelper.PairNotContainedKeyWithEmptyItem;
             var expectedCount = collection.Count + pair.Count;
 
             collection.InsertGroups(0, pair);
@@ -1852,7 +1866,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [MemberData(nameof(CollectionHelper.EmptyCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
         public void GetEnumerator_AddCorrectPairs_AllElementsPassed(ObservableKeyGroupsCollection<string, int> collection)
         {
-            var pairs = CollectionHelper.PairsWithKeysWithItemsWithEmpty;
+            var pairs = CollectionHelper.PairsWithKeysWithItems;
             collection.AddGroups(pairs);
 
             var isSame = true;

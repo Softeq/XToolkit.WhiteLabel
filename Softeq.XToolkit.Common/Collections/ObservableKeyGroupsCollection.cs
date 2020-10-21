@@ -30,15 +30,10 @@ namespace Softeq.XToolkit.Common.Collections
         private readonly IList<Group> _items;
         private readonly bool _withoutEmptyGroups;
 
-        public IList<TKey> Keys => _items?.Select(item => item.Key).ToList();
-        //public IList<IList<TValue>> Values => _items?.Select(item => _items).ToList();
-
-        public int Count => _items.Count;
-
         /// <summary>
         ///     Initializes a new instance of the <see cref="ObservableKeyGroupsCollection{TKey, TValue}"/> class.
         /// </summary>
-        /// <param name="withoutEmptyGroups">If true empty groups will be removed</param>
+        /// <param name="withoutEmptyGroups">If true empty groups will be removed.</param>
         public ObservableKeyGroupsCollection(bool withoutEmptyGroups = true)
         {
             _withoutEmptyGroups = withoutEmptyGroups;
@@ -48,38 +43,26 @@ namespace Softeq.XToolkit.Common.Collections
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
 
+        public IList<TKey> Keys => _items?.Select(item => item.Key).ToList() ?? new List<TKey>();
+
+        public int Count => _items.Count;
+
+        /// <inheritdoc />
+        public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator() => _items.GetEnumerator();
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
+
         /// <inheritdoc />
         public void AddGroups(IEnumerable<TKey> keys)
         {
-            if (_withoutEmptyGroups)
-            {
-                throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
-            }
-
-            if (keys == null)
-            {
-                throw new ArgumentNullException(nameof(keys));
-            }
-
-            AddGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>())));
+            InsertGroups(_items.Count, keys);
         }
 
         /// <inheritdoc />
         public void AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
-            if (items == null)
-            {
-                throw new ArgumentNullException(nameof(items));
-            }
-
-            //if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
-            //{
-            //    throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
-            //}
-
-            var insertionIndex = _items.Count;
-
-            InsertGroups(insertionIndex, items);
+            InsertGroups(_items.Count, items);
         }
 
         /// <inheritdoc />
@@ -117,9 +100,14 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
+            var newItems = new Collection<(int, IReadOnlyList<TKey>)>
+            {
+                (index, insertedGroups.Select(x => x.Key).ToList())
+            };
+
             OnChanged(
                 NotifyCollectionChangedAction.Add,
-                new Collection<(int, IReadOnlyList<TKey>)> { (index, insertedGroups.Select(x => x.Key).ToList()) },
+                newItems,
                 default,
                 default);
         }
@@ -137,8 +125,6 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(keys));
             }
 
-            _items.Clear();
-
             ReplaceGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>())));
         }
 
@@ -150,22 +136,33 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(items));
             }
 
-            var toRemove = _items.Select(x => x.Key).ToList();
+            if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
+            {
+                throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
+            }
+
+            var oldItems = new Collection<(int, IReadOnlyList<TKey>)>
+            {
+                (0, _items.Select(x => x.Key).ToList())
+            };
 
             _items.Clear();
 
-            const int insertionIndex = 0;
-
-            var insertedGroups = InsertGroupsWithoutNotify(insertionIndex, items, _withoutEmptyGroups);
+            var insertedGroups = InsertGroupsWithoutNotify(0, items, _withoutEmptyGroups);
             if (insertedGroups == null)
             {
                 return;
             }
 
+            var newItems = new Collection<(int, IReadOnlyList<TKey>)>
+            {
+                (0, insertedGroups.Select(x => x.Key).ToList())
+            };
+
             OnChanged(
                 NotifyCollectionChangedAction.Replace,
-                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, insertedGroups.Select(x => x.Key).ToList()) },
-                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, toRemove) },
+                newItems,
+                oldItems,
                 default);
         }
 
@@ -177,24 +174,37 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(keys));
             }
 
-            var oldItemsRange = RemoveGroupsWithoutNotify(keys);
-
-            if (oldItemsRange.Count == 0)
+            var removedGroups = RemoveGroupsWithoutNotify(keys);
+            if (removedGroups.Count == 0)
             {
                 return;
             }
 
+            var oldItems = new Collection<(int, IReadOnlyList<TKey>)>
+            {
+                (0, removedGroups[0].Keys)
+            };
+
             OnChanged(
-                NotifyCollectionChangedAction.Remove,
-                default,
-                oldItemsRange,
-                //new Collection<(int, IReadOnlyList<TKey>)>(oldItemsRange.Select(item => (item.Index, item.Keys)).ToList()),
-                default);
+            NotifyCollectionChangedAction.Remove,
+            default,
+            oldItems,
+            default);
         }
 
         /// <inheritdoc />
         public void ClearGroups()
         {
+            if (_items.Count == 0)
+            {
+                return;
+            }
+
+            var oldItems = new Collection<(int, IReadOnlyList<TKey>)>
+            {
+                (0, _items.Select(x => x.Key).ToList())
+            };
+
             _items.Clear();
 
             OnChanged(
@@ -226,6 +236,11 @@ namespace Softeq.XToolkit.Common.Collections
 
             item.Clear();
 
+            var oldItems = new Collection<(int, IReadOnlyList<TKey>)>
+            {
+                (0, new List<TKey> { item.Key }),
+            };
+
             var groupEvents =
                 new Collection<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>
                 {
@@ -234,9 +249,9 @@ namespace Softeq.XToolkit.Common.Collections
                 };
 
             OnChanged(
+                NotifyCollectionChangedAction.Reset,
                 default,
-                default,
-                default,
+                oldItems,
                 groupEvents);
 
         }
@@ -322,7 +337,7 @@ namespace Softeq.XToolkit.Common.Collections
                 .ToList();
 
             OnChanged(
-                default,
+                NotifyCollectionChangedAction.Add,
                 default,
                 default,
                 groupEvents);
@@ -417,10 +432,10 @@ namespace Softeq.XToolkit.Common.Collections
                 var val = valueSelector(item);
                 var valIndex = _items.ElementAt(groupIndex).IndexOf(val);
 
-                //if (!_items.ElementAt(groupIndex).Any(x => x.Equals(val)))
-                //{
-                //    throw new KeyNotFoundException();
-                //}
+                if (!_items.ElementAt(groupIndex).Any(x => x.Equals(val)))
+                {
+                    throw new KeyNotFoundException();
+                }
 
                 if (groupsInfos.All(x => x.GroupIndex != groupIndex))
                 {
@@ -483,12 +498,6 @@ namespace Softeq.XToolkit.Common.Collections
                 groupEvents);
         }
 
-        /// <inheritdoc />
-        public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator() => _items.GetEnumerator();
-
-        /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
-
         private void OnChanged(
             NotifyCollectionChangedAction? action,
             IReadOnlyList<(int Index, IReadOnlyList<TKey> NewItems)>? newItems,
@@ -517,7 +526,7 @@ namespace Softeq.XToolkit.Common.Collections
                     break;
 
                 case NotifyCollectionChangedAction.Reset:
-                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset, args.NewItemRanges);
+                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
                     break;
 
                 case NotifyCollectionChangedAction.Remove:
@@ -540,8 +549,6 @@ namespace Softeq.XToolkit.Common.Collections
             //var items = args.Action == NotifyCollectionChangedAction.Add ? args.NewItemRanges : args.OldItemRanges;
 
             //CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(args.Action.Value, items)); // NotifyCollectionChangedAction.Reset));
-
-            //ItemsChanged?.Invoke(this, args);
         }
 
         private IEnumerable<Group>? InsertGroupsWithoutNotify(
