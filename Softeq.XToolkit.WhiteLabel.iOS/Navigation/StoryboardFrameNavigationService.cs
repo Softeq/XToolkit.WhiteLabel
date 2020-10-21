@@ -71,6 +71,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
         }
 
+        void IFrameNavigationService.RestoreUnfinishedNavigation()
+        {
+        }
+
         void IFrameNavigationService.NavigateToFirstPage()
         {
         }

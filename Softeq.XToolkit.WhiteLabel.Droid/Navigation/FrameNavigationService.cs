@@ -170,5 +170,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             return _backStack.Any(item => ReferenceEquals(item.ViewModel, viewModelBase));
         }
+
+        public void RestoreUnfinishedNavigation()
+        {
+        }
     }
 }
