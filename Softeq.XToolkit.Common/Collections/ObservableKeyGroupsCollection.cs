@@ -113,7 +113,7 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <inheritdoc />
-        public void ReplaceGroups(IEnumerable<TKey> keys)
+        public void ReplaceAllGroups(IEnumerable<TKey> keys)
         {
             if (_withoutEmptyGroups)
             {
@@ -125,11 +125,11 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(keys));
             }
 
-            ReplaceGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>())));
+            ReplaceAllGroups(keys.Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>())));
         }
 
         /// <inheritdoc />
-        public void ReplaceGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
+        public void ReplaceAllGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
             if (items == null)
             {
@@ -193,7 +193,7 @@ namespace Softeq.XToolkit.Common.Collections
         }
 
         /// <inheritdoc />
-        public void ClearGroups()
+        public void Clear()
         {
             if (_items.Count == 0)
             {
@@ -249,11 +249,10 @@ namespace Softeq.XToolkit.Common.Collections
                 };
 
             OnChanged(
-                NotifyCollectionChangedAction.Reset,
                 default,
-                oldItems,
+                default,
+                default,
                 groupEvents);
-
         }
 
         /// <inheritdoc />
@@ -299,8 +298,8 @@ namespace Softeq.XToolkit.Common.Collections
 
             groupEvents = groupEvents.Count > 0 ? groupEvents : default;
 
-            OnChanged(
-                keysToAdd == null ? default(NotifyCollectionChangedAction?) : NotifyCollectionChangedAction.Add,
+            OnChanged( // check
+                keysToAdd == null ? default : NotifyCollectionChangedAction.Add, // rename
                 keysToAdd == null ? default : new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, keysToAdd) },
                 default,
                 groupEvents);
@@ -336,15 +335,15 @@ namespace Softeq.XToolkit.Common.Collections
                     ))
                 .ToList();
 
-            OnChanged(
-                NotifyCollectionChangedAction.Add,
+            OnChanged( // check
+                default,
                 default,
                 default,
                 groupEvents);
         }
 
         /// <inheritdoc />
-        public void ReplaceItems<T>(
+        public void ReplaceAllItems<T>(
             IEnumerable<T> items,
             Func<T, TKey> keySelector,
             Func<T, TValue> valueSelector)
@@ -382,11 +381,11 @@ namespace Softeq.XToolkit.Common.Collections
 
             groupEvents = groupEvents.Count > 0 ? groupEvents : default;
 
-            OnChanged(
+            OnChanged( // check
                 NotifyCollectionChangedAction.Replace,
-                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, keysToAdd) },
-                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, toRemove) },
-                groupEvents);
+                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, keysToAdd) }, //  should be rename
+                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, toRemove) }, // should be old
+                groupEvents); // ??? should be removed?
         }
 
         /// <inheritdoc />
@@ -491,7 +490,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             groupEvents = groupEvents.Count > 0 ? groupEvents : default;
 
-            OnChanged(
+            OnChanged( // check
                 groupsToRemove?.Count > 0 ? NotifyCollectionChangedAction.Remove : (NotifyCollectionChangedAction?) null,
                 default,
                 groupsToRemove?.Count > 0 ? groupsToRemove : null,
@@ -513,42 +512,41 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
         {
-            NotifyCollectionChangedEventArgs notifyArgs;
-
-            switch (args.Action)
+            if (args.Action != null)
             {
-                case NotifyCollectionChangedAction.Add:
-                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, args.NewItemRanges);
-                    break;
+                NotifyCollectionChangedEventArgs notifyArgs;
 
-                case NotifyCollectionChangedAction.Replace:
-                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, args.NewItemRanges, args.OldItemRanges);
-                    break;
+                switch (args.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Add, args.NewItemRanges);
+                        break;
 
-                case NotifyCollectionChangedAction.Reset:
-                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
-                    break;
+                    case NotifyCollectionChangedAction.Replace:
+                        notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Replace, args.NewItemRanges, args.OldItemRanges);
+                        break;
 
-                case NotifyCollectionChangedAction.Remove:
-                    notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, args.OldItemRanges);
-                    break;
+                    case NotifyCollectionChangedAction.Remove:
+                        notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Remove, args.OldItemRanges);
+                        break;
 
-                //case NotifyCollectionChangedAction.Move:
-                // break;
+                    case NotifyCollectionChangedAction.Move:
+                        notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, args.OldItemRanges);
+                        break;
 
-                default:
-                    //notifyArgs = new NotifyCollectionChangedEventArgs(args.Action.Value, args.NewItemRanges, args.OldItemRanges);
-                    return;
+                    case NotifyCollectionChangedAction.Reset:
+                        notifyArgs = new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset);
+                        break;
+
+                    default:
+                        throw new NotImplementedException();
+                }
+
+                CollectionChanged?.Invoke(this, notifyArgs);
             }
 
-            CollectionChanged?.Invoke(this, notifyArgs);
-
+            // skip items event
             ItemsChanged?.Invoke(this, args);
-
-            // -----
-            //var items = args.Action == NotifyCollectionChangedAction.Add ? args.NewItemRanges : args.OldItemRanges;
-
-            //CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(args.Action.Value, items)); // NotifyCollectionChangedAction.Reset));
         }
 
         private IEnumerable<Group>? InsertGroupsWithoutNotify(

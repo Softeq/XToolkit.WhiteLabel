@@ -302,7 +302,19 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 List<TestItem<string, int>>,
                 List<string>>
                 {
-                    { CreateFilledGroupsWithEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string>() },
+                    { CreateFilledGroupsWithEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string>() { GroupKeyFirst } },
+                    { CreateFilledGroupsWithoutEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string> { GroupKeyFirst } }
+                };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>,
+            List<string>> CollectionChangedRemoveItemsForbidEmptyGroupRemoveAllGroupItemsTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>,
+                List<string>>
+                {
                     { CreateFilledGroupsWithoutEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string> { GroupKeyFirst } }
                 };
 
