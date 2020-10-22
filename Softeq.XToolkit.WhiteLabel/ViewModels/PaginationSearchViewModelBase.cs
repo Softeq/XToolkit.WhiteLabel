@@ -38,10 +38,10 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
                     return;
                 }
 
-                _searchQuery = value?.Trim();
+                _searchQuery = value;
                 RaisePropertyChanged();
 
-                if (string.IsNullOrEmpty(_searchQuery) && !AllowEmptySearchQuery)
+                if (string.IsNullOrWhiteSpace(_searchQuery) && !AllowEmptySearchQuery)
                 {
                     EmptyQuery();
                 }
