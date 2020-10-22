@@ -35,7 +35,13 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
         public bool CanLoadMore
         {
             get => _canLoadMore || CanAlwaysLoadMore;
-            protected set => Set(ref _canLoadMore, value);
+            protected set
+            {
+                if (Set(ref _canLoadMore, value))
+                {
+                    ((RelayCommand) LoadMoreCommand).RaiseCanExecuteChanged();
+                }
+            }
         }
 
         public ICommand LoadMoreCommand { get; }
