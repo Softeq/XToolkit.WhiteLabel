@@ -32,6 +32,7 @@ namespace Playground.Forms.ViewModels
                     new CommandAction(new RelayCommand(AsyncCommands), "Async Commands"),
                     new CommandAction(new RelayCommand(Permissions), "Permissions"),
                     new CommandAction(new RelayCommand(Validation), "Validation"),
+                    new CommandAction(new RelayCommand(PaginationSearch), "Pagination Search"),
                 });
         }
 
@@ -82,6 +83,13 @@ namespace Playground.Forms.ViewModels
         {
             _pageNavigationService
                 .For<ValidationPageViewModel>()
+                .Navigate();
+        }
+
+        private void PaginationSearch()
+        {
+            _pageNavigationService
+                .For<PaginationSearchPageViewModel>()
                 .Navigate();
         }
     }
