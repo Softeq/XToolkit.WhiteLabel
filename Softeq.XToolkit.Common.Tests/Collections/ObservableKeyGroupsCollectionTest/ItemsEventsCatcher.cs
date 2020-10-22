@@ -1,4 +1,7 @@
-﻿using System.Collections.Generic;
+﻿// Developed by Softeq Development Corporation
+// http://www.softeq.com
+
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using Softeq.XToolkit.Common.Collections;
@@ -11,16 +14,16 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         private readonly ObservableKeyGroupsCollection<TKey, TValue> _collection;
         private readonly IList<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>> _events = new List<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>();
 
+        private ItemsEventsCatcher(ObservableKeyGroupsCollection<TKey, TValue> collection)
+        {
+            _collection = collection;
+        }
+
         public int EventCount => _events.Count;
 
         public static ItemsEventsCatcher<TKey, TValue> Create(ObservableKeyGroupsCollection<TKey, TValue> collection)
         {
             return new ItemsEventsCatcher<TKey, TValue>(collection);
-        }
-
-        private ItemsEventsCatcher(ObservableKeyGroupsCollection<TKey, TValue> collection)
-        {
-            _collection = collection;
         }
 
         public void Subscribe()
@@ -33,53 +36,48 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             _collection.ItemsChanged -= CatchEvents;
         }
 
-        public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<KeyValuePair<TKey, IList<TValue>>> pairs)
-        {
-            return IsExpectedEvent(action, pairs.Select(x => x.Key).ToList());
-        }
-
-        public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<TKey> keys = null)
+        public bool IsExpectedEvent(NotifyCollectionChangedAction action, IList<TValue> values = null)
         {
             try
             {
-                var isActionSame = _events[0].Action == action;
-                var isKeysMatched = true;
-                var actualKeys = new List<TKey>();
+                var isActionSame = _events[0].GroupEvents[0].Arg.Action == action;
+                var isValuesMatched = true;
+                var actuaValues = new List<TValue>();
 
                 switch (action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        actualKeys = _events[0].NewItemRanges != null ? _events[0].NewItemRanges[0].NewItems.ToList() : new List<TKey>();
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        actualKeys = _events[0].OldItemRanges != null ? _events[0].OldItemRanges[0].OldItems.ToList() : new List<TKey>();
+                        actuaValues = _events[0].GroupEvents.SelectMany(x => x.Arg.NewItemRanges.SelectMany(y => y.NewItems)).ToList();
                         break;
 
-                    case NotifyCollectionChangedAction.Replace:
-                        actualKeys = _events[0].NewItemRanges != null ? _events[0].NewItemRanges[0].NewItems.ToList() : new List<TKey>();
+                    case NotifyCollectionChangedAction.Remove:
+                        actuaValues = _events[0].GroupEvents.SelectMany(x => x.Arg.OldItemRanges.SelectMany(y => y.OldItems)).ToList();
+                        break;
+
+                    case NotifyCollectionChangedAction.Reset:
                         break;
                 }
 
-                if (keys != null)
+                if (values != null)
                 {
-                    if (keys.Count == actualKeys.Count)
+                    if (values.Count == actuaValues.Count)
                     {
-                        foreach (var key in keys)
+                        foreach (var value in values)
                         {
-                            isKeysMatched = isKeysMatched && actualKeys.Contains(key);
+                            isValuesMatched = isValuesMatched && actuaValues.Contains(value);
                         }
                     }
                     else
                     {
-                        isKeysMatched = false;
+                        isValuesMatched = false;
                     }
                 }
-                else if (actualKeys.Count != 0)
+                else if (actuaValues.Count != 0)
                 {
-                    isKeysMatched = false;
+                    isValuesMatched = false;
                 }
 
-                return isActionSame && isKeysMatched;
+                return isActionSame && isValuesMatched;
             }
             catch
             {

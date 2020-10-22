@@ -197,6 +197,26 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             };
         }
 
+        public static List<TestItem<string, int>> CreateFillItemsListWithOnlyNewKeys()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyThird, 15, 0),
+                new TestItem<string, int>(GroupKeyThird, 18, 3)
+            };
+        }
+
+        public static List<TestItem<string, int>> RemoveItemsOnlyExistItemsForFirstGroup()
+        {
+            return new List<TestItem<string, int>>
+            {
+                new TestItem<string, int>(GroupKeyFirst, 1),
+                new TestItem<string, int>(GroupKeyFirst, 3),
+                new TestItem<string, int>(GroupKeyFirst, 2),
+                new TestItem<string, int>(GroupKeyFirst, 4),
+            };
+        }
+
         public static TheoryData<ObservableKeyGroupsCollection<string, int>> EmptyCollectionOptionsTestData
             => new TheoryData<ObservableKeyGroupsCollection<string, int>>
             {
@@ -229,8 +249,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             {
                 { CreateFilledGroupsWithEmpty(), PairNullKeyWithItems },
                 { CreateFilledGroupsWithoutEmpty(), PairNullKeyWithItems },
-                { CreateFilledGroupsWithEmpty(), PairNullKeyWithEmptyItems },
-                { CreateFilledGroupsWithoutEmpty(), PairNullKeyWithEmptyItems },
                 { CreateFilledGroupsWithEmpty(), PairNullKeyWithNullItems },
                 { CreateFilledGroupsWithoutEmpty(), PairNullKeyWithNullItems }
             };
@@ -296,26 +314,34 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public static TheoryData<
             ObservableKeyGroupsCollection<string, int>,
             List<TestItem<string, int>>,
-            List<string>> RemoveItemsEventsTestData
+            List<string>> RemoveItemsForbidEmptyGroupRemoveAllGroupItemsTestData
             => new TheoryData<
                 ObservableKeyGroupsCollection<string, int>,
                 List<TestItem<string, int>>,
                 List<string>>
                 {
-                    { CreateFilledGroupsWithEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string>() { GroupKeyFirst } },
                     { CreateFilledGroupsWithoutEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string> { GroupKeyFirst } }
                 };
 
         public static TheoryData<
             ObservableKeyGroupsCollection<string, int>,
-            List<TestItem<string, int>>,
-            List<string>> CollectionChangedRemoveItemsForbidEmptyGroupRemoveAllGroupItemsTestData
+            List<TestItem<string, int>>> RemoveItemsAllowEmptyGroupRemoveAllGroupItemsTestData
             => new TheoryData<
                 ObservableKeyGroupsCollection<string, int>,
-                List<TestItem<string, int>>,
-                List<string>>
+                List<TestItem<string, int>>>
                 {
-                    { CreateFilledGroupsWithoutEmpty(), RemoveItemsAllExistItemsForGroup(), new List<string> { GroupKeyFirst } }
+                    { CreateFilledGroupsWithEmpty(), RemoveItemsAllExistItemsForGroup() }
+                };
+
+        public static TheoryData<
+            ObservableKeyGroupsCollection<string, int>,
+            List<TestItem<string, int>>> RemoveItemsNotRemoveAllGroupItemsTestData
+            => new TheoryData<
+                ObservableKeyGroupsCollection<string, int>,
+                List<TestItem<string, int>>>
+                {
+                    { CreateFilledGroupsWithEmpty(), RemovedExistItems() },
+                    { CreateFilledGroupsWithoutEmpty(), RemovedExistItems() }
                 };
 
         public static TheoryData<

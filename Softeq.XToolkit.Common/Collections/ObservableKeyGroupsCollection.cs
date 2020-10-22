@@ -40,8 +40,8 @@ namespace Softeq.XToolkit.Common.Collections
             _items = new List<Group>();
         }
 
-        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
+        public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
 
         public IList<TKey> Keys => _items?.Select(item => item.Key).ToList() ?? new List<TKey>();
 
@@ -84,7 +84,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
-            if (items == null)
+            if (items == null || items.Any(x => x.Key == null))
             {
                 throw new ArgumentNullException(nameof(items));
             }
@@ -228,7 +228,6 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             var item = _items.FirstOrDefault(x => x.Key.Equals(key));
-
             if (item == null)
             {
                 throw new KeyNotFoundException();
@@ -236,23 +235,18 @@ namespace Softeq.XToolkit.Common.Collections
 
             item.Clear();
 
-            var oldItems = new Collection<(int, IReadOnlyList<TKey>)>
-            {
-                (0, new List<TKey> { item.Key }),
-            };
-
-            var groupEvents =
+            var clearGroupEvent =
                 new Collection<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>
                 {
                     (_items.IndexOf(item),
-                        new NotifyGroupCollectionChangedEventArgs<TValue>(NotifyCollectionChangedAction.Reset, null, null))
+                        new NotifyGroupCollectionChangedEventArgs<TValue>(NotifyCollectionChangedAction.Reset, default, default))
                 };
 
             OnChanged(
                 default,
                 default,
                 default,
-                groupEvents);
+                clearGroupEvent); // check, how check key ?
         }
 
         /// <inheritdoc />
@@ -266,6 +260,11 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
+            if (items.Count() == 0)
+            {
+                return;
+            }
+
             int insertionIndex = _items.Count;
 
             var groups = items
@@ -274,35 +273,31 @@ namespace Softeq.XToolkit.Common.Collections
                 .Where(x => _items.All(y => !y.Key.Equals(x)))
                 .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>()));
 
-            var keysToAdd = InsertGroupsWithoutNotify(insertionIndex, groups, false)?.Select(x => x.Key).ToList();
+            var keysOfAddedGroups = InsertGroupsWithoutNotify(insertionIndex, groups, false)?.Select(x => x.Key).ToList();
+            var insertedItems = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
 
-            var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
-
-            if (!result.Any())
+            if (!insertedItems.Any())
             {
                 return;
             }
 
-            var groupEvents = result
-                .Where(x => keysToAdd == null || keysToAdd.All(y => !y.Equals(x.Key)))
-                .Select(x =>
-                    (
-                        _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        new NotifyGroupCollectionChangedEventArgs<TValue>(
+            var addedItemsEvents = insertedItems
+                .Where(x => keysOfAddedGroups == null || keysOfAddedGroups.All(y => !y.Equals(x.Key)))
+                .Select(x => (
+                    _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
+                    new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
-                            default
-                        )
-                    ))
+                            default)))
                 .ToList();
 
-            groupEvents = groupEvents.Count > 0 ? groupEvents : default;
+            addedItemsEvents = addedItemsEvents.Count > 0 ? addedItemsEvents : default;
 
-            OnChanged( // check
-                keysToAdd == null ? default : NotifyCollectionChangedAction.Add, // rename
-                keysToAdd == null ? default : new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, keysToAdd) },
+            OnChanged(
+                keysOfAddedGroups == null ? (NotifyCollectionChangedAction?) null : NotifyCollectionChangedAction.Add,
+                keysOfAddedGroups == null ? default : new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, keysOfAddedGroups) },
                 default,
-                groupEvents);
+                addedItemsEvents);
         }
 
         /// <inheritdoc />
@@ -317,29 +312,27 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
-            var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, valueIndexSelector);
+            var insertedItems = InsertItemsWithoutNotify(items, keySelector, valueSelector, valueIndexSelector);
 
-            if (!result.Any())
+            if (!insertedItems.Any())
             {
                 return;
             }
 
-            var groupEvents = result
-                .Select(x =>
-                    (
-                        _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        new NotifyGroupCollectionChangedEventArgs<TValue>(
-                            NotifyCollectionChangedAction.Add,
-                            new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
-                            default)
-                    ))
+            var insertedItemsEvents = insertedItems
+                .Select(x => (
+                    _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
+                    new NotifyGroupCollectionChangedEventArgs<TValue>(
+                        NotifyCollectionChangedAction.Add,
+                        new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
+                        default)))
                 .ToList();
 
-            OnChanged( // check
+            OnChanged(
                 default,
                 default,
                 default,
-                groupEvents);
+                insertedItemsEvents);
         }
 
         /// <inheritdoc />
@@ -353,11 +346,9 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
-            var toRemove = _items.Select(x => x.Key).ToList();
+            var keysToRemove = _items.Select(x => x.Key).ToList();
 
             _items.Clear();
-
-            const int insertionIndex = 0;
 
             var groups = items
                 .Select(keySelector.Invoke)
@@ -365,27 +356,15 @@ namespace Softeq.XToolkit.Common.Collections
                 .Where(x => _items.All(y => !y.Key.Equals(x)))
                 .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>()));
 
-            var keysToAdd = InsertGroupsWithoutNotify(insertionIndex, groups, false)?.Select(x => x.Key)?.ToList() ?? new List<TKey>();
-            var result = InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
-            var groupEvents = result
-                .Where(x => keysToAdd == null ? true : keysToAdd.All(y => !y.Equals(x.Key)))
-                .Select(x =>
-                    (
-                        _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
-                        new NotifyGroupCollectionChangedEventArgs<TValue>(
-                            NotifyCollectionChangedAction.Add,
-                            new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
-                            default)
-                    ))
-                .ToList();
+            var keysOfAddedGroup = InsertGroupsWithoutNotify(0, groups, false)?.Select(x => x.Key)?.ToList() ?? new List<TKey>();
 
-            groupEvents = groupEvents.Count > 0 ? groupEvents : default;
+            InsertItemsWithoutNotify(items, keySelector, valueSelector, null);
 
-            OnChanged( // check
+            OnChanged(
                 NotifyCollectionChangedAction.Replace,
-                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, keysToAdd) }, //  should be rename
-                new Collection<(int, IReadOnlyList<TKey>)> { (insertionIndex, toRemove) }, // should be old
-                groupEvents); // ??? should be removed?
+                new Collection<(int, IReadOnlyList<TKey>)> { (0, keysOfAddedGroup) },
+                new Collection<(int, IReadOnlyList<TKey>)> { (0, keysToRemove) },
+                default);
         }
 
         /// <inheritdoc />
@@ -476,25 +455,26 @@ namespace Softeq.XToolkit.Common.Collections
                 .SelectMany(x => x)
                 .ToList();
 
-            var groupEvents = rangesToRemove
+            var removedItemsEvents = rangesToRemove
                 .Where(x => keyIndexesToRemove == null || keyIndexesToRemove.All(y => !y.Equals(x.Key)))
-                .Select(x =>
-                    (
-                        x.Key,
-                        new NotifyGroupCollectionChangedEventArgs<TValue>(
-                            NotifyCollectionChangedAction.Remove,
-                            default,
-                            (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value)
-                    ))
+                .Select(x => (
+                    x.Key,
+                    new NotifyGroupCollectionChangedEventArgs<TValue>(
+                        NotifyCollectionChangedAction.Remove,
+                        default,
+                        (IReadOnlyList<(int, IReadOnlyList<TValue>)>) x.Value)))
                 .ToList();
 
-            groupEvents = groupEvents.Count > 0 ? groupEvents : default;
+            removedItemsEvents = removedItemsEvents.Count > 0 ? removedItemsEvents : default;
 
-            OnChanged( // check
+            var oldItems = groupsToRemove?.Count > 0 ?
+                new Collection<(int, IReadOnlyList<TKey>)> { (0, groupsToRemove[0].Keys) } : null;
+
+            OnChanged(
                 groupsToRemove?.Count > 0 ? NotifyCollectionChangedAction.Remove : (NotifyCollectionChangedAction?) null,
                 default,
-                groupsToRemove?.Count > 0 ? groupsToRemove : null,
-                groupEvents);
+                oldItems,
+                removedItemsEvents);
         }
 
         private void OnChanged(
@@ -512,7 +492,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
         {
-            if (args.Action != null)
+            if (args?.Action != null)
             {
                 NotifyCollectionChangedEventArgs notifyArgs;
 
@@ -545,8 +525,10 @@ namespace Softeq.XToolkit.Common.Collections
                 CollectionChanged?.Invoke(this, notifyArgs);
             }
 
-            // skip items event
-            ItemsChanged?.Invoke(this, args);
+            if (args?.GroupEvents?.Count > 0)
+            {
+                ItemsChanged?.Invoke(this, args);
+            }
         }
 
         private IEnumerable<Group>? InsertGroupsWithoutNotify(
