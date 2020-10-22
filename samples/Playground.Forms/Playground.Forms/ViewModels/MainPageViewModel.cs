@@ -1,11 +1,12 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Windows.Input;
+using System.Collections.Generic;
 using Playground.Forms.ViewModels.Components;
 using Playground.Forms.ViewModels.Dialogs;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
 using Playground.Forms.ViewModels.SimpleNavigation;
+using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -22,25 +23,19 @@ namespace Playground.Forms.ViewModels
         {
             _pageNavigationService = pageNavigationService;
 
-            SimpleNavigationCommand = new RelayCommand(PerformSimpleNavigation);
-            MasterDetailNavigationCommand = new RelayCommand(PerformMasterDetailNavigation);
-            DialogsCommand = new RelayCommand(Dialogs);
-            AsyncCommandsCommand = new RelayCommand(AsyncCommands);
-            PermissionsCommand = new RelayCommand(Permissions);
-            ValidationCommand = new RelayCommand(Validation);
+            Items = new ObservableRangeCollection<CommandAction>(
+                new List<CommandAction>
+                {
+                    new CommandAction(new RelayCommand(PerformSimpleNavigation), "Simple Navigation"),
+                    new CommandAction(new RelayCommand(PerformMasterDetailNavigation), "Master Detail Navigation"),
+                    new CommandAction(new RelayCommand(Dialogs), "Dialogs"),
+                    new CommandAction(new RelayCommand(AsyncCommands), "Async Commands"),
+                    new CommandAction(new RelayCommand(Permissions), "Permissions"),
+                    new CommandAction(new RelayCommand(Validation), "Validation"),
+                });
         }
 
-        public ICommand SimpleNavigationCommand { get; }
-
-        public ICommand MasterDetailNavigationCommand { get; }
-
-        public ICommand DialogsCommand { get; }
-
-        public ICommand AsyncCommandsCommand { get; }
-
-        public ICommand PermissionsCommand { get; }
-
-        public ICommand ValidationCommand { get; }
+        public ObservableRangeCollection<CommandAction> Items { get; }
 
         public string Title
         {
