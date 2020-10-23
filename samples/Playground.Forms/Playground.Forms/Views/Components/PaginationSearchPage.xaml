@@ -31,7 +31,7 @@
                 <DataTemplate>
                     <TextCell
                         Text="{Binding Path=.}"
-                        TextColor="Black" />
+                        TextColor="Purple" />
                 </DataTemplate>
             </ListView.ItemTemplate>
             <ListView.Footer>
@@ -50,6 +50,7 @@
         <Label
             Text="Empty list"
             HorizontalOptions="Center"
+            VerticalOptions="CenterAndExpand"
             IsVisible="{Binding Search.HasResults, Converter={StaticResource InverseConverter}}" />
     </StackLayout>
 </ContentPage>
