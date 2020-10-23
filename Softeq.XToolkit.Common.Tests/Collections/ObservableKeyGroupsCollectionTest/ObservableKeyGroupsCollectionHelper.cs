@@ -153,7 +153,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             };
         }
 
-        // -- Selectors Object
         public static List<TestItem<string, int>> CreateEmptyItemsList()
         {
             return new List<TestItem<string, int>>();

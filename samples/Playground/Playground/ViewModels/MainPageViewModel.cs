@@ -196,7 +196,7 @@ namespace Playground.ViewModels
                     "Gestures (iOS)"))
             };
 
-            Items.AddRangeToGroups(actions, x => x.Item, x => x.Header.ToString());
+            Items.AddItems(actions, x => x.Header.ToString(), x => x.Item);
         }
     }
 }

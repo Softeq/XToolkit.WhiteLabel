@@ -55,7 +55,7 @@ namespace Playground.ViewModels.Collections.Products
 
             products.Apply(product => { product.AddToBasketCommand = _addCommand; });
 
-            Products.ReplaceItems(products, x => CreateGroup(GetGroupId(x)), x => x);
+            Products.ReplaceAllItems(products, x => CreateGroup(GetGroupId(x)), x => x);
 
             IsBusy = false;
         }
@@ -149,7 +149,7 @@ namespace Playground.ViewModels.Collections.Products
 
         public void ClearGroups()
         {
-            Products.ClearGroups();
+            Products.Clear();
         }
 
         public void ClearGroup(ProductHeaderViewModel productHeaderViewModel)

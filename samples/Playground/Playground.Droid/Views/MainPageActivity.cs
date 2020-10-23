@@ -6,6 +6,7 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
+using Playground.Droid.Views.Collections;
 using Playground.ViewModels;
 using Softeq.XToolkit.Bindings.Droid;
 using Softeq.XToolkit.Common.Weak;
