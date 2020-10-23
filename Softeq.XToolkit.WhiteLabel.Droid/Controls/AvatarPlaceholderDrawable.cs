@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         {
             _context = context;
 
-            var info = AvatarPlaceholderBuilder.Build(name, styles.BackgroundHexColors);
+            var info = AvatarPlaceholderBuilder.GetAbbreviationAndColor(name, styles.BackgroundHexColors);
 
             _avatarText = info.Text;
 
@@ -86,7 +86,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             _backgroundPaint.Alpha = alpha;
         }
 
-        public override void SetColorFilter(ColorFilter colorFilter)
+        public override void SetColorFilter(ColorFilter? colorFilter)
         {
             _textPaint.SetColorFilter(colorFilter);
             _backgroundPaint.SetColorFilter(colorFilter);

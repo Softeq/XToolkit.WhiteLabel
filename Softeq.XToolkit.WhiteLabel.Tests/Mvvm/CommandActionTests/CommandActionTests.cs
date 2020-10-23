@@ -11,8 +11,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Mvvm.CommandActionTests
     {
         [Theory]
         [MemberData(
-                nameof(CommandActionTestsDataProvider.CtorData),
-                MemberType = typeof(CommandActionTestsDataProvider))]
+            nameof(CommandActionTestsDataProvider.CtorData),
+            MemberType = typeof(CommandActionTestsDataProvider))]
         public void Ctor_InitializesProperties(
             ICommand command,
             string title,

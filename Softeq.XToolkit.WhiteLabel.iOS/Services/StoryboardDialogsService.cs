@@ -42,14 +42,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             string? cancelButtonText = null,
             OpenDialogOptions? options = null)
         {
-            return ShowDialogAsync(new ConfirmDialogConfig
-            {
-                Title = title,
-                Message = message,
-                AcceptButtonText = okButtonText,
-                CancelButtonText = cancelButtonText,
-                IsDestructive = options?.DialogType == DialogType.Destructive
-            });
+            return ShowDialogAsync(new ConfirmDialogConfig(
+                title,
+                message,
+                okButtonText,
+                cancelButtonText,
+                options?.DialogType == DialogType.Destructive));
         }
 
         public virtual Task ShowDialogAsync(AlertDialogConfig config)
@@ -97,6 +95,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 _logger.Error(e);
             }
+
             return default!;
         }
 
@@ -120,6 +119,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 _logger.Error(e);
             }
+
             return default!;
         }
 
@@ -128,7 +128,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             where TViewModel : IDialogViewModel
         {
             var viewModel = _container.Resolve<TViewModel>();
-            viewModel.ApplyParameters(parameters);
+
+            if (parameters != null)
+            {
+                viewModel.ApplyParameters(parameters);
+            }
+
             var presentedViewController = await PresentModalViewControllerAsync(viewModel).ConfigureAwait(false);
             try
             {
@@ -140,6 +145,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 _logger.Warn(e);
             }
+
             return new PresentationResult(presentedViewController, null);
         }
 

@@ -1,33 +1,41 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+
 namespace Softeq.XToolkit.WhiteLabel.Dialogs
 {
     /// <summary>
-    ///     Presents an alert dialog to the application user with a single cancel button.
+    ///     Configuration of an alert dialog with a single 'Close' button.
     /// </summary>
     public class AlertDialogConfig
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="AlertDialogConfig"/> class.
+        /// </summary>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="message">Dialog message.</param>
+        /// <param name="closeButtonText">The text to be displayed on the 'Close' button.</param>
         public AlertDialogConfig(string title, string message, string closeButtonText)
         {
-            Title = title;
-            Message = message;
-            CloseButtonText = closeButtonText;
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Message = message ?? throw new ArgumentNullException(nameof(message));
+            CloseButtonText = closeButtonText ?? throw new ArgumentNullException(nameof(closeButtonText));
         }
 
         /// <summary>
-        ///     The title of the alert dialog.
+        ///    Gets the dialog title.
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; }
 
         /// <summary>
-        ///     The body text of the alert dialog.
+        ///     Gets the dialog message.
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; }
 
         /// <summary>
-        ///     Text to be displayed on the close button.
+        ///     Gets the text to be displayed on the 'Close' button.
         /// </summary>
-        public string CloseButtonText { get; set; }
+        public string CloseButtonText { get; }
     }
 }

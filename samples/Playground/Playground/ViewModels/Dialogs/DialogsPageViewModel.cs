@@ -106,10 +106,7 @@ namespace Playground.ViewModels.Dialogs
 
         private async Task OpenConfirm()
         {
-            var config = new ConfirmDialogConfig("~title - remove?", "~message", "~yes", "~no")
-            {
-                IsDestructive = true
-            };
+            var config = new ConfirmDialogConfig("~title - remove?", "~message", "~yes", "~no", true);
             var result = await _dialogsService.ShowDialogAsync(config);
 
             ConfirmResult = result ? "Removed" : "Declined";
@@ -117,18 +114,16 @@ namespace Playground.ViewModels.Dialogs
 
         private async Task OpenActionSheet()
         {
-            var config = new ActionSheetDialogConfig
-            {
-                Title = "~title",
-                OptionButtons = new[]
+            var config = new ActionSheetDialogConfig(
+                new[]
                 {
                     "~option 1",
                     "~option 2",
                     "~option 3"
                 },
-                CancelButtonText = "~cancel",
-                DestructButtonText = "~destruct"
-            };
+                "~title",
+                "~cancel",
+                "~destruct");
             var result = await _dialogsService.ShowDialogAsync(config);
 
             ActionSheetResult = result;

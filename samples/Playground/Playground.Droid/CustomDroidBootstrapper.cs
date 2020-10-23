@@ -12,9 +12,12 @@ using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
+using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Services;
+using Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 using IImagePickerService = Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker.IImagePickerService;
 
 namespace Playground.Droid
@@ -24,6 +27,7 @@ namespace Playground.Droid
         protected override IList<Assembly> SelectAssemblies()
         {
             return base.SelectAssemblies() // Softeq.XToolkit.WhiteLabel.Droid
+                .AddItem(typeof(FullScreenImageDialogFragment).Assembly) // Softeq.XToolkit.WhiteLabel.Essentials.Droid
                 .AddItem(GetType().Assembly); // Playground.Droid
         }
 
@@ -34,6 +38,7 @@ namespace Playground.Droid
 
             builder.Singleton<DroidAppInfoService, IAppInfoService>();
 
+            builder.Singleton<DroidFragmentDialogService, IDialogsService>();
             builder.Singleton<DroidExtendedDialogsService, IExtendedDialogsService>();
 
             // permissions

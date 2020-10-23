@@ -13,6 +13,7 @@ using Playground.ViewModels.Frames;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Essentials.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -160,6 +161,14 @@ namespace Playground.ViewModels
                             .Navigate();
                     }),
                     "Photo browser")),
+                (Category.Controls, new CommandAction(
+                    new RelayCommand(() =>
+                    {
+                        _pageNavigationService
+                            .For<PhotoViewerViewModel>()
+                            .Navigate();
+                    }),
+                    "Photo viewer")),
 
                 // (Category.Components, new CommandAction(
                 //   new RelayCommand(() =>

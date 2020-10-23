@@ -4,31 +4,51 @@
 namespace Softeq.XToolkit.WhiteLabel.Dialogs
 {
     /// <summary>
-    ///     Displays a native platform action sheet,
-    ///     allowing the application user to choose from several buttons.
+    ///     Configuration of an action sheet dialog
+    ///     that allows user to choose from several options.
     /// </summary>
     public class ActionSheetDialogConfig
     {
         /// <summary>
-        ///     Title of the displayed action sheet.
+        ///     Initializes a new instance of the <see cref="ActionSheetDialogConfig"/> class.
         /// </summary>
-        public string? Title { get; set; }
+        /// <param name="optionButtons">The text to be displayed on the option buttons.</param>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="cancelButtonText">The text to be displayed on the 'Cancel' button.</param>
+        /// <param name="destructButtonText">The text to be displayed on the 'Destruct' button.</param>
+        public ActionSheetDialogConfig(
+            string[]? optionButtons,
+            string? title = null,
+            string? cancelButtonText = null,
+            string? destructButtonText = null)
+        {
+            OptionButtons = optionButtons ?? new string[] { };
+            Title = title;
+            CancelButtonText = cancelButtonText;
+            DestructButtonText = destructButtonText;
+        }
 
         /// <summary>
-        ///     Text to be displayed in the 'Cancel' button.
-        ///     Can be null to hide the cancel action.
+        ///     Gets the dialog title.
+        ///     Can be <see langword="null"/> to hide the title.
         /// </summary>
-        public string? CancelButtonText { get; set; }
+        public string? Title { get; }
 
         /// <summary>
-        ///     Text to be displayed in the 'Destruct' button.
-        ///     Can be null to hide the destructive option.
+        ///     Gets the text to be displayed on the 'Cancel' button.
+        ///     Can be <see langword="null"/> to hide the 'Cancel' button.
         /// </summary>
-        public string? DestructButtonText { get; set; }
+        public string? CancelButtonText { get; }
 
         /// <summary>
-        ///     Text labels for additional buttons.
+        ///     Gets the text to be displayed on the 'Destruct' button.
+        ///     Can be <see langword="null"/> to hide the 'Destruct' button.
         /// </summary>
-        public string[] OptionButtons { get; set; } = new string[] {};
+        public string? DestructButtonText { get; }
+
+        /// <summary>
+        ///    Gets the text to be displayed on the option buttons.
+        /// </summary>
+        public string[] OptionButtons { get; }
     }
 }

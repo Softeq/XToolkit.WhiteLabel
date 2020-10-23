@@ -84,10 +84,6 @@
     <Compile Include="Controls\GradientFadeView.cs" />
     <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
-    <Compile Include="ViewControllers\FullScreenImageViewController.cs" />
-    <Compile Include="ViewControllers\FullScreenImageViewController.designer.cs">
-      <DependentUpon>FullScreenImageViewController.cs</DependentUpon>
-    </Compile>
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
     <Compile Include="Controls\BindableTabBarItem.cs" />
@@ -119,9 +115,6 @@
       <IsAppExtension>false</IsAppExtension>
       <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <InterfaceDefinition Include="ViewControllers\FullScreenImageStoryboard.storyboard" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

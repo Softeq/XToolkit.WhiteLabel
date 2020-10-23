@@ -4,10 +4,10 @@
 // actions made in the UI designer. If it is removed, they will be lost.
 // Manual changes to this file may not be handled correctly.
 //
-using Foundation;
-using System.CodeDom.Compiler;
 
-namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
+using Foundation;
+
+namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
 {
 	[Register ("FullScreenImageViewController")]
 	partial class FullScreenImageViewController

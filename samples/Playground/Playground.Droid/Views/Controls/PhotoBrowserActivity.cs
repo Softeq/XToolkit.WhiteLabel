@@ -6,9 +6,9 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using Playground.ViewModels.Controls;
-using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid;
 
 namespace Playground.Droid.Views.Controls
 {
