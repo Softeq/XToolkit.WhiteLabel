@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
 using Xunit;
@@ -22,25 +23,25 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
         }
 
         [Fact]
-        public void Ctor_Default_ReturnsNegativeCurrentPage()
+        public void CurrentPage_Default_ReturnsNegative()
         {
             Assert.Equal(DefaultCurrentPage, _viewModel.CurrentPage);
         }
 
         [Fact]
-        public void Ctor_Default_ReturnsCanLoadMoreFalse()
+        public void CanLoadMore_Default_ReturnsFalse()
         {
             Assert.False(_viewModel.CanLoadMore);
         }
 
         [Fact]
-        public void Ctor_Default_ReturnsNotNullLoadMoreCommand()
+        public void LoadMoreCommand_Default_ReturnsIAsyncCommand()
         {
-            Assert.NotNull(_viewModel.LoadMoreCommand);
+            Assert.IsAssignableFrom<IAsyncCommand>(_viewModel.LoadMoreCommand);
         }
 
         [Fact]
-        public void Ctor_Default_ReturnsEmptyItems()
+        public void Items_Default_ReturnsEmpty()
         {
             Assert.Empty(_viewModel.Items);
         }
