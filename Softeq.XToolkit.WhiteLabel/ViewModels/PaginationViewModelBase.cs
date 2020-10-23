@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
@@ -17,21 +16,30 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
     public abstract class PaginationViewModelBase<TViewModel, TModel> : ObservableObject
     {
         private const int DefaultPageSize = 20;
-        private bool _canLoadMore;
 
+        private bool _canLoadMore;
         private int _currentPage = -1;
 
         protected PaginationViewModelBase()
         {
-            LoadMoreCommand = new RelayCommand(LoadMore, () => CanLoadMore);
+            PageSize = DefaultPageSize;
+            CancellationToken = CancellationToken.None;
+            Items = new ObservableRangeCollection<TViewModel>();
+            LoadMoreCommand = new AsyncCommand(LoadMoreAsync, () => CanLoadMore);
         }
 
+        /// <summary>
+        ///     Gets or sets the currently loaded page.
+        /// </summary>
         public int CurrentPage
         {
             get => _currentPage;
             protected set => Set(ref _currentPage, value);
         }
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether additional data can be loaded.
+        /// </summary>
         public bool CanLoadMore
         {
             get => _canLoadMore || CanAlwaysLoadMore;
@@ -39,28 +47,52 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             {
                 if (Set(ref _canLoadMore, value))
                 {
-                    ((RelayCommand) LoadMoreCommand).RaiseCanExecuteChanged();
+                    ((AsyncCommand) LoadMoreCommand).RaiseCanExecuteChanged();
                 }
             }
         }
 
-        public ICommand LoadMoreCommand { get; }
+        /// <summary>
+        ///     Gets a command to load more data.
+        /// </summary>
+        public IAsyncCommand LoadMoreCommand { get; }
 
-        public ObservableRangeCollection<TViewModel> Items { get; } = new ObservableRangeCollection<TViewModel>();
+        /// <summary>
+        ///     Gets the list of all loaded items.
+        /// </summary>
+        public ObservableRangeCollection<TViewModel> Items { get; }
 
-        protected virtual bool CanAlwaysLoadMore { get; } = false;
+        /// <summary>
+        ///     Gets a value indicating whether additional data should be forced to be loaded.
+        /// </summary>
+        protected virtual bool CanAlwaysLoadMore { get; }
 
-        protected virtual int PageSize { get; } = DefaultPageSize;
+        /// <summary>
+        ///     Gets the size of the page that will be used to load data.
+        /// </summary>
+        protected virtual int PageSize { get; }
 
-        protected virtual CancellationToken CancellationToken { get; } = CancellationToken.None;
+        /// <summary>
+        ///     Gets the cancellation token that will be used to cancel the requests.
+        /// </summary>
+        protected virtual CancellationToken CancellationToken { get; }
 
+        /// <summary>
+        ///     Resets the list of all loaded items.
+        /// </summary>
         public void ResetItems()
         {
-            Interlocked.Exchange(ref _currentPage, 0);
+            Interlocked.Exchange(ref _currentPage, -1);
 
             Items.Clear();
         }
 
+        /// <summary>
+        ///     Loads the first page of data.
+        ///     This method must be called first to initialize the view model.
+        /// </summary>
+        /// <param name="cancellationToken">Token for canceling the request.</param>
+        /// <returns>Task.</returns>
         protected async Task LoadFirstPageAsync(CancellationToken cancellationToken)
         {
             Interlocked.Exchange(ref _currentPage, 0);
@@ -113,22 +145,19 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             });
         }
 
-        private void LoadMore()
+        private async Task LoadMoreAsync()
         {
             if (Items.Count < PageSize)
             {
                 return;
             }
 
-            Task.Run(() => LoadNextPageAsync(CancellationToken));
+            await LoadNextPageAsync(CancellationToken).ConfigureAwait(false);
         }
 
         private async Task<IList<TViewModel>> LoadPageAsync(int pageNumber)
         {
-            Execute.BeginOnUIThread(() =>
-            {
-                ItemsWillLoad();
-            });
+            Execute.BeginOnUIThread(ItemsWillLoad);
 
             var pagingModel = await LoadAsync(pageNumber, PageSize).ConfigureAwait(false);
             if (pagingModel == null)
@@ -160,10 +189,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             return viewModels;
         }
 
-        protected virtual Task<PagingModel<TModel>?> LoadAsync(int pageNumber, int pageSize)
-        {
-            return Task.FromResult(default(PagingModel<TModel>));
-        }
+        protected abstract Task<PagingModel<TModel>?> LoadAsync(int pageNumber, int pageSize);
 
         protected virtual void ItemsWillLoad()
         {
