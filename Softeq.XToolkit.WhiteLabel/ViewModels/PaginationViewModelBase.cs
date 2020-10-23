@@ -13,6 +13,11 @@ using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Softeq.XToolkit.WhiteLabel.ViewModels
 {
+    /// <summary>
+    ///     A base view model for working with paginated data.
+    /// </summary>
+    /// <typeparam name="TViewModel">The type of view model.</typeparam>
+    /// <typeparam name="TModel">The type of data model.</typeparam>
     public abstract class PaginationViewModelBase<TViewModel, TModel> : ObservableObject
     {
         private const int DefaultPageSize = 20;

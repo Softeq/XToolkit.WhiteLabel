@@ -10,6 +10,11 @@ using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Softeq.XToolkit.WhiteLabel.ViewModels
 {
+    /// <summary>
+    ///    A base view model for searching and representing results as paginated data.
+    /// </summary>
+    /// <typeparam name="TViewModel">The type of view model.</typeparam>
+    /// <typeparam name="TModel">The type of data model.</typeparam>
     public abstract class PaginationSearchViewModelBase<TViewModel, TModel>
         : PaginationViewModelBase<TViewModel, TModel>
     {
@@ -24,10 +29,23 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             SearchCommand = new RelayCommand(DoSearch);
         }
 
+        /// <summary>
+        ///     Gets the command to clear <see cref="SearchQuery"/> property.
+        /// </summary>
         public ICommand ClearCommand { get; }
 
+        /// <summary>
+        ///     Gets the command to perform the search.
+        /// </summary>
         public ICommand SearchCommand { get; }
 
+        /// <summary>
+        ///     Gets or sets the search query.
+        /// </summary>
+        /// <remarks>
+        ///     Empty values will be ignored by default, to change this behavior
+        ///     you can override <see cref="AllowEmptySearchQuery"/> property.
+        /// </remarks>
         public string? SearchQuery
         {
             get => _searchQuery;
@@ -52,22 +70,42 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             }
         }
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether any result was found.
+        /// </summary>
         public bool HasResults
         {
             get => _hasContent;
-            set => Set(ref _hasContent, value);
+            protected set => Set(ref _hasContent, value);
         }
 
+        /// <summary>
+        ///     Gets or sets a value indicating whether this ViewModel is doing some work right now.
+        /// </summary>
+        /// <remarks>
+        ///     By default during the loading of more data, this value will not be used.
+        ///     You can override <see cref="SilentLoadPagesEnabled"/> property to change this behavior.
+        /// </remarks>
         public bool IsBusy
         {
             get => _isBusy;
-            set => Set(ref _isBusy, value);
+            protected set => Set(ref _isBusy, value);
         }
 
+        /// <summary>
+        ///     Gets the delay value between searches.
+        /// </summary>
         protected virtual int SearchDelay => 300;
 
+        /// <summary>
+        ///     Gets a value indicating whether property <see cref="IsBusy"/> will be changed
+        ///     when additional pages are loaded.
+        /// </summary>
         protected virtual bool SilentLoadPagesEnabled => true;
 
+        /// <summary>
+        ///     Gets a value indicating whether empty search query validation is disabled.
+        /// </summary>
         protected virtual bool AllowEmptySearchQuery => false;
 
         protected override CancellationToken CancellationToken => _lastSearchCancelSource.Token;
