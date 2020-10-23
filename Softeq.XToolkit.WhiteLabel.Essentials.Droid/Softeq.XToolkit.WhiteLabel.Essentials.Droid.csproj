@@ -42,14 +42,25 @@
         <Reference Include="System.Xml" />
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="FullScreenImage\FullScreenImageDialogFragment.cs" />
+        <Compile Include="FullScreenImage\SwipeListener.cs" />
         <Compile Include="ImagePicker\DroidImagePickerResult.cs" />
         <Compile Include="ImagePicker\DroidImagePickerService.cs" />
-        <Compile Include="ImagePicker\ImagePicker.cs" />
         <Compile Include="ImagePicker\ImagePickerActivity.cs" />
         <Compile Include="Resources\Resource.Designer.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
+        <AndroidResource Include="Resources\anim\fullscreen_fade_in.xml" />
+        <AndroidResource Include="Resources\anim\fullscreen_fade_out.xml" />
+        <AndroidResource Include="Resources\layout\dialog_full_screen_image.xml" />
+        <AndroidResource Include="Resources\values\styles.xml" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
+        <Project>{0f1f09a8-9cdb-4933-aa1b-898ab43d394c}</Project>
+        <Name>Softeq.XToolkit.Bindings</Name>
+      </ProjectReference>
       <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
         <Project>{24588814-b93d-4528-8917-9c2a3c4e85ca}</Project>
         <Name>Softeq.XToolkit.Common</Name>

@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
     {
         public static UIImage CreateAvatarWithTextPlaceholder(string name, AvatarStyles styles)
         {
-            var (text, backgroundColor) = AvatarPlaceholderBuilder.Build(name, styles.BackgroundHexColors);
+            var (text, backgroundColor) = AvatarPlaceholderBuilder.GetAbbreviationAndColor(name, styles.BackgroundHexColors);
 
             return CreateCircleImage(
                 styles.Size,

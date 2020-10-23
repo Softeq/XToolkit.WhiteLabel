@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
     <dependencies>
-        <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,14 +12,14 @@
             <objects>
                 <viewController storyboardIdentifier="FullScreenImageViewController" id="Sld-ns-V9a" customClass="FullScreenImageViewController" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="gHJ-fw-eQP">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="YOs-93-pkd">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="M1i-C7-apV">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                                     </imageView>
                                 </subviews>
                                 <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -33,26 +30,17 @@
                                     <constraint firstItem="M1i-C7-apV" firstAttribute="leading" secondItem="YOs-93-pkd" secondAttribute="leading" id="ttT-hA-lXi"/>
                                 </constraints>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y5K-t1-ZFU">
-                                <rect key="frame" x="0.0" y="0.0" width="48" height="48"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="48" id="EVG-cj-CGG"/>
-                                    <constraint firstAttribute="width" constant="48" id="NDW-e2-gHs"/>
-                                </constraints>
-                            </button>
                         </subviews>
+                        <viewLayoutGuide key="safeArea" id="rkh-dP-RXK"/>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="y5K-t1-ZFU" firstAttribute="leading" secondItem="rkh-dP-RXK" secondAttribute="leading" id="Aap-gO-lYQ"/>
                             <constraint firstItem="YOs-93-pkd" firstAttribute="top" secondItem="gHJ-fw-eQP" secondAttribute="top" id="EkT-Cy-Uls"/>
-                            <constraint firstItem="rkh-dP-RXK" firstAttribute="trailing" secondItem="YOs-93-pkd" secondAttribute="trailing" id="Uyi-pV-wwF"/>
-                            <constraint firstItem="YOs-93-pkd" firstAttribute="leading" secondItem="rkh-dP-RXK" secondAttribute="leading" id="ej6-e6-5sW"/>
-                            <constraint firstItem="y5K-t1-ZFU" firstAttribute="top" secondItem="gHJ-fw-eQP" secondAttribute="top" id="itL-E1-k7y"/>
+                            <constraint firstAttribute="trailing" secondItem="YOs-93-pkd" secondAttribute="trailing" id="TB4-CR-8QT"/>
+                            <constraint firstItem="YOs-93-pkd" firstAttribute="leading" secondItem="gHJ-fw-eQP" secondAttribute="leading" id="UYh-0e-LMt"/>
                             <constraint firstAttribute="bottom" secondItem="YOs-93-pkd" secondAttribute="bottom" id="ouN-2u-pgJ"/>
                         </constraints>
-                        <viewLayoutGuide key="safeArea" id="rkh-dP-RXK"/>
                     </view>
                     <connections>
-                        <outlet property="CloseButton" destination="y5K-t1-ZFU" id="hKZ-52-WlE"/>
                         <outlet property="ImageView" destination="M1i-C7-apV" id="I1D-YZ-B3x"/>
                     </connections>
                 </viewController>

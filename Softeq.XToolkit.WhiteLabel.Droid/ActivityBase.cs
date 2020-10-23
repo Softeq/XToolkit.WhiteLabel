@@ -73,7 +73,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             _viewModelLazy = new Lazy<TViewModel>(() =>
             {
                 var backStack = Dependencies.Container.Resolve<IBackStackManager>();
-                return backStack.GetExistingOrCreateViewModel<TViewModel>();
+                if (backStack.Count > 0 && backStack.PeekViewModel() is TViewModel viewModel)
+                {
+                    return viewModel;
+                }
+                else
+                {
+                    viewModel = Dependencies.Container.Resolve<TViewModel>();
+                    backStack.PushViewModel(viewModel);
+                    return viewModel;
+                }
             });
             _bundleService = Dependencies.Container.Resolve<IBundleService>();
         }

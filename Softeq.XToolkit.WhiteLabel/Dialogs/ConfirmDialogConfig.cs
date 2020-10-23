@@ -2,55 +2,70 @@
 // http://www.softeq.com
 
 // ReSharper disable UnusedAutoPropertyAccessor.Global
+using System;
+
 namespace Softeq.XToolkit.WhiteLabel.Dialogs
 {
     /// <summary>
-    ///     Presents an alert dialog to the application user with an accept and a cancel button.
+    ///     Configuration of an alert dialog with 'Confirm' and 'Cancel' buttons.
     /// </summary>
     public class ConfirmDialogConfig
     {
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ConfirmDialogConfig"/> class.
+        /// </summary>
+        /// <param name="title">Dialog title.</param>
+        /// <param name="message">Dialog message.</param>
+        /// <param name="acceptButtonText">The text to be displayed on the 'Accept' button.</param>
+        /// <param name="cancelButtonText">The text to be displayed on the 'Cancel' button.</param>
+        /// <param name="isDestructive">
+        ///     Value indicating whether the 'Accept' button should look destructive on UI.
+        /// </param>
+        /// <exception cref="T:System.ArgumentNullException">
+        ///     <paramref name="title"/>
+        ///     and <paramref name="message"/>
+        ///     and <paramref name="acceptButtonText"/>
+        ///     cannot be null.
+        /// </exception>
         public ConfirmDialogConfig(
             string title,
             string message,
             string acceptButtonText,
-            string cancelButtonText)
+            string? cancelButtonText = null,
+            bool isDestructive = false)
         {
-            Title = title;
-            Message = message;
-            AcceptButtonText = acceptButtonText;
+            Title = title ?? throw new ArgumentNullException(nameof(title));
+            Message = message ?? throw new ArgumentNullException(nameof(message));
+            AcceptButtonText = acceptButtonText ?? throw new ArgumentNullException(nameof(acceptButtonText));
             CancelButtonText = cancelButtonText;
-        }
-
-        public ConfirmDialogConfig()
-        {
-            Title = string.Empty;
-            Message = string.Empty;
-            AcceptButtonText = string.Empty;
+            IsDestructive = isDestructive;
         }
 
         /// <summary>
-        ///     The title of the alert dialog.
+        ///     Gets the dialog title.
         /// </summary>
-        public string Title { get; set; }
+        public string Title { get; }
 
         /// <summary>
-        ///     The body text of the alert dialog.
+        ///     Gets the dialog message.
         /// </summary>
-        public string Message { get; set; }
+        public string Message { get; }
 
         /// <summary>
-        ///     Text to be displayed on the 'Accept' button.
+        ///     Gets the text to be displayed on the 'Accept' button.
         /// </summary>
-        public string AcceptButtonText { get; set; }
+        public string AcceptButtonText { get; }
 
         /// <summary>
-        ///     Text to be displayed on the 'Cancel' button.
+        ///     Gets the text to be displayed on the 'Cancel' button.
+        ///     Can be <see langword="null"/> to hide the 'Cancel' button.
         /// </summary>
-        public string? CancelButtonText { get; set; }
+        public string? CancelButtonText { get; }
 
         /// <summary>
-        ///     Declares that 'Accept' button should look destructive on UI.
+        ///     Gets a value indicating whether
+        ///     the 'Accept' button should look destructive on UI.
         /// </summary>
-        public bool IsDestructive { get; set; }
+        public bool IsDestructive { get; }
     }
 }

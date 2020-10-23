@@ -85,7 +85,6 @@
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
     <Compile Include="ViewComponents\ToolbarComponent.cs" />
     <Compile Include="Views\BottomNavigationFragmentBase.cs" />
-    <Compile Include="Views\FullScreenImageDialogFragment.cs" />
     <Compile Include="Navigation\StartActivityAttribute.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
     <Compile Include="Services\UrlDecoder.cs" />
@@ -136,7 +135,6 @@
     <AndroidResource Include="Resources\values\styles.xml" />
     <AndroidResource Include="Resources\layout\control_busy_overlay.xml" />
     <AndroidResource Include="Resources\layout\fragment_navigation_root.xml" />
-    <AndroidResource Include="Resources\layout\dialog_full_screen_image.xml" />
     <AndroidResource Include="Resources\drawable\core_ic_close.xml" />
     <AndroidResource Include="Resources\layout\activity_bottom_navigation.axml" />
     <AndroidResource Include="Resources\layout\control_notification_badge.xml" />

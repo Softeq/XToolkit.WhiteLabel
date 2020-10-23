@@ -61,5 +61,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         {
             throw new NotImplementedException();
         }
+
+        public void RestoreUnfinishedNavigation()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
