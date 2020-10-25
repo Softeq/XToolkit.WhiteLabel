@@ -51,10 +51,10 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
         [InlineData(12, 100)]
         public async Task LoadFirstPageAsync_TestData_LoadsItems(int pageSize, int totalItemsCount)
         {
-            _viewModel.PublicPageSize = pageSize;
-            _viewModel.TotalItemsCount = totalItemsCount;
+            _viewModel.TestPageSize = pageSize;
+            _viewModel.TestTotalItemsCount = totalItemsCount;
 
-            await _viewModel.PublicLoadFirstPageAsync();
+            await _viewModel.TestLoadFirstPageAsync();
 
             Assert.Equal(0, _viewModel.CurrentPage);
             Assert.Equal(pageSize, _viewModel.Items.Count);
@@ -63,9 +63,9 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
         [Fact]
         public async Task ResetItems_NotEmpty_Resets()
         {
-            _viewModel.PublicPageSize = 2;
-            _viewModel.TotalItemsCount = 2;
-            await _viewModel.PublicLoadFirstPageAsync();
+            _viewModel.TestPageSize = 2;
+            _viewModel.TestTotalItemsCount = 2;
+            await _viewModel.TestLoadFirstPageAsync();
 
             _viewModel.ResetItems();
 
@@ -82,9 +82,9 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
             int pageSize,
             int totalPagesCount)
         {
-            _viewModel.PublicPageSize = pageSize;
-            _viewModel.TotalItemsCount = totalItemsCount;
-            await _viewModel.PublicLoadFirstPageAsync();
+            _viewModel.TestPageSize = pageSize;
+            _viewModel.TestTotalItemsCount = totalItemsCount;
+            await _viewModel.TestLoadFirstPageAsync();
 
             await _viewModel.LoadMoreCommand.ExecuteAsync(null!);
 
@@ -103,9 +103,9 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
             int pageSize,
             int totalPagesCount)
         {
-            _viewModel.PublicPageSize = pageSize;
-            _viewModel.TotalItemsCount = totalItemsCount;
-            await _viewModel.PublicLoadFirstPageAsync();
+            _viewModel.TestPageSize = pageSize;
+            _viewModel.TestTotalItemsCount = totalItemsCount;
+            await _viewModel.TestLoadFirstPageAsync();
 
             var t1 = _viewModel.LoadMoreCommand.ExecuteAsync(null!);
             var t2 = _viewModel.LoadMoreCommand.ExecuteAsync(null!);

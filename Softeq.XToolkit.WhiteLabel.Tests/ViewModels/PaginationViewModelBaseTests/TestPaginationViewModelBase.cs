@@ -13,12 +13,12 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
 {
     internal class TestPaginationViewModelBase : PaginationViewModelBase<string, string>
     {
-        public int PublicPageSize { get; set; }
-        public int TotalItemsCount { get; set; }
+        public int TestPageSize { get; set; }
+        public int TestTotalItemsCount { get; set; }
 
-        protected override int PageSize => PublicPageSize;
+        protected override int PageSize => TestPageSize;
 
-        public async Task PublicLoadFirstPageAsync(CancellationToken ct = default)
+        public async Task TestLoadFirstPageAsync(CancellationToken ct = default)
         {
             await LoadFirstPageAsync(ct);
         }
@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
         private PagingModel<string> MockLoadAsync(int pageNumber, int pageSize)
         {
             var data = Enumerable
-                .Range(0, TotalItemsCount)
+                .Range(0, TestTotalItemsCount)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
                 .Select(x => x.ToString()).ToList();
@@ -46,8 +46,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
                 Page = pageNumber,
                 PageSize = data.Count,
                 Data = data,
-                TotalNumberOfPages = (int) Math.Ceiling(TotalItemsCount / (double)pageSize),
-                TotalNumberOfRecords = TotalItemsCount
+                TotalNumberOfPages = (int) Math.Ceiling(TestTotalItemsCount / (double)pageSize),
+                TotalNumberOfRecords = TestTotalItemsCount
             };
             return model;
         }
