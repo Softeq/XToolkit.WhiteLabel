@@ -185,6 +185,10 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             {
                 // ignored
             }
+            catch (Exception ex)
+            {
+                HandleException(ex);
+            }
         }
 
         protected virtual void HandleException(Exception ex)
