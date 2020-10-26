@@ -16,12 +16,4 @@
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Collections\ObservableKeyGroupsCollectionTest\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Remove="Collections\_ObservableKeyGroupsCollection\Helpers\ObservableKeyGroupsCollectionHelpers.cs" />
-    <Compile Remove="Collections\_ObservableKeyGroupsCollection\ObservableKeyGroupsCollectionUnionTests.cs" />
-    <Compile Remove="Collections\ObservableKeyGroupsCollectionNew\ObservableKeyGroupsCollectionNewTests.cs" />
-  </ItemGroup>
 </Project>
