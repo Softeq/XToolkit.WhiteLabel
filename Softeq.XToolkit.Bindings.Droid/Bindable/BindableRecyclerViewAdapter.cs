@@ -329,11 +329,12 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         {
             _dataSource = items;
 
-            if (_dataSource is INotifyGroupCollectionChanged dataSource)
-            {
-                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifyCollectionChanged);
-            }
-            else if (_dataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
+            //if (_dataSource is INotifyGroupCollectionChanged dataSource)
+            //{
+            //    _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifyCollectionChanged);
+            //}
+            //else
+            if (_dataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
             {
                 _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
             }
@@ -432,25 +433,25 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         #region BindableGroupRecyclerViewAdapter
 
-        private void NotifyCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            ReloadMapping();
+        //private void NotifyCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        //{
+        //    ReloadMapping();
 
-            NotifyCollectionChangedOnMainThread(e);
-        }
+        //    NotifyCollectionChangedOnMainThread(e);
+        //}
 
-        private void NotifyCollectionChangedOnMainThread(NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            if (Looper.MainLooper == Looper.MyLooper())
-            {
-                NotifyCollectionChangedByAction(e);
-            }
-            else
-            {
-                var h = new Handler(Looper.MainLooper);
-                h.Post(() => NotifyCollectionChangedByAction(e));
-            }
-        }
+        //private void NotifyCollectionChangedOnMainThread(NotifyKeyGroupsCollectionChangedEventArgs e)
+        //{
+        //    if (Looper.MainLooper == Looper.MyLooper())
+        //    {
+        //        NotifyCollectionChangedByAction(e);
+        //    }
+        //    else
+        //    {
+        //        var h = new Handler(Looper.MainLooper);
+        //        h.Post(() => NotifyCollectionChangedByAction(e));
+        //    }
+        //}
 
         protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupsCollectionChangedEventArgs e)
         {

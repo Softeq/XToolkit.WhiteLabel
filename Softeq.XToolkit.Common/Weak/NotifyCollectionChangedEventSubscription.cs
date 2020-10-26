@@ -24,21 +24,21 @@ namespace Softeq.XToolkit.Common.Weak
         }
     }
 
-    public class NotifyCollectionKeyGroupChangedEventSubscription
-        : WeakEventSubscription<INotifyGroupCollectionChanged, NotifyKeyGroupsCollectionChangedEventArgs>
-    {
-        public NotifyCollectionKeyGroupChangedEventSubscription(
-            INotifyGroupCollectionChanged source,
-            EventHandler<NotifyKeyGroupsCollectionChangedEventArgs> targetEventHandler)
-            : base(source, "ItemsChanged", targetEventHandler)
-        {
-        }
+    //public class NotifyCollectionKeyGroupChangedEventSubscription
+    //    : WeakEventSubscription<INotifyGroupCollectionChanged, NotifyKeyGroupsCollectionChangedEventArgs>
+    //{
+    //    public NotifyCollectionKeyGroupChangedEventSubscription(
+    //        INotifyGroupCollectionChanged source,
+    //        EventHandler<NotifyKeyGroupsCollectionChangedEventArgs> targetEventHandler)
+    //        : base(source, "ItemsChanged", targetEventHandler)
+    //    {
+    //    }
 
-        protected override Delegate CreateEventHandler()
-        {
-            return new EventHandler<NotifyKeyGroupsCollectionChangedEventArgs>(OnSourceEvent);
-        }
-    }
+    //    protected override Delegate CreateEventHandler()
+    //    {
+    //        return new EventHandler<NotifyKeyGroupsCollectionChangedEventArgs>(OnSourceEvent);
+    //    }
+    //}
 
     public class NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>
         : WeakEventSubscription<INotifyKeyGroupCollectionChanged<TKey, TItem>,

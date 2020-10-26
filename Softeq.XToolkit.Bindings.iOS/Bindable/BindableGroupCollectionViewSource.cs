@@ -31,11 +31,12 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             DataSource = items;
 
-            if (DataSource is INotifyGroupCollectionChanged dataSource)
-            {
-                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifierCollectionChanged);
-            }
-            else if (DataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
+            //if (DataSource is INotifyGroupCollectionChanged dataSource)
+            //{
+            //    _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifierCollectionChanged);
+            //}
+            //else
+            if (DataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
             {
                 _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
             }
@@ -185,14 +186,14 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         #region BindableGroupRecyclerViewAdapter
 
-        protected virtual void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            NSThreadExtensions.ExecuteOnMainThread(() =>
-            {
-                // TODO YP: improve handling without reload
-                _collectionViewRef.Target?.ReloadData();
-            });
-        }
+        //protected virtual void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        //{
+        //    NSThreadExtensions.ExecuteOnMainThread(() =>
+        //    {
+        //        // TODO YP: improve handling without reload
+        //        _collectionViewRef.Target?.ReloadData();
+        //    });
+        //}
 
         #endregion
 
