@@ -135,8 +135,6 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions.iOS\Softeq.XToolkit.Permissions.iOS.csproj">
       <Project>{7eb2ada9-c599-4644-ac6b-109f1aeed19f}</Project>
       <Name>Softeq.XToolkit.Permissions.iOS</Name>
-      <IsAppExtension>false</IsAppExtension>
-      <IsWatchApp>false</IsWatchApp>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
       <Project>{c8da5ea8-703b-481f-9ed8-ab3ad29e5409}</Project>

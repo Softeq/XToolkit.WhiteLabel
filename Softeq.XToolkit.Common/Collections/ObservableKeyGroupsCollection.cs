@@ -84,9 +84,14 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void InsertGroups(int index, IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
-            if (items == null || items.Any(x => x.Key == null))
+            if (items == null)
             {
                 throw new ArgumentNullException(nameof(items));
+            }
+
+            if (items.Any(x => x.Key == null))
+            {
+                throw new ArgumentNullException();
             }
 
             if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
@@ -186,10 +191,10 @@ namespace Softeq.XToolkit.Common.Collections
             };
 
             OnChanged(
-            NotifyCollectionChangedAction.Remove,
-            default,
-            oldItems,
-            default);
+                NotifyCollectionChangedAction.Remove,
+                default,
+                oldItems,
+                default);
         }
 
         /// <inheritdoc />
@@ -199,11 +204,6 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 return;
             }
-
-            var oldItems = new Collection<(int, IReadOnlyList<TKey>)>
-            {
-                (0, _items.Select(x => x.Key).ToList())
-            };
 
             _items.Clear();
 
@@ -694,13 +694,13 @@ namespace Softeq.XToolkit.Common.Collections
 
         private class Group : List<TValue>, IGrouping<TKey, TValue>
         {
-            public TKey Key { get; }
-
             public Group(KeyValuePair<TKey, IList<TValue>> keyValuePair)
             {
                 Key = keyValuePair.Key;
                 AddRange(keyValuePair.Value);
             }
+
+            public TKey Key { get; }
         }
     }
 }

@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
@@ -15,16 +15,16 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         private readonly ObservableKeyGroupsCollection<TKey, TValue> _collection;
         private readonly IList<NotifyCollectionChangedEventArgs> _events = new List<NotifyCollectionChangedEventArgs>();
 
+        private CollectionEventsCatcher(ObservableKeyGroupsCollection<TKey, TValue> collection)
+        {
+            _collection = collection;
+        }
+
         public int EventCount => _events.Count;
 
         public static CollectionEventsCatcher<TKey, TValue> Create(ObservableKeyGroupsCollection<TKey, TValue> collection)
         {
             return new CollectionEventsCatcher<TKey, TValue>(collection);
-        }
-
-        private CollectionEventsCatcher(ObservableKeyGroupsCollection<TKey, TValue> collection)
-        {
-            _collection = collection;
         }
 
         public void Subscribe()
@@ -53,15 +53,15 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 switch (action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        actualKeys = _events[0].NewItems != null ? (_events[0].NewItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+                        actualKeys = ExportKeys(_events[0].NewItems);
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        actualKeys = _events[0].OldItems != null ? (_events[0].OldItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+                        actualKeys = ExportKeys(_events[0].OldItems);
                         break;
 
                     case NotifyCollectionChangedAction.Replace:
-                        actualKeys = _events[0].NewItems != null ? (_events[0].NewItems[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
+                        actualKeys = ExportKeys(_events[0].NewItems);
                         break;
                 }
 
@@ -95,6 +95,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         private void CatchEvents(object sender, NotifyCollectionChangedEventArgs e)
         {
             _events.Add(e);
+        }
+
+        private List<TKey> ExportKeys(IList items)
+        {
+            return items != null ? (items[0] as Collection<(int Index, IReadOnlyList<TKey> Keys)>)[0].Keys.ToList() : new List<TKey>();
         }
     }
 }

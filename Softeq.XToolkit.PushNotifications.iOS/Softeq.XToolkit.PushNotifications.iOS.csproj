@@ -51,7 +51,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">
-      <Project>{226085F7-43E4-4FC1-9540-3A978C1BC979}</Project>
+      <Project>{E0C9CDE2-4C35-410A-AE95-A7871BEE0180}</Project>
       <Name>Softeq.XToolkit.PushNotifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">

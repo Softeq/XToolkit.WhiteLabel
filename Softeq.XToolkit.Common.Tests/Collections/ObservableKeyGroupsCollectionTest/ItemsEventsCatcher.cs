@@ -42,16 +42,16 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             {
                 var isActionSame = _events[0].GroupEvents[0].Arg.Action == action;
                 var isValuesMatched = true;
-                var actuaValues = new List<TValue>();
+                var actualValues = new List<TValue>();
 
                 switch (action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        actuaValues = _events[0].GroupEvents.SelectMany(x => x.Arg.NewItemRanges.SelectMany(y => y.NewItems)).ToList();
+                        actualValues = _events[0].GroupEvents.SelectMany(x => x.Arg.NewItemRanges.SelectMany(y => y.NewItems)).ToList();
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        actuaValues = _events[0].GroupEvents.SelectMany(x => x.Arg.OldItemRanges.SelectMany(y => y.OldItems)).ToList();
+                        actualValues = _events[0].GroupEvents.SelectMany(x => x.Arg.OldItemRanges.SelectMany(y => y.OldItems)).ToList();
                         break;
 
                     case NotifyCollectionChangedAction.Reset:
@@ -60,11 +60,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
                 if (values != null)
                 {
-                    if (values.Count == actuaValues.Count)
+                    if (values.Count == actualValues.Count)
                     {
                         foreach (var value in values)
                         {
-                            isValuesMatched = isValuesMatched && actuaValues.Contains(value);
+                            isValuesMatched = isValuesMatched && actualValues.Contains(value);
                         }
                     }
                     else
@@ -72,7 +72,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                         isValuesMatched = false;
                     }
                 }
-                else if (actuaValues.Count != 0)
+                else if (actualValues.Count != 0)
                 {
                     isValuesMatched = false;
                 }

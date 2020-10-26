@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         private Func<ViewGroup, int, RecyclerView.ViewHolder> _getHolderFunc;
         private ObservableKeyGroupsCollection<TKey, TItem> _items;
         private List<AdapterItem<TKey, TItem>> _plainItems;
-        //private IDisposable _subscription;
+        private IDisposable _subscription;
 
         public ObservableRecyclerGroupViewAdapter(
             ObservableKeyGroupsCollection<TKey, TItem> items,
@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             _getHeaderHolderFunc = getHeaderHolderFunc;
             _bindViewHolderAction = bindViewHolderAction;
             _bindHeaderViewHolderAction = bindHeaderViewHolderAction;
-            //_subscription = new NotifyCollectionKeyGroupChangedEventSubscription(_items, NotifierCollectionChanged);
+            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(_items, NotifierCollectionChanged);
             BuildPlainList();
         }
 
@@ -105,10 +105,10 @@ namespace Softeq.XToolkit.Bindings.Droid
         {
             if (disposing)
             {
-                //_subscription?.Dispose();
+                _subscription?.Dispose();
                 _plainItems = null;
                 _items = null;
-                //_subscription = null;
+                _subscription = null;
                 _getHolderFunc = null;
                 _getHeaderHolderFunc = null;
                 _bindViewHolderAction = null;
