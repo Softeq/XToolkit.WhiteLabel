@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Common.Collections
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
 
-        public IList<TKey> Keys => _items?.Select(item => item.Key).ToList() ?? new List<TKey>();
+        public IList<TKey> Keys => _items.Select(item => item.Key).ToList() ?? new List<TKey>();
 
         public int Count => _items.Count;
 
