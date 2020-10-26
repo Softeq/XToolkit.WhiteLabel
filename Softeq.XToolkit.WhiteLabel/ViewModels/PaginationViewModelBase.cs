@@ -177,7 +177,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
 
             Execute.BeginOnUIThread(() =>
             {
-                CanLoadMore = pagingModel.Page < pagingModel.TotalNumberOfPages;
+                CanLoadMore = pagingModel.Page + 1 < pagingModel.TotalNumberOfPages;
             });
 
             var viewModels = MapItemsToViewModels(pagingModel.Data);

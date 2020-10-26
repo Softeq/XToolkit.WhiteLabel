@@ -116,5 +116,15 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
             Assert.Equal(totalPagesCount - 1, _viewModel.CurrentPage);
             Assert.Equal(totalItemsCount, _viewModel.Items.Count);
         }
+
+        [Fact]
+        public async Task CanLoadMore_AllItemsLoaded_ReturnsFalse()
+        {
+            _viewModel.TestPageSize = 2;
+            _viewModel.TestTotalItemsCount = 2;
+            await _viewModel.TestLoadFirstPageAsync();
+
+            Assert.False(_viewModel.CanLoadMore);
+        }
     }
 }
