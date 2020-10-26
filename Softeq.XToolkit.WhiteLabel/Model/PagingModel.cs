@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Model
         public IList<T> Data { get; set; } = default!;
 
         /// <summary>
-        ///     Gets or sets the number of the current page.
+        ///     Gets or sets the index of the current page.
         /// </summary>
         public int Page { get; set; }
 

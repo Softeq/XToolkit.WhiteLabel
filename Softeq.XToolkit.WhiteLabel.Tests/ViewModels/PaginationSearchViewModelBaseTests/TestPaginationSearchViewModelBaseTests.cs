@@ -27,9 +27,9 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationSearchViewModelB
             return models;
         }
 
-        protected override Task<PagingModel<string>> LoadAsync(string query, int pageNumber, int pageSize)
+        protected override Task<PagingModel<string>> LoadAsync(string query, int pageIndex, int pageSize)
         {
-            return _dataLoader(query, pageNumber, pageSize);
+            return _dataLoader(query, pageIndex, pageSize);
         }
     }
 }

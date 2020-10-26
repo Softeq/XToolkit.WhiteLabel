@@ -36,32 +36,30 @@ namespace Playground.Forms.ViewModels.Components
             return base.FilterItems(viewModels);
         }
 
-        protected override async Task<PagingModel<string>> LoadAsync(string? query, int pageNumber, int pageSize)
+        protected override async Task<PagingModel<string>> LoadAsync(string? query, int pageIndex, int pageSize)
         {
-            await Task.Delay((pageNumber + 1) * 1000); // every page +1s delay
+            await Task.Delay((pageIndex + 1) * 1000); // every page +1s delay
 
-            var data = await MockLoadData(query, pageNumber, pageSize);
+            var data = MockLoadData(query, pageIndex, pageSize);
             return data;
         }
 
-        private async Task<PagingModel<string>> MockLoadData(string? query, int pageNumber, int pageSize)
+        private PagingModel<string> MockLoadData(string? query, int pageIndex, int pageSize)
         {
-            const int DefaultItemsCount = 100;
+            const int DefaultItemsCount = 30;
 
-            var startIndex = (pageNumber + 1) * pageSize;
-            var isEndOfList = startIndex >= DefaultItemsCount;
-            var items = isEndOfList
-                ? new List<string>()
-                : Enumerable
-                    .Range(startIndex, pageSize)
-                    .Select(x => $"Page: {pageNumber} Item: {x} — {query}")
-                    .ToList();
+            var data = Enumerable
+                .Range(0, DefaultItemsCount)
+                .Skip(pageIndex * pageSize)
+                .Take(pageSize)
+                .Select(x => $"Page: {pageIndex} Item: {x} — {query}")
+                .ToList();
 
             return new PagingModel<string>
             {
-                Data = items,
-                Page = pageNumber,
-                PageSize = items.Count,
+                Data = data,
+                Page = pageIndex,
+                PageSize = data.Count,
                 TotalNumberOfPages = DefaultItemsCount / pageSize,
                 TotalNumberOfRecords = DefaultItemsCount
             };

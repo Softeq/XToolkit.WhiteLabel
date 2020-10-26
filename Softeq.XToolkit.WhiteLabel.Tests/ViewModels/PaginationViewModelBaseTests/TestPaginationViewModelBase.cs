@@ -28,9 +28,9 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
             return models;
         }
 
-        protected override Task<PagingModel<string>> LoadAsync(int pageNumber, int pageSize)
+        protected override Task<PagingModel<string>> LoadAsync(int pageIndex, int pageSize)
         {
-            return Task.FromResult(MockLoadAsync(pageNumber, pageSize));
+            return Task.FromResult(MockLoadAsync(pageIndex, pageSize));
         }
 
         private PagingModel<string> MockLoadAsync(int pageNumber, int pageSize)
@@ -39,7 +39,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationViewModelBaseTes
                 .Range(0, TestTotalItemsCount)
                 .Skip(pageNumber * pageSize)
                 .Take(pageSize)
-                .Select(x => x.ToString()).ToList();
+                .Select(x => x.ToString())
+                .ToList();
 
             var model = new PagingModel<string>
             {

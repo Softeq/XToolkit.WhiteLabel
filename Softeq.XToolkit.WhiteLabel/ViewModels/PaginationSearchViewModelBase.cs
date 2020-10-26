@@ -110,13 +110,13 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
 
         protected override CancellationToken CancellationToken => _lastSearchCancelSource.Token;
 
-        protected abstract Task<PagingModel<TModel>> LoadAsync(string? query, int pageNumber, int pageSize);
+        protected abstract Task<PagingModel<TModel>> LoadAsync(string? query, int pageIndex, int pageSize);
 
-        protected override async Task<PagingModel<TModel>?> LoadAsync(int pageNumber, int pageSize)
+        protected override async Task<PagingModel<TModel>?> LoadAsync(int pageIndex, int pageSize)
         {
             try
             {
-                return await LoadAsync(SearchQuery, pageNumber, pageSize);
+                return await LoadAsync(SearchQuery, pageIndex, pageSize);
             }
             catch (Exception ex)
             {
@@ -142,7 +142,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             ResetItems();
             HasResults = false;
 
-            _lastSearchCancelSource?.Cancel();
+            _lastSearchCancelSource.Cancel();
             ShowProgress(false);
         }
 

@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
         }
 
         /// <summary>
-        ///     Gets or sets the currently loaded page.
+        ///     Gets or sets the index of the currently loaded page.
         /// </summary>
         public int CurrentPage
         {
@@ -194,7 +194,7 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels
             return viewModels;
         }
 
-        protected abstract Task<PagingModel<TModel>?> LoadAsync(int pageNumber, int pageSize);
+        protected abstract Task<PagingModel<TModel>?> LoadAsync(int pageIndex, int pageSize);
 
         protected virtual void ItemsWillLoad()
         {
