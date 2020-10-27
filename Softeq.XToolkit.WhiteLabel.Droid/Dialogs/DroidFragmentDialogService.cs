@@ -108,7 +108,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             return viewModel;
         }
 
-        private Task<object> ShowDialogAsync<TViewModel>(TViewModel viewModel)
+        protected virtual Task<object> ShowDialogAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : IDialogViewModel
         {
             var dialogFragment = (DialogFragmentBase<TViewModel>) _viewLocator.GetView(viewModel, ViewType.DialogFragment);

@@ -16,10 +16,12 @@ using Dialog = Android.App.Dialog;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
-    public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable
+    public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable, IDialogFragment
         where TViewModel : IDialogViewModel
     {
         private readonly Lazy<IContextProvider> _contextProviderLazy = Dependencies.Container.Resolve<Lazy<IContextProvider>>();
+
+        public event EventHandler? Dismissed;
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
@@ -79,6 +81,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             base.OnDismiss(dialog);
 
+            Dismissed?.Invoke(this, null);
             ViewModel?.DialogComponent.CloseCommand.Execute(null);
         }
 
