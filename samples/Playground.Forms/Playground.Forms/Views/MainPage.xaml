@@ -12,7 +12,6 @@
         <ListView
             ItemsSource="{Binding Items}"
             SelectionMode="None"
-            SeparatorColor="DodgerBlue"
             Footer="">
             <ListView.Header>
                 <Label

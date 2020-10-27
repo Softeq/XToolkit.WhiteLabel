@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Dialogs;assembly=Playground.Forms"
     x:Class="Playground.Forms.Views.Dialogs.DialogsRootPage"
-    x:DataType="vm:DialogsRootPageViewModel">
+    x:DataType="vm:DialogsRootPageViewModel"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
     <StackLayout>
         <Button

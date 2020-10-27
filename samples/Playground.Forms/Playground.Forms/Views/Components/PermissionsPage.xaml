@@ -6,7 +6,8 @@
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Components"
     x:Class="Playground.Forms.Views.Components.PermissionsPage"
     x:DataType="vm:PermissionsPageViewModel"
-    Title="Permissions">
+    Title="Permissions"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
     <ContentPage.Behaviors>
         <behaviors:EventToCommandBehavior

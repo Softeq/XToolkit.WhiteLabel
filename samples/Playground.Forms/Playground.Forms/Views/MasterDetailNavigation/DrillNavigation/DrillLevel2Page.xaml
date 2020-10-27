@@ -4,12 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation;assembly=Playground.Forms"
     x:Class="Playground.Forms.Views.MasterDetailNavigation.DrillNavigation.DrillLevel2Page"
-    x:DataType="vm:DrillLevel2PageViewModel">
+    x:DataType="vm:DrillLevel2PageViewModel"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
-    <StackLayout>
+    <StackLayout Padding="20">
         <Label
             Text="Second level"
-            VerticalOptions="CenterAndExpand"
             HorizontalOptions="CenterAndExpand" />
         <Button
             Text="Go back"
