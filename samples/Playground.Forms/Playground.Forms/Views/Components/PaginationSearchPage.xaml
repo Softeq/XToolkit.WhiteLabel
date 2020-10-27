@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Components;assembly=Playground.Forms"
+    xmlns:converters="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Converters;assembly=Softeq.XToolkit.WhiteLabel.Forms"
+    x:Class="Playground.Forms.Views.Components.PaginationSearchPage"
+    x:DataType="vm:PaginationSearchPageViewModel"
+    Title="Search with pagination"
+    BackgroundColor="White">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converters:BooleanInverseConverter x:Key="InverseConverter" />
+        </ResourceDictionary>
+    </ContentPage.Resources>
+
+    <StackLayout>
+        <Entry
+            Margin="20"
+            Placeholder="Write something to search..."
+            Text="{Binding Search.SearchQuery}"
+            ClearButtonVisibility="WhileEditing" />
+        <ListView
+            IsVisible="{Binding Search.HasResults}"
+            ItemsSource="{Binding Search.Items}"
+            BackgroundColor="White"
+            SelectionMode="None"
+            SeparatorVisibility="None">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell
+                        Text="{Binding Path=.}"
+                        TextColor="Purple" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <StackLayout>
+                    <ActivityIndicator
+                        Color="OrangeRed"
+                        IsVisible="{Binding Search.IsBusy}"
+                        IsRunning="True" />
+                    <Button
+                        Text="Load more"
+                        Command="{Binding Search.LoadMoreCommand}"
+                        IsVisible="{Binding Search.IsBusy, Converter={StaticResource InverseConverter}}"/>
+                </StackLayout>
+            </ListView.Footer>
+        </ListView>
+        <Label
+            Text="Empty list"
+            HorizontalOptions="Center"
+            VerticalOptions="CenterAndExpand"
+            IsVisible="{Binding Search.HasResults, Converter={StaticResource InverseConverter}}" />
+    </StackLayout>
+</ContentPage>

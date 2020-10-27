@@ -54,6 +54,7 @@ namespace Playground.Forms
             builder.PerDependency<AsyncCommandsPageViewModel>();
             builder.PerDependency<PermissionsPageViewModel>();
             builder.PerDependency<ValidationPageViewModel>();
+            builder.PerDependency<PaginationSearchPageViewModel>();
 
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 
