@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
     public class ObservableKeyGroupsCollectionTestsItemsChanged
     {
         [Fact]
-        public void ItemsChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotNotify()
+        public void ItemsChanged_AddGroupsKeysOnlyAllowEmptyGroupsUniqueKeys_NotifyOneTime()
         {
             var collection = CollectionHelper.CreateWithEmptyGroups();
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
@@ -24,12 +24,12 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Theory]
         [MemberData(nameof(CollectionHelper.EmptyCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void ItemsChanged_AddGroupsWithItemsUniqueKeysWithItems_NotNotify(ObservableKeyGroupsCollection<string, int> collection)
+        public void ItemsChanged_AddGroupsWithItemsUniqueKeysWithItems_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
             catcher.Subscribe();
@@ -38,12 +38,12 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void ItemChanged_RemoveGroupsExistKeys_NotNotify(ObservableKeyGroupsCollection<string, int> collection)
+        public void ItemChanged_RemoveGroupsExistKeys_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
             catcher.Subscribe();
@@ -52,12 +52,12 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void ItemsChanged_Clear_NotNotify(ObservableKeyGroupsCollection<string, int> collection)
+        public void ItemsChanged_Clear_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
             catcher.Subscribe();
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Fact]
@@ -98,7 +98,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Fact]
-        public void ItemsChanged_InsertGroupsKeysOnlyAllowEmptyGroupUniqueKey_NotNotify()
+        public void ItemsChanged_InsertGroupsKeysOnlyAllowEmptyGroupUniqueKey_NotifyOneTime()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
@@ -108,12 +108,12 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void ItemsChanged_InsertGroupsWithItemsUniqueKeysWithItems_NotNotify(ObservableKeyGroupsCollection<string, int> collection)
+        public void ItemsChanged_InsertGroupsWithItemsUniqueKeysWithItemsNotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
             catcher.Subscribe();
@@ -122,11 +122,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Fact]
-        public void ItemsChanged_ReplaceAllGroupsKeysOnlyAllowEmptyGroupWithKeys_NotNotify()
+        public void ItemsChanged_ReplaceAllGroupsKeysOnlyAllowEmptyGroupWithKeys_NotifyOneTime()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithEmpty();
             var keys = CollectionHelper.KeysOneContainedOneNotContained;
@@ -137,12 +137,12 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void ItemsChanged_ReplaceAllGroupsWithItemsCorrectKeysWithItems_NotNotify(ObservableKeyGroupsCollection<string, int> collection)
+        public void ItemsChanged_ReplaceAllGroupsWithItemsCorrectKeysWithItems_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
             var pairs = CollectionHelper.PairNotContainedKeyWithItems;
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
@@ -152,7 +152,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Theory]
@@ -188,7 +188,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         [Theory]
         [MemberData(nameof(CollectionHelper.FillCollectionOptionsTestData), MemberType = typeof(CollectionHelper))]
-        public void ItemsChanged_AddItemsWithNewKeys_NotNotify(ObservableKeyGroupsCollection<string, int> collection)
+        public void ItemsChanged_AddItemsWithNewKeys_NotifyOneTime(ObservableKeyGroupsCollection<string, int> collection)
         {
             var items = CollectionHelper.CreateFillItemsListWithOnlyNewKeys();
             var catcher = CollectionHelper.CreateItemsEventCatcher(collection);
@@ -198,7 +198,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Theory]
@@ -232,7 +232,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         }
 
         [Fact]
-        public void ItemsChanged_RemoveItemsForbidEmptyGroupRemoveAllGroupItems_NotNotify()
+        public void ItemsChanged_RemoveItemsForbidEmptyGroupRemoveAllGroupItems_NotifyOneTime()
         {
             var collection = CollectionHelper.CreateFilledGroupsWithoutEmpty();
             var items = CollectionHelper.RemoveItemsOnlyExistItemsForFirstGroup();
@@ -243,7 +243,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
 
         [Fact]
@@ -310,7 +310,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         [Theory]
         [MemberData(nameof(CollectionHelper.ReplaceItemsEventsTestData), MemberType = typeof(CollectionHelper))]
-        public void ItemsChanged_ReplaceAllItems_NotNotify(
+        public void ItemsChanged_ReplaceAllItems_NotifyOneTime(
             ObservableKeyGroupsCollection<string, int> collection,
             List<TestItem<string, int>> items)
         {
@@ -321,7 +321,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             catcher.Unsubscribe();
 
-            Assert.Equal(0, catcher.EventCount);
+            Assert.Equal(1, catcher.EventCount);
         }
     }
 }
