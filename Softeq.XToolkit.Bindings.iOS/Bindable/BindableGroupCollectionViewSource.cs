@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
             //else
             if (DataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
             {
-                _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
+                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
             }
         }
 

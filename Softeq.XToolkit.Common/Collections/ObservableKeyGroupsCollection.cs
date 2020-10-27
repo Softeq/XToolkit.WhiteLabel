@@ -246,7 +246,7 @@ namespace Softeq.XToolkit.Common.Collections
                 default,
                 default,
                 default,
-                clearGroupEvent); // check, how check key ?
+                clearGroupEvent);
         }
 
         /// <inheritdoc />
@@ -525,10 +525,7 @@ namespace Softeq.XToolkit.Common.Collections
                 CollectionChanged?.Invoke(this, notifyArgs);
             }
 
-            if (args?.GroupEvents?.Count > 0)
-            {
-                ItemsChanged?.Invoke(this, args);
-            }
+            ItemsChanged?.Invoke(this, args);
         }
 
         private IEnumerable<Group>? InsertGroupsWithoutNotify(

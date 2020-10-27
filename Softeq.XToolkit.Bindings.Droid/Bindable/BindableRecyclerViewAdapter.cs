@@ -336,7 +336,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             //else
             if (_dataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
             {
-                _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
+                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
             }
 
             ReloadMapping();
