@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation;assembly=Playground.Forms"
     x:Class="Playground.Forms.Views.MasterDetailNavigation.DetailPage"
-    x:DataType="vm:DetailPageViewModel">
+    x:DataType="vm:DetailPageViewModel"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
     <StackLayout
         VerticalOptions="Center"

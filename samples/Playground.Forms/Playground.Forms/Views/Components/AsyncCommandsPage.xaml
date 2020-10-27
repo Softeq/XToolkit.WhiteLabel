@@ -7,7 +7,8 @@
     xmlns:behaviors="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Behaviors;assembly=Softeq.XToolkit.WhiteLabel.Forms"
     x:Class="Playground.Forms.Views.Components.AsyncCommandsPage"
     x:DataType="vm:AsyncCommandsPageViewModel"
-    Title="AsyncCommands Page">
+    Title="AsyncCommands Page"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
     <ContentPage.Resources>
         <c:StringToIntConverter x:Key="StringToInt" />

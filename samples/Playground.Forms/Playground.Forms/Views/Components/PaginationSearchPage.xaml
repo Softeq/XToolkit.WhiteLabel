@@ -7,7 +7,7 @@
     x:Class="Playground.Forms.Views.Components.PaginationSearchPage"
     x:DataType="vm:PaginationSearchPageViewModel"
     Title="Search with pagination"
-    BackgroundColor="White">
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -24,16 +24,7 @@
         <ListView
             IsVisible="{Binding Search.HasResults}"
             ItemsSource="{Binding Search.Items}"
-            BackgroundColor="White"
-            SelectionMode="None"
-            SeparatorVisibility="None">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <TextCell
-                        Text="{Binding Path=.}"
-                        TextColor="Purple" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
+            SelectionMode="None">
             <ListView.Footer>
                 <StackLayout>
                     <ActivityIndicator

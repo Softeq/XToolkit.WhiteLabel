@@ -4,15 +4,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation;assembly=Playground.Forms"
     x:Class="Playground.Forms.Views.MasterDetailNavigation.DrillNavigation.DrillLevel1Page"
-    x:DataType="vm:DrillLevel1PageViewModel">
+    x:DataType="vm:DrillLevel1PageViewModel"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
-    <StackLayout>
+    <StackLayout Padding="20">
         <Label
             Text="First level"
-            VerticalOptions="CenterAndExpand"
             HorizontalOptions="CenterAndExpand" />
         <Button
-            Text="Navigate"
+            Text="Go to second"
             Command="{Binding NavigateCommand}" />
     </StackLayout>
 
