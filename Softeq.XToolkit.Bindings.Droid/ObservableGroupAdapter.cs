@@ -48,11 +48,25 @@ namespace Softeq.XToolkit.Bindings.Droid
             return childPosition;
         }
 
+        /// <summary>
+        /// Possible performance losses on large collections
+        /// </summary>
+        /// <param name="groupPosition"></param>
+        /// <returns></returns>
         public override int GetChildrenCount(int groupPosition)
         {
             return _dataSource.ElementAt(groupPosition).Count();
         }
 
+        /// <summary>
+        /// Possible performance losses on large collections
+        /// </summary>
+        /// <param name="groupPosition"></param>
+        /// <param name="childPosition"></param>
+        /// <param name="isLastChild"></param>
+        /// <param name="convertView"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
         public override View GetChildView(
             int groupPosition,
             int childPosition,
