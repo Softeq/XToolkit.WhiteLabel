@@ -6,7 +6,7 @@
     xmlns:controls="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Controls;assembly=Softeq.XToolkit.WhiteLabel.Forms"
     x:Class="Playground.Forms.Views.Dialogs.Modal.ModalPage"
     x:DataType="vm:ModalPageViewModel"
-    BackgroundColor="Bisque">
+    BackgroundColor="SandyBrown">
 
     <StackLayout>
         <Label

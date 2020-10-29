@@ -5,7 +5,8 @@
     xmlns:controls="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Controls;assembly=Softeq.XToolkit.WhiteLabel.Forms"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Dialogs.Modal;assembly=Playground.Forms"
     x:Class="Playground.Forms.Views.Dialogs.Modal.SecondModalPage"
-    x:DataType="vm:SecondModalPageViewModel">
+    x:DataType="vm:SecondModalPageViewModel"
+    BackgroundColor="Brown">
 
     <StackLayout>
         <Button

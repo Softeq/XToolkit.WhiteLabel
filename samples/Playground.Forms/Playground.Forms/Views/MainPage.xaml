@@ -3,33 +3,31 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels;assembly=Playground.Forms"
+    xmlns:mvvm="clr-namespace:Softeq.XToolkit.WhiteLabel.Mvvm;assembly=Softeq.XToolkit.WhiteLabel"
     x:Class="Playground.Forms.Views.MainPage"
     x:DataType="vm:MainPageViewModel"
     Title="{Binding Title}">
 
     <StackLayout>
-        <Button
-            Command="{Binding SimpleNavigationCommand}"
-            Text="Simple Navigation" />
-        <Button
-            Command="{Binding MasterDetailNavigationCommand}"
-            Text="Master Detail Navigation" />
-        <Button
-            Command="{Binding DialogsCommand}"
-            Text="Dialogs" />
-
-        <Button
-            Command="{Binding AsyncCommandsCommand}"
-            Text="Async Commands" />
-
-        <Button
-            Command="{Binding PermissionsCommand}"
-            Text="Permissions" />
-
-        <Button
-            Command="{Binding ValidationCommand}"
-            Text="Validation" />
-
+        <ListView
+            ItemsSource="{Binding Items}"
+            SelectionMode="None"
+            Footer="">
+            <ListView.Header>
+                <Label
+                    Text="Select sample:"
+                    TextColor="DarkGray"
+                    Padding="20"/>
+            </ListView.Header>
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="mvvm:CommandAction">
+                    <TextCell
+                        Text="{Binding Title}"
+                        Command="{Binding Command}"
+                        TextColor="DodgerBlue" />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </StackLayout>
 
 </ContentPage>

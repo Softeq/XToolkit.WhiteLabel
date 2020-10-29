@@ -9,7 +9,7 @@
 
     <ListView
         x:Name="ListView"
-        BackgroundColor="Gold"
+        BackgroundColor="Coral"
         ItemsSource="{Binding Items}">
         <ListView.Behaviors>
             <behaviors:EventToCommandBehavior

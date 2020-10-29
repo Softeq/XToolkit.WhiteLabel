@@ -82,7 +82,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
         {
-            viewModelBase.ApplyParameters(parameters);
+            if (parameters != null)
+            {
+                viewModelBase.ApplyParameters(parameters);
+            }
 
             var targetPage = await _formsViewLocator.GetPageAsync(viewModelBase);
 

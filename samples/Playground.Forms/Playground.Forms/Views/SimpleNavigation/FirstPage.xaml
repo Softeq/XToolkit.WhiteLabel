@@ -5,9 +5,9 @@
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.SimpleNavigation;assembly=Playground.Forms"
     x:Class="Playground.Forms.Views.SimpleNavigation.FirstPage"
     x:DataType="vm:FirstPageViewModel"
-    BackgroundColor="Bisque">
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
 
-    <StackLayout>
+    <StackLayout Padding="20">
         <Button
             Command="{Binding NextLevelCommand}"
             Text="Next level" />
