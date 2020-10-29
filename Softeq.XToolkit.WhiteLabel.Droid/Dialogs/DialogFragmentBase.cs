@@ -82,7 +82,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             base.OnDismiss(dialog);
 
             Dismissed?.Invoke(this, null);
-            ViewModel?.DialogComponent.CloseCommand.Execute(null);
+
+            ViewModel.DialogComponent.CloseCommand.Execute(null);
         }
 
         public override void OnViewCreated(View view, Bundle savedInstanceState)
@@ -95,7 +96,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public override void OnDestroyView()
         {
             ViewModel.DialogComponent.Closed -= DialogComponentOnClosed;
-            DataContext = null;
 
             base.OnDestroyView();
         }
