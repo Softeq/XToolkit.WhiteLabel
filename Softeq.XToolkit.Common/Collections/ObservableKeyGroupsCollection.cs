@@ -110,11 +110,18 @@ namespace Softeq.XToolkit.Common.Collections
                 (index, insertedGroups.Select(x => x.Key).ToList())
             };
 
+            var itemsEvents = insertedGroups
+                .Select(x => (
+                    _items.IndexOf(x),
+                    new NotifyGroupCollectionChangedEventArgs<TValue>(
+                        NotifyCollectionChangedAction.Add, new Collection<(int, IReadOnlyList<TValue>)>(), default)))
+             .ToList();
+
             OnChanged(
                 NotifyCollectionChangedAction.Add,
                 newItems,
                 default,
-                default);
+                itemsEvents);
         }
 
         /// <inheritdoc />
