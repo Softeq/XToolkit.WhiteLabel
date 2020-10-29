@@ -42,13 +42,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
                     _backPressedCallback.Enabled = false;
                 }
 
-                Activity.OnBackPressed();
+                InvokeActivityOnBackPressed();
 
                 if (_backPressedCallback != null)
                 {
                     _backPressedCallback.Enabled = true;
                 }
             }
+        }
+
+        protected virtual void InvokeActivityOnBackPressed()
+        {
+            Activity.OnBackPressed();
         }
     }
 }
