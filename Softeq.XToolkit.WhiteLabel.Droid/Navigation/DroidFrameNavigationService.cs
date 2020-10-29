@@ -58,6 +58,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void GoBack()
         {
+            if (IsEmptyBackStack)
+            {
+                return;
+            }
+
+            var canGoBack = CanGoBack;
+
             // navigation
             var currentEntry = _backStack.CurrentWithRemove();
             var currentFrameName = ToKey(currentEntry);
@@ -65,8 +72,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             // cleanup
             CurrentStore.Remove(currentFrameName);
 
-            // show
-            RestoreNavigation();
+            // show previous if needed
+            if (canGoBack)
+            {
+                RestoreNavigation();
+            }
         }
 
         public void GoBack<T>() where T : IViewModelBase
