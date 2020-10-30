@@ -91,7 +91,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             if (items.Any(x => x.Key == null))
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(items), "One of the keys is null.");
             }
 
             if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
@@ -547,12 +547,12 @@ namespace Softeq.XToolkit.Common.Collections
 
             if (items.Any(x => x.Key == null || x.Value == null))
             {
-                throw new ArgumentNullException();
+                throw new ArgumentNullException(nameof(items), "One of the keys or values is null.");
             }
 
             if (index > _items.Count + items.Count() - 1)
             {
-                throw new ArgumentOutOfRangeException();
+                throw new ArgumentOutOfRangeException(nameof(index));
             }
 
             if (_items.Select(x => x.Key).Concat(items.Select(x => x.Key)).GroupBy(x => x).Any(g => g.Count() > 1))
