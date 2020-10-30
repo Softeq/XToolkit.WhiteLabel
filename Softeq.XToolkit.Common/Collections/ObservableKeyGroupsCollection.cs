@@ -226,7 +226,7 @@ namespace Softeq.XToolkit.Common.Collections
         {
             if (_withoutEmptyGroups)
             {
-                throw new InvalidOperationException(nameof(key));
+                throw new InvalidOperationException($"{UnsupportEmptyGroupExceptionMessage}. Group with key '{key}' can't be clear.");
             }
 
             if (key == null)
