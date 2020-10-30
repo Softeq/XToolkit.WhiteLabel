@@ -282,7 +282,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.AddItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.AddItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 
@@ -297,7 +297,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.AddItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.AddItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 
@@ -312,7 +312,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.AddItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.AddItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 
@@ -327,7 +327,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.InsertItems(items, (x) => x.SelectKey(), (x) => x.SelectValue(), (x) => x.SelectIndex());
+            collection.InsertItems(items, x => x.SelectKey(), x => x.SelectValue(), x => x.SelectIndex());
 
             catcher.Unsubscribe();
 
@@ -344,7 +344,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.RemoveItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.RemoveItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 
@@ -356,12 +356,12 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void CollectionChanged_RemoveItemsForbidEmptyGroupRemoveAllGroupItems_NotifyOneTime(
             ObservableKeyGroupsCollection<string, int> collection,
             List<TestItem<string, int>> items,
-            List<string> removedKeys)
+            List<string> _)
         {
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.RemoveItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.RemoveItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 
@@ -377,7 +377,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.RemoveItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.RemoveItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 
@@ -393,7 +393,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.RemoveItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.RemoveItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 
@@ -409,7 +409,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.ReplaceAllItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.ReplaceAllItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 
@@ -425,7 +425,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();
 
-            collection.ReplaceAllItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.ReplaceAllItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             catcher.Unsubscribe();
 

@@ -7,6 +7,13 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         where TKey : notnull
         where TValue : notnull
     {
+        public TestItem(TKey key, TValue value, int index = 0)
+        {
+            Key = key;
+            Value = value;
+            Index = index;
+        }
+
         public TKey Key { get; }
         public TValue Value { get; }
         public int Index { get; }
@@ -14,13 +21,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public bool IsKeySelectedFire { get; private set; }
         public bool IsValueSelectedFire { get; private set; }
         public bool IsIndexSelectedFire { get; private set; }
-
-        public TestItem(TKey key, TValue value, int index = 0)
-        {
-            Key = key;
-            Value = value;
-            Index = index;
-        }
 
         public TKey SelectKey()
         {

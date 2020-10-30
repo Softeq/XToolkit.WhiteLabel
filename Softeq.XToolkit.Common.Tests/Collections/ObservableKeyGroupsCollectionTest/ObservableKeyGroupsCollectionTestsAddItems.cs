@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_NullListItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.AddItems(CollectionHelper.CreateNullItemsList(), (x) => x.SelectKey(), (x) => x.SelectValue()));
+                () => collection.AddItems(CollectionHelper.CreateNullItemsList(), x => x.SelectKey(), x => x.SelectValue()));
         }
 
         [Theory]
@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             var size = collection.Select(x => (x.Key, x.Count()));
 
-            collection.AddItems(CollectionHelper.CreateEmptyItemsList(), (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.AddItems(CollectionHelper.CreateEmptyItemsList(), x => x.SelectKey(), x => x.SelectValue());
 
             foreach (var item in collection)
             {
@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_NullItem_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<NullReferenceException>(
-               () => collection.AddItems(CollectionHelper.CreateFillItemsListWithNull(), (x) => x.SelectKey(), (x) => x.SelectValue()));
+               () => collection.AddItems(CollectionHelper.CreateFillItemsListWithNull(), x => x.SelectKey(), x => x.SelectValue()));
         }
 
         [Theory]
@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             var referenceValues = collection.ToDictionary(x => x.Key, x => x.ToList());
             var items = CollectionHelper.CreateFillItemsListWithNewKeys();
 
-            collection.AddItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.AddItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             foreach (var item in items)
             {
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_NullKeySelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.AddItems(CollectionHelper.CreateFillItemsListWithNewKeys(), null, (x) => x.SelectValue()));
+                () => collection.AddItems(CollectionHelper.CreateFillItemsListWithNewKeys(), null!, x => x.SelectValue()));
         }
 
         [Theory]
@@ -83,7 +83,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_NullValueSelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.AddItems(CollectionHelper.CreateFillItemsListWithNewKeys(), (x) => x.SelectKey(), null));
+                () => collection.AddItems(CollectionHelper.CreateFillItemsListWithNewKeys(), x => x.SelectKey(), null!));
         }
 
         [Theory]
@@ -91,7 +91,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void AddItems_SelectNullKey_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.AddItems(CollectionHelper.CreateFillItemsListWithNewKeys(), (x) => null, (x) => x.SelectValue()));
+                () => collection.AddItems(CollectionHelper.CreateFillItemsListWithNewKeys(), x => null, x => x.SelectValue()));
         }
     }
 }
