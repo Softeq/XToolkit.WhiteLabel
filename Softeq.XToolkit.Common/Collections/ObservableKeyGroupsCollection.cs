@@ -28,15 +28,15 @@ namespace Softeq.XToolkit.Common.Collections
         private const string UnsupportEmptyGroupExceptionMessage = "Empty group isn't supported";
 
         private readonly IList<Group> _items;
-        private readonly bool _withoutEmptyGroups;
+        private readonly bool _emptyGroupsDisabled;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ObservableKeyGroupsCollection{TKey, TValue}"/> class.
         /// </summary>
-        /// <param name="withoutEmptyGroups">If true empty groups will be removed.</param>
-        public ObservableKeyGroupsCollection(bool withoutEmptyGroups = true)
+        /// <param name="allowEmptyGroups">If <see langword="false"/> empty groups will be removed.</param>
+        public ObservableKeyGroupsCollection(bool allowEmptyGroups = true)
         {
-            _withoutEmptyGroups = withoutEmptyGroups;
+            _emptyGroupsDisabled = !allowEmptyGroups;
             _items = new List<Group>();
         }
 
@@ -68,7 +68,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void InsertGroups(int index, IEnumerable<TKey> keys)
         {
-            if (_withoutEmptyGroups)
+            if (_emptyGroupsDisabled)
             {
                 throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
             }
@@ -94,12 +94,12 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(items), "One of the keys is null.");
             }
 
-            if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
+            if (_emptyGroupsDisabled && items.Any(x => x.Value?.Count == 0))
             {
                 throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
             }
 
-            var insertedGroups = InsertGroupsWithoutNotify(index, items, _withoutEmptyGroups);
+            var insertedGroups = InsertGroupsWithoutNotify(index, items, _emptyGroupsDisabled);
             if (insertedGroups == null)
             {
                 return;
@@ -127,7 +127,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void ReplaceAllGroups(IEnumerable<TKey> keys)
         {
-            if (_withoutEmptyGroups)
+            if (_emptyGroupsDisabled)
             {
                 throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
             }
@@ -148,7 +148,7 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(items));
             }
 
-            if (_withoutEmptyGroups && items.Any(x => x.Value?.Count == 0))
+            if (_emptyGroupsDisabled && items.Any(x => x.Value?.Count == 0))
             {
                 throw new InvalidOperationException(UnsupportEmptyGroupExceptionMessage);
             }
@@ -160,7 +160,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             _items.Clear();
 
-            var insertedGroups = InsertGroupsWithoutNotify(0, items, _withoutEmptyGroups);
+            var insertedGroups = InsertGroupsWithoutNotify(0, items, _emptyGroupsDisabled);
             if (insertedGroups == null)
             {
                 return;
@@ -224,7 +224,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void ClearGroup(TKey key)
         {
-            if (_withoutEmptyGroups)
+            if (_emptyGroupsDisabled)
             {
                 throw new InvalidOperationException($"{UnsupportEmptyGroupExceptionMessage}. Group with key '{key}' can't be clear.");
             }
@@ -451,7 +451,7 @@ namespace Softeq.XToolkit.Common.Collections
                 }
             }
 
-            if (_withoutEmptyGroups)
+            if (_emptyGroupsDisabled)
             {
                 var keysToRemove = _items.Where(x => x.Count == 0).Select(x => x.Key);
                 groupsToRemove = RemoveGroupsWithoutNotify(keysToRemove);
