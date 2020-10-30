@@ -329,13 +329,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         {
             _dataSource = items;
 
-            if (_dataSource is INotifyGroupCollectionChanged dataSource)
+            if (_dataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
             {
-                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifyCollectionChanged);
-            }
-            else if (_dataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
-            {
-                _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
+                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChanged);
             }
 
             ReloadMapping();
@@ -432,37 +428,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         #region BindableGroupRecyclerViewAdapter
 
-        private void NotifyCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            ReloadMapping();
-
-            NotifyCollectionChangedOnMainThread(e);
-        }
-
-        private void NotifyCollectionChangedOnMainThread(NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            if (Looper.MainLooper == Looper.MyLooper())
-            {
-                NotifyCollectionChangedByAction(e);
-            }
-            else
-            {
-                var h = new Handler(Looper.MainLooper);
-                h.Post(() => NotifyCollectionChangedByAction(e));
-            }
-        }
-
-        protected virtual void NotifyCollectionChangedByAction(NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            // TODO YP: improve handling without reload
-            NotifyDataSetChanged();
-        }
-
-        #endregion
-
-        #region BindableGroupRecyclerViewAdapterNew
-
-        private void NotifyCollectionChangedNew(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        private void NotifyCollectionChanged(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
             NotifyCollectionChangedOnMainThread(e);
         }

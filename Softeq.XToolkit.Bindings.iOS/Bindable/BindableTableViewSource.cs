@@ -118,13 +118,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             DataSource = items;
 
-            if (DataSource is INotifyGroupCollectionChanged dataSource)
+            if (DataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
             {
-                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(dataSource, NotifyCollectionChanged);
-            }
-            else if (DataSource is INotifyKeyGroupCollectionChanged<TKey, TItem> dataSourceNew)
-            {
-                _subscription = new NotifyCollectionKeyGroupNewChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChangedNew);
+                _subscription = new NotifyCollectionKeyGroupChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChanged);
             }
         }
 
@@ -158,74 +154,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         #region ObservableKeyGroupsCollection
 
-        protected void NotifyCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            NSThreadExtensions.ExecuteOnMainThread(() =>
-            {
-                if (e.Action != NotifyCollectionChangedAction.Add && e.Action != NotifyCollectionChangedAction.Remove)
-                {
-                    _tableViewRef.Target?.ReloadData();
-                    return;
-                }
-
-                _tableViewRef.Target?.BeginUpdates();
-
-                switch (e.Action)
-                {
-                    case NotifyCollectionChangedAction.Add:
-                        HandleAdd(e);
-                        break;
-                    case NotifyCollectionChangedAction.Remove:
-                        HandleRemove(e);
-                        break;
-                }
-
-                _tableViewRef.Target?.EndUpdates();
-            });
-        }
-
-        private void HandleAdd(NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            foreach (var sectionIndex in e.ModifiedSectionsIndexes)
-            {
-                _tableViewRef.Target?.InsertSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
-            }
-
-            var rowsToInsert = CreateRowsChanges(e.ModifiedItemsIndexes);
-
-            _tableViewRef.Target?.InsertRows(rowsToInsert, UITableViewRowAnimation.None);
-        }
-
-        private void HandleRemove(NotifyKeyGroupsCollectionChangedEventArgs e)
-        {
-            foreach (var sectionIndex in e.ModifiedSectionsIndexes)
-            {
-                _tableViewRef.Target?.DeleteSections(NSIndexSet.FromIndex(sectionIndex), UITableViewRowAnimation.None);
-            }
-
-            var rowsToRemove = CreateRowsChanges(e.ModifiedItemsIndexes);
-
-            _tableViewRef.Target?.DeleteRows(rowsToRemove, UITableViewRowAnimation.None);
-        }
-
-        private static NSIndexPath[] CreateRowsChanges(IEnumerable<(int Section, IList<int> ModifiedIndexes)> itemIndexes)
-        {
-            var modifiedIndexPaths = new List<NSIndexPath>();
-
-            foreach (var (section, modifiedIndexes) in itemIndexes)
-            {
-                modifiedIndexPaths.AddRange(modifiedIndexes.Select(insertedItemIndex =>
-                    NSIndexPath.FromRowSection(insertedItemIndex, section)));
-            }
-
-            return modifiedIndexPaths.ToArray();
-        }
-
-        #endregion
-
-        #region ObservableKeyGroupsCollectionNew
-
-        protected void NotifyCollectionChangedNew(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
+        protected void NotifyCollectionChanged(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
             NSThreadExtensions.ExecuteOnMainThread(() =>
             {

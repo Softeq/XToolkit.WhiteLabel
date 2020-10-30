@@ -42,13 +42,13 @@ namespace Softeq.XToolkit.Common.Collections
         ///     Clear the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> and add groups with the specified keys and empty items.
         /// </summary>
         /// <param name="keys">List of group keys to add.</param>
-        void ReplaceGroups(IEnumerable<TKey> keys);
+        void ReplaceAllGroups(IEnumerable<TKey> keys);
 
         /// <summary>
         ///     Clear the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> and add groups with the specified keys and items.
         /// </summary>
         /// <param name="items">List of group keys and items to add.</param>
-        void ReplaceGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
+        void ReplaceAllGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items);
 
         /// <summary>
         ///     Remove the specified groups from the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
@@ -59,7 +59,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <summary>
         ///     Clear current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.
         /// </summary>
-        void ClearGroups();
+        void Clear();
 
         /// <summary>
         ///     Clear group with the specified key.
@@ -97,7 +97,7 @@ namespace Softeq.XToolkit.Common.Collections
         /// <param name="items">List of items to add.</param>
         /// <param name="keySelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Key.</param>
         /// <param name="valueSelector">Function that converts input list item to the <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/> Value.</param>
-        void ReplaceItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector);
+        void ReplaceAllItems<T>(IEnumerable<T> items, Func<T, TKey> keySelector, Func<T, TValue> valueSelector);
 
         /// <summary>
         ///     Remove the specified items from the current <see cref="IObservableKeyGroupsCollection{TKey, TValue}"/>.

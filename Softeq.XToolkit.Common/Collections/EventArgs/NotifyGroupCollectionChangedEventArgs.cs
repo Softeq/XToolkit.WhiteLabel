@@ -22,7 +22,6 @@ namespace Softeq.XToolkit.Common.Collections.EventArgs
         public NotifyCollectionChangedAction? Action { get; protected set; }
 
         public IReadOnlyList<(int Index, IReadOnlyList<T> NewItems)>? NewItemRanges { get; protected set; }
-
         public IReadOnlyList<(int Index, IReadOnlyList<T> OldItems)>? OldItemRanges { get; protected set; }
     }
 }

@@ -38,7 +38,8 @@ namespace Softeq.XToolkit.Bindings.Droid
             _getHeaderHolderFunc = getHeaderHolderFunc;
             _bindViewHolderAction = bindViewHolderAction;
             _bindHeaderViewHolderAction = bindHeaderViewHolderAction;
-            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription(_items, NotifierCollectionChanged);
+            _subscription = new NotifyCollectionKeyGroupChangedEventSubscription<TKey, TItem>(_items, NotifyCollectionChanged);
+
             BuildPlainList();
         }
 
@@ -95,7 +96,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             return _plainItems[index].Item;
         }
 
-        protected void NotifierCollectionChanged(object sender, NotifyKeyGroupsCollectionChangedEventArgs e)
+        protected virtual void NotifyCollectionChanged(object sender, NotifyKeyGroupCollectionChangedEventArgs<TKey, TItem> e)
         {
             BuildPlainList();
             NotifyOnMainThread();

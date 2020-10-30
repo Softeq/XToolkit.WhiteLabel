@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Linq;
 using Android.Views;
 using Android.Widget;
 using Softeq.XToolkit.Common.Collections;
@@ -47,11 +48,25 @@ namespace Softeq.XToolkit.Bindings.Droid
             return childPosition;
         }
 
+        /// <summary>
+        /// Possible performance losses on large collections
+        /// </summary>
+        /// <param name="groupPosition"></param>
+        /// <returns></returns>
         public override int GetChildrenCount(int groupPosition)
         {
-            return _dataSource[groupPosition].Count;
+            return _dataSource.ElementAt(groupPosition).Count();
         }
 
+        /// <summary>
+        /// Possible performance losses on large collections
+        /// </summary>
+        /// <param name="groupPosition"></param>
+        /// <param name="childPosition"></param>
+        /// <param name="isLastChild"></param>
+        /// <param name="convertView"></param>
+        /// <param name="parent"></param>
+        /// <returns></returns>
         public override View GetChildView(
             int groupPosition,
             int childPosition,
@@ -65,7 +80,7 @@ namespace Softeq.XToolkit.Bindings.Droid
                 isLastChild,
                 convertView,
                 parent,
-                _dataSource[groupPosition][childPosition]);
+                _dataSource.ElementAt(groupPosition).ElementAt(childPosition));
         }
 
         public override Object GetGroup(int groupPosition)
@@ -80,7 +95,7 @@ namespace Softeq.XToolkit.Bindings.Droid
 
         public override View GetGroupView(int groupPosition, bool isExpanded, View convertView, ViewGroup parent)
         {
-            return _getGroupViewFunc(groupPosition, isExpanded, convertView, parent, _dataSource[groupPosition].Key);
+            return _getGroupViewFunc(groupPosition, isExpanded, convertView, parent, _dataSource.ElementAt(groupPosition).Key);
         }
 
         public override bool IsChildSelectable(int groupPosition, int childPosition)
