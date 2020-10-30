@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Common.Collections
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
 
-        public IList<TKey> Keys => _items.Select(item => item.Key).ToList() ?? new List<TKey>();
+        public IList<TKey> Keys => _items.Select(item => item.Key).ToList();
 
         public int Count => _items.Count;
 
@@ -267,7 +267,7 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
-            if (items.Count() == 0)
+            if (!items.Any())
             {
                 return;
             }
@@ -474,8 +474,9 @@ namespace Softeq.XToolkit.Common.Collections
 
             removedItemsEvents = removedItemsEvents.Count > 0 ? removedItemsEvents : default;
 
-            var oldItems = groupsToRemove?.Count > 0 ?
-                new Collection<(int, IReadOnlyList<TKey>)> { (0, groupsToRemove[0].Keys) } : null;
+            var oldItems = groupsToRemove?.Count > 0
+                ? new Collection<(int, IReadOnlyList<TKey>)> { (0, groupsToRemove[0].Keys) }
+                : null;
 
             OnChanged(
                 groupsToRemove?.Count > 0 ? NotifyCollectionChangedAction.Remove : (NotifyCollectionChangedAction?) null,
@@ -499,7 +500,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void RaiseEvents(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
         {
-            if (args?.Action != null)
+            if (args.Action != null)
             {
                 NotifyCollectionChangedEventArgs notifyArgs;
 
