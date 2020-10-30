@@ -35,91 +35,91 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         public static IList<KeyValuePair<string, IList<int>>> PairsNull;
         public static IList<KeyValuePair<string, IList<int>>> PairsEmpty = new List<KeyValuePair<string, IList<int>>>();
-        public static IList<KeyValuePair<string, IList<int>>> PairsWithKeysWithItems = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairsWithKeysWithItems = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst),
             new KeyValuePair<string, IList<int>>(GroupKeySecond, ItemsSecond)
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairsWithKeysWithItemsWithEmpty = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairsWithKeysWithItemsWithEmpty = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyFirst, ItemsFirst),
             new KeyValuePair<string, IList<int>>(GroupKeyEmpty, ItemsEmpty)
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairWithKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairWithKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyNull, ItemsNull),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairWithKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairWithKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyEmpty, ItemsEmpty),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithItems = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithItems = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsNull),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairDuplicateKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsEmpty),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithItems = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithItems = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(null, ItemsFirst),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithNullItems = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(null, null),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithEmptyItems = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairNullKeyWithEmptyItems = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(null, new List<int>()),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairNotContainedKeyWithItems = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairNotContainedKeyWithItems = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsThird),
         };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairNotContainedKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>()
+        public static IList<KeyValuePair<string, IList<int>>> PairNotContainedKeyWithEmptyItem = new List<KeyValuePair<string, IList<int>>>
         {
             new KeyValuePair<string, IList<int>>(GroupKeyThird, ItemsEmpty),
         };
 
         public static ObservableKeyGroupsCollection<string, int> CreateWithEmptyGroups()
         {
-            return new ObservableKeyGroupsCollection<string, int>(false);
+            return new ObservableKeyGroupsCollection<string, int>(true);
         }
 
         public static ObservableKeyGroupsCollection<string, int> CreateWithoutEmptyGroups()
         {
-            return new ObservableKeyGroupsCollection<string, int>(true);
+            return new ObservableKeyGroupsCollection<string, int>(false);
         }
 
         public static ObservableKeyGroupsCollection<string, int> CreateFilledGroupsWithEmpty()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var collection = new ObservableKeyGroupsCollection<string, int>(true);
             collection.AddGroups(CreateGroupsWithEmpty());
             return collection;
         }
 
         public static ObservableKeyGroupsCollection<string, int> CreateFilledGroupsWithoutEmpty()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(true);
+            var collection = new ObservableKeyGroupsCollection<string, int>(false);
             collection.AddGroups(CreateGroupWithoutEmpty());
             return collection;
         }
@@ -380,7 +380,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         private static ObservableKeyGroupsCollection<string, int> InsertItemsListItemsWithExistKeysWithEmptyResult()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var collection = new ObservableKeyGroupsCollection<string, int>(true);
             var items = new List<KeyValuePair<string, IList<int>>>
             {
                  new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 1, 2, 11, 13, 3, 4 }),
@@ -395,7 +395,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         private static ObservableKeyGroupsCollection<string, int> InsertItemsListItemsWithExistKeysWithoutEmptyResult()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(true);
+            var collection = new ObservableKeyGroupsCollection<string, int>(false);
             var items = new List<KeyValuePair<string, IList<int>>>
             {
                  new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 1, 2, 11, 13, 3, 4 }),
@@ -420,7 +420,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         private static ObservableKeyGroupsCollection<string, int> RemoveItemsExistKeysWithEmptyResult()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var collection = new ObservableKeyGroupsCollection<string, int>(true);
             var items = new List<KeyValuePair<string, IList<int>>>
             {
                  new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 2, 4 }),
@@ -435,7 +435,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         private static ObservableKeyGroupsCollection<string, int> RemoveItemsExistKeysWithoutEmptyResult()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(true);
+            var collection = new ObservableKeyGroupsCollection<string, int>(false);
             var items = new List<KeyValuePair<string, IList<int>>>
             {
                  new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 2, 4 }),
@@ -462,7 +462,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         private static ObservableKeyGroupsCollection<string, int> RemoveItemsAllItemsForExistKeyAllowEmptyResult()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var collection = new ObservableKeyGroupsCollection<string, int>(true);
             var items = new List<KeyValuePair<string, IList<int>>>
             {
                  new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int>()),
@@ -477,7 +477,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         private static ObservableKeyGroupsCollection<string, int> RemoveItemsAllItemsForExistKeyForbidEmptyResult()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(true);
+            var collection = new ObservableKeyGroupsCollection<string, int>(false);
             var items = new List<KeyValuePair<string, IList<int>>>
             {
                  new KeyValuePair<string, IList<int>>(GroupKeySecond, new List<int> { 4, 6, 7 }),
@@ -500,11 +500,11 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
         private static ObservableKeyGroupsCollection<string, int> ReplaceItemsListItemsResult()
         {
-            var collection = new ObservableKeyGroupsCollection<string, int>(false);
+            var collection = new ObservableKeyGroupsCollection<string, int>(true);
             var items = new List<KeyValuePair<string, IList<int>>>
             {
-                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int>() { 4 }),
-                 new KeyValuePair<string, IList<int>>(GroupKeyThird, new List<int>() { 1, 3 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeyFirst, new List<int> { 4 }),
+                 new KeyValuePair<string, IList<int>>(GroupKeyThird, new List<int> { 1, 3 }),
             };
 
             collection.AddGroups(items);

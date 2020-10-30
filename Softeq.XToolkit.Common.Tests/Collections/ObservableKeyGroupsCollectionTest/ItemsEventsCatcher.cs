@@ -47,11 +47,15 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 switch (action)
                 {
                     case NotifyCollectionChangedAction.Add:
-                        actualValues = _events[0].GroupEvents.SelectMany(x => x.Arg.NewItemRanges.SelectMany(y => y.NewItems)).ToList();
+                        actualValues = _events[0].GroupEvents
+                            .SelectMany(x => x.Arg.NewItemRanges.SelectMany(y => y.NewItems))
+                            .ToList();
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
-                        actualValues = _events[0].GroupEvents.SelectMany(x => x.Arg.OldItemRanges.SelectMany(y => y.OldItems)).ToList();
+                        actualValues = _events[0].GroupEvents
+                            .SelectMany(x => x.Arg.OldItemRanges.SelectMany(y => y.OldItems))
+                            .ToList();
                         break;
 
                     case NotifyCollectionChangedAction.Reset:

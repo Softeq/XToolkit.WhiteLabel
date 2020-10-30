@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void ReplaceAllItems_NullListItems_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.ReplaceAllItems(CollectionHelper.CreateNullItemsList(), (x) => x.SelectKey(), (x) => x.SelectValue()));
+                () => collection.ReplaceAllItems(CollectionHelper.CreateNullItemsList(), x => x.SelectKey(), x => x.SelectValue()));
         }
 
         [Theory]
@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             var size = collection.Select(x => (x.Key, x.Count()));
 
-            collection.ReplaceAllItems(CollectionHelper.CreateEmptyItemsList(), (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.ReplaceAllItems(CollectionHelper.CreateEmptyItemsList(), x => x.SelectKey(), x => x.SelectValue());
 
             foreach (var item in collection)
             {
@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void ReplaceAllItems_NullItem_NullReferenceException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<NullReferenceException>(
-               () => collection.ReplaceAllItems(CollectionHelper.CreateFillItemsListWithNull(), (x) => x.SelectKey(), (x) => x.SelectValue()));
+               () => collection.ReplaceAllItems(CollectionHelper.CreateFillItemsListWithNull(), x => x.SelectKey(), x => x.SelectValue()));
         }
 
         [Theory]
@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             List<TestItem<string, int>> items,
             ObservableKeyGroupsCollection<string, int> resultCollection)
         {
-            collection.ReplaceAllItems(items, (x) => x.SelectKey(), (x) => x.SelectValue());
+            collection.ReplaceAllItems(items, x => x.SelectKey(), x => x.SelectValue());
 
             Assert.Equal(resultCollection.Keys.Count, collection.Keys.Count);
 
@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void ReplaceAllItems_NullKeySelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.ReplaceAllItems(CollectionHelper.CreateFillItemsListWithNewKeys(), null, (x) => x.SelectValue()));
+                () => collection.ReplaceAllItems(CollectionHelper.CreateFillItemsListWithNewKeys(), null!, x => x.SelectValue()));
         }
 
         [Theory]
@@ -73,7 +73,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void ReplaceAllItems_NullValueSelector_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.ReplaceAllItems(CollectionHelper.CreateFillItemsListWithNewKeys(), (x) => x.SelectKey(), null));
+                () => collection.ReplaceAllItems(CollectionHelper.CreateFillItemsListWithNewKeys(), x => x.SelectKey(), null!));
         }
 
         [Theory]
@@ -81,7 +81,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void ReplaceAllItems_SelectNullKey_ArgumentNullException(ObservableKeyGroupsCollection<string, int> collection)
         {
             Assert.Throws<ArgumentNullException>(
-                () => collection.ReplaceAllItems(CollectionHelper.CreateFillItemsListWithExistKeys(), (x) => null, (x) => x.SelectValue()));
+                () => collection.ReplaceAllItems(CollectionHelper.CreateFillItemsListWithExistKeys(), x => null, x => x.SelectValue()));
         }
     }
 }

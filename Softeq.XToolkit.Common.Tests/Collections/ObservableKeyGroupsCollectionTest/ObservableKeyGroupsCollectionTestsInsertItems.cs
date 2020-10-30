@@ -20,9 +20,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Throws<ArgumentNullException>(
                 () => collection.InsertItems(
                     CollectionHelper.CreateNullItemsList(),
-                    (x) => x.SelectKey(),
-                    (x) => x.SelectValue(),
-                    (x) => x.SelectIndex()));
+                    x => x.SelectKey(),
+                    x => x.SelectValue(),
+                    x => x.SelectIndex()));
         }
 
         [Theory]
@@ -33,9 +33,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
 
             collection.InsertItems(
                      CollectionHelper.CreateEmptyItemsList(),
-                     (x) => x.SelectKey(),
-                     (x) => x.SelectValue(),
-                     (x) => x.SelectIndex());
+                     x => x.SelectKey(),
+                     x => x.SelectValue(),
+                     x => x.SelectIndex());
 
             foreach (var item in collection)
             {
@@ -50,9 +50,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Throws<NullReferenceException>(
                () => collection.InsertItems(
                    CollectionHelper.CreateFillItemsListWithNull(),
-                   (x) => x.SelectKey(),
-                   (x) => x.SelectValue(),
-                   (x) => x.SelectIndex()));
+                   x => x.SelectKey(),
+                   x => x.SelectValue(),
+                   x => x.SelectIndex()));
         }
 
         [Theory]
@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             List<TestItem<string, int>> items,
             ObservableKeyGroupsCollection<string, int> resultCollection)
         {
-            collection.InsertItems(items, (x) => x.SelectKey(), (x) => x.SelectValue(), (x) => x.SelectIndex());
+            collection.InsertItems(items, x => x.SelectKey(), x => x.SelectValue(), x => x.SelectIndex());
 
             Assert.Equal(resultCollection.Keys.Count, collection.Keys.Count);
 
@@ -78,9 +78,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         {
             Assert.Throws<KeyNotFoundException>(() => collection.InsertItems(
                      CollectionHelper.CreateFillItemsListWithNewKeys(),
-                     (x) => x.SelectKey(),
-                     (x) => x.SelectValue(),
-                     (x) => x.SelectIndex()));
+                     x => x.SelectKey(),
+                     x => x.SelectValue(),
+                     x => x.SelectIndex()));
         }
 
         [Theory]
@@ -90,9 +90,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Throws<ArgumentNullException>(
                 () => collection.InsertItems(
                     CollectionHelper.CreateFillItemsListWithNewKeys(),
-                    null,
-                    (x) => x.SelectValue(),
-                    (x) => x.SelectIndex()));
+                    null!,
+                    x => x.SelectValue(),
+                    x => x.SelectIndex()));
         }
 
         [Theory]
@@ -102,9 +102,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Throws<ArgumentNullException>(
                 () => collection.InsertItems(
                     CollectionHelper.CreateFillItemsListWithNewKeys(),
-                    (x) => x.SelectKey(),
-                    null,
-                    (x) => x.SelectIndex()));
+                    x => x.SelectKey(),
+                    null!,
+                    x => x.SelectIndex()));
         }
 
         [Theory]
@@ -114,9 +114,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Throws<ArgumentNullException>(
                 () => collection.InsertItems(
                     CollectionHelper.CreateFillItemsListWithNewKeys(),
-                    (x) => x.SelectKey(),
-                    (x) => x.SelectValue(),
-                    null));
+                    x => x.SelectKey(),
+                    x => x.SelectValue(),
+                    null!));
         }
 
         [Theory]
@@ -126,9 +126,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             Assert.Throws<ArgumentNullException>(
                 () => collection.InsertItems(
                     CollectionHelper.CreateFillItemsListWithExistKeys(),
-                    (x) => null,
-                    (x) => x.SelectValue(),
-                    (x) => x.SelectIndex()));
+                    x => null,
+                    x => x.SelectValue(),
+                    x => x.SelectIndex()));
         }
 
         [Theory]
@@ -139,7 +139,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             int index)
         {
             Assert.Throws<ArgumentOutOfRangeException>(
-                () => collection.InsertItems(items, (x) => x.SelectKey(), (x) => x.SelectValue(), (x) => index));
+                () => collection.InsertItems(items, x => x.SelectKey(), x => x.SelectValue(), x => index));
         }
     }
 }
