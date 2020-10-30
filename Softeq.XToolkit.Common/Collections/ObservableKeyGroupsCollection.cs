@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Collections
     {
         private const string UnsupportEmptyGroupExceptionMessage = "Empty group isn't supported";
 
-        private readonly IList<Group> _items;
+        private readonly IList<Group> _groups;
         private readonly bool _emptyGroupsDisabled;
 
         /// <summary>
@@ -37,32 +37,32 @@ namespace Softeq.XToolkit.Common.Collections
         public ObservableKeyGroupsCollection(bool allowEmptyGroups = true)
         {
             _emptyGroupsDisabled = !allowEmptyGroups;
-            _items = new List<Group>();
+            _groups = new List<Group>();
         }
 
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
 
-        public IList<TKey> Keys => _items.Select(item => item.Key).ToList();
+        public IList<TKey> Keys => _groups.Select(item => item.Key).ToList();
 
-        public int Count => _items.Count;
-
-        /// <inheritdoc />
-        public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator() => _items.GetEnumerator();
+        public int Count => _groups.Count;
 
         /// <inheritdoc />
-        IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
+        public IEnumerator<IGrouping<TKey, TValue>> GetEnumerator() => _groups.GetEnumerator();
+
+        /// <inheritdoc />
+        IEnumerator IEnumerable.GetEnumerator() => _groups.GetEnumerator();
 
         /// <inheritdoc />
         public void AddGroups(IEnumerable<TKey> keys)
         {
-            InsertGroups(_items.Count, keys);
+            InsertGroups(_groups.Count, keys);
         }
 
         /// <inheritdoc />
         public void AddGroups(IEnumerable<KeyValuePair<TKey, IList<TValue>>> items)
         {
-            InsertGroups(_items.Count, items);
+            InsertGroups(_groups.Count, items);
         }
 
         /// <inheritdoc />
@@ -112,7 +112,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             var itemsEvents = insertedGroups
                 .Select(x => (
-                    _items.IndexOf(x),
+                    _groups.IndexOf(x),
                     new NotifyGroupCollectionChangedEventArgs<TValue>(
                         NotifyCollectionChangedAction.Add, new Collection<(int, IReadOnlyList<TValue>)>(), default)))
              .ToList();
@@ -155,10 +155,10 @@ namespace Softeq.XToolkit.Common.Collections
 
             var oldItems = new Collection<(int, IReadOnlyList<TKey>)>
             {
-                (0, _items.Select(x => x.Key).ToList())
+                (0, _groups.Select(x => x.Key).ToList())
             };
 
-            _items.Clear();
+            _groups.Clear();
 
             var insertedGroups = InsertGroupsWithoutNotify(0, items, _emptyGroupsDisabled);
             if (insertedGroups == null)
@@ -207,12 +207,12 @@ namespace Softeq.XToolkit.Common.Collections
         /// <inheritdoc />
         public void Clear()
         {
-            if (_items.Count == 0)
+            if (_groups.Count == 0)
             {
                 return;
             }
 
-            _items.Clear();
+            _groups.Clear();
 
             OnChanged(
                 NotifyCollectionChangedAction.Reset,
@@ -234,7 +234,7 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(key));
             }
 
-            var item = _items.FirstOrDefault(x => x.Key.Equals(key));
+            var item = _groups.FirstOrDefault(x => x.Key.Equals(key));
             if (item == null)
             {
                 throw new KeyNotFoundException();
@@ -245,7 +245,7 @@ namespace Softeq.XToolkit.Common.Collections
             var clearGroupEvent =
                 new Collection<(int, NotifyGroupCollectionChangedEventArgs<TValue>)>
                 {
-                    (_items.IndexOf(item),
+                    (_groups.IndexOf(item),
                         new NotifyGroupCollectionChangedEventArgs<TValue>(NotifyCollectionChangedAction.Reset, default, default))
                 };
 
@@ -272,12 +272,12 @@ namespace Softeq.XToolkit.Common.Collections
                 return;
             }
 
-            int insertionIndex = _items.Count;
+            int insertionIndex = _groups.Count;
 
             var groups = items
                 .Select(keySelector.Invoke)
                 .Distinct()
-                .Where(x => _items.All(y => !y.Key.Equals(x)))
+                .Where(x => _groups.All(y => !y.Key.Equals(x)))
                 .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>()));
 
             var keysOfAddedGroups = InsertGroupsWithoutNotify(insertionIndex, groups, false)?.Select(x => x.Key).ToList();
@@ -291,7 +291,7 @@ namespace Softeq.XToolkit.Common.Collections
             var addedItemsEvents = insertedItems
                 .Where(x => keysOfAddedGroups == null || keysOfAddedGroups.All(y => !y.Equals(x.Key)))
                 .Select(x => (
-                    _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
+                    _groups.IndexOf(_groups.First(y => y.Key.Equals(x.Key))),
                     new NotifyGroupCollectionChangedEventArgs<TValue>(
                             NotifyCollectionChangedAction.Add,
                             new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
@@ -328,7 +328,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             var insertedItemsEvents = insertedItems
                 .Select(x => (
-                    _items.IndexOf(_items.First(y => y.Key.Equals(x.Key))),
+                    _groups.IndexOf(_groups.First(y => y.Key.Equals(x.Key))),
                     new NotifyGroupCollectionChangedEventArgs<TValue>(
                         NotifyCollectionChangedAction.Add,
                         new Collection<(int, IReadOnlyList<TValue>)>(x.ValuesGroups.ToList()),
@@ -353,14 +353,14 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException();
             }
 
-            var keysToRemove = _items.Select(x => x.Key).ToList();
+            var keysToRemove = _groups.Select(x => x.Key).ToList();
 
-            _items.Clear();
+            _groups.Clear();
 
             var groups = items
                 .Select(keySelector.Invoke)
                 .Distinct()
-                .Where(x => _items.All(y => !y.Key.Equals(x)))
+                .Where(x => _groups.All(y => !y.Key.Equals(x)))
                 .Select(x => new KeyValuePair<TKey, IList<TValue>>(x, new List<TValue>()));
 
             var keysOfAddedGroup = InsertGroupsWithoutNotify(0, groups, false)?.Select(x => x.Key)?.ToList() ?? new List<TKey>();
@@ -408,16 +408,16 @@ namespace Softeq.XToolkit.Common.Collections
                     throw new ArgumentNullException(nameof(key));
                 }
 
-                if (!_items.Any(x => x.Key.Equals(key)))
+                if (!_groups.Any(x => x.Key.Equals(key)))
                 {
                     throw new KeyNotFoundException();
                 }
 
-                var groupIndex = _items.IndexOf(_items.First(x => x.Key.Equals(key)));
+                var groupIndex = _groups.IndexOf(_groups.First(x => x.Key.Equals(key)));
                 var val = valueSelector(item);
-                var valIndex = _items.ElementAt(groupIndex).IndexOf(val);
+                var valIndex = _groups.ElementAt(groupIndex).IndexOf(val);
 
-                if (!_items.ElementAt(groupIndex).Any(x => x.Equals(val)))
+                if (!_groups.ElementAt(groupIndex).Any(x => x.Equals(val)))
                 {
                     throw new KeyNotFoundException();
                 }
@@ -447,13 +447,13 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 foreach (var item in groupInfo.Items)
                 {
-                    _items[groupInfo.GroupIndex].Remove(item.Key);
+                    _groups[groupInfo.GroupIndex].Remove(item.Key);
                 }
             }
 
             if (_emptyGroupsDisabled)
             {
-                var keysToRemove = _items.Where(x => x.Count == 0).Select(x => x.Key);
+                var keysToRemove = _groups.Where(x => x.Count == 0).Select(x => x.Key);
                 groupsToRemove = RemoveGroupsWithoutNotify(keysToRemove);
             }
 
@@ -551,12 +551,12 @@ namespace Softeq.XToolkit.Common.Collections
                 throw new ArgumentNullException(nameof(items), "One of the keys or values is null.");
             }
 
-            if (index > _items.Count + items.Count() - 1)
+            if (index > _groups.Count + items.Count() - 1)
             {
                 throw new ArgumentOutOfRangeException(nameof(index));
             }
 
-            if (_items.Select(x => x.Key).Concat(items.Select(x => x.Key)).GroupBy(x => x).Any(g => g.Count() > 1))
+            if (_groups.Select(x => x.Key).Concat(items.Select(x => x.Key)).GroupBy(x => x).Any(g => g.Count() > 1))
             {
                 throw new ArgumentException("An item with the same key has already been added.");
             }
@@ -573,7 +573,7 @@ namespace Softeq.XToolkit.Common.Collections
 
             foreach (var item in toInsert)
             {
-                _items.Insert(index++, item);
+                _groups.Insert(index++, item);
             }
 
             return toInsert;
@@ -598,13 +598,13 @@ namespace Softeq.XToolkit.Common.Collections
                     throw new ArgumentNullException(nameof(key));
                 }
 
-                if (!_items.Any(x => x.Key.Equals(key)))
+                if (!_groups.Any(x => x.Key.Equals(key)))
                 {
                     throw new KeyNotFoundException();
                 }
 
                 var val = valueSelector.Invoke(item);
-                var index = indexSelector == null ? _items.First(x => x.Key.Equals(key)).Count : indexSelector.Invoke(item);
+                var index = indexSelector == null ? _groups.First(x => x.Key.Equals(key)).Count : indexSelector.Invoke(item);
 
                 if (!itemsToAdd.Any(x => x.Key.Equals(key)))
                 {
@@ -623,7 +623,7 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 foreach (var (index, values) in ranges)
                 {
-                    _items
+                    _groups
                         .First(x => x.Key.Equals(key))
                         .InsertRange(index, values.ToList());
                 }
@@ -634,24 +634,24 @@ namespace Softeq.XToolkit.Common.Collections
 
         private IReadOnlyList<(int Index, IReadOnlyList<TKey> Keys)> RemoveGroupsWithoutNotify(IEnumerable<TKey> keys)
         {
-            if (keys.Any(key => _items.All(item => !item.Key.Equals(key))))
+            if (keys.Any(key => _groups.All(item => !item.Key.Equals(key))))
             {
                 throw new KeyNotFoundException();
             }
 
             var indexes = new List<KeyValuePair<TKey, int>>();
 
-            for (int i = 0; i < _items.Count; i++)
+            for (int i = 0; i < _groups.Count; i++)
             {
-                if (keys.Any(x => x.Equals(_items[i].Key)))
+                if (keys.Any(x => x.Equals(_groups[i].Key)))
                 {
-                    indexes.Add(new KeyValuePair<TKey, int>(_items[i].Key, i));
+                    indexes.Add(new KeyValuePair<TKey, int>(_groups[i].Key, i));
                 }
             }
 
             foreach (var key in keys.ToList())
             {
-                _items.Remove(_items.First(x => x.Key.Equals(key)));
+                _groups.Remove(_groups.First(x => x.Key.Equals(key)));
             }
 
             return GroupByIndex(indexes);
