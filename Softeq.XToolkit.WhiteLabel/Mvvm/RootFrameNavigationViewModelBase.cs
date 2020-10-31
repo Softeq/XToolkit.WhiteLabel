@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
             set => Set(ref _canGoBack, value);
         }
 
-        public new bool IsInitialized => FrameNavigationService.IsInitialized;
+        public bool IsInitialized => FrameNavigationService.IsInitialized;
 
         public abstract void NavigateToFirstPage();
 
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
 
         public void RestoreState()
         {
-            if(FrameNavigationService.CanGoBack)
+            if (FrameNavigationService.CanGoBack)
             {
                 FrameNavigationService.RestoreState();
             }
