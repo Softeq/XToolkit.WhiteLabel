@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
                 _backStack.Pop();
             }
 
-            return _backStack.Pop();
+            return _backStack.Peek();
         }
 
         internal void GoBackWhile(Func<T, bool> canGoBack)

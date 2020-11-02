@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AndroidX.Fragment.App;
-using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Internal;
@@ -13,11 +12,11 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
-namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
+namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation.FrameNavigation
 {
     public class DroidFrameNavigationService : IFrameNavigationService
     {
-        private readonly BackStack<Fragment> _backStack = new BackStack<Fragment>();
+        private readonly BackStack<FragmentState> _backStack = new BackStack<FragmentState>();
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
 
@@ -84,7 +83,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             // navigation
             var dumpBefore = _backStack.Dump(ToKey);
 
-            _backStack.GoBackWhile(x => !(ExtractViewModel(x) is T));
+            _backStack.GoBackWhile(x => x.IsViewModelOfType<T>());
 
             var dumpAfter = _backStack.Dump(ToKey);
 
@@ -122,10 +121,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 return;
             }
 
-            var fragment = _backStack.ResetToFirst();
-            var viewModel = ExtractViewModel(fragment);
+            var dumpBefore = _backStack.Dump(ToKey);
 
-            NavigateInternal(fragment, viewModel);
+            _backStack.ResetToFirst();
+
+            var dumpAfter = _backStack.Dump(ToKey);
+
+            var fragmentNamesForRemove = dumpBefore.Except(dumpAfter).ToArray();
+
+            CurrentStore.Remove(fragmentNamesForRemove);
+
+            RestoreNavigation();
         }
 
         /// <inheritdoc />
@@ -161,24 +167,20 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return viewModel;
         }
 
-        protected virtual void ReplaceFragment(Fragment fragment)
+        protected virtual void ReplaceFragment(FragmentState fragmentState)
         {
             Execute.BeginOnUIThread(() =>
             {
-                if (_config?.Manager == null
-                    || _config.Manager.IsDestroyed
-                    || _config.Manager.IsStateSaved)
+                if (_config == null || !_config.CanReplaceFragment)
                 {
                     _hasUnfinishedNavigation = true;
                     return;
                 }
 
                 _hasUnfinishedNavigation = false;
-                var transaction = _config.Manager
-                    .BeginTransaction()
-                    .Replace(_config.ContainerId, fragment);
 
-                PrepareTransaction(transaction).Commit();
+                PrepareTransaction(_config.ReplaceFragment(fragmentState))
+                    .Commit();
             });
         }
 
@@ -187,21 +189,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return fragmentTransaction;
         }
 
-        protected virtual string ToKey(Fragment fragment)
+        protected virtual string ToKey(FragmentState fragmentState)
         {
-            return fragment.GetType().Name;
-        }
-
-        private static IViewModelBase ExtractViewModel(Fragment fragment)
-        {
-            return (IViewModelBase) ((IBindable) fragment).DataContext;
+            return fragmentState.Key;
         }
 
         private void NavigateInternal(Fragment fragment, IViewModelBase viewModel)
         {
-            _backStack.Add(fragment);
-            CurrentStore.Add(ToKey(fragment), viewModel);
-            ReplaceFragment(fragment);
+            var fragmentState = new FragmentState(fragment, viewModel.GetType());
+
+            _backStack.Add(fragmentState);
+            CurrentStore.Add(ToKey(fragmentState), viewModel);
+            ReplaceFragment(fragmentState);
         }
 
         private void ClearBackStack()

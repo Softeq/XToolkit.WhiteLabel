@@ -64,7 +64,10 @@
     <Compile Include="MainApplicationBase.cs" />
     <Compile Include="Navigation\BundleService.cs" />
     <Compile Include="Navigation\DroidViewLocator.cs" />
-    <Compile Include="Navigation\FrameNavigationConfig.cs" />
+    <Compile Include="Navigation\FrameNavigation\DroidFrameNavigationService.cs" />
+    <Compile Include="Navigation\FrameNavigation\FragmentState.cs" />
+    <Compile Include="Navigation\FrameNavigation\FrameNavigationConfig.cs" />
+    <Compile Include="Navigation\FrameNavigation\FrameNavigationService.cs" />
     <Compile Include="Navigation\ViewType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ContextProvider.cs" />
@@ -76,7 +79,6 @@
     <Compile Include="ActivityBase.cs" />
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Navigation\ActivityPageNavigationService.cs" />
-    <Compile Include="Navigation\FrameNavigationService.cs" />
     <Compile Include="Controls\NavigationBarView.cs" />
     <Compile Include="Resources\Resource.Designer.cs" />
     <Compile Include="Controls\BusyOverlayView.cs" />
@@ -98,7 +100,6 @@
     <Compile Include="Controls\SwipeControlViewPager.cs" />
     <Compile Include="DroidBootstrapperBase.cs" />
     <Compile Include="Extensions\FragmentExtensions.cs" />
-    <Compile Include="Navigation\DroidFrameNavigationService.cs" />
     <Compile Include="Internal\ViewModelStore.cs" />
     <Compile Include="Internal\BackStack.cs" />
     <Compile Include="Internal\ViewModelCache.cs" />
