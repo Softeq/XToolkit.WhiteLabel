@@ -11,23 +11,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public abstract class AlertDialogBase
     {
-        private readonly IContextProvider _contextProvider = Dependencies.Container.Resolve<IContextProvider>();
-
         protected virtual AlertDialog.Builder GetBuilder()
         {
-            var context = _contextProvider.CurrentActivity;
+            var context = Dependencies.Container.Resolve<IContextProvider>().CurrentActivity;
             return new AlertDialog.Builder(context)
                 .SetCancelable(false);
         }
 
         protected virtual void Present(AlertDialog.Builder builder)
         {
-            var activity = _contextProvider.CurrentActivity;
-            if (activity != null && !activity.IsFinishing && !activity.IsDestroyed)
-            {
-                var dialog = builder.Create();
-                dialog.Show();
-            }
+            var dialog = builder.Create();
+            dialog.Show();
         }
 
         protected virtual void SetPositiveButton<T>(
