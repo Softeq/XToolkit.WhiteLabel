@@ -2,10 +2,10 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
+using AndroidX.AppCompat.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
-using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
