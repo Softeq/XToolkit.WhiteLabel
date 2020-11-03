@@ -2,26 +2,32 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
-using AndroidX.AppCompat.App;
-using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
+using AlertDialog = AndroidX.AppCompat.App.AlertDialog;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public abstract class AlertDialogBase
     {
+        private readonly IContextProvider _contextProvider = Dependencies.Container.Resolve<IContextProvider>();
+
         protected virtual AlertDialog.Builder GetBuilder()
         {
-            var context = Dependencies.Container.Resolve<IContextProvider>().CurrentActivity;
+            var context = _contextProvider.CurrentActivity;
             return new AlertDialog.Builder(context)
                 .SetCancelable(false);
         }
 
         protected virtual void Present(AlertDialog.Builder builder)
         {
-            var dialog = builder.Create();
-            dialog.Show();
+            var activity = _contextProvider.CurrentActivity;
+            if (activity != null && !activity.IsFinishing && !activity.IsDestroyed)
+            {
+                var dialog = builder.Create();
+                dialog.Show();
+            }
         }
 
         protected virtual void SetPositiveButton<T>(
