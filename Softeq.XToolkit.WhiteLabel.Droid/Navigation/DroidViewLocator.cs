@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
