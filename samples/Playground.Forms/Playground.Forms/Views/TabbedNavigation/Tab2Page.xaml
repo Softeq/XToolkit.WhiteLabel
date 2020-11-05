@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<ContentPage
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Playground.Forms.Views.TabbedNavigation.Tab2Page"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.TabbedNavigation;assembly=Playground.Forms"
+    x:DataType="vm:Tab2PageViewModel"
+    BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
+    Title="{Binding Title}"
+    IconImageSource="AppIcon">
+
+    <StackLayout
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
+        <Label
+            Text="{Binding Title}" 
+            HorizontalOptions="Center"/>
+        <Button
+            Command="{Binding ToNextPageCommand}"
+            Text="Go to next page" />
+        <!--<Button
+            Command="{Binding ToMainPageCommand}"
+            Text="Return to main page" />-->
+    </StackLayout>
+
+</ContentPage>

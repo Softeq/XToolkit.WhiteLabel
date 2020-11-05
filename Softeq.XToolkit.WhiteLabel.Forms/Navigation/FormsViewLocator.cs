@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -24,6 +25,11 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                 {
                     return FindNavigationForViewModel(masterDetailPage.Detail.Navigation, viewModel);
                 }
+
+                if (page is TabbedPage tabbedPage)
+                {
+                    return FindNavigationForViewModel(tabbedPage.CurrentPage.Navigation, viewModel);
+                }
             }
 
             return null;
@@ -45,6 +51,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                 : BuildPageTypeName(viewModelType.FullName);
 
             var pageType = Type.GetType(pageTypeName) ?? AssemblySource.FindTypeByNames(new[] { pageTypeName });
+
             return (Page) Activator.CreateInstance(pageType);
         }
 
@@ -59,6 +66,9 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                     break;
                 case IMasterDetailViewModel masterDetailViewModel:
                     await SetupMasterDetailsPage((MasterDetailPage) page, masterDetailViewModel);
+                    break;
+                case ITabbedViewModel tabbedViewModel:
+                    await SetupTabbedPage((TabbedPage) page, tabbedViewModel);
                     break;
             }
         }
@@ -98,6 +108,29 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             if (masterDetailsPage.Detail == null)
             {
                 masterDetailsPage.Detail = new Page();
+            }
+        }
+
+        protected virtual async Task SetupTabbedPage(
+            TabbedPage tabbedPage,
+            ITabbedViewModel tabbedViewModel)
+        {
+            foreach (var tabViewModel in tabbedViewModel.TabsViewModel)
+            {
+                var tabPage = await GetPageAsync(tabViewModel);
+
+                if (tabPage is RootFrameNavigationPage page)
+                {
+                    var firstTabPage = page.Pages.FirstOrDefault();
+
+                    if (firstTabPage != null)
+                    {
+                        tabPage.Title = firstTabPage.Title;
+                        tabPage.IconImageSource = firstTabPage.IconImageSource;
+                    }
+                }
+
+                tabbedPage.Children.Add(tabPage);
             }
         }
     }
