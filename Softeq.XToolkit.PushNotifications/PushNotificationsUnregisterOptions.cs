@@ -4,22 +4,22 @@
 namespace Softeq.XToolkit.PushNotifications
 {
     /// <summary>
-    /// Options of how to Unregister from Push Notifications
+    ///     Options of how to Unregister from Push Notifications.
     /// </summary>
     public enum PushNotificationsUnregisterOptions
     {
         /// <summary>
-        /// Unregister in system only, but do not unregister on server
+        ///     Unregister in system only, but do not unregister on server.
         /// </summary>
         InSystemOnly,
 
         /// <summary>
-        /// Unregister on server only, but do not unregister in system
+        ///     Unregister on server only, but do not unregister in system.
         /// </summary>
         OnServerOnly,
 
         /// <summary>
-        /// Unregister both in system and on server
+        ///     Unregister both in system and on server.
         /// </summary>
         InSystemAndOnServer
     }

@@ -8,54 +8,71 @@ namespace Softeq.XToolkit.PushNotifications
     public interface IPushNotificationsHandler
     {
         /// <summary>
-        ///     Handle registration result (for instance, you can unregister if needed, try registration again or just log message)
-        ///     If one of the parameters is false - we won't be able to receive push notifications
+        ///     Handle registration result (for instance, you can unregister if needed, try registration again or just log message).
+        ///     <para/>
+        ///     If one of the parameters is <see langword="false"/> - we won't be able to receive push notifications.
         /// </summary>
         /// <param name="isRegisteredInSystem">
         ///     Value that indicates if we are registered to push notifications in system with token stored in
-        ///     IPushTokenStorageService
+        ///     <see cref="IPushTokenStorageService"/>.
         /// </param>
-        /// <param name="isSavedOnServer">Value that indicates if current token was saved on server</param>
+        /// <param name="isSavedOnServer">Value that indicates if current token was saved on server.</param>
         void OnPushRegistrationCompleted(bool isRegisteredInSystem, bool isSavedOnServer);
 
         /// <summary>
-        ///     Handle the result of push notifications permission request on iOS (this is not relevant for Android)
-        ///     Note that push notifications registration will be initiated anyway. You might want to use this callback for logging or analytics
+        ///     Handle the result of push notifications permission request on iOS (this is not relevant for Android).
+        ///     <para/>
+        ///     Note that push notifications registration will be initiated anyway.
+        ///     You might want to use this callback for logging or analytics.
         /// </summary>
-        /// <param name="permissionsGranted">True if user allowed notification permissions, false if denied</param>
+        /// <param name="permissionsGranted">
+        ///     <see langword="true"/> if user allowed notification permissions,
+        ///     <see langword="false"/> otherwise.
+        /// </param>
         void OnPushPermissionsRequestCompleted(bool permissionsGranted);
 
         /// <summary>
-        ///     Handle the situation when push notification was received
-        ///     (happens in foreground for iOS; in foreground for Android 'notification' messages; in all cases for Android 'data' messages)
+        ///     Handle the situation when push notification was received.
+        ///     <para/>
+        ///     This happens:
+        ///     <para/>
+        ///     1. In foreground for iOS.
+        ///     <para/>
+        ///     2. In foreground for Android 'notification' messages.
+        ///     <para/>
+        ///     3. In all cases for Android 'data' messages).
         /// </summary>
-        /// <param name="pushNotification">Push notification model</param>
+        /// <param name="pushNotification">Push notification model.</param>
         /// <param name="inForeground">
-        ///     Flag indicating if push notification was received in foreground,
-        ///     can be false on Android for data push notifications - should be considered when handling notification
+        ///     Flag indicating if push notification was received in foreground.
+        ///     <para/>
+        ///     Can be <see langword="false"/> on Android for data push notifications
+        ///     - should be considered when handling notification.
         /// </param>
         void HandlePushNotificationReceived(PushNotificationModel pushNotification, bool inForeground);
 
         /// <summary>
-        ///     Handle the situation when the application was open after user tap on push notification
+        ///     Handle the situation when the application was open after user tap on push notification.
         /// </summary>
-        /// <param name="pushNotification">Push notification model</param>
+        /// <param name="pushNotification">Push notification model.</param>
         void HandlePushNotificationTapped(PushNotificationModel pushNotification);
 
         /// <summary>
         ///     Handle the situation when silent push notification was received.
+        ///     <para/>
         ///     In iOS notification is considered silent when 'content-available' property = 1.
-        ///     In Android notification is considered silent if incoming RemoteMessage does not contain body neither in 'notification', nor
-        ///     in 'data'
+        ///     <para/>
+        ///     In Android notification is considered silent if incoming RemoteMessage does not contain body neither in 'notification',
+        ///     nor in 'data'.
         /// </summary>
         /// <param name="pushNotification">Push notification model</param>
         void HandleSilentPushNotification(PushNotificationModel pushNotification);
 
         /// <summary>
-        ///     Handle the situation when received Push notification is not valid (most likely could not be parsed)
+        ///     Handle the situation when received Push notification is not valid (most likely could not be parsed).
         /// </summary>
-        /// <param name="exception">Details of exception that happenned during parsing notification</param>
-        /// <param name="pushNotification">Raw push notification object</param>   // TODO: make this param more convenient for logging/debugging
+        /// <param name="exception">Details of exception that happenned during parsing notification.</param>
+        /// <param name="pushNotification">Raw push notification object.</param>   // TODO: make this param more convenient for logging/debugging
         void HandleInvalidPushNotification(Exception exception, object pushNotification);
     }
 }

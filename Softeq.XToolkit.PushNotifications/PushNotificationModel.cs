@@ -6,29 +6,31 @@ namespace Softeq.XToolkit.PushNotifications
     public class PushNotificationModel
     {
         /// <summary>
-        ///     Notification title
+        ///     Gets or sets notification title.
         /// </summary>
         public string Title { get; set; } = string.Empty;
 
         /// <summary>
-        ///     Notification body - message
+        ///     Gets or sets notification body - message.
         /// </summary>
         public string Body { get; set; } = string.Empty;
 
         /// <summary>
-        ///     Value to determine if notification is silent (not visible to the user, for some inner updates)
-        ///     On iOS: contains content-available key with value 1
-        ///     On Android: does not contain Body
+        ///     Gets or sets a value indicating whether the notification is silent (not visible to the user, for some inner updates).
+        ///     <para/>
+        ///     On iOS: contains content-available key with value 1.
+        ///     <para/>
+        ///     On Android: does not contain Body.
         /// </summary>
         public bool IsSilent { get; set; }
 
         /// <summary>
-        ///     Additional data stored in notification (custom data)
+        ///     Gets or sets additional data stored in notification (custom data).
         /// </summary>
         public string AdditionalData { get; set; } = string.Empty;
 
         /// <summary>
-        ///     Notification type as string (custom data)
+        ///     Gets or sets notification type as string (custom data).
         /// </summary>
         public string Type { get; set; } = string.Empty;
     }
