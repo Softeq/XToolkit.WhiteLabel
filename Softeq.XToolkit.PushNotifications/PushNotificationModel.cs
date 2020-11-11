@@ -8,12 +8,12 @@ namespace Softeq.XToolkit.PushNotifications
         /// <summary>
         ///     Gets or sets notification title.
         /// </summary>
-        public string Title { get; set; } = string.Empty;
+        public string? Title { get; set; }
 
         /// <summary>
         ///     Gets or sets notification body - message.
         /// </summary>
-        public string Body { get; set; } = string.Empty;
+        public string? Body { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether the notification is silent (not visible to the user, for some inner updates).

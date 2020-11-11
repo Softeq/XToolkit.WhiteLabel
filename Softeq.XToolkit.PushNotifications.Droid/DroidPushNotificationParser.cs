@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
-using Android.Content.Res;
 using Android.OS;
 using Firebase.Messaging;
 
@@ -76,13 +75,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             // If we are here it means that the user tapped on a notification thus it is definitely not silent
             pushNotification.IsSilent = false;
 
-            pushNotification.AdditionalData = bundleNotification.GetString(DataKey);
+            pushNotification.AdditionalData = bundleNotification.GetString(DataKey)!;
             pushNotification.Type = ParseNotificationTypeFromBundle(bundleNotification);
 
             return pushNotification;
         }
 
-        protected virtual string ParseNotificationTitleFromData(
+        protected virtual string? ParseNotificationTitleFromData(
             RemoteMessage.Notification pushMessage,
             IDictionary<string, string> pushNotificationData)
         {
@@ -103,7 +102,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
-        protected virtual string ParseNotificationMessageFromData(
+        protected virtual string? ParseNotificationMessageFromData(
             RemoteMessage.Notification pushMessage,
             IDictionary<string, string> pushNotificationData)
         {
@@ -170,10 +169,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <param name="resourceKey">Resource key.</param>
         /// <param name="args">Arguments.</param>
         /// <returns>Localized string from Android resources.</returns>
-        protected string GetResourceString(string resourceKey, string[] args)
+        protected string? GetResourceString(string resourceKey, string[] args)
         {
             var context = Application.Context;
-            var resourceId = context.Resources.GetIdentifier(resourceKey, StringResourceType, context.PackageName);
+            var resourceId = context.Resources?.GetIdentifier(resourceKey, StringResourceType, context.PackageName) ?? 0;
             if (resourceId != 0)
             {
                 if (args != null)

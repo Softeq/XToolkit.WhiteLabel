@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.PushNotifications
         ///     <para/>
         ///     2. In foreground for Android 'notification' messages.
         ///     <para/>
-        ///     3. In all cases for Android 'data' messages).
+        ///     3. In all cases for Android 'data' messages.
         /// </summary>
         /// <param name="pushNotification">Push notification model.</param>
         /// <param name="inForeground">
@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.PushNotifications
         ///     In Android notification is considered silent if incoming RemoteMessage does not contain body neither in 'notification',
         ///     nor in 'data'.
         /// </summary>
-        /// <param name="pushNotification">Push notification model</param>
+        /// <param name="pushNotification">Push notification model.</param>
         void HandleSilentPushNotification(PushNotificationModel pushNotification);
 
         /// <summary>
