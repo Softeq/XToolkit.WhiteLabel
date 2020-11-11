@@ -45,6 +45,7 @@ namespace Softeq.XToolkit.PushNotifications
                 _registrationCompletionSource = new TaskCompletionSource<PushNotificationRegistrationResult>();
                 RegisterForPushNotifications();
             }
+
             return _registrationCompletionSource.Task;
         }
 
