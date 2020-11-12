@@ -3,8 +3,8 @@
 
 using System.Threading.Tasks;
 using AndroidX.AppCompat.App;
-using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Bindings;
+using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs

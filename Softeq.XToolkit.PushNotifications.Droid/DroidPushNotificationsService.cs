@@ -37,8 +37,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             IPushNotificationParser pushNotificationParser,
             INotificationsSettingsProvider notificationsSettings,
             ILogManager logManager)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
-                logManager)
+            : base(
+                  remotePushNotificationsService,
+                  pushTokenStorageService,
+                  pushNotificationsHandler,
+                  pushNotificationParser,
+                  logManager)
         {
             _appContext = Application.Context;
 
@@ -96,7 +100,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             if (_appContext != null)
             {
                 var result = ShortcutBadger.ApplyCount(_appContext, badgeNumber);
-                Logger.Debug($"Badge count {badgeNumber} was" + (!result ? "NOT" : "") + "set");
+                Logger.Debug($"Badge count {badgeNumber} was" + (!result ? "NOT" : string.Empty) + "set");
             }
         }
 

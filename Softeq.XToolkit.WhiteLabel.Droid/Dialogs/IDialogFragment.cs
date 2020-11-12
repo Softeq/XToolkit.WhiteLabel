@@ -10,12 +10,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         /// <summary>
         ///     Event called when Dialog fragment will dismiss.
         /// </summary>
-        public event EventHandler? WillDismiss;
-        
+        event EventHandler? WillDismiss;
+
         /// <summary>
         ///     Event called when Dialog fragment is dismissed.
         /// </summary>
-        public event EventHandler? Dismissed;
+        event EventHandler? Dismissed;
 
         /// <summary>
         ///     Show Dialog fragment.
