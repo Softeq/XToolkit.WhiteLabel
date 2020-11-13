@@ -3,9 +3,8 @@
 
 using System;
 using System.Threading.Tasks;
-using Foundation;
-using UIKit;
 using UserNotifications;
+using Xamarin.Essentials;
 using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 using EssentialsPermissions = Xamarin.Essentials.Permissions;
 
@@ -18,14 +17,17 @@ namespace Softeq.XToolkit.Permissions.iOS
         public async Task<PermissionStatus> RequestPermissionsAsync<T>()
             where T : BasePermission, new()
         {
-            if (typeof(T) == typeof(NotificationsPermission))
+            return await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                return await RequestNotificationPermissionAsync().ConfigureAwait(false);
-            }
+                if (typeof(T) == typeof(NotificationsPermission))
+                {
+                    return await RequestNotificationPermissionAsync().ConfigureAwait(false);
+                }
 
-            var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
+                var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
 
-            return result.ToPermissionStatus();
+                return result.ToPermissionStatus();
+            });
         }
 
         /// <inheritdoc />
@@ -45,20 +47,7 @@ namespace Softeq.XToolkit.Permissions.iOS
         /// <inheritdoc />
         public void OpenSettings()
         {
-            RunInMainThread(Xamarin.Essentials.AppInfo.ShowSettingsUI);
-        }
-
-        // TODO YP: use common dependency
-        private static void RunInMainThread(Action action)
-        {
-            if (NSThread.IsMain)
-            {
-                action();
-            }
-            else
-            {
-                UIApplication.SharedApplication.BeginInvokeOnMainThread(action);
-            }
+            MainThread.BeginInvokeOnMainThread(AppInfo.ShowSettingsUI);
         }
 
         // TODO YP: refactor to using partial NotificationsPermission for iOS.
