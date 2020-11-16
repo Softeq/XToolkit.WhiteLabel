@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<linker>
+    <!-- Preserve NuGet components -->
+    <assembly fullname="DryIoc">
+        <type fullname="*" />
+    </assembly>
+    <!-- Preserve XToolkit components registered via IoC -->
+    <assembly fullname="Softeq.XToolkit.Common">
+        <type fullname="*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.WhiteLabel">
+        <type fullname="Softeq.XToolkit.WhiteLabel.Services.*" />
+        <type fullname="Softeq.XToolkit.WhiteLabel.Navigation.*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.WhiteLabel.Droid">
+        <type fullname="Softeq.XToolkit.WhiteLabel.Droid.Services.*" />
+        <type fullname="Softeq.XToolkit.WhiteLabel.Droid.Navigation.*" />
+        <type fullname="Softeq.XToolkit.WhiteLabel.Droid.Providers.*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.WhiteLabel.Essentials">
+        <type fullname="*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.WhiteLabel.Essentials.Droid">
+        <type fullname="*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.Permissions.Droid">
+        <type fullname="*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.Connectivity">
+      <type fullname="*" />
+    </assembly>
+    <!-- Preserve Application components registered via IoC -->
+    <assembly fullname="Playground">
+        <type fullname="Playground.ViewModels.*" />
+        <type fullname="Playground.Services.*" />
+    </assembly>
+    <assembly fullname="Playground.Droid">
+        <type fullname="Playground.Droid.Extended.*" />
+    </assembly>
+</linker>
