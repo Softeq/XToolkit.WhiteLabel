@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<linker>
+    <!-- Preserve SDK components -->
+    <assembly fullname="Xamarin.iOS">
+        <!-- Used with .SetCommand(nameof(EventName))-->
+        <type fullname="UIKit.UIControl">
+            <event name="TouchUpInside" />
+        </type>
+        <type fullname="UIKit.UITabBarController">
+            <event name="ViewControllerSelected" />
+        </type>
+    </assembly>
+    <!-- Preserve NuGet components -->
+    <assembly fullname="DryIoc">
+        <type fullname="*" />
+    </assembly>
+    <!-- Preserve XToolkit components registered via IoC -->
+    <assembly fullname="Softeq.XToolkit.Common">
+        <type fullname="*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.WhiteLabel">
+        <type fullname="Softeq.XToolkit.WhiteLabel.Services.*" />
+        <type fullname="Softeq.XToolkit.WhiteLabel.Navigation.*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.WhiteLabel.iOS">
+        <type fullname="Softeq.XToolkit.WhiteLabel.iOS.Services.*" />
+        <type fullname="Softeq.XToolkit.WhiteLabel.iOS.Navigation.*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.WhiteLabel.Essentials">
+        <type fullname="*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.WhiteLabel.Essentials.iOS">
+        <type fullname="*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.Permissions.iOS">
+        <type fullname="*" />
+    </assembly>
+    <assembly fullname="Softeq.XToolkit.Connectivity.iOS">
+        <type fullname="*" />
+    </assembly>
+    <!-- Preserve Application components registered via IoC -->
+    <assembly fullname="Playground">
+        <type fullname="Playground.ViewModels.*" />
+        <type fullname="Playground.Services.*" />
+    </assembly>
+    <assembly fullname="Playground.iOS">
+        <type fullname="Playground.iOS.Extended.*" />
+    </assembly>
+</linker>
