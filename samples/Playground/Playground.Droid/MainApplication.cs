@@ -25,5 +25,18 @@ namespace Playground.Droid
         {
             return new CustomDroidBootstrapper();
         }
+
+        public override void OnCreate()
+        {
+            base.OnCreate();
+
+            AndroidEnvironment.UnhandledExceptionRaiser -= OnUnhandledException;
+            AndroidEnvironment.UnhandledExceptionRaiser += OnUnhandledException;
+        }
+
+        private void OnUnhandledException(object sender, RaiseThrowableEventArgs e)
+        {
+            Android.Util.Log.Error("CRASH!!!", e.ToString());
+        }
     }
 }
