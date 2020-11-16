@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.PaginationSearchViewModelB
             Execute.Initialize(new MainThreadExecutorBaseStub());
         }
 
-        private int TestSearchDelay => _viewModel.TestSearchDelay + 100;
+        private int TestSearchDelay => _viewModel.TestSearchDelay + 200;
 
         [Fact]
         public void ClearCommand_Default_ReturnsICommand()
