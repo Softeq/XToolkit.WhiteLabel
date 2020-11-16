@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Android.App;
@@ -88,6 +87,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             var intentActivityInfo = _notificationsSettings.GetIntentActivityInfoFromPush(pushNotification);
             var intent = new Intent(context, intentActivityInfo.ActivityType);
 
+            intent.PutExtra(_notificationsSettings.LaunchedFromPushNotificationKey, true);
             if (notificationData != null)
             {
                 foreach (var (key, value) in notificationData)
