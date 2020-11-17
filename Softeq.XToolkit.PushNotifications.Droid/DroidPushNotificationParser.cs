@@ -91,14 +91,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
             else
             {
+                string? title = null;
                 if (!string.IsNullOrEmpty(pushMessage.TitleLocalizationKey))
                 {
-                    return GetResourceString(pushMessage.TitleLocalizationKey, pushMessage.GetTitleLocalizationArgs());
+                    title = GetResourceString(pushMessage.TitleLocalizationKey, pushMessage.GetTitleLocalizationArgs());
                 }
-                else
-                {
-                    return pushMessage.Title;
-                }
+
+                return title ?? pushMessage.Title;
             }
         }
 
@@ -112,14 +111,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
             else
             {
+                string? body = null;
                 if (!string.IsNullOrEmpty(pushMessage.BodyLocalizationKey))
                 {
-                    return GetResourceString(pushMessage.BodyLocalizationKey, pushMessage.GetBodyLocalizationArgs());
+                    body = GetResourceString(pushMessage.BodyLocalizationKey, pushMessage.GetBodyLocalizationArgs());
                 }
-                else
-                {
-                    return pushMessage.Body;
-                }
+
+                return body ?? pushMessage.Body;
             }
         }
 
