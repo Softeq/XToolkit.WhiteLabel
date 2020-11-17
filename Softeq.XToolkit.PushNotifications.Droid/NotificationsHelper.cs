@@ -114,7 +114,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
             else
             {
-                intent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
                 return PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             }
         }
