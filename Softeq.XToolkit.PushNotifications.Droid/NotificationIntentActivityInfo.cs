@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using Android.Content;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
@@ -15,16 +16,23 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// </summary>
         /// <param name="activityType">The type of the Activity that shall be opened.</param>
         /// <param name="doCreateParentStack">Value indicating whether parent stack should be created for this Activity.</param>
-        public NotificationIntentActivityInfo(Type activityType, bool doCreateParentStack)
+        /// <param name="flags">Optional parameter with flags that will be used when starting this Activity (if supplied).</param>
+        public NotificationIntentActivityInfo(Type activityType, bool doCreateParentStack, ActivityFlags? flags = null)
         {
             ActivityType = activityType;
             DoCreateParentStack = doCreateParentStack;
+            Flags = flags;
         }
 
         /// <summary>
         ///     Gets or sets the type of the Activity that shall be opened.
         /// </summary>
         public Type ActivityType { get; set; }
+
+        /// <summary>
+        ///     Gets or sets the flags to use when opening this Activity.
+        /// </summary>
+        public ActivityFlags? Flags { get; set; }
 
         /// <summary>
         ///     Gets or sets a value indicating whether parent stack should be created for this Activity.
