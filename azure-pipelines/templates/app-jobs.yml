@@ -4,7 +4,7 @@ parameters: # defaults for any parameters that aren't specified
 jobs:
 - job: Build on macOS
   pool:
-    vmImage: 'macOS-latest'
+    vmImage: 'macOS_latest'
   steps:
     # setup env
     - task: UseDotNet@2
