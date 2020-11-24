@@ -20,8 +20,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private readonly BackStack<Fragment> _backStack = new BackStack<Fragment>();
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
-
-        private FrameNavigationConfig? _config;
         private bool _hasUnfinishedNavigation;
 
         public DroidFrameNavigationService(
@@ -32,20 +30,22 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _iocContainer = iocContainer;
         }
 
+        protected FrameNavigationConfig? Config { get; private set; }
+
         private IViewModelStore CurrentStore
         {
             get
             {
-                if (_config == null)
+                if (Config == null)
                 {
                     throw new InvalidOperationException("Navigation not initialized");
                 }
 
-                return ViewModelStore.Of(_config.Manager);
+                return ViewModelStore.Of(Config.Manager);
             }
         }
 
-        public bool IsInitialized => _config != null;
+        public bool IsInitialized => Config != null;
 
         public bool IsEmptyBackStack => _backStack.IsEmpty;
 
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void Initialize(object navigation)
         {
-            _config = navigation as FrameNavigationConfig;
+            Config = navigation as FrameNavigationConfig;
         }
 
         public void GoBack()
@@ -131,7 +131,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         /// <inheritdoc />
         public void RestoreNavigation()
         {
-            ReplaceFragment(_backStack.Current());
+            ReplaceFragmentIfPossible(_backStack.Current());
         }
 
         /// <inheritdoc />
@@ -161,25 +161,30 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return viewModel;
         }
 
-        protected virtual void ReplaceFragment(Fragment fragment)
+        protected void ReplaceFragmentIfPossible(Fragment fragment)
         {
             Execute.BeginOnUIThread(() =>
             {
-                if (_config?.Manager == null
-                    || _config.Manager.IsDestroyed
-                    || _config.Manager.IsStateSaved)
+                if (Config?.Manager == null
+                    || Config.Manager.IsDestroyed
+                    || Config.Manager.IsStateSaved)
                 {
                     _hasUnfinishedNavigation = true;
                     return;
                 }
 
                 _hasUnfinishedNavigation = false;
-                var transaction = _config.Manager
-                    .BeginTransaction()
-                    .Replace(_config.ContainerId, fragment);
-
-                PrepareTransaction(transaction).Commit();
+                ReplaceFragment(fragment);
             });
+        }
+
+        protected virtual void ReplaceFragment(Fragment fragment)
+        {
+            var transaction = Config.Manager
+                .BeginTransaction()
+                .Replace(Config.ContainerId, fragment);
+
+            PrepareTransaction(transaction).Commit();
         }
 
         protected virtual FragmentTransaction PrepareTransaction(FragmentTransaction fragmentTransaction)
@@ -201,7 +206,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             _backStack.Add(fragment);
             CurrentStore.Add(ToKey(fragment), viewModel);
-            ReplaceFragment(fragment);
+            ReplaceFragmentIfPossible(fragment);
         }
 
         private void ClearBackStack()

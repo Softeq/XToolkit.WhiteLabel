@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                 }
             }
 
-            var pendingIntent = CreatePendingIntent(context, intent, intentActivityInfo.DoCreateParentStack);
+            var pendingIntent = CreatePendingIntent(context, intent, intentActivityInfo.DoCreateParentStack, intentActivityInfo.Flags);
             notificationBuilder.SetContentIntent(pendingIntent);
 
             _notificationsSettings.CustomizeNotificationBuilder(notificationBuilder, pushNotification, styles.Id);
@@ -104,8 +104,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             NotificationManagerCompat.From(context).Notify(styles.Id, notificationBuilder.Build());
         }
 
-        private static PendingIntent CreatePendingIntent(Context context, Intent intent, bool withParentStack)
+        private static PendingIntent CreatePendingIntent(Context context, Intent intent, bool withParentStack, ActivityFlags? flags)
         {
+            if (flags.HasValue)
+            {
+                intent.SetFlags(flags.Value);
+            }
+
             if (withParentStack)
             {
                 var stackBuilder = TaskStackBuilder.Create(context);
@@ -114,7 +119,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
             else
             {
-                intent.SetFlags(ActivityFlags.NewTask | ActivityFlags.ClearTask);
                 return PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
             }
         }
