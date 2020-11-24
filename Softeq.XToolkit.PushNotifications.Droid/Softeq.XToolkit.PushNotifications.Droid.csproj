@@ -57,8 +57,8 @@
     <Compile Include="NotificationActionsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.2.0.2" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.5" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.2.0.3" />
     <PackageReference Include="Xamarin.Firebase.Messaging" Version="71.1740.4" />
     <PackageReference Include="Xamarin.ShortcutBadger" Version="1.1.21" />
 </ItemGroup>
