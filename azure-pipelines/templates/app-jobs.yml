@@ -13,7 +13,9 @@ jobs:
         version: $(DOTNET_SDK_VERSION)
     - bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
       displayName: Switch to the latest Xamarin SDK
-    - bash: echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(XCODE_VERSION).app;sudo xcode-select --switch /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
+    - bash: |
+        echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(XCODE_VERSION).app
+        sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app
       displayName: Switch to the latest Xcode
     # restore, build
     - script: 'msbuild ${{ parameters.SolutionPath }} -r /p:Configuration="$(BuildConfiguration)" /p:Platform="Any CPU"'
