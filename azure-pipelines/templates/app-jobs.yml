@@ -2,9 +2,9 @@ parameters: # defaults for any parameters that aren't specified
   SolutionPath: ''
 
 jobs:
-- job: macos_1015
+- job: Build on macOS
   pool:
-    name: Hosted macOS
+    vmImage: 'macos-11.0'
   steps:
     # setup env
     - task: UseDotNet@2
