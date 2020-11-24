@@ -7,10 +7,29 @@
     android:TabbedPage.ToolbarPlacement="Bottom"
     android:TabbedPage.IsSwipePagingEnabled="False"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.TabbedNavigation;assembly=Playground.Forms"
-    x:Name="This"
     x:DataType="vm:TabbedPageViewModel"
     BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
-    NavigationPage.HasNavigationBar="false"
     Title="{Binding Title}">
+
+    <NavigationPage.TitleView>
+
+        <StackLayout
+            Orientation="Horizontal">
+
+            <Label
+                Text="{Binding Title}"
+                FontSize="18"
+                VerticalOptions="CenterAndExpand"
+                HorizontalOptions="CenterAndExpand" />
+
+            <Button
+                Text="Settings"
+                FontSize="12"
+                BackgroundColor="Transparent"
+                Command="{Binding OpenNewPageCommand}" />
+
+        </StackLayout>
+
+    </NavigationPage.TitleView>
 
 </TabbedPage>

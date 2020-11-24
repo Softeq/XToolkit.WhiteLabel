@@ -4,6 +4,7 @@
 using System.Windows.Input;
 using Playground.Forms.ViewModels.SimpleNavigation;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -12,10 +13,12 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
     public class Tab1PageViewModel : ViewModelBase, ITabViewModel
     {
         private readonly IPageNavigationService _pageNavigationService;
+        private readonly IFrameNavigationService _frameNavigationService;
 
-        public Tab1PageViewModel(IPageNavigationService pageNavigationService)
+        public Tab1PageViewModel(IPageNavigationService pageNavigationService, IFrameNavigationService frameNavigationService)
         {
             _pageNavigationService = pageNavigationService;
+            _frameNavigationService = frameNavigationService;
 
             ToMainPageCommand = new RelayCommand(ToMainPage);
             ToNextPageCommand = new RelayCommand(ToNextPage);
@@ -36,9 +39,9 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
 
         private void ToNextPage()
         {
-            _pageNavigationService
-              .For<SecondPageViewModel>()
-              .WithParam(x => x.NavigationParameter, "Custom Parameter")
+            _frameNavigationService
+              .For<FirstPageViewModel>()
+              .From(this)
               .Navigate();
         }
     }

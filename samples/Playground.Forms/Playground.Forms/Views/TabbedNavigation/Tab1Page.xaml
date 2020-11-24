@@ -6,7 +6,7 @@
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.TabbedNavigation;assembly=Playground.Forms"
     x:DataType="vm:Tab1PageViewModel"
     BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
-    Title="Test"
+    Title="{Binding Title}"
     IconImageSource="AppIcon"
     NavigationPage.HasNavigationBar="True">
 

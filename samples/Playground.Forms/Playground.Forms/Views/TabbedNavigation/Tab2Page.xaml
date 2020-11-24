@@ -13,6 +13,7 @@
         VerticalOptions="Center"
         HorizontalOptions="Center">
         <Label
+            x:Name="textname"
             Text="{Binding Title}" 
             HorizontalOptions="Center"/>
         <Button

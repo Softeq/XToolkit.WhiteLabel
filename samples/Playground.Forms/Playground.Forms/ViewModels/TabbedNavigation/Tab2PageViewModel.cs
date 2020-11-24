@@ -14,6 +14,8 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
     {
         private readonly IFrameNavigationService _frameNavigationService;
 
+        private string _title = "Page 2";
+
         public Tab2PageViewModel(IFrameNavigationService frameNavigationService)
         {
             _frameNavigationService = frameNavigationService;
@@ -21,9 +23,13 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
             ToNextPageCommand = new RelayCommand(ToNextPage);
         }
 
-        public string? Title => "Page 2";
-        public string? IconImageSource => "AppIcon";
+        public string Title
+        {
+            get => _title;
+            set => Set(ref _title, value);
+        }
 
+        public string IconImageSource => "AppIcon";
         public ICommand ToNextPageCommand { get; }
 
         private void ToNextPage()

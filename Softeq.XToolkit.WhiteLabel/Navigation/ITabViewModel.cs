@@ -7,7 +7,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface ITabViewModel : IViewModelBase
     {
-        public string? Title { get; }
-        public string? IconImageSource { get; }
+        public string Title { get; }
+        public string IconImageSource { get; }
     }
 }
