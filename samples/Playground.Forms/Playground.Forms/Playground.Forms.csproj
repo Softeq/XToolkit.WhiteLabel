@@ -35,6 +35,9 @@
     <Compile Update="Views\Components\ValidationPage.xaml.cs">
       <DependentUpon>ValidationPage.xaml</DependentUpon>
     </Compile>
+    <Compile Update="Views\TabbedNavigation\TabSubPage.xaml.cs">
+      <DependentUpon>TabSubPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>

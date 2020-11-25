@@ -62,6 +62,7 @@ namespace Playground.Forms
             builder.PerDependency<RootFrameNavigationPageViewModel<Tab1PageViewModel>>();
             builder.PerDependency<Tab2PageViewModel>();
             builder.PerDependency<RootFrameNavigationPageViewModel<Tab2PageViewModel>>();
+            builder.PerDependency<TabSubPageViewModel>();
             builder.PerDependency<SettingsTabPageViewModel>();
 
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();

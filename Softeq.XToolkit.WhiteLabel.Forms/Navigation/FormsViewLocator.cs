@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -115,20 +114,11 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             TabbedPage tabbedPage,
             ITabbedViewModel tabbedViewModel)
         {
-            foreach (var tabViewModel in tabbedViewModel.TabsViewModel)
+            foreach (var tabItem in tabbedViewModel.TabbedItems)
             {
-                var tabPage = await GetPageAsync(tabViewModel);
-
-                if (tabPage is RootFrameNavigationPage page)
-                {
-                    var firstTabPage = page.Pages.FirstOrDefault();
-
-                    if (firstTabPage != null)
-                    {
-                        tabPage.Title = firstTabPage.Title;
-                        tabPage.IconImageSource = firstTabPage.IconImageSource;
-                    }
-                }
+                var tabPage = await GetPageAsync(tabItem.ViewModel);
+                tabPage.Title = tabItem.TabTitle;
+                tabPage.IconImageSource = tabItem.TabSourceImage;
 
                 tabbedPage.Children.Add(tabPage);
             }

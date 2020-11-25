@@ -2,12 +2,12 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface ITabbedViewModel
     {
-        IList<IViewModelBase> TabsViewModel { get; }
+        IList<TabbedItem> TabbedItems { get; }
     }
 }

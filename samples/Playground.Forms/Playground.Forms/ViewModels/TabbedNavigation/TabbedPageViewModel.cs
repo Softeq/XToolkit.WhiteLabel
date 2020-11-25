@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -20,12 +21,17 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
         {
             _pageNavigationService = pageNavigationService;
 
-            TabsViewModel = new List<IViewModelBase> { tab1, tab2 };
+            TabbedItems = new List<TabbedItem>
+            {
+                new TabbedItem("tab 1", tab1, "AppIcon"),
+                new TabbedItem("tab 2", tab2, "AppIcon"),
+            };
+
             OpenNewPageCommand = new RelayCommand(OpenNewPage);
         }
 
-        public string? Title { get; set; } = "Tabbed Page";
-        public IList<IViewModelBase> TabsViewModel { get; }
+        public string Title { get; set; } = "Tabbed Page";
+        public IList<TabbedItem> TabbedItems { get; }
         public ICommand OpenNewPageCommand { get; }
 
         private void OpenNewPage()

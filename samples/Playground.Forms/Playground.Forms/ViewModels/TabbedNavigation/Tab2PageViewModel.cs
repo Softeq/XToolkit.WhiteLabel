@@ -10,11 +10,9 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Forms.ViewModels.TabbedNavigation
 {
-    public class Tab2PageViewModel : ViewModelBase, ITabViewModel
+    public class Tab2PageViewModel : ViewModelBase
     {
         private readonly IFrameNavigationService _frameNavigationService;
-
-        private string _title = "Page 2";
 
         public Tab2PageViewModel(IFrameNavigationService frameNavigationService)
         {
@@ -23,13 +21,8 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
             ToNextPageCommand = new RelayCommand(ToNextPage);
         }
 
-        public string Title
-        {
-            get => _title;
-            set => Set(ref _title, value);
-        }
+        public string Title => "Tab page 2";
 
-        public string IconImageSource => "AppIcon";
         public ICommand ToNextPageCommand { get; }
 
         private void ToNextPage()
