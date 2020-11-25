@@ -11,6 +11,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj" />
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Forms\Softeq.XToolkit.WhiteLabel.Forms.csproj" />
   </ItemGroup>
 
