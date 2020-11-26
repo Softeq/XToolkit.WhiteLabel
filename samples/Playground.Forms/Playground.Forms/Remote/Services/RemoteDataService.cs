@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.IO;
+using System.Net;
 using System.Threading.Tasks;
 using Playground.Forms.Remote.Services.Dtos;
 using Refit;
@@ -45,6 +46,9 @@ namespace Playground.Forms.Remote.Services
                 // s.ResponseHeadersAsync()
                 // s.SetCookiesAsync()
                 // s.GetCookiesAsync()
+                s.ResponseStatusAsync((int)HttpStatusCode.OK)
+                // s.ResponseStatusAsync((int)HttpStatusCode.Redirect) // YP: Check retry !!
+                // s.ResponseStatusAsync((int)HttpStatusCode.NotFound) // YP: Check retry !!
             );
             return result;
         }

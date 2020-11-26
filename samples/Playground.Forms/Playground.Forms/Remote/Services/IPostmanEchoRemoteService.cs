@@ -51,5 +51,7 @@ namespace Playground.Forms.Remote.Services
         [Get("/cookies")]
         Task<string> GetCookiesAsync();
 
+        [Get("/status/{statusCode}")]
+        Task<string> ResponseStatusAsync(int statusCode);
     }
 }
