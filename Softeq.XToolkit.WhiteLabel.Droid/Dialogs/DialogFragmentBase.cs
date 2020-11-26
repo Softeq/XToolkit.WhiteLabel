@@ -21,6 +21,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     {
         private readonly Lazy<IContextProvider> _contextProviderLazy = Dependencies.Container.Resolve<Lazy<IContextProvider>>();
 
+        public event EventHandler? WillDismiss;
+
         public event EventHandler? Dismissed;
 
         protected TViewModel ViewModel => (TViewModel) DataContext;
@@ -75,6 +77,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
             DoDetachBindings();
             ViewModel.OnDisappearing();
+        }
+
+        public override void Dismiss()
+        {
+            WillDismiss?.Invoke(this, null);
+
+            if (Activity != null && !Activity.IsFinishing && !Activity.IsDestroyed)
+            {
+                base.Dismiss();
+            }
         }
 
         public override void OnDismiss(IDialogInterface dialog)
@@ -145,7 +157,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             Dismiss();
 
-            Internal.ViewModelStore.Of(GetFragmentManager()).Remove(GetKey());
+            var fragmentManager = GetFragmentManager();
+            if (!fragmentManager.IsDestroyed)
+            {
+                Internal.ViewModelStore.Of(fragmentManager).Remove(GetKey());
+            }
         }
 
         private string GetKey()

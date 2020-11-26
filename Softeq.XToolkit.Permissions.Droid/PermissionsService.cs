@@ -1,9 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Threading.Tasks;
-using Android.OS;
+using Xamarin.Essentials;
 using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 using EssentialsPermissions = Xamarin.Essentials.Permissions;
 
@@ -16,8 +15,11 @@ namespace Softeq.XToolkit.Permissions.Droid
         public async Task<PermissionStatus> RequestPermissionsAsync<T>()
             where T : BasePermission, new()
         {
-            var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
-            return result.ToPermissionStatus();
+            return await MainThread.InvokeOnMainThreadAsync(async () =>
+            {
+                var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
+                return result.ToPermissionStatus();
+            });
         }
 
         /// <inheritdoc />
@@ -31,19 +33,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         /// <inheritdoc />
         public void OpenSettings()
         {
-            RunInMainThread(Xamarin.Essentials.AppInfo.ShowSettingsUI);
-        }
-
-        private static void RunInMainThread(Action action)
-        {
-            if (Looper.MainLooper == Looper.MyLooper())
-            {
-                action();
-            }
-            else
-            {
-                new Handler(Looper.MainLooper).Post(action);
-            }
+            MainThread.BeginInvokeOnMainThread(AppInfo.ShowSettingsUI);
         }
     }
 }
