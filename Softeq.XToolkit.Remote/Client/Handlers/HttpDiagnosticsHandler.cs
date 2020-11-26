@@ -4,6 +4,7 @@
 using System;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Threading;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Logger;
@@ -36,10 +37,14 @@ namespace Softeq.XToolkit.Remote.Client.Handlers
             var response = await base.SendAsync(request, cancellationToken);
 
             WriteMessage($"Response: {response}");
-            if (response.Content != null)
+            if (response.Content?.Headers.ContentLength != null)
             {
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
                 WriteMessage($"Response Content: {content}");
+            }
+            else
+            {
+                WriteMessage("Response Content or Content-Length: null");
             }
 
             responseElapsedTime.Stop();
