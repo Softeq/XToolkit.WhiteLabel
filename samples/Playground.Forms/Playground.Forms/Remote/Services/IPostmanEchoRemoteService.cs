@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.IO;
 using System.Threading.Tasks;
 using Playground.Forms.Remote.Services.Dtos;
 using Refit;
@@ -53,5 +54,8 @@ namespace Playground.Forms.Remote.Services
 
         [Get("/status/{statusCode}")]
         Task<string> ResponseStatusAsync(int statusCode);
+
+        [Get("/stream/{itemsCount}")]
+        Task<Stream> GetStreamDataAsync(int itemsCount = 10);
     }
 }

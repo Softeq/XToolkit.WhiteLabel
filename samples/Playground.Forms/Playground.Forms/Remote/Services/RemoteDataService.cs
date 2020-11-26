@@ -1,14 +1,17 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Diagnostics;
 using System.IO;
 using System.Net;
+using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Playground.Forms.Remote.Services.Dtos;
-using Refit;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;
+using Softeq.XToolkit.Remote.Primitives;
 
 namespace Playground.Forms.Remote.Services
 {
@@ -26,7 +29,7 @@ namespace Playground.Forms.Remote.Services
             _remoteService = new RemoteServiceFactory().Create<IPostmanEchoRemoteService>(httpClient);
         }
 
-        public async Task<string> TestRequestAsync()
+        public async Task<string> TestRequestAsync(CancellationToken cancellationToken)
         {
             await using var memoryStream = new MemoryStream();
             memoryStream.SetLength(1 * 1024 * 1024); // 1Mb
@@ -49,7 +52,35 @@ namespace Playground.Forms.Remote.Services
                 s.ResponseStatusAsync((int)HttpStatusCode.OK)
                 // s.ResponseStatusAsync((int)HttpStatusCode.Redirect) // YP: Check retry !!
                 // s.ResponseStatusAsync((int)HttpStatusCode.NotFound) // YP: Check retry !!
+                // s.ResponseStatusAsync((int)HttpStatusCode.InternalServerError) // YP: Check retry !!
             );
+
+            await _remoteService.MakeRequest(
+                async (s, ct) =>
+                {
+                    // get stream with not structured multiline json
+                    var stream = await s.GetStreamDataAsync(100000);
+
+                    using var streamReader = new StreamReader(stream);
+                    using var jsonReader = new JsonTextReader(streamReader)
+                    {
+                        SupportMultipleContent = true
+                    };
+
+                    // manual deserialization
+                    var items = DeserializationHelper.DeserializeAsync(jsonReader, ct);
+
+                    // print results
+                    await foreach (var item in items.WithCancellation(ct))
+                    {
+                        Debug.WriteLine(item);
+                    }
+                },
+                new RequestOptions
+                {
+                    CancellationToken = cancellationToken
+                });
+
             return result;
         }
     }

@@ -20,7 +20,7 @@ namespace Playground.Forms.Remote.Services.Dtos
 
             sb.AppendLine("{");
 
-            if (Args != null)
+            if (Args?.Any() ?? false)
             {
                 sb
                     .AppendLine("Args: {")
@@ -28,7 +28,7 @@ namespace Playground.Forms.Remote.Services.Dtos
                     .AppendLine("}");
             }
 
-            if (Headers != null)
+            if (Headers?.Any() ?? false)
             {
                 sb
                     .AppendLine("Headers: {")
@@ -38,7 +38,7 @@ namespace Playground.Forms.Remote.Services.Dtos
 
             if (Url != null)
             {
-                sb.AppendLine($"Url: {Url}");
+                sb.AppendLine($"\tUrl: {Url}");
             }
 
             sb.AppendLine("}");
