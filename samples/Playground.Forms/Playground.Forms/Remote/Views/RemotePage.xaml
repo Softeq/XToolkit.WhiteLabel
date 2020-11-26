@@ -2,9 +2,7 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    xmlns:vm="clr-namespace:Playground.Forms.Remote.ViewModels;assembly=Playground.Forms"
     x:Class="Playground.Forms.Remote.Views.RemotePage"
-    x:DataType="{vm:RemotePageViewModel}"
     Title="Remote">
     <ContentPage.Content>
         <StackLayout>
