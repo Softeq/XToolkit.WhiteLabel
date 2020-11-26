@@ -42,7 +42,9 @@ namespace Playground.Forms.Remote.Services
                 // s.PatchRequestAsync(bodyContent)
                 // s.DeleteRequestAsync(bodyContent)
                 // s.RequestHeadersAsync()
-                s.ResponseHeadersAsync()
+                // s.ResponseHeadersAsync()
+                // s.SetCookiesAsync()
+                // s.GetCookiesAsync()
             );
             return result;
         }

@@ -44,5 +44,12 @@ namespace Playground.Forms.Remote.Services
 
         [Get("/response-headers?First=true")]
         Task<string> ResponseHeadersAsync([AliasAs("Second")] bool second = false);
+
+        [Get("/cookies/set")]
+        Task<string> SetCookiesAsync(string foo = "foo-value", string bar = "bar-value");
+
+        [Get("/cookies")]
+        Task<string> GetCookiesAsync();
+
     }
 }
