@@ -37,6 +37,8 @@ namespace Softeq.XToolkit.Remote.Client.Handlers
             var response = await base.SendAsync(request, cancellationToken);
 
             WriteMessage($"Response: {response}");
+
+            // Prevent read all content when response chunked or empty
             if (response.Content?.Headers.ContentLength != null)
             {
                 var content = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
