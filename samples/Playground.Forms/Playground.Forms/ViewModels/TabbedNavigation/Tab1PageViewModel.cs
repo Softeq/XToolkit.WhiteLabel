@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System.Windows.Input;
-using Playground.Forms.ViewModels.SimpleNavigation;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -39,7 +38,7 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
         private void ToNextPage()
         {
             _frameNavigationService
-              .For<FirstPageViewModel>()
+              .For<TabSubPageViewModel>()
               .From(this)
               .Navigate();
         }

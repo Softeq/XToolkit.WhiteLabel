@@ -114,6 +114,15 @@
     <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon20.png">
       <Visible>false</Visible>
     </ImageAsset>
+    <ImageAsset Include="Assets.xcassets\tab_first.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\tab_second.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\settings.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\settings.imageset\settings%402x.png" />
+    <ImageAsset Include="Assets.xcassets\settings.imageset\settings%403x.png" />
+    <ImageAsset Include="Assets.xcassets\tab_second.imageset\send%402x.png" />
+    <ImageAsset Include="Assets.xcassets\tab_second.imageset\send%403x.png" />
+    <ImageAsset Include="Assets.xcassets\tab_first.imageset\review%402x.png" />
+    <ImageAsset Include="Assets.xcassets\tab_first.imageset\review%403x.png" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -152,5 +161,10 @@
       <Project>{E8FAE67B-887D-4EEB-96BC-7C48A0ACACC8}</Project>
       <Name>Playground.Forms</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Assets.xcassets\tab_first.imageset\" />
+    <Folder Include="Assets.xcassets\tab_second.imageset\" />
+    <Folder Include="Assets.xcassets\settings.imageset\" />
   </ItemGroup>
 </Project>

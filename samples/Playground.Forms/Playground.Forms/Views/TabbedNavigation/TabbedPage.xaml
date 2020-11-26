@@ -22,11 +22,16 @@
                 VerticalOptions="CenterAndExpand"
                 HorizontalOptions="CenterAndExpand" />
 
-            <Button
-                Text="Settings"
-                FontSize="12"
-                BackgroundColor="Transparent"
-                Command="{Binding OpenNewPageCommand}" />
+            <Image
+                Margin="0, 0, 6, 0"
+                Source="settings"
+                HeightRequest="24">
+
+                <Image.GestureRecognizers>
+                    <TapGestureRecognizer
+                        Command="{Binding OpenNewPageCommand}" />
+                </Image.GestureRecognizers>
+            </Image>
 
         </StackLayout>
 

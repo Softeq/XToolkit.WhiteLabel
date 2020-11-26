@@ -6,22 +6,20 @@
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.TabbedNavigation;assembly=Playground.Forms"
     x:DataType="vm:Tab2PageViewModel"
     BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
-    Title="{Binding Title}"
-    IconImageSource="AppIcon">
+    Title="{Binding Title}">
 
     <StackLayout
         VerticalOptions="Center"
         HorizontalOptions="Center">
         <Label
-            x:Name="textname"
-            Text="{Binding Title}" 
-            HorizontalOptions="Center"/>
+            Text="{Binding Title}"
+            HorizontalOptions="Center" />
         <Button
             Command="{Binding ToNextPageCommand}"
             Text="Go to next page" />
-        <!--<Button
+        <Button
             Command="{Binding ToMainPageCommand}"
-            Text="Return to main page" />-->
+            Text="Return to main page" />
     </StackLayout>
 
 </ContentPage>

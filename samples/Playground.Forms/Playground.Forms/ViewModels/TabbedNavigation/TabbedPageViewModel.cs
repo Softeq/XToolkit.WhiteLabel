@@ -23,8 +23,8 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
 
             TabbedItems = new List<TabbedItem>
             {
-                new TabbedItem("tab 1", tab1, "AppIcon"),
-                new TabbedItem("tab 2", tab2, "AppIcon"),
+                new TabbedItem("tab 1", tab1, "tab_first"),
+                new TabbedItem("tab 2", tab2, "tab_second"),
             };
 
             OpenNewPageCommand = new RelayCommand(OpenNewPage);

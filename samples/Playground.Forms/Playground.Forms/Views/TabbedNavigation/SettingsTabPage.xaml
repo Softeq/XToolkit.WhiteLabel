@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     x:Class="Playground.Forms.Views.TabbedNavigation.SettingsTabPage"
     Title="{Binding Title}">
+
     <ContentPage.Content>
 
         <StackLayout
@@ -25,4 +26,5 @@
         </StackLayout>
 
     </ContentPage.Content>
+
 </ContentPage>

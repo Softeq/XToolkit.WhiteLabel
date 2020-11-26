@@ -8,7 +8,6 @@ namespace Playground.Forms.Views.TabbedNavigation
         public Tab2Page()
         {
             InitializeComponent();
-            var xxx = textname.Text;
         }
     }
 }
