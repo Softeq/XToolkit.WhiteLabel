@@ -32,12 +32,7 @@ namespace Playground.Forms.iOS.Renderers
 
         private void ResizeIcons()
         {
-            if (TabBar?.Items == null)
-            {
-                return;
-            }
-
-            if (Element is TabbedPage tabs)
+            if (Element is TabbedPage && TabBar?.Items?.Length > 0)
             {
                 for (int i = 0; i < TabBar.Items.Length; i++)
                 {
@@ -48,27 +43,8 @@ namespace Playground.Forms.iOS.Renderers
 
         private void UpdateItem(UITabBarItem item)
         {
-            try
-            {
-                if (item == null)
-                {
-                    return;
-                }
-
-                if (item.Image != null)
-                {
-                    item.Image = MaxResizeImage(item.Image, 20, 20);
-                }
-
-                if (item.SelectedImage != null)
-                {
-                    item.SelectedImage = MaxResizeImage(item.SelectedImage, 20, 20);
-                }
-            }
-            catch (Exception)
-            {
-                Console.WriteLine("exception");
-            }
+            item.Image = MaxResizeImage(item.Image, 20, 20);
+            item.SelectedImage = MaxResizeImage(item.SelectedImage, 20, 20);
         }
 
         public UIImage MaxResizeImage(UIImage sourceImage, float maxWidth, float maxHeight)
@@ -82,10 +58,14 @@ namespace Playground.Forms.iOS.Renderers
 
             var width = maxResizeFactor * sourceSize.Width;
             var height = maxResizeFactor * sourceSize.Height;
+
             UIGraphics.BeginImageContext(new CGSize(width, height));
+
             sourceImage.Draw(new CGRect(0, 0, width, height));
             var resultImage = UIGraphics.GetImageFromCurrentImageContext();
+
             UIGraphics.EndImageContext();
+
             return resultImage;
         }
     }
