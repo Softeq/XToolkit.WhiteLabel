@@ -20,7 +20,8 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
             BackToMainMenuCommand = new RelayCommand(BackToMainMenu);
         }
 
-        public string Title { get; } = "Tab Settings";
+        public string Title => "Tab Settings";
+
         public ICommand BackToTabsCommand { get; }
         public ICommand BackToMainMenuCommand { get; }
 

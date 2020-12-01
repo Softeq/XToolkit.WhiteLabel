@@ -21,6 +21,7 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
         }
 
         public string Title => "Sub page";
+
         public ICommand BackCommand { get; }
 
         private void Back()

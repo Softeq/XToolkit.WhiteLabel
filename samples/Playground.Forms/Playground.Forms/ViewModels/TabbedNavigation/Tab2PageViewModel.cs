@@ -14,7 +14,9 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
         private readonly IPageNavigationService _pageNavigationService;
         private readonly IFrameNavigationService _frameNavigationService;
 
-        public Tab2PageViewModel(IPageNavigationService pageNavigationService, IFrameNavigationService frameNavigationService)
+        public Tab2PageViewModel(
+            IPageNavigationService pageNavigationService,
+            IFrameNavigationService frameNavigationService)
         {
             _pageNavigationService = pageNavigationService;
             _frameNavigationService = frameNavigationService;
@@ -38,9 +40,9 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
         private void ToNextPage()
         {
             _frameNavigationService
-              .For<TabSubPageViewModel>()
-              .From(this)
-              .Navigate();
+                .For<TabSubPageViewModel>()
+                .From(this)
+                .Navigate();
         }
     }
 }

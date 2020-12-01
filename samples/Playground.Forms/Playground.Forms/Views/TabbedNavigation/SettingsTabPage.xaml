@@ -2,29 +2,27 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.ViewModels.TabbedNavigation;assembly=Playground.Forms"
     x:Class="Playground.Forms.Views.TabbedNavigation.SettingsTabPage"
+    x:DataType="vm:SettingsTabPageViewModel"
     Title="{Binding Title}">
 
-    <ContentPage.Content>
+    <StackLayout
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
 
-        <StackLayout
-            VerticalOptions="Center"
-            HorizontalOptions="Center">
+        <Label
+            Text="List of Tab Settings"
+            HorizontalOptions="Center" />
 
-            <Label
-                Text="List of Tab Settings"
-                HorizontalOptions="Center" />
+        <Button
+            Command="{Binding BackToTabsCommand}"
+            Text="Back to Tabs" />
 
-            <Button
-                Command="{Binding BackToTabsCommand}"
-                Text="Back to Tabs" />
+        <Button
+            Command="{Binding BackToMainMenuCommand}"
+            Text="Back to Main Menu" />
 
-            <Button
-                Command="{Binding BackToMainMenuCommand}"
-                Text="Back to Main Menu" />
-
-        </StackLayout>
-
-    </ContentPage.Content>
+    </StackLayout>
 
 </ContentPage>

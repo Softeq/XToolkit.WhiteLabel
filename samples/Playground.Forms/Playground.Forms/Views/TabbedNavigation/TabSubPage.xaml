@@ -2,25 +2,21 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="Playground.Forms.Views.TabbedNavigation.TabSubPage"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.TabbedNavigation;assembly=Playground.Forms"
+    x:Class="Playground.Forms.Views.TabbedNavigation.TabSubPage"
     x:DataType="vm:TabSubPageViewModel"
     BackgroundColor="{AppThemeBinding Light=White, Dark=Black}"
     Title="{Binding Title}">
 
-    <ContentPage.Content>
-
-        <StackLayout
-            VerticalOptions="Center"
-            HorizontalOptions="Center">
-            <Label
-                Text="{Binding Title}"
-                HorizontalOptions="Center" />
-            <Button
-                Command="{Binding BackCommand}"
-                Text="Go back" />
-        </StackLayout>
-
-    </ContentPage.Content>
+    <StackLayout
+        VerticalOptions="Center"
+        HorizontalOptions="Center">
+        <Label
+            Text="{Binding Title}"
+            HorizontalOptions="Center" />
+        <Button
+            Command="{Binding BackCommand}"
+            Text="Go back" />
+    </StackLayout>
 
 </ContentPage>

@@ -30,15 +30,16 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
             OpenNewPageCommand = new RelayCommand(OpenNewPage);
         }
 
-        public string Title { get; set; } = "Tabbed Page";
+        public string Title => "Tabbed Page";
+
         public IList<TabbedItem> TabbedItems { get; }
         public ICommand OpenNewPageCommand { get; }
 
         private void OpenNewPage()
         {
             _pageNavigationService
-              .For<SettingsTabPageViewModel>()
-              .Navigate();
+                .For<SettingsTabPageViewModel>()
+                .Navigate();
         }
     }
 }
