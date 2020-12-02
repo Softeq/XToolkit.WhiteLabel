@@ -25,7 +25,7 @@ namespace Playground.Forms.Remote.Services
         {
             _logger = logManager.GetLogger<RemoteDataService>();
 
-            var httpClient = new DefaultHttpClientFactory().CreateClient("https://postman-echo.com", _logger);
+            var httpClient = new DefaultHttpClientFactory().CreateClient("https://httpbin.org", _logger);
             // httpClient.Timeout = TimeSpan.FromSeconds(2);
 
             _remoteService = new RemoteServiceFactory().Create<IPostmanEchoApiService>(httpClient);
@@ -76,7 +76,7 @@ namespace Playground.Forms.Remote.Services
                 async (s, ct) =>
                 {
                     // get stream with not structured multiline json
-                    var stream = await s.GetStreamDataAsync(100000);
+                    var stream = await s.GetStreamDataAsync(99);
 
                     using var streamReader = new StreamReader(stream);
                     using var jsonReader = new JsonTextReader(streamReader)
