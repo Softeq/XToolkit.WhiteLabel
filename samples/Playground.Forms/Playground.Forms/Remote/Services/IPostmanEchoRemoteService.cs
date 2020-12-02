@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.IO;
+using System.Threading;
 using System.Threading.Tasks;
 using Playground.Forms.Remote.Services.Dtos;
 using Refit;
@@ -57,6 +58,9 @@ namespace Playground.Forms.Remote.Services
 
         [Get("/stream/{itemsCount}")]
         Task<Stream> GetStreamDataAsync(int itemsCount = 10);
+
+        [Get("/delay/{delayInSeconds}")]
+        Task<string> GetWithDelayAsync(int delayInSeconds, CancellationToken ct);
 
         [Get("/gzip")]
         Task<string> GetGzipAsync();

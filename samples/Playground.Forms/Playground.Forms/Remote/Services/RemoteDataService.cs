@@ -25,6 +25,7 @@ namespace Playground.Forms.Remote.Services
             _logger = logManager.GetLogger<RemoteDataService>();
 
             var httpClient = new DefaultHttpClientFactory().CreateClient("https://postman-echo.com", _logger);
+            // httpClient.Timeout = TimeSpan.FromSeconds(2);
 
             _remoteService = new RemoteServiceFactory().Create<IPostmanEchoRemoteService>(httpClient);
         }
@@ -56,6 +57,17 @@ namespace Playground.Forms.Remote.Services
                 // s.GetGzipAsync()
                 // s.GetDeflateAsync()
             );
+
+            // var cts = new CancellationTokenSource();
+            // cts.CancelAfter(2000);
+            //
+            // var result2 = await _remoteService.MakeRequest(
+            //     (s, ct) => s.GetWithDelayAsync(5, ct),
+            //     new RequestOptions
+            //     {
+            //          // Timeout = 3,
+            //          // CancellationToken = cts.Token
+            //     });
 
             await _remoteService.MakeRequest(
                 async (s, ct) =>
