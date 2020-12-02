@@ -57,5 +57,11 @@ namespace Playground.Forms.Remote.Services
 
         [Get("/stream/{itemsCount}")]
         Task<Stream> GetStreamDataAsync(int itemsCount = 10);
+
+        [Get("/gzip")]
+        Task<string> GetGzipAsync();
+
+        [Get("/deflate")]
+        Task<string> GetDeflateAsync();
     }
 }

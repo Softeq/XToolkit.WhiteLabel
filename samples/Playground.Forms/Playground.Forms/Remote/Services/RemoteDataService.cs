@@ -53,6 +53,8 @@ namespace Playground.Forms.Remote.Services
                 // s.ResponseStatusAsync((int)HttpStatusCode.Redirect) // YP: Check retry !!
                 // s.ResponseStatusAsync((int)HttpStatusCode.NotFound) // YP: Check retry !!
                 // s.ResponseStatusAsync((int)HttpStatusCode.InternalServerError) // YP: Check retry !!
+                // s.GetGzipAsync()
+                // s.GetDeflateAsync()
             );
 
             await _remoteService.MakeRequest(
