@@ -12,7 +12,7 @@ namespace Playground.Forms.Remote.Services
     // API Docs: https://docs.postman-echo.com/
 
     [Headers("Header-Interface: 1")]
-    public interface IPostmanEchoRemoteService
+    public interface IPostmanEchoApiService
     {
         [Get("/get")]
         Task<string> GetRequestAsync(string foo1, [AliasAs("foo2")] string arg2);
@@ -44,11 +44,8 @@ namespace Playground.Forms.Remote.Services
         [Headers("Header-Method: 2")]
         Task<string> RequestHeadersAsync([Header("Header-Parameter")] int c = 100500);
 
-        [Get("/response-headers?First=true")]
-        Task<string> ResponseHeadersAsync([AliasAs("Second")] bool second = false);
-
         [Get("/cookies/set")]
-        Task<string> SetCookiesAsync(string foo = "foo-value", string bar = "bar-value");
+        Task<string> SetCookiesAsync(string freeform = "foo-value");
 
         [Get("/cookies")]
         Task<string> GetCookiesAsync();

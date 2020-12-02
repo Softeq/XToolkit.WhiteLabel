@@ -8,6 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Playground.Forms.Remote.Services.Dtos;
+using Refit;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;
@@ -18,7 +19,7 @@ namespace Playground.Forms.Remote.Services
     public class RemoteDataService
     {
         private readonly ILogger _logger;
-        private readonly IRemoteService<IPostmanEchoRemoteService> _remoteService;
+        private readonly IRemoteService<IPostmanEchoApiService> _remoteService;
 
         public RemoteDataService(ILogManager logManager)
         {
@@ -27,7 +28,7 @@ namespace Playground.Forms.Remote.Services
             var httpClient = new DefaultHttpClientFactory().CreateClient("https://postman-echo.com", _logger);
             // httpClient.Timeout = TimeSpan.FromSeconds(2);
 
-            _remoteService = new RemoteServiceFactory().Create<IPostmanEchoRemoteService>(httpClient);
+            _remoteService = new RemoteServiceFactory().Create<IPostmanEchoApiService>(httpClient);
         }
 
         public async Task<string> TestRequestAsync(CancellationToken cancellationToken)
@@ -47,7 +48,6 @@ namespace Playground.Forms.Remote.Services
                 // s.PatchRequestAsync(bodyContent)
                 // s.DeleteRequestAsync(bodyContent)
                 // s.RequestHeadersAsync()
-                // s.ResponseHeadersAsync()
                 // s.SetCookiesAsync()
                 // s.GetCookiesAsync()
                 s.ResponseStatusAsync((int)HttpStatusCode.OK)
@@ -58,9 +58,12 @@ namespace Playground.Forms.Remote.Services
                 // s.GetDeflateAsync()
             );
 
+
+
+
             // var cts = new CancellationTokenSource();
             // cts.CancelAfter(2000);
-            //
+
             // var result2 = await _remoteService.MakeRequest(
             //     (s, ct) => s.GetWithDelayAsync(5, ct),
             //     new RequestOptions
