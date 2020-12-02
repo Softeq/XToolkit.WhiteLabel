@@ -6,7 +6,6 @@ using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using Playground.Forms.Remote.Services.Dtos;
 using Refit;
 using Softeq.XToolkit.Common.Logger;
@@ -38,7 +37,8 @@ namespace Playground.Forms.Remote.Services
 
             var bodyContent = new PostContent { Name = "TestName", Age = 100500 };
 
-            var result = await _remoteService.MakeRequest((s, ct) =>
+            var result = await _remoteService.MakeRequest(
+                (s, ct) =>
                 // s.GetRequestAsync("foo1-value", "foo2-value")
                 // s.PostRawRequestAsync("foo1-value", bodyContent)
                 // s.PostFormRequestAsync(bodyContent)
@@ -48,14 +48,19 @@ namespace Playground.Forms.Remote.Services
                 // s.PatchRequestAsync(bodyContent)
                 // s.DeleteRequestAsync(bodyContent)
                 // s.RequestHeadersAsync()
+                // s.ResponseHeadersAsync()
                 // s.SetCookiesAsync()
                 // s.GetCookiesAsync()
                 s.ResponseStatusAsync((int)HttpStatusCode.OK)
-                // s.ResponseStatusAsync((int)HttpStatusCode.Redirect) // YP: Check retry !!
-                // s.ResponseStatusAsync((int)HttpStatusCode.NotFound) // YP: Check retry !!
-                // s.ResponseStatusAsync((int)HttpStatusCode.InternalServerError) // YP: Check retry !!
+                // s.ResponseStatusAsync((int)HttpStatusCode.Redirect)
+                // s.ResponseStatusAsync((int)HttpStatusCode.NotFound)
+                // s.ResponseStatusAsync((int)HttpStatusCode.InternalServerError)
                 // s.GetGzipAsync()
                 // s.GetDeflateAsync()
+                , new RequestOptions
+                {
+                    ShouldRetry = ex => ex is ApiException apiException && (int)apiException.StatusCode >= 500
+                }
             );
 
 
@@ -72,31 +77,31 @@ namespace Playground.Forms.Remote.Services
             //          // CancellationToken = cts.Token
             //     });
 
-            await _remoteService.MakeRequest(
-                async (s, ct) =>
-                {
-                    // get stream with not structured multiline json
-                    var stream = await s.GetStreamDataAsync(99);
-
-                    using var streamReader = new StreamReader(stream);
-                    using var jsonReader = new JsonTextReader(streamReader)
-                    {
-                        SupportMultipleContent = true
-                    };
-
-                    // manual deserialization
-                    var items = DeserializationHelper.DeserializeAsync(jsonReader, ct);
-
-                    // print results
-                    await foreach (var item in items.WithCancellation(ct))
-                    {
-                        Debug.WriteLine(item);
-                    }
-                },
-                new RequestOptions
-                {
-                    CancellationToken = cancellationToken
-                });
+            // await _remoteService.MakeRequest(
+            //     async (s, ct) =>
+            //     {
+            //         // get stream with not structured multiline json
+            //         var stream = await s.GetStreamDataAsync(99);
+            //
+            //         using var streamReader = new StreamReader(stream);
+            //         using var jsonReader = new JsonTextReader(streamReader)
+            //         {
+            //             SupportMultipleContent = true
+            //         };
+            //
+            //         // manual deserialization
+            //         var items = DeserializationHelper.DeserializeAsync(jsonReader, ct);
+            //
+            //         // print results
+            //         await foreach (var item in items.WithCancellation(ct))
+            //         {
+            //             Debug.WriteLine(item);
+            //         }
+            //     },
+            //     new RequestOptions
+            //     {
+            //         CancellationToken = cancellationToken
+            //     });
 
             return result;
         }

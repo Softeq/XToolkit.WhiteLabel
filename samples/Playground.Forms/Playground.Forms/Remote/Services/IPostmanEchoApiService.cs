@@ -44,6 +44,9 @@ namespace Playground.Forms.Remote.Services
         [Headers("Header-Method: 2")]
         Task<string> RequestHeadersAsync([Header("Header-Parameter")] int c = 100500);
 
+        [Get("/response-headers")]
+        Task<string> ResponseHeadersAsync([AliasAs("freeform")] string foo = "foo-value");
+
         [Get("/cookies/set")]
         Task<string> SetCookiesAsync(string freeform = "foo-value");
 
