@@ -5,7 +5,7 @@ using System;
 using System.Diagnostics;
 using System.Threading;
 using System.Threading.Tasks;
-using Playground.Forms.Remote.Services;
+using Playground.RemoteData.HttpBin;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Playground.Forms.Remote.ViewModels

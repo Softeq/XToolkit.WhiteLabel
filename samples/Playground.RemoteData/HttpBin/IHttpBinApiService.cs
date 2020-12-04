@@ -4,15 +4,15 @@
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
-using Playground.Forms.Remote.Services.Dtos;
+using Playground.RemoteData.HttpBin.Dtos;
 using Refit;
 
-namespace Playground.Forms.Remote.Services
+namespace Playground.RemoteData.HttpBin
 {
-    // API Docs: https://docs.postman-echo.com/
+    // API Docs: https://httpbin.org
 
     [Headers("Header-Interface: 1")]
-    public interface IPostmanEchoApiService
+    public interface IHttpBinApiService
     {
         [Get("/get")]
         Task<string> GetRequestAsync(string foo1, [AliasAs("foo2")] string arg2);

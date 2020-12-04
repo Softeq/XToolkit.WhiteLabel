@@ -1,33 +1,34 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Diagnostics;
 using System.IO;
 using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
-using Playground.Forms.Remote.Services.Dtos;
+using Playground.RemoteData.HttpBin.Dtos;
 using Refit;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.Remote.Primitives;
 
-namespace Playground.Forms.Remote.Services
+namespace Playground.RemoteData.HttpBin
 {
     public class RemoteDataService
     {
+        private const string ApiUrl = "https://httpbin.org";
+
         private readonly ILogger _logger;
-        private readonly IRemoteService<IPostmanEchoApiService> _remoteService;
+        private readonly IRemoteService<IHttpBinApiService> _remoteService;
 
         public RemoteDataService(ILogManager logManager)
         {
             _logger = logManager.GetLogger<RemoteDataService>();
 
-            var httpClient = new DefaultHttpClientFactory().CreateClient("https://httpbin.org", _logger);
+            var httpClient = new DefaultHttpClientFactory().CreateClient(ApiUrl, _logger);
             // httpClient.Timeout = TimeSpan.FromSeconds(2);
 
-            _remoteService = new RemoteServiceFactory().Create<IPostmanEchoApiService>(httpClient);
+            _remoteService = new RemoteServiceFactory().Create<IHttpBinApiService>(httpClient);
         }
 
         public async Task<string> TestRequestAsync(CancellationToken cancellationToken)

@@ -5,13 +5,12 @@ using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Threading;
 using Newtonsoft.Json;
-using Playground.Forms.Remote.Services.Dtos;
 
-namespace Playground.Forms.Remote.Services
+namespace Playground.RemoteData.HttpBin
 {
     public static class DeserializationHelper
     {
-        public static async IAsyncEnumerable<EchoResponse?> DeserializeAsync(
+        public static async IAsyncEnumerable<T> DeserializeAsync<T>(
             JsonTextReader jsonReader,
             [EnumeratorCancellation] CancellationToken cancellationToken)
         {
@@ -19,7 +18,7 @@ namespace Playground.Forms.Remote.Services
 
             while (await jsonReader.ReadAsync(cancellationToken))
             {
-                yield return serializer.Deserialize<EchoResponse?>(jsonReader);
+                yield return serializer.Deserialize<T>(jsonReader)!;
             }
         }
     }

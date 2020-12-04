@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-namespace Playground.Forms.Remote.Services.Dtos
+namespace Playground.RemoteData.HttpBin.Dtos
 {
     public class PostContent
     {

@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Playground.Forms.Remote.Services.Dtos
+namespace Playground.RemoteData.HttpBin.Dtos
 {
     public class EchoResponse
     {

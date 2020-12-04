@@ -1,8 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Playground.Forms.Remote.Services;
 using Playground.Forms.Remote.ViewModels;
+using Playground.RemoteData.HttpBin;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 
 namespace Playground.Forms.Remote

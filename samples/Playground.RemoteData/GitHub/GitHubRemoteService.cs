@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Playground.RemoteData.GitHub.Models;
-using RemoteServices.GitHub;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;

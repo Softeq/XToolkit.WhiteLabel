@@ -5,7 +5,6 @@ using System;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using RemoteServices.Test;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Client;
