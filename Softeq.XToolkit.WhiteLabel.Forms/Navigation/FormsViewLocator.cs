@@ -15,19 +15,14 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         {
             foreach (var page in navigation.NavigationStack)
             {
-                if (page.BindingContext == viewModel)
+                switch (page)
                 {
-                    return page.Navigation;
-                }
-
-                if (page is MasterDetailPage masterDetailPage)
-                {
-                    return FindNavigationForViewModel(masterDetailPage.Detail.Navigation, viewModel);
-                }
-
-                if (page is TabbedPage tabbedPage)
-                {
-                    return FindNavigationForViewModel(tabbedPage.CurrentPage.Navigation, viewModel);
+                    case var p when p.BindingContext == viewModel:
+                        return page.Navigation;
+                    case MasterDetailPage masterDetailPage:
+                        return FindNavigationForViewModel(masterDetailPage.Detail.Navigation, viewModel);
+                    case TabbedPage tabbedPage:
+                        return FindNavigationForViewModel(tabbedPage.CurrentPage.Navigation, viewModel);
                 }
             }
 

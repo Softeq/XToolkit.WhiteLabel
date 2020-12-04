@@ -5,9 +5,9 @@ using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms.Controls
 {
-    public class CustomTabbedPage : TabbedPage
+    public class TabbedPageBase : TabbedPage
     {
-        public CustomTabbedPage()
+        public TabbedPageBase()
         {
         }
     }

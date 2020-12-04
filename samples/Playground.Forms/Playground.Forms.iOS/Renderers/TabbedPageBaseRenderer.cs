@@ -9,10 +9,10 @@ using UIKit;
 using Xamarin.Forms;
 using Xamarin.Forms.Platform.iOS;
 
-[assembly: ExportRenderer(typeof(CustomTabbedPage), typeof(CustomTabbedPageRenderer))]
+[assembly: ExportRenderer(typeof(TabbedPageBase), typeof(TabbedPageBaseRenderer))]
 namespace Playground.Forms.iOS.Renderers
 {
-    public class CustomTabbedPageRenderer : TabbedRenderer
+    public class TabbedPageBaseRenderer : TabbedRenderer
     {
         public static void Initialize()
         {
@@ -43,6 +43,8 @@ namespace Playground.Forms.iOS.Renderers
 
         private void UpdateItem(UITabBarItem item)
         {
+            //Softeq.XToolkit.Common.iOS.Extensions
+
             item.Image = MaxResizeImage(item.Image, 20, 20);
             item.SelectedImage = MaxResizeImage(item.SelectedImage, 20, 20);
         }

@@ -69,7 +69,7 @@
     <None Include="Entitlements.plist" />
     <None Include="Info.plist" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Renderers\CustomTabbedPageRenderer.cs" />
+    <Compile Include="Renderers\TabbedPageBaseRenderer.cs" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
@@ -161,6 +161,10 @@
     <ProjectReference Include="..\Playground.Forms\Playground.Forms.csproj">
       <Project>{E8FAE67B-887D-4EEB-96BC-7C48A0ACACC8}</Project>
       <Name>Playground.Forms</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
+      <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
+      <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
