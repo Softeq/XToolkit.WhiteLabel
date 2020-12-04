@@ -3,9 +3,9 @@
 
 namespace Playground.RemoteData.Profile.Models
 {
-    public class ProfileConfig
+    public class ProfileApiConfig
     {
-        public ProfileConfig(string baseUrl)
+        public ProfileApiConfig(string baseUrl)
         {
             BaseUrl = baseUrl;
         }

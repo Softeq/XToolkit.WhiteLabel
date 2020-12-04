@@ -54,7 +54,7 @@ namespace Playground.RemoteData.HttpBin
         Task<string> GetCookiesAsync();
 
         [Get("/status/{statusCode}")]
-        Task<string> ResponseStatusAsync(int statusCode);
+        Task<string> ResponseStatusAsync(int statusCode, CancellationToken ct);
 
         [Get("/stream/{itemsCount}")]
         Task<Stream> GetStreamDataAsync(int itemsCount = 10);

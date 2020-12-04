@@ -21,11 +21,11 @@ namespace Playground.RemoteData.Profile
             IHttpClientFactory httpClientFactory,
             ISessionContext sessionContext,
             ILogManager logManager,
-            ProfileConfig config)
+            ProfileApiConfig apiConfig)
         {
             var logger = logManager.GetLogger<ProfileRemoteService>();
 
-            var httpClient = httpClientFactory.CreateAuthClient(config.BaseUrl, sessionContext, logger);
+            var httpClient = httpClientFactory.CreateAuthClient(apiConfig.BaseUrl, sessionContext, logger);
 
             _remoteService = remoteServiceFactory.Create<IProfileApiService>(httpClient);
         }

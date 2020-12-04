@@ -1,22 +1,21 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
 using System.Net.Http;
-using Security;
 
-namespace NetworkApp.iOS.CustomHandlers
+namespace Playground.Forms.iOS.CustomComponents
 {
-    internal static class IgnoreSslClientHelper
+    internal static class IosIgnoreSslClientHelper
     {
         // YP: Additional materials:
         // - Xamarin.iOS Certificate Pinning: https://nicksnettravels.builttoroam.com/ios-certificate/
-        // - NSUrlSessionHandler sources: https://github.com/xamarin/xamarin-macios/blob/master/src/Foundation/NSUrlSessionHandler.cs
+        // - NSUrlSessionHandler sources: https://github.com/xamarin/xamarin-macios/blob/edd8a2c8963063ca0ab3357e251944f4aa053fa8/src/Foundation/NSUrlSessionHandler.cs
         internal static HttpMessageHandler CreateHandler()
         {
             var nativeHandler = new NSUrlSessionHandler();
 
-            nativeHandler.TrustOverride = (NSUrlSessionHandler sender, SecTrust trust) =>
+            nativeHandler.TrustOverrideForUrl = (sender, url, trust) =>
             {
                 trust.Evaluate(out var error);
 

@@ -1,11 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Xamarin.Forms;
-
-namespace NetworkApp.Templates
+namespace Playground.Forms.Remote.Views
 {
-    public partial class ItemViewCell : ViewCell
+    public partial class ItemViewCell
     {
         public ItemViewCell()
         {

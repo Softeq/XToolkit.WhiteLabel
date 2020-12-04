@@ -2,20 +2,11 @@
 <ViewCell
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-    x:Class="NetworkApp.Templates.ItemViewCell">
+    xmlns:vm="clr-namespace:Playground.Forms.Remote.ViewModels;assembly=Playground.Forms"
+    x:Class="Playground.Forms.Remote.Views.ItemViewCell"
+    x:DataType="vm:WorkItemViewModel">
     <ViewCell.View>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition
-                    Width="100" />
-                <ColumnDefinition
-                    Width="*" />
-                <ColumnDefinition
-                    Width="Auto" />
-                <ColumnDefinition
-                    Width="Auto" />
-            </Grid.ColumnDefinitions>
-
+        <Grid ColumnDefinitions="100, *, Auto, Auto">
             <Label
                 Grid.Column="0"
                 Text="{Binding Name, Mode=OneTime}"
@@ -29,7 +20,7 @@
                 Grid.Column="2"
                 Text="Run"
                 Command="{Binding RunCommand, Mode=OneTime}"
-                IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}, Mode=OneWay}"
+                IsEnabled="{Binding IsBusy, Converter={StaticResource InverseConverter}, Mode=OneWay}"
                 HorizontalOptions="End" />
             <Button
                 Grid.Column="3"

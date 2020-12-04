@@ -3,17 +3,10 @@
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:vm="clr-namespace:Playground.Forms.ViewModels.Components;assembly=Playground.Forms"
-    xmlns:converters="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Converters;assembly=Softeq.XToolkit.WhiteLabel.Forms"
     x:Class="Playground.Forms.Views.Components.PaginationSearchPage"
     x:DataType="vm:PaginationSearchPageViewModel"
     Title="Search with pagination"
     BackgroundColor="{AppThemeBinding Light=White, Dark=Black}">
-
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <converters:BooleanInverseConverter x:Key="InverseConverter" />
-        </ResourceDictionary>
-    </ContentPage.Resources>
 
     <StackLayout>
         <Entry

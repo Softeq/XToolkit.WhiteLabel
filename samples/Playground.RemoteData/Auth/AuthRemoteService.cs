@@ -24,19 +24,19 @@ namespace Playground.RemoteData.Auth
     public class AuthRemoteService : IAuthRemoteService
     {
         private readonly IRemoteService<IAuthApiService> _remoteService;
-        private readonly AuthConfig _config;
+        private readonly AuthApiConfig _apiConfig;
 
         public AuthRemoteService(
             IRemoteServiceFactory remoteServiceFactory,
             IHttpClientFactory httpClientFactory,
             ILogManager logManager,
-            AuthConfig config)
+            AuthApiConfig apiConfig)
         {
             var logger = logManager.GetLogger<AuthRemoteService>();
-            var httpClient = httpClientFactory.CreateClient(config.BaseUrl, logger);
+            var httpClient = httpClientFactory.CreateClient(apiConfig.BaseUrl, logger);
 
             _remoteService = remoteServiceFactory.Create<IAuthApiService>(httpClient);
-            _config = config;
+            _apiConfig = apiConfig;
         }
 
         public async Task<TokenResult> LoginAsync(string login, string password, CancellationToken cancellationToken)
@@ -45,8 +45,8 @@ namespace Playground.RemoteData.Auth
             {
                 UserName = login,
                 Password = password,
-                ClientId = _config.ClientId,
-                ClientSecret = _config.ClientSecret
+                ClientId = _apiConfig.ClientId,
+                ClientSecret = _apiConfig.ClientSecret
             };
 
             var requestTask = _remoteService
@@ -74,8 +74,8 @@ namespace Playground.RemoteData.Auth
             var request = new RefreshTokenRequest
             {
                 RefreshToken = refreshToken,
-                ClientId = _config.ClientId,
-                ClientSecret = _config.ClientSecret
+                ClientId = _apiConfig.ClientId,
+                ClientSecret = _apiConfig.ClientSecret
             };
 
             var requestTask = _remoteService

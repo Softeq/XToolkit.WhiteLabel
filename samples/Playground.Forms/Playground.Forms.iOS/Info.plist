@@ -44,5 +44,18 @@
     <string>Allow location always pls</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>PLIS</string>
+    <!-- remote -->
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSExceptionDomains</key>
+        <dict>
+            <key>expired.badssl.com</key>
+            <dict>
+                <key>NSExceptionAllowsInsecureHTTPLoads</key>
+                <true/>
+            </dict>
+        </dict>
+    </dict>
+    <!-- /remote -->
 </dict>
 </plist>

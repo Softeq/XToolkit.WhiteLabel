@@ -3,9 +3,9 @@
 
 namespace Playground.RemoteData.Auth.Models
 {
-    public class AuthConfig
+    public class AuthApiConfig
     {
-        public AuthConfig(string baseUrl, string clientId, string clientSecret)
+        public AuthApiConfig(string baseUrl, string clientId, string clientSecret)
         {
             BaseUrl = baseUrl;
             ClientId = clientId;

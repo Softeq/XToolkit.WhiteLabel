@@ -14,21 +14,29 @@ using Softeq.XToolkit.Remote.Primitives;
 
 namespace Playground.RemoteData.HttpBin
 {
-    public class RemoteDataService
+    public class HttpBinRemoteService
     {
         private const string ApiUrl = "https://httpbin.org";
 
         private readonly ILogger _logger;
         private readonly IRemoteService<IHttpBinApiService> _remoteService;
 
-        public RemoteDataService(ILogManager logManager)
+        public HttpBinRemoteService(ILogManager logManager)
         {
-            _logger = logManager.GetLogger<RemoteDataService>();
+            _logger = logManager.GetLogger<HttpBinRemoteService>();
 
             var httpClient = new DefaultHttpClientFactory().CreateClient(ApiUrl, _logger);
             // httpClient.Timeout = TimeSpan.FromSeconds(2);
 
             _remoteService = new RemoteServiceFactory().Create<IHttpBinApiService>(httpClient);
+        }
+
+        public Task CheckStatusCodeAsync(int statusCode, CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.ResponseStatusAsync(statusCode, ct),
+                cancellationToken,
+                _logger);
         }
 
         public async Task<string> TestRequestAsync(CancellationToken cancellationToken)
@@ -52,10 +60,10 @@ namespace Playground.RemoteData.HttpBin
                 // s.ResponseHeadersAsync()
                 // s.SetCookiesAsync()
                 // s.GetCookiesAsync()
-                s.ResponseStatusAsync((int)HttpStatusCode.OK)
-                // s.ResponseStatusAsync((int)HttpStatusCode.Redirect)
-                // s.ResponseStatusAsync((int)HttpStatusCode.NotFound)
-                // s.ResponseStatusAsync((int)HttpStatusCode.InternalServerError)
+                s.ResponseStatusAsync((int)HttpStatusCode.OK, cancellationToken)
+                // s.ResponseStatusAsync((int)HttpStatusCode.Redirect, cancellationToken)
+                // s.ResponseStatusAsync((int)HttpStatusCode.NotFound, cancellationToken)
+                // s.ResponseStatusAsync((int)HttpStatusCode.InternalServerError, cancellationToken)
                 // s.GetGzipAsync()
                 // s.GetDeflateAsync()
                 , new RequestOptions

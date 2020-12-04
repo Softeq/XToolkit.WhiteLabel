@@ -8,7 +8,7 @@ using System.Windows.Input;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Commands;
 
-namespace NetworkApp.ViewModels
+namespace Playground.Forms.Remote.ViewModels
 {
     public class WorkItemViewModel : ObservableObject
     {

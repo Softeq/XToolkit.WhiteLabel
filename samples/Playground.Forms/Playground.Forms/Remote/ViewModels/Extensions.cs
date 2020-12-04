@@ -4,9 +4,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace NetworkApp
+namespace Playground.Forms.Remote.ViewModels
 {
-    public static class Extensions
+    internal static class Extensions
     {
         public static void AddDuplicates<T>(
             this IList<T> list,

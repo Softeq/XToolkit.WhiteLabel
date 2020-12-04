@@ -2,14 +2,37 @@
 <ContentPage
     xmlns="http://xamarin.com/schemas/2014/forms"
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
+    xmlns:vm="clr-namespace:Playground.Forms.Remote.ViewModels;assembly=Playground.Forms"
+    xmlns:local="clr-namespace:Playground.Forms.Remote.Views;assembly=Playground.Forms"
     x:Class="Playground.Forms.Remote.Views.RemotePage"
+    x:DataType="vm:RemotePageViewModel"
+    ios:Page.UseSafeArea="true"
     Title="Remote">
-    <ContentPage.Content>
-        <StackLayout>
-            <Label
-                Text="Remote"
-                VerticalOptions="CenterAndExpand"
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
-    </ContentPage.Content>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem
+            Text="Run All"
+            Command="{Binding RunAllCommand}"
+            Order="Primary"
+            Priority="0" />
+        <ToolbarItem
+            Text="Cancel All"
+            Command="{Binding CancelAllCommand}"
+            Order="Primary"
+            Priority="0" />
+    </ContentPage.ToolbarItems>
+
+    <ListView
+        ItemsSource="{Binding WorkItems}"
+        CachingStrategy="RecycleElement"
+        SelectionMode="None"
+        Footer="">
+        <ListView.ItemTemplate>
+            <DataTemplate x:Key="MainPageListItemTemplate">
+                <local:ItemViewCell />
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
 </ContentPage>
