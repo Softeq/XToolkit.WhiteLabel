@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Threading;
 
 namespace Playground.Forms.Remote.ViewModels
 {
@@ -20,18 +21,21 @@ namespace Playground.Forms.Remote.ViewModels
         private CancellationTokenSource _cts = new CancellationTokenSource();
 
         public WorkItemViewModel(
+            string name,
             Func<Action<string>, CancellationToken, Task> operation,
-            string name)
+            CancellationToken parentCancellationToken)
         {
             _operation = operation;
             _name = name;
 
-            RunCommand = new AsyncCommand(Request);
-            CancelCommand = new RelayCommand(Cancel);
+            parentCancellationToken.Register(Cancel);
+
+            RunCommand = new AsyncCommand(Request, () => !IsBusy);
+            CancelCommand = new RelayCommand(Cancel, () => IsBusy);
         }
 
-        public ICommand RunCommand { get; }
-        public ICommand CancelCommand { get; }
+        public AsyncCommand RunCommand { get; }
+        public RelayCommand CancelCommand { get; }
 
         public string Name
         {
@@ -42,7 +46,14 @@ namespace Playground.Forms.Remote.ViewModels
         public bool IsBusy
         {
             get => _isBusy;
-            private set => Set(ref _isBusy, value);
+            private set
+            {
+                if (Set(ref _isBusy, value))
+                {
+                    RunCommand.RaiseCanExecuteChanged();
+                    CancelCommand.RaiseCanExecuteChanged();
+                }
+            }
         }
 
         public string ResultData
@@ -53,27 +64,29 @@ namespace Playground.Forms.Remote.ViewModels
 
         private async Task Request()
         {
-            Interlocked.Exchange(ref _cts, new CancellationTokenSource()).Cancel();
+            Cancel();
 
             IsBusy = true;
 
             try
             {
                 await _operation(
-                    message => ResultData = message, // operation log
+                    message => Execute.BeginOnUIThread(() => ResultData = message), // operation log
                     _cts.Token);
             }
             catch (Exception ex)
             {
                 ResultData = ex.Message;
             }
-
-            IsBusy = false;
+            finally
+            {
+                IsBusy = false;
+            }
         }
 
         private void Cancel()
         {
-            _cts.Cancel();
+            Interlocked.Exchange(ref _cts, new CancellationTokenSource()).Cancel();
         }
     }
 }

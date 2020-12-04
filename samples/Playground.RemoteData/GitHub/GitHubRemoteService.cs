@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
@@ -15,8 +16,7 @@ namespace Playground.RemoteData.GitHub
     {
         private const string ApiUrl = "https://api.github.com";
 
-        private readonly IRemoteService<IGitHubApiService> _remoteService;
-        private readonly ILogger _logger;
+        private readonly Lazy<IRemoteService<IGitHubApiService>> _remoteServiceLazy;
 
         public GitHubRemoteService(
             IRemoteServiceFactory remoteServiceFactory,
@@ -24,29 +24,28 @@ namespace Playground.RemoteData.GitHub
             ILogManager logManager,
             GitHubSessionContext sessionContext)
         {
-            _logger = logManager.GetLogger<GitHubRemoteService>();
-
-            var httpClient = httpClientFactory.CreateAuthClient(ApiUrl, sessionContext, _logger);
-
-            _remoteService = remoteServiceFactory.Create<IGitHubApiService>(httpClient);
+            _remoteServiceLazy = new Lazy<IRemoteService<IGitHubApiService>>(() =>
+            {
+                var logger = logManager.GetLogger<GitHubRemoteService>();
+                var httpClient = httpClientFactory.CreateAuthClient(ApiUrl, sessionContext, logger);
+                return remoteServiceFactory.Create<IGitHubApiService>(httpClient);
+            });
         }
 
         public async Task<User> GetUserAsync(string login, CancellationToken cancellationToken)
         {
-            var dto = await _remoteService.SafeRequest(
+            var dto = await _remoteServiceLazy.Value.SafeRequest(
                 (s, ct) => s.GetUser(login, ct),
-                cancellationToken,
-                _logger);
+                cancellationToken);
 
             return Mapper.Map(dto);
         }
 
         public async Task<IList<User>> GetUserFollowersAsync(string login, CancellationToken cancellationToken)
         {
-            var dtos = await _remoteService.SafeRequest(
+            var dtos = await _remoteServiceLazy.Value.SafeRequest(
                 (s, ct) => s.GetUserFollowers(login, ct),
-                cancellationToken,
-                _logger);
+                cancellationToken);
 
             return Mapper.MapAll(dtos, Mapper.Map);
         }

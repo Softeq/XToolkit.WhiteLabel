@@ -23,7 +23,7 @@ namespace Playground.RemoteData.Auth
 
     public class AuthRemoteService : IAuthRemoteService
     {
-        private readonly IRemoteService<IAuthApiService> _remoteService;
+        private readonly Lazy<IRemoteService<IAuthApiService>> _remoteServiceLazy;
         private readonly AuthApiConfig _apiConfig;
 
         public AuthRemoteService(
@@ -32,11 +32,14 @@ namespace Playground.RemoteData.Auth
             ILogManager logManager,
             AuthApiConfig apiConfig)
         {
-            var logger = logManager.GetLogger<AuthRemoteService>();
-            var httpClient = httpClientFactory.CreateClient(apiConfig.BaseUrl, logger);
-
-            _remoteService = remoteServiceFactory.Create<IAuthApiService>(httpClient);
             _apiConfig = apiConfig;
+
+            _remoteServiceLazy = new Lazy<IRemoteService<IAuthApiService>>(() =>
+            {
+                var logger = logManager.GetLogger<AuthRemoteService>();
+                var httpClient = httpClientFactory.CreateClient(apiConfig.BaseUrl, logger);
+                return remoteServiceFactory.Create<IAuthApiService>(httpClient);
+            });
         }
 
         public async Task<TokenResult> LoginAsync(string login, string password, CancellationToken cancellationToken)
@@ -49,7 +52,7 @@ namespace Playground.RemoteData.Auth
                 ClientSecret = _apiConfig.ClientSecret
             };
 
-            var requestTask = _remoteService
+            var requestTask = _remoteServiceLazy.Value
                 .MakeRequest(
                     (service, ct) => service.Login(request, ct),
                     new RequestOptions
@@ -78,7 +81,7 @@ namespace Playground.RemoteData.Auth
                 ClientSecret = _apiConfig.ClientSecret
             };
 
-            var requestTask = _remoteService
+            var requestTask = _remoteServiceLazy.Value
                 .MakeRequest(
                     (service, ct) => service.RefreshToken(request, ct),
                     new RequestOptions

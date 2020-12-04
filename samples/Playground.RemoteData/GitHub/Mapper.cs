@@ -11,7 +11,7 @@ namespace Playground.RemoteData.GitHub
 {
     public static class Mapper
     {
-        public static User Map(UserDetailsResponse x)
+        public static User Map(UserDetailsResponse? x)
         {
             return x == null
                 ? new User()
@@ -21,7 +21,7 @@ namespace Playground.RemoteData.GitHub
                 };
         }
 
-        public static User Map(UserResponse x)
+        public static User Map(UserResponse? x)
         {
             return x == null
                 ? new User()
@@ -31,7 +31,7 @@ namespace Playground.RemoteData.GitHub
                 };
         }
 
-        public static IList<TTo> MapAll<TFrom, TTo>(IList<TFrom> list, Func<TFrom, TTo> converter)
+        public static IList<TTo> MapAll<TFrom, TTo>(IList<TFrom>? list, Func<TFrom, TTo> converter)
         {
             return list?.Select(converter).ToList()!;
         }

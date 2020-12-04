@@ -15,57 +15,57 @@ namespace Playground.RemoteData.HttpBin
     public interface IHttpBinApiService
     {
         [Get("/get")]
-        Task<string> GetRequestAsync(string foo1, [AliasAs("foo2")] string arg2);
+        Task<string> GetRequestAsync(string foo1, [AliasAs("foo2")] string arg2, CancellationToken ct);
 
         [Post("/post")]
-        Task<string> PostRawRequestAsync(string foo1, [Body] PostContent content);
+        Task<string> PostRawRequestAsync(string foo1, [Body] PostContent content, CancellationToken ct);
 
         [Post("/post")]
-        Task<string> PostFormRequestAsync([Body(BodySerializationMethod.UrlEncoded)] PostContent content);
-
-        [Multipart]
-        [Post("/post")]
-        Task<string> PostMultipartFormRequestAsync([AliasAs("fooBar")] PostContent content);
+        Task<string> PostFormRequestAsync([Body(BodySerializationMethod.UrlEncoded)] PostContent content, CancellationToken ct);
 
         [Multipart]
         [Post("/post")]
-        Task<string> PostFileRequestAsync([AliasAs("myPhoto")] StreamPart photoStream);
+        Task<string> PostMultipartFormRequestAsync([AliasAs("fooBar")] PostContent content, CancellationToken ct);
+
+        [Multipart]
+        [Post("/post")]
+        Task<string> PostFileRequestAsync([AliasAs("myPhoto")] StreamPart photoStream, CancellationToken ct);
 
         [Put("/put")]
-        Task<string> PutRequestAsync([Body] PostContent content);
+        Task<string> PutRequestAsync([Body] PostContent content, CancellationToken ct);
 
         [Patch("/patch")]
-        Task<string> PatchRequestAsync([Body] PostContent content);
+        Task<string> PatchRequestAsync([Body] PostContent content, CancellationToken ct);
 
         [Delete("/delete")]
-        Task<string> DeleteRequestAsync([Body] PostContent content);
+        Task<string> DeleteRequestAsync([Body] PostContent content, CancellationToken ct);
 
         [Get("/headers")]
         [Headers("Header-Method: 2")]
-        Task<string> RequestHeadersAsync([Header("Header-Parameter")] int c = 100500);
+        Task<string> RequestHeadersAsync([Header("Header-Parameter")] int c, CancellationToken ct);
 
         [Get("/response-headers")]
-        Task<string> ResponseHeadersAsync([AliasAs("freeform")] string foo = "foo-value");
+        Task<string> ResponseHeadersAsync([AliasAs("freeform")] string foo, CancellationToken ct);
 
         [Get("/cookies/set")]
-        Task<string> SetCookiesAsync(string freeform = "foo-value");
+        Task<string> SetCookiesAsync(string freeform, CancellationToken ct);
 
         [Get("/cookies")]
-        Task<string> GetCookiesAsync();
+        Task<string> GetCookiesAsync(CancellationToken ct);
 
         [Get("/status/{statusCode}")]
         Task<string> ResponseStatusAsync(int statusCode, CancellationToken ct);
 
         [Get("/stream/{itemsCount}")]
-        Task<Stream> GetStreamDataAsync(int itemsCount = 10);
+        Task<Stream> GetStreamDataAsync(int itemsCount, CancellationToken ct);
 
         [Get("/delay/{delayInSeconds}")]
         Task<string> GetWithDelayAsync(int delayInSeconds, CancellationToken ct);
 
         [Get("/gzip")]
-        Task<string> GetGzipAsync();
+        Task<string> GetGzipAsync(CancellationToken ct);
 
         [Get("/deflate")]
-        Task<string> GetDeflateAsync();
+        Task<string> GetDeflateAsync(CancellationToken ct);
     }
 }

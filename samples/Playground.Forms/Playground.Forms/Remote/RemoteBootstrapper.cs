@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Playground.Forms.Remote.Services;
 using Playground.Forms.Remote.ViewModels;
 using Playground.RemoteData.Auth;
 using Playground.RemoteData.Auth.Models;
@@ -65,6 +66,9 @@ namespace Playground.Forms.Remote
 
             // ViewModels
             builder.PerDependency<RemotePageViewModel>();
+
+            // Data Services
+            builder.Singleton<RemoteDataService>();
         }
     }
 }

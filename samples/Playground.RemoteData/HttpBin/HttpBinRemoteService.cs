@@ -1,10 +1,12 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+using System.Collections.Generic;
 using System.IO;
-using System.Net;
 using System.Threading;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Playground.RemoteData.HttpBin.Dtos;
 using Refit;
 using Softeq.XToolkit.Common.Logger;
@@ -18,101 +20,166 @@ namespace Playground.RemoteData.HttpBin
     {
         private const string ApiUrl = "https://httpbin.org";
 
-        private readonly ILogger _logger;
         private readonly IRemoteService<IHttpBinApiService> _remoteService;
 
-        public HttpBinRemoteService(ILogManager logManager)
+        public HttpBinRemoteService(
+            IHttpClientFactory httpClientFactory,
+            IRemoteServiceFactory remoteServiceFactory,
+            ILogManager logManager)
         {
-            _logger = logManager.GetLogger<HttpBinRemoteService>();
+            var logger = logManager.GetLogger<HttpBinRemoteService>();
 
-            var httpClient = new DefaultHttpClientFactory().CreateClient(ApiUrl, _logger);
-            // httpClient.Timeout = TimeSpan.FromSeconds(2);
+            var httpClient = httpClientFactory.CreateClient(ApiUrl, logger);
+            httpClient.Timeout = TimeSpan.FromSeconds(5); // custom timeout on http handler level
 
-            _remoteService = new RemoteServiceFactory().Create<IHttpBinApiService>(httpClient);
+            _remoteService = remoteServiceFactory.Create<IHttpBinApiService>(httpClient);
         }
 
-        public Task CheckStatusCodeAsync(int statusCode, CancellationToken cancellationToken)
+        private PostContent MockBody => new PostContent { Name = "TestName", Age = 100500 };
+
+        public Task<string> UploadAsync(Stream stream, CancellationToken cancellationToken)
         {
             return _remoteService.SafeRequest(
-                (s, ct) => s.ResponseStatusAsync(statusCode, ct),
-                cancellationToken,
-                _logger);
+                (s, ct) => s.PostFileRequestAsync(new StreamPart(stream, "photo.jpg", "image/jpeg"), ct),
+                cancellationToken);
         }
 
-        public async Task<string> TestRequestAsync(CancellationToken cancellationToken)
+        public Task<string> GetAsync(CancellationToken cancellationToken)
         {
-            await using var memoryStream = new MemoryStream();
-            memoryStream.SetLength(1 * 1024 * 1024); // 1Mb
+            return _remoteService.SafeRequest(
+                (s, ct) => s.GetRequestAsync("foo1-value", "foo2-value", ct),
+                cancellationToken);
+        }
 
-            var bodyContent = new PostContent { Name = "TestName", Age = 100500 };
+        public Task<string> PostRawAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.PostRawRequestAsync("foo1-value", MockBody, ct),
+                cancellationToken);
+        }
 
-            var result = await _remoteService.MakeRequest(
-                (s, ct) =>
-                // s.GetRequestAsync("foo1-value", "foo2-value")
-                // s.PostRawRequestAsync("foo1-value", bodyContent)
-                // s.PostFormRequestAsync(bodyContent)
-                // s.PostMultipartFormRequestAsync(bodyContent)
-                // s.PostFileRequestAsync(new StreamPart(memoryStream, "photo.jpg", "image/jpeg"))
-                // s.PutRequestAsync(bodyContent)
-                // s.PatchRequestAsync(bodyContent)
-                // s.DeleteRequestAsync(bodyContent)
-                // s.RequestHeadersAsync()
-                // s.ResponseHeadersAsync()
-                // s.SetCookiesAsync()
-                // s.GetCookiesAsync()
-                s.ResponseStatusAsync((int)HttpStatusCode.OK, cancellationToken)
-                // s.ResponseStatusAsync((int)HttpStatusCode.Redirect, cancellationToken)
-                // s.ResponseStatusAsync((int)HttpStatusCode.NotFound, cancellationToken)
-                // s.ResponseStatusAsync((int)HttpStatusCode.InternalServerError, cancellationToken)
-                // s.GetGzipAsync()
-                // s.GetDeflateAsync()
-                , new RequestOptions
+        public Task<string> PostFormAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.PostFormRequestAsync(MockBody, ct),
+                cancellationToken);
+        }
+
+        public Task<string> PostMultipartFormAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.PostMultipartFormRequestAsync(MockBody, ct),
+                cancellationToken);
+        }
+
+        public Task<string> PutAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.PutRequestAsync(MockBody, ct),
+                cancellationToken);
+        }
+
+        public Task<string> PatchAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.PatchRequestAsync(MockBody, ct),
+                cancellationToken);
+        }
+
+        public Task<string> DeleteAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.DeleteRequestAsync(MockBody, ct),
+                cancellationToken);
+        }
+
+        public Task<string> RequestHeadersAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.RequestHeadersAsync(100500, ct),
+                cancellationToken);
+        }
+
+        public Task<string> ResponseHeadersAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.ResponseHeadersAsync("foo-value", ct),
+                cancellationToken);
+        }
+
+        public Task<string> SetCookiesAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.SetCookiesAsync("foo-value", ct),
+                cancellationToken);
+        }
+
+        public Task<string> GetCookiesAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.GetCookiesAsync(ct),
+                cancellationToken);
+        }
+
+        public Task<string> GetGzipAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.GetGzipAsync(ct),
+                cancellationToken);
+        }
+
+        public Task<string> GetDeflateAsync(CancellationToken cancellationToken)
+        {
+            return _remoteService.SafeRequest(
+                (s, ct) => s.GetDeflateAsync(ct),
+                cancellationToken);
+        }
+
+        public Task<string> StatusCodeAsync(int statusCode, CancellationToken cancellationToken)
+        {
+            return _remoteService.MakeRequest(
+                (s, ct) => s.ResponseStatusAsync(statusCode, ct),
+                new RequestOptions
                 {
-                    ShouldRetry = ex => ex is ApiException apiException && (int)apiException.StatusCode >= 500
-                }
-            );
+                    CancellationToken = cancellationToken,
 
+                    // YP: ignore some API errors
+                    ShouldRetry = ex => ex is ApiException apiException
+                                        && (int)apiException.StatusCode >= 500
+                });
+        }
 
+        public Task<string> DelayWithTimeoutAsync(int delay, int timeout, CancellationToken cancellationToken)
+        {
+            return _remoteService.MakeRequest(
+                (s, ct) => s.GetWithDelayAsync(delay, ct),
+                new RequestOptions
+                {
+                     Timeout = timeout,
+                     CancellationToken = cancellationToken
+                });
+        }
 
+        public Task<IAsyncEnumerable<EchoResponse>> GetStreamAsync(int itemsCount, CancellationToken cancellationToken)
+        {
+            return _remoteService.MakeRequest(
+                async (s, ct) =>
+                {
+                    // get stream with multiline json
+                    var stream = await s.GetStreamDataAsync(itemsCount, ct);
 
-            // var cts = new CancellationTokenSource();
-            // cts.CancelAfter(2000);
+                    var streamReader = new StreamReader(stream);
+                    var jsonReader = new JsonTextReader(streamReader)
+                    {
+                        SupportMultipleContent = true
+                    };
 
-            // var result2 = await _remoteService.MakeRequest(
-            //     (s, ct) => s.GetWithDelayAsync(5, ct),
-            //     new RequestOptions
-            //     {
-            //          // Timeout = 3,
-            //          // CancellationToken = cts.Token
-            //     });
-
-            // await _remoteService.MakeRequest(
-            //     async (s, ct) =>
-            //     {
-            //         // get stream with not structured multiline json
-            //         var stream = await s.GetStreamDataAsync(99);
-            //
-            //         using var streamReader = new StreamReader(stream);
-            //         using var jsonReader = new JsonTextReader(streamReader)
-            //         {
-            //             SupportMultipleContent = true
-            //         };
-            //
-            //         // manual deserialization
-            //         var items = DeserializationHelper.DeserializeAsync(jsonReader, ct);
-            //
-            //         // print results
-            //         await foreach (var item in items.WithCancellation(ct))
-            //         {
-            //             Debug.WriteLine(item);
-            //         }
-            //     },
-            //     new RequestOptions
-            //     {
-            //         CancellationToken = cancellationToken
-            //     });
-
-            return result;
+                    return DeserializationHelper.DeserializeAsync<EchoResponse>(jsonReader, ct);
+                },
+                new RequestOptions
+                {
+                    CancellationToken = cancellationToken
+                });
         }
     }
 }

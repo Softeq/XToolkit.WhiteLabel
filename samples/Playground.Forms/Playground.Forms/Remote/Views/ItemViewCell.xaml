@@ -13,20 +13,18 @@
                 VerticalOptions="Center" />
             <Label
                 Grid.Column="1"
-                Text="{Binding ResultData, Mode=OneWay}"
+                Text="{Binding ResultData}"
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="Center" />
             <Button
                 Grid.Column="2"
                 Text="Run"
-                Command="{Binding RunCommand, Mode=OneTime}"
-                IsEnabled="{Binding IsBusy, Converter={StaticResource InverseConverter}, Mode=OneWay}"
+                Command="{Binding RunCommand}"
                 HorizontalOptions="End" />
             <Button
                 Grid.Column="3"
                 Text="Cancel"
-                Command="{Binding CancelCommand, Mode=OneTime}"
-                IsEnabled="{Binding IsBusy, Mode=OneWay}"
+                Command="{Binding CancelCommand}"
                 HorizontalOptions="End" />
         </Grid>
     </ViewCell.View>

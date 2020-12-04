@@ -33,31 +33,21 @@ namespace Playground.RemoteData.Auth
 
         internal static LoginStatus Map(ErrorResult error)
         {
-            if (error == null)
+            return error.ErrorCode switch
             {
-                return LoginStatus.Undefined;
-            }
-
-            switch (error.ErrorCode)
-            {
-                case ErrorCodes.UserNotFound:
-                    return LoginStatus.EmailOrPasswordIncorrect;
-                case ErrorCodes.EmailIsNotConfirmed:
-                    return LoginStatus.EmailNotConfirmed;
-                default:
-                    return LoginStatus.Failed;
-            }
+                ErrorCodes.UserNotFound => LoginStatus.EmailOrPasswordIncorrect,
+                ErrorCodes.EmailIsNotConfirmed => LoginStatus.EmailNotConfirmed,
+                _ => LoginStatus.Failed
+            };
         }
 
         private static ErrorCodes Map(Dtos.ErrorCodes errorCode)
         {
-            switch (errorCode)
+            return errorCode switch
             {
-                case Dtos.ErrorCodes.InvalidGrant:
-                    return ErrorCodes.UserNotFound;
-                default:
-                    return ErrorCodes.UnknownError;
-            }
+                Dtos.ErrorCodes.InvalidGrant => ErrorCodes.UserNotFound,
+                _ => ErrorCodes.UnknownError
+            };
         }
     }
 }
