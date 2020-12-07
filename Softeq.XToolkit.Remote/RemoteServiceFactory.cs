@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.Remote
                 throw new ArgumentNullException(nameof(baseUrl), "Parameter can't be null or empty.");
             }
 
-            var httpClient = new HttpClientBuilder(baseUrl).Build();
+            var httpClient = new HttpClientBuilder().WithBaseUrl(baseUrl).Build();
 
             return Create<T>(httpClient);
         }

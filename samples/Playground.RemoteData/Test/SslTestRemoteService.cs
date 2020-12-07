@@ -28,7 +28,7 @@ namespace Playground.RemoteData.Test
 
             var customHttpMessageHandlerBuilder = new DefaultHttpMessageHandlerBuilder(customHttpMessageHandler);
 
-            var httpClientBuilder = new HttpClientBuilder(ApiUrl, customHttpMessageHandlerBuilder)
+            var httpClientBuilder = new HttpClientBuilder(customHttpMessageHandlerBuilder).WithBaseUrl(ApiUrl)
                 .WithLogger(_logger)
                 .Build();
 
