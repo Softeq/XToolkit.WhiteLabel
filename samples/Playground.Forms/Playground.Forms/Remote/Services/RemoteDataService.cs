@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
+using FFImageLoading;
+using FFImageLoading.Cache;
 using Playground.Forms.Remote.ViewModels;
 using Playground.RemoteData.Auth;
 using Playground.RemoteData.GitHub;
@@ -57,6 +59,7 @@ namespace Playground.Forms.Remote.Services
                 (2, i => new WorkItemViewModel($"POST #{i.ToString()}", PostRequest, token)),
                 (3, _ => new WorkItemViewModel("Upload Stream", UploadStreamRequest, token)),
                 (2, _ => new WorkItemViewModel("Download Stream", DownloadStreamRequest, token)),
+                (2, _ => new WorkItemViewModel("FFImageLoading Client", FFImageLoadingRequest, token))
             };
 
             foreach (var (count, factory) in items)
@@ -162,6 +165,20 @@ namespace Playground.Forms.Remote.Services
             }
 
             callback($"end");
+        }
+
+        private async Task FFImageLoadingRequest(Action<string> callback, CancellationToken ct)
+        {
+            callback("started");
+
+            var random = new Random().NextDouble();
+
+            await ImageService.Instance.LoadUrl($"https://picsum.photos/1000?rand={random}")
+                .DownloadProgress(progress => callback($"{progress.Current/progress.Total}..."))
+                .Error(ex => callback(ex.Message))
+                .Finish(x => callback("finished"))
+                .WithCache(CacheType.None)
+                .PreloadAsync();
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using FFImageLoading.Config;
 using Playground.Forms.Remote.Services;
 using Playground.Forms.Remote.ViewModels;
 using Playground.RemoteData.Auth;
@@ -11,10 +12,12 @@ using Playground.RemoteData.Profile;
 using Playground.RemoteData.Profile.Models;
 using Playground.RemoteData.Test;
 using Refit;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote;
 using Softeq.XToolkit.Remote.Api;
 using Softeq.XToolkit.Remote.Auth;
 using Softeq.XToolkit.Remote.Client;
+using Softeq.XToolkit.Remote.Primitives;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 
 namespace Playground.Forms.Remote
@@ -44,6 +47,15 @@ namespace Playground.Forms.Remote
                 // JsonSerializerSettings object also can be used via IoC
                 ContentSerializer = new NewtonsoftJsonContentSerializer(
                     Softeq.XToolkit.WhiteLabel.Services.JsonSerializer.DefaultSettings)
+            });
+
+            // Optional: Use custom HttpClient for FFImageLoading
+            FFImageLoading.ImageService.Instance.Initialize(new Configuration
+            {
+                HttpClient = new HttpClientBuilder()
+                    .WithLogger(new ConsoleLogger("FFImageLoading"), LogVerbosity.RequestAll | LogVerbosity.RequestHeaders)
+                    // .WithSessionContext(...)
+                    .Build()
             });
 
             // Auth API
