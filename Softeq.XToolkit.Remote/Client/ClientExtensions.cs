@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// </summary>
         /// <param name="httpClientBuilder">Target builder.</param>
         /// <param name="logger">Logger instance.</param>
-        /// <param name="verbosity">Instance of verbosity bitmask.</param>
+        /// <param name="verbosity">Instance of verbosity bitmask. Default is <see cref="LogVerbosity.Unspecified"/>.</param>
         /// <returns>Modified builder.</returns>
         /// <exception cref="T:System.ArgumentNullException">
         ///     When the <paramref name="httpClientBuilder"/> parameter is <see langword="null"/> or

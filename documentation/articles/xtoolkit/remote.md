@@ -39,8 +39,8 @@ Firstly you need to create an interface for declaring API endpoints:
 ```cs
 public interface IApi
 {
-    [Get("/")]
-    Task<string> GetHomePage();
+    [Get("/profile")]
+    Task<string> GetProfile(CancellationToken ct);
 }
 ```
 
@@ -53,7 +53,7 @@ Create simple HttpClient:
 ```cs
 var httpClient = new HttpClient
 {
-    BaseAddress = new Uri("https://google.com")
+    BaseAddress = new Uri("https://example.com/api")
 };
 ```
 
@@ -69,9 +69,9 @@ var remoteServiceFactory = new RemoteServiceFactory();
 var remoteService = remoteServiceFactory.Create<IApi>(httpClient);
 ```
 
-> In this case, it can be used in a simpler way:
+> In this case, it can be used in a **simpler way**:
 ```cs
-var remoteService = remoteServiceFactory.Create<IApi>("https://google.com");
+var remoteService = remoteServiceFactory.Create<IApi>("https://example.com/api");
 ```
 
 ### Step 4
@@ -79,7 +79,9 @@ var remoteService = remoteServiceFactory.Create<IApi>("https://google.com");
 Make simple request:
 
 ```cs
-var result = await remoteService.MakeRequest((s, ct) => s.GetHomePage());
+var result = await remoteService.MakeRequest(
+    (service, cancellationToken) =>
+        service.GetProfile(cancellationToken));
 ```
 
 or safe call example:
@@ -88,8 +90,9 @@ or safe call example:
 ILogger logger = ...;
 
 var result = await remoteService.SafeRequest(
-    (s, ct) => s.GetHomePage(),
-    CancellationToken.None,
+    (service, cancellationToken) =>
+        service.GetProfile(cancellationToken),
+    CancellationToken.None, // optional: parent token
     logger)
 ````
 
@@ -108,9 +111,11 @@ Use custom handler for HttpClientBuilder:
 ```cs
 var messageHandlerBuilder = new DefaultHttpMessageHandlerBuilder(customPrimaryHandler);
 
-var httpClientBuilder = new HttpClientBuilder("https://softeq.com", messageHandlerBuilder);
+var httpClientBuilder = new HttpClientBuilder(messageHandlerBuilder);
 
-var httpClient = httpClientBuilder.Build();
+var httpClient = httpClientBuilder
+    .WithBaseUrl("https://softeq.com")
+    .Build();
 ```
 
 ### Setup HttpClient
@@ -138,10 +143,15 @@ var httpClient = httpClientFactory.CreateClient("https://softeq.com", logger);
 2. via [HttpClientBuilder](xref:Softeq.XToolkit.Remote.Client.HttpClientBuilder):
 
 ```cs
-var httpClient = new HttpClientBuilder("https://softeq.com")
-    .WithLogger(logger)
+var httpClient = new HttpClientBuilder()
+    .WithBaseUrl("https://softeq.com")
+    .WithLogger(logger, LogVerbosity.All)
     .Build();
 ```
+
+> By default `.WithLogger()` will be use `HttpDiagnosticsHandler`.
+
+> You can set the verbosity for all of your `HttpDiagnosticsHandler` instances by setting `HttpDiagnosticsHandler.DefaultVerbosity`. To set verbosity at the per-instance level, use `HttpDiagnosticsHandler` constructor which will override `HttpDiagnosticsHandler.DefaultVerbosity`.
 
 3. Use configured HttpClient:
 
@@ -159,11 +169,18 @@ var options = new RequestOptions
 };
 
 var result = await remoteService.MakeRequest(
-    (s, ct) => s.GetHomePage(),
+    (s, ct) => s.GetProfile(ct),
     options);
 ```
 
 ## Examples
 
-- [RemoteApp](https://github.com/Softeq/XToolkit.WhiteLabel/tree/master/samples/RemoteApp)
+- [Playground.Forms.Remote](https://github.com/Softeq/XToolkit.WhiteLabel/tree/master/samples/Playground.Forms/Playground.Forms/Remote)
+  - Softeq Auth sample
+  - POST forms
+  - Upload data
+  - Stream data deserialize
+  - FFImageLoading integration
+  - etc.
+
 ---
