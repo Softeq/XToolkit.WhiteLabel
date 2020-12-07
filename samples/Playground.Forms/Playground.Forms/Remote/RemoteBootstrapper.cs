@@ -10,7 +10,9 @@ using Playground.RemoteData.HttpBin;
 using Playground.RemoteData.Profile;
 using Playground.RemoteData.Profile.Models;
 using Playground.RemoteData.Test;
+using Refit;
 using Softeq.XToolkit.Remote;
+using Softeq.XToolkit.Remote.Api;
 using Softeq.XToolkit.Remote.Auth;
 using Softeq.XToolkit.Remote.Client;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -28,10 +30,21 @@ namespace Playground.Forms.Remote
 
         public static void ConfigureIoc(IContainerBuilder builder)
         {
-            // Remote Services
+            // XToolkit.Remote
 
+            // Basic usage
             builder.Singleton<DefaultHttpClientFactory, IHttpClientFactory>();
             builder.Singleton<RemoteServiceFactory, IRemoteServiceFactory>();
+
+            // Optional: Use custom content serializer settings
+            //           Explicit ApiServiceFactory registration to use the new configuration
+            builder.Singleton<RefitApiServiceFactory, IApiServiceFactory>();
+            builder.Singleton(_ => new RefitSettings
+            {
+                // JsonSerializerSettings object also can be used via IoC
+                ContentSerializer = new NewtonsoftJsonContentSerializer(
+                    Softeq.XToolkit.WhiteLabel.Services.JsonSerializer.DefaultSettings)
+            });
 
             // Auth API
 
