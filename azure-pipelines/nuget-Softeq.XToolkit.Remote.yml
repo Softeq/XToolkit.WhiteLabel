@@ -8,6 +8,6 @@ variables:
 - template: templates/vars.yml
 
 jobs:
-- template: templates/nuget-symbols-steps.yml
+- template: templates/nuget-steps.yml
   parameters:
     ProjectName: 'Softeq.XToolkit.Remote'
