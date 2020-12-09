@@ -4,7 +4,6 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Windows.Input;
 using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Threading;

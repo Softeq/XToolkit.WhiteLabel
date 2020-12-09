@@ -5,6 +5,7 @@
     xmlns:ios="clr-namespace:Xamarin.Forms.PlatformConfiguration.iOSSpecific;assembly=Xamarin.Forms.Core"
     xmlns:vm="clr-namespace:Playground.Forms.Remote.ViewModels;assembly=Playground.Forms"
     xmlns:local="clr-namespace:Playground.Forms.Remote.Views;assembly=Playground.Forms"
+    xmlns:effects="clr-namespace:Playground.Forms.Effects;assembly=Playground.Forms"
     x:Class="Playground.Forms.Remote.Views.RemotePage"
     x:DataType="vm:RemotePageViewModel"
     ios:Page.UseSafeArea="true"
@@ -28,6 +29,9 @@
         CachingStrategy="RecycleElement"
         SelectionMode="None"
         Footer="">
+        <ListView.Effects>
+            <effects:ListViewNoHighlightEffect />
+        </ListView.Effects>
         <ListView.ItemTemplate>
             <DataTemplate x:Key="MainPageListItemTemplate">
                 <local:ItemViewCell />
