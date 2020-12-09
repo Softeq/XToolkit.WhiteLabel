@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Reflection;
 using Playground.Forms.Droid.CustomComponents;
 using Softeq.XToolkit.Common.Droid.Permissions;
@@ -31,7 +32,7 @@ namespace Playground.Forms.Droid
 
             // remote
             // - example of using custom primary http message handler
-            builder.Singleton(_ => new DroidIgnoreSslClientHandler());
+            builder.Singleton<HttpMessageHandler>(_ => new DroidIgnoreSslClientHandler());
         }
     }
 }
