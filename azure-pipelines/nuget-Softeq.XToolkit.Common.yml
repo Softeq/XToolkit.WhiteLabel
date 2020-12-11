@@ -4,14 +4,10 @@ trigger:
   - release/*
 pr: none
 
-queue:
-  name: Hosted macOS
-  demands: Xamarin.iOS
-
 variables:
 - template: templates/vars.yml
 
-steps:
+jobs:
 - template: templates/nuget-steps.yml
   parameters:
     ProjectName: 'Softeq.XToolkit.Common'
