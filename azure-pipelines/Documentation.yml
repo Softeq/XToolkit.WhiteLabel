@@ -9,9 +9,9 @@ variables:
 - template: templates/vars.yml
 
 jobs:
-- job: macos_1015
+- job: macOS
   pool:
-    name: Hosted macOS
+    vmImage: $(MACOS_VM_IMAGE)
   steps:
     # setup env
     - task: UseDotNet@2
