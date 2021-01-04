@@ -27,8 +27,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         public override void OnCreate(Bundle savedInstanceState)
         {
-            base.OnCreate(savedInstanceState);
-
             RestoreViewModelIfNeeded(savedInstanceState);
 
             OnViewModelRestored();
@@ -37,6 +35,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             {
                 ViewModel.OnInitialize();
             }
+
+            // Calling base.OnCreate initiates restoring nested Fragments
+            // so we should restore and initialize ViewModel before calling it
+            base.OnCreate(savedInstanceState);
         }
 
         public override void OnResume()
