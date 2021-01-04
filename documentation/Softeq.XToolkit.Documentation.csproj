@@ -42,7 +42,9 @@
     <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="docfx.console" Version="2.51.0" />
+    <PackageReference Include="docfx.console" Version="2.56.6"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+<PrivateAssets>all</PrivateAssets>
+</PackageReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="articles\contributing-workflow.md" />
