@@ -2,12 +2,15 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using NSubstitute;
+using Softeq.XToolkit.Remote.Api;
 using Xunit;
 
 namespace Softeq.XToolkit.Remote.Tests
 {
+    [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue", Justification = "Need for tests")]
     public class RemoteServiceFactoryTests
     {
         private readonly RemoteServiceFactory _factory;
@@ -21,6 +24,24 @@ namespace Softeq.XToolkit.Remote.Tests
         public void Ctor_Default_CreatesIRemoteServiceFactory()
         {
             var factory = new RemoteServiceFactory();
+
+            Assert.IsAssignableFrom<IRemoteServiceFactory>(factory);
+        }
+
+        [Fact]
+        public void Ctor_Null_CreatesIRemoteServiceFactory()
+        {
+            var factory = new RemoteServiceFactory(null);
+
+            Assert.IsAssignableFrom<IRemoteServiceFactory>(factory);
+        }
+
+        [Fact]
+        public void Ctor_ApiServiceFactory_CreatesIRemoteServiceFactory()
+        {
+            var apiServiceFactory = Substitute.For<IApiServiceFactory>();
+
+            var factory = new RemoteServiceFactory(apiServiceFactory);
 
             Assert.IsAssignableFrom<IRemoteServiceFactory>(factory);
         }

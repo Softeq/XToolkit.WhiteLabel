@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using Playground.Forms.Remote;
+using Playground.Forms.Remote.ViewModels;
 using Playground.Forms.Services;
 using Playground.Forms.ViewModels;
 using Playground.Forms.ViewModels.Components;
@@ -38,6 +40,8 @@ namespace Playground.Forms
 
         protected override void ConfigureIoc(IContainerBuilder builder)
         {
+            RemoteBootstrapper.ConfigureIoc(builder);
+
             builder.PerDependency<MainPageViewModel>();
             builder.PerDependency<FirstPageViewModel>();
             builder.PerDependency<SecondPageViewModel>();

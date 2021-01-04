@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using System.Reflection;
+using Playground.Forms.iOS.CustomComponents;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.iOS;
@@ -25,6 +26,10 @@ namespace Playground.Forms.iOS
             // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
+
+            // remote
+            // - example of using custom primary http message handler
+            builder.Singleton(_ => IosIgnoreSslClientHelper.CreateHandler());
         }
     }
 }

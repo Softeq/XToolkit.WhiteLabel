@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ViewCell
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:vm="clr-namespace:Playground.Forms.Remote.ViewModels;assembly=Playground.Forms"
+    x:Class="Playground.Forms.Remote.Views.ItemViewCell"
+    x:DataType="vm:WorkItemViewModel">
+    <ViewCell.View>
+        <Grid ColumnDefinitions="100, *, Auto, Auto">
+            <Label
+                Grid.Column="0"
+                Text="{Binding Name, Mode=OneTime}"
+                VerticalOptions="Center" />
+            <Label
+                Grid.Column="1"
+                Text="{Binding ResultData}"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="Center" />
+            <Button
+                Grid.Column="2"
+                Text="Run"
+                Command="{Binding RunCommand}"
+                HorizontalOptions="End" />
+            <Button
+                Grid.Column="3"
+                Text="Cancel"
+                Command="{Binding CancelCommand}"
+                HorizontalOptions="End" />
+        </Grid>
+    </ViewCell.View>
+</ViewCell>

@@ -11,6 +11,8 @@ namespace Softeq.XToolkit.Remote.Client
     {
         private static HttpMessageHandler? _cachedNativeHttpMessageHandler;
 
+        private static bool IsRunningOnMono => Type.GetType("Mono.Runtime") != null;
+
         /// <summary>
         ///     Creates default system <see cref="T:System.Net.Http.HttpClientHandler"/> instance, depends on the platform:
         ///     .NET Core (<see cref="T:System.Net.Http.HttpClientHandler"/>),
@@ -47,7 +49,5 @@ namespace Softeq.XToolkit.Remote.Client
 
             return _cachedNativeHttpMessageHandler;
         }
-
-        private static bool IsRunningOnMono => Type.GetType("Mono.Runtime") != null;
     }
 }

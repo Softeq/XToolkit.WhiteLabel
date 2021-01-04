@@ -5,8 +5,13 @@
     xmlns:d="http://xamarin.com/schemas/2014/forms/design"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:forms="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms;assembly=Softeq.XToolkit.WhiteLabel.Forms"
+    xmlns:converters="clr-namespace:Softeq.XToolkit.WhiteLabel.Forms.Converters;assembly=Softeq.XToolkit.WhiteLabel.Forms"
     mc:Ignorable="d"
     x:Class="Playground.Forms.App">
     <forms:FormsApp.Resources>
+
+        <ResourceDictionary>
+            <converters:BooleanInverseConverter x:Key="InverseConverter" />
+        </ResourceDictionary>
     </forms:FormsApp.Resources>
 </forms:FormsApp>
