@@ -17,6 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
                 switch (ImageExtension)
                 {
                     case ImageExtension.Jpg:
+                    case ImageExtension.Jpeg:
                         return Task.FromResult(image.AsJPEG(Quality).AsStream());
                     case ImageExtension.Png:
                         return Task.FromResult(image.AsPNG().AsStream());

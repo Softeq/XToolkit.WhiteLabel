@@ -71,7 +71,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             {
                 Quality = quality,
                 ImageObject = bitmap,
-                ImageExtension = ImageExtension.Jpg
+                ImageExtension = ImageExtension.Jpeg
             };
         }
 
