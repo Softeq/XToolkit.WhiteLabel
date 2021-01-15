@@ -57,7 +57,8 @@ namespace Softeq.XToolkit.Remote.Executor
 
         protected virtual AsyncTimeoutPolicy CreateTimeoutPolicy(int timeout)
         {
-            return Policy.TimeoutAsync(timeout, TimeoutStrategy.Pessimistic);
+            // https://github.com/App-vNext/Polly/wiki/Timeout#use-optimistic-timeout-with-httpclient-calls
+            return Policy.TimeoutAsync(timeout, TimeoutStrategy.Optimistic);
         }
 
         protected virtual AsyncRetryPolicy CreateRetryPolicy(int retryCount, Func<Exception, bool> shouldRetry)

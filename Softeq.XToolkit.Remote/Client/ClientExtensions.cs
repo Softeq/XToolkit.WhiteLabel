@@ -4,6 +4,7 @@
 using System;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Remote.Client.Handlers;
+using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote.Client
 {
@@ -14,6 +15,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// </summary>
         /// <param name="httpClientBuilder">Target builder.</param>
         /// <param name="logger">Logger instance.</param>
+        /// <param name="verbosity">Instance of verbosity bitmask. Default is <see cref="LogVerbosity.Unspecified"/>.</param>
         /// <returns>Modified builder.</returns>
         /// <exception cref="T:System.ArgumentNullException">
         ///     When the <paramref name="httpClientBuilder"/> parameter is <see langword="null"/> or
@@ -21,7 +23,8 @@ namespace Softeq.XToolkit.Remote.Client
         /// </exception>
         public static IHttpClientBuilder WithLogger(
             this IHttpClientBuilder httpClientBuilder,
-            ILogger logger)
+            ILogger logger,
+            LogVerbosity verbosity = LogVerbosity.Unspecified)
         {
             if (httpClientBuilder == null)
             {
@@ -33,7 +36,7 @@ namespace Softeq.XToolkit.Remote.Client
                 throw new ArgumentNullException(nameof(logger));
             }
 
-            var handler = new HttpDiagnosticsHandler(logger);
+            var handler = new HttpDiagnosticsHandler(logger, verbosity);
 
             return httpClientBuilder.AddHandler(handler);
         }

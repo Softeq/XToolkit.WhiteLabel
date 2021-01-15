@@ -20,26 +20,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client
             var messageHandlerBuilder = Substitute.For<HttpMessageHandlerBuilder>();
             messageHandlerBuilder.Build().Returns(Substitute.For<HttpMessageHandler>());
 
-            _clientBuilder = new HttpClientBuilder(TestBaseUrl, messageHandlerBuilder);
-        }
-
-        [Theory]
-        [InlineData(null!)]
-        [InlineData("")]
-        public void Ctor_NullOrEmptyBaseUrl_ThrowsArgumentException(string baseUrl)
-        {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                new HttpClientBuilder(baseUrl);
-            });
-        }
-
-        [Fact]
-        public void Ctor_CorrectBaseUrl_ReturnsCorrectInstance()
-        {
-            var result = new HttpClientBuilder(TestBaseUrl);
-
-            Assert.IsAssignableFrom<IHttpClientBuilder>(result);
+            _clientBuilder = new HttpClientBuilder(messageHandlerBuilder);
         }
 
         [Fact]
@@ -47,7 +28,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client
         {
             Assert.Throws<ArgumentNullException>(() =>
             {
-                new HttpClientBuilder(TestBaseUrl, null!);
+                new HttpClientBuilder(null!);
             });
         }
 
@@ -55,6 +36,25 @@ namespace Softeq.XToolkit.Remote.Tests.Client
         public void Ctor_CorrectMessageHandlerBuilder_ReturnsCorrectInstance()
         {
             Assert.IsAssignableFrom<IHttpClientBuilder>(_clientBuilder);
+        }
+
+        [Theory]
+        [InlineData(null!)]
+        [InlineData("")]
+        public void WithBaseUrl_NullOrEmptyBaseUrl_ThrowsArgumentException(string baseUrl)
+        {
+            Assert.Throws<ArgumentException>(() =>
+            {
+                new HttpClientBuilder().WithBaseUrl(baseUrl);
+            });
+        }
+
+        [Fact]
+        public void WithBaseUrl_CorrectBaseUrl_ReturnsCorrectInstance()
+        {
+            var result = new HttpClientBuilder().WithBaseUrl(TestBaseUrl);
+
+            Assert.IsAssignableFrom<IHttpClientBuilder>(result);
         }
 
         [Fact]
@@ -77,9 +77,17 @@ namespace Softeq.XToolkit.Remote.Tests.Client
         }
 
         [Fact]
-        public void Build_WithCorrectArgs_ReturnsCorrectHttpClient()
+        public void Build_WithoutConfigurations_ReturnsCorrectHttpClient()
         {
             var result = _clientBuilder.Build();
+
+            Assert.IsAssignableFrom<HttpClient>(result);
+        }
+
+        [Fact]
+        public void Build_WithBaseUrl_ReturnsCorrectHttpClient()
+        {
+            var result = _clientBuilder.WithBaseUrl(TestBaseUrl).Build();
 
             Assert.IsAssignableFrom<HttpClient>(result);
             Assert.Equal(TestBaseUrl, result.BaseAddress.ToString());
