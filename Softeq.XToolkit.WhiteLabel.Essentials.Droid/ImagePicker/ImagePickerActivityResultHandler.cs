@@ -8,55 +8,57 @@ using Android.Graphics;
 using Android.Media;
 using Android.Net;
 using Android.OS;
-using Softeq.XToolkit.Common.Weak;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     public sealed class ImagePickerActivityResultHandler : IImagePickerActivityResultHandler
     {
-        private WeakReferenceEx<Activity> _activityRef;
-
-        public void SetActivity(Activity activity)
+        public Task<Bitmap?> HandleImagePickerCameraResultAsync(Activity activity, Result resultCode, Uri? fileUri)
         {
-            _activityRef = new WeakReferenceEx<Activity>(activity);
+            if (resultCode == Result.Ok && fileUri != null)
+            {
+                return GetBitmapFromUriAsync(activity, fileUri);
+            }
+
+            return Task.FromResult(default(Bitmap?));
         }
 
-        public Task<Bitmap?> HandleImagePickerActivityResultAsync(int requestCode, Result resultCode, Intent data, Uri fileUri)
+        public Task<Bitmap?> HandleImagePickerGalleryResultAsync(Activity activity, Result resultCode, Intent data)
         {
-            Bitmap? bitmap = null;
+            var fileUri = data?.Data;
 
-            if (resultCode != Result.Ok)
+            if (resultCode == Result.Ok && fileUri != null)
             {
-                return null;
+                return GetBitmapFromUriAsync(activity, fileUri);
             }
 
-            var uri = requestCode switch
+            return Task.FromResult(default(Bitmap?));
+        }
+
+        public Task HandleCustomResultAsync(int requestCode, Result resultCode, Intent data)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        private async Task<Bitmap> GetBitmapFromUriAsync(Context context, Uri fileUri)
+        {
+            var bitmap = ImagePickerUtils.GetBitmap(context, fileUri);
+
+            if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
             {
-                ImagePickerMode.Camera => fileUri,
-                ImagePickerMode.Gallery => data?.Data,
-                _ => null
-            };
-
-            var context = _activityRef.Target;
-
-            if (uri != null)
-            {
-                bitmap = ImagePickerUtils.GetBitmap(context, uri);
-
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
+                using (var stream = ImagePickerUtils.GetContentStream(context, fileUri))
                 {
-                    using (var stream = ImagePickerUtils.GetContentStream(context, uri))
-                    {
-                        bitmap = ImagePickerUtils.FixRotation(bitmap, new ExifInterface(stream)).Result;
-                    }
-                }
-                else
-                {
-                    bitmap = ImagePickerUtils.FixRotation(bitmap, new ExifInterface(uri.ToString())).Result;
+                    bitmap = await ImagePickerUtils.FixRotation(bitmap, new ExifInterface(stream))
+                        .ConfigureAwait(false);
                 }
             }
+            else
+            {
+                bitmap = await ImagePickerUtils.FixRotation(bitmap, new ExifInterface(fileUri.ToString()))
+                    .ConfigureAwait(false);
+            }
 
-            return Task.FromResult(bitmap);
+            return bitmap;
         }
     }
 }

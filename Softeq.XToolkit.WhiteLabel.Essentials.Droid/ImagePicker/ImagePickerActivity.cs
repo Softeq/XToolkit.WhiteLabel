@@ -103,25 +103,24 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         private async Task HandleOnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
             var handler = Dependencies.Container.Resolve<IImagePickerActivityResultHandler>();
-            handler.SetActivity(this);
 
             if (requestCode == ImagePickerMode.Camera)
             {
                 var bitmap = await handler
-                    .HandleImagePickerActivityResultAsync(requestCode, resultCode, data, _fileUri)
+                    .HandleImagePickerCameraResultAsync(this, resultCode, _fileUri)
                     .ConfigureAwait(false);
                 OnImagePicked(bitmap);
             }
             else if (requestCode == ImagePickerMode.Gallery)
             {
                 var bitmap = await handler
-                    .HandleImagePickerActivityResultAsync(requestCode, resultCode, data, default)
+                    .HandleImagePickerGalleryResultAsync(this, resultCode, data)
                     .ConfigureAwait(false);
                 OnImagePicked(bitmap);
             }
             else
             {
-                handler.HandleImagePickerActivityResultAsync(requestCode, resultCode, data, default).FireAndForget();
+                handler.HandleCustomResultAsync(requestCode, resultCode, data).FireAndForget();
             }
         }
 
