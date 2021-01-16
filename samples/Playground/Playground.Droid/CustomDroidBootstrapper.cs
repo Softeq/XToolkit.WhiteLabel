@@ -48,6 +48,7 @@ namespace Playground.Droid
 
             // image picker
             builder.Singleton<DroidImagePickerService, IImagePickerService>();
+            builder.Singleton<ImagePickerActivityResultHandler, IImagePickerActivityResultHandler>();
 
             // connectivity
             builder.Singleton<ConnectivityService, IConnectivityService>();

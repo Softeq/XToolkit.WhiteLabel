@@ -13,7 +13,7 @@ using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
-    public class DroidImagePickerService : Essentials.ImagePicker.IImagePickerService
+    public class DroidImagePickerService : IImagePickerService
     {
         private readonly IPermissionsManager _permissionsManager;
         private readonly IContextProvider _contextProvider;
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                 return null;
             }
 
-            return await GetImageAsync(ImagePickerActivity.GalleryMode, quality).ConfigureAwait(false);
+            return await GetImageAsync(ImagePickerMode.Gallery, quality).ConfigureAwait(false);
         }
 
         public async Task<ImagePickerResult?> TakePhotoAsync(float quality)
@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                 return null;
             }
 
-            return await GetImageAsync(ImagePickerActivity.CameraMode, quality).ConfigureAwait(false);
+            return await GetImageAsync(ImagePickerMode.Camera, quality).ConfigureAwait(false);
         }
 
         private async Task<ImagePickerResult> GetImageAsync(int mode, float quality)
@@ -71,7 +71,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             {
                 Quality = quality,
                 ImageObject = bitmap,
-                ImageExtension = ImageExtension.Jpg
+                ImageExtension = ImageExtension.Jpeg
             };
         }
 

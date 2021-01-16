@@ -11,7 +11,8 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
     {
         Unknown,
         Png,
-        Jpg
+        Jpg,
+        Jpeg
     }
 
     /// <summary>
