@@ -6,8 +6,8 @@ using Softeq.XToolkit.WhiteLabel.Model;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
-    public interface ITabbedViewModel
-    {
-        IList<TabbedItem> TabbedItems { get; }
-    }
+    //public interface ITabbedViewModel
+    //{
+    //    IList<TabbedItem> TabbedItems { get; }
+    //}
 }

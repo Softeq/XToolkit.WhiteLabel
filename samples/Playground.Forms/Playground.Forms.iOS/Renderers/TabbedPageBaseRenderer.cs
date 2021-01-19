@@ -1,9 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using CoreGraphics;
 using Playground.Forms.iOS.Renderers;
+using Softeq.XToolkit.Common.iOS.Extensions;
 using Softeq.XToolkit.WhiteLabel.Forms.Controls;
 using UIKit;
 using Xamarin.Forms;
@@ -41,34 +40,10 @@ namespace Playground.Forms.iOS.Renderers
             }
         }
 
-        private void UpdateItem(UITabBarItem item)
+        protected virtual void UpdateItem(UITabBarItem item)
         {
-            //Softeq.XToolkit.Common.iOS.Extensions
-
-            item.Image = MaxResizeImage(item.Image, 20, 20);
-            item.SelectedImage = MaxResizeImage(item.SelectedImage, 20, 20);
-        }
-
-        public UIImage MaxResizeImage(UIImage sourceImage, float maxWidth, float maxHeight)
-        {
-            var sourceSize = sourceImage.Size;
-            var maxResizeFactor = Math.Min(maxWidth / sourceSize.Width, maxHeight / sourceSize.Height);
-            if (maxResizeFactor > 1)
-            {
-                return sourceImage;
-            }
-
-            var width = maxResizeFactor * sourceSize.Width;
-            var height = maxResizeFactor * sourceSize.Height;
-
-            UIGraphics.BeginImageContext(new CGSize(width, height));
-
-            sourceImage.Draw(new CGRect(0, 0, width, height));
-            var resultImage = UIGraphics.GetImageFromCurrentImageContext();
-
-            UIGraphics.EndImageContext();
-
-            return resultImage;
+            //item.Image = UIImageExtensions.MaxResizeImage(item.Image, 20, 20);
+            //item.SelectedImage = UIImageExtensions.MaxResizeImage(item.SelectedImage, 20, 20);
         }
     }
 }

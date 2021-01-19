@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
@@ -40,9 +41,29 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         {
             var viewModelType = viewModel.GetType();
 
+            Console.WriteLine(viewModelType.FullName);
+
+            //var pageTypeName = string.Empty;
+
             var pageTypeName = viewModel is RootFrameNavigationViewModelBase
-                ? BuildRootFrameNavigationPageTypeName(viewModelType.FullName)
+                ? BuildRootFrameNavigationPageTypeName(viewModelType)
                 : BuildPageTypeName(viewModelType.FullName);
+
+            //switch (viewModel)
+            //{
+            //    case RootFrameNavigationViewModelBase rootFrame:
+            //        pageTypeName = BuildRootFrameNavigationPageTypeName(viewModelType.FullName);
+            //        break;
+
+            //    case TabViewModel tab:
+            //        pageTypeName = BuildTab(viewModelType);
+            //        break;
+
+            //    default:
+            //        pageTypeName = BuildPageTypeName(viewModelType.FullName);
+            //}
+
+            Console.WriteLine(pageTypeName);
 
             var pageType = Type.GetType(pageTypeName) ?? AssemblySource.FindTypeByNames(new[] { pageTypeName });
 
@@ -61,24 +82,42 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                 case IMasterDetailViewModel masterDetailViewModel:
                     await SetupMasterDetailsPage((MasterDetailPage) page, masterDetailViewModel);
                     break;
-                case ITabbedViewModel tabbedViewModel:
+                case ToolbarViewModelBase<string> tabbedViewModel:
                     await SetupTabbedPage((TabbedPage) page, tabbedViewModel);
                     break;
             }
         }
 
-        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName)
+        protected virtual string BuildRootFrameNavigationPageTypeName(Type? viewModelType)
         {
-            var name = viewModelTypeName
-                .Replace(".Mvvm.", ".Forms.Navigation.");
-            name = name.Remove(name.IndexOf("ViewModel"));
+            Console.WriteLine("virtual BuildRootFrameNavigationPageTypeName");
+
+            var name = viewModelType?.FullName ?? string.Empty;
+
+            if (name.Contains(".Tab."))
+            {
+                //name.Replace(".Tab.", ".Forms.Navigation.");
+                name = "Softeq.XToolkit.WhiteLabel.Forms.Navigation.RootFrameNavigationPage";
+            }
+            else
+            {
+                name = name.Replace(".Mvvm.", ".Forms.Navigation.").Remove(name.IndexOf("ViewModel"));
+            }
+
             return name;
         }
 
         protected virtual string BuildPageTypeName(string viewModelTypeName)
         {
+            Console.WriteLine("virtual BuildPageTypeName");
+
+            //var name = viewModelTypeName
+            //    .Replace(".ViewModels.", ".Forms.Views.")
+            //    .Replace("ViewModel", string.Empty);
+            //return name;
+
             var name = viewModelTypeName
-                .Replace(".ViewModels.", ".Forms.Views.")
+                .Replace(".ViewModels.", ".Views.")
                 .Replace("ViewModel", string.Empty);
             return name;
         }
@@ -107,13 +146,24 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         protected virtual async Task SetupTabbedPage(
             TabbedPage tabbedPage,
-            ITabbedViewModel tabbedViewModel)
+            ToolbarViewModelBase<string> tabbedViewModel)
         {
-            foreach (var tabItem in tabbedViewModel.TabbedItems)
+            //foreach (var tabItem in tabbedViewModel.TabbedItems)
+            //{
+            //    var tabPage = await GetPageAsync(tabItem.ViewModel);
+            //    tabPage.Title = tabItem.TabTitle;
+            //    tabPage.IconImageSource = tabItem.TabSourceImage;
+
+            //    tabbedPage.Children.Add(tabPage);
+            //}
+
+            tabbedViewModel.OnInitialize();
+
+            foreach (var tabModel in tabbedViewModel.TabViewModels)
             {
-                var tabPage = await GetPageAsync(tabItem.ViewModel);
-                tabPage.Title = tabItem.TabTitle;
-                tabPage.IconImageSource = tabItem.TabSourceImage;
+                var tabPage = await GetPageAsync(tabModel);
+                tabPage.Title = tabModel.Key;
+                //tabPage.IconImageSource = tabModel.TabSourceImage;
 
                 tabbedPage.Children.Add(tabPage);
             }
