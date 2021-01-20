@@ -42,8 +42,13 @@ namespace Playground.Forms.iOS.Renderers
 
         protected virtual void UpdateItem(UITabBarItem item)
         {
-            //item.Image = UIImageExtensions.MaxResizeImage(item.Image, 20, 20);
-            //item.SelectedImage = UIImageExtensions.MaxResizeImage(item.SelectedImage, 20, 20);
+            if (item.Image == null || item.SelectedImage == null)
+            {
+                return;
+            }
+
+            item.Image = UIImageExtensions.MaxResizeImage(item.Image, 20, 20);
+            item.SelectedImage = UIImageExtensions.MaxResizeImage(item.SelectedImage, 20, 20);
         }
     }
 }

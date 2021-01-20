@@ -18,7 +18,6 @@ using Softeq.XToolkit.WhiteLabel.Forms;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using Xamarin.Forms;
 
 namespace Playground.Forms
@@ -60,11 +59,7 @@ namespace Playground.Forms
 
             builder.PerDependency<TabbedPageViewModel>();
             builder.PerDependency<Tab1PageViewModel>();
-            //builder.PerDependency<RootFrameNavigationPageViewModel<Tab1PageViewModel>>();
-            //builder.PerDependency<TabViewModel<Tab1PageViewModel, string>>();
             builder.PerDependency<Tab2PageViewModel>();
-            //builder.PerDependency<RootFrameNavigationPageViewModel<Tab2PageViewModel>>();
-            //builder.PerDependency<TabViewModel<Tab2PageViewModel, string>>();
             builder.PerDependency<TabSubPageViewModel>();
             builder.PerDependency<SettingsTabPageViewModel>();
 
