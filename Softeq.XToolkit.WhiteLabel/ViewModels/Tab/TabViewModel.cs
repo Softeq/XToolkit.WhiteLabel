@@ -79,14 +79,14 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             Console.WriteLine($"typeof{FrameNavigationService}");
 
             // Check fast-backward nav by tab selected
-            //if (FrameNavigationService.IsEmptyBackStack)
-            //{
+            if (FrameNavigationService.IsEmptyBackStack)
+            {
                 FrameNavigationService.NavigateToViewModel<TFirstViewModel>(true);
-            //}
-            //else
-            //{
-            //    FrameNavigationService.NavigateToFirstPage();
-            //}
+            }
+            else
+            {
+                FrameNavigationService.NavigateToFirstPage();
+            }
 
             //FrameNavigationService.NavigateToViewModel<TFirstViewModel>(true);
         }

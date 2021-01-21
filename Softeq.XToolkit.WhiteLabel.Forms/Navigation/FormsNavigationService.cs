@@ -91,7 +91,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
             Execute.BeginOnUIThread(() =>
             {
-                if (clearBackStack)
+                if (clearBackStack && Navigation.NavigationStack.Count > 0)
                 {
                     var currentPage = Navigation.NavigationStack.First();
                     Navigation.InsertPageBefore(targetPage, currentPage);

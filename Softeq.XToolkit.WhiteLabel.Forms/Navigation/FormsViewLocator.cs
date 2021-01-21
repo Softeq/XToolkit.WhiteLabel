@@ -101,7 +101,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             NavigationPage navigationPage,
             RootFrameNavigationViewModelBase rootFrameNavigationViewModelBase)
         {
-            await navigationPage.PushAsync(new Page(), false);
+            //await navigationPage.PushAsync(new Page(), false);
             rootFrameNavigationViewModelBase.InitializeNavigation(navigationPage.Navigation);
             rootFrameNavigationViewModelBase.NavigateToFirstPage();
         }
