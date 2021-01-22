@@ -76,8 +76,6 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         /// <inheritdoc cref="IFrameNavigationService.NavigateToFirstPage()"/>
         public override void NavigateToFirstPage()
         {
-            Console.WriteLine($"typeof{FrameNavigationService}");
-
             // Check fast-backward nav by tab selected
             if (FrameNavigationService.IsEmptyBackStack)
             {
@@ -87,8 +85,6 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
             {
                 FrameNavigationService.NavigateToFirstPage();
             }
-
-            //FrameNavigationService.NavigateToViewModel<TFirstViewModel>(true);
         }
     }
 }

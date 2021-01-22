@@ -72,22 +72,23 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
         protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName)
         {
-            //string? name;
+            string? name;
 
-            //if (viewModelTypeName.Contains(".Tab."))
-            //{
-            //    name = RootFrameNavigationPagePath;
-            //}
-            //else
-            //{
-            //    name = viewModelTypeName.Replace(".Mvvm.", ".Forms.Navigation.");
-            //    name = name.Remove(name.IndexOf("ViewModel"));
-            //}
+            if (viewModelTypeName.Contains(".Tab."))
+            {
+                name = RootFrameNavigationPagePath;
+            }
+            else
+            {
+                name = viewModelTypeName.Replace(".Mvvm.", ".Forms.Navigation.");
+                name = name.Remove(name.IndexOf("ViewModel"));
+            }
 
-            //return name;
+            return name;
 
-            return RootFrameNavigationPagePath;
+            //return RootFrameNavigationPagePath;
         }
+        //protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName) => RootFrameNavigationPagePath;
 
         protected virtual string BuildPageTypeName(string viewModelTypeName)
         {
