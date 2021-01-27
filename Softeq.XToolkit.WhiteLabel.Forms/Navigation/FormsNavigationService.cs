@@ -96,10 +96,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                     var currentPage = Navigation.NavigationStack.First();
                     Navigation.InsertPageBefore(targetPage, currentPage);
                     Navigation.PopToRootAsync(false).FireAndForget(_logger);
+                    Console.WriteLine($"-= PopToRootAsync: {viewModelBase}");
                 }
                 else
                 {
                     Navigation.PushAsync(targetPage).FireAndForget(_logger);
+                    Console.WriteLine($"-= PushAsync: {viewModelBase}");
                 }
             });
         }

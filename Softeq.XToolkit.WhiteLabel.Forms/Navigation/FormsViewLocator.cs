@@ -43,13 +43,18 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         {
             var viewModelType = viewModel.GetType();
 
+            Console.WriteLine(viewModelType);
+
             var pageTypeName = viewModel is RootFrameNavigationViewModelBase
                 ? BuildRootFrameNavigationPageTypeName(viewModelType.FullName)
                 : BuildPageTypeName(viewModelType.FullName);
 
             var pageType = Type.GetType(pageTypeName) ?? AssemblySource.FindTypeByNames(new[] { pageTypeName });
+            var page = (Page) Activator.CreateInstance(pageType);
 
-            return (Page) Activator.CreateInstance(pageType);
+            Console.WriteLine($"CREATE PAGE: {page}");
+
+            return page;
         }
 
         protected virtual async Task SetupPage(Page page, object viewModel)
@@ -103,6 +108,8 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             RootFrameNavigationViewModelBase rootFrameNavigationViewModelBase)
         {
             //await navigationPage.PushAsync(new Page(), false);
+            Console.WriteLine($":SetupFrameNavigationPage: {navigationPage} {rootFrameNavigationViewModelBase}");
+
             rootFrameNavigationViewModelBase.InitializeNavigation(navigationPage.Navigation);
             rootFrameNavigationViewModelBase.NavigateToFirstPage();
         }
@@ -111,19 +118,25 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             MasterDetailPage masterDetailsPage,
             IMasterDetailViewModel masterDetailsViewModel)
         {
+            Console.WriteLine($":SetupMasterDetailsPage: {masterDetailsPage} {masterDetailsViewModel}");
+
             var masterPage = await GetPageAsync(masterDetailsViewModel.MasterViewModel);
             masterPage.Title = "Master Page";
             masterDetailsPage.Master = masterPage;
-            if (masterDetailsPage.Detail == null)
-            {
-                masterDetailsPage.Detail = new Page();
-            }
+
+            //if (masterDetailsPage.Detail == null)
+            //{
+            //    Console.WriteLine("Add new detail page(temp ?)");
+            //    masterDetailsPage.Detail = new NavigationPage();//Page();
+            //}
         }
 
         protected virtual async Task SetupTabbedPage(
             TabbedPage tabbedPage,
             ToolbarViewModelBase<string> tabbedViewModel)
         {
+            Console.WriteLine($":SetupTabbedPage: {tabbedPage} {tabbedViewModel}");
+
             tabbedViewModel.OnInitialize();
 
             foreach (var tabModel in tabbedViewModel.TabViewModels)

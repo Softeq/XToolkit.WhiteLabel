@@ -52,6 +52,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Behaviors
             if (_viewLocator != null && _parentRef != null)
             {
                 var view = await _viewLocator.GetPageAsync(SelectedDetail);
+
+                //await view.Navigation.PushAsync(new Page(), false);
+                System.Console.WriteLine($"Set detailed page: {view}, navigation stack: {view.Navigation.NavigationStack.Count}");
+
                 _parentRef.Target.Detail = view;
                 _parentRef.Target.IsPresented = false;
             }
