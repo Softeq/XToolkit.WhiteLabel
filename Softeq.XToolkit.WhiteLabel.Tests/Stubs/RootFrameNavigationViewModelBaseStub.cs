@@ -14,6 +14,6 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Stubs
         {
         }
 
-        public override void NavigateToFirstPage() => throw new NotImplementedException();
+        public override void NavigateToFirstPageAsync() => throw new NotImplementedException();
     }
 }

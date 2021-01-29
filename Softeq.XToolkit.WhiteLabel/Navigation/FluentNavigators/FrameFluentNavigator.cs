@@ -112,7 +112,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// </param>
         public void Navigate(bool clearBackStack = false)
         {
-            _navigationService.NavigateToViewModel<TViewModel>(clearBackStack, Parameters);
+            _navigationService.NavigateToViewModelAsync<TViewModel>(clearBackStack, Parameters);
         }
     }
 }

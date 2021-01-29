@@ -48,12 +48,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             get => Navigation.NavigationStack.Count != 0;
         }
 
-        public void NavigateToViewModel(
+        public async Task NavigateToViewModelAsync(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
         {
-            NavigateTask(viewModelBase, clearBackStack, parameters).FireAndForget(_logger);
+            await NavigateTaskAsync(viewModelBase, clearBackStack, parameters);
         }
 
         public void Initialize(object initParameter)
@@ -77,7 +77,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             Navigation.PopAsync().FireAndForget(_logger);
         }
 
-        private async Task NavigateTask(
+        private async Task NavigateTaskAsync(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
@@ -89,21 +89,27 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
             var targetPage = await _formsViewLocator.GetPageAsync(viewModelBase);
 
-            Execute.BeginOnUIThread(() =>
-            {
-                if (clearBackStack && Navigation.NavigationStack.Count > 0)
-                {
-                    var currentPage = Navigation.NavigationStack.First();
-                    Navigation.InsertPageBefore(targetPage, currentPage);
-                    Navigation.PopToRootAsync(false).FireAndForget(_logger);
-                    Console.WriteLine($"-= PopToRootAsync: {viewModelBase}");
-                }
-                else
-                {
-                    Navigation.PushAsync(targetPage).FireAndForget(_logger);
-                    Console.WriteLine($"-= PushAsync: {viewModelBase}");
-                }
-            });
+            await Execute.OnUIThreadAsync(async () =>
+           {
+               if (clearBackStack && Navigation.NavigationStack.Count > 0)
+               {
+                   var currentPage = Navigation.NavigationStack.First();
+                   Console.WriteLine($"-= current page: {currentPage} stack: {Navigation.NavigationStack.Count}");
+                   Navigation.InsertPageBefore(targetPage, currentPage);
+
+                   await Navigation.PopToRootAsync(false);
+
+                   Console.WriteLine($"-= PopToRootAsync: {viewModelBase} stack: {Navigation.NavigationStack.Count}");
+               }
+               else
+               {
+                   await Navigation.PushAsync(targetPage);
+
+                   Console.WriteLine($"-= PushAsync: {viewModelBase}  stack: {Navigation.NavigationStack.Count}");
+               }
+           });
+
+            Console.WriteLine("done");
         }
     }
 }

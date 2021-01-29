@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
@@ -48,7 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         /// <typeparam name="TViewModel">Type of view model.</typeparam>
         /// <param name="clearBackStack">The value indicating if we should clear backstack after navigating.</param>
         /// <param name="parameters">List of navigation parameters.</param>
-        void NavigateToViewModel<TViewModel>(
+        Task NavigateToViewModelAsync<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase;
@@ -56,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         /// <summary>
         ///     Navigates to the first page of the navigation stack.
         /// </summary>
-        void NavigateToFirstPage();
+        Task NavigateToFirstPageAsync();
 
         /// <summary>
         ///     Restores the last fragment after a switch between tabs or back navigation.

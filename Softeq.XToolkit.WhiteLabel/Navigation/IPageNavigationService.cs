@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
@@ -17,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         PageFluentNavigator<T> For<T>() where T : IViewModelBase;
 
-        void NavigateToViewModel<T>(
+        Task NavigateToViewModelAsync<T>(
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
             where T : IViewModelBase;

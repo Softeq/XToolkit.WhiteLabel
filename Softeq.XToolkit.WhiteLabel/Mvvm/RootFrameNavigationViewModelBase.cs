@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
@@ -49,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         /// <summary>
         ///     Creates the root page and navigates to it.
         /// </summary>
-        public abstract void NavigateToFirstPage();
+        public abstract Task NavigateToFirstPageAsync();
 
         /// <summary>
         ///     Restores the last fragment after a switch between tabs or back navigation.
@@ -63,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
             }
             else
             {
-                NavigateToFirstPage();
+                NavigateToFirstPageAsync();
             }
         }
     }

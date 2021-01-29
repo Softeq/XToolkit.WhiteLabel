@@ -44,9 +44,9 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Mvvm.RootFrameNavigationPageViewModel
         [Fact]
         public void NavigateToFirstPage_CallsNavigateAndClearsBackStack()
         {
-            _vm.NavigateToFirstPage();
+            _vm.NavigateToFirstPageAsync();
 
-            _frameNavigationService.Received(1).NavigateToViewModel<ViewModelStub>(
+            _frameNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
                 Arg.Is(true),
                 Arg.Is((IReadOnlyList<NavigationParameterModel>) null));
         }

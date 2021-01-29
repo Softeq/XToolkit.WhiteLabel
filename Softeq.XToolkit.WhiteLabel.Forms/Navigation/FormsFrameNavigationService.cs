@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -43,16 +44,16 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             throw new NotImplementedException();
         }
 
-        public void NavigateToViewModel<TViewModel>(
+        public async Task NavigateToViewModelAsync<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
         {
             var viewModel = _container.Resolve<TViewModel>();
-            _platformNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
+            await _platformNavigationService.NavigateToViewModelAsync(viewModel, clearBackStack, parameters);
         }
 
-        public void NavigateToFirstPage()
+        public async Task NavigateToFirstPageAsync()
         {
             throw new NotImplementedException();
         }

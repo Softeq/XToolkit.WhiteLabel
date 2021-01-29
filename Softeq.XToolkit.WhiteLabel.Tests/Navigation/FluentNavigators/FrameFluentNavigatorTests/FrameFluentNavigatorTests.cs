@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FrameFlue
         {
             _navigator.Navigate(clearBackStack);
 
-            _frameNavigationService.Received(1).NavigateToViewModel<ViewModelStub>(
+            _frameNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
                 Arg.Is(clearBackStack),
                 Arg.Is(_navigator.Parameters));
         }

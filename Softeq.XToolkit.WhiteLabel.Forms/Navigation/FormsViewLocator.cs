@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         {
             var viewModelType = viewModel.GetType();
 
-            Console.WriteLine(viewModelType);
+            Console.WriteLine($"ViewModel: {viewModelType}");
 
             var pageTypeName = viewModel is RootFrameNavigationViewModelBase
                 ? BuildRootFrameNavigationPageTypeName(viewModelType.FullName)
@@ -75,25 +75,26 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             }
         }
 
-        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName)
-        {
-            string? name;
+        //protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName)
+        //{
+        //    string? name;
 
-            if (viewModelTypeName.Contains(".Tab."))
-            {
-                name = RootFrameNavigationPagePath;
-            }
-            else
-            {
-                name = viewModelTypeName.Replace(".Mvvm.", ".Forms.Navigation.");
-                name = name.Remove(name.IndexOf("ViewModel"));
-            }
+        //    if (viewModelTypeName.Contains(".Tab."))
+        //    {
+        //        name = RootFrameNavigationPagePath;
+        //    }
+        //    else
+        //    {
+        //        name = viewModelTypeName.Replace(".Mvvm.", ".Forms.Navigation.");
+        //        name = name.Remove(name.IndexOf("ViewModel"));
+        //    }
 
-            return name;
+        //    return name;
 
-            //return RootFrameNavigationPagePath;
-        }
-        //protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName) => RootFrameNavigationPagePath;
+        //    //return RootFrameNavigationPagePath;
+        //}
+
+        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName) => RootFrameNavigationPagePath;
 
         protected virtual string BuildPageTypeName(string viewModelTypeName)
         {
@@ -107,11 +108,15 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             NavigationPage navigationPage,
             RootFrameNavigationViewModelBase rootFrameNavigationViewModelBase)
         {
+            //if (rootFrameNavigationViewModelBase is TabViewModel<)
+            //{
             //await navigationPage.PushAsync(new Page(), false);
+            //}
+
             Console.WriteLine($":SetupFrameNavigationPage: {navigationPage} {rootFrameNavigationViewModelBase}");
 
             rootFrameNavigationViewModelBase.InitializeNavigation(navigationPage.Navigation);
-            rootFrameNavigationViewModelBase.NavigateToFirstPage();
+            await rootFrameNavigationViewModelBase.NavigateToFirstPageAsync();
         }
 
         protected virtual async Task SetupMasterDetailsPage(
@@ -124,11 +129,10 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             masterPage.Title = "Master Page";
             masterDetailsPage.Master = masterPage;
 
-            //if (masterDetailsPage.Detail == null)
-            //{
-            //    Console.WriteLine("Add new detail page(temp ?)");
-            //    masterDetailsPage.Detail = new NavigationPage();//Page();
-            //}
+            if (masterDetailsPage.Detail == null)
+            {
+                masterDetailsPage.Detail = new Page();
+            }
         }
 
         protected virtual async Task SetupTabbedPage(

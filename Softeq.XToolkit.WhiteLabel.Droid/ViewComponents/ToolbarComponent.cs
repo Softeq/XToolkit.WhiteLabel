@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 
             if (newSelectedIndex == viewModel.SelectedIndex) // fast-backward nav
             {
-                selectedTabViewModel.NavigateToFirstPage();
+                selectedTabViewModel.NavigateToFirstPageAsync();
             }
             else
             {

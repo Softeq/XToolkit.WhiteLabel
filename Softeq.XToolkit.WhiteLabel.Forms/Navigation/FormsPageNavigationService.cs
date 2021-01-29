@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -39,13 +40,13 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             return new PageFluentNavigator<T>(this);
         }
 
-        public void NavigateToViewModel<T>(
+        public async Task NavigateToViewModelAsync<T>(
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
             where T : IViewModelBase
         {
             var viewModel = _container.Resolve<T>();
-            _platformNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
+            await _platformNavigationService.NavigateToViewModelAsync(viewModel, clearBackStack, parameters);
         }
     }
 }

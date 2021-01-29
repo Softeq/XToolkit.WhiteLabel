@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.PageFluen
         {
             _navigator.Navigate(clearBackStack);
 
-            _pageNavigationService.Received(1).NavigateToViewModel<ViewModelStub>(
+            _pageNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
                 Arg.Is(clearBackStack),
                 Arg.Is(_navigator.Parameters));
         }

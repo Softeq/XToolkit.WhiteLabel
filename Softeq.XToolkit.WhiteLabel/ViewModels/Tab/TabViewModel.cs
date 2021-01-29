@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -73,17 +74,17 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         {
         }
 
-        /// <inheritdoc cref="IFrameNavigationService.NavigateToFirstPage()"/>
-        public override void NavigateToFirstPage()
+        /// <inheritdoc cref="IFrameNavigationService.NavigateToFirstPageAsync()"/>
+        public override async Task NavigateToFirstPageAsync()
         {
             // Check fast-backward nav by tab selected
             if (FrameNavigationService.IsEmptyBackStack)
             {
-                FrameNavigationService.NavigateToViewModel<TFirstViewModel>(true);
+                await FrameNavigationService.NavigateToViewModelAsync<TFirstViewModel>(true);
             }
             else
             {
-                FrameNavigationService.NavigateToFirstPage();
+                await FrameNavigationService.NavigateToFirstPageAsync();
             }
         }
     }
