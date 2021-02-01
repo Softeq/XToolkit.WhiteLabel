@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using Playground.Forms.Remote.ViewModels;
 using Playground.Forms.ViewModels.Components;
 using Playground.Forms.ViewModels.Dialogs;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
@@ -35,6 +36,7 @@ namespace Playground.Forms.ViewModels
                     new CommandAction(new RelayCommand(Permissions), "Permissions"),
                     new CommandAction(new RelayCommand(Validation), "Validation"),
                     new CommandAction(new RelayCommand(PaginationSearch), "Pagination Search"),
+                    new CommandAction(new RelayCommand(Remote), "Remote")
                 });
         }
 
@@ -99,6 +101,13 @@ namespace Playground.Forms.ViewModels
         {
             _pageNavigationService
                 .For<PaginationSearchPageViewModel>()
+                .Navigate();
+        }
+
+        private void Remote()
+        {
+            _pageNavigationService
+                .For<RemotePageViewModel>()
                 .Navigate();
         }
     }

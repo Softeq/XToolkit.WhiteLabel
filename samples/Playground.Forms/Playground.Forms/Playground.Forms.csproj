@@ -6,12 +6,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="4.8.0.1687" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj" />
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Forms\Softeq.XToolkit.WhiteLabel.Forms.csproj" />
+    <ProjectReference Include="..\..\Playground.RemoteData\Playground.RemoteData.csproj" />
   </ItemGroup>
 
   <ItemGroup>

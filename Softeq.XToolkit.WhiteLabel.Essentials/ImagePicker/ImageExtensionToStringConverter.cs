@@ -14,6 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
             {
                 ImageExtension.Png => ".png",
                 ImageExtension.Jpg => ".jpg",
+                ImageExtension.Jpeg => ".jpeg",
                 ImageExtension.Unknown => null,
                 _ => throw new ArgumentOutOfRangeException(nameof(extension), extension, null)
             };
@@ -31,9 +32,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
                 return ImageExtension.Png;
             }
 
-            if (value.Contains(".jpg") || value.Contains(".jpeg"))
+            if (value.Contains(".jpg"))
             {
                 return ImageExtension.Jpg;
+            }
+
+            if (value.Contains(".jpeg"))
+            {
+                return ImageExtension.Jpeg;
             }
 
             return ImageExtension.Unknown;

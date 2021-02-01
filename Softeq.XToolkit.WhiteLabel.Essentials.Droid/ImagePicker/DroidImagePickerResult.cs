@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             Stream memoryStream = new MemoryStream();
             if (ImageObject is Bitmap bitmap)
             {
-                var compressFormat = ImageExtension == ImageExtension.Jpg
+                var compressFormat = (ImageExtension == ImageExtension.Jpeg || ImageExtension == ImageExtension.Jpg)
                     ? CompressFormat.Jpeg
                     : CompressFormat.Png;
 

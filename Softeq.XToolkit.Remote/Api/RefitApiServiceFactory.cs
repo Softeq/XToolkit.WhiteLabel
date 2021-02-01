@@ -12,6 +12,13 @@ namespace Softeq.XToolkit.Remote.Api
     /// </summary>
     public class RefitApiServiceFactory : IApiServiceFactory
     {
+        private readonly RefitSettings? _settings;
+
+        public RefitApiServiceFactory(RefitSettings? settings = null)
+        {
+            _settings = settings;
+        }
+
         public TApiService CreateService<TApiService>(HttpClient httpClient)
         {
             if (httpClient == null)
@@ -19,7 +26,7 @@ namespace Softeq.XToolkit.Remote.Api
                 throw new ArgumentNullException(nameof(httpClient));
             }
 
-            return RestService.For<TApiService>(httpClient);
+            return RestService.For<TApiService>(httpClient, _settings);
         }
     }
 }

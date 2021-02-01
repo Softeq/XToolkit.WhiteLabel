@@ -1,6 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Threading;
@@ -36,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
         ///     Application developers override this method to perform actions when the application start was completed.
         /// </summary>
         /// <param name="container">
-        ///     IoC container, configured by bootstrapper
+        ///     IoC container, configured by bootstrapper.
         /// </param>
         protected virtual void OnStarted(IContainer container)
         {
@@ -54,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms
                     Dependencies.Initialize(container);
                     Execute.BeginOnUIThread(() => OnStarted(container));
                 }
-            }).FireAndForget();
+            }).FireAndForget(Console.WriteLine);
         }
     }
 }

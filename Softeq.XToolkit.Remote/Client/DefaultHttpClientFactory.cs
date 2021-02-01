@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Remote.Client
         /// <inheritdoc />
         public virtual HttpClient CreateClient(string baseUrl, ILogger? logger = null)
         {
-            var builder = new HttpClientBuilder(baseUrl);
+            var builder = new HttpClientBuilder().WithBaseUrl(baseUrl);
 
             if (logger != null)
             {
@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.Remote.Client
             ISessionContext sessionContext,
             ILogger? logger = null)
         {
-            var builder = new HttpClientBuilder(baseUrl);
+            var builder = new HttpClientBuilder().WithBaseUrl(baseUrl);
 
             if (logger != null)
             {

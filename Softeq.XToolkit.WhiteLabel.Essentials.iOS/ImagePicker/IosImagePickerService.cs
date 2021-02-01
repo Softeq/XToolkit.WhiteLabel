@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
             {
                 ImageObject = image,
                 Quality = quality,
-                ImageExtension = ImageExtension.Jpg
+                ImageExtension = ImageExtension.Jpeg
             };
         }
 

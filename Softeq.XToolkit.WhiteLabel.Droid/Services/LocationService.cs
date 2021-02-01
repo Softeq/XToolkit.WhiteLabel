@@ -36,8 +36,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
         public Task<LocationModel?> GetCurrentLocation()
         {
             var tcs = new TaskCompletionSource<LocationModel?>();
-            _locationManagerLazy.Value.RequestLocationUpdates(_providerName, 0, 0,
-                new LocationListener(_locationManagerLazy.Value, tcs));
+            _contextProvider.CurrentActivity.RunOnUiThread(() =>
+                _locationManagerLazy.Value.RequestLocationUpdates(
+                    _providerName,
+                    0,
+                    0,
+                    new LocationListener(_locationManagerLazy.Value, tcs)));
             return tcs.Task;
         }
 
@@ -54,7 +58,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
                 _tcs = tcs;
             }
 
-            public void OnLocationChanged(Android.Locations.Location location)
+            public void OnLocationChanged(Android.Locations.Location? location)
             {
                 if (_tcs == null)
                 {
@@ -72,15 +76,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
                 _tcs = null;
             }
 
-            public void OnProviderDisabled(string provider)
+            public void OnProviderDisabled(string? provider)
             {
             }
 
-            public void OnProviderEnabled(string provider)
+            public void OnProviderEnabled(string? provider)
             {
             }
 
-            public void OnStatusChanged(string provider, [GeneratedEnum] Availability status, Bundle extras)
+            public void OnStatusChanged(string? provider, [GeneratedEnum] Availability status, Bundle? extras)
             {
             }
         }

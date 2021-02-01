@@ -2,33 +2,34 @@
 // http://www.softeq.com
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Graphics;
-using Android.Media;
 using Android.OS;
 using Android.Provider;
 using Android.Runtime;
 using AndroidX.Core.Content;
 using Java.IO;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using AUri = Android.Net.Uri;
-using Debug = System.Diagnostics.Debug;
 using ImageOrientation = Android.Media.Orientation;
 using IOException = System.IO.IOException;
-using Stream = System.IO.Stream;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
+    public static class ImagePickerMode
+    {
+        public const int Camera = 1;
+        public const int Gallery = 2;
+    }
+
     [Activity]
     internal class ImagePickerActivity : Activity
     {
         public const string ModeKey = "Mode";
-        public const int CameraMode = 1;
-        public const int GalleryMode = 2;
 
         private const string ImagesFolder = "Pictures";
         private const string CameraFileUriKey = "CameraFileUri";
@@ -38,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         public static event EventHandler<Bitmap?>? ImagePicked;
 
-        protected Context CurrentContext
+        private Context CurrentContext
         {
             get
             {
@@ -66,10 +67,10 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             {
                 switch (Intent.GetIntExtra(ModeKey, default))
                 {
-                    case CameraMode:
+                    case ImagePickerMode.Camera:
                         CaptureCamera();
                         break;
-                    case GalleryMode:
+                    case ImagePickerMode.Gallery:
                         PickImage();
                         break;
                 }
@@ -96,41 +97,31 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
         {
-            Bitmap? bitmap = null;
+            HandleOnActivityResult(requestCode, resultCode, data).FireAndForget();
+        }
 
-            if (resultCode != Result.Ok)
+        private async Task HandleOnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        {
+            var handler = Dependencies.Container.Resolve<IImagePickerActivityResultHandler>();
+
+            if (requestCode == ImagePickerMode.Camera)
             {
-                OnImagePicked(null);
-                return;
+                var bitmap = await handler
+                    .HandleImagePickerCameraResultAsync(this, resultCode, _fileUri)
+                    .ConfigureAwait(false);
+                OnImagePicked(bitmap);
             }
-
-            var uri = requestCode switch
+            else if (requestCode == ImagePickerMode.Gallery)
             {
-                CameraMode => _fileUri,
-                GalleryMode => data?.Data,
-                _ => null
-            };
-
-            var context = CurrentContext;
-
-            if (uri != null)
-            {
-                bitmap = MediaStore.Images.Media.GetBitmap(context.ContentResolver, uri);
-
-                if (Build.VERSION.SdkInt >= BuildVersionCodes.N)
-                {
-                    using (var stream = GetContentStream(context, uri))
-                    {
-                        bitmap = FixRotation(bitmap, new ExifInterface(stream)).Result;
-                    }
-                }
-                else
-                {
-                    bitmap = FixRotation(bitmap, new ExifInterface(uri.ToString())).Result;
-                }
+                var bitmap = await handler
+                    .HandleImagePickerGalleryResultAsync(this, resultCode, data)
+                    .ConfigureAwait(false);
+                OnImagePicked(bitmap);
             }
-
-            OnImagePicked(bitmap);
+            else
+            {
+                handler.HandleCustomResultAsync(requestCode, resultCode, data).FireAndForget();
+            }
         }
 
         private void OnImagePicked(Bitmap? bitmap)
@@ -145,86 +136,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             _fileUri = GetOutputMediaFile(CurrentContext, ImagesFolder, null);
 
             _pickIntent.PutExtra(MediaStore.ExtraOutput, _fileUri);
-            StartActivityForResult(_pickIntent, CameraMode);
+            StartActivityForResult(_pickIntent, ImagePickerMode.Camera);
         }
 
         private void PickImage()
         {
             _pickIntent = new Intent(Intent.ActionPick);
             _pickIntent.SetType("image/*");
-            StartActivityForResult(_pickIntent, GalleryMode);
-        }
-
-        private Task<Bitmap> FixRotation(Bitmap originalImage, ExifInterface exif)
-        {
-            return Task.Run(() =>
-            {
-                var rotation = GetRotation(exif);
-                if (rotation == 0)
-                {
-                    return originalImage;
-                }
-
-                return RotateImage(originalImage, rotation);
-            });
-        }
-
-        [SuppressMessage("ReSharper", "RedundantCatchClause")]
-        private int GetRotation(ExifInterface exif)
-        {
-            if (exif == null)
-            {
-                return 0;
-            }
-
-            try
-            {
-                var orientation = (ImageOrientation) exif.GetAttributeInt(
-                    ExifInterface.TagOrientation,
-                    (int) ImageOrientation.Normal);
-
-                return orientation switch
-                {
-                    ImageOrientation.Rotate90 => 90,
-                    ImageOrientation.Rotate180 => 180,
-                    ImageOrientation.Rotate270 => 270,
-                    _ => 0
-                };
-            }
-            catch (Exception)
-            {
-#if DEBUG
-                throw;
-#else
-                return 0;
-#endif
-            }
-        }
-
-        private Bitmap RotateImage(Bitmap originalImage, float degrees)
-        {
-            var matrix = new Matrix();
-            matrix.PostRotate(degrees);
-            var rotatedImage = Bitmap.CreateBitmap(originalImage, 0, 0, originalImage.Width, originalImage.Height, matrix, true);
-            originalImage.Recycle();
-            originalImage.Dispose();
-            GC.Collect();
-            return rotatedImage;
-        }
-
-        private Stream GetContentStream(Context context, AUri uri)
-        {
-            var stream = Stream.Null;
-            try
-            {
-                stream = context.ContentResolver.OpenInputStream(uri);
-            }
-            catch (FileNotFoundException ex)
-            {
-                Debug.WriteLine("Unable to save picked file from disk " + ex);
-            }
-
-            return stream;
+            StartActivityForResult(_pickIntent, ImagePickerMode.Gallery);
         }
 
         private AUri GetOutputMediaFile(Context context, string subdir, string? name)

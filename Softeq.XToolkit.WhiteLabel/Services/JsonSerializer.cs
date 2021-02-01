@@ -12,12 +12,22 @@ namespace Softeq.XToolkit.WhiteLabel.Services
 {
     public class JsonSerializer : IJsonSerializer
     {
-        protected virtual JsonSerializerSettings Settings { get; } = new JsonSerializerSettings
+        private readonly JsonSerializerSettings _settings;
+
+        public JsonSerializer(JsonSerializerSettings? settings = null)
+        {
+            _settings = settings ?? DefaultSettings;
+        }
+
+        public static JsonSerializerSettings DefaultSettings { get; } = new JsonSerializerSettings
         {
             Formatting = Formatting.None,
             TypeNameHandling = TypeNameHandling.None,
             NullValueHandling = NullValueHandling.Ignore,
-            ContractResolver = new DefaultContractResolver { NamingStrategy = new CamelCaseNamingStrategy() },
+            ContractResolver = new DefaultContractResolver
+            {
+                NamingStrategy = new CamelCaseNamingStrategy()
+            },
             DateFormatHandling = DateFormatHandling.IsoDateFormat,
             DateTimeZoneHandling = DateTimeZoneHandling.Utc
         };
@@ -25,14 +35,14 @@ namespace Softeq.XToolkit.WhiteLabel.Services
         /// <inheritdoc />
         public string Serialize(object value)
         {
-            return JsonConvert.SerializeObject(value, Settings);
+            return JsonConvert.SerializeObject(value, _settings);
         }
 
         /// <inheritdoc />
         [return:MaybeNull]
         public T Deserialize<T>(string value)
         {
-            return JsonConvert.DeserializeObject<T>(value, Settings);
+            return JsonConvert.DeserializeObject<T>(value, _settings);
         }
 
         /// <inheritdoc />
@@ -43,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
                 using (var streamWriter = new StreamWriter(stream))
                 using (var jsonTextWriter = new JsonTextWriter(streamWriter))
                 {
-                    var serializer = Newtonsoft.Json.JsonSerializer.Create(Settings);
+                    var serializer = Newtonsoft.Json.JsonSerializer.Create(_settings);
                     serializer.Serialize(jsonTextWriter, value);
                 }
             });
@@ -58,7 +68,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
                 using (var streamReader = new StreamReader(stream))
                 using (var jsonTextReader = new JsonTextReader(streamReader))
                 {
-                    var serializer = Newtonsoft.Json.JsonSerializer.Create(Settings);
+                    var serializer = Newtonsoft.Json.JsonSerializer.Create(_settings);
                     return serializer.Deserialize<T>(jsonTextReader)!;
                 }
             });

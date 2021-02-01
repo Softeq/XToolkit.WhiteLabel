@@ -18,9 +18,16 @@ namespace Softeq.XToolkit.Remote
         private readonly IApiServiceFactory _apiServiceFactory;
         private readonly IExecutorBuilderFactory _executorBuilderFactory;
 
-        public RemoteServiceFactory()
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RemoteServiceFactory"/> class.
+        /// </summary>
+        /// <param name="apiServiceFactory">
+        ///     Instance of <see cref="IApiServiceFactory"/>.
+        ///     Default value is <see cref="RefitApiServiceFactory"/>.
+        /// </param>
+        public RemoteServiceFactory(IApiServiceFactory? apiServiceFactory = null)
         {
-            _apiServiceFactory = new RefitApiServiceFactory();
+            _apiServiceFactory = apiServiceFactory ?? new RefitApiServiceFactory();
             _executorBuilderFactory = new DefaultExecutorBuilderFactory();
         }
 
@@ -32,7 +39,7 @@ namespace Softeq.XToolkit.Remote
                 throw new ArgumentNullException(nameof(baseUrl), "Parameter can't be null or empty.");
             }
 
-            var httpClient = new HttpClientBuilder(baseUrl).Build();
+            var httpClient = new HttpClientBuilder().WithBaseUrl(baseUrl).Build();
 
             return Create<T>(httpClient);
         }
