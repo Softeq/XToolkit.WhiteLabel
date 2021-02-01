@@ -7,6 +7,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
+using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
@@ -19,15 +21,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     [Obsolete("Use DroidFrameNavigationService instead.")]
     public class FrameNavigationService : IFrameNavigationService
     {
+        private readonly ILogger _logger;
         private readonly Stack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
         private int _containerId;
 
-        public FrameNavigationService(IViewLocator viewLocator, IContainer iocContainer)
+        public FrameNavigationService(IViewLocator viewLocator, IContainer iocContainer, ILogManager logManager)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
+            _logger = logManager.GetLogger<FrameNavigationService>();
             _backStack = new Stack<(IViewModelBase ViewModel, Fragment Fragment)>();
         }
 
@@ -136,7 +140,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(navigationParameters);
-            NavigateToViewModelAsync(viewModel);
+            NavigateToViewModelAsync(viewModel).FireAndForget(_logger);
         }
 
         internal Fragment GetTopFragment()

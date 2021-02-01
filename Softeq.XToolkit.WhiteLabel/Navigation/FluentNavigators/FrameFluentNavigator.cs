@@ -4,6 +4,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
@@ -15,12 +17,16 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
     public class FrameFluentNavigator<TViewModel> : FluentNavigatorBase<TViewModel> where TViewModel : IViewModelBase
     {
         private readonly IFrameNavigationService _navigationService;
+        private readonly ILogger _logger;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="FrameFluentNavigator{TViewModel}"/> class.
         /// </summary>
         /// <param name="navigationService">
         ///     The <see cref="IFrameNavigationService"/> implementation that will be used for navigation.
+        /// </param>
+        /// <param name="logManager">
+        ///     The <see cref="ILogManager"/> implementation that will be used for Logger.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="navigationService"/> cannot be <see langword="null"/>.
@@ -29,6 +35,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         {
             _navigationService = navigationService
                 ?? throw new ArgumentNullException(nameof(navigationService));
+
+            _logger = Dependencies.Container.Resolve<ILogManager>().GetLogger<FrameFluentNavigator<TViewModel>>();
         }
 
         /// <summary>
@@ -112,7 +120,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// </param>
         public void Navigate(bool clearBackStack = false)
         {
-            _navigationService.NavigateToViewModelAsync<TViewModel>(clearBackStack, Parameters);
+            _navigationService.NavigateToViewModelAsync<TViewModel>(clearBackStack, Parameters).FireAndForget(_logger);
         }
     }
 }

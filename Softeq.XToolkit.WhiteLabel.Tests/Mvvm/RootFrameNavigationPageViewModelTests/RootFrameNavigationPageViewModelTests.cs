@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NSubstitute;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -42,11 +43,11 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Mvvm.RootFrameNavigationPageViewModel
         }
 
         [Fact]
-        public void NavigateToFirstPage_CallsNavigateAndClearsBackStack()
+        public async Task NavigateToFirstPageAsync_CallsNavigateAndClearsBackStack()
         {
-            _vm.NavigateToFirstPageAsync();
+            await _vm.NavigateToFirstPageAsync();
 
-            _frameNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
+            await _frameNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
                 Arg.Is(true),
                 Arg.Is((IReadOnlyList<NavigationParameterModel>) null));
         }

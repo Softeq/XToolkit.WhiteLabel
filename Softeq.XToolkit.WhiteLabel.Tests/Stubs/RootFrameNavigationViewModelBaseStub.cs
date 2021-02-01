@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -14,6 +15,6 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Stubs
         {
         }
 
-        public override void NavigateToFirstPageAsync() => throw new NotImplementedException();
+        public override Task NavigateToFirstPageAsync() => throw new NotImplementedException();
     }
 }

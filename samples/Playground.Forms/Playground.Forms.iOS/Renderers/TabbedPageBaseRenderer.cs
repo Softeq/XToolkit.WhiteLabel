@@ -13,6 +13,8 @@ namespace Playground.Forms.iOS.Renderers
 {
     public class TabbedPageBaseRenderer : TabbedRenderer
     {
+        private const int IconSideSize = 20;
+
         public static void Initialize()
         {
         }
@@ -35,20 +37,27 @@ namespace Playground.Forms.iOS.Renderers
             {
                 for (int i = 0; i < TabBar.Items.Length; i++)
                 {
-                    UpdateItem(TabBar.Items[i]);
+                    UpdateItemIconSize(TabBar.Items[i]);
                 }
             }
         }
 
-        protected virtual void UpdateItem(UITabBarItem item)
+        protected virtual void UpdateItemIconSize(UITabBarItem item)
         {
-            if (item.Image == null || item.SelectedImage == null)
+            if (item.Image != null &&
+               (item.Image.Size.Width != IconSideSize ||
+                item.Image.Size.Height != IconSideSize))
             {
-                return;
+                item.Image = UIImageExtensions.MaxResizeImage(item.Image, IconSideSize, IconSideSize);
             }
 
-            item.Image = UIImageExtensions.MaxResizeImage(item.Image, 20, 20);
-            item.SelectedImage = UIImageExtensions.MaxResizeImage(item.SelectedImage, 20, 20);
+            if (item.SelectedImage != null &&
+               (item.SelectedImage.Size.Width != IconSideSize ||
+                item.SelectedImage.Size.Height != IconSideSize))
+            {
+                item.SelectedImage = UIImageExtensions.MaxResizeImage(item.SelectedImage, IconSideSize, IconSideSize);
+            }
+
         }
     }
 }

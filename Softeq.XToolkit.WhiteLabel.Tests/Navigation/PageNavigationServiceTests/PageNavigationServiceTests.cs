@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NSubstitute;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -32,7 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
         }
 
         [Fact]
-        public void NavigateToViewModel_BackStackShouldCleared()
+        public async Task NavigateToViewModel_BackStackShouldCleared()
         {
             // Action
             _pageNavigationService
@@ -40,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
                 .Navigate(true);
 
             // Assert
-            _platformNavService.Received(1).NavigateToViewModel(
+            await _platformNavService.Received(1).NavigateToViewModelAsync(
                 Arg.Any<ViewModelBase>(),
                 Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
@@ -49,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
         }
 
         [Fact]
-        public void NavigateToViewModel_BackStackShouldNotBeCleared()
+        public async Task NavigateToViewModel_BackStackShouldNotBeCleared()
         {
             // Action
             _pageNavigationService
@@ -57,7 +58,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
                 .Navigate();
 
             // Assert
-            _platformNavService.Received(1).NavigateToViewModel(
+            await _platformNavService.Received(1).NavigateToViewModelAsync(
                 Arg.Any<ViewModelBase>(),
                 Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
@@ -102,14 +103,14 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
         }
 
         [Fact]
-        public void
+        public async Task
             NavigateThroughForMethodWithoutParameterAndClearingBackStack_ShouldHandleAsNavigateToViewModeMethod()
         {
             // Action
             _pageNavigationService.For<ViewModelStub>().Navigate();
 
             // Assert
-            _platformNavService.Received(1).NavigateToViewModel(
+            await _platformNavService.Received(1).NavigateToViewModelAsync(
                 Arg.Any<ViewModelBase>(),
                 Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
@@ -118,14 +119,14 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
         }
 
         [Fact]
-        public void
+        public async Task
             NavigateThroughForMethodWithoutParameterWithClearingBackStack_ShouldHandleAsNavigateToViewModeMethod()
         {
             // Action
             _pageNavigationService.For<ViewModelStub>().Navigate(true);
 
             // Assert
-            _platformNavService.Received(1).NavigateToViewModel(
+            await _platformNavService.Received(1).NavigateToViewModelAsync(
                 Arg.Any<ViewModelBase>(),
                 Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
@@ -134,13 +135,13 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
         }
 
         [Fact]
-        public void ExecuteForMethod_ShouldNotExecuteAnything()
+        public async Task ExecuteForMethod_ShouldNotExecuteAnything()
         {
             // Action
             _pageNavigationService.For<ViewModelStub>();
 
             // Assert
-            _platformNavService.DidNotReceive().NavigateToViewModel(
+            await _platformNavService.DidNotReceive().NavigateToViewModelAsync(
                 Arg.Any<ViewModelBase>(),
                 Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());
@@ -149,7 +150,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
         }
 
         [Fact]
-        public void NavigateWithForWithParameter_ShouldSetParametersProperly()
+        public async Task NavigateWithForWithParameter_ShouldSetParametersProperly()
         {
             // Action
             _pageNavigationService.For<ViewModelStub>()
@@ -159,7 +160,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
                 .Navigate();
 
             // Assert
-            _platformNavService.Received(1).NavigateToViewModel(
+            await _platformNavService.Received(1).NavigateToViewModelAsync(
                 Arg.Any<ViewModelBase>(),
                 Arg.Any<bool>(),
                 Arg.Any<IReadOnlyList<NavigationParameterModel>>());

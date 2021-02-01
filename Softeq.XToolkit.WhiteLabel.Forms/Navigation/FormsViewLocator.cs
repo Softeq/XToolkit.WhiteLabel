@@ -12,8 +12,6 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 {
     public class FormsViewLocator : IFormsViewLocator
     {
-        public const string RootFrameNavigationPagePath = "Softeq.XToolkit.WhiteLabel.Forms.Navigation.RootFrameNavigationPage";
-
         public INavigation? FindNavigationForViewModel(INavigation navigation, object viewModel)
         {
             foreach (var page in navigation.NavigationStack)
@@ -68,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             }
         }
 
-        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName) => RootFrameNavigationPagePath;
+        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName) => typeof(RootFrameNavigationPage).FullName;
 
         protected virtual string BuildPageTypeName(string viewModelTypeName)
         {

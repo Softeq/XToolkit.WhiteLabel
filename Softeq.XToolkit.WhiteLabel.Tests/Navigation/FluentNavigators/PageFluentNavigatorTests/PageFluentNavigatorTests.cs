@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NSubstitute;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -38,11 +39,11 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.PageFluen
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void Navigate_NavigatesToTheSpecifiedViewModelWithSpecifiedParams(bool clearBackStack)
+        public async Task Navigate_NavigatesToTheSpecifiedViewModelWithSpecifiedParamsAsync(bool clearBackStack)
         {
             _navigator.Navigate(clearBackStack);
 
-            _pageNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
+            await _pageNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
                 Arg.Is(clearBackStack),
                 Arg.Is(_navigator.Parameters));
         }
