@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
 using Android.Content;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
@@ -58,13 +59,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             });
         }
 
-        public void NavigateToViewModel(
+        public Task NavigateToViewModelAsync(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
         {
             var type = _viewLocator.GetTargetType(viewModelBase.GetType(), ViewType.Activity);
             StartActivityImpl(type, clearBackStack, parameters);
+            return Task.CompletedTask;
         }
 
         private void StartActivityImpl(

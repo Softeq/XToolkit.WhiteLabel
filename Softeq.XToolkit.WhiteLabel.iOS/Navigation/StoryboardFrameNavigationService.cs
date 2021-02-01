@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -30,14 +31,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         bool IFrameNavigationService.CanGoBack => CanGoBack;
 
-        public virtual void NavigateToViewModel<TViewModel>(
+        public virtual Task NavigateToViewModelAsync<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
         {
             var viewModel = CreateViewModel<TViewModel>();
 
-            NavigateToViewModel(viewModel, clearBackStack, parameters);
+            return NavigateToViewModelAsync(viewModel, clearBackStack, parameters);
         }
 
         void IFrameNavigationService.GoBack()
@@ -75,8 +76,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
         }
 
-        void IFrameNavigationService.NavigateToFirstPage()
+        Task IFrameNavigationService.NavigateToFirstPageAsync()
         {
+            return Task.CompletedTask;
         }
 
         protected virtual IViewModelBase CreateViewModel<TViewModel>()

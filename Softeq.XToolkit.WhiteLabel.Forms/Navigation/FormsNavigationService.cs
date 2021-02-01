@@ -43,10 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             }
         }
 
-        public bool CanGoBack
-        {
-            get => Navigation.NavigationStack.Count != 0;
-        }
+        public bool CanGoBack => Navigation.NavigationStack.Count != 0;
 
         public async Task NavigateToViewModelAsync(
             IViewModelBase viewModelBase,
@@ -90,26 +87,19 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             var targetPage = await _formsViewLocator.GetPageAsync(viewModelBase);
 
             await Execute.OnUIThreadAsync(async () =>
-           {
-               if (clearBackStack && Navigation.NavigationStack.Count > 0)
-               {
-                   var currentPage = Navigation.NavigationStack.First();
-                   Console.WriteLine($"-= current page: {currentPage} stack: {Navigation.NavigationStack.Count}");
-                   Navigation.InsertPageBefore(targetPage, currentPage);
+            {
+                if (clearBackStack && Navigation.NavigationStack.Count > 0)
+                {
+                    var currentPage = Navigation.NavigationStack.First();
+                    Navigation.InsertPageBefore(targetPage, currentPage);
 
-                   await Navigation.PopToRootAsync(false);
-
-                   Console.WriteLine($"-= PopToRootAsync: {viewModelBase} stack: {Navigation.NavigationStack.Count}");
-               }
-               else
-               {
-                   await Navigation.PushAsync(targetPage);
-
-                   Console.WriteLine($"-= PushAsync: {viewModelBase}  stack: {Navigation.NavigationStack.Count}");
-               }
-           });
-
-            Console.WriteLine("done");
+                    await Navigation.PopToRootAsync(false);
+                }
+                else
+                {
+                    await Navigation.PushAsync(targetPage);
+                }
+            });
         }
     }
 }

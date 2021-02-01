@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Common.Threading;
@@ -97,7 +98,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             RestoreNavigation();
         }
 
-        public virtual void NavigateToViewModel<TViewModel>(
+        public virtual Task NavigateToViewModelAsync<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
@@ -112,20 +113,22 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
 
             NavigateInternal(fragment, viewModel);
+
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />
-        public void NavigateToFirstPage()
+        public Task NavigateToFirstPageAsync()
         {
-            if (IsEmptyBackStack)
+            if (!IsEmptyBackStack)
             {
-                return;
+                var fragment = _backStack.ResetToFirst();
+                var viewModel = ExtractViewModel(fragment);
+
+                NavigateInternal(fragment, viewModel);
             }
 
-            var fragment = _backStack.ResetToFirst();
-            var viewModel = ExtractViewModel(fragment);
-
-            NavigateInternal(fragment, viewModel);
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />
