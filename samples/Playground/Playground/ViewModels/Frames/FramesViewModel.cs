@@ -17,7 +17,7 @@ namespace Playground.ViewModels.Frames
         {
             if (FrameNavigationService.CanGoBack)
             {
-                FrameNavigationService.GoBack();
+                FrameNavigationService.GoBackAsync();
                 return false;
             }
 

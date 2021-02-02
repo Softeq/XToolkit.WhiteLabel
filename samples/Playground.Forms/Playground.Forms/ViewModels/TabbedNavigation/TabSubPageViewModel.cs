@@ -29,7 +29,7 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
             _frameNavigationService
                 .For<TabSubPageViewModel>()
                 .From(this)
-                .NavigateBack();
+                .NavigateBackAsync();
         }
     }
 }

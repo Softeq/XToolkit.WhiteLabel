@@ -35,14 +35,14 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _platformNavigationService.Initialize(navigation);
         }
 
-        public void GoBack()
+        public async Task GoBackAsync()
         {
             if (_backStackManager.Count != 0)
             {
                 _backStackManager.PopViewModel();
             }
 
-            _platformNavigationService.GoBack();
+            await _platformNavigationService.GoBackAsync();
         }
 
         public PageFluentNavigator<T> For<T>() where T : IViewModelBase

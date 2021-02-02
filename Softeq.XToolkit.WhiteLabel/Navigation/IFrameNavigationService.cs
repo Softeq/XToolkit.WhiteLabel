@@ -35,13 +35,15 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         /// <summary>
         ///     Goes back to the previous frame if it is possible.
         /// </summary>
-        void GoBack();
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task GoBackAsync();
 
         /// <summary>
         ///     Goes back to the previous frame untill the current ViewModel is not of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T"> Type of the ViewModel that we're looking for.</typeparam>
-        void GoBack<T>() where T : IViewModelBase;
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        Task GoBackAsync<T>() where T : IViewModelBase;
 
         /// <summary>
         ///     Use <see cref="FrameNavigationServiceExtensions.For{T}(IFrameNavigationService)" /> instead.
@@ -49,6 +51,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         /// <typeparam name="TViewModel">Type of view model.</typeparam>
         /// <param name="clearBackStack">The value indicating if we should clear backstack after navigating.</param>
         /// <param name="parameters">List of navigation parameters.</param>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task NavigateToViewModelAsync<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
@@ -57,6 +60,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         /// <summary>
         ///     Navigates to the first page of the navigation stack.
         /// </summary>
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         Task NavigateToFirstPageAsync();
 
         /// <summary>

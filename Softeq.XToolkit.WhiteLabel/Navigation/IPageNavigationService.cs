@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         bool CanGoBack { get; }
 
-        void GoBack();
+        Task GoBackAsync();
 
         PageFluentNavigator<T> For<T>() where T : IViewModelBase;
 

@@ -37,7 +37,7 @@ namespace Playground.ViewModels.BottomTabs.Second
 
         private void Navigate()
         {
-            _frameNavigationService.For<GreenViewModel>().Navigate();
+            _frameNavigationService.For<GreenViewModel>().NavigateAsync();
         }
     }
 }

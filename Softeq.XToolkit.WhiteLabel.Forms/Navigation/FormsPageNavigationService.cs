@@ -30,9 +30,9 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             _platformNavigationService.Initialize(navigation);
         }
 
-        public void GoBack()
+        public async Task GoBackAsync()
         {
-            _platformNavigationService.GoBack();
+            await _platformNavigationService.GoBackAsync();
         }
 
         public PageFluentNavigator<T> For<T>() where T : IViewModelBase

@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.PageFluen
         [InlineData(false)]
         public async Task Navigate_NavigatesToTheSpecifiedViewModelWithSpecifiedParamsAsync(bool clearBackStack)
         {
-            _navigator.Navigate(clearBackStack);
+            _navigator.NavigateAsync(clearBackStack);
 
             await _pageNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
                 Arg.Is(clearBackStack),

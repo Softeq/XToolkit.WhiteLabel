@@ -34,7 +34,7 @@ namespace Playground.ViewModels.BottomTabs.First
 
         private void Navigate()
         {
-            _pageNavigationService.For<YellowViewModel>().Navigate();
+            _pageNavigationService.For<YellowViewModel>().NavigateAsync();
         }
 
         private void Increment()

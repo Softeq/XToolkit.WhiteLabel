@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             return NavigateToViewModelAsync(viewModel, clearBackStack, parameters);
         }
 
-        void IFrameNavigationService.GoBack()
+        void IFrameNavigationService.GoBackAsync()
         {
             GoBack();
         }

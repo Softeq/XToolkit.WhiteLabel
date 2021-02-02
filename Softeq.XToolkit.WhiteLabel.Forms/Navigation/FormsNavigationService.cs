@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -18,16 +16,13 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
     public class FormsNavigationService : IPlatformNavigationService
     {
         private readonly IFormsViewLocator _formsViewLocator;
-        private readonly ILogger _logger;
 
         private INavigation? _navigation;
 
         public FormsNavigationService(
-            IFormsViewLocator formsViewLocator,
-            ILogManager logManager)
+            IFormsViewLocator formsViewLocator)
         {
             _formsViewLocator = formsViewLocator;
-            _logger = logManager.GetLogger<FormsNavigationService>();
         }
 
         private INavigation Navigation
@@ -69,9 +64,9 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             }
         }
 
-        public void GoBack()
+        public async Task GoBackAsync()
         {
-            Navigation.PopAsync().FireAndForget(_logger);
+            await Navigation.PopAsync();
         }
 
         private async Task NavigateTaskAsync(

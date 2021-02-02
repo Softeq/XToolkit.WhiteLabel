@@ -33,12 +33,12 @@ namespace Playground.ViewModels.Frames
 
         private void GoNext()
         {
-            _frameNavigationService.For<SplitFrameViewModel>().Navigate();
+            _frameNavigationService.For<SplitFrameViewModel>().NavigateAsync();
         }
 
         private void GoBack()
         {
-            _pageNavigationService.GoBack();
+            _pageNavigationService.GoBackAsync();
         }
     }
 }

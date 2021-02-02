@@ -61,7 +61,7 @@ namespace Playground.ViewModels
         {
             _pageNavigationService
                 .For<EmptyPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void AddItems()
@@ -73,7 +73,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<DetailsPageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Without parameters")),
                 (Category.Navigation, new CommandAction(
@@ -82,7 +82,7 @@ namespace Playground.ViewModels
                         _pageNavigationService
                             .For<DetailsPageViewModel>()
                             .WithParam(x => x.Person, new Person { FirstName = "Ivan", LastName = "Ivanov" })
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "With parameters")),
                 (Category.Navigation, new CommandAction(
@@ -90,7 +90,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<BottomTabsPageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Bottom Tabs")),
                 (Category.Navigation, new CommandAction(
@@ -98,7 +98,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<DialogsPageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Dialogs")),
                 (Category.Navigation, new CommandAction(
@@ -106,7 +106,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<FramesViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Frames")),
                 (Category.Collections, new CommandAction(
@@ -114,7 +114,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<TablePageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Observable list")),
                 (Category.Collections, new CommandAction(
@@ -122,7 +122,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<CollectionPageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Observable collection")),
                 (Category.Collections, new CommandAction(
@@ -130,7 +130,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<GroupedTablePageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Observable grouped list")),
                 (Category.Collections, new CommandAction(
@@ -138,7 +138,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<GroupedCollectionPageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Observable grouped collection")),
                 (Category.Collections, new CommandAction(
@@ -148,7 +148,7 @@ namespace Playground.ViewModels
                         {
                             _pageNavigationService
                                 .For<CompositionalLayoutPageViewModel>()
-                                .Navigate();
+                                .NavigateAsync();
                         }
                     }),
                     "Compositional Layout (iOS 13+)")),
@@ -157,7 +157,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<PhotoBrowserViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Photo browser")),
                 (Category.Controls, new CommandAction(
@@ -165,7 +165,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<PhotoViewerViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Photo viewer")),
 
@@ -180,7 +180,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<PermissionsPageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Permissions")),
                 (Category.Components, new CommandAction(
@@ -188,7 +188,7 @@ namespace Playground.ViewModels
                     {
                         _pageNavigationService
                             .For<ConnectivityPageViewModel>()
-                            .Navigate();
+                            .NavigateAsync();
                     }),
                     "Connectivity")),
                 (Category.Components, new CommandAction(
@@ -198,7 +198,7 @@ namespace Playground.ViewModels
                         {
                             _pageNavigationService
                                 .For<GesturesPageViewModel>()
-                                .Navigate();
+                                .NavigateAsync();
                         }
                     }),
                     "Gestures (iOS)"))

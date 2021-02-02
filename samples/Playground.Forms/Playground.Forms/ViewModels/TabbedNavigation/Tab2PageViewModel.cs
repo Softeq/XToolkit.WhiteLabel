@@ -34,7 +34,7 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
         {
             _pageNavigationService
                 .For<MainPageViewModel>()
-                .Navigate(true);
+                .NavigateAsync(true);
         }
 
         private void ToNextPage()
@@ -42,7 +42,7 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
             _frameNavigationService
                 .For<TabSubPageViewModel>()
                 .From(this)
-                .Navigate();
+                .NavigateAsync();
         }
     }
 }

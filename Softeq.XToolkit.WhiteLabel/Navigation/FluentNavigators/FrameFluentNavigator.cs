@@ -4,8 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
-using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Logger;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
@@ -17,16 +16,12 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
     public class FrameFluentNavigator<TViewModel> : FluentNavigatorBase<TViewModel> where TViewModel : IViewModelBase
     {
         private readonly IFrameNavigationService _navigationService;
-        private readonly ILogger _logger;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="FrameFluentNavigator{TViewModel}"/> class.
         /// </summary>
         /// <param name="navigationService">
         ///     The <see cref="IFrameNavigationService"/> implementation that will be used for navigation.
-        /// </param>
-        /// <param name="logManager">
-        ///     The <see cref="ILogManager"/> implementation that will be used for Logger.
         /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="navigationService"/> cannot be <see langword="null"/>.
@@ -35,8 +30,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         {
             _navigationService = navigationService
                 ?? throw new ArgumentNullException(nameof(navigationService));
-
-            _logger = Dependencies.Container.Resolve<ILogManager>().GetLogger<FrameFluentNavigator<TViewModel>>();
         }
 
         /// <summary>
@@ -105,9 +98,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// <summary>
         ///     Navigates to the previous page in the current navigation stack if possible.
         /// </summary>
-        public void NavigateBack()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task NavigateBackAsync()
         {
-            _navigationService.GoBack();
+            await _navigationService.GoBackAsync();
         }
 
         /// <summary>
@@ -118,9 +112,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// <param name="clearBackStack">
         ///     Boolean value indicating if this service should clear backstack after the navigation is performed.
         /// </param>
-        public void Navigate(bool clearBackStack = false)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task NavigateAsync(bool clearBackStack = false)
         {
-            _navigationService.NavigateToViewModelAsync<TViewModel>(clearBackStack, Parameters).FireAndForget(_logger);
+            await _navigationService.NavigateToViewModelAsync<TViewModel>(clearBackStack, Parameters);
         }
     }
 }

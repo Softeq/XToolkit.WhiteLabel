@@ -36,7 +36,7 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
         {
             _pageNavigationService
                 .For<SettingsTabPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
     }
 }

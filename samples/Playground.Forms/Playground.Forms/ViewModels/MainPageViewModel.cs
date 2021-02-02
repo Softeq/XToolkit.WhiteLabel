@@ -52,63 +52,63 @@ namespace Playground.Forms.ViewModels
         {
             _pageNavigationService
                 .For<FirstPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void PerformMasterDetailNavigation()
         {
             _pageNavigationService
                 .For<RootMasterDetailPageViewModel>()
-                .Navigate(true);
+                .NavigateAsync(true);
         }
 
         private void PerformTabbedNavigation()
         {
             _pageNavigationService
                 .For<TabbedPageViewModel>()
-                .Navigate(true);
+                .NavigateAsync(true);
         }
 
         private void Dialogs()
         {
             _pageNavigationService
                 .For<DialogsRootPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void AsyncCommands()
         {
             _pageNavigationService
                 .For<AsyncCommandsPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void Permissions()
         {
             _pageNavigationService
                 .For<PermissionsPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void Validation()
         {
             _pageNavigationService
                 .For<ValidationPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void PaginationSearch()
         {
             _pageNavigationService
                 .For<PaginationSearchPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void Remote()
         {
             _pageNavigationService
                 .For<RemotePageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
     }
 }

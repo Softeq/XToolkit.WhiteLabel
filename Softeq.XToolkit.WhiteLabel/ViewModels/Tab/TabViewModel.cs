@@ -55,8 +55,8 @@ namespace Softeq.XToolkit.WhiteLabel.ViewModels.Tab
         /// <inheritdoc cref="IFrameNavigationService.CanGoBack"/>
         public bool CanGoBack => FrameNavigationService.CanGoBack;
 
-        /// <inheritdoc cref="IFrameNavigationService.GoBack()"/>
-        public void GoBack() => FrameNavigationService.GoBack();
+        /// <inheritdoc cref="IFrameNavigationService.GoBackAsync()"/>
+        public void GoBack() => FrameNavigationService.GoBackAsync();
     }
 
     /// <summary>

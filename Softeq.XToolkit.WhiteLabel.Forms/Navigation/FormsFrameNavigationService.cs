@@ -34,12 +34,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             _platformNavigationService.Initialize(navigation);
         }
 
-        public void GoBack()
+        public async Task GoBackAsync()
         {
-            _platformNavigationService.GoBack();
+            await _platformNavigationService.GoBackAsync();
         }
 
-        public void GoBack<T>() where T : IViewModelBase
+        public Task GoBackAsync<T>() where T : IViewModelBase
         {
             throw new NotImplementedException();
         }
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             await _platformNavigationService.NavigateToViewModelAsync(viewModel, clearBackStack, parameters);
         }
 
-        public async Task NavigateToFirstPageAsync()
+        public Task NavigateToFirstPageAsync()
         {
             throw new NotImplementedException();
         }

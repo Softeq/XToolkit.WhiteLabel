@@ -28,7 +28,7 @@ namespace Playground.Forms
             navigationService
                 .For<MainPageViewModel>()
                 .WithParam(x => x.Title, "Main Page")
-                .Navigate(true);
+                .NavigateAsync(true);
         }
     }
 }

@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public bool IsEmptyBackStack => _backStack.Count == 0;
 
-        public void GoBack()
+        public void GoBackAsync()
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -135,12 +135,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             return Task.CompletedTask;
         }
 
-        public void NavigateToViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel> navigationParameters)
+        public async Task NavigateToViewModelAsync<TViewModel>(IReadOnlyList<NavigationParameterModel> navigationParameters)
             where TViewModel : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(navigationParameters);
-            NavigateToViewModelAsync(viewModel).FireAndForget(_logger);
+            await NavigateToViewModelAsync(viewModel); //.FireAndForget(_logger);
         }
 
         internal Fragment GetTopFragment()

@@ -30,7 +30,7 @@ namespace Playground.ViewModels.Frames
 
         private void GoNext()
         {
-            _frameNavigationService.For<YellowViewModel>().Navigate();
+            _frameNavigationService.For<YellowViewModel>().NavigateAsync();
         }
 
         private void GoBack()

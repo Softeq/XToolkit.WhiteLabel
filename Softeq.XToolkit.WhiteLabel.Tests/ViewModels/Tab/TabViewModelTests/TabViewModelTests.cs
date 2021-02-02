@@ -94,7 +94,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.ViewModels.Tab.TabViewModelTests
         {
             _viewModel.GoBack();
 
-            _frameNavigationService.Received(1).GoBack();
+            _frameNavigationService.Received(1).GoBackAsync();
         }
     }
 }

@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
             // Action
             _pageNavigationService
                 .For<ViewModelStub>()
-                .Navigate(true);
+                .NavigateAsync(true);
 
             // Assert
             await _platformNavService.Received(1).NavigateToViewModelAsync(
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
             // Action
             _pageNavigationService
                 .For<ViewModelStub>()
-                .Navigate();
+                .NavigateAsync();
 
             // Assert
             await _platformNavService.Received(1).NavigateToViewModelAsync(
@@ -82,11 +82,11 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
             _backStackManager.Count.Returns(0);
 
             // Action
-            _pageNavigationService.GoBack();
+            _pageNavigationService.GoBackAsync();
 
             // Assert
             _backStackManager.DidNotReceive().PopViewModel();
-            _platformNavService.Received(1).GoBack();
+            _platformNavService.Received(1).GoBackAsync();
         }
 
         [Fact]
@@ -95,11 +95,11 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
             _backStackManager.Count.Returns(1);
 
             // Action
-            _pageNavigationService.GoBack();
+            _pageNavigationService.GoBackAsync();
 
             // Assert
             _backStackManager.Received(1).PopViewModel();
-            _platformNavService.Received(1).GoBack();
+            _platformNavService.Received(1).GoBackAsync();
         }
 
         [Fact]
@@ -107,7 +107,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
             NavigateThroughForMethodWithoutParameterAndClearingBackStack_ShouldHandleAsNavigateToViewModeMethod()
         {
             // Action
-            _pageNavigationService.For<ViewModelStub>().Navigate();
+            _pageNavigationService.For<ViewModelStub>().NavigateAsync();
 
             // Assert
             await _platformNavService.Received(1).NavigateToViewModelAsync(
@@ -123,7 +123,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
             NavigateThroughForMethodWithoutParameterWithClearingBackStack_ShouldHandleAsNavigateToViewModeMethod()
         {
             // Action
-            _pageNavigationService.For<ViewModelStub>().Navigate(true);
+            _pageNavigationService.For<ViewModelStub>().NavigateAsync(true);
 
             // Assert
             await _platformNavService.Received(1).NavigateToViewModelAsync(
@@ -157,7 +157,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PageNavigationServiceTests
                 .WithParam(x => x.IntParameter, 10)
                 .WithParam(x => x.StringParameter, "test")
                 .WithParam(x => x.ObjectParameter, new object())
-                .Navigate();
+                .NavigateAsync();
 
             // Assert
             await _platformNavService.Received(1).NavigateToViewModelAsync(

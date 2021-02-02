@@ -32,7 +32,7 @@ namespace Playground.iOS
         {
             var navigationService = container.Resolve<IPageNavigationService>();
             navigationService.Initialize(Window.RootViewController!);
-            navigationService.For<StartPageViewModel>().Navigate();
+            navigationService.For<StartPageViewModel>().NavigateAsync();
         }
     }
 }

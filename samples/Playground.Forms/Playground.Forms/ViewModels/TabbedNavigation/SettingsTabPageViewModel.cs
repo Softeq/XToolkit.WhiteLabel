@@ -27,14 +27,14 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
 
         private void BackToTabs()
         {
-            _pageNavigationService.GoBack();
+            _pageNavigationService.GoBackAsync();
         }
 
         private void BackToMainMenu()
         {
             _pageNavigationService
                 .For<MainPageViewModel>()
-                .Navigate(true);
+                .NavigateAsync(true);
         }
     }
 }

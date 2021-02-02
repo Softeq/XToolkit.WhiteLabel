@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
@@ -21,8 +22,8 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
             _pageNavigationService = pageNavigationService;
             _frameNavigationService = frameNavigationService;
 
-            ToMainPageCommand = new RelayCommand(ToMainPage);
-            ToNextPageCommand = new RelayCommand(ToNextPage);
+            ToMainPageCommand = new AsyncCommand(ToMainPage);
+            ToNextPageCommand = new AsyncCommand(ToNextPage);
         }
 
         public string Title => "Tab page 1";
@@ -30,19 +31,19 @@ namespace Playground.Forms.ViewModels.TabbedNavigation
         public ICommand ToMainPageCommand { get; }
         public ICommand ToNextPageCommand { get; }
 
-        private void ToMainPage()
+        private async Task ToMainPage()
         {
-            _pageNavigationService
+            await _pageNavigationService
                 .For<MainPageViewModel>()
-                .Navigate(true);
+                .NavigateAsync(true);
         }
 
-        private void ToNextPage()
+        private async Task ToNextPage()
         {
-            _frameNavigationService
+            await _frameNavigationService
                 .For<TabSubPageViewModel>()
                 .From(this)
-                .Navigate();
+                .NavigateAsync();
         }
     }
 }

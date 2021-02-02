@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             Config = navigation as FrameNavigationConfig;
         }
 
-        public void GoBack()
+        public void GoBackAsync()
         {
             if (IsEmptyBackStack)
             {

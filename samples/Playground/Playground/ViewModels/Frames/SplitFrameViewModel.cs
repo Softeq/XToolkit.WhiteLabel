@@ -37,7 +37,7 @@ namespace Playground.ViewModels.Frames
 
         private void OnGoBackMessage(GoBackMessage message)
         {
-            _frameNavigationService.GoBack();
+            _frameNavigationService.GoBackAsync();
         }
     }
 
