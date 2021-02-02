@@ -56,7 +56,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FrameFlue
         [InlineData(false)]
         public async Task Navigate_NavigatesToTheSpecifiedViewModelWithSpecifiedParams(bool clearBackStack)
         {
-            _navigator.NavigateAsync(clearBackStack);
+            await _navigator.NavigateAsync(clearBackStack);
 
             await _frameNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
                 Arg.Is(clearBackStack),
@@ -64,11 +64,11 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FrameFlue
         }
 
         [Fact]
-        public void NavigateBack_NavigatesBack()
+        public async Task NavigateBack_NavigatesBack()
         {
-            _navigator.NavigateBack();
+            await _navigator.NavigateBackAsync();
 
-            _frameNavigationService.Received(1).GoBackAsync();
+            await _frameNavigationService.Received(1).GoBackAsync();
         }
 
         [Fact]

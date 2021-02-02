@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
         }
 
-        public void GoBack()
+        public Task GoBackAsync()
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -57,6 +57,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                     activity.OnBackPressed();
                 }
             });
+
+            return Task.CompletedTask;
         }
 
         public Task NavigateToViewModelAsync(

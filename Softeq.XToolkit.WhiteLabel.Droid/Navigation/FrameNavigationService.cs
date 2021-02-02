@@ -7,8 +7,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
-using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
@@ -21,17 +19,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
     [Obsolete("Use DroidFrameNavigationService instead.")]
     public class FrameNavigationService : IFrameNavigationService
     {
-        private readonly ILogger _logger;
         private readonly Stack<(IViewModelBase ViewModel, Fragment Fragment)> _backStack;
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
         private int _containerId;
 
-        public FrameNavigationService(IViewLocator viewLocator, IContainer iocContainer, ILogManager logManager)
+        public FrameNavigationService(IViewLocator viewLocator, IContainer iocContainer)
         {
             _viewLocator = viewLocator;
             _iocContainer = iocContainer;
-            _logger = logManager.GetLogger<FrameNavigationService>();
             _backStack = new Stack<(IViewModelBase ViewModel, Fragment Fragment)>();
         }
 
@@ -43,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public bool IsEmptyBackStack => _backStack.Count == 0;
 
-        public void GoBackAsync()
+        public Task GoBackAsync()
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -51,22 +47,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
                 ReplaceFragment(_backStack.Peek().Fragment);
             });
+
+            return Task.CompletedTask;
         }
 
-        public void GoBack<T>() where T : IViewModelBase
+        public Task GoBackAsync<T>() where T : IViewModelBase
         {
             var viewModel = _backStack.FirstOrDefault(x => x.ViewModel is T).ViewModel;
-            if (viewModel == null)
+            if (viewModel != null)
             {
-                return;
+                while (viewModel != _backStack.Peek().ViewModel)
+                {
+                    _backStack.Pop();
+                }
+
+                Execute.BeginOnUIThread(RestoreNavigation);
             }
 
-            while (viewModel != _backStack.Peek().ViewModel)
-            {
-                _backStack.Pop();
-            }
-
-            Execute.BeginOnUIThread(RestoreNavigation);
+            return Task.CompletedTask;
         }
 
         public void Initialize(object navigation)
@@ -140,7 +138,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(navigationParameters);
-            await NavigateToViewModelAsync(viewModel); //.FireAndForget(_logger);
+            await NavigateToViewModelAsync(viewModel);
         }
 
         internal Fragment GetTopFragment()

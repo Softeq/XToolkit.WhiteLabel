@@ -57,30 +57,30 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             Config = navigation as FrameNavigationConfig;
         }
 
-        public void GoBackAsync()
+        public Task GoBackAsync()
         {
-            if (IsEmptyBackStack)
+            if (!IsEmptyBackStack)
             {
-                return;
+                var canGoBack = CanGoBack;
+
+                // navigation
+                var currentEntry = _backStack.CurrentWithRemove();
+                var currentFrameName = ToKey(currentEntry);
+
+                // cleanup
+                CurrentStore.Remove(currentFrameName);
+
+                // show previous if needed
+                if (canGoBack)
+                {
+                    RestoreNavigation();
+                }
             }
 
-            var canGoBack = CanGoBack;
-
-            // navigation
-            var currentEntry = _backStack.CurrentWithRemove();
-            var currentFrameName = ToKey(currentEntry);
-
-            // cleanup
-            CurrentStore.Remove(currentFrameName);
-
-            // show previous if needed
-            if (canGoBack)
-            {
-                RestoreNavigation();
-            }
+            return Task.CompletedTask;
         }
 
-        public void GoBack<T>() where T : IViewModelBase
+        public Task GoBackAsync<T>() where T : IViewModelBase
         {
             // navigation
             var dumpBefore = _backStack.Dump(ToKey);
@@ -96,6 +96,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             // show
             RestoreNavigation();
+
+            return Task.CompletedTask;
         }
 
         public virtual Task NavigateToViewModelAsync<TViewModel>(
