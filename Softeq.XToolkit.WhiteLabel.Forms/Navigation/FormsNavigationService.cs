@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
         {
-            await NavigateTaskAsync(viewModelBase, clearBackStack, parameters);
+            await NavigateAsync(viewModelBase, clearBackStack, parameters);
         }
 
         public void Initialize(object initParameter)
@@ -69,7 +69,7 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             await Navigation.PopAsync();
         }
 
-        private async Task NavigateTaskAsync(
+        private async Task NavigateAsync(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)

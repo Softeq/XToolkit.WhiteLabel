@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             NavigationController = (UINavigationController) navigation;
         }
 
-        public virtual void GoBack()
+        public virtual Task GoBackAsync()
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -50,6 +50,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
                 NavigationController!.PopViewController(true);
             });
+
+            return Task.CompletedTask;
         }
 
         public virtual Task NavigateToViewModelAsync(
@@ -63,6 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             }
 
             Navigate(ViewLocator.GetView(viewModelBase), clearBackStack);
+
             return Task.CompletedTask;
         }
 

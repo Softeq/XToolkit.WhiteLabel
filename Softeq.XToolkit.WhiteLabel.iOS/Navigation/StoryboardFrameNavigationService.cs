@@ -41,12 +41,12 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             return NavigateToViewModelAsync(viewModel, clearBackStack, parameters);
         }
 
-        void IFrameNavigationService.GoBackAsync()
+        async Task IFrameNavigationService.GoBackAsync()
         {
-            GoBack();
+            await GoBackAsync();
         }
 
-        void IFrameNavigationService.GoBack<T>()
+        Task IFrameNavigationService.GoBackAsync<T>()
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -61,6 +61,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
                     NavigationController.PopToViewController(controller, false);
                 }
             });
+
+            return Task.CompletedTask;
         }
 
         void IFrameNavigationService.Initialize(object navigation)
