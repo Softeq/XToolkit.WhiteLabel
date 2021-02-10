@@ -21,14 +21,14 @@ namespace Playground.iOS.ViewControllers.Components
         {
             base.ViewDidLoad();
 
-            var tapCommand = new RelayCommand(() => HighlightView(TapViewContainer));
+            var tapCommand = new RelayCommand<UITapGestureRecognizer>(args => HighlightView(TapViewContainer));
             TapViewContainer.Tap().Command = tapCommand;
 
             var swipeDirection = UISwipeGestureRecognizerDirection.Right;
-            var swipeCommand = new RelayCommand(() => HighlightView(SwipeViewContainer));
+            var swipeCommand = new RelayCommand<UISwipeGestureRecognizer>(args => HighlightView(SwipeViewContainer));
             SwipeViewContainer.Swipe(swipeDirection).Command = swipeCommand;
 
-            var panCommand = new RelayCommand(() => HighlightView(PanViewContainer));
+            var panCommand = new RelayCommand<UIPanGestureRecognizer>(args => HighlightView(PanViewContainer));
             PanViewContainer.Pan().Command = panCommand;
         }
 
