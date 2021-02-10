@@ -2,9 +2,9 @@
 // http://www.softeq.com
 
 using System;
-using System.Windows.Input;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
 using Softeq.XToolkit.Common.Commands;
+using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
 {

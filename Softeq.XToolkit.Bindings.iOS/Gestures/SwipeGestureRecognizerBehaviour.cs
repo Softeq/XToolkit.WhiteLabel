@@ -19,6 +19,5 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
 
             AddGestureRecognizer(target, swipe);
         }
-
     }
 }

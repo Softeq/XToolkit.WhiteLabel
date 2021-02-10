@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
     {
         public ICommand<T>? Command { get; set; }
 
-        protected void FireCommand(object? argument = null)
+        protected void HandleGesture(T argument)
         {
             var command = Command;
             command?.Execute(argument);
@@ -25,11 +25,6 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
             }
 
             target.AddGestureRecognizer(tap);
-        }
-
-        protected void HandleGesture(T gesture)
-        {
-            FireCommand(gesture);
         }
     }
 }
