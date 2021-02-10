@@ -52,7 +52,7 @@
     <Compile Include="ObservableTableViewController.cs" />
     <Compile Include="ObservableTableViewSource.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Gestures\GestureRecognizerBehavior.cs" />
+    <Compile Include="Gestures\GestureRecognizerBehaviour.cs" />
     <Compile Include="Bindable\BindableTableViewHeaderFooterView.cs" />
     <Compile Include="Bindable\BindableTableViewCell.cs" />
     <Compile Include="Bindable\Abstract\BindableExtensions.cs" />

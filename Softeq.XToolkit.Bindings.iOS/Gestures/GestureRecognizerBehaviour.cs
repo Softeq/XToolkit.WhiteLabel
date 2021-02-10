@@ -1,14 +1,15 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Windows.Input;
+
+using Softeq.XToolkit.Common.Commands;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Gestures
 {
-    public abstract class GestureRecognizerBehavior
+    public abstract class GestureRecognizerBehaviour<T>
     {
-        public ICommand? Command { get; set; }
+        public ICommand<T>? Command { get; set; }
 
         protected void FireCommand(object? argument = null)
         {
@@ -25,13 +26,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
 
             target.AddGestureRecognizer(tap);
         }
-    }
 
-    public abstract class GestureRecognizerBehavior<T>
-        : GestureRecognizerBehavior
-    {
-        protected virtual void HandleGesture(T gesture)
+        protected void HandleGesture(T gesture)
         {
+            FireCommand(gesture);
         }
     }
 }
