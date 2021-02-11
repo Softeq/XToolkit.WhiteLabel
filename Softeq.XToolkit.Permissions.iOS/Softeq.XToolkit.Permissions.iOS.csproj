@@ -61,12 +61,15 @@
           <Version>3.1.1</Version>
         </PackageReference>
         <PackageReference Include="Plugin.Permissions">
-          <Version>5.0.0-beta</Version>
+          <Version>6.0.1</Version>
+        </PackageReference>
+        <PackageReference Include="StyleCop.Analyzers">
+          <Version>1.2.0-beta.321</Version>
         </PackageReference>
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj">
-            <Project>{C8DA5EA8-703B-481F-9ED8-AB3AD29E5409}</Project>
+            <Project>{9DEA28C0-4C9B-4DAA-BD56-22E362E21648}</Project>
             <Name>Softeq.XToolkit.Permissions</Name>
         </ProjectReference>
     </ItemGroup>
