@@ -56,7 +56,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
 
         private void InitView()
         {
-            View.Swipe(UISwipeGestureRecognizerDirection.Down).Command = ViewModel.DialogComponent.CloseCommand;
+            View.Swipe(UISwipeGestureRecognizerDirection.Down).SetCommand(ViewModel.DialogComponent.CloseCommand);
         }
 
         private void LoadImage()

@@ -8,7 +8,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
     public class SwipeGestureRecognizerBehaviour
         : GestureRecognizerBehaviour<UISwipeGestureRecognizer>
     {
-        public SwipeGestureRecognizerBehaviour(UIView target, UISwipeGestureRecognizerDirection direction,
+        public SwipeGestureRecognizerBehaviour(
+            UIView target,
+            UISwipeGestureRecognizerDirection direction,
             uint numberOfTouchesRequired = 1)
         {
             var swipe = new UISwipeGestureRecognizer(HandleGesture)
@@ -22,7 +24,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
 
         protected override void HandleGesture(UISwipeGestureRecognizer gesture)
         {
-            FireCommand();
+            FireCommand(gesture);
         }
     }
 }
