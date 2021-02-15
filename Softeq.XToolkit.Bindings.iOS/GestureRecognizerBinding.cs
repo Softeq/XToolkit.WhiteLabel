@@ -8,11 +8,11 @@ using Softeq.XToolkit.Bindings.iOS.Gestures;
 
 namespace Softeq.XToolkit.Bindings.iOS
 {
-    public class GestureRecognizerBinding<T> : Binding
+    public class GestureRecognizerBinding : Binding
     {
-        private GestureRecognizerBehaviour<T> _behaviour;
+        private GestureRecognizerBehaviour _behaviour;
 
-        public GestureRecognizerBinding(GestureRecognizerBehaviour<T> behaviour)
+        public GestureRecognizerBinding(GestureRecognizerBehaviour behaviour)
         {
             _behaviour = behaviour;
         }

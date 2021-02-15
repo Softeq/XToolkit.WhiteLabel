@@ -19,5 +19,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
 
             AddGestureRecognizer(target, swipe);
         }
+
+        protected override void HandleGesture(UISwipeGestureRecognizer gesture)
+        {
+            FireCommand();
+        }
     }
 }

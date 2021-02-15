@@ -23,5 +23,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
         }
 
         public UITapGestureRecognizer TapGestureRecogniser { get; }
+
+        protected override void HandleGesture(UITapGestureRecognizer gesture)
+        {
+            FireCommand(gesture);
+        }
     }
 }
