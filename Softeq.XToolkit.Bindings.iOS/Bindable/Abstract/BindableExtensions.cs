@@ -11,29 +11,29 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
 {
     public static class BindableExtensions
     {
-        public static Binding Bind(this GestureRecognizerBehaviour recognizer, Action command)
+        public static Binding Bind(this GestureRecognizerBehaviour recognizer, Action action)
         {
-            recognizer.Command = new RelayCommand(command);
+            recognizer.Command = new RelayCommand(action);
             return new GestureRecognizerBinding(recognizer);
         }
 
-        public static Binding SetCommand(this GestureRecognizerBehaviour recognizer, ICommand command)
+        public static Binding SetCommand(this GestureRecognizerBehaviour recognizer, ICommand action)
         {
-            recognizer.Command = command;
+            recognizer.Command = action;
             return new GestureRecognizerBinding(recognizer);
         }
 
-        public static Binding Bind<T>(this GestureRecognizerBehaviour recognizer, Action<T> command)
+        public static Binding Bind<T>(this GestureRecognizerBehaviour recognizer, Action<T> action)
             where T : UIGestureRecognizer
         {
-            recognizer.Command = new RelayCommand<T>(command);
+            recognizer.Command = new RelayCommand<T>(action);
             return new GestureRecognizerBinding(recognizer);
         }
 
-        public static Binding SetCommand<T>(this GestureRecognizerBehaviour recognizer, ICommand<T> command)
+        public static Binding SetCommand<T>(this GestureRecognizerBehaviour recognizer, ICommand<T> action)
             where T : UIGestureRecognizer
         {
-            recognizer.Command = command;
+            recognizer.Command = action;
             return new GestureRecognizerBinding(recognizer);
         }
     }
