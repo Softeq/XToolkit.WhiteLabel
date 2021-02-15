@@ -17,9 +17,9 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
             return new GestureRecognizerBinding(recognizer);
         }
 
-        public static Binding SetCommand(this GestureRecognizerBehaviour recognizer, ICommand action)
+        public static Binding SetCommand(this GestureRecognizerBehaviour recognizer, ICommand command)
         {
-            recognizer.Command = action;
+            recognizer.Command = command;
             return new GestureRecognizerBinding(recognizer);
         }
 
@@ -30,10 +30,10 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable.Abstract
             return new GestureRecognizerBinding(recognizer);
         }
 
-        public static Binding SetCommand<T>(this GestureRecognizerBehaviour recognizer, ICommand<T> action)
+        public static Binding SetCommand<T>(this GestureRecognizerBehaviour recognizer, ICommand<T> command)
             where T : UIGestureRecognizer
         {
-            recognizer.Command = action;
+            recognizer.Command = command;
             return new GestureRecognizerBinding(recognizer);
         }
     }
