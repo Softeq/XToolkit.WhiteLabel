@@ -21,15 +21,21 @@ namespace Playground.iOS.ViewControllers.Components
         {
             base.ViewDidLoad();
 
-            var tapCommand = new RelayCommand(() => HighlightView(TapViewContainer));
-            TapViewContainer.Tap().Command = tapCommand;
+            // add gesture handler directly
+            var panCommand = new RelayCommand<UIPanGestureRecognizer>(_ => HighlightView(PanViewContainer));
+            PanViewContainer.Pan().SetCommand(panCommand);
+        }
 
-            var swipeDirection = UISwipeGestureRecognizerDirection.Right;
-            var swipeCommand = new RelayCommand(() => HighlightView(SwipeViewContainer));
-            SwipeViewContainer.Swipe(swipeDirection).Command = swipeCommand;
+        protected override void DoAttachBindings()
+        {
+            base.DoAttachBindings();
 
-            var panCommand = new RelayCommand(() => HighlightView(PanViewContainer));
-            PanViewContainer.Pan().Command = panCommand;
+            // add gesture handler via bindings
+            Bindings.Add(TapViewContainer.Tap()
+                .Bind(_ => HighlightView(TapViewContainer)));
+
+            Bindings.Add(SwipeViewContainer.Swipe(UISwipeGestureRecognizerDirection.Right)
+                .Bind(_ => HighlightView(SwipeViewContainer)));
         }
 
         private void HighlightView(UIView view)

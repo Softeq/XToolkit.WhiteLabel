@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
 {
     public abstract class GestureRecognizerBehaviour
     {
-        public ICommand? Command { get; set; }
+        public ICommand? Command { get; internal set; }
 
         protected void FireCommand(object? argument = null)
         {

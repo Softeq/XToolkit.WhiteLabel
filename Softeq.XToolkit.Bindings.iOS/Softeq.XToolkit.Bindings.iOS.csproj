@@ -55,7 +55,6 @@
     <Compile Include="Gestures\GestureRecognizerBehaviour.cs" />
     <Compile Include="Bindable\BindableTableViewHeaderFooterView.cs" />
     <Compile Include="Bindable\BindableTableViewCell.cs" />
-    <Compile Include="Bindable\Abstract\BindableExtensions.cs" />
     <Compile Include="Gestures\PanGestureRecognizerBehaviour.cs" />
     <Compile Include="Bindable\BindableTableViewSource.cs" />
     <Compile Include="Bindable\BindableGroupCollectionViewSource.cs" />
