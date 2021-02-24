@@ -6,9 +6,11 @@ using UIKit;
 namespace Softeq.XToolkit.Bindings.iOS.Gestures
 {
     public class TapGestureRecognizerBehaviour
-        : GestureRecognizerBehavior<UITapGestureRecognizer>
+        : GestureRecognizerBehaviour<UITapGestureRecognizer>
     {
-        public TapGestureRecognizerBehaviour(UIView target, uint numberOfTapsRequired = 1,
+        public TapGestureRecognizerBehaviour(
+            UIView target,
+            uint numberOfTapsRequired = 1,
             uint numberOfTouchesRequired = 1,
             bool cancelsTouchesInView = true)
         {

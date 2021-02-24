@@ -6,7 +6,7 @@ using UIKit;
 namespace Softeq.XToolkit.Bindings.iOS.Gestures
 {
     public class PanGestureRecognizerBehaviour
-        : GestureRecognizerBehavior<UIPanGestureRecognizer>
+        : GestureRecognizerBehaviour<UIPanGestureRecognizer>
     {
         public PanGestureRecognizerBehaviour(UIView target)
         {

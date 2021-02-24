@@ -10,9 +10,9 @@ namespace Softeq.XToolkit.Bindings.iOS
 {
     public class GestureRecognizerBinding : Binding
     {
-        private GestureRecognizerBehavior _behaviour;
+        private GestureRecognizerBehaviour _behaviour;
 
-        public GestureRecognizerBinding(GestureRecognizerBehavior behaviour)
+        public GestureRecognizerBinding(GestureRecognizerBehaviour behaviour)
         {
             _behaviour = behaviour;
         }

@@ -6,9 +6,9 @@ using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS.Gestures
 {
-    public abstract class GestureRecognizerBehavior
+    public abstract class GestureRecognizerBehaviour
     {
-        public ICommand? Command { get; set; }
+        public ICommand? Command { get; internal set; }
 
         protected void FireCommand(object? argument = null)
         {
@@ -27,8 +27,8 @@ namespace Softeq.XToolkit.Bindings.iOS.Gestures
         }
     }
 
-    public abstract class GestureRecognizerBehavior<T>
-        : GestureRecognizerBehavior
+    public abstract class GestureRecognizerBehaviour<T>
+        : GestureRecognizerBehaviour
     {
         protected virtual void HandleGesture(T gesture)
         {
