@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Common.Threading;
@@ -56,30 +57,30 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             Config = navigation as FrameNavigationConfig;
         }
 
-        public void GoBack()
+        public Task GoBackAsync()
         {
-            if (IsEmptyBackStack)
+            if (!IsEmptyBackStack)
             {
-                return;
+                var canGoBack = CanGoBack;
+
+                // navigation
+                var currentEntry = _backStack.CurrentWithRemove();
+                var currentFrameName = ToKey(currentEntry);
+
+                // cleanup
+                CurrentStore.Remove(currentFrameName);
+
+                // show previous if needed
+                if (canGoBack)
+                {
+                    RestoreNavigation();
+                }
             }
 
-            var canGoBack = CanGoBack;
-
-            // navigation
-            var currentEntry = _backStack.CurrentWithRemove();
-            var currentFrameName = ToKey(currentEntry);
-
-            // cleanup
-            CurrentStore.Remove(currentFrameName);
-
-            // show previous if needed
-            if (canGoBack)
-            {
-                RestoreNavigation();
-            }
+            return Task.CompletedTask;
         }
 
-        public void GoBack<T>() where T : IViewModelBase
+        public Task GoBackAsync<T>() where T : IViewModelBase
         {
             // navigation
             var dumpBefore = _backStack.Dump(ToKey);
@@ -95,9 +96,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             // show
             RestoreNavigation();
+
+            return Task.CompletedTask;
         }
 
-        public virtual void NavigateToViewModel<TViewModel>(
+        public virtual Task NavigateToViewModelAsync<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
@@ -112,20 +115,22 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
 
             NavigateInternal(fragment, viewModel);
+
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />
-        public void NavigateToFirstPage()
+        public Task NavigateToFirstPageAsync()
         {
-            if (IsEmptyBackStack)
+            if (!IsEmptyBackStack)
             {
-                return;
+                var fragment = _backStack.ResetToFirst();
+                var viewModel = ExtractViewModel(fragment);
+
+                NavigateInternal(fragment, viewModel);
             }
 
-            var fragment = _backStack.ResetToFirst();
-            var viewModel = ExtractViewModel(fragment);
-
-            NavigateInternal(fragment, viewModel);
+            return Task.CompletedTask;
         }
 
         /// <inheritdoc />

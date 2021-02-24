@@ -22,7 +22,7 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation
                 _frameNavigationService
                     .For<DrillLevel2PageViewModel>()
                     .From(this)
-                    .NavigateBack();
+                    .NavigateBackAsync();
             });
         }
 

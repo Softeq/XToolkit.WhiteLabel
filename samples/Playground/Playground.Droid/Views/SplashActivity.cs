@@ -21,7 +21,7 @@ namespace Playground.Droid.Views
 
             Dependencies.PageNavigationService
                 .For<StartPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
 
             Finish();
         }

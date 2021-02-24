@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         {
             if (_pageNavigation.CanGoBack)
             {
-                _pageNavigation.GoBack();
+                _pageNavigation.GoBackAsync();
             }
             else
             {

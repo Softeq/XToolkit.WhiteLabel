@@ -27,7 +27,7 @@ namespace Playground.Forms.ViewModels.SimpleNavigation
 
         private void Back()
         {
-            _pageNavigationService.GoBack();
+            _pageNavigationService.GoBackAsync();
         }
     }
 }

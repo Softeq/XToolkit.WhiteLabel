@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             }
 
             ViewModel.InitializeNavigation(this);
-            ViewModel.NavigateToFirstPage();
+            ViewModel.NavigateToFirstPageAsync();
             ViewModel.OnInitialize();
         }
 

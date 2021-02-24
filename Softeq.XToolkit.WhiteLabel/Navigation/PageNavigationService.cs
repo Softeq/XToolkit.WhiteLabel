@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -34,14 +35,14 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             _platformNavigationService.Initialize(navigation);
         }
 
-        public void GoBack()
+        public async Task GoBackAsync()
         {
             if (_backStackManager.Count != 0)
             {
                 _backStackManager.PopViewModel();
             }
 
-            _platformNavigationService.GoBack();
+            await _platformNavigationService.GoBackAsync();
         }
 
         public PageFluentNavigator<T> For<T>() where T : IViewModelBase
@@ -49,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             return new PageFluentNavigator<T>(this);
         }
 
-        public void NavigateToViewModel<T>(
+        public async Task NavigateToViewModelAsync<T>(
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
             where T : IViewModelBase
@@ -66,7 +67,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
                 viewModel.ApplyParameters(parameters);
             }
 
-            _platformNavigationService.NavigateToViewModel(viewModel, clearBackStack, parameters);
+            await _platformNavigationService.NavigateToViewModelAsync(viewModel, clearBackStack, parameters);
 
             _backStackManager.PushViewModel(viewModel);
         }

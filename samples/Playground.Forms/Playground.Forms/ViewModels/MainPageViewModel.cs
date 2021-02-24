@@ -7,6 +7,7 @@ using Playground.Forms.ViewModels.Components;
 using Playground.Forms.ViewModels.Dialogs;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
 using Playground.Forms.ViewModels.SimpleNavigation;
+using Playground.Forms.ViewModels.TabbedNavigation;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -29,6 +30,7 @@ namespace Playground.Forms.ViewModels
                 {
                     new CommandAction(new RelayCommand(PerformSimpleNavigation), "Simple Navigation"),
                     new CommandAction(new RelayCommand(PerformMasterDetailNavigation), "Master Detail Navigation"),
+                    new CommandAction(new RelayCommand(PerformTabbedNavigation), "Tabbed Navigation"),
                     new CommandAction(new RelayCommand(Dialogs), "Dialogs"),
                     new CommandAction(new RelayCommand(AsyncCommands), "Async Commands"),
                     new CommandAction(new RelayCommand(Permissions), "Permissions"),
@@ -50,56 +52,63 @@ namespace Playground.Forms.ViewModels
         {
             _pageNavigationService
                 .For<FirstPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void PerformMasterDetailNavigation()
         {
             _pageNavigationService
                 .For<RootMasterDetailPageViewModel>()
-                .Navigate(true);
+                .NavigateAsync(true);
+        }
+
+        private void PerformTabbedNavigation()
+        {
+            _pageNavigationService
+                .For<TabbedPageViewModel>()
+                .NavigateAsync(true);
         }
 
         private void Dialogs()
         {
             _pageNavigationService
                 .For<DialogsRootPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void AsyncCommands()
         {
             _pageNavigationService
                 .For<AsyncCommandsPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void Permissions()
         {
             _pageNavigationService
                 .For<PermissionsPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void Validation()
         {
             _pageNavigationService
                 .For<ValidationPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void PaginationSearch()
         {
             _pageNavigationService
                 .For<PaginationSearchPageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
 
         private void Remote()
         {
             _pageNavigationService
                 .For<RemotePageViewModel>()
-                .Navigate();
+                .NavigateAsync();
         }
     }
 }

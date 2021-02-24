@@ -16,12 +16,13 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation
         public DrillLevel1PageViewModel(IFrameNavigationService frameNavigationService)
         {
             _frameNavigationService = frameNavigationService;
+
             NavigateCommand = new RelayCommand(() =>
             {
                 _frameNavigationService
                     .For<DrillLevel2PageViewModel>()
                     .From(this)
-                    .Navigate();
+                    .NavigateAsync();
             });
         }
 

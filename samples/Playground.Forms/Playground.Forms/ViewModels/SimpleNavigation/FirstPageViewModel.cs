@@ -34,7 +34,7 @@ namespace Playground.Forms.ViewModels.SimpleNavigation
             _pageNavigationService
                 .For<SecondPageViewModel>()
                 .WithParam(x => x.NavigationParameter, Text)
-                .Navigate();
+                .NavigateAsync();
         }
     }
 }

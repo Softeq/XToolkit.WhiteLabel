@@ -5,8 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -18,16 +16,13 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
     public class FormsNavigationService : IPlatformNavigationService
     {
         private readonly IFormsViewLocator _formsViewLocator;
-        private readonly ILogger _logger;
 
         private INavigation? _navigation;
 
         public FormsNavigationService(
-            IFormsViewLocator formsViewLocator,
-            ILogManager logManager)
+            IFormsViewLocator formsViewLocator)
         {
             _formsViewLocator = formsViewLocator;
-            _logger = logManager.GetLogger<FormsNavigationService>();
         }
 
         private INavigation Navigation
@@ -43,17 +38,14 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             }
         }
 
-        public bool CanGoBack
-        {
-            get => Navigation.NavigationStack.Count != 0;
-        }
+        public bool CanGoBack => Navigation.NavigationStack.Count != 0;
 
-        public void NavigateToViewModel(
+        public async Task NavigateToViewModelAsync(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
         {
-            NavigateTask(viewModelBase, clearBackStack, parameters).FireAndForget(_logger);
+            await NavigateAsync(viewModelBase, clearBackStack, parameters);
         }
 
         public void Initialize(object initParameter)
@@ -72,12 +64,12 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             }
         }
 
-        public void GoBack()
+        public async Task GoBackAsync()
         {
-            Navigation.PopAsync().FireAndForget(_logger);
+            await Navigation.PopAsync();
         }
 
-        private async Task NavigateTask(
+        private async Task NavigateAsync(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
@@ -89,17 +81,18 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
 
             var targetPage = await _formsViewLocator.GetPageAsync(viewModelBase);
 
-            Execute.BeginOnUIThread(() =>
+            await Execute.OnUIThreadAsync(async () =>
             {
-                if (clearBackStack)
+                if (clearBackStack && Navigation.NavigationStack.Count > 0)
                 {
                     var currentPage = Navigation.NavigationStack.First();
                     Navigation.InsertPageBefore(targetPage, currentPage);
-                    Navigation.PopToRootAsync(false).FireAndForget(_logger);
+
+                    await Navigation.PopToRootAsync(false);
                 }
                 else
                 {
-                    Navigation.PushAsync(targetPage).FireAndForget(_logger);
+                    await Navigation.PushAsync(targetPage);
                 }
             });
         }

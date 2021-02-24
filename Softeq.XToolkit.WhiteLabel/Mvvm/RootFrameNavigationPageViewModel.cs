@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
@@ -19,9 +20,9 @@ namespace Softeq.XToolkit.WhiteLabel.Mvvm
         }
 
         /// <inheritdoc/>
-        public override void NavigateToFirstPage()
+        public override async Task NavigateToFirstPageAsync()
         {
-            FrameNavigationService.NavigateToViewModel<T>(true, null);
+            await FrameNavigationService.NavigateToViewModelAsync<T>(true, null);
         }
     }
 }

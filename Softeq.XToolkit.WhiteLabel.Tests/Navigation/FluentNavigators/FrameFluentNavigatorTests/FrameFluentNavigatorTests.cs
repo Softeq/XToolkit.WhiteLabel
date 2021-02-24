@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using NSubstitute;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
@@ -53,21 +54,21 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FrameFlue
         [Theory]
         [InlineData(true)]
         [InlineData(false)]
-        public void Navigate_NavigatesToTheSpecifiedViewModelWithSpecifiedParams(bool clearBackStack)
+        public async Task Navigate_NavigatesToTheSpecifiedViewModelWithSpecifiedParams(bool clearBackStack)
         {
-            _navigator.Navigate(clearBackStack);
+            await _navigator.NavigateAsync(clearBackStack);
 
-            _frameNavigationService.Received(1).NavigateToViewModel<ViewModelStub>(
+            await _frameNavigationService.Received(1).NavigateToViewModelAsync<ViewModelStub>(
                 Arg.Is(clearBackStack),
                 Arg.Is(_navigator.Parameters));
         }
 
         [Fact]
-        public void NavigateBack_NavigatesBack()
+        public async Task NavigateBack_NavigatesBack()
         {
-            _navigator.NavigateBack();
+            await _navigator.NavigateBackAsync();
 
-            _frameNavigationService.Received(1).GoBack();
+            await _frameNavigationService.Received(1).GoBackAsync();
         }
 
         [Fact]

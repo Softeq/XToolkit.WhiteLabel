@@ -25,7 +25,7 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation
         {
             _pageNavigationService
                 .For<MainPageViewModel>()
-                .Navigate(true);
+                .NavigateAsync(true);
         }
     }
 }

@@ -14,6 +14,7 @@ using Playground.Forms.ViewModels.Dialogs.Modal;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
 using Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation;
 using Playground.Forms.ViewModels.SimpleNavigation;
+using Playground.Forms.ViewModels.TabbedNavigation;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Forms;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
@@ -59,6 +60,12 @@ namespace Playground.Forms
             builder.PerDependency<PermissionsPageViewModel>();
             builder.PerDependency<ValidationPageViewModel>();
             builder.PerDependency<PaginationSearchPageViewModel>();
+
+            builder.PerDependency<TabbedPageViewModel>();
+            builder.PerDependency<Tab1PageViewModel>();
+            builder.PerDependency<Tab2PageViewModel>();
+            builder.PerDependency<TabSubPageViewModel>();
+            builder.PerDependency<SettingsTabPageViewModel>();
 
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 

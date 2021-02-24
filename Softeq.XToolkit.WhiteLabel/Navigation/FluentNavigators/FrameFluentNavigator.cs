@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
@@ -97,9 +98,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// <summary>
         ///     Navigates to the previous page in the current navigation stack if possible.
         /// </summary>
-        public void NavigateBack()
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task NavigateBackAsync()
         {
-            _navigationService.GoBack();
+            await _navigationService.GoBackAsync();
         }
 
         /// <summary>
@@ -110,9 +112,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// <param name="clearBackStack">
         ///     Boolean value indicating if this service should clear backstack after the navigation is performed.
         /// </param>
-        public void Navigate(bool clearBackStack = false)
+        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        public async Task NavigateAsync(bool clearBackStack = false)
         {
-            _navigationService.NavigateToViewModel<TViewModel>(clearBackStack, Parameters);
+            await _navigationService.NavigateToViewModelAsync<TViewModel>(clearBackStack, Parameters);
         }
     }
 }

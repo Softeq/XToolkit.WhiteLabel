@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using AndroidX.AppCompat.App;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.Common.Threading;
@@ -38,7 +39,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public bool IsEmptyBackStack => _backStack.Count == 0;
 
-        public void GoBack()
+        public Task GoBackAsync()
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -46,22 +47,24 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
                 ReplaceFragment(_backStack.Peek().Fragment);
             });
+
+            return Task.CompletedTask;
         }
 
-        public void GoBack<T>() where T : IViewModelBase
+        public Task GoBackAsync<T>() where T : IViewModelBase
         {
             var viewModel = _backStack.FirstOrDefault(x => x.ViewModel is T).ViewModel;
-            if (viewModel == null)
+            if (viewModel != null)
             {
-                return;
+                while (viewModel != _backStack.Peek().ViewModel)
+                {
+                    _backStack.Pop();
+                }
+
+                Execute.BeginOnUIThread(RestoreNavigation);
             }
 
-            while (viewModel != _backStack.Peek().ViewModel)
-            {
-                _backStack.Pop();
-            }
-
-            Execute.BeginOnUIThread(RestoreNavigation);
+            return Task.CompletedTask;
         }
 
         public void Initialize(object navigation)
@@ -69,21 +72,21 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _containerId = (int) navigation;
         }
 
-        public void NavigateToFirstPage()
+        public Task NavigateToFirstPageAsync()
         {
-            if (IsEmptyBackStack)
+            if (!IsEmptyBackStack)
             {
-                return;
+                while (_backStack.Count > 1)
+                {
+                    _backStack.Pop();
+                }
+
+                var firstViewModel = _backStack.Pop();
+
+                NavigateToExistingViewModel(firstViewModel.ViewModel);
             }
 
-            while (_backStack.Count > 1)
-            {
-                _backStack.Pop();
-            }
-
-            var firstViewModel = _backStack.Pop();
-
-            NavigateToExistingViewModel(firstViewModel.ViewModel);
+            return Task.CompletedTask;
         }
 
         public void RestoreNavigation()
@@ -91,7 +94,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             ReplaceFragment(_backStack.Peek().Fragment);
         }
 
-        public void NavigateToViewModel<TViewModel>(
+        public Task NavigateToViewModelAsync<TViewModel>(
             bool clearBackStack = false,
             // ReSharper disable once MethodOverloadWithOptionalParameter
             IReadOnlyList<NavigationParameterModel>? parameters = null) where TViewModel : IViewModelBase
@@ -111,7 +114,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             NavigateInternal(viewModel);
         }
 
-        public void NavigateToViewModel<T>(T viewModel) where T : IViewModelBase
+        public Task NavigateToViewModelAsync<T>(T viewModel) where T : IViewModelBase
         {
             if (Contains(viewModel))
             {
@@ -126,14 +129,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             {
                 NavigateToExistingViewModel(viewModel);
             }
+
+            return Task.CompletedTask;
         }
 
-        public void NavigateToViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel> navigationParameters)
+        public async Task NavigateToViewModelAsync<TViewModel>(IReadOnlyList<NavigationParameterModel> navigationParameters)
             where TViewModel : IViewModelBase
         {
             var viewModel = _iocContainer.Resolve<TViewModel>();
             viewModel.ApplyParameters(navigationParameters);
-            NavigateToViewModel(viewModel);
+            await NavigateToViewModelAsync(viewModel);
         }
 
         internal Fragment GetTopFragment()

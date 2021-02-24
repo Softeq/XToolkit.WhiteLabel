@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.Common.Weak;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -41,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             NavigationController = (UINavigationController) navigation;
         }
 
-        public virtual void GoBack()
+        public virtual Task GoBackAsync()
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -49,9 +50,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
                 NavigationController!.PopViewController(true);
             });
+
+            return Task.CompletedTask;
         }
 
-        public virtual void NavigateToViewModel(
+        public virtual Task NavigateToViewModelAsync(
             IViewModelBase viewModelBase,
             bool clearBackStack,
             IReadOnlyList<NavigationParameterModel>? parameters)
@@ -62,6 +65,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             }
 
             Navigate(ViewLocator.GetView(viewModelBase), clearBackStack);
+
+            return Task.CompletedTask;
         }
 
         protected virtual void Navigate(UIViewController controller, bool clearBackStack)

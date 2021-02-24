@@ -5,6 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
@@ -15,14 +16,14 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         {
             foreach (var page in navigation.NavigationStack)
             {
-                if (page.BindingContext == viewModel)
+                switch (page)
                 {
-                    return page.Navigation;
-                }
-
-                if (page is MasterDetailPage masterDetailPage)
-                {
-                    return FindNavigationForViewModel(masterDetailPage.Detail.Navigation, viewModel);
+                    case var p when p.BindingContext == viewModel:
+                        return page.Navigation;
+                    case MasterDetailPage masterDetailPage:
+                        return FindNavigationForViewModel(masterDetailPage.Detail.Navigation, viewModel);
+                    case TabbedPage tabbedPage:
+                        return FindNavigationForViewModel(tabbedPage.CurrentPage.Navigation, viewModel);
                 }
             }
 
@@ -39,7 +40,6 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
         protected virtual Page CreatePage(object viewModel)
         {
             var viewModelType = viewModel.GetType();
-
             var pageTypeName = viewModel is RootFrameNavigationViewModelBase
                 ? BuildRootFrameNavigationPageTypeName(viewModelType.FullName)
                 : BuildPageTypeName(viewModelType.FullName);
@@ -60,16 +60,13 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
                 case IMasterDetailViewModel masterDetailViewModel:
                     await SetupMasterDetailsPage((MasterDetailPage) page, masterDetailViewModel);
                     break;
+                case ToolbarViewModelBase<string> tabbedViewModel:
+                    await SetupTabbedPage((TabbedPage) page, tabbedViewModel);
+                    break;
             }
         }
 
-        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName)
-        {
-            var name = viewModelTypeName
-                .Replace(".Mvvm.", ".Forms.Navigation.");
-            name = name.Remove(name.IndexOf("ViewModel"));
-            return name;
-        }
+        protected virtual string BuildRootFrameNavigationPageTypeName(string viewModelTypeName) => typeof(RootFrameNavigationPage).FullName;
 
         protected virtual string BuildPageTypeName(string viewModelTypeName)
         {
@@ -83,9 +80,8 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             NavigationPage navigationPage,
             RootFrameNavigationViewModelBase rootFrameNavigationViewModelBase)
         {
-            await navigationPage.PushAsync(new Page(), false);
             rootFrameNavigationViewModelBase.InitializeNavigation(navigationPage.Navigation);
-            rootFrameNavigationViewModelBase.NavigateToFirstPage();
+            await rootFrameNavigationViewModelBase.NavigateToFirstPageAsync();
         }
 
         protected virtual async Task SetupMasterDetailsPage(
@@ -95,9 +91,26 @@ namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation
             var masterPage = await GetPageAsync(masterDetailsViewModel.MasterViewModel);
             masterPage.Title = "Master Page";
             masterDetailsPage.Master = masterPage;
+
             if (masterDetailsPage.Detail == null)
             {
                 masterDetailsPage.Detail = new Page();
+            }
+        }
+
+        protected virtual async Task SetupTabbedPage(
+            TabbedPage tabbedPage,
+            ToolbarViewModelBase<string> tabbedViewModel)
+        {
+            tabbedViewModel.OnInitialize();
+
+            foreach (var tabModel in tabbedViewModel.TabViewModels)
+            {
+                var tabPage = await GetPageAsync(tabModel);
+                tabPage.Title = tabModel.Title;
+                tabPage.IconImageSource = tabModel.Key;
+
+                tabbedPage.Children.Add(tabPage);
             }
         }
     }
