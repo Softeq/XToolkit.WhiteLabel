@@ -10,19 +10,19 @@
     <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>XToolkit.WhiteLabel is a collection of "lego" components for fast create cross-platform mobile applications with Xamarin, based on XToolkit.</description>
-    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2021 Softeq Development Corp.</copyright>
     <tags>Softeq XToolkit Xamarin iOS Android</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
      <group targetFramework="netstandard2.1">
-        <dependency id="DryIoc.dll" version="4.0.5" />
+        <dependency id="DryIoc.dll" version="4.5.1" />
         <dependency id="Newtonsoft.Json" version="12.0.2" />
         <dependency id="Xamarin.Essentials" version="1.6.1" />
         <!-- XToolkit: -->
         <dependency id="Softeq.XToolkit.Common" version="1.1.0-beta7" />
       </group>
      <group targetFramework="MonoAndroid9.0">
-        <dependency id="DryIoc.dll" version="4.0.5" />
+        <dependency id="DryIoc.dll" version="4.5.1" />
         <dependency id="Newtonsoft.Json" version="12.0.2" />
         <dependency id="Xamarin.Essentials" version="1.6.1" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
@@ -34,7 +34,7 @@
         <dependency id="Softeq.XToolkit.Bindings" version="2.0.0-beta7" />
       </group>
      <group targetFramework="Xamarin.iOS10">
-        <dependency id="DryIoc.dll" version="4.0.5" />
+        <dependency id="DryIoc.dll" version="4.5.1" />
         <dependency id="Newtonsoft.Json" version="12.0.2" />
         <dependency id="Xamarin.Essentials" version="1.6.1" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />

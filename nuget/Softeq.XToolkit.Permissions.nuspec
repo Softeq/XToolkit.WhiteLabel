@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Simple cross platform plugin to request and check permissions for Android and iOS.</description>
-    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2021 Softeq Development Corp.</copyright>
     <tags>Softeq XToolkit Xamarin Permissions iOS Android</tags>
     <releaseNotes/>
     <dependencies>

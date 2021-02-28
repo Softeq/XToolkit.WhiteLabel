@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Advanced HttpClient infrastructure for mobile applications.</description>
-    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2021 Softeq Development Corp.</copyright>
     <tags>Softeq XToolkit Xamarin iOS Android Remote Http Rest Api Auth</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>

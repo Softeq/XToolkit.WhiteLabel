@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/Softeq/XToolkit.WhiteLabel</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Integration library for using Softeq.XToolkit.WhiteLabel in Xamarin.Forms projects.</description>
-    <copyright>Copyright 2020 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2021 Softeq Development Corp.</copyright>
     <tags>Softeq XToolkit Xamarin iOS Android</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
