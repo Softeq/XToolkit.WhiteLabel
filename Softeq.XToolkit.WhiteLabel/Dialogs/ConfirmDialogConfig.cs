@@ -21,6 +21,9 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
         /// <param name="isDestructive">
         ///     Value indicating whether the 'Accept' button should look destructive on UI.
         /// </param>
+        /// <param name="imageName">
+        ///     The name of the dialog image or <see langword="null"/> if no image should be used.
+        /// </param>
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="title"/>
         ///     and <paramref name="message"/>
@@ -32,13 +35,15 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
             string message,
             string acceptButtonText,
             string? cancelButtonText = null,
-            bool isDestructive = false)
+            bool isDestructive = false,
+            string? imageName = null)
         {
             Title = title ?? throw new ArgumentNullException(nameof(title));
             Message = message ?? throw new ArgumentNullException(nameof(message));
             AcceptButtonText = acceptButtonText ?? throw new ArgumentNullException(nameof(acceptButtonText));
             CancelButtonText = cancelButtonText;
             IsDestructive = isDestructive;
+            ImageName = imageName;
         }
 
         /// <summary>
@@ -67,5 +72,10 @@ namespace Softeq.XToolkit.WhiteLabel.Dialogs
         ///     the 'Accept' button should look destructive on UI.
         /// </summary>
         public bool IsDestructive { get; }
+
+        /// <summary>
+        ///     Gets the name of the dialog image or <see langword="null"/> if no image should be used.
+        /// </summary>
+        public string? ImageName { get; }
     }
 }

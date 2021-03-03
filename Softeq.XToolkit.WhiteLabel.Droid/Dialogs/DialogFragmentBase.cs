@@ -81,7 +81,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         public override void Dismiss()
         {
-            WillDismiss?.Invoke(this, null);
+            WillDismiss?.Invoke(this, EventArgs.Empty);
 
             if (Activity != null && !Activity.IsFinishing && !Activity.IsDestroyed)
             {
@@ -93,7 +93,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             base.OnDismiss(dialog);
 
-            Dismissed?.Invoke(this, null);
+            Dismissed?.Invoke(this, EventArgs.Empty);
 
             ViewModel.DialogComponent.CloseCommand.Execute(null);
         }
