@@ -8,17 +8,15 @@ using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
-using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
-    public class StoryboardDialogsService : IDialogsService
+    public sealed class StoryboardDialogsService : IDialogsService
     {
         private readonly ILogger _logger;
         private readonly IViewLocator _viewLocator;
@@ -34,49 +32,19 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _logger = logManager.GetLogger<StoryboardDialogsService>();
         }
 
-        [Obsolete("Use ShowDialogAsync(new ConfirmDialogConfig()) instead.")]
-        public Task<bool> ShowDialogAsync(
-            string title,
-            string message,
-            string okButtonText,
-            string? cancelButtonText = null,
-            OpenDialogOptions? options = null)
-        {
-            return ShowDialogAsync(new ConfirmDialogConfig(
-                title,
-                message,
-                okButtonText,
-                cancelButtonText,
-                options?.DialogType == DialogType.Destructive));
-        }
-
-        public virtual Task ShowDialogAsync(AlertDialogConfig config)
+        public Task ShowDialogAsync(AlertDialogConfig config)
         {
             return new IosAlertDialog(_viewLocator, config).ShowAsync();
         }
 
-        public virtual Task<bool> ShowDialogAsync(ConfirmDialogConfig config)
+        public Task<bool> ShowDialogAsync(ConfirmDialogConfig config)
         {
             return new IosConfirmDialog(_viewLocator, config).ShowAsync();
         }
 
-        public virtual Task<string> ShowDialogAsync(ActionSheetDialogConfig config)
+        public Task<string> ShowDialogAsync(ActionSheetDialogConfig config)
         {
             return new IosActionSheetDialog(_viewLocator, config).ShowAsync();
-        }
-
-        public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
-        {
-            return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
-        }
-
-        public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
-        {
-            return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(

@@ -1,20 +1,17 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
-using Softeq.XToolkit.WhiteLabel.Extensions;
-using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
-    public class DroidFragmentDialogService : IDialogsService
+    public sealed class DroidFragmentDialogService : IDialogsService
     {
         private readonly IContainer _container;
         private readonly IViewLocator _viewLocator;
@@ -25,18 +22,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
             _container = container;
             _viewLocator = viewLocator;
-        }
-
-        [Obsolete("Use ShowDialogAsync(new ConfirmDialogConfig()) instead.")]
-        public Task<bool> ShowDialogAsync(
-            string title,
-            string message,
-            string okButtonText,
-            string? cancelButtonText = null,
-            OpenDialogOptions? openDialogOptions = null)
-        {
-            return ShowDialogAsync(new ConfirmDialogConfig(
-                title, message, okButtonText, cancelButtonText));
         }
 
         public Task ShowDialogAsync(AlertDialogConfig config)
@@ -52,20 +37,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public Task<string> ShowDialogAsync(ActionSheetDialogConfig config)
         {
             return new DroidActionSheetDialog(config).ShowAsync();
-        }
-
-        public Task<TResult> ShowForViewModel<TViewModel, TResult>(
-            IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
-        {
-            return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
-        }
-
-        public Task ShowForViewModel<TViewModel>(
-            IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
-        {
-            return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
@@ -108,7 +79,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             return viewModel;
         }
 
-        protected virtual Task<object> ShowDialogAsync<TViewModel>(TViewModel viewModel)
+        private Task<object> ShowDialogAsync<TViewModel>(TViewModel viewModel)
             where TViewModel : IDialogViewModel
         {
             var dialogFragment = (DialogFragmentBase<TViewModel>) _viewLocator.GetView(viewModel, ViewType.DialogFragment);
