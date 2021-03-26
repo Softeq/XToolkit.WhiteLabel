@@ -84,6 +84,7 @@
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
     <Compile Include="ViewComponents\ToolbarComponent.cs" />
+    <Compile Include="ViewComponents\ViewModelComponent.cs" />
     <Compile Include="Views\BottomNavigationFragmentBase.cs" />
     <Compile Include="Navigation\StartActivityAttribute.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />

@@ -2,25 +2,18 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 {
     internal static class ViewModelCache
     {
-        private static readonly Dictionary<string, Dictionary<string, IViewModelBase>> _cache;
-
-        static ViewModelCache()
-        {
-            _cache = new Dictionary<string, Dictionary<string, IViewModelBase>>();
-        }
+        private static readonly Dictionary<string, Dictionary<string, object>> _cache =
+            new Dictionary<string, Dictionary<string, object>>();
 
         internal static TViewModel? Get<TViewModel>(string containerId, string key)
-            where TViewModel : class, IViewModelBase
+            where TViewModel : class
         {
-            var container = _cache.GetValueOrDefault(containerId);
-
-            if (container != null)
+            if (_cache.TryGetValue(containerId, out var container))
             {
                 return (TViewModel) container.GetValueOrDefault(key);
             }
@@ -28,11 +21,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
             return null;
         }
 
-        internal static void Add(string containerId, string key, IViewModelBase viewModel)
+        internal static void Add(string containerId, string key, object viewModel)
         {
             if (!_cache.ContainsKey(containerId))
             {
-                _cache[containerId] = new Dictionary<string, IViewModelBase>();
+                _cache[containerId] = new Dictionary<string, object>();
             }
 
             _cache[containerId][key] = viewModel;
@@ -40,18 +33,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 
         internal static void Remove(string containerId, string key)
         {
-            if (_cache.ContainsKey(containerId))
+            if (_cache.TryGetValue(containerId, out var container))
             {
-                _cache[containerId].Remove(key);
+                container.Remove(key);
             }
         }
 
-        internal static void Remove(string containerId, IReadOnlyCollection<string> keys)
+        internal static void Remove(string containerId, IEnumerable<string> keys)
         {
-            if (_cache.ContainsKey(containerId))
+            if (_cache.TryGetValue(containerId, out var container))
             {
-                var container = _cache[containerId];
-
                 foreach (var key in keys)
                 {
                     container.Remove(key);

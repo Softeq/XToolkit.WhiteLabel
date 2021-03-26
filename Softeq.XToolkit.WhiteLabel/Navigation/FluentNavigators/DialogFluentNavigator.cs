@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
     /// </summary>
     /// <typeparam name="TViewModel">Type of ViewModel to perform navigation to.</typeparam>
     public class DialogFluentNavigator<TViewModel> : FluentNavigatorBase<TViewModel>
-        where TViewModel : IDialogViewModel
+        where TViewModel : class, IDialogViewModel
     {
         private readonly IDialogsService _dialogsService;
 
