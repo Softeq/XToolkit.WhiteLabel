@@ -17,7 +17,7 @@ using Dialog = Android.App.Dialog;
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {
     public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable, IDialogFragment
-        where TViewModel : IDialogViewModel
+        where TViewModel : class, IDialogViewModel
     {
         private readonly Lazy<IContextProvider> _contextProviderLazy = Dependencies.Container.Resolve<Lazy<IContextProvider>>();
 

@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         protected FrameNavigationConfig? Config { get; private set; }
 
-        private IViewModelStore CurrentStore
+        private IInstanceStorage CurrentStore
         {
             get
             {

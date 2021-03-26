@@ -5,11 +5,10 @@ using System;
 using System.Collections.Generic;
 using Android.OS;
 using AndroidX.Fragment.App;
-using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 {
-    internal sealed class ViewModelStoreFragment : Fragment, IViewModelStore
+    internal sealed class ViewModelStorageFragment : Fragment, IInstanceStorage
     {
         private const string ViewModelStoreIdKey = "WL_ViewModelStoreId";
 
@@ -19,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 
         /// <inheritdoc />
         public TViewModel Get<TViewModel>(string fragmentName)
-            where TViewModel : class, IViewModelBase
+            where TViewModel : class
         {
             var viewModel = ViewModelCache.Get<TViewModel>(ViewModelStoreId, fragmentName);
 
@@ -34,7 +33,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
         }
 
         /// <inheritdoc />
-        public void Add(string fragmentName, IViewModelBase viewModel)
+        public void Add<TViewModel>(string fragmentName, TViewModel viewModel)
+            where TViewModel : class
         {
             ViewModelCache.Add(ViewModelStoreId, fragmentName, viewModel);
         }
@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
         }
 
         /// <inheritdoc />
-        public void Remove(IReadOnlyList<string> fragmentNames)
+        public void Remove(IEnumerable<string> fragmentNames)
         {
             ViewModelCache.Remove(ViewModelStoreId, fragmentNames);
         }
@@ -58,7 +58,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
         }
 
         /// <inheritdoc />
-        public override void OnCreate(Bundle savedInstanceState)
+        public override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

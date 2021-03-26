@@ -10,23 +10,23 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
     {
         private const string ViewModelStoreTag = "WL_ViewModelStore";
 
-        internal static IViewModelStore Of(FragmentManager fragmentManager)
+        internal static IInstanceStorage Of(FragmentManager fragmentManager)
         {
             return Get(fragmentManager);
         }
 
-        private static IViewModelStore Get(FragmentManager fragmentManager)
+        private static IInstanceStorage Get(FragmentManager fragmentManager)
         {
             if (fragmentManager.IsDestroyed)
             {
                 throw new InvalidOperationException("View Model store has been destroyed");
             }
 
-            var viewModelStore = (ViewModelStoreFragment?) fragmentManager.FindFragmentByTag(ViewModelStoreTag);
+            var viewModelStore = (ViewModelStorageFragment?) fragmentManager.FindFragmentByTag(ViewModelStoreTag);
 
             if (viewModelStore == null)
             {
-                viewModelStore = new ViewModelStoreFragment();
+                viewModelStore = new ViewModelStorageFragment();
 
                 fragmentManager
                     .BeginTransaction()

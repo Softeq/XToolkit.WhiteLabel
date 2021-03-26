@@ -56,21 +56,21 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         public Task<TResult> ShowForViewModel<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : class, IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel, TResult>(parameters).WaitUntilDismissed();
         }
 
         public Task ShowForViewModel<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : class, IDialogViewModel
         {
             return ShowForViewModelAsync<TViewModel>(parameters).WaitUntilDismissed();
         }
 
         public async Task<IDialogResult> ShowForViewModelAsync<TViewModel>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : class, IDialogViewModel
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);
 
@@ -81,7 +81,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
             IEnumerable<NavigationParameterModel>? parameters = null)
-            where TViewModel : IDialogViewModel
+            where TViewModel : class, IDialogViewModel
         {
             var viewModel = CreateViewModel<TViewModel>(parameters);
 
@@ -109,7 +109,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         }
 
         protected virtual Task<object> ShowDialogAsync<TViewModel>(TViewModel viewModel)
-            where TViewModel : IDialogViewModel
+            where TViewModel : class, IDialogViewModel
         {
             var dialogFragment = (DialogFragmentBase<TViewModel>) _viewLocator.GetView(viewModel, ViewType.DialogFragment);
             dialogFragment.Show();

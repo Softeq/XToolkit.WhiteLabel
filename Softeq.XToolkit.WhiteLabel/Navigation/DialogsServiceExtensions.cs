@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         ///     <paramref name="dialogsService"/> cannot be <see langword="null"/>.
         /// </exception>
         public static DialogFluentNavigator<T> For<T>(this IDialogsService dialogsService)
-            where T : IDialogViewModel
+            where T : class, IDialogViewModel
         {
             if (dialogsService == null)
             {

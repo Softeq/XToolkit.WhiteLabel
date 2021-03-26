@@ -84,6 +84,7 @@
     <Compile Include="ViewComponents\IViewComponent.cs" />
     <Compile Include="ViewComponents\ToastContainerComponent.cs" />
     <Compile Include="ViewComponents\ToolbarComponent.cs" />
+    <Compile Include="ViewComponents\ViewModelComponent.cs" />
     <Compile Include="Views\BottomNavigationFragmentBase.cs" />
     <Compile Include="Navigation\StartActivityAttribute.cs" />
     <Compile Include="Navigation\IViewLocator.cs" />
@@ -102,8 +103,8 @@
     <Compile Include="Internal\ViewModelStore.cs" />
     <Compile Include="Internal\BackStack.cs" />
     <Compile Include="Internal\ViewModelCache.cs" />
-    <Compile Include="Internal\ViewModelStoreFragment.cs" />
-    <Compile Include="Internal\IViewModelStore.cs" />
+    <Compile Include="Internal\ViewModelStorageFragment.cs" />
+    <Compile Include="Internal\IInstanceStorage.cs" />
     <Compile Include="Views\ToolbarFragmentBase.cs" />
     <Compile Include="Navigation\BackPressedCallback.cs" />
     <Compile Include="Dialogs\IDialogFragment.cs" />
