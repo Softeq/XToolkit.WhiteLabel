@@ -32,8 +32,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
         /// </summary>
         /// <exception cref="T:System.InvalidOperationException">
         ///     ViewModel instance is not assigned either because it wasn't initialized using
-        ///     <see cref="ViewModelComponent{TViewModel}.Initialize"/> method, or wasn't restored properly using
-        ///     <see cref="ViewModelComponent{TViewModel}.RestoreViewModel"/> method.
+        ///     <see cref="ViewModelComponent{TViewModel}.Initialize"/> method, or wasn't restored
+        ///     properly using <see cref="ViewModelComponent{TViewModel}.RestoreViewModel"/> method.
         /// </exception>
         public TViewModel ViewModel => _viewModel ?? throw new InvalidOperationException("ViewModel instance is not assigned");
 
@@ -48,8 +48,16 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
         /// <param name="viewModel">
         ///     ViewModel instance to store.
         /// </param>
+        /// <exception cref="T:System.InvalidOperationException">
+        ///     ViewModelComponent is already initialized with an instance of ViewModel.
+        /// </exception>
         public void Initialize(TViewModel viewModel)
         {
+            if (_viewModel != null)
+            {
+                throw new InvalidOperationException("ViewModelComponent should be initialized only once");
+            }
+
             _viewModel = viewModel;
         }
 
