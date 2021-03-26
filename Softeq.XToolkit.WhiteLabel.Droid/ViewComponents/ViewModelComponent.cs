@@ -6,6 +6,12 @@ using AndroidX.Fragment.App;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 {
+    /// <summary>
+    ///     Component, which encapsulates logic of storing/restoring ViewModel instance within FragmentManager
+    /// </summary>
+    /// <typeparam name="TViewModel">
+    ///     Type of the ViewModel instance
+    /// </typeparam>
     public sealed class ViewModelComponent<TViewModel> where TViewModel : class
     {
         private TViewModel? _viewModel;

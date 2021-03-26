@@ -103,8 +103,8 @@
     <Compile Include="Internal\ViewModelStore.cs" />
     <Compile Include="Internal\BackStack.cs" />
     <Compile Include="Internal\ViewModelCache.cs" />
-    <Compile Include="Internal\ViewModelStoreFragment.cs" />
-    <Compile Include="Internal\IViewModelStore.cs" />
+    <Compile Include="Internal\ViewModelStorageFragment.cs" />
+    <Compile Include="Internal\IInstanceStorage.cs" />
     <Compile Include="Views\ToolbarFragmentBase.cs" />
     <Compile Include="Navigation\BackPressedCallback.cs" />
     <Compile Include="Dialogs\IDialogFragment.cs" />

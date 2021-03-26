@@ -8,7 +8,7 @@ using AndroidX.Fragment.App;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 {
-    internal sealed class ViewModelStoreFragment : Fragment, IViewModelStore
+    internal sealed class ViewModelStorageFragment : Fragment, IInstanceStorage
     {
         private const string ViewModelStoreIdKey = "WL_ViewModelStoreId";
 
