@@ -37,11 +37,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void GoBack()
         {
-            Execute.BeginOnUIThread(() =>
-            {
-                _backStack.Pop();
-                RestoreState();
-            });
+            _backStack.Pop();
+            
+            Execute.BeginOnUIThread(RestoreState);
         }
 
         public void GoBack<T>() where T : ViewModelBase
