@@ -26,9 +26,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
         public bool IsEmptyBackStack => !NavigationController!.ViewControllers.Any();
 
-        bool IFrameNavigationService.IsInitialized => NavigationController != null;
-
-        bool IFrameNavigationService.CanGoBack => CanGoBack;
+        public bool IsInitialized => NavigationController != null;
 
         public virtual void NavigateToViewModel<TViewModel>(
             bool clearBackStack = false,
@@ -40,12 +38,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             NavigateToViewModel(viewModel, clearBackStack, parameters);
         }
 
-        void IFrameNavigationService.GoBack()
-        {
-            GoBack();
-        }
-
-        void IFrameNavigationService.GoBack<T>()
+        public void GoBack<T>() where T : IViewModelBase
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -62,20 +55,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             });
         }
 
-        void IFrameNavigationService.Initialize(object navigation)
-        {
-            Initialize(navigation);
-        }
-
-        void IFrameNavigationService.RestoreNavigation()
+        public void RestoreNavigation()
         {
         }
 
-        void IFrameNavigationService.RestoreUnfinishedNavigation()
+        public void RestoreUnfinishedNavigation()
         {
         }
 
-        void IFrameNavigationService.NavigateToFirstPage()
+        public virtual void NavigateToFirstPage()
         {
         }
 
