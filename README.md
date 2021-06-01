@@ -7,6 +7,10 @@ XToolkit.WhiteLabel is a modular, cross-platform MVVM framework from "lego" comp
 
 ## Installation
 
+This library is actively developed alongside production apps, and the API will evolve as we continue our way to version 2.0.
+
+Please be fully prepared to deal with breaking changes.
+
 Component | NuGet
 ----------|--------
 Common    | [![Softeq.XToolkit.Common](https://buildstats.info/nuget/Softeq.XToolkit.Common?includePreReleases=true)](https://www.nuget.org/packages/Softeq.XToolkit.Common)
