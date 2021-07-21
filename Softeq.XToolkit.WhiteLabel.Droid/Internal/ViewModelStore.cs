@@ -6,9 +6,14 @@ using AndroidX.Fragment.App;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
 {
-    internal static class ViewModelStore
+    public static class ViewModelStore
     {
         private const string ViewModelStoreTag = "WL_ViewModelStore";
+
+        public static void SetupFor(FragmentManager fragmentManager)
+        {
+            Get(fragmentManager);
+        }
 
         internal static IInstanceStorage Of(FragmentManager fragmentManager)
         {
