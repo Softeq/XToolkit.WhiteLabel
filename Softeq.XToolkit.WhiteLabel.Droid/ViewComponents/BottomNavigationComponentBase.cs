@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 
             InflateMenu(context);
             BottomNavigationView.SelectedItemId = _viewModel.SelectedIndex;
-            BottomNavigationView.NavigationItemSelected += BottomNavigationViewNavigationItemSelected;
+            BottomNavigationView.ItemSelected += BottomNavigationView_ItemSelected;
         }
 
         public virtual void Detach()
@@ -105,16 +105,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
             }
         }
 
-        private void BottomNavigationViewNavigationItemSelected(
-            object sender,
-            BottomNavigationView.NavigationItemSelectedEventArgs e)
+        private void BottomNavigationView_ItemSelected(object sender, Google.Android.Material.Navigation.NavigationBarView.ItemSelectedEventArgs e)
         {
             if (BottomNavigationView == null)
             {
                 throw new ArgumentNullException(nameof(BottomNavigationView));
             }
 
-            var index = BottomNavigationView.GetIndex(e.Item);
+            var index = BottomNavigationView.GetIndex(e.P0);
             HandleTabSelected(index);
         }
     }
