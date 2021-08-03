@@ -79,6 +79,23 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             return self;
         }
 
+        public static NSMutableAttributedString LinksFont(
+            this NSMutableAttributedString self, UIFont font)
+        {
+            self.EnumerateAttributes(
+                new NSRange(0, self.Length),
+                NSAttributedStringEnumeration.Reverse,
+                (NSDictionary attrs, NSRange range, ref bool stop) =>
+                {
+                    if (attrs.ContainsKey(UIStringAttributeKey.Link))
+                    {
+                        self.RemoveAttribute(UIStringAttributeKey.Font, range);
+                        self.AddAttribute(UIStringAttributeKey.Font, font, range);
+                    }
+                });
+            return self;
+        }
+
         /// <summary>
         ///    Set underline for range.
         /// </summary>
