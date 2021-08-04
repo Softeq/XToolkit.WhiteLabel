@@ -82,9 +82,10 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         public static NSMutableAttributedString LinksFont(
             this NSMutableAttributedString self, UIFont font)
         {
+            self.BeginEditing();
             self.EnumerateAttributes(
                 new NSRange(0, self.Length),
-                NSAttributedStringEnumeration.Reverse,
+                NSAttributedStringEnumeration.None,
                 (NSDictionary attrs, NSRange range, ref bool stop) =>
                 {
                     if (attrs.ContainsKey(UIStringAttributeKey.Link))
@@ -93,6 +94,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                         self.AddAttribute(UIStringAttributeKey.Font, font, range);
                     }
                 });
+            self.EndEditing();
             return self;
         }
 
