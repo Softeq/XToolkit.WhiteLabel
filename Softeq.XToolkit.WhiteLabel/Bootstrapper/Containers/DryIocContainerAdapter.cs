@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using DryIoc;
 using IContainer = Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract.IContainer;
@@ -37,6 +38,17 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             }
 
             return _container.Resolve<TService>(parameters);
+        }
+
+        /// <inheritdoc/>
+        public IEnumerable<TService> ResolveMany<TService>() where TService : notnull
+        {
+            if (_container == null)
+            {
+                throw new InvalidOperationException("DryIocContainerAdapter is not initialized");
+            }
+
+            return _container.ResolveMany<TService>(behavior: ResolveManyBehavior.AsFixedArray);
         }
 
         /// <inheritdoc/>
