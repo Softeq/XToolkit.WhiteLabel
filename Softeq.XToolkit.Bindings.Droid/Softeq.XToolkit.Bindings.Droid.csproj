@@ -34,9 +34,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.RecyclerView">
-      <Version>1.1.0.6</Version>
-    </PackageReference>
+    <PackageReference Include="Xamarin.AndroidX.RecyclerView" Version="1.1.0.8" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />

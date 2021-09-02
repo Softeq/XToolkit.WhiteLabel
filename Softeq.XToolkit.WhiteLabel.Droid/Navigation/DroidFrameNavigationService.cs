@@ -109,9 +109,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 ClearBackStack();
             }
 
-            var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
-
-            NavigateInternal(fragment, viewModel);
+            Execute.BeginOnUIThread(() =>
+            {
+                var fragment = (Fragment) _viewLocator.GetView(viewModel, ViewType.Fragment);
+                NavigateInternal(fragment, viewModel);
+            });
         }
 
         /// <inheritdoc />
