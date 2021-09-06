@@ -24,7 +24,7 @@ reportgenerator \
     -reporttypes:Html
 
 # cleanup
-rm -rf `find . -path "./*.Tests/${COVERAGE_REPORT_PATH}"`
+rm -rf $(find . -path "./*.Tests/${COVERAGE_REPORT_PATH}")
 
 # open report in default browser
 open coverage_report/index.html
