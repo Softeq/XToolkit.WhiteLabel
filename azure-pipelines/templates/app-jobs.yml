@@ -28,4 +28,10 @@ jobs:
           **/*.Tests.csproj
           !**/*.iOS.Tests.csproj
           !**/*.Droid.Tests.csproj
-        arguments: '-c Release'
+        arguments: '-c Release --collect:"Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=cobertura'
+        publishTestResults: true
+    - task: PublishCodeCoverageResults@1
+      displayName: 'Publish code coverage report'
+      inputs:
+        codeCoverageTool: 'Cobertura'
+        summaryFileLocation: '$(Agent.TempDirectory)/**/coverage.cobertura.xml'
