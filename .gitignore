@@ -207,3 +207,8 @@ FakesAssemblies/
 Output
 
 **/Resources/Resource.designer.cs
+
+# Coverage
+**/temp_coverage_report_*
+coverage_report
+
