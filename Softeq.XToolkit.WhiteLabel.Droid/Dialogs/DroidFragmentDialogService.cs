@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
             await ShowDialogAsync(viewModel);
 
-            return new DialogResult(Task.FromResult(true));
+            return new DialogResult(GetDialogDismissTask());
         }
 
         public async Task<IDialogResult<TResult>> ShowForViewModelAsync<TViewModel, TResult>(
@@ -91,7 +91,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
                 ? convertedResult
                 : default!;
 
-            return new DialogResult<TResult>(result, Task.FromResult(true));
+            return new DialogResult<TResult>(result, GetDialogDismissTask());
+        }
+
+        protected virtual Task<bool> GetDialogDismissTask()
+        {
+            return Task.FromResult(true);
         }
 
         private TViewModel CreateViewModel<TViewModel>(
