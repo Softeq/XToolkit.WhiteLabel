@@ -466,6 +466,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                             _view.InsertRows(paths, AddAnimation);
                         }
+
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
@@ -488,23 +489,24 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                             _view.DeleteRows(paths, DeleteAnimation);
                         }
+
                         break;
+
                     case NotifyCollectionChangedAction.Move:
                         {
                             if (e.NewItems.Count != 1 || e.OldItems.Count != 1)
                             {
                                 _view.ReloadData();
-                                break;
                             }
-
-                            if (e.NewStartingIndex != e.OldStartingIndex)
+                            else if (e.NewStartingIndex != e.OldStartingIndex)
                             {
-                                _view.MoveRow(NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
+                                _view.MoveRow(
+                                    NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
                                     NSIndexPath.FromRowSection(e.NewStartingIndex, 0));
                             }
-
-                            break;
                         }
+
+                        break;
 
                     default:
                         _view.ReloadData();
