@@ -349,11 +349,12 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                             for (var i = 0; i < count; i++)
                             {
-                                paths[i] = NSIndexPath.FromRowSection(e.NewStartingIndex + i, 0);
+                                paths[i] = NSIndexPath.FromItemSection(e.NewStartingIndex + i, 0);
                             }
 
                             _view.InsertItems(paths);
                         }
+
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
@@ -363,7 +364,7 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                             for (var i = 0; i < count; i++)
                             {
-                                var index = NSIndexPath.FromRowSection(e.OldStartingIndex + i, 0);
+                                var index = NSIndexPath.FromItemSection(e.OldStartingIndex + i, 0);
                                 paths[i] = index;
 
                                 var item = e.OldItems[i];
@@ -376,6 +377,23 @@ namespace Softeq.XToolkit.Bindings.iOS
 
                             _view.DeleteItems(paths);
                         }
+
+                        break;
+
+                    case NotifyCollectionChangedAction.Move:
+                        {
+                            if (e.NewItems.Count != 1 || e.OldItems.Count != 1)
+                            {
+                                _view.ReloadData();
+                            }
+                            else if (e.NewStartingIndex != e.OldStartingIndex)
+                            {
+                                _view.MoveItem(
+                                    NSIndexPath.FromItemSection(e.OldStartingIndex, 0),
+                                    NSIndexPath.FromItemSection(e.NewStartingIndex, 0));
+                            }
+                        }
+
                         break;
 
                     default:
