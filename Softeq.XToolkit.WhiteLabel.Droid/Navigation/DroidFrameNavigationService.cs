@@ -3,6 +3,7 @@
 
 using System.Collections.Generic;
 using AndroidX.Fragment.App;
+using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Internal;
@@ -116,6 +117,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private static void UpdateViewModelStorage(FragmentManager fragmentManager, IViewModelBase? viewModelToRemove, IViewModelBase viewModelToAdd)
         {
+            if (ReferenceEquals(viewModelToRemove, viewModelToAdd))
+            {
+                return;
+            }
+
             var viewModelStore = ViewModelStore.Of(fragmentManager);
 
             if (viewModelToRemove != null)
@@ -138,6 +144,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             viewModelStore.Remove(viewModelKey);
         }
 
+        private static object? ExtractCurrentFragmentViewModel(FrameNavigationConfig config)
+        {
+            var currentBindableFragment = config.Manager.FindFragmentById(config.ContainerId) as IBindable;
+
+            return currentBindableFragment?.DataContext;
+        }
+
         private void ApplyBackStack(BackStack<IViewModelBase> backStack)
         {
             Execute.BeginOnUIThread(() =>
@@ -158,6 +171,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private void SetCurrentFragment(FrameNavigationConfig config, IViewModelBase topViewModel)
         {
+            var currentFragmentViewModel = ExtractCurrentFragmentViewModel(config);
+            if (ReferenceEquals(topViewModel, currentFragmentViewModel))
+            {
+                return;
+            }
+
             var fragment = (Fragment) _viewLocator.GetView(topViewModel, ViewType.Fragment);
 
             var transaction = config.Manager
