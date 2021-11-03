@@ -20,6 +20,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
             return Get(fragmentManager);
         }
 
+        internal static string GenerateKeyForType(Type type)
+        {
+            return type.Name;
+        }
+
         private static IInstanceStorage Get(FragmentManager fragmentManager)
         {
             if (fragmentManager.IsDestroyed)
