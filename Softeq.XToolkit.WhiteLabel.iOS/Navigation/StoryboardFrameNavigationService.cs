@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Softeq.XToolkit.Common.Threading;
@@ -71,23 +70,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
         }
 
-        void IFrameNavigationService.RestoreUnfinishedNavigation()
-        {
-        }
-
         void IFrameNavigationService.NavigateToFirstPage()
         {
         }
 
         protected virtual IViewModelBase CreateViewModel<TViewModel>()
-            where TViewModel : notnull
+            where TViewModel : IViewModelBase
         {
-            if (!typeof(IViewModelBase).IsAssignableFrom(typeof(TViewModel)))
-            {
-                throw new ArgumentException($"Class must implement {nameof(IViewModelBase)}");
-            }
-
-            return (IViewModelBase) _iocContainer.Resolve<TViewModel>(this);
+            return _iocContainer.Resolve<TViewModel>(this);
         }
     }
 }
