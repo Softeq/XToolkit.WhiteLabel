@@ -7,10 +7,14 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 
+#pragma warning disable SA1611, SA1615
+
 namespace Softeq.XToolkit.Common.Files
 {
     public class ResourceFileProvider : IFileProvider
     {
+        private const string MethodNotSupportedExceptionMessage = "The method call is not relevant for this file provider.";
+
         private readonly Assembly _assembly;
 
         public ResourceFileProvider(Assembly assembly)
@@ -19,38 +23,30 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        ///     Not Implemented.
+        ///     Not Supported.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="T:System.NotSupportedException">The method call is not relevant for this file provider.</exception>
         public Task ClearFolderAsync(string path)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException(MethodNotSupportedExceptionMessage);
         }
 
         /// <summary>
-        ///     Not Implemented.
+        ///     Not Supported.
         /// </summary>
-        /// <param name="srcPath"></param>
-        /// <param name="dstPath"></param>
-        /// <param name="overwrite"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="T:System.NotSupportedException">The method call is not relevant for this file provider.</exception>
         public Task CopyFileAsync(string srcPath, string dstPath, bool overwrite)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException(MethodNotSupportedExceptionMessage);
         }
 
         /// <summary>
-        ///     Not Implemented.
+        ///     Not Supported.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="T:System.NotSupportedException">The method call is not relevant for this file provider.</exception>
         public Task<bool> FileExistsAsync(string path)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException(MethodNotSupportedExceptionMessage);
         }
 
         /// <inheritdoc />
@@ -69,7 +65,7 @@ namespace Softeq.XToolkit.Common.Files
                     throw new Exception($"Resource ending with {fileName} not found.");
                 }
 
-                if (resourcePaths.Count() > 1)
+                if (resourcePaths.Length > 1)
                 {
                     throw new Exception(
                         $"Multiple resources ending with {fileName} found: {Environment.NewLine}{string.Join(Environment.NewLine, resourcePaths)}");
@@ -80,37 +76,30 @@ namespace Softeq.XToolkit.Common.Files
         }
 
         /// <summary>
-        ///     Not Implemented.
+        ///     Not Supported.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="T:System.NotSupportedException">The method call is not relevant for this file provider.</exception>
         public Task<Stream> OpenFileForWriteAsync(string path)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException(MethodNotSupportedExceptionMessage);
         }
 
         /// <summary>
-        ///     Not Implemented.
+        ///     Not Supported.
         /// </summary>
-        /// <param name="path"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="T:System.NotSupportedException">The method call is not relevant for this file provider.</exception>
         public Task RemoveFileAsync(string path)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException(MethodNotSupportedExceptionMessage);
         }
 
         /// <summary>
-        ///     Not Implemented.
+        ///     Not Supported.
         /// </summary>
-        /// <param name="path"></param>
-        /// <param name="stream"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
+        /// <exception cref="T:System.NotSupportedException">The method call is not relevant for this file provider.</exception>
         public Task WriteFileAsync(string path, Stream stream)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException(MethodNotSupportedExceptionMessage);
         }
 
         /// <inheritdoc />

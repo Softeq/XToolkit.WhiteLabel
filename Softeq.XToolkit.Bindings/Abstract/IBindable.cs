@@ -9,7 +9,7 @@ namespace Softeq.XToolkit.Bindings.Abstract
     public interface IBindable : IBindingsOwner
     {
         /// <summary>
-        ///     Data context for an element when it participates in data binding.
+        ///     Gets data context for an element when it participates in data binding.
         /// </summary>
         object DataContext { get; }
 

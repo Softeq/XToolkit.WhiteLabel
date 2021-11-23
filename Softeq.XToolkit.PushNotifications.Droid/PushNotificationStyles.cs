@@ -22,12 +22,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         }
 
         /// <summary>
-        ///     Notification Id. Notifications with the same id will be replaced.
+        ///     Gets or sets notification Id. Notifications with the same id will be replaced.
         /// </summary>
         public int Id { get; set; }
 
         /// <summary>
-        ///     If true, notification will be automatically removed when the user taps it
+        ///     Gets or sets a value indicating whether if true, notification will be automatically removed when the user taps it.
         /// </summary>
         public bool AutoCancel { get; set; }
 

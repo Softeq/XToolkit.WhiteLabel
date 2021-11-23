@@ -779,7 +779,7 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="T:System.InvalidOperationException">
-        ///     When <see cref="WhenSourceChanges(System.Action)"/> is called on a binding which already has a target property set.
+        ///     When the method is called on a binding that already has a target property set.
         /// </exception>
         public Binding<TSource, TTarget> WhenSourceChanges(Action callback)
         {

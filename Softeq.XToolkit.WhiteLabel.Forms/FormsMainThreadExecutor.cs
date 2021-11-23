@@ -10,7 +10,7 @@ using Xamarin.Forms;
 namespace Softeq.XToolkit.WhiteLabel.Forms
 {
     /// <summary>
-    ///     A <see cref="IMainThreadExecutor" /> implementation for Xamarin.Forms.
+    ///     A <see cref="T:Softeq.XToolkit.Common.Threading.IMainThreadExecutor" /> implementation for Xamarin.Forms.
     /// </summary>
     public class FormsMainThreadExecutor : IMainThreadExecutor
     {

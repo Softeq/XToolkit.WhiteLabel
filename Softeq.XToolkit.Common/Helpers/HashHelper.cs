@@ -7,7 +7,7 @@ using System.Linq;
 namespace Softeq.XToolkit.Common.Helpers
 {
     /// <summary>
-    /// Class helps to get a hash code for a number of objects combined
+    ///     Class helps to get a hash code for a number of objects combined.
     /// </summary>
     [Obsolete("Please use System.HashCode to calculate HashCode value")]
     public static class HashHelper
@@ -19,8 +19,8 @@ namespace Softeq.XToolkit.Common.Helpers
         ///     Get hashcode from objects.
         /// </summary>
         /// <returns>The hash code.</returns>
-        /// <param name="arg1">Mandatory argument</param>
-        /// <param name="otherArgs">Optional arguments</param>
+        /// <param name="arg1">Mandatory argument.</param>
+        /// <param name="otherArgs">Optional arguments.</param>
         public static int GetHashCode(object? arg1, params object?[] otherArgs)
         {
             unchecked
