@@ -21,7 +21,7 @@ namespace Playground.Droid.Views.Components
         private Button? _storageButton;
         private Button? _locationButton;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -48,16 +48,21 @@ namespace Playground.Droid.Views.Components
             this.Bind(() => ViewModel.LocationInUse.IsGranted, () => _locationButton!.Background, converter);
         }
 
-        private class ColorConverter : IConverter<Drawable, bool>
+        private class ColorConverter : IConverter<Drawable?, bool>
         {
             public Drawable ConvertValue(bool @in, object? parameter = null, string? language = null)
             {
                 return new ColorDrawable(@in ? Color.Green : Color.Red);
             }
 
-            public bool ConvertValueBack(Drawable value, object? parameter = null, string? language = null)
+            public bool ConvertValueBack(Drawable? value, object? parameter = null, string? language = null)
             {
-                return ((ColorDrawable) value).Color == Color.Green;
+                if (value is ColorDrawable colorDrawable)
+                {
+                    return colorDrawable.Color == Color.Green;
+                }
+
+                return false;
             }
         }
     }

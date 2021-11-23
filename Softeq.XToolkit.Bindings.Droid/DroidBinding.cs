@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Android.Text;
 using Android.Views;
@@ -135,10 +136,10 @@ namespace Softeq.XToolkit.Bindings.Droid
             return this;
         }
 
+        [SuppressMessage("ReSharper", "RedundantAssignment", Justification = "Reviewed.")]
+        [SuppressMessage("ReSharper", "EntityNameCapturedOnly.Local", Justification = "Reviewed.")]
         protected override Binding<TSource, TTarget> CheckControlSource()
         {
-            // ReSharper disable LocalNameCapturedOnly
-            // ReSharper disable RedundantAssignment
             switch (PropertySource.Target)
             {
                 case EditText textBox:
@@ -147,17 +148,21 @@ namespace Softeq.XToolkit.Bindings.Droid
                     binding.SourceHandlers[nameof(textBox.TextChanged)].IsDefault = true;
                     return binding;
                 }
+
                 case CompoundButton checkbox:
                 {
                     var binding = ObserveSourceEvent<CompoundButton.CheckedChangeEventArgs>(nameof(checkbox.CheckedChange));
                     binding.SourceHandlers[nameof(checkbox.CheckedChange)].IsDefault = true;
                     return binding;
                 }
+
                 default:
                     return this;
             }
         }
 
+        [SuppressMessage("ReSharper", "RedundantAssignment", Justification = "Reviewed.")]
+        [SuppressMessage("ReSharper", "EntityNameCapturedOnly.Local", Justification = "Reviewed.")]
         protected override Binding<TSource, TTarget> CheckControlTarget()
         {
             if (Mode != BindingMode.TwoWay)
@@ -165,8 +170,6 @@ namespace Softeq.XToolkit.Bindings.Droid
                 return this;
             }
 
-            // ReSharper disable LocalNameCapturedOnly
-            // ReSharper disable RedundantAssignment
             switch (PropertyTarget.Target)
             {
                 case EditText textBox:
@@ -175,12 +178,14 @@ namespace Softeq.XToolkit.Bindings.Droid
                     binding.TargetHandlers[nameof(textBox.TextChanged)].IsDefault = true;
                     return binding;
                 }
+
                 case CompoundButton checkbox:
                 {
                     var binding = ObserveTargetEvent<CompoundButton.CheckedChangeEventArgs>(nameof(checkbox.CheckedChange));
                     binding.TargetHandlers[nameof(checkbox.CheckedChange)].IsDefault = true;
                     return binding;
                 }
+
                 default:
                     return this;
             }

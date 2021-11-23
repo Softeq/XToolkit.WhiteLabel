@@ -13,8 +13,6 @@ namespace Playground.iOS.Views.Table
 {
     public partial class GroupedTableHeaderView : BindableTableViewHeaderFooterView<ProductHeaderViewModel>
     {
-        #region init
-
         public static readonly NSString Key = new NSString(nameof(GroupedTableHeaderView));
         public static readonly UINib Nib;
 
@@ -29,8 +27,6 @@ namespace Playground.iOS.Views.Table
         {
             Console.WriteLine($"Finalized: {nameof(GroupedTableHeaderView)}");
         }
-
-        #endregion
 
         public override void AwakeFromNib()
         {
@@ -49,17 +45,17 @@ namespace Playground.iOS.Views.Table
             TitleLabel.Text = $"{ViewModel.Category}th";
         }
 
-        partial void InfoButtonAction(NSObject _)
+        partial void InfoButtonAction(NSObject sender)
         {
             ViewModel.InfoCommand?.Execute(ViewModel);
         }
 
-        partial void GenerateButtonAction(NSObject _)
+        partial void GenerateButtonAction(NSObject sender)
         {
             ViewModel.GenerateCommand?.Execute(ViewModel);
         }
 
-        partial void AddButtonAction(NSObject _)
+        partial void AddButtonAction(NSObject sender)
         {
             ViewModel.AddCommand?.Execute(ViewModel);
         }

@@ -9,7 +9,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
 {
-    [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod")]
+    [SuppressMessage("ReSharper", "RedundantTypeArgumentsOfMethod", Justification = "Just for tests.")]
     public class GetCommandHandlerGenericTEventArgsTests
     {
         private readonly BindingFactoryBase _factory;
@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
-            var handler = _factory.GetCommandHandler<string>(null, _e.EventName, _e.ElementType, _command);
+            var handler = _factory.GetCommandHandler<string>(null!, _e.EventName, _e.ElementType, _command);
 
             // assert
             AssertHelpers.CommandHandler<string>(handler, eventArgs, _command, canExecute, eventArgs);
@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
-            var handler = _factory.GetCommandHandler<string>(_e.EventInfo, null, _e.ElementType, _command);
+            var handler = _factory.GetCommandHandler<string>(_e.EventInfo, null!, _e.ElementType, _command);
 
             // assert
             AssertHelpers.CommandHandler<string>(handler, eventArgs, _command, canExecute, eventArgs);
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
-            var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, null, _command);
+            var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, null!, _command);
 
             // assert
             AssertHelpers.CommandHandler<string>(handler, eventArgs, _command, canExecute, eventArgs);
@@ -89,7 +89,7 @@ namespace Softeq.XToolkit.Bindings.Tests.BindingFactoryBaseTests
             _command.CanExecute(Arg.Any<object>()).Returns(canExecute);
 
             // act
-            var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, _e.ElementType, null);
+            var handler = _factory.GetCommandHandler<string>(_e.EventInfo, _e.EventName, _e.ElementType, null!);
 
             // assert
             Assert.Throws<NullReferenceException>(() =>

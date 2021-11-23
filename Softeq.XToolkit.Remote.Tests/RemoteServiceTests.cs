@@ -17,22 +17,20 @@ namespace Softeq.XToolkit.Remote.Tests
     {
         private const string ResultData = "<TEST_DATA>";
 
-        private readonly IStubApiInterface _apiService;
-        private readonly IExecutorBuilderFactory _executorBuilder;
         private readonly IRemoteService<IStubApiInterface> _remoteService;
 
         public RemoteServiceTests()
         {
             var testException = new Exception("TEST EXCEPTION");
 
-            _apiService = Substitute.For<IStubApiInterface>();
-            _apiService.GetData(Arg.Any<CancellationToken>()).Returns(ResultData);
-            _apiService.DoException().Throws(testException);
-            _apiService.DoException(Arg.Any<CancellationToken>()).Throws(testException);
+            var apiService = Substitute.For<IStubApiInterface>();
+            apiService.GetData(Arg.Any<CancellationToken>()).Returns(ResultData);
+            apiService.DoException().Throws(testException);
+            apiService.DoException(Arg.Any<CancellationToken>()).Throws(testException);
 
-            _executorBuilder = new DefaultExecutorBuilderFactory();
+            var executorBuilder = new DefaultExecutorBuilderFactory();
 
-            _remoteService = new RemoteService<IStubApiInterface>(_apiService, _executorBuilder);
+            _remoteService = new RemoteService<IStubApiInterface>(apiService, executorBuilder);
         }
 
         [Fact]

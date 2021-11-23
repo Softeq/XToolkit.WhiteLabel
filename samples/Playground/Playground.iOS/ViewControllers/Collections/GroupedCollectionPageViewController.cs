@@ -19,7 +19,8 @@ namespace Playground.iOS.ViewControllers.Collections
 {
     public partial class GroupedCollectionPageViewController : ViewControllerBase<GroupedCollectionPageViewModel>
     {
-        public GroupedCollectionPageViewController(IntPtr handle) : base(handle)
+        public GroupedCollectionPageViewController(IntPtr handle)
+            : base(handle)
         {
         }
 
@@ -43,7 +44,8 @@ namespace Playground.iOS.ViewControllers.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
-            //this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => ActivityIndicatorView.Hidden,
+
+            // this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => ActivityIndicatorView.Hidden,
             //    new InverseBooleanConverter());
         }
 
@@ -77,7 +79,7 @@ namespace Playground.iOS.ViewControllers.Collections
             CollectionView.DataSource = new ProductsDataSource(ViewModel.ProductListViewModel.Products)
             {
                 // main way for handle click by item
-                //ItemClick = ViewModel.AddToCartCommand
+                // ItemClick = ViewModel.AddToCartCommand
             };
         }
 
@@ -85,7 +87,7 @@ namespace Playground.iOS.ViewControllers.Collections
             ProductHeaderViewModel, // header data type
             ProductViewModel,       // item data type
             GroupedHeaderView,      // header view type
-            ProductViewCell>        // item cell type
+            ProductViewCell> // item cell type
         {
             public ProductsDataSource(
                 ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> items)
@@ -98,7 +100,7 @@ namespace Playground.iOS.ViewControllers.Collections
             {
                 var footer = collectionView.DequeueReusableSupplementaryView(
                     UICollectionElementKindSectionKey.Footer,
-                    typeof(GroupedFooterView).Name,
+                    nameof(GroupedFooterView),
                     indexPath);
 
                 var bindableFooter = (IBindableView) footer;

@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
             Action testCode)
         {
             bool propertyChangeHappened = false;
-            var changedEventHandler = (PropertyChangedEventHandler) ((sender, args) =>
+            var changedEventHandler = (PropertyChangedEventHandler)((sender, args) =>
             {
                 // YP: removed string.IsNullOrEmpty check from original Xunit Assert.PropertyChanged
                 propertyChangeHappened = ((propertyChangeHappened ? 1 : 0) | (args.PropertyName == null

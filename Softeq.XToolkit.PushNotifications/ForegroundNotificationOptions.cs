@@ -21,7 +21,9 @@ namespace Softeq.XToolkit.PushNotifications
         ShowWithBadge
     }
 
+#pragma warning disable SA1649
     public static class ForegroundNotificationOptionsExtensions
+#pragma warning restore SA1649
     {
         /// <summary>
         ///     Helper method to identify if we should show notifications in foreground for these options.

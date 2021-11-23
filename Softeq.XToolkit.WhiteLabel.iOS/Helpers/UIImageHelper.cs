@@ -19,8 +19,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Helpers
                 return sourceImage;
             }
 
-            var width = (float) (maxResizeFactor * sourceSize.Width);
-            var height = (float) (maxResizeFactor * sourceSize.Height);
+            var width = (float)(maxResizeFactor * sourceSize.Width);
+            var height = (float)(maxResizeFactor * sourceSize.Height);
 
             UIGraphics.BeginImageContext(new SizeF(width, height));
             sourceImage.Draw(new RectangleF(0, 0, width, height));

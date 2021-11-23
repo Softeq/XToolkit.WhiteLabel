@@ -23,10 +23,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.TextFilters.ForbiddenCharsFilterTests
         [Fact]
         public void Ctor_Null_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new ForbiddenCharsFilter(null!);
-            });
+            Assert.Throws<ArgumentNullException>(() => new ForbiddenCharsFilter(null!));
         }
 
         [Fact]

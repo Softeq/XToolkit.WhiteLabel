@@ -54,8 +54,7 @@ namespace Playground.Forms.Remote
             {
                 HttpClient = new HttpClientBuilder()
                     .WithLogger(new ConsoleLogger("FFImageLoading"), LogVerbosity.RequestAll | LogVerbosity.RequestHeaders)
-                    // .WithSessionContext(...)
-                    .Build()
+                    .Build() // .WithSessionContext(...)
             });
 
             // Auth API

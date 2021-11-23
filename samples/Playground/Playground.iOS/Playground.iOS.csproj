@@ -212,7 +212,6 @@
     </Compile>
     <Compile Include="CustomIosBootstrapper.cs" />
     <Compile Include="LinkerPleaseInclude.cs" />
-    <Compile Include="Helpers\Settings.cs" />
     <Compile Include="Views\MainPageGroupHeaderViewCell.cs" />
     <Compile Include="Views\MainPageGroupHeaderViewCell.designer.cs">
       <DependentUpon>MainPageGroupHeaderViewCell.cs</DependentUpon>

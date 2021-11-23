@@ -20,7 +20,7 @@ namespace Playground.iOS.ViewControllers.Controls
 
         private void InitView()
         {
-            View.BackgroundColor = PlaygroundStyles.DefaultBackgroundColor;
+            View!.BackgroundColor = PlaygroundStyles.DefaultBackgroundColor;
         }
 
         private void InitButton()
@@ -30,9 +30,9 @@ namespace Playground.iOS.ViewControllers.Controls
             openButton.SetCommand(ViewModel.OpenCommand);
             openButton.SetTitle("Open FullScreen Image", UIControlState.Normal);
 
-            View.AddSubview(openButton);
+            View!.AddSubview(openButton);
 
-            NSLayoutConstraint.ActivateConstraints(new []
+            NSLayoutConstraint.ActivateConstraints(new[]
             {
                 openButton.CenterXAnchor.ConstraintEqualTo(View.CenterXAnchor),
                 openButton.CenterYAnchor.ConstraintEqualTo(View.CenterYAnchor),

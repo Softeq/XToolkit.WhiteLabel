@@ -42,10 +42,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableRangeCollectionTest
         [Fact]
         public void ObservableRangeCollection_WhenCreatedWithNullItems_ThrowsCorrectException()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                var collection = new ObservableRangeCollection<int>(null);
-            });
+            Assert.Throws<ArgumentNullException>(() => new ObservableRangeCollection<int>(null!));
         }
 
         [Fact]

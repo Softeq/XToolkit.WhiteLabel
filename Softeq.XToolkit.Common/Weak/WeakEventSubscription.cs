@@ -41,7 +41,8 @@ namespace Softeq.XToolkit.Common.Weak
 
             if (sourceEventInfo == null)
             {
-                throw new ArgumentNullException(nameof(sourceEventInfo),
+                throw new ArgumentNullException(
+                    nameof(sourceEventInfo),
                     "missing source event info in WeakEventSubscription");
             }
 
@@ -66,12 +67,12 @@ namespace Softeq.XToolkit.Common.Weak
             return new EventHandler<TEventArgs>(OnSourceEvent);
         }
 
-        protected virtual object GetTargetObject()
+        protected virtual object? GetTargetObject()
         {
             return _targetReference.Target;
         }
 
-        //This is the method that will handle the event of source.
+        // This is the method that will handle the event of source.
         protected void OnSourceEvent(object sender, TEventArgs e)
         {
             var target = GetTargetObject();
@@ -157,7 +158,8 @@ namespace Softeq.XToolkit.Common.Weak
 
             if (sourceEventInfo == null)
             {
-                throw new ArgumentNullException(nameof(sourceEventInfo),
+                throw new ArgumentNullException(
+                    nameof(sourceEventInfo),
                     "missing source event info in WeakEventSubscription");
             }
 
@@ -182,7 +184,7 @@ namespace Softeq.XToolkit.Common.Weak
             return new EventHandler(OnSourceEvent);
         }
 
-        protected virtual object GetTargetObject()
+        protected virtual object? GetTargetObject()
         {
             return _targetReference.Target;
         }

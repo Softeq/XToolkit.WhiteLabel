@@ -7,8 +7,5 @@ namespace Playground.ViewModels.Collections
 {
     public class CompositionalLayoutPageViewModel : ViewModelBase
     {
-        public CompositionalLayoutPageViewModel()
-        {
-        }
     }
 }

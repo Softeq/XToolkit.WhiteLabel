@@ -39,7 +39,7 @@ namespace Playground.Forms.Droid
             string[] permissions,
             [GeneratedEnum] Permission[] grantResults)
         {
-            Dependencies.Container.Resolve<IPermissionRequestHandler>()?.Handle(requestCode, permissions, grantResults);
+            Dependencies.Container.Resolve<IPermissionRequestHandler>().Handle(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }

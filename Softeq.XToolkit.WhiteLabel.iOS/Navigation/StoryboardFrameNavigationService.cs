@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             _iocContainer = iocContainer;
         }
 
-        public bool IsEmptyBackStack => !NavigationController!.ViewControllers.Any();
+        public bool IsEmptyBackStack => !NavigationController!.ViewControllers?.Any() ?? true;
 
         bool IFrameNavigationService.IsInitialized => NavigationController != null;
 
@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
 
                 if (controller != null)
                 {
-                    ViewLocator.GetTopViewController().View.EndEditing(true);
+                    ViewLocator.GetTopViewController().View?.EndEditing(true);
 
                     NavigationController.PopToViewController(controller, false);
                 }

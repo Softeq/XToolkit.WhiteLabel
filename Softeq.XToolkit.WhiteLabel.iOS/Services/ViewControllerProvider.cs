@@ -12,24 +12,23 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             switch (controller)
             {
+                // ReSharper disable once ConditionIsAlwaysTrueOrFalse
                 case UINavigationController navigationController:
                     return navigationController.VisibleViewController != null
                         ? GetTopViewController(navigationController.VisibleViewController)
                         : navigationController;
 
                 case UITabBarController tabBarController:
-                    return GetTopViewController(tabBarController.SelectedViewController);
+                    return GetTopViewController(tabBarController.SelectedViewController!);
 
-                case UIViewController viewController
+                case { } viewController
                     when viewController.ChildViewControllers.Length > 0
                          && viewController.ChildViewControllers[0]
                              is UITabBarController tabBarController:
                     return GetTopViewController(tabBarController);
 
-                case UIViewController viewController
-                    when viewController.PresentedViewController
-                        is UIViewController presentedViewController:
-                    return GetTopViewController(presentedViewController);
+                case { PresentedViewController: { } viewController }:
+                    return GetTopViewController(viewController);
             }
 
             return controller;

@@ -6,7 +6,6 @@ using Android.OS;
 using Android.Views;
 using Android.Widget;
 using Java.Lang;
-using Playground.Droid.Views.Collections;
 using Playground.ViewModels;
 using Softeq.XToolkit.Bindings.Droid;
 using Softeq.XToolkit.Common.Weak;
@@ -18,9 +17,9 @@ namespace Playground.Droid.Views
     [Activity]
     public class MainPageActivity : ActivityBase<MainPageViewModel>
     {
-        private ExpandableListView? _listView;
+        private ExpandableListView _listView = null!;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -28,16 +27,16 @@ namespace Playground.Droid.Views
 
             Title = ViewModel.Title;
 
-            _listView = FindViewById<ExpandableListView>(Resource.Id.main_page_list_view);
+            _listView = FindViewById<ExpandableListView>(Resource.Id.main_page_list_view)!;
             _listView.SetAdapter(new ObservableGroupAdapter<string, CommandAction>(
                 ViewModel.Items,
                 _listView,
                 (groupIndex, itemIndex, isLastItem, convertView, listView, item) =>
                 {
-                    var view = convertView ?? LayoutInflater.FromContext(listView.Context)
+                    var view = convertView ?? LayoutInflater.FromContext(listView.Context!)!
                                    .Inflate(Resource.Layout.item_main, null);
 
-                    var textView = view.FindViewById<TextView>(Resource.Id.item_view_text_view);
+                    var textView = view!.FindViewById<TextView>(Resource.Id.item_view_text_view)!;
                     textView.Text = item.Title;
 
                     view.SetOnClickListener(new OnItemClickListener(item));
@@ -46,9 +45,10 @@ namespace Playground.Droid.Views
                 },
                 (groupIndex, isExpanded, convertView, listView, item) =>
                 {
-                    var view = convertView ?? LayoutInflater.FromContext(listView.Context)
+                    var view = convertView ?? LayoutInflater.FromContext(listView.Context!)!
                                    .Inflate(Resource.Layout.item_main_header, null);
-                    var textView = view.FindViewById<TextView>(Resource.Id.group_header_view_text_view);
+
+                    var textView = view!.FindViewById<TextView>(Resource.Id.group_header_view_text_view)!;
                     textView.Text = item;
 
                     return view;
@@ -61,7 +61,7 @@ namespace Playground.Droid.Views
             }
         }
 
-        public override bool OnCreateOptionsMenu(IMenu menu)
+        public override bool OnCreateOptionsMenu(IMenu? menu)
         {
             MenuInflater.Inflate(Resource.Menu.main, menu);
             return true;
@@ -74,6 +74,7 @@ namespace Playground.Droid.Views
                 ViewModel.GoToEmptyCommand.Execute(null);
                 return true;
             }
+
             return base.OnOptionsItemSelected(item);
         }
 
@@ -86,7 +87,7 @@ namespace Playground.Droid.Views
                 _viewModelRef = WeakReferenceEx.Create(viewModel);
             }
 
-            public void OnClick(View v)
+            public void OnClick(View? v)
             {
                 _viewModelRef.Target?.Command.Execute(v);
             }

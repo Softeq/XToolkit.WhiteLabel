@@ -10,7 +10,9 @@ using Softeq.XToolkit.Remote.Auth;
 
 namespace Playground.RemoteData.Auth
 {
+#pragma warning disable SA1649
     public interface IAuthService
+#pragma warning restore SA1649
     {
         Task<LoginStatus> LoginAsync(string login, string password, CancellationToken cancellationToken);
 

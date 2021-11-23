@@ -13,6 +13,8 @@ using Softeq.XToolkit.Common.Weak;
 
 #nullable disable
 
+#pragma warning disable SA1649, SA1201, SA1204
+
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>
@@ -1033,7 +1035,7 @@ namespace Softeq.XToolkit.Bindings
             var targetType = targetProperty.PropertyType;
 
             return sourceType == targetType
-                   || IsValueType(sourceType) && IsValueType(targetType);
+                   || (IsValueType(sourceType) && IsValueType(targetType));
         }
 
         private void DetachSourceHandlers()

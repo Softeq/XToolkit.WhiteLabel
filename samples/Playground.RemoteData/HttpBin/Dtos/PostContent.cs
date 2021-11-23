@@ -5,7 +5,7 @@ namespace Playground.RemoteData.HttpBin.Dtos
 {
     public class PostContent
     {
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public int Age { get; set; }
     }
 }

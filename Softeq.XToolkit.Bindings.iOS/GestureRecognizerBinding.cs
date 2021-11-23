@@ -17,6 +17,10 @@ namespace Softeq.XToolkit.Bindings.iOS
             _behaviour = behaviour;
         }
 
+#pragma warning disable 67, CS0067
+        public override event EventHandler ValueChanged;
+#pragma warning restore
+
         /// <inheritdoc />
         public override void Detach()
         {
@@ -33,9 +37,5 @@ namespace Softeq.XToolkit.Bindings.iOS
         public override void ForceUpdateValueFromTargetToSource()
         {
         }
-
-#pragma warning disable 67, CS0067
-        public override event EventHandler ValueChanged;
-#pragma warning restore
     }
 }

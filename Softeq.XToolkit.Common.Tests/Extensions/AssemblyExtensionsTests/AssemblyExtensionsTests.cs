@@ -10,7 +10,8 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.AssemblyExtensionsTests
     public class AssemblyExtensionsTests
     {
         [Theory]
-        [MemberData(nameof(AssemblyExtensionsDataProvider.AssemblyNamesData),
+        [MemberData(
+            nameof(AssemblyExtensionsDataProvider.AssemblyNamesData),
             MemberType = typeof(AssemblyExtensionsDataProvider))]
         public void GetAssemblyName_ForAssembly_ReturnsCorrectName(Type type, string expectedName)
         {

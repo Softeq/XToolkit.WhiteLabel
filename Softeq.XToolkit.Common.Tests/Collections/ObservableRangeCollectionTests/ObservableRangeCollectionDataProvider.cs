@@ -282,8 +282,8 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableRangeCollectionTest
            {
                { new ObservableRangeCollection<int>() { 3 }, new List<int>() { 5, -2, 1 }, AscComparison, NotifyCollectionChangedAction.Add },
                { new ObservableRangeCollection<int>() { 3 }, new List<int>() { 1, 2, 3 }, DescComparison, NotifyCollectionChangedAction.Reset },
-               { new ObservableRangeCollection<int>() { 3 }, new List<int>() { 1 }, AbsComparison, NotifyCollectionChangedAction.Add },
-               { new ObservableRangeCollection<int>() { 3 }, new List<int>(){ 0 }, CustomComparison, NotifyCollectionChangedAction.Reset },
+               { new ObservableRangeCollection<int> { 3 }, new List<int>() { 1 }, AbsComparison, NotifyCollectionChangedAction.Add },
+               { new ObservableRangeCollection<int>() { 3 }, new List<int>() { 0 }, CustomComparison, NotifyCollectionChangedAction.Reset },
                { new ObservableRangeCollection<int>() { 1, 2, 3 }, new List<int>() { 1 }, AscComparison, NotifyCollectionChangedAction.Add },
                { new ObservableRangeCollection<int>() { 1, 2, 3 }, new List<int>() { 0 }, DescComparison, NotifyCollectionChangedAction.Reset },
                { new ObservableRangeCollection<int>() { 1, 2, 3 }, new List<int>() { 5, -2, 1 }, AbsComparison, NotifyCollectionChangedAction.Add },

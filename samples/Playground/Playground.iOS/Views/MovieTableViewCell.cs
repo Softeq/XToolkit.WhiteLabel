@@ -13,12 +13,12 @@ namespace Playground.iOS.Views
 {
     public partial class MovieTableViewCell : BindableTableViewCell<ItemViewModel>
     {
-        public static readonly NSString Key = new NSString("MovieTableViewCell");
+        public static readonly NSString Key = new NSString(nameof(MovieTableViewCell));
         public static readonly UINib Nib;
 
         static MovieTableViewCell()
         {
-            Nib = UINib.FromName("MovieTableViewCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(nameof(MovieTableViewCell), NSBundle.MainBundle);
         }
 
         protected MovieTableViewCell(IntPtr handle) : base(handle)
@@ -43,4 +43,3 @@ namespace Playground.iOS.Views
         }
     }
 }
-

@@ -355,8 +355,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         [MemberData(nameof(CollectionHelper.RemoveItemsForbidEmptyGroupRemoveAllGroupItemsTestData), MemberType = typeof(CollectionHelper))]
         public void CollectionChanged_RemoveItemsForbidEmptyGroupRemoveAllGroupItems_NotifyOneTime(
             ObservableKeyGroupsCollection<string, int> collection,
-            List<TestItem<string, int>> items,
-            List<string> _)
+            List<TestItem<string, int>> items)
         {
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();

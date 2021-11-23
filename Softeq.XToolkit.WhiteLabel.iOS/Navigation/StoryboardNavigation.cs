@@ -34,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             }
         }
 
-        public bool CanGoBack => NavigationController!.ViewControllers.Length > 1;
+        public bool CanGoBack => NavigationController!.ViewControllers?.Length > 1;
 
         public void Initialize(object navigation)
         {
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
         {
             Execute.BeginOnUIThread(() =>
             {
-                ViewLocator.GetTopViewController()?.View.EndEditing(true);
+                ViewLocator.GetTopViewController().View?.EndEditing(true);
 
                 NavigationController!.PopViewController(true);
             });
@@ -70,7 +70,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             {
                 var topViewController = ViewLocator.GetTopViewController();
 
-                topViewController.View.EndEditing(true);
+                topViewController.View?.EndEditing(true);
 
                 if (clearBackStack)
                 {
@@ -88,10 +88,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Navigation
             UIViewController topViewController)
         {
             // YP: Workaround for iOS 13 issue, looks related to https://stackoverflow.com/a/23912009
-            if (navigationController.ViewControllers.Length > 0)
+            if (navigationController.ViewControllers?.Length > 0)
             {
                 return navigationController.ViewControllers[0] == topViewController;
             }
+
             return false;
         }
     }

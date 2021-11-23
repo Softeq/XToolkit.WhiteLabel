@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-﻿using System;
+using System;
 using FFImageLoading;
 using Foundation;
 using Playground.ViewModels.Collections.Products;
@@ -13,15 +13,16 @@ namespace Playground.iOS.Views.Table
 {
     public partial class ProductTableViewCell : BindableTableViewCell<ProductViewModel>
     {
-        public static readonly NSString Key = new NSString("ProductTableViewCell");
+        public static readonly NSString Key = new NSString(nameof(ProductTableViewCell));
         public static readonly UINib Nib;
 
         static ProductTableViewCell()
         {
-            Nib = UINib.FromName("ProductTableViewCell", NSBundle.MainBundle);
+            Nib = UINib.FromName(nameof(ProductTableViewCell), NSBundle.MainBundle);
         }
 
-        protected ProductTableViewCell(IntPtr handle) : base(handle)
+        protected ProductTableViewCell(IntPtr handle)
+            : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
         }
@@ -45,7 +46,7 @@ namespace Playground.iOS.Views.Table
             CountField.Text = string.Empty;
         }
 
-        partial void AddToCartAction(NSObject _)
+        partial void AddToCartAction(NSObject sender)
         {
             // main way for handle custom click by item
 
@@ -53,4 +54,3 @@ namespace Playground.iOS.Views.Table
         }
     }
 }
-

@@ -11,7 +11,7 @@ namespace Playground.Droid.Views.Pages
     [Activity]
     public class DetailsPageActivity : ActivityBase<DetailsPageViewModel>
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

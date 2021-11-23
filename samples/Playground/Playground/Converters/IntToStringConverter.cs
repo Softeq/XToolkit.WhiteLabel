@@ -5,7 +5,7 @@ using Softeq.XToolkit.Common.Converters;
 
 namespace Playground.Converters
 {
-    public class IntToStringConverter : IConverter<string, int>
+    public class IntToStringConverter : IConverter<string?, int>
     {
         public static IntToStringConverter Instance { get; } = new IntToStringConverter();
 
@@ -14,9 +14,9 @@ namespace Playground.Converters
             return value.ToString();
         }
 
-        public int ConvertValueBack(string value, object? parameter = null, string? language = null)
+        public int ConvertValueBack(string? value, object? parameter = null, string? language = null)
         {
-            return int.Parse(value);
+            return string.IsNullOrEmpty(value) ? 0 : int.Parse(value);
         }
     }
 }

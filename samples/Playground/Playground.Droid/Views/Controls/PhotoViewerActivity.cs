@@ -14,7 +14,7 @@ namespace Playground.Droid.Views.Controls
     [Activity(Label = "Photo Viewer")]
     public class PhotoViewerActivity : ActivityBase<PhotoViewerViewModel>
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

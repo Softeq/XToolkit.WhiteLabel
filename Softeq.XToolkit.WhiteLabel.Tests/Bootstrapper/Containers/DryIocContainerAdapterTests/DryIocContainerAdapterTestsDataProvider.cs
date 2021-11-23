@@ -11,8 +11,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Bootstrapper.Containers.DryIocContain
            => new TheoryData<object[]>
            {
                { new object[] { } },
-               { new object[] { new object() } },
-               { new object[] { new object(), new object(), new object() } },
+               { new[] { new object() } },
+               { new[] { new object(), new object(), new object() } },
            };
     }
 }

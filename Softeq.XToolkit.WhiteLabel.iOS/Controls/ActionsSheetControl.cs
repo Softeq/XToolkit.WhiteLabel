@@ -48,26 +48,30 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
 
         private void Open()
         {
-            var controller = new SupportRotationAlertController(_actionHeaderTitle, _actionHeaderMessage,
+            var controller = new SupportRotationAlertController(
+                _actionHeaderTitle,
+                _actionHeaderMessage,
                 UIAlertControllerStyle.ActionSheet);
 
             foreach (var action in _actions)
             {
-                controller.AddAction(UIAlertAction.Create(action.Title,
-                    action.CommandActionStyle.ToNative(),
-                    action.Command.Execute));
+                controller.AddAction(
+                    UIAlertAction.Create(
+                        action.Title!,
+                        action.CommandActionStyle.ToNative(),
+                        action.Command.Execute));
             }
 
             if (!Equals(TintColor, UIColor.Clear))
             {
-                controller.View.TintColor = TintColor;
+                controller.View!.TintColor = TintColor;
             }
 
             _viewLocator.GetTopViewController().PresentViewController(controller, true, null);
 
             if (!Equals(TintColor, UIColor.Clear))
             {
-                controller.View.TintColor = TintColor;
+                controller.View!.TintColor = TintColor;
             }
         }
     }

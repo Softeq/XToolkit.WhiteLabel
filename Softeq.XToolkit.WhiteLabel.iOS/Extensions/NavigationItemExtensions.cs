@@ -38,18 +38,22 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
             var item = new UIBarButtonItem(
                 image,
                 UIBarButtonItemStyle.Plain,
-                (sender, e) => command?.Execute(sender));
+                (sender, e) => command.Execute(sender));
 
             navigationItem.AddButtonItem(item, left);
         }
 
-        public static void SetCommand(this UINavigationItem navigationItem, string title, UIColor color,
-            ICommand command, bool left)
+        public static void SetCommand(
+            this UINavigationItem navigationItem,
+            string title,
+            UIColor color,
+            ICommand command,
+            bool left)
         {
             var item = new UIBarButtonItem(
                 title,
                 UIBarButtonItemStyle.Plain,
-                (sender, e) => command?.Execute(sender))
+                (sender, e) => command.Execute(sender))
             {
                 TintColor = color
             };
@@ -57,12 +61,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
             navigationItem.AddButtonItem(item, left);
         }
 
-        public static void SetCommand(this UINavigationItem navigationItem, UIBarButtonSystemItem systemItem,
-            ICommand command, bool left)
+        public static void SetCommand(
+            this UINavigationItem navigationItem,
+            UIBarButtonSystemItem systemItem,
+            ICommand command,
+            bool left)
         {
             var item = new UIBarButtonItem(
                 systemItem,
-                (sender, e) => command?.Execute(sender));
+                (sender, e) => command.Execute(sender));
             navigationItem.AddButtonItem(item, left);
         }
 

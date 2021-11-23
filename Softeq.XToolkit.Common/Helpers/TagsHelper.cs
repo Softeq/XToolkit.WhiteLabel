@@ -59,7 +59,8 @@ namespace Softeq.XToolkit.Common.Helpers
 
                 var startIndex = range != null ? range.Position + range.Length : 0;
                 range = ExtractFirstTagRange(input, startIndex);
-            } while (range != null);
+            }
+            while (range != null);
 
             return result.ToArray();
         }

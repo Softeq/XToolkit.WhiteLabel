@@ -11,7 +11,8 @@ namespace Playground.iOS.ViewControllers.Dialogs
 {
     public partial class DialogsPageViewController : ViewControllerBase<DialogsPageViewModel>
     {
-        public DialogsPageViewController(IntPtr handle) : base(handle)
+        public DialogsPageViewController(IntPtr handle)
+            : base(handle)
         {
         }
 
