@@ -8,7 +8,11 @@ namespace Softeq.XToolkit.WhiteLabel.Interfaces
 {
     public interface IUndoManager
     {
-        void AddOperation(Action<CancellationTokenSource> undoAction, Action<CancellationToken> applyAction,
-            string infoLabel, string actionLabel, CancellationTokenSource cancellationTokenSource);
+        void AddOperation(
+            Action<CancellationTokenSource> undoAction,
+            Action<CancellationToken> applyAction,
+            string infoLabel,
+            string actionLabel,
+            CancellationTokenSource cancellationTokenSource);
     }
 }

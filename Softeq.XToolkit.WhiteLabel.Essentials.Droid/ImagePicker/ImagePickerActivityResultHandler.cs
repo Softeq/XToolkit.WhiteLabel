@@ -23,7 +23,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             return Task.FromResult(default(Bitmap?));
         }
 
-        public Task<Bitmap?> HandleImagePickerGalleryResultAsync(Activity activity, Result resultCode, Intent data)
+        public Task<Bitmap?> HandleImagePickerGalleryResultAsync(Activity activity, Result resultCode, Intent? data)
         {
             var fileUri = data?.Data;
 
@@ -35,12 +35,12 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             return Task.FromResult(default(Bitmap?));
         }
 
-        public Task HandleCustomResultAsync(int requestCode, Result resultCode, Intent data)
+        public Task HandleCustomResultAsync(int requestCode, Result resultCode, Intent? data)
         {
             throw new System.NotImplementedException();
         }
 
-        private async Task<Bitmap> GetBitmapFromUriAsync(Context context, Uri fileUri)
+        private async Task<Bitmap?> GetBitmapFromUriAsync(Context context, Uri fileUri)
         {
             var bitmap = ImagePickerUtils.GetBitmap(context, fileUri);
 
@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             }
             else
             {
-                bitmap = await ImagePickerUtils.FixRotation(bitmap, new ExifInterface(fileUri.ToString()))
+                bitmap = await ImagePickerUtils.FixRotation(bitmap, new ExifInterface(fileUri.ToString()!))
                     .ConfigureAwait(false);
             }
 

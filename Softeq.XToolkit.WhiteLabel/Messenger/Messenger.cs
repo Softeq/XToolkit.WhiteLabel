@@ -340,7 +340,9 @@ namespace Softeq.XToolkit.WhiteLabel.Messenger
         ///     of type TMessage is sent. IMPORTANT: Note that closures are not supported at the moment
         ///     due to the use of WeakActions (see http://stackoverflow.com/questions/25730530/).
         /// </param>
+#pragma warning disable SA1201
         public virtual void Register<TMessage>(object recipient, Action<TMessage> action)
+#pragma warning restore SA1201
         {
             Register(recipient, null, false, action);
         }
