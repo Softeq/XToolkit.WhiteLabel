@@ -87,9 +87,9 @@ namespace Playground.Droid.Views
                 _viewModelRef = WeakReferenceEx.Create(viewModel);
             }
 
-            public void OnClick(View? v)
+            public void OnClick(View? view)
             {
-                _viewModelRef.Target?.Command.Execute(v);
+                _viewModelRef.Target?.Command.Execute(null);
             }
         }
     }

@@ -27,7 +27,7 @@ namespace Playground.ViewModels.Controls
         {
             await _dialogsService
                 .For<FullScreenImageViewModel>()
-                .WithParam(x => x.ImageUrl, "https://imageipsum.com/500x500")
+                .WithParam(x => x.ImageUrl, "https://picsum.photos/500/500")
                 .Navigate();
         }
     }

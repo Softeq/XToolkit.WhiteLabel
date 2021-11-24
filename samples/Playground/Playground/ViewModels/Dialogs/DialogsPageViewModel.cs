@@ -11,7 +11,6 @@ using Playground.Models;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
-using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -40,7 +39,7 @@ namespace Playground.ViewModels.Dialogs
             OpenAlertCommand = new AsyncCommand(OpenAlert);
             OpenConfirmCommand = new AsyncCommand(OpenConfirm);
             OpenActionSheetCommand = new AsyncCommand(OpenActionSheet);
-            OpenDialogUntilDismissCommand = new RelayCommand(OpenDialogUntilDismiss);
+            OpenDialogUntilDismissCommand = new AsyncCommand(OpenDialogUntilDismiss);
             OpenDialogUntilResultCommand = new AsyncCommand(OpenDialogUntilResult);
             OpenTwoDialogsCommand = new AsyncCommand(OpenTwoDialogs);
         }
@@ -129,22 +128,15 @@ namespace Playground.ViewModels.Dialogs
             ActionSheetResult = result;
         }
 
-        private void OpenDialogUntilDismiss()
+        private async Task OpenDialogUntilDismiss()
         {
-            // simulate open from another thread
+            var result = await _dialogsService
+                .For<SimpleDialogPageViewModel>()
+                .WithParam(x => x.FirstName, "First")
+                .WithParam(x => x.LastName, "Last")
+                .Navigate<Person>();
 
-            Task.Run(() =>
-            {
-                _dialogsService
-                    .For<SimpleDialogPageViewModel>()
-                    .WithParam(x => x.FirstName, "First")
-                    .WithParam(x => x.LastName, "Last")
-                    .Navigate<Person>()
-                    .ContinueOnUIThread(result =>
-                    {
-                        DialogUntilDismissResult = result;
-                    });
-            });
+            DialogUntilDismissResult = result;
         }
 
         private async Task OpenDialogUntilResult()
@@ -167,7 +159,7 @@ namespace Playground.ViewModels.Dialogs
                 .For<SimpleDialogPageViewModel>()
                 .WithParam(x => x.FirstName, "First1")
                 .WithParam(x => x.LastName, "Last1")
-                .Navigate<Person>();
+                .Navigate<Person?>();
 
             _logger.Debug($"Dialog1 result: {PersonConverter.ConvertValue(result1)}");
 
