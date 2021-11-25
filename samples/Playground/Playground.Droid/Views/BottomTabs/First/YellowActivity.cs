@@ -15,18 +15,18 @@ namespace Playground.Droid.Views.BottomTabs.First
     [Activity]
     public class YellowActivity : ActivityBase<YellowViewModel>
     {
-        private Button? _incrementButton;
-        private TextView? _incrementLabel;
+        private Button _incrementButton = null!;
+        private TextView _incrementLabel = null!;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.activity_yellow);
 
-            _incrementLabel = FindViewById<TextView>(Resource.Id.textView1);
+            _incrementLabel = FindViewById<TextView>(Resource.Id.textView1)!;
 
-            _incrementButton = FindViewById<Button>(Resource.Id.button2);
+            _incrementButton = FindViewById<Button>(Resource.Id.button2)!;
             _incrementButton.SetCommand(ViewModel.IncrementCommand);
             _incrementButton.Click += (sender, e) => _incrementLabel.Text = "changed";
         }
@@ -35,7 +35,7 @@ namespace Playground.Droid.Views.BottomTabs.First
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.Count, () => _incrementButton!.Text, IntToStringConverter.Instance);
+            this.Bind(() => ViewModel.Count, () => _incrementButton.Text, IntToStringConverter.Instance);
         }
     }
 }

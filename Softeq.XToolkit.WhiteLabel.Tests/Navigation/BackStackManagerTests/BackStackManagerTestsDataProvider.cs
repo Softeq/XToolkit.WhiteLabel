@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.BackStackManagerTests
         public static TheoryData<List<IViewModelBase>> ClearTestData
            => new TheoryData<List<IViewModelBase>>
            {
-               { new List<IViewModelBase> { } },
+               { new List<IViewModelBase>() },
                { new List<IViewModelBase> { null } },
                { new List<IViewModelBase> { _viewModel1 } },
                { new List<IViewModelBase> { _viewModel1, null } },
@@ -44,8 +44,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.BackStackManagerTests
         public static TheoryData<List<IViewModelBase>, IViewModelBase> PushViewModelTestData
            => new TheoryData<List<IViewModelBase>, IViewModelBase>
            {
-               { new List<IViewModelBase> { }, null },
-               { new List<IViewModelBase> { }, _viewModel1 },
+               { new List<IViewModelBase>(), null },
+               { new List<IViewModelBase>(), _viewModel1 },
                { new List<IViewModelBase> { null }, null },
                { new List<IViewModelBase> { null }, _viewModel1 },
                { new List<IViewModelBase> { _viewModel1 }, null },

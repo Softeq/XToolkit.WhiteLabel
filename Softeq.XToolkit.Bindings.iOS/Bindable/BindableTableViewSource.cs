@@ -28,12 +28,12 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
         private protected IDisposable _subscription;
 
-        public event EventHandler LastItemRequested;
-
         protected BindableTableViewSourceBase(UITableView tableView)
         {
             _tableViewRef = WeakReferenceEx.Create(tableView);
         }
+
+        public event EventHandler LastItemRequested;
 
         public ICommand<TItem> ItemClick
         {
@@ -221,6 +221,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
                             _tableViewRef.Target?.InsertRows(paths, UITableViewRowAnimation.Automatic);
                         }
+
                         break;
 
                     case NotifyCollectionChangedAction.Remove:
@@ -236,6 +237,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
                             _tableViewRef.Target?.DeleteRows(paths, UITableViewRowAnimation.Automatic);
                         }
+
                         break;
                     case NotifyCollectionChangedAction.Move:
                         {
@@ -247,7 +249,8 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
 
                             if (e.NewStartingIndex != e.OldStartingIndex)
                             {
-                                _tableViewRef.Target?.MoveRow(NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
+                                _tableViewRef.Target?.MoveRow(
+                                    NSIndexPath.FromRowSection(e.OldStartingIndex, 0),
                                     NSIndexPath.FromRowSection(e.NewStartingIndex, 0));
                             }
 

@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Common.Helpers
             {
                 return otherArgs
                     .Prepend(arg1)
-                    .Aggregate(PrimeOne, (hash, arg) => hash * PrimeTwo + (arg?.GetHashCode() ?? 0));
+                    .Aggregate(PrimeOne, (hash, arg) => (hash * PrimeTwo) + (arg?.GetHashCode() ?? 0));
             }
         }
     }

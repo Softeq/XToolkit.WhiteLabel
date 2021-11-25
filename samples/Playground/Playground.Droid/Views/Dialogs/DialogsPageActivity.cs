@@ -26,7 +26,7 @@ namespace Playground.Droid.Views.Dialogs
         private TextView? _dialogDismissResultResultTextView;
         private Button? _openTwoDialogsButton;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

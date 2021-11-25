@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using NSubstitute;
-using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
@@ -66,6 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.BackStackManagerTests
         public void TryPopViewModel_WithEmptyBackStack_ReturnsFalse()
         {
             IViewModelBase result = new ViewModelStub();
+
             var popped = _backStackManager.TryPopViewModel(out result);
 
             Assert.False(popped);
@@ -82,6 +81,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.BackStackManagerTests
             InitializeBackStack(viewModels);
 
             IViewModelBase result = new ViewModelStub();
+
             var popped = _backStackManager.TryPopViewModel(out result);
 
             Assert.True(popped);
@@ -114,6 +114,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.BackStackManagerTests
         public void TryPeekViewModel_WithEmptyBackStack_ReturnsFalse()
         {
             IViewModelBase result = new ViewModelStub();
+
             var peeked = _backStackManager.TryPeekViewModel(out result);
 
             Assert.False(peeked);
@@ -130,6 +131,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.BackStackManagerTests
             InitializeBackStack(viewModels);
 
             IViewModelBase result = new ViewModelStub();
+
             var peeked = _backStackManager.TryPeekViewModel(out result);
 
             Assert.True(peeked);

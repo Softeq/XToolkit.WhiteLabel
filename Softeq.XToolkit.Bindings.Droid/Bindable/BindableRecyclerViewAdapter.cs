@@ -177,7 +177,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             if (Attribute.GetCustomAttribute(viewHolderType, typeof(BindableViewHolderLayoutAttribute))
                 is BindableViewHolderLayoutAttribute attr)
             {
-                return LayoutInflater.From(parent.Context).Inflate(attr.LayoutId, parent, false);
+                return LayoutInflater.From(parent.Context)!.Inflate(attr.LayoutId, parent, false);
             }
 
             return GetCustomLayoutForViewHolder(parent, viewHolderType);
@@ -302,6 +302,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
                     {
                         NotifyItemMoved(e.OldStartingIndex + i, e.NewStartingIndex + i);
                     }
+
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     NotifyItemRangeChanged(e.NewStartingIndex, e.NewItems.Count);

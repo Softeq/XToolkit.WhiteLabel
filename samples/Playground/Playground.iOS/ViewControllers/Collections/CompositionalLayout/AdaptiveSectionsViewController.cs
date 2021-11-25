@@ -8,7 +8,6 @@ using Softeq.XToolkit.Common.Extensions;
 using UIKit;
 using static Playground.iOS.ViewControllers.Collections.CompositionalLayout.NSUtils;
 using static UIKit.NSCollectionLayoutDimension;
-using Section = Playground.iOS.ViewControllers.Collections.CompositionalLayout.AdaptiveSectionsViewController.Section;
 
 namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
 {
@@ -16,7 +15,7 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
     // https://github.com/TikhonovAlexander/Collection-View-Layout-iOS13/blob/master/Collection-View-Layout-iOS13/View%20Controllers/AdaptiveSectionsViewController.swift
     public class AdaptiveSectionsViewController : UIViewController
     {
-        private UICollectionView? _collectionView;
+        private UICollectionView _collectionView = null!;
 
         public override void ViewDidLoad()
         {
@@ -28,7 +27,7 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
 
         private void ConfigureHierarchy()
         {
-            _collectionView = new UICollectionView(View.Bounds, CreateLayout());
+            _collectionView = new UICollectionView(View!.Bounds, CreateLayout());
             _collectionView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
             _collectionView.BackgroundColor = UIColor.SystemBackgroundColor;
             _collectionView.RegisterNibForCell(DummyCell.Nib, DummyCell.Key);
@@ -92,13 +91,15 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
             });
             dataSource.ApplySnapshot(snapshot, animatingDifferences: false);
         }
+    }
 
-        internal enum Section
-        {
-            List = 0,
-            Grid3 = 1,
-            Grid5 = 2
-        }
+#pragma warning disable SA1201
+    internal enum Section
+#pragma warning restore SA1201
+    {
+        List = 0,
+        Grid3 = 1,
+        Grid5 = 2
     }
 
     internal static class SectionExtensions

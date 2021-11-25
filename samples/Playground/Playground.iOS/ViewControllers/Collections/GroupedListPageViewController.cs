@@ -46,7 +46,7 @@ namespace Playground.iOS.ViewControllers.Collections
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => Title);
 
-            //this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => BusyView.Hidden,
+            // this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => BusyView.Hidden,
             //    new InverseBooleanConverter());
         }
 

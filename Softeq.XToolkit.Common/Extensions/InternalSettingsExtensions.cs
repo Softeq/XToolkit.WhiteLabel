@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Common.Extensions
             this IInternalSettings internalSettings,
             IJsonSerializer jsonSerializer,
             string key,
-            T value) where T : notnull
+            T value)
         {
             if (value == null)
             {
@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.Common.Extensions
             this IInternalSettings internalSettings,
             IJsonSerializer jsonSerializer,
             string key,
-            T defaultValue = default)
+            [MaybeNull] T defaultValue = default!)
         {
             var json = internalSettings.GetValueOrDefault(key, default(string)!);
             return string.IsNullOrEmpty(json)

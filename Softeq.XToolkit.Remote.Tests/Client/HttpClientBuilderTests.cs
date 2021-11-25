@@ -26,10 +26,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client
         [Fact]
         public void Ctor_NullMessageHandlerBuilder_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new HttpClientBuilder(null!);
-            });
+            Assert.Throws<ArgumentNullException>(() => new HttpClientBuilder(null!));
         }
 
         [Fact]

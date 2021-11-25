@@ -25,10 +25,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.TextFilters.LengthFilterTests
         [Fact]
         public void Ctor_Negative_ThrowsArgumentException()
         {
-            Assert.Throws<ArgumentException>(() =>
-            {
-                new LengthFilter(-1);
-            });
+            Assert.Throws<ArgumentException>(() => new LengthFilter(-1));
         }
 
         [Fact]

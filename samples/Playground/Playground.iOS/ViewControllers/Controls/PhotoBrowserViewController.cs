@@ -3,16 +3,17 @@
 
 using System;
 using Playground.ViewModels.Controls;
-using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.WhiteLabel.iOS;
 using UIKit;
 
 namespace Playground.iOS.ViewControllers.Controls
 {
     public partial class PhotoBrowserViewController : ViewControllerBase<PhotoBrowserViewModel>
     {
-        public PhotoBrowserViewController(IntPtr handle) : base(handle)
+        public PhotoBrowserViewController(IntPtr handle)
+            : base(handle)
         {
         }
 

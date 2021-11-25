@@ -86,7 +86,8 @@ namespace Playground.ViewModels.Collections.Products
             var newItem = _dataService.GetProduct(newId);
             newItem.AddToBasketCommand = _addCommand;
 
-            Products.AddItems(new List<ProductViewModel> { GenerateItem(productViewModel) },
+            Products.AddItems(
+                new List<ProductViewModel> { GenerateItem(productViewModel) },
                 x => CreateGroup(GetGroupId(x)),
                 x => x);
         }
@@ -114,7 +115,7 @@ namespace Playground.ViewModels.Collections.Products
 
         private int GetNewItemId(ProductHeaderViewModel productViewModel)
         {
-            var groups = Products?
+            var groups = Products
                 .FirstOrDefault(x => x.Key.Equals(productViewModel))?
                 .ToList();
 

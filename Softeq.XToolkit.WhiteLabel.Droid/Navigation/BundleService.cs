@@ -23,12 +23,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         ///     Skip restore when:
         ///     1) ViewModel was alive
         ///     2) Activity never been destroyed
-        ///     3) we don't have data to restore
+        ///     3) we don't have data to restore.
         /// </summary>
-        /// <param name="viewModel"></param>
-        /// <param name="intent"></param>
-        /// <param name="bundle"></param>
-        void TryToRestoreParams(ViewModelBase viewModel, Intent intent, Bundle bundle);
+        /// <param name="viewModel">ViewModel.</param>
+        /// <param name="intent">Android Intent.</param>
+        /// <param name="bundle">Android Bundle.</param>
+        void TryToRestoreParams(ViewModelBase viewModel, Intent intent, Bundle? bundle);
 
         void SaveInstanceState(Bundle bundle);
     }
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         }
 
         /// <inheritdoc />
-        public void TryToRestoreParams(ViewModelBase viewModel, Intent intent, Bundle bundle)
+        public void TryToRestoreParams(ViewModelBase viewModel, Intent intent, Bundle? bundle)
         {
             if (viewModel.IsInitialized
                 || bundle == null

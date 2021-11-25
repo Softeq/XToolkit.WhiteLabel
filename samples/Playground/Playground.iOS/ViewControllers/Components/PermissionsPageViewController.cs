@@ -40,16 +40,16 @@ namespace Playground.iOS.ViewControllers.Components
             this.Bind(() => ViewModel.LocationAlways.IsGranted, () => LocationAlways.BackgroundColor, converter);
         }
 
-        private class ColorConverter : IConverter<UIColor, bool>
+        private class ColorConverter : IConverter<UIColor?, bool>
         {
             public UIColor ConvertValue(bool value, object? parameter = null, string? language = null)
             {
                 return value ? UIColor.Green : UIColor.Red;
             }
 
-            public bool ConvertValueBack(UIColor value, object? parameter = null, string? language = null)
+            public bool ConvertValueBack(UIColor? value, object? parameter = null, string? language = null)
             {
-                return value == UIColor.Green;
+                return value!.Equals(UIColor.Green);
             }
         }
     }

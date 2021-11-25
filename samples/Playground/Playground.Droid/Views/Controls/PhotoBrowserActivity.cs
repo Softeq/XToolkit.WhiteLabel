@@ -19,7 +19,7 @@ namespace Playground.Droid.Views.Controls
         private Button? _galleryButton;
         private ImageView? _imageView;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

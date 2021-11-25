@@ -18,9 +18,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
             SelectedValue = _items.First().Key;
         }
 
-        public T SelectedValue { get; set; }
-
         public event Action<T>? ValueChanged;
+
+        public T SelectedValue { get; set; }
 
         public override nint GetRowsInComponent(UIPickerView pickerView, nint component)
         {

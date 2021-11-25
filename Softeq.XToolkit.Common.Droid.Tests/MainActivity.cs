@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.Common.Droid.Tests
     [Activity(MainLauncher = true, Theme = "@android:style/Theme.Material.Light")]
     public class MainActivity : RunnerActivity
     {
-        public static MainActivity Current { get; private set; }
+        public static MainActivity Current { get; private set; } = null!;
 
         protected override void OnCreate(Bundle bundle)
         {

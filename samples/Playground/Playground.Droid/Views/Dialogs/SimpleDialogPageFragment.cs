@@ -18,7 +18,7 @@ namespace Playground.Droid.Views.Dialogs
         protected override int? DialogAnimationId => Resource.Style.DialogAnimation;
 
         // TODO YP: move inflate to WL
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             return LayoutInflater.Inflate(Resource.Layout.dialog_simple_dialog, container, true);
         }

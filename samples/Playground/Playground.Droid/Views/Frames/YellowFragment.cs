@@ -13,7 +13,7 @@ namespace Playground.Droid.Views.Frames
 {
     public class YellowFragment : FragmentBase<YellowViewModel>
     {
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             return inflater.Inflate(Resource.Layout.fragment_with_navigation, container, false);
         }
@@ -22,14 +22,14 @@ namespace Playground.Droid.Views.Frames
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            var next = View.FindViewById<Button>(Resource.Id.fragment_with_navigation_next);
+            var next = View.FindViewById<Button>(Resource.Id.fragment_with_navigation_next)!;
             next.Visibility = ViewStates.Gone;
 
-            var back = View.FindViewById<Button>(Resource.Id.fragment_with_navigation_back);
+            var back = View.FindViewById<Button>(Resource.Id.fragment_with_navigation_back)!;
             back.SetCommand(ViewModel.BackCommand);
             back.Text = ViewModel.BackText;
 
-            var container = View.FindViewById<View>(Resource.Id.fragment_with_navigation_view);
+            var container = View.FindViewById<View>(Resource.Id.fragment_with_navigation_view)!;
             container.SetBackgroundColor(Color.Yellow);
         }
     }

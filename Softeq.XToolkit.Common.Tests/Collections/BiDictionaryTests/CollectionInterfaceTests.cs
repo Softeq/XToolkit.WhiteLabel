@@ -10,7 +10,7 @@ using Xunit;
 namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
 {
     /// <summary>
-    ///     Tests for ICollection interface
+    ///     Tests for ICollection interface.
     /// </summary>
     public class CollectionInterfaceTests
     {
@@ -95,8 +95,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
             Assert.False(wasNotRemovedFromCollection);
             Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", collection.GetResult());
         }
-
-        //
 
         [Fact]
         public void Add_Reverse()

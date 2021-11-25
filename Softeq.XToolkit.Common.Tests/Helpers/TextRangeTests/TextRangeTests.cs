@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.Common.Tests.Helpers.TextRangeTests
         [InlineData(null, null)]
         public void BuildNewString_NullParams_ThrowsArgumentNullException(string fullString, string newString)
         {
-            var textRange = TextRangeDataProvider.CreateFisrtSymbolTextRange();
+            var textRange = TextRangeDataProvider.CreateFirstSymbolTextRange();
 
             Assert.Throws<ArgumentNullException>(() => textRange.BuildNewString(fullString, newString));
         }

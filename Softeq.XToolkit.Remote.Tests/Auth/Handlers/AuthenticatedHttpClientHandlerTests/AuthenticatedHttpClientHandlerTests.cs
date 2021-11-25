@@ -35,10 +35,7 @@ namespace Softeq.XToolkit.Remote.Tests.Auth.Handlers.AuthenticatedHttpClientHand
         [Fact]
         public void Ctor_Null_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new AuthenticatedHttpClientHandler(null!);
-            });
+            Assert.Throws<ArgumentNullException>(() => new AuthenticatedHttpClientHandler(null!));
         }
 
         [Fact]
