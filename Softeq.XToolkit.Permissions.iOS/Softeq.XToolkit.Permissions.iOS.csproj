@@ -65,5 +65,6 @@
             <Name>Softeq.XToolkit.Permissions</Name>
         </ProjectReference>
     </ItemGroup>
+    <Import Project="$(MSBuildThisFileDirectory)..\NuGet.targets" />
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

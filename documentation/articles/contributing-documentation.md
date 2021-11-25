@@ -61,7 +61,6 @@ XToolkit types:
 <see cref="AsyncCommand"/>
 ```
 
-
 ## Build documentation locally
 
 In some cases it might be more comfortable to work locally on updating the documentation pages instead of using the online GitHub editor. This is especially the case when working on bigger changes you’d most likely do on a separate branch and maybe spend multiple days working on. In those cases it might be usefull to be able to generate the site locally, so you can see what your changes look like when rendered in the browser. This means you will have to follow these steps:
@@ -69,7 +68,6 @@ In some cases it might be more comfortable to work locally on updating the docum
 1. Make changes in `documentation/*` folder
 2. Build documentation via `cd documentation && ./build.sh`
 3. Open `documentation/_site/index.html` in browser
-
 
 ## Summary
 
