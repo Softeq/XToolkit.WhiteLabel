@@ -13,18 +13,18 @@ using Softeq.XToolkit.Common.Weak;
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>
-    ///     Provides an implementation so that you can use the
-    ///     "weak event listener" pattern to attach listeners
+    ///     Provides an implementation so that you can use the "weak event listener" pattern to attach listeners
     ///     for the <see cref="PropertyChanged" /> event.
     /// </summary>
     public class PropertyChangedEventManager
     {
+        private static readonly object _syncLock = new object();
         private static PropertyChangedEventManager _manager;
-        private static readonly object SyncLock = new object();
+
         private Dictionary<string, List<ListenerInfo>> _list;
 
         /// <summary>
-        ///     Get the current instance of <see cref="PropertyChangedEventManager" />
+        ///     Gets get the current instance of <see cref="PropertyChangedEventManager" />.
         /// </summary>
         private static PropertyChangedEventManager Instance => _manager ??= new PropertyChangedEventManager();
 
@@ -33,10 +33,7 @@ namespace Softeq.XToolkit.Bindings
         /// </summary>
         /// <param name="source">The object with the event.</param>
         /// <param name="listener">The object to add as a listener.</param>
-        /// <param name="propertyName">
-        ///     The name of the property that exists on
-        ///     source upon which to listen for changes.
-        /// </param>
+        /// <param name="propertyName">The name of the property that exists on source upon which to listen for changes.</param>
         public static void AddListener(
             INotifyPropertyChanged source,
             IWeakEventListener listener,
@@ -46,8 +43,7 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Removes the specified listener from the list of listeners on the
-        ///     specified source.
+        ///     Removes the specified listener from the list of listeners on the specified source.
         /// </summary>
         /// <param name="listener">The object to remove as a listener.</param>
         public static void RemoveListener(IWeakEventListener listener)
@@ -56,15 +52,11 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Private method to add the specified listener to the list of listeners
-        ///     on the specified source.
+        ///     Private method to add the specified listener to the list of listeners on the specified source.
         /// </summary>
         /// <param name="source">The object with the event.</param>
         /// <param name="listener">The object to add as a listener.</param>
-        /// <param name="propertyName">
-        ///     The name of the property that exists
-        ///     on source upon which to listen for changes.
-        /// </param>
+        /// <param name="propertyName">The name of the property that exists on source upon which to listen for changes.</param>
         private void PrivateAddListener(
             INotifyPropertyChanged source,
             IWeakEventListener listener,
@@ -75,7 +67,7 @@ namespace Softeq.XToolkit.Bindings
                 return;
             }
 
-            lock (SyncLock)
+            lock (_syncLock)
             {
                 if (_list == null)
                 {
@@ -115,15 +107,14 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Private method to remove the specified listener from the list of listeners
-        ///     on the specified source.
+        ///     Private method to remove the specified listener from the list of listeners on the specified source.
         /// </summary>
         /// <param name="listener">The object to remove as a listener.</param>
         private void PrivateRemoveListener(IWeakEventListener listener)
         {
             if (_list != null)
             {
-                lock (SyncLock)
+                lock (_syncLock)
                 {
                     string propertyName = null;
                     ListenerInfo toRemove = null;
@@ -178,10 +169,7 @@ namespace Softeq.XToolkit.Bindings
         ///     The method that handles the <see cref="INotifyPropertyChanged.PropertyChanged" /> event.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
-        /// <param name="args">
-        ///     A <see cref="PropertyChangedEventArgs" /> that
-        ///     contains the event data.
-        /// </param>
+        /// <param name="args">A <see cref="PropertyChangedEventArgs" /> that contains the event data.</param>
         private void PropertyChanged(object sender, PropertyChangedEventArgs args)
         {
             if (string.IsNullOrEmpty(args.PropertyName))
@@ -222,13 +210,9 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Begin listening for the <see cref="PropertyChanged" /> event on
-        ///     the provided source.
+        ///     Begin listening for the <see cref="PropertyChanged" /> event on the provided source.
         /// </summary>
-        /// <param name="source">
-        ///     The object on which to start listening
-        ///     for <see cref="PropertyChanged" />.
-        /// </param>
+        /// <param name="source">The object on which to start listening for <see cref="PropertyChanged" />.</param>
         private void StartListening(INotifyPropertyChanged source)
         {
             if (source != null)
@@ -238,13 +222,9 @@ namespace Softeq.XToolkit.Bindings
         }
 
         /// <summary>
-        ///     Stop listening for the <see cref="PropertyChanged" /> event on the
-        ///     provided source.
+        ///     Stop listening for the <see cref="PropertyChanged" /> event on the provided source.
         /// </summary>
-        /// <param name="source">
-        ///     The object on which to start listening for
-        ///     <see cref="PropertyChanged" />.
-        /// </param>
+        /// <param name="source">The object on which to start listening for <see cref="PropertyChanged" />.</param>
         private void StopListening(INotifyPropertyChanged source)
         {
             if (source != null)
@@ -255,10 +235,10 @@ namespace Softeq.XToolkit.Bindings
 
         private class ListenerInfo
         {
-            public ListenerInfo(IWeakEventListener listener, INotifyPropertyChanged inpc)
+            public ListenerInfo(IWeakEventListener listener, INotifyPropertyChanged notifyPropertyChanged)
             {
                 Listener = listener;
-                InstanceReference = new WeakReference(inpc);
+                InstanceReference = new WeakReference(notifyPropertyChanged);
             }
 
             public WeakReference InstanceReference { get; }

@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Bindings.Abstract
     public interface IBindingsOwner
     {
         /// <summary>
-        ///     List where keeping bindings.
+        ///     Gets list where keeping bindings.
         /// </summary>
         List<Binding> Bindings { get; }
     }

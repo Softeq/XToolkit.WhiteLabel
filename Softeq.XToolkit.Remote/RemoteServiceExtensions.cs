@@ -17,7 +17,7 @@ namespace Softeq.XToolkit.Remote
         /// </summary>
         /// <param name="remoteService">Instance of <see cref="IRemoteService{TApiService}"/>.</param>
         /// <param name="operation">
-        ///     Delegate that encapsulates request operation (call the method from <see cref="TApiService"/>).
+        ///     Delegate that encapsulates request operation (call the method from <typeparamref name="TApiService"/>).
         /// </param>
         /// <param name="cancellationToken">Token for canceling the request.</param>
         /// <param name="logger">Instance of <see cref="ILogger"/> (optional).</param>
@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.Remote
         /// </summary>
         /// <param name="remoteService">Instance of <see cref="IRemoteService{TApiService}"/>.</param>
         /// <param name="operation">
-        ///     Delegate that encapsulates request operation (call the method from <see cref="TApiService"/>).
+        ///     Delegate that encapsulates request operation (call the method from <typeparamref name="TApiService"/>).
         /// </param>
         /// <param name="cancellationToken">Token for canceling the request.</param>
         /// <param name="logger">Instance of <see cref="ILogger"/> (optional).</param>

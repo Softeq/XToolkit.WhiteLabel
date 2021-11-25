@@ -39,13 +39,13 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <param name="task">The task to wait for.</param>
         /// <param name="timeout">The maximum time to wait.</param>
-        /// <exception cref="TimeoutException">When time is over.</exception>
+        /// <exception cref="T:System.TimeoutException">When time is over.</exception>
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/> or
-        ///     faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
+        ///     faults with a <see cref="T:System.TimeoutException"/> if <paramref name="timeout"/> elapses first.
         /// </returns>
         /// <example>
-        ///     If you need timeout with cancellation, use the better approach with <see cref="CancellationToken"/>:
+        ///     If you need timeout with cancellation, use the better approach with <see cref="T:System.Threading.CancellationToken"/>:
         /// <code>
         ///     using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
         ///     {
@@ -87,13 +87,13 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <typeparam name="T">The type of value returned by the original task.</typeparam>
         /// <param name="task">The task to wait for.</param>
         /// <param name="timeout">The maximum time to wait.</param>
-        /// <exception cref="TimeoutException">When time is over.</exception>
+        /// <exception cref="T:System.TimeoutException">When time is over.</exception>
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/> or
-        ///     faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
+        ///     faults with a <see cref="T:System.TimeoutException"/> if <paramref name="timeout"/> elapses first.
         /// </returns>
         /// <example>
-        ///     If you need timeout with cancellation, use the better approach with <see cref="CancellationToken"/>:
+        ///     If you need timeout with cancellation, use the better approach with <see cref="T:System.Threading.CancellationToken"/>:
         /// <code>
         ///     using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
         ///     {
@@ -159,15 +159,15 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Simple wrapper for execution task with <see cref="CancellationToken"/>.
+        ///     Simple wrapper for execution task with <see cref="T:System.Threading.CancellationToken"/>.
         ///     Target Task will continue running, but the execution will be returned.
         /// </summary>
         /// <param name="task">The task to cancellation for.</param>
         /// <param name="cancellationToken">
-        ///     The <see cref="CancellationToken"/> that will be assigned to the new continuation task.
+        ///     The <see cref="T:System.Threading.CancellationToken"/> that will be assigned to the new continuation task.
         /// </param>
         /// <typeparam name="T">Type of Task.</typeparam>
-        /// <exception cref="TaskCanceledException">The task was canceled.</exception>
+        /// <exception cref="T:System.Threading.Tasks.TaskCanceledException">The task was canceled.</exception>
         /// <returns>Task result.</returns>
         public static Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
         {
