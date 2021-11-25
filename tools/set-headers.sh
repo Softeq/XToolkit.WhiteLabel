@@ -7,7 +7,7 @@
 # Example:
 #   sh tools/set-headers.sh "Developed" header.txt
 
-for i in `find . -name "*.cs" ! -path '*obj*' ! -path '*bin*' ! -name '*.designer.cs' ! -name 'AssemblyInfo.cs'`
+for i in $(find . -name "*.cs" ! -path '*obj*' ! -path '*bin*' ! -name '*.designer.cs' ! -name 'AssemblyInfo.cs')
 do
   if ! grep -q "$1" $i
   then

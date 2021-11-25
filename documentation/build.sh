@@ -1,4 +1,4 @@
-
+#!/bin/bash
 
 msbuild -r Softeq.XToolkit.Documentation.csproj
 
