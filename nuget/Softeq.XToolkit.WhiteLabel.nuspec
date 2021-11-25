@@ -12,7 +12,7 @@
     <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" />
     <description>XToolkit.WhiteLabel is a collection of "lego" components for fast create cross-platform mobile applications with Xamarin, based on XToolkit.</description>
     <copyright>Copyright 2021 Softeq Development Corp.</copyright>
-    <tags>softeq, xtoolkit, xamarin, ios, android, mvvm, toolkit, kit</tags>
+    <tags>softeq, xtoolkit, xamarin, ios, android, mvvm, toolkit, whitelabel</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
      <group targetFramework="netstandard2.1">
@@ -52,22 +52,27 @@
     <!-- Core -->
     <file
       src="../Softeq.XToolkit.WhiteLabel/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.*"
+      exclude="**/*.deps.json"
       target="lib\netstandard2.1" />
 
     <!-- Droid -->
     <file
       src="../Softeq.XToolkit.WhiteLabel/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.*"
+      exclude="**/*.deps.json"
       target="lib\MonoAndroid90" />
     <file
       src="../Softeq.XToolkit.WhiteLabel.Droid/bin/Release/Softeq.XToolkit.WhiteLabel.Droid.*"
+      exclude="**/*.deps.json"
       target="lib\MonoAndroid90" />
 
     <!-- iOS -->
     <file
       src="../Softeq.XToolkit.WhiteLabel/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.*"
+      exclude="**/*.deps.json"
       target="lib\Xamarin.iOS10" />
     <file
       src="../Softeq.XToolkit.WhiteLabel.iOS/bin/Release/Softeq.XToolkit.WhiteLabel.iOS.*"
+      exclude="**/*.deps.json"
       target="lib\Xamarin.iOS10" />
 
   </files>
