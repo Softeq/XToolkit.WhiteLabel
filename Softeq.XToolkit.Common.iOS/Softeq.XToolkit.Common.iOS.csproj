@@ -37,6 +37,7 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Files\IosStorageInfoProvider.cs" />
     <Compile Include="IosMainThreadExecutor.cs" />
     <Compile Include="TextFilters\ForbiddenCharsFilter.cs" />
     <Compile Include="TextFilters\ITextFilter.cs" />
