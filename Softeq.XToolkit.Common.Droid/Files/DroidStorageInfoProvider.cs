@@ -12,7 +12,8 @@ namespace Softeq.XToolkit.Common.Droid.Files
     {
         /// <inheritdoc />
         /// <remarks>
-        ///     More modern implementation via <see cref="T:Android.OS.Storage.StorageManager"/> should be in the WhiteLabel.
+        ///     More modern implementation via <see cref="T:Android.OS.Storage.StorageManager"/> yon can see here:
+        ///     <see cref="T:Softeq.XToolkit.WhiteLabel.Droid.Providers.ModernDroidStorageInfoProvider"/>.
         /// </remarks>
         public List<StorageInfo> Current
         {

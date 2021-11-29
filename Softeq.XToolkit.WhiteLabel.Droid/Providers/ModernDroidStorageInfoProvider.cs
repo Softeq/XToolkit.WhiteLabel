@@ -24,6 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
             _contextProvider = contextProvider;
         }
 
+        /// <inheritdoc />
         public List<StorageInfo> Current
         {
             get
