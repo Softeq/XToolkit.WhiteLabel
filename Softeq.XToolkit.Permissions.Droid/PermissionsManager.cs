@@ -43,19 +43,19 @@ namespace Softeq.XToolkit.Permissions.Droid
                                         ?? throw new ArgumentNullException(nameof(permissionsDialogService));
         }
 
-        private bool IsPermissionRequested<T>()
+        private bool IsPermissionDeniedEver<T>()
             where T : BasePermission
         {
-            return Preferences.Get(GetPermissionRequestedKey<T>(), false);
+            return Preferences.Get(GetPermissionDeniedEverKey<T>(), false);
         }
 
-        private void SetPermissionRequested<T>(bool value)
+        private void SetPermissionDenied<T>(bool value)
             where T : BasePermission
         {
-            Preferences.Set(GetPermissionRequestedKey<T>(), value);
+            Preferences.Set(GetPermissionDeniedEverKey<T>(), value);
         }
 
-        private string GetPermissionRequestedKey<T>()
+        private string GetPermissionDeniedEverKey<T>()
             where T : BasePermission
         {
             return $"{nameof(PermissionsManager)}_IsPermissionRequested_{typeof(T).Name}";
@@ -75,7 +75,9 @@ namespace Softeq.XToolkit.Permissions.Droid
                 return permissionStatus;
             }
 
-            if (permissionStatus == PermissionStatus.Denied && IsPermissionRequested<T>())
+            if (permissionStatus == PermissionStatus.Denied
+                && IsPermissionDeniedEver<T>()
+                && !Xamarin.Essentials.Permissions.ShouldShowRationale<T>())
             {
                 await OpenSettingsWithConfirmationAsync<T>().ConfigureAwait(false);
                 return PermissionStatus.Denied;
@@ -85,8 +87,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             if (confirmationResult)
             {
                 permissionStatus = await _permissionsService.RequestPermissionsAsync<T>().ConfigureAwait(false);
-
-                SetPermissionRequested<T>(true);
+                SetPermissionDenied<T>(permissionStatus == PermissionStatus.Denied);
             }
 
             return permissionStatus;
