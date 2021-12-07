@@ -48,9 +48,9 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.EditTextExtensionsTests
             var filter2 = new MockInputFilter();
             var filter3 = new MockInputFilter();
             var nullFilter = null as IInputFilter;
-            var filters = new IInputFilter[] { filter1, filter2, nullFilter, filter3, filter2, nullFilter, filter1, filter2 };
+            var filters = new[] { filter1, filter2, nullFilter, filter3, filter2, nullFilter, filter1, filter2 };
 
-            editText.SetFilters(filter1, filter2, nullFilter, filter3, filter2, nullFilter, filter1, filter2);
+            editText.SetFilters(filter1, filter2, nullFilter!, filter3, filter2, nullFilter!, filter1, filter2);
 
             var appliedFilters = editText.GetFilters();
             Assert.Equal(filters, appliedFilters);

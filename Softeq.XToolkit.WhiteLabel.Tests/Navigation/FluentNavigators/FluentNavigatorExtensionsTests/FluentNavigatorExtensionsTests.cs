@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FluentNav
         {
             IViewModelBase viewModel = null;
 
-            Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null));
+            Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null!));
         }
 
         [Fact]
@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FluentNav
         {
             IViewModelBase viewModel = new ViewModelStub();
 
-            Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null));
+            Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null!));
         }
 
         [Theory]

@@ -12,13 +12,13 @@ namespace Softeq.XToolkit.Common.Droid.TextFilters
     /// </summary>
     public class ForbiddenCharsInputFilter : Object, IInputFilter
     {
-        private readonly char[] _forbiddenCharacters;
+        private readonly char[]? _forbiddenCharacters;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="ForbiddenCharsInputFilter"/> class.
         /// </summary>
         /// <param name="forbiddenCharacters">Array of characters not allowed in the input. Ignored when null.</param>
-        public ForbiddenCharsInputFilter(char[] forbiddenCharacters)
+        public ForbiddenCharsInputFilter(char[]? forbiddenCharacters)
         {
             _forbiddenCharacters = forbiddenCharacters;
         }

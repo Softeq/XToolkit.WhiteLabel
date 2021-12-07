@@ -14,15 +14,15 @@ namespace Playground.Droid.Views.Collections
     [Activity(Theme = "@style/AppTheme")]
     public class CollectionPageActivity : ActivityBase<CollectionPageViewModel>
     {
-        private RecyclerView? _recyclerView;
+        private RecyclerView _recyclerView = null!;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.activity_collection);
 
-            _recyclerView = FindViewById<RecyclerView>(Resource.Id.activity_collection_lst);
+            _recyclerView = FindViewById<RecyclerView>(Resource.Id.activity_collection_lst)!;
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView

@@ -33,7 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         {
             return UIApplication.SharedApplication.Windows
                 .Where(window => window.RootViewController != null)
-                .Select(window => _viewControllerProvider.GetTopViewController(window.RootViewController))
+                .Select(window => _viewControllerProvider.GetTopViewController(window.RootViewController!))
                 .First();
         }
 
@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
 
             var targetTypeName = BuildViewTypeName(viewModelType);
-            targetViewType = Type.GetType(targetTypeName)! ?? AssemblySource.FindTypeByNames(new[] { targetTypeName })!;
+            targetViewType = Type.GetType(targetTypeName) ?? AssemblySource.FindTypeByNames(new[] { targetTypeName })!;
 
             if (targetViewType == null)
             {

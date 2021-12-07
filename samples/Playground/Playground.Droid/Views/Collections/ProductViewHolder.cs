@@ -19,13 +19,12 @@ namespace Playground.Droid.Views.Collections
         private readonly ImageButton _addToCartButton;
         private readonly EditText _count;
 
-        public ProductViewHolder(View view)
-            : base(view)
+        public ProductViewHolder(View view) : base(view)
         {
-            _image = view.FindViewById<ImageView>(Resource.Id.item_product_photo_img);
-            _title = view.FindViewById<TextView>(Resource.Id.item_product_title_lbl);
-            _addToCartButton = view.FindViewById<ImageButton>(Resource.Id.item_product_add_cart_btn);
-            _count = view.FindViewById<EditText>(Resource.Id.item_product_count_txt);
+            _image = view.FindViewById<ImageView>(Resource.Id.item_product_photo_img)!;
+            _title = view.FindViewById<TextView>(Resource.Id.item_product_title_lbl)!;
+            _addToCartButton = view.FindViewById<ImageButton>(Resource.Id.item_product_add_cart_btn)!;
+            _count = view.FindViewById<EditText>(Resource.Id.item_product_count_txt)!;
         }
 
         public override void DoAttachBindings()
@@ -66,13 +65,12 @@ namespace Playground.Droid.Views.Collections
         private readonly Button _generateButton;
         private readonly Button _addButton;
 
-        public ProductHeaderViewHolder(View view)
-            : base(view)
+        public ProductHeaderViewHolder(View view) : base(view)
         {
-            _title = view.FindViewById<TextView>(Resource.Id.item_product_header_title_lbl);
-            _generateButton = view.FindViewById<Button>(Resource.Id.item_product_header_generate_btn);
-            _addButton = view.FindViewById<Button>(Resource.Id.item_product_header_add_btn);
-            _infoButton = view.FindViewById<Button>(Resource.Id.item_product_header_info_btn);
+            _title = view.FindViewById<TextView>(Resource.Id.item_product_header_title_lbl)!;
+            _generateButton = view.FindViewById<Button>(Resource.Id.item_product_header_generate_btn)!;
+            _addButton = view.FindViewById<Button>(Resource.Id.item_product_header_add_btn)!;
+            _infoButton = view.FindViewById<Button>(Resource.Id.item_product_header_info_btn)!;
         }
 
         public override void DoAttachBindings()

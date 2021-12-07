@@ -20,7 +20,9 @@ using IOException = System.IO.IOException;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
+#pragma warning disable SA1649
     public static class ImagePickerMode
+#pragma warning restore SA1649
     {
         public const int Camera = 1;
         public const int Gallery = 2;
@@ -48,7 +50,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             }
         }
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -65,7 +67,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
             try
             {
-                switch (Intent.GetIntExtra(ModeKey, default))
+                switch (Intent!.GetIntExtra(ModeKey, default))
                 {
                     case ImagePickerMode.Camera:
                         CaptureCamera();
@@ -95,12 +97,12 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             base.OnSaveInstanceState(outState);
         }
 
-        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        protected override void OnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent? data)
         {
             HandleOnActivityResult(requestCode, resultCode, data).FireAndForget();
         }
 
-        private async Task HandleOnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent data)
+        private async Task HandleOnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent? data)
         {
             var handler = Dependencies.Container.Resolve<IImagePickerActivityResultHandler>();
 
@@ -146,9 +148,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             StartActivityForResult(_pickIntent, ImagePickerMode.Gallery);
         }
 
-        private AUri GetOutputMediaFile(Context context, string subdir, string? name)
+        private AUri GetOutputMediaFile(Context context, string? subdir, string? name)
         {
-            subdir = subdir ?? string.Empty;
+            subdir ??= string.Empty;
 
             if (string.IsNullOrWhiteSpace(name))
             {
@@ -172,12 +174,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                     }
                 }
 
-                return FileProvider.GetUriForFile(context, $"{context.PackageName}.fileprovider",
+                return FileProvider.GetUriForFile(
+                    context,
+                    $"{context.PackageName}.fileprovider",
                     new File(GetUniquePath(mediaStorageDir.Path, name!)));
             }
         }
 
-        private static string GetUniquePath(string folder, string name)
+        private string GetUniquePath(string folder, string name)
         {
             var ext = System.IO.Path.GetExtension(name);
             if (ext == string.Empty)

@@ -13,7 +13,7 @@ namespace Playground.Droid.Views
     [StartActivity]
     public class StartPageActivity : ActivityBase<StartPageViewModel>
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

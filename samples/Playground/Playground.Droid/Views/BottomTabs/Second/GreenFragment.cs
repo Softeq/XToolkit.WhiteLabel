@@ -14,10 +14,10 @@ namespace Playground.Droid.Views.BottomTabs.Second
 {
     public class GreenFragment : FragmentBase<GreenViewModel>
     {
-        private Button? _incrementButton;
-        private TextView? _incrementLabel;
+        private Button _incrementButton = null!;
+        private TextView _incrementLabel = null!;
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
         {
             return inflater.Inflate(Resource.Layout.fragment_green, container, false);
         }
@@ -26,9 +26,9 @@ namespace Playground.Droid.Views.BottomTabs.Second
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            _incrementLabel = view.FindViewById<TextView>(Resource.Id.textView1);
+            _incrementLabel = view.FindViewById<TextView>(Resource.Id.textView1)!;
 
-            _incrementButton = view.FindViewById<Button>(Resource.Id.button2);
+            _incrementButton = view.FindViewById<Button>(Resource.Id.button2)!;
             _incrementButton.SetCommand(ViewModel.IncrementCommand);
             _incrementButton.Click += (sender, e) => _incrementLabel.Text = "changed";
         }
@@ -37,7 +37,7 @@ namespace Playground.Droid.Views.BottomTabs.Second
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.Count, () => _incrementButton!.Text, IntToStringConverter.Instance);
+            this.Bind(() => ViewModel.Count, () => _incrementButton.Text, IntToStringConverter.Instance);
         }
     }
 }

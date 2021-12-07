@@ -5,12 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Polly" Version="7.2.1" />
+    <PackageReference Include="Polly" Version="7.2.2" />
     <PackageReference Include="refit" Version="5.2.4" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
+
+  <Import Project="$(MSBuildThisFileDirectory)..\NuGet.targets" />
 
 </Project>

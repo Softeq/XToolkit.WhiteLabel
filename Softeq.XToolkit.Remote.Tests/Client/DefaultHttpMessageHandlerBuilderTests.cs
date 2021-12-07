@@ -33,10 +33,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client
         [Fact]
         public void Ctor_NullPrimaryHandler_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new DefaultHttpMessageHandlerBuilder(null!);
-            });
+            Assert.Throws<ArgumentNullException>(() => new DefaultHttpMessageHandlerBuilder(null!));
         }
 
         [Fact]

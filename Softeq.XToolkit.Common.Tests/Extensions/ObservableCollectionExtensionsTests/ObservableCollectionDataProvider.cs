@@ -6,12 +6,14 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using Xunit;
 
+#pragma warning disable SA1509
+
 namespace Softeq.XToolkit.Common.Tests.Extensions.ObservableCollectionExtensionsTests
 {
     internal static class ObservableCollectionDataProvider
     {
         private static readonly ObservableCollection<int> EmptyCollection
-            = new ObservableCollection<int> { };
+            = new ObservableCollection<int>();
 
         private static readonly ObservableCollection<int> EqualsCollection
             = new ObservableCollection<int> { 1, 1, 1, 1, 1, 1, 1 };

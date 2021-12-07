@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableItemContentRangeCol
         [Fact]
         public void ObservableItemContentRangeCollection_WhenCreatedWithNullItems_ThrowsException()
         {
-            Assert.Throws<ArgumentNullException>(() => new ObservableItemContentRangeCollection<ObservableObject>(null));
+            Assert.Throws<ArgumentNullException>(() => new ObservableItemContentRangeCollection<ObservableObject>(null!));
         }
 
         [Fact]

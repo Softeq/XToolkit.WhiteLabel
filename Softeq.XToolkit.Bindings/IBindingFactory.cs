@@ -49,8 +49,8 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default);
+            TSource fallbackValue = default!,
+            TSource targetNullValue = default!);
 
         /// <summary>
         ///     Creates a new instance of the <see cref="Binding{TSource,TTarget}"/> class
@@ -89,8 +89,8 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default);
+            TSource fallbackValue = default!,
+            TSource targetNullValue = default!);
 
         /// <summary>
         ///     Creates a new instance of the <see cref="Binding{TSource,TTarget}"/> class
@@ -129,8 +129,8 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             string? targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default);
+            TSource fallbackValue = default!,
+            TSource targetNullValue = default!);
 
         /// <summary>
         ///    Creates a new instance of the <see cref="T:System.EventHandler"/> that will wrap the command.

@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
         public void GetColor_WithoutColors_WithNullName_ThrowsCorrectException()
         {
             Assert.Throws<ArgumentNullException>(()
-                => AvatarPlaceholderBuilder.GetColor(null));
+                => AvatarPlaceholderBuilder.GetColor(null!));
         }
 
         [Theory]
@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
         public void GetColor_WithAnyColors_WithNullName_ThrowsCorrectException(string[] colors)
         {
             Assert.Throws<ArgumentNullException>(()
-                => AvatarPlaceholderBuilder.GetColor(null, colors));
+                => AvatarPlaceholderBuilder.GetColor(null!, colors));
         }
 
         [Theory]
@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
         public void GetColor_WithNullColors_WithNonNullName_ThrowsCorrectException(string name)
         {
             Assert.Throws<ArgumentNullException>(()
-                => AvatarPlaceholderBuilder.GetColor(name, null));
+                => AvatarPlaceholderBuilder.GetColor(name, null!));
         }
 
         [Theory]
@@ -64,7 +64,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
             MemberType = typeof(AvatarPlaceholderBuilderTestsDataProvider))]
         public void GetColor_WithNonEmptyColors_WithNonNullName_ReturnsColorFromTheList(string name)
         {
-            var colors = new string[] { "Color1", "Color2", "Color3" };
+            var colors = new[] { "Color1", "Color2", "Color3" };
             var color = AvatarPlaceholderBuilder.GetColor(name, colors);
 
             Assert.Contains(color, colors);

@@ -9,7 +9,7 @@ using System.CodeDom.Compiler;
 
 namespace Playground.iOS.Views.Collections
 {
-	[Register ("GroupedHeaderView")]
+	[Register (nameof(GroupedHeaderView))]
 	partial class GroupedHeaderView
 	{
 		[Outlet]
@@ -34,8 +34,8 @@ namespace Playground.iOS.Views.Collections
 		partial void GenerateButtonAction (Foundation.NSObject sender);
 
 		[Action ("InfoButtonAction:")]
-		partial void InfoButtonAction (Foundation.NSObject _);
-		
+		partial void InfoButtonAction (Foundation.NSObject sender);
+
 		void ReleaseDesignerOutlets ()
 		{
 			if (AddButton != null) {

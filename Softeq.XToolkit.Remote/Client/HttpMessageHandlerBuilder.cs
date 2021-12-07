@@ -67,7 +67,7 @@ namespace Softeq.XToolkit.Remote.Client
         ///     using the <see cref="T:System.Net.Http.DelegatingHandler"/> instances
         ///     provided by <paramref name="additionalHandlers"/>.
         ///     <para/>
-        ///     The resulting pipeline can be used to manually create <see cref="HttpClient"/>
+        ///     The resulting pipeline can be used to manually create <see cref="T:System.Net.Http.HttpClient"/>
         ///     or <see cref="T:System.Net.Http.HttpMessageInvoker"/> instances with customized message handlers.
         /// </summary>
         /// <param name="primaryHandler">The inner handler represents the destination of the HTTP message channel.</param>

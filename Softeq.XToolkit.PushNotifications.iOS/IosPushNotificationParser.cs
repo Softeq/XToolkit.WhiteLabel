@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// <summary>
         ///     A root dictionary containing one or more additional Apple-defined keys instructing the system how to handle notification.
         ///     Don't add your own custom keys to the aps dictionary; APNs ignores custom keys. Instead, add your custom keys as peers of the
-        ///     aps dictionary
+        ///     aps dictionary.
         /// </summary>
         protected const string ApsKey = "aps";
 
@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         protected const string ContentAvailableKey = "content-available";
 
         /// <summary>
-        ///     Custom key for addition data. Can be customized.
+        ///     Gets custom key for addition data. Can be customized.
         /// </summary>
         protected virtual string DataKey => "data";
 
@@ -82,12 +82,12 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         }
 
         /// <summary>
-        ///     Obtains type string from push notification data (should be customized to provide app specific values)
+        ///     Obtains type string from push notification data (should be customized to provide app specific values).
         /// </summary>
-        /// <param name="pushNotification">Initial push notification dictionary</param>
-        /// <param name="aps">Dictionary stored inside 'aps' tag</param>
-        /// <param name="data">Custom data part of the notification</param>
-        /// <returns></returns>
+        /// <param name="pushNotification">Initial push notification dictionary.</param>
+        /// <param name="aps">Dictionary stored inside 'aps' tag.</param>
+        /// <param name="data">Custom data part of the notification.</param>
+        /// <returns>String type for <see cref="PushNotificationModel.Type"/>.</returns>
         protected virtual string ParseNotificationType(NSDictionary pushNotification, NSDictionary aps, string data)
         {
             return string.Empty;

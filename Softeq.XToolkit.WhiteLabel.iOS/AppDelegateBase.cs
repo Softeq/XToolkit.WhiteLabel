@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     {
         private UIViewController _rootViewController = default!;
 
-        public override UIWindow Window { get; set; } = default!;
+        public override UIWindow? Window { get; set; }
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {

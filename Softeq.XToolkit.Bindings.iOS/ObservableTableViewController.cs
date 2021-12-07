@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.Bindings.iOS
     ///     Credits go to Frank A Krueger for the initial idea and the inspiration
     ///     for this class. Frank gracefully accepted to let me add his code (with a few changes)
     ///     to MVVM Light.
-    ///     <para>https://gist.github.com/praeclarum/10024108</para>
+    ///     <see href="https://gist.github.com/praeclarum/10024108">More details</see>.
     /// </remarks>
     /// <typeparam name="T">The type of the items contained in the <see cref="DataSource" />.</typeparam>
     public class ObservableTableViewController<T> : UITableViewController, INotifyPropertyChanged
@@ -44,7 +44,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         private ObservableTableSource<T> _tableSource;
 
         /// <summary>
-        ///     Initializes a new instance of this class with a plain style.
+        ///     Initializes a new instance of the <see cref="ObservableTableViewController{T}"/> class with a plain style.
         /// </summary>
         public ObservableTableViewController()
             : base(UITableViewStyle.Plain)
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Initializes a new instance of this class with a specific style.
+        ///     Initializes a new instance of the <see cref="ObservableTableViewController{T}"/> class with a specific style.
         /// </summary>
         /// <param name="tableStyle">The style that will be used for this controller.</param>
         public ObservableTableViewController(UITableViewStyle tableStyle)
@@ -61,6 +61,18 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
             Initialize();
         }
+
+        /// <summary>
+        ///     Occurs when a property of this instance changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public event EventHandler LastItemRequested;
+
+        /// <summary>
+        ///     Occurs when a new item gets selected in the list.
+        /// </summary>
+        public event EventHandler SelectionChanged;
 
         /// <summary>
         ///     When set, specifies which animation should be used when rows change.
@@ -118,7 +130,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     When set, specifieds which animation should be used when a row is deleted.
+        ///     When set, specified which animation should be used when a row is deleted.
         /// </summary>
         public UITableViewRowAnimation DeleteAnimation { get; set; }
 
@@ -184,13 +196,6 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Occurs when a property of this instance changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        public event EventHandler LastItemRequested;
-
-        /// <summary>
         ///     Overrides the <see cref="M:UIKit.UIViewController.ViewDidLoad" /> method.
         /// </summary>
         public override void ViewDidLoad()
@@ -224,7 +229,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     Creates a <see cref="T:UIKit.UITableViewCell" /> corresponding to the reuseId.
         ///     If it is set, the <see cref="CreateCellDelegate" /> delegate will be used.
         /// </summary>
-        /// <param name="reuseId">A reuse identifier for the cell.</param>
+        /// <param name="model">A reuse identifier for the cell.</param>
         /// <returns>The created cell.</returns>
         protected virtual UITableViewCell CreateCell(T model)
         {
@@ -263,9 +268,8 @@ namespace Softeq.XToolkit.Bindings.iOS
         {
             SelectedItem = (T) item;
 
-            // ReSharper disable ExplicitCallerInfoArgument
+            // ReSharper disable once ExplicitCallerInfoArgument
             RaisePropertyChanged(SelectedItemPropertyName);
-            // ReSharper restore ExplicitCallerInfoArgument
 
             var handler = SelectionChanged;
             if (handler != null)
@@ -354,11 +358,6 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <summary>
-        ///     Occurs when a new item gets selected in the list.
-        /// </summary>
-        public event EventHandler SelectionChanged;
-
-        /// <summary>
         ///     A <see cref="T:UIKit.UITableViewSource" /> that handles changes to the underlying
         ///     data source if this data source is an <see cref="T:System.Collections.Specialized.INotifyCollectionChanged" />.
         /// </summary>
@@ -375,7 +374,7 @@ namespace Softeq.XToolkit.Bindings.iOS
             public Action OnDraggingStarted;
 
             /// <summary>
-            ///     Initializes an instance of this class.
+            ///     Initializes a new instance of the <see cref="ObservableTableSource{T2}"/> class.
             /// </summary>
             /// <param name="controller">The controller associated to this instance.</param>
             public ObservableTableSource(ObservableTableViewController<T2> controller)

@@ -19,6 +19,7 @@ namespace Playground.iOS.Views.Table
             _label = new UILabel(new CGRect(0, 0, 300, 20));
             _label.TextColor = UIColor.DarkGray;
 
+            // ReSharper disable once VirtualMemberCallInConstructor
             AddSubview(_label);
         }
 

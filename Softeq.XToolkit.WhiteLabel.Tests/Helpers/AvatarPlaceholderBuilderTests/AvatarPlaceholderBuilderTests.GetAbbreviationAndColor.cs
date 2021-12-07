@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
         public void GetAbbreviationAndColor_WithoutColors_WithNullName_ThrowsCorrectException()
         {
             Assert.Throws<ArgumentNullException>(()
-                => AvatarPlaceholderBuilder.GetAbbreviationAndColor(null));
+                => AvatarPlaceholderBuilder.GetAbbreviationAndColor(null!));
         }
 
         [Theory]
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
            string[] colors)
         {
             Assert.Throws<ArgumentNullException>(()
-                => AvatarPlaceholderBuilder.GetAbbreviationAndColor(null, colors));
+                => AvatarPlaceholderBuilder.GetAbbreviationAndColor(null!, colors));
         }
 
         [Theory]
@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
            string name)
         {
             Assert.Throws<ArgumentNullException>(()
-                => AvatarPlaceholderBuilder.GetAbbreviationAndColor(name, null));
+                => AvatarPlaceholderBuilder.GetAbbreviationAndColor(name, null!));
         }
 
         [Theory]
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
         public void GetAbbreviationAndColor_WithNonEmptyColors_WithNoLettersName_ReturnsEmptyAbbreviationAndColorFromTheList(
             string name)
         {
-            var colors = new string[] { "Color1", "Color2", "Color3" };
+            var colors = new[] { "Color1", "Color2", "Color3" };
 
             var res = AvatarPlaceholderBuilder.GetAbbreviationAndColor(name, colors);
 
@@ -104,7 +104,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
         public void GetAbbreviationAndColor_WithNonEmptyColors_WithLettersName_ReturnsValidAbbreviationAndColorFromTheList(
            string name, string expectedAbbreviation)
         {
-            var colors = new string[] { "Color1", "Color2", "Color3" };
+            var colors = new[] { "Color1", "Color2", "Color3" };
 
             var res = AvatarPlaceholderBuilder.GetAbbreviationAndColor(name, colors);
 

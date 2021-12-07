@@ -12,8 +12,8 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Helpers.AvatarPlaceholderBuilderTests
            {
                { null },
                { new string[] { } },
-               { new string[] { "color1" } },
-               { new string[] { "color1", "color2", "color3" } },
+               { new[] { "color1" } },
+               { new[] { "color1", "color2", "color3" } },
            };
 
         public static TheoryData<string> NoLettersNameData

@@ -4,7 +4,7 @@
 using Softeq.XToolkit.Common.Helpers;
 using Xunit;
 
-#pragma warning disable 618
+#pragma warning disable 618, SA1117
 
 namespace Softeq.XToolkit.Common.Tests.Helpers.HashHelperTests
 {

@@ -356,7 +356,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public void CollectionChanged_RemoveItemsForbidEmptyGroupRemoveAllGroupItems_NotifyOneTime(
             ObservableKeyGroupsCollection<string, int> collection,
             List<TestItem<string, int>> items,
+#pragma warning disable SA1313, xUnit1026
             List<string> _)
+#pragma warning restore SA1313, xUnit1026
         {
             var catcher = CollectionHelper.CreateCollectionEventCatcher(collection);
             catcher.Subscribe();

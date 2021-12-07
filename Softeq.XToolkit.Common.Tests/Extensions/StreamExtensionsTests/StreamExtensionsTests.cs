@@ -18,6 +18,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StreamExtensionsTests
 
             Assert.Throws<ArgumentNullException>(() =>
             {
+                // ReSharper disable once AssignNullToNotNullAttribute
                 stream.ToArray();
             });
         }
@@ -62,7 +63,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.StreamExtensionsTests
         {
             var stream = Substitute.For<MemoryStream>();
 
-            var _ = ((Stream) stream).ToArray();
+            ((Stream) stream).ToArray();
 
             stream.Received(1).ToArray();
         }

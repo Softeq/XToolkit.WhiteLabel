@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using Android.Content;
@@ -10,7 +9,6 @@ using Android.Graphics;
 using Android.Media;
 using Android.OS;
 using Android.Provider;
-using Debug = System.Diagnostics.Debug;
 using Stream = System.IO.Stream;
 using Uri = Android.Net.Uri;
 
@@ -23,17 +21,17 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             var stream = Stream.Null;
             try
             {
-                stream = context.ContentResolver.OpenInputStream(uri);
+                stream = context.ContentResolver?.OpenInputStream(uri);
             }
             catch (FileNotFoundException ex)
             {
-                Debug.WriteLine("Unable to save picked file from disk " + ex);
+                Console.WriteLine($"Unable to save picked file from disk: {ex}");
             }
 
             return stream;
         }
 
-        public static Task<Bitmap> FixRotation(Bitmap originalImage, ExifInterface exif)
+        public static Task<Bitmap?> FixRotation(Bitmap originalImage, ExifInterface exif)
         {
             return Task.Run(() =>
             {
@@ -47,8 +45,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             });
         }
 
-        [SuppressMessage("ReSharper", "RedundantCatchClause")]
-        public static int GetRotation(ExifInterface exif)
+        public static int GetRotation(ExifInterface? exif)
         {
             if (exif == null)
             {
@@ -79,7 +76,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             }
         }
 
-        public static Bitmap RotateImage(Bitmap originalImage, float degrees)
+        public static Bitmap? RotateImage(Bitmap originalImage, float degrees)
         {
             var matrix = new Matrix();
             matrix.PostRotate(degrees);
@@ -94,7 +91,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.P)
             {
-                return ImageDecoder.DecodeBitmap(ImageDecoder.CreateSource(context.ContentResolver, uri));
+                return ImageDecoder.DecodeBitmap(ImageDecoder.CreateSource(context.ContentResolver!, uri));
             }
 
             return MediaStore.Images.Media.GetBitmap(context.ContentResolver, uri);

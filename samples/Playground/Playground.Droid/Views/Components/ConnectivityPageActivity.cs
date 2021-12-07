@@ -5,8 +5,8 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using Playground.ViewModels.Components;
-using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid;
 
 namespace Playground.Droid.Views.Components
 {
@@ -16,7 +16,7 @@ namespace Playground.Droid.Views.Components
         private TextView? _connectionTextView;
         private TextView? _typesTextView;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

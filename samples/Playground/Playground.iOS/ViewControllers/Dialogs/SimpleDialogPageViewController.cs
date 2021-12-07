@@ -9,7 +9,7 @@ using UIKit;
 
 namespace Playground.iOS.ViewControllers.Dialogs
 {
-    public partial class SimpleDialogPageViewController : ViewControllerBase<SimpleDialogPageViewModel>
+    public sealed partial class SimpleDialogPageViewController : ViewControllerBase<SimpleDialogPageViewModel>
     {
         private static readonly Random _rand = new Random();
 

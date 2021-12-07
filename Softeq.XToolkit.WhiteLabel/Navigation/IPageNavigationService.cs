@@ -9,9 +9,9 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IPageNavigationService
     {
-        void Initialize(object navigation);
-
         bool CanGoBack { get; }
+
+        void Initialize(object navigation);
 
         void GoBack();
 

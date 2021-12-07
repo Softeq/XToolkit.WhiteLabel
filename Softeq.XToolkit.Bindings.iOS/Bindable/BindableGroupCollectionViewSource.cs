@@ -17,6 +17,8 @@ using UIKit;
 
 #nullable disable
 
+#pragma warning disable SA1649
+
 namespace Softeq.XToolkit.Bindings.iOS.Bindable
 {
     public abstract class BindableGroupCollectionViewSourceBase<TKey, TItem> : UICollectionViewSource
@@ -185,7 +187,7 @@ namespace Softeq.XToolkit.Bindings.iOS.Bindable
         {
             NSThreadExtensions.ExecuteOnMainThread(() =>
             {
-                IosDataSourceHandler.Handle(_collectionViewRef.Target, e);
+                IosDataSourceHandler.Handle(_collectionViewRef.Target!, e);
             });
         }
 

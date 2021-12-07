@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Common.Tests.Disposables
         public void Create()
         {
             var instance = Disposable.Create(() => { });
-            Assert.True(instance is IDisposable);
+            Assert.IsAssignableFrom<IDisposable>(instance);
         }
 
         [Fact]

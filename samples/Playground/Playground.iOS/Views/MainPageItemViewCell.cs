@@ -11,8 +11,6 @@ namespace Playground.iOS.Views
 {
     public partial class MainPageItemViewCell : BindableTableViewCell<CommandAction>
     {
-        #region init
-
         public static readonly NSString Key = new NSString(nameof(MainPageItemViewCell));
         public static readonly UINib Nib;
 
@@ -25,8 +23,6 @@ namespace Playground.iOS.Views
         {
             // Note: this .ctor should not contain any initialization logic.
         }
-
-        #endregion
 
         public override void AwakeFromNib()
         {

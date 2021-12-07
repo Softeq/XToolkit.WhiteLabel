@@ -5,8 +5,8 @@ using Android.Views;
 using Android.Widget;
 using FFImageLoading;
 using Playground.Models;
-using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
+using Softeq.XToolkit.Bindings.Extensions;
 
 namespace Playground.Droid.Views.Collections
 {
@@ -18,8 +18,8 @@ namespace Playground.Droid.Views.Collections
 
         public MovieCollectionViewHolder(View view) : base(view)
         {
-            _image = view.FindViewById<ImageView>(Resource.Id.item_movie_image);
-            _name = view.FindViewById<TextView>(Resource.Id.item_movie_name);
+            _image = view.FindViewById<ImageView>(Resource.Id.item_movie_image)!;
+            _name = view.FindViewById<TextView>(Resource.Id.item_movie_name)!;
         }
 
         public override void DoAttachBindings()

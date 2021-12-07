@@ -78,11 +78,8 @@ namespace Playground.Forms.ViewModels.Components
 
         private async void ErrorHandler(Exception ex)
         {
-            await Execute.OnUIThreadAsync(async () =>
-            {
-                await _dialogsService.ShowDialogAsync(
-                    new AlertDialogConfig("Exception", ex.Message, "OK"));
-            });
+            var config = new AlertDialogConfig("Exception", ex.Message, "OK");
+            await Execute.OnUIThreadAsync(() => _dialogsService.ShowDialogAsync(config));
         }
     }
 }

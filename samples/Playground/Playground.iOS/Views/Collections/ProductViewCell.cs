@@ -13,14 +13,13 @@ namespace Playground.iOS.Views.Collections
 {
     public partial class ProductViewCell : BindableCollectionViewCell<ProductViewModel>
     {
-        #region init
-
         public static readonly NSString Key = new NSString(nameof(ProductViewCell));
         public static readonly UINib Nib;
 
         static ProductViewCell() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected ProductViewCell(IntPtr handle) : base(handle)
+        protected ProductViewCell(IntPtr handle)
+            : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
         }
@@ -29,8 +28,6 @@ namespace Playground.iOS.Views.Collections
         {
             Console.WriteLine($"Finalized: {nameof(ProductViewCell)}");
         }
-
-        #endregion
 
         // TODO YP: Doesn't support correct use BindingMode.TwoWay (cells not disposed)
         public override void DoAttachBindings()
@@ -51,7 +48,7 @@ namespace Playground.iOS.Views.Collections
             CountField.Text = string.Empty;
         }
 
-        partial void AddToCartAction(NSObject _)
+        partial void AddToCartAction(NSObject sender)
         {
             // main way for handle custom click by item
 

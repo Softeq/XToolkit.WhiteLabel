@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         }
 
         /// <summary>
-        /// Possible performance losses on large collections
+        ///     Possible performance losses on large collections.
         /// </summary>
         /// <param name="groupPosition"></param>
         /// <returns></returns>
@@ -59,7 +59,7 @@ namespace Softeq.XToolkit.Bindings.Droid
         }
 
         /// <summary>
-        /// Possible performance losses on large collections
+        ///     Possible performance losses on large collections.
         /// </summary>
         /// <param name="groupPosition"></param>
         /// <param name="childPosition"></param>

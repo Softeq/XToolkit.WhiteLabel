@@ -13,6 +13,8 @@ using Softeq.XToolkit.Common.Weak;
 
 #nullable disable
 
+#pragma warning disable SA1649, SA1201, SA1204
+
 namespace Softeq.XToolkit.Bindings
 {
     /// <summary>
@@ -779,7 +781,7 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="T:System.InvalidOperationException">
-        ///     When <see cref="WhenSourceChanges(System.Action)"/> is called on a binding which already has a target property set.
+        ///     When the method is called on a binding that already has a target property set.
         /// </exception>
         public Binding<TSource, TTarget> WhenSourceChanges(Action callback)
         {
@@ -1033,7 +1035,7 @@ namespace Softeq.XToolkit.Bindings
             var targetType = targetProperty.PropertyType;
 
             return sourceType == targetType
-                   || IsValueType(sourceType) && IsValueType(targetType);
+                   || (IsValueType(sourceType) && IsValueType(targetType));
         }
 
         private void DetachSourceHandlers()

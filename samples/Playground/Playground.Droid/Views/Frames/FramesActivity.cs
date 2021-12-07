@@ -12,7 +12,7 @@ namespace Playground.Droid.Views.Frames
     [Activity]
     public class FramesActivity : ActivityBase<FramesViewModel>
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

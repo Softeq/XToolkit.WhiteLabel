@@ -25,7 +25,7 @@ namespace Playground.Forms.ViewModels.Components
 
         public PermissionViewModel<PhotosPermission> Photos { get; }
 
-        private async Task CheckAll(EventArgs _)
+        private async Task CheckAll(EventArgs sender)
         {
             await Photos.CheckStatus();
         }

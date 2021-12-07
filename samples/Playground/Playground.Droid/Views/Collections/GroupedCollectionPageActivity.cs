@@ -5,11 +5,11 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
+using Playground.Droid.Converters;
+using Playground.ViewModels.Collections;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid;
-using Playground.ViewModels.Collections;
-using Playground.Droid.Converters;
 
 namespace Playground.Droid.Views.Collections
 {
@@ -18,21 +18,21 @@ namespace Playground.Droid.Views.Collections
     {
         private const int ColumnsCount = 3;
 
-        private ProgressBar? _progress;
-        private RecyclerView? _recyclerView;
-        private Button? _generateButton;
-        private Button? _addButton;
+        private ProgressBar _progress = null!;
+        private RecyclerView _recyclerView = null!;
+        private Button _generateButton = null!;
+        private Button _addButton = null!;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
             SetContentView(Resource.Layout.activity_group_collection);
 
-            _generateButton = FindViewById<Button>(Resource.Id.button_generate);
-            _addButton = FindViewById<Button>(Resource.Id.button_add);
-            _progress = FindViewById<ProgressBar>(Resource.Id.activity_group_collection_progress);
-            _recyclerView = FindViewById<RecyclerView>(Resource.Id.activity_group_collection_lst);
+            _generateButton = FindViewById<Button>(Resource.Id.button_generate)!;
+            _addButton = FindViewById<Button>(Resource.Id.button_add)!;
+            _progress = FindViewById<ProgressBar>(Resource.Id.activity_group_collection_progress)!;
+            _recyclerView = FindViewById<RecyclerView>(Resource.Id.activity_group_collection_lst)!;
 
             // use this setting to improve performance if you know that changes
             // in content do not change the layout size of the RecyclerView
@@ -43,7 +43,8 @@ namespace Playground.Droid.Views.Collections
             {
                 HeaderSectionViewHolder = typeof(ProductHeaderViewHolder),
                 FooterSectionViewHolder = typeof(ProductFooterViewHolder),
-                //ItemClick = ViewModel.AddToCartCommand
+
+                // ItemClick = ViewModel.AddToCartCommand
             };
             _recyclerView.SetAdapter(adapter);
 
@@ -61,7 +62,7 @@ namespace Playground.Droid.Views.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => SupportActionBar.Title);
-            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress!.Visibility, new BoolToVisibilityConverter());
+            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress.Visibility, new BoolToVisibilityConverter());
         }
     }
 }

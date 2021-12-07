@@ -31,6 +31,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ViewComponents = new List<IViewComponent<ActivityBase>>();
         }
 
+        // ReSharper disable once CollectionNeverUpdated.Global
         public List<IViewComponent<ActivityBase>> ViewComponents { get; }
 
         public override void OnBackPressed()
@@ -109,7 +110,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual ScreenOrientation DefaultScreenOrientation { get; } = ScreenOrientation.Portrait;
 
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

@@ -14,7 +14,9 @@ using Softeq.XToolkit.Remote.Primitives;
 
 namespace Playground.RemoteData.Auth
 {
+#pragma warning disable SA1649
     public interface IAuthRemoteService
+#pragma warning restore SA1649
     {
         Task<TokenResult> LoginAsync(string login, string password, CancellationToken cancellationToken);
 

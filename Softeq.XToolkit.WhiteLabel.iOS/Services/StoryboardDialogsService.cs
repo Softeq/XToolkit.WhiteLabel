@@ -157,7 +157,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 var targetViewController = _viewLocator.GetView(viewModel);
                 var topViewController = _viewLocator.GetTopViewController();
-                topViewController.View.EndEditing(true);
+                topViewController.View?.EndEditing(true);
                 topViewController.PresentViewController(targetViewController, true, null);
                 tcs.TrySetResult(new PresentedViewController(topViewController, targetViewController));
             });
@@ -172,7 +172,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             {
                 try
                 {
-                    controllerRequest.Modal.View.EndEditing(true);
+                    controllerRequest.Modal.View?.EndEditing(true);
                     controllerRequest.Parent.DismissViewController(true, () => tcs.TrySetResult(true));
                 }
                 catch (Exception ex)

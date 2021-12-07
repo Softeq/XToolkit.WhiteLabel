@@ -13,16 +13,6 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
             set => Set(ref _testProperty, value);
         }
 
-        public bool SetTestPropertyByPropertyName(string value)
-        {
-            return Set(nameof(TestProperty), ref _testProperty, value);
-        }
-
-        public bool SetTestPropertyByPropertyExpression(string value)
-        {
-            return Set(() => TestProperty, ref _testProperty, value);
-        }
-
         public static TestObservableObject CreateEmpty()
         {
             return new TestObservableObject();
@@ -31,6 +21,16 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
         public static TestObservableObject CreateWithValue(string value)
         {
             return new TestObservableObject { TestProperty = value };
+        }
+
+        public bool SetTestPropertyByPropertyName(string value)
+        {
+            return Set(nameof(TestProperty), ref _testProperty, value);
+        }
+
+        public bool SetTestPropertyByPropertyExpression(string value)
+        {
+            return Set(() => TestProperty, ref _testProperty, value);
         }
     }
 }
