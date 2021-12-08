@@ -35,5 +35,10 @@ namespace Softeq.XToolkit.Permissions.Droid
         {
             MainThread.BeginInvokeOnMainThread(AppInfo.ShowSettingsUI);
         }
+
+        public bool ShouldShowRationale<T>() where T : BasePermission, new()
+        {
+            return EssentialsPermissions.ShouldShowRationale<T>();
+        }
     }
 }

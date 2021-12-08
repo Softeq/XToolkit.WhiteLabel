@@ -43,27 +43,53 @@ namespace Softeq.XToolkit.Permissions.Droid
                                         ?? throw new ArgumentNullException(nameof(permissionsDialogService));
         }
 
-        private bool IsPermissionRequested<T>()
+        private bool IsPermissionDeniedEver<T>()
             where T : BasePermission
         {
-            return Preferences.Get(GetPermissionRequestedKey<T>(), false);
+            return Preferences.Get(GetPermissionDeniedEverKey<T>(), false);
         }
 
-        private void SetPermissionRequested<T>(bool value)
+        private void SetPermissionDenied<T>(bool value)
             where T : BasePermission
         {
-            Preferences.Set(GetPermissionRequestedKey<T>(), value);
+            Preferences.Set(GetPermissionDeniedEverKey<T>(), value);
         }
 
-        private string GetPermissionRequestedKey<T>()
+        private string GetPermissionDeniedEverKey<T>()
             where T : BasePermission
         {
-            return $"{nameof(PermissionsManager)}_IsPermissionRequested_{typeof(T).Name}";
+            return $"{nameof(PermissionsManager)}_IsPermissionDeniedEver_{typeof(T).Name}";
         }
 
         private void OpenSettings()
         {
             _permissionsService.OpenSettings();
+        }
+
+        private void ApplyKeysMigration<T>(PermissionStatus permissionStatus)
+            where T : BasePermission, new()
+        {
+            var requestedKeyName = GetPermissionRequestedKey<T>();
+            if (!Preferences.ContainsKey(requestedKeyName))
+            {
+                return;
+            }
+
+            if (Preferences.Get(requestedKeyName, false))
+            {
+                if (permissionStatus == PermissionStatus.Denied)
+                {
+                    SetPermissionDenied<T>(true);
+                }
+
+                Preferences.Remove(requestedKeyName);
+            }
+
+            string GetPermissionRequestedKey<TPermission>()
+                where TPermission : BasePermission
+            {
+                return $"{nameof(PermissionsManager)}_IsPermissionRequested_{typeof(T).Name}";
+            }
         }
 
         private async Task<PermissionStatus> CommonCheckWithRequestAsync<T>()
@@ -75,7 +101,11 @@ namespace Softeq.XToolkit.Permissions.Droid
                 return permissionStatus;
             }
 
-            if (permissionStatus == PermissionStatus.Denied && IsPermissionRequested<T>())
+            ApplyKeysMigration<T>(permissionStatus);
+
+            if (permissionStatus == PermissionStatus.Denied
+                && IsPermissionDeniedEver<T>()
+                && !_permissionsService.ShouldShowRationale<T>())
             {
                 await OpenSettingsWithConfirmationAsync<T>().ConfigureAwait(false);
                 return PermissionStatus.Denied;
@@ -85,8 +115,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             if (confirmationResult)
             {
                 permissionStatus = await _permissionsService.RequestPermissionsAsync<T>().ConfigureAwait(false);
-
-                SetPermissionRequested<T>(true);
+                SetPermissionDenied<T>(permissionStatus == PermissionStatus.Denied);
             }
 
             return permissionStatus;

@@ -76,5 +76,10 @@ namespace Softeq.XToolkit.Permissions.iOS
                 ? PermissionStatus.Granted
                 : PermissionStatus.Denied;
         }
+
+        public bool ShouldShowRationale<T>() where T : BasePermission, new()
+        {
+            return true;
+        }
     }
 }
