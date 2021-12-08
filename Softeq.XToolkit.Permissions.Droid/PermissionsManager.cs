@@ -70,15 +70,19 @@ namespace Softeq.XToolkit.Permissions.Droid
             where T : BasePermission, new()
         {
             var requestedKeyName = GetPermissionRequestedKey<T>();
-            if (Preferences.ContainsKey(requestedKeyName)
-                && Preferences.Get(requestedKeyName, false))
+            if (!Preferences.ContainsKey(requestedKeyName))
+            {
+                return;
+            }
+
+            if (Preferences.Get(requestedKeyName, false))
             {
                 if (permissionStatus == PermissionStatus.Denied)
                 {
                     SetPermissionDenied<T>(true);
                 }
 
-                Preferences.Remove(GetPermissionRequestedKey<T>());
+                Preferences.Remove(requestedKeyName);
             }
 
             string GetPermissionRequestedKey<TPermission>()
