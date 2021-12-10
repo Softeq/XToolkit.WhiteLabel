@@ -173,7 +173,15 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 try
                 {
                     controllerRequest.Modal.View?.EndEditing(true);
-                    controllerRequest.Parent.DismissViewController(true, () => tcs.TrySetResult(true));
+
+                    if (controllerRequest.Parent.PresentedViewController == null)
+                    {
+                        tcs.TrySetResult(true);
+                    }
+                    else
+                    {
+                        controllerRequest.Parent.DismissViewController(true, () => tcs.TrySetResult(true));
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -181,6 +189,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                     tcs.TrySetResult(false);
                 }
             });
+
             return tcs.Task;
         }
 
