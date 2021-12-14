@@ -59,6 +59,5 @@
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
-
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

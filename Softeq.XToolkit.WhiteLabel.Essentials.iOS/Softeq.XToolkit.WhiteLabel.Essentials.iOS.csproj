@@ -85,6 +85,5 @@
     <ItemGroup>
       <InterfaceDefinition Include="FullScreenImage\FullScreenImageStoryboard.storyboard" />
     </ItemGroup>
-
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>
