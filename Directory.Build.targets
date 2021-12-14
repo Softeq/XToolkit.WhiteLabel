@@ -4,4 +4,9 @@
   <!-- Add to all projects -->
   <Import Project="$(MSBuildThisFileDirectory)\_CodeStyles.targets" />
 
+  <!-- Add to NuGet related projects (exclude Playgrounds and Tests) -->
+  <ImportGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(ProjectName), 'Softeq.XToolkit.(.*)(?&lt;!Tests)$'))">
+    <Import Project="$(MSBuildThisFileDirectory)\_NuGet.targets" />
+  </ImportGroup>
+
 </Project>
