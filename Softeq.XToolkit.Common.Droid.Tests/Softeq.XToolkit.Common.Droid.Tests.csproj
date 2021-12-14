@@ -86,15 +86,7 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\ic_launcher.png" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="xunit">
-      <Version>2.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="xunit.runner.devices">
-      <Version>2.5.25</Version>
-    </PackageReference>
-    <PackageReference Include="Xunit.Combinatorial">
-      <Version>1.4.1</Version>
-    </PackageReference>
+    <PackageReference Include="Xunit.Combinatorial" Version="1.4.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj">
@@ -106,12 +98,6 @@
       <Name>Softeq.XToolkit.Common</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\_Tests.Platform.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
-    Other similar extension points exist, see Microsoft.Common.targets.
-    <Target Name="BeforeBuild">
-    </Target>
-    <Target Name="AfterBuild">
-    </Target>
-  -->
 </Project>
