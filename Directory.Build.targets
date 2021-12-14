@@ -9,4 +9,11 @@
     <Import Project="$(MSBuildThisFileDirectory)\_NuGet.targets" />
   </ImportGroup>
 
+  <!-- Add to Tests releated projects (only for .NET Standard) -->
+  <!--
+  <ImportGroup Condition="$([System.Text.RegularExpressions.Regex]::IsMatch($(ProjectName), 'Softeq.XToolkit.(.*)(?&lt;!iOS|Droid).Tests$'))">
+    <Import Project="$(MSBuildThisFileDirectory)\_Tests.targets" />
+  </ImportGroup>
+  -->
+
 </Project>
