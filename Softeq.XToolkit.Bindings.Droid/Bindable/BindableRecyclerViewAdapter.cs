@@ -35,9 +35,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             FooterViewHolder = footerViewHolder;
         }
 
-        protected Type HeaderViewHolder { get; set; }
+        protected Type HeaderViewHolder { get; }
 
-        protected Type FooterViewHolder { get; set; }
+        protected Type FooterViewHolder { get; }
 
         public ICommand<TItem> ItemClick
         {
@@ -343,9 +343,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             ReloadMapping();
         }
 
-        public Type HeaderSectionViewHolder { get; set; }
+        protected Type HeaderSectionViewHolder { get; }
 
-        public Type FooterSectionViewHolder { get; set; }
+        protected Type FooterSectionViewHolder { get; }
 
         public override int ItemCount => _flatMapping.Count;
 
