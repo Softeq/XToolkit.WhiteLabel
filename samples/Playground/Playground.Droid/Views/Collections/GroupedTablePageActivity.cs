@@ -44,11 +44,8 @@ namespace Playground.Droid.Views.Collections
             _recyclerView.HasFixedSize = true;
 
             // init adapter
-            var adapter = new CustomAdapter(ViewModel.ProductListViewModel.Products)
+            var adapter = new CustomAdapter(ViewModel.ProductListViewModel.Products, typeof(ProductHeaderViewHolder), typeof(ProductFooterViewHolder))
             {
-                HeaderSectionViewHolder = typeof(ProductHeaderViewHolder),
-                FooterSectionViewHolder = typeof(ProductFooterViewHolder),
-
                 // ItemClick = ViewModel.AddToCartCommand
             };
             _recyclerView.SetAdapter(adapter);
@@ -107,8 +104,8 @@ namespace Playground.Droid.Views.Collections
         ProductViewModel, // item data type
         ProductViewHolder> // item ViewHolder type
     {
-        public CustomAdapter(ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> items)
-            : base(items)
+        public CustomAdapter(ObservableKeyGroupsCollection<ProductHeaderViewModel, ProductViewModel> items, Type headerSectionViewHolder, Type footerSectionViewHolder)
+            : base(items, headerSectionViewHolder: headerSectionViewHolder, footerSectionViewHolder: footerSectionViewHolder)
         {
         }
 
