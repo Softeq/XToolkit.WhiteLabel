@@ -325,7 +325,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         public BindableRecyclerViewAdapter(
             IEnumerable<IGrouping<TKey, TItem>> items,
             Type headerViewHolder = null,
-            Type footerViewHolder = null)
+            Type footerViewHolder = null,
+            Type headerSectionViewHolder = null,
+            Type footerSectionViewHolder = null)
             : base(headerViewHolder, footerViewHolder)
         {
             _dataSource = items;
@@ -334,6 +336,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             {
                 _subscription = new NotifyCollectionKeyGroupChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChanged);
             }
+
+            HeaderSectionViewHolder = headerSectionViewHolder;
+            FooterSectionViewHolder = footerSectionViewHolder;
 
             ReloadMapping();
         }
