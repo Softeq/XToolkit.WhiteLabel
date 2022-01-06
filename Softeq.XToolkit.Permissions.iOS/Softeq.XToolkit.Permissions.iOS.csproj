@@ -13,7 +13,7 @@
         <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-       <DebugSymbols>true</DebugSymbols>
+        <DebugSymbols>true</DebugSymbols>
         <DebugType>full</DebugType>
         <Optimize>false</Optimize>
         <OutputPath>bin\Debug</OutputPath>
