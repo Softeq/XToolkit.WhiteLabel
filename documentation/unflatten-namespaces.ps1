@@ -168,6 +168,10 @@ function recurse
 
             foreach($recursedItem in recurse $value $newPath)
             {
+                if ($newObj.items -eq $null)
+                {
+                    $newObj.items = @();
+                }
                 $newObj.items = $newObj.items + $recursedItem;
             }
 
