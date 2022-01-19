@@ -3,7 +3,7 @@
 #####################################
 # This is a PowerShell port of Aaron Bernstein's NodeJS code by Arlo Godfrey.
 # Unflattens and nests the namespaces in a standard DocFx toc.yaml
-# Source: https://github.com/dotnet/docfx/issues/274#issuecomment-456168196
+# Source: https://gist.github.com/Arlodotexe/a35f87380205ebfd79cfe969c0226eeb
 # Last updated 1/19/2022.
 # Licensed under MIT.
 #####################################
@@ -34,7 +34,7 @@ function LoadYml
 {
     param ($FileName)
 
-	# Load file content to a string array containing all YML file lines
+    # Load file content to a string array containing all YML file lines
     [string[]]$fileContent = Get-Content $FileName
     $content = ''
     # Convert a string array to a string
@@ -50,7 +50,7 @@ function WriteYml
 {
     param ($FileName, $Content)
 
-	#Serialize a PowerShell object to string
+    #Serialize a PowerShell object to string
     Write-Host "Serializing content to YAML."
     $result = ConvertTo-YAML $Content
 
