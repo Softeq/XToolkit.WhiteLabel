@@ -7,6 +7,8 @@ DOCFX_VERSION="2.58.9"
 DOCFX_PATH="$HOME/.nuget/packages/docfx.console/$DOCFX_VERSION/tools/docfx.exe"
 DOCFX_CONFIG_PATH="docfx.json"
 
+nuget restore
+
 # Prepate toc.yml
 mono $DOCFX_PATH metadata $DOCFX_CONFIG_PATH
 
