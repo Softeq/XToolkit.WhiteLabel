@@ -9,9 +9,9 @@ namespace Softeq.XToolkit.Connectivity
 {
     public interface IConnectivityService : IDisposable
     {
-        event ConnectivityChangedEventHandler ConnectivityChanged;
+        event EventHandler<ConnectivityChangedEventArgs> ConnectivityChanged;
 
-        event ConnectivityTypeChangedEventHandler ConnectivityTypeChanged;
+        event EventHandler<ConnectivityTypeChangedEventArgs> ConnectivityTypeChanged;
 
         bool IsConnected { get; }
 
