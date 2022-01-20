@@ -10,8 +10,8 @@ namespace Softeq.XToolkit.Connectivity
 {
     public class ConnectivityService : IConnectivityService
     {
-        public virtual event ConnectivityChangedEventHandler? ConnectivityChanged;
-        public virtual event ConnectivityTypeChangedEventHandler? ConnectivityTypeChanged;
+        public virtual event EventHandler<ConnectivityChangedEventArgs>? ConnectivityChanged;
+        public virtual event EventHandler<ConnectivityTypeChangedEventArgs>? ConnectivityTypeChanged;
 
         public ConnectivityService()
         {

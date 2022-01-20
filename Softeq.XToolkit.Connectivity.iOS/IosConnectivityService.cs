@@ -18,8 +18,8 @@ namespace Softeq.XToolkit.Connectivity.iOS
         private readonly Dictionary<NWInterfaceType, bool> _connectionStatuses;
         private readonly IList<NWPathMonitor> _monitors;
 
-        public event ConnectivityChangedEventHandler? ConnectivityChanged;
-        public event ConnectivityTypeChangedEventHandler? ConnectivityTypeChanged;
+        public event EventHandler<ConnectivityChangedEventArgs>? ConnectivityChanged;
+        public event EventHandler<ConnectivityTypeChangedEventArgs>? ConnectivityTypeChanged;
 
         public IosConnectivityService()
         {
