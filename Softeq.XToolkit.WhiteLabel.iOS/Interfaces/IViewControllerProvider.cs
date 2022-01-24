@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Interfaces
         ///     Returns top ViewController except modals.
         /// </summary>
         /// <param name="controller">RootViewController.</param>
-        /// <returns></returns>
+        /// <returns>Top ViewController.</returns>
         UIViewController GetTopViewController(UIViewController controller);
     }
 }

@@ -3,6 +3,9 @@
 
 namespace Softeq.XToolkit.Common.Logger
 {
+    /// <summary>
+    ///     Manage instances of console loggers.
+    /// </summary>
     public class ConsoleLogManager : ILogManager
     {
         /// <inheritdoc />
