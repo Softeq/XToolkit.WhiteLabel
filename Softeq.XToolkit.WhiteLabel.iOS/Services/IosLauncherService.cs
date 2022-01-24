@@ -11,11 +11,11 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
-    public class LauncherService : ILauncherService
+    public class IosLauncherService : ILauncherService
     {
         private readonly IViewLocator _viewLocator;
 
-        public LauncherService(IViewLocator viewLocator)
+        public IosLauncherService(IViewLocator viewLocator)
         {
             _viewLocator = viewLocator;
         }
@@ -32,11 +32,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             }
         }
 
-        public void OpenDeviceSecuritySettings()
-        {
-            OpenPrefsUrl(":root=TOUCHID_PASSCODE");
-        }
-
         public void OpenAppSettings()
         {
             UIApplication.SharedApplication.OpenUrl(new NSUrl(UIApplication.OpenSettingsUrlString));
@@ -45,12 +40,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         public void OpenVideo(string videoUrl)
         {
             var vc = _viewLocator.GetTopViewController();
-            if (vc == null)
-            {
-                return;
-            }
-
             var controller = new AVPlayerViewController();
+
             if (controller.Player == null)
             {
                 controller.Player = new AVPlayer(NSUrl.FromString(videoUrl));
@@ -68,13 +59,6 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
         public void OpenPhoneNumber(string number)
         {
             OpenUrl($"tel:{number}");
-        }
-
-        private static void OpenPrefsUrl(string url)
-        {
-            var prefsUrl = new NSUrl($"prefs{url}");
-            var nativeUrl = UIApplication.SharedApplication.CanOpenUrl(prefsUrl) ? prefsUrl : new NSUrl($"App-Prefs{url}");
-            UIApplication.SharedApplication.OpenUrl(nativeUrl);
         }
     }
 }

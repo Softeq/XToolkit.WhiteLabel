@@ -10,11 +10,11 @@ using Softeq.XToolkit.WhiteLabel.Interfaces;
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
     // TODO YP: Rework to Xamarin.Essentials
-    public class LauncherService : ILauncherService
+    public class DroidLauncherService : ILauncherService
     {
         private readonly IContextProvider _contextProvider;
 
-        public LauncherService(IContextProvider contextProvider)
+        public DroidLauncherService(IContextProvider contextProvider)
         {
             _contextProvider = contextProvider;
         }
