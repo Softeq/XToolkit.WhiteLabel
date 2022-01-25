@@ -13,7 +13,7 @@ nuget restore
 mono $DOCFX_PATH metadata $DOCFX_CONFIG_PATH
 
 # Apply patch to toc.yml
-sudo pwsh unflatten-namespaces.ps1 ./obj/docfxapi/toc.yml
+sudo pwsh nested-namespaces.ps1 ./obj/docfxapi/toc.yml
 
 # Build documentation
 mono $DOCFX_PATH build $DOCFX_CONFIG_PATH
