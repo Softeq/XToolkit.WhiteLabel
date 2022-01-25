@@ -7,10 +7,16 @@ using Softeq.XToolkit.Common.Files.Abstractions;
 
 namespace Softeq.XToolkit.Common.Files
 {
+    /// <summary>
+    ///     The provider contains methods to manipulate files in application internal storage.
+    /// </summary>
     public class InternalStorageFileProvider : BaseFileProvider
     {
         private readonly string _rootFolderPath;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="InternalStorageFileProvider"/> class.
+        /// </summary>
         public InternalStorageFileProvider()
             : base(new DefaultFileSystem())
         {

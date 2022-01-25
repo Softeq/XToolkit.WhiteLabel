@@ -59,7 +59,7 @@ namespace Softeq.XToolkit.Common.Logger
         }
 
         /// <summary>
-        ///     Base method to log <see cref="System.Exception" /> message.
+        ///     Base method to log <see cref="T:System.Exception" /> message.
         /// </summary>
         /// <param name="ex">Exception to log.</param>
         protected virtual void WriteMessage(Exception ex)

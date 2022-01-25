@@ -11,12 +11,19 @@ using System.Threading.Tasks;
 
 namespace Softeq.XToolkit.Common.Files
 {
+    /// <summary>
+    ///     Represents methods for file operations with Assembly resources.
+    /// </summary>
     public class ResourceFileProvider : IFileProvider
     {
         private const string MethodNotSupportedExceptionMessage = "The method call is not relevant for this file provider.";
 
         private readonly Assembly _assembly;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="ResourceFileProvider"/> class.
+        /// </summary>
+        /// <param name="assembly">Target Assembly that contains resources.</param>
         public ResourceFileProvider(Assembly assembly)
         {
             _assembly = assembly;

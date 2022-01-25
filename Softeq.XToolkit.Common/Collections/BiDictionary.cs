@@ -9,6 +9,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Permissions;
 
+#pragma warning disable CS1591
+
 namespace Softeq.XToolkit.Common.Collections
 {
     [Serializable]

@@ -23,8 +23,6 @@ Class | Description
 [ObservableRangeCollection](xref:Softeq.XToolkit.Common.Collections.ObservableRangeCollection`1) | Represents a dynamic data collection that provides notifications when items get added, removed, or when the whole list is refreshed.
 [ObservableItemContentRangeCollection](xref:Softeq.XToolkit.Common.Collections.ObservableItemContentRangeCollection`1) | Additionally to notifications inherited from ObservableRangeCollection notifies when any of the items (INotifyPropertyChanged) is updated.
 [ObservableKeyGroupsCollection](xref:Softeq.XToolkit.Common.Collections.IObservableKeyGroupsCollection`2) | Grouping of items by key into ObservableRange.
-[ObservableKeyGroupsCollectionNew](xref:Softeq.XToolkit.Common.Collections.ObservableKeyGroupsCollectionNew`2) | Represents groups of items that provides notifications when groups or their items get added, removed, or when the whole list is refreshed.
-[CollectionSorter](xref:Softeq.XToolkit.Common.Collections.CollectionSorter) | Order collection using Comparison.
 [BiDictionary](xref:Softeq.XToolkit.Common.Collections.BiDictionary`2) | Use this dictionary in case you need fast access to the key by value.
 
 #### Extensions
@@ -68,7 +66,6 @@ Class | Description
 Class | Description
 ------|------------
 [Timer](xref:Softeq.XToolkit.Common.Timers.Timer) | Cross-platform Async timer.
-[TaskReference](xref:Softeq.XToolkit.Common.Tasks.TaskReference) | Use this class if you want to create a Task but don't want to start it immediately.
 [GenericEventArgs](xref:Softeq.XToolkit.Common.GenericEventArgs`1) | Generic EventArgs class.
 
 ### Common.iOS
