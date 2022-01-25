@@ -3,7 +3,9 @@ resources:
 trigger:
   - master
 pr:
-  - documentation/*
+  paths:
+    include:
+      - documentation/*
 
 variables:
 - template: templates/vars.yml
