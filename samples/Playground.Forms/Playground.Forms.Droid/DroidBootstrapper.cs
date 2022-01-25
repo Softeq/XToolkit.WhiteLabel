@@ -10,6 +10,8 @@ using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Services;
 
 namespace Playground.Forms.Droid
 {
@@ -29,6 +31,12 @@ namespace Playground.Forms.Droid
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
             builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
+
+            // launcher
+            // YP: conflict between Google.Android.Material from Xamarin.Forms (latest) and WL.Droid (old stable)
+            // builder.Singleton<EssentialsContextProvider, IContextProvider>();
+            // builder.Singleton<DroidLauncherService, ILauncherService>();
+            builder.Singleton<EssentialsLauncherService, ILauncherService>();
 
             // remote
             // - example of using custom primary http message handler
