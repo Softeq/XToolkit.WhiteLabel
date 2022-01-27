@@ -5,10 +5,10 @@ using Android.App;
 using Android.OS;
 using Android.Widget;
 using AndroidX.RecyclerView.Widget;
-using Playground.Droid.Converters;
 using Playground.ViewModels.Collections;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Droid.Converters;
 using Softeq.XToolkit.WhiteLabel.Droid;
 
 namespace Playground.Droid.Views.Collections
@@ -59,7 +59,7 @@ namespace Playground.Droid.Views.Collections
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => SupportActionBar.Title);
-            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress.Visibility, new BoolToVisibilityConverter());
+            this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress.Visibility, VisibilityConverter.Gone);
         }
     }
 }
