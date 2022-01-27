@@ -5,6 +5,10 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+  </PropertyGroup>
+
   <Import Project="..\Tests.Shared.props" />
 
   <ItemGroup>

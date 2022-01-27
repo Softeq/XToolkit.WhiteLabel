@@ -6,6 +6,10 @@
 
   <Import Project="..\Tests.Shared.props" />
 
+  <PropertyGroup>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+  </PropertyGroup>
+
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj" />
   </ItemGroup>
