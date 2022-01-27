@@ -60,6 +60,7 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Converters\VisibilityConverterTests.cs" />
     <Compile Include="DroidMainThreadExecutorTests\DroidMainThreadExecutorTests.cs" />
     <Compile Include="Extensions\ContextExtensionsTests\ContextExtensionsTests.cs" />
     <Compile Include="Helpers.cs" />
