@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Common
     }
 
     /// <summary>
-    ///     Represents the generic <see cref="EventArgs"/> class that contains event data,
+    ///     Represents the generic <see cref="T:System.EventArgs"/> class that contains event data,
     ///     and provides a value to use for events that do not include event data.
     /// </summary>
     /// <typeparam name="T">Type of value.</typeparam>

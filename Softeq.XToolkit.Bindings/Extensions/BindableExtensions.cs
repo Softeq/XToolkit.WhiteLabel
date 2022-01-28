@@ -100,7 +100,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
         /// <param name="configure">
         ///     Callback for advanced configuration of internal <see cref="Binding{TSource, TTarget}" /> object.
         ///     Example of using:
-        ///     "binding => binding.ObserveTargetEvent[UISearchBarTextChangedEventArgs](nameof(SearchBar.TextChanged))".
+        ///     "binding => binding.ObserveTargetEvent{UISearchBarTextChangedEventArgs}(nameof(SearchBar.TextChanged))".
         /// </param>
         /// <returns>The new Binding instance.</returns>
         public static Binding Bind<TSource, TTarget>(

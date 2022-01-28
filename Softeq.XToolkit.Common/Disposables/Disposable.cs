@@ -8,7 +8,7 @@ using System;
 namespace Softeq.XToolkit.Common.Disposables
 {
     /// <summary>
-    ///    Provides a set of static methods for creating <see cref="IDisposable"/> objects.
+    ///    Provides a set of static methods for creating <see cref="T:System.IDisposable"/> objects.
     /// </summary>
     public static class Disposable
     {
@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Disposables
         ///     Creates a disposable object that invokes the specified action when disposed.
         /// </summary>
         /// <param name="dispose">
-        ///     Action to run during the first call to <see cref="IDisposable.Dispose"/>.
+        ///     Action to run during the first call to <see cref="T:IDisposable.Dispose"/>.
         ///     The action is guaranteed to be run at most once.
         /// </param>
         /// <returns>The disposable object that runs the given action upon disposal.</returns>

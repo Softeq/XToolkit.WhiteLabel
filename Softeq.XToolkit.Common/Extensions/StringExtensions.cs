@@ -105,16 +105,14 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="str">A string containing a number to convert.</param>
         /// <param name="result">
         ///     When this method returns, contains a double-precision floating-point number equivalent
-        ///     of the numeric value or symbol contained in <paramref name="s" />,
+        ///     of the numeric value or symbol contained in <paramref name="str" />,
         ///     if the conversion succeeded, or zero if the conversion failed.
-        ///     The conversion fails if the <paramref name="s" /> parameter is <see langword="null" />
-        ///     or <see cref="F:System.String.Empty" />, is not in a format compliant with <paramref name="style" />,
-        ///     represents a number less than <see cref="F:System.SByte.MinValue" /> or greater than <see cref="F:System.SByte.MaxValue" />,
-        ///     or if <paramref name="style" /> is not a valid combination of <see cref="T:System.Globalization.NumberStyles" /> enumerated constants.
+        ///     The conversion fails if the <paramref name="str" /> parameter is <see langword="null" /> or <see cref="F:System.String.Empty" />,
+        ///     if not a valid combination of <see cref="T:System.Globalization.NumberStyles" /> enumerated constants.
         ///     This parameter is passed uninitialized; any value originally supplied in <paramref name="result" /> will be overwritten.
         /// </param>
         /// <returns>
-        ///     <see langword="true" /> if <paramref name="str" /> was converted successfully; otherwise, <see langword="false" />.</returns>
+        ///     <see langword="true" /> if <paramref name="str" /> was converted successfully; otherwise, <see langword="false" />.
         /// </returns>
         public static bool TryParseDouble(this string str, out double? result)
         {

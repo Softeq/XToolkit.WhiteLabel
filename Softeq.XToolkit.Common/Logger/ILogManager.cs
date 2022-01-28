@@ -3,6 +3,9 @@
 
 namespace Softeq.XToolkit.Common.Logger
 {
+    /// <summary>
+    ///     Manage instances of loggers.
+    /// </summary>
     public interface ILogManager
     {
         /// <summary>

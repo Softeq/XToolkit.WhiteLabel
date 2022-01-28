@@ -7,11 +7,19 @@ using System.Collections.Generic;
 namespace Softeq.XToolkit.Common.Helpers
 {
     /// <summary>
-    /// Helper class to find tags in a string. A tag is a sequance of letters, digits and underscore symbols starting with #
+    ///     Helper class to find tags in a string.
+    ///     A tag is a sequence of letters, digits and underscore symbols starting with #.
     /// </summary>
     public static class TagsHelper
     {
+        /// <summary>
+        ///     Constant symbol `#`.
+        /// </summary>
         public const char TagStartSymbol = '#';
+
+        /// <summary>
+        ///     Constant symbol `_`.
+        /// </summary>
         public const char Underscore = '_';
 
         /// <summary>
@@ -23,7 +31,7 @@ namespace Softeq.XToolkit.Common.Helpers
         {
             if (input == null)
             {
-                throw new ArgumentNullException("Input can not be null");
+                throw new ArgumentNullException(nameof(input), "Input can not be null");
             }
 
             var ranges = ExtractTagsRanges(input);
@@ -45,7 +53,7 @@ namespace Softeq.XToolkit.Common.Helpers
         {
             if (input == null)
             {
-                throw new ArgumentNullException("Input can not be null");
+                throw new ArgumentNullException(nameof(input), "Input can not be null");
             }
 
             var result = new List<TextRange>();
