@@ -5,7 +5,7 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
-  <Import Project="..\Tests.Shared.props" />
+  <Import Project="..\_Tests.targets" />
 
   <ItemGroup>
     <PackageReference Include="Xunit.Combinatorial" Version="1.4.1" />
@@ -14,4 +14,5 @@
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
   </ItemGroup>
+
 </Project>

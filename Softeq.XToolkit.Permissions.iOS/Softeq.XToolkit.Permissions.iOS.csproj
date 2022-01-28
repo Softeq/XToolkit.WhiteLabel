@@ -3,6 +3,8 @@
     <PropertyGroup>
         <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
         <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+        <ProductVersion>8.0.30703</ProductVersion>
+        <SchemaVersion>2.0</SchemaVersion>
         <ProjectGuid>{7EB2ADA9-C599-4644-AC6B-109F1AEED19F}</ProjectGuid>
         <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
         <OutputType>Library</OutputType>
@@ -18,32 +20,15 @@
         <DefineConstants>DEBUG;</DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <CodesignKey>iPhone Developer</CodesignKey>
-        <MtouchDebug>true</MtouchDebug>
-        <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-        <MtouchFastDev>true</MtouchFastDev>
-        <IOSDebuggerPort>47697</IOSDebuggerPort>
-        <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-        <DeviceSpecificBuild>false</DeviceSpecificBuild>
-        <MtouchVerbosity>
-        </MtouchVerbosity>
-        <MtouchLink>
-        </MtouchLink>
+        <ConsolePause>false</ConsolePause>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
         <DebugType>pdbonly</DebugType>
         <Optimize>true</Optimize>
         <OutputPath>bin\Release</OutputPath>
-        <DefineConstants>
-        </DefineConstants>
         <ErrorReport>prompt</ErrorReport>
         <WarningLevel>4</WarningLevel>
-        <CodesignKey>iPhone Developer</CodesignKey>
-        <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-        <MtouchLink>SdkOnly</MtouchLink>
-        <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-        <MtouchVerbosity>
-        </MtouchVerbosity>
+        <ConsolePause>false</ConsolePause>
     </PropertyGroup>
     <ItemGroup>
         <Reference Include="System" />
@@ -65,6 +50,5 @@
             <Name>Softeq.XToolkit.Permissions</Name>
         </ProjectReference>
     </ItemGroup>
-    <Import Project="$(MSBuildThisFileDirectory)..\NuGet.targets" />
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

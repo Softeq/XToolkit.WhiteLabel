@@ -4,10 +4,10 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="..\Tests.Shared.props" />
-
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj" />
   </ItemGroup>
+
+  <Import Project="..\_Tests.targets" />
 
 </Project>

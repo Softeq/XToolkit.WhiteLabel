@@ -8,6 +8,4 @@
     <PackageReference Include="Xamarin.Essentials" Version="1.7.0" />
   </ItemGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\NuGet.targets" />
-
 </Project>
