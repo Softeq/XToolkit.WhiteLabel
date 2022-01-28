@@ -9,6 +9,4 @@
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\NuGet.targets" />
-
 </Project>

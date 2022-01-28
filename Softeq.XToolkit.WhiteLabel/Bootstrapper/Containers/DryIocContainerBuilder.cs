@@ -11,39 +11,51 @@ using IDryContainer = DryIoc.IContainer;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 {
+    /// <summary>
+    ///     Builder based on <see href="https://github.com/dadhi/DryIoc">DryIoc</see> container.
+    /// </summary>
     public class DryIocContainerBuilder : IContainerBuilder
     {
         private readonly List<Action<IContainer>> _buildActions;
+
         private IDryContainer _dryContainer;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DryIocContainerBuilder"/> class.
+        /// </summary>
         public DryIocContainerBuilder()
         {
             _dryContainer = new Container(rules => rules.WithoutFastExpressionCompiler());
             _buildActions = new List<Action<IContainer>>();
         }
 
+        /// <inheritdoc />
         public void PerDependency<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
             where TImplementation : TService
         {
             RegisterInternal<TImplementation, TService>(Reuse.Transient, ifRegistered);
         }
 
+        /// <inheritdoc />
         public void PerDependency<TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal<TService>(Reuse.Transient, ifRegistered);
         }
 
+        /// <inheritdoc />
         public void PerDependency<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(func, Reuse.Transient, ifRegistered);
         }
 
+        /// <inheritdoc />
         public void PerDependency(Type type, IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(type, Reuse.Transient, ifRegistered);
         }
 
 #pragma warning disable RECS0096 // Type parameter is never used
+        /// <inheritdoc />
         public void PerDependency<TService>(
             Func<IContainer, object> func,
 #pragma warning restore RECS0096 // Type parameter is never used
@@ -52,33 +64,39 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             RegisterInternal(func, Reuse.Transient, ifRegistered);
         }
 
+        /// <inheritdoc />
         public void Singleton<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
             where TImplementation : TService
         {
             RegisterInternal<TImplementation, TService>(Reuse.Singleton, ifRegistered);
         }
 
+        /// <inheritdoc />
         public void Singleton<TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal<TService>(Reuse.Singleton, ifRegistered);
         }
 
+        /// <inheritdoc />
         public void Singleton<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(func, Reuse.Singleton);
         }
 
+        /// <inheritdoc />
         public void RegisterBuildCallback(Action<IContainer> action)
         {
             _buildActions.Add(action);
         }
 
+        /// <inheritdoc />
         public void Decorator<TImplementation, TService>()
             where TImplementation : TService
         {
             _dryContainer.Register<TService, TImplementation>(setup: Setup.Decorator);
         }
 
+        /// <inheritdoc />
         public IContainer Build()
         {
             var container = new DryIocContainerAdapter();
@@ -125,17 +143,13 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
 
         private IfAlreadyRegistered MapIfAlreadyRegistered(IfRegistered ifRegistered)
         {
-            switch (ifRegistered)
+            return ifRegistered switch
             {
-                case IfRegistered.Keep:
-                    return IfAlreadyRegistered.Keep;
-                case IfRegistered.Replace:
-                    return IfAlreadyRegistered.Replace;
-                case IfRegistered.AppendNew:
-                    return IfAlreadyRegistered.AppendNewImplementation;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(ifRegistered), ifRegistered, null);
-            }
+                IfRegistered.Keep => IfAlreadyRegistered.Keep,
+                IfRegistered.Replace => IfAlreadyRegistered.Replace,
+                IfRegistered.AppendNew => IfAlreadyRegistered.AppendNewImplementation,
+                _ => throw new ArgumentOutOfRangeException(nameof(ifRegistered), ifRegistered, null)
+            };
         }
     }
 }

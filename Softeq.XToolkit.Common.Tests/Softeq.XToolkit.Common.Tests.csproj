@@ -9,8 +9,6 @@
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
 
-  <Import Project="..\Tests.Shared.props" />
-
   <ItemGroup>
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="13.2.47" />
   </ItemGroup>
@@ -18,4 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
+
+  <Import Project="..\_Tests.targets" />
+
 </Project>

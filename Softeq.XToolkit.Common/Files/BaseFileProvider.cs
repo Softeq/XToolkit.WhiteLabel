@@ -8,10 +8,17 @@ using Softeq.XToolkit.Common.Files.Abstractions;
 
 namespace Softeq.XToolkit.Common.Files
 {
+    /// <summary>
+    ///     The provider contains base methods to manipulate files in the target file system.
+    /// </summary>
     public class BaseFileProvider : IFileProvider
     {
         private readonly IFileSystem _fileSystem;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="BaseFileProvider"/> class.
+        /// </summary>
+        /// <param name="fileSystem">Target file system.</param>
         public BaseFileProvider(IFileSystem fileSystem)
         {
             _fileSystem = fileSystem;

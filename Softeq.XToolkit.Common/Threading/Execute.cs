@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.Common.Threading
         ///     Executes the action on the UI thread asynchronously.
         /// </summary>
         /// <param name="action">The action to execute.</param>
-        /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
+        /// <returns>A <see cref="T:System.Threading.Tasks.Task"/> representing the asynchronous operation.</returns>
         public static Task OnUIThreadAsync(this Action action)
         {
             if (action == null)

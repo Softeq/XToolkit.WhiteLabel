@@ -118,14 +118,6 @@
     <Compile Include="TextFilters\LengthFilterTests\LengthFilterTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="xunit">
-      <Version>2.4.1</Version>
-    </PackageReference>
-    <PackageReference Include="xunit.runner.devices">
-      <Version>2.5.25</Version>
-    </PackageReference>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
       <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
@@ -135,5 +127,6 @@
       <Name>Softeq.XToolkit.Common.iOS</Name>
     </ProjectReference>
   </ItemGroup>
+  <Import Project="..\_Tests.Platform.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

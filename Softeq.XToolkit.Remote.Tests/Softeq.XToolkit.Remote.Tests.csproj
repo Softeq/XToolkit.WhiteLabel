@@ -4,8 +4,6 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
   </PropertyGroup>
 
-  <Import Project="..\Tests.Shared.props" />
-
   <PropertyGroup>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
@@ -13,5 +11,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Remote\Softeq.XToolkit.Remote.csproj" />
   </ItemGroup>
+
+  <Import Project="..\_Tests.targets" />
 
 </Project>
