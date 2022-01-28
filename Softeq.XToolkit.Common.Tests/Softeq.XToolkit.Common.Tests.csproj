@@ -5,6 +5,10 @@
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
+  <PropertyGroup>
+    <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
+  </PropertyGroup>
+
   <ItemGroup>
     <PackageReference Include="System.IO.Abstractions.TestingHelpers" Version="13.2.47" />
   </ItemGroup>
