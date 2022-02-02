@@ -2,12 +2,16 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
 
 namespace Softeq.XToolkit.Bindings
 {
+    /// <summary>
+    ///     The base factory to create bindings.
+    /// </summary>
     public abstract class BindingFactoryBase : IBindingFactory
     {
         /// <inheritdoc />
@@ -18,8 +22,8 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default);
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!);
 
         /// <inheritdoc />
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
@@ -28,8 +32,8 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default);
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!);
 
         /// <inheritdoc />
         public abstract Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
@@ -38,17 +42,17 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             string? targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default);
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!);
 
         /// <inheritdoc />
-        public abstract string GetDefaultEventNameForControl(Type type);
+        public abstract string? GetDefaultEventNameForControl(Type type);
 
         /// <inheritdoc />
         public abstract void HandleCommandCanExecute<T>(
             object element,
             ICommand command,
-            Binding<T, T> commandParameterBinding);
+            Binding<T, T>? commandParameterBinding);
 
         /// <inheritdoc />
         public virtual Delegate GetCommandHandler(
@@ -74,11 +78,11 @@ namespace Softeq.XToolkit.Bindings
             string eventName,
             Type elementType,
             ICommand command,
-            Binding<T, T> castedBinding)
+            Binding<T, T>? castedBinding)
         {
             EventHandler handler = (_, __) =>
             {
-                object param = (castedBinding == null ? default : castedBinding.Value)!;
+                var param = castedBinding == null ? default : castedBinding.Value;
 
                 if (command.CanExecute(param))
                 {
@@ -129,11 +133,11 @@ namespace Softeq.XToolkit.Bindings
             string eventName,
             Type elementType,
             ICommand command,
-            Binding<T, T> castedBinding)
+            Binding<T, T>? castedBinding)
         {
             EventHandler<TEventArgs> handler = (_, __) =>
             {
-                object param = (castedBinding == null ? default : castedBinding.Value)!;
+                var param = castedBinding == null ? default : castedBinding.Value;
 
                 if (command.CanExecute(param))
                 {

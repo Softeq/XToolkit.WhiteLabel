@@ -2,13 +2,12 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Disposables;
-
-#nullable disable
 
 namespace Softeq.XToolkit.Bindings
 {
@@ -17,8 +16,19 @@ namespace Softeq.XToolkit.Bindings
     /// </summary>
     public static class BindingExtensions
     {
-        private static IBindingFactory _bindingFactory;
+        private static IBindingFactory? _bindingFactory;
 
+        private static IBindingFactory BindingFactory
+        {
+            get => _bindingFactory
+                   ?? throw new InvalidOperationException(
+                       $"Please initialize extensions via {nameof(BindingExtensions)}.{nameof(Initialize)} before using.");
+        }
+
+        /// <summary>
+        ///     Initializes extensions methods. Should be called at least once before using extension methods.
+        /// </summary>
+        /// <param name="bindingFactory">The factory instance.</param>
         public static void Initialize(IBindingFactory bindingFactory)
         {
             _bindingFactory = bindingFactory;
@@ -42,8 +52,8 @@ namespace Softeq.XToolkit.Bindings
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to configure the binding.
         ///     It is very possible that TSource and TTarget are the same type in which case no conversion occurs.
         /// </remarks>
-        /// <typeparam name="TSource">The type of the property that is being databound before conversion.</typeparam>
-        /// <typeparam name="TTarget">The type of the property that is being databound after conversion.</typeparam>
+        /// <typeparam name="TSource">The type of the property that is being data-bound before conversion.</typeparam>
+        /// <typeparam name="TTarget">The type of the property that is being data-bound after conversion.</typeparam>
         /// <param name="source">
         ///     The source of the binding. If this object implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>
         ///     and the <see cref="BindingMode"/> is OneWay or TwoWay, the target will be notified of changes
@@ -80,16 +90,17 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         /// <param name="targetNullValue">The value used when the source property is null (or equals to default(TSource)).</param>
         /// <returns>The new Binding instance.</returns>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static Binding<TSource, TTarget> SetBinding<TSource, TTarget>(
             this object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             object target,
-            Expression<Func<TTarget>> targetPropertyExpression = null,
+            Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
         {
-            return _bindingFactory.CreateBinding(
+            return BindingFactory.CreateBinding(
                 source,
                 sourcePropertyExpression,
                 null,
@@ -137,14 +148,15 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="targetNullValue">The value used when the source property is null (or equals to default(TSource)).</param>
         /// <typeparam name="TSource">The type of the bound property.</typeparam>
         /// <returns>The created binding instance.</returns>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static Binding<TSource, TSource> SetBinding<TSource>(
             this object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
         {
-            return _bindingFactory.CreateBinding<TSource, TSource>(
+            return BindingFactory.CreateBinding<TSource, TSource>(
                 source,
                 sourcePropertyExpression,
                 true,
@@ -165,9 +177,9 @@ namespace Softeq.XToolkit.Bindings
         ///     If the target implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, has observable properties and
         ///     the <see cref="BindingMode"/> is TwoWay, the source will also be notified of changes to the target's properties.
         /// </summary>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data-bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound. If the source type
+        ///     The type of the target property that is being data-bound. If the source type
         ///     is not the same as the target type, an automatic conversion will be attempted. However only
         ///     simple types can be converted. For more complex conversions, use the
         ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
@@ -204,15 +216,16 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         /// <param name="targetNullValue">The value used when the source property is null (or equals to default(TSource)).</param>
         /// <returns>The new Binding instance.</returns>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static Binding<TSource, TTarget> SetBinding<TSource, TTarget>(
             this object source,
             Expression<Func<TSource>> sourcePropertyExpression,
-            Expression<Func<TTarget>> targetPropertyExpression = null,
+            Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
         {
-            return _bindingFactory.CreateBinding(
+            return BindingFactory.CreateBinding(
                 source,
                 sourcePropertyExpression,
                 null,
@@ -233,9 +246,9 @@ namespace Softeq.XToolkit.Bindings
         ///     raises the PropertyChanged event and the <see cref="BindingMode"/> is TwoWay,
         ///     the source property will also be synchronized with the target property.
         /// </summary>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data-bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound.
+        ///     The type of the target property that is being data-bound.
         ///
         ///     If the source type is not the same as the target type, an automatic conversion will be attempted.
         ///     However only simple types can be converted. For more complex conversions,
@@ -269,16 +282,17 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         /// <param name="targetNullValue">The value used when the source property is null (or equals to default(TSource)).</param>
         /// <returns>The new Binding instance.</returns>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static Binding<TSource, TTarget> SetBinding<TSource, TTarget>(
             this object source,
             string sourcePropertyName,
             object target,
-            string targetPropertyName = null,
+            string? targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
         {
-            return _bindingFactory.CreateBinding<TSource, TTarget>(
+            return BindingFactory.CreateBinding<TSource, TTarget>(
                 source,
                 sourcePropertyName,
                 target,
@@ -297,9 +311,9 @@ namespace Softeq.XToolkit.Bindings
         ///     If the target implements <see cref="T:System.ComponentModel.INotifyPropertyChanged"/>, has observable properties and
         ///     the <see cref="BindingMode"/> is TwoWay, the source will also be notified of changes to the target's properties.
         /// </summary>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data-bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound. If the source type is not the same as the target type,
+        ///     The type of the target property that is being data-bound. If the source type is not the same as the target type,
         ///     an automatic conversion will be attempted. However only simple types can be converted.
         ///     For more complex conversions, use the <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
         ///     and <see cref="Binding{TSource, TTarget}.ConvertTargetToSource" /> methods to define custom converters.
@@ -327,15 +341,16 @@ namespace Softeq.XToolkit.Bindings
         /// </param>
         /// <param name="targetNullValue">The value used when the source property is null (or equals to default(TSource)).</param>
         /// <returns>The new Binding instance.</returns>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static Binding<TSource, TTarget> SetBinding<TSource, TTarget>(
             this object source,
             string sourcePropertyName,
-            string targetPropertyName = null,
+            string? targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
         {
-            return _bindingFactory.CreateBinding<TSource, TTarget>(
+            return BindingFactory.CreateBinding<TSource, TTarget>(
                 source,
                 sourcePropertyName,
                 null,
@@ -352,6 +367,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="element">The element to which the command is added.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="command">The command that must be added to the element.</param>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static void SetCommand(
             this object element,
             string eventName,
@@ -360,7 +376,7 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command);
+            var handler = BindingFactory.GetCommandHandler(e, eventName, t, command);
 
             e.AddEventHandler(element, handler);
 
@@ -380,6 +396,7 @@ namespace Softeq.XToolkit.Bindings
         ///     is executed. This is a fixed value. To pass an observable value, use one of the SetCommand
         ///     overloads that uses a Binding as CommandParameter.
         /// </param>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static void SetCommand<T>(
             this object element,
             string eventName,
@@ -389,7 +406,7 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command, commandParameter);
+            var handler = BindingFactory.GetCommandHandler(e, eventName, t, command, commandParameter);
 
             e.AddEventHandler(element, handler);
 
@@ -410,18 +427,19 @@ namespace Softeq.XToolkit.Bindings
         ///     Depending on the <see cref="Binding"/>, the CommandParameter will be observed and changes
         ///     will be passed to the command, for example to update the CanExecute.
         /// </param>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static void SetCommand<T>(
             this object element,
             string eventName,
             ICommand command,
-            Binding commandParameterBinding)
+            Binding? commandParameterBinding)
         {
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var castedBinding = (Binding<T, T>) commandParameterBinding;
+            var castedBinding = commandParameterBinding as Binding<T, T>;
 
-            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command, castedBinding);
+            var handler = BindingFactory.GetCommandHandler(e, eventName, t, command, castedBinding);
 
             e.AddEventHandler(element, handler);
 
@@ -441,6 +459,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="element">The element to which the command is added.</param>
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="command">The command that must be added to the element.</param>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static void SetCommand<TEventArgs>(
             this object element,
             string eventName,
@@ -449,7 +468,7 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = _bindingFactory.GetCommandHandler<TEventArgs>(e, eventName, t, command);
+            var handler = BindingFactory.GetCommandHandler<TEventArgs>(e, eventName, t, command);
 
             e.AddEventHandler(element, handler);
 
@@ -470,6 +489,7 @@ namespace Softeq.XToolkit.Bindings
         ///     is executed. This is a fixed value. To pass an observable value, use one of the SetCommand
         ///     overloads that uses a Binding as CommandParameter.
         /// </param>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static void SetCommand<T, TEventArgs>(
             this object element,
             string eventName,
@@ -479,7 +499,7 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = _bindingFactory.GetCommandHandler<T, TEventArgs>(e, eventName, t, command, commandParameter);
+            var handler = BindingFactory.GetCommandHandler<T, TEventArgs>(e, eventName, t, command, commandParameter);
 
             e.AddEventHandler(element, handler);
 
@@ -500,18 +520,19 @@ namespace Softeq.XToolkit.Bindings
         ///     that will passed to the <see cref="T:System.Windows.Input.ICommand"/>. Depending on the Binding, the CommandParameter will be observed
         ///     and changes will be passed to the command, for example to update the CanExecute.
         /// </param>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static void SetCommand<T, TEventArgs>(
             this object element,
             string eventName,
             ICommand command,
-            Binding commandParameterBinding)
+            Binding? commandParameterBinding)
         {
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var castedBinding = (Binding<T, T>) commandParameterBinding;
+            var castedBinding = commandParameterBinding as Binding<T, T>;
 
-            var handler = _bindingFactory.GetCommandHandler<T, TEventArgs>(e, eventName, t, command, castedBinding);
+            var handler = BindingFactory.GetCommandHandler<T, TEventArgs>(e, eventName, t, command, castedBinding);
 
             e.AddEventHandler(element, handler);
 
@@ -531,6 +552,7 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="eventName">The name of the event that will be subscribed to to actuate the command.</param>
         /// <param name="command">The command that must be added to the element.</param>
         /// <returns><see cref="T:System.IDisposable"/> instance for manual unset/unsubscribe of command.</returns>
+        /// <exception cref="T:System.InvalidOperationException">When class <see cref="BindingExtensions"/> is not initialized.</exception>
         public static IDisposable SetCommandWithDisposing(
             this object element,
             string eventName,
@@ -539,7 +561,7 @@ namespace Softeq.XToolkit.Bindings
             var t = element.GetType();
             var e = t.GetEventInfoForControl(eventName);
 
-            var handler = _bindingFactory.GetCommandHandler(e, eventName, t, command);
+            var handler = BindingFactory.GetCommandHandler(e, eventName, t, command);
 
             e.AddEventHandler(element, handler);
 
@@ -615,11 +637,11 @@ namespace Softeq.XToolkit.Bindings
             SetCommand(element, eventName, new RelayCommand(action));
         }
 
-        internal static EventInfo GetEventInfoForControl(this Type type, string eventName)
+        internal static EventInfo GetEventInfoForControl(this Type type, string? eventName)
         {
             if (string.IsNullOrEmpty(eventName))
             {
-                eventName = _bindingFactory.GetDefaultEventNameForControl(type);
+                eventName = BindingFactory.GetDefaultEventNameForControl(type);
             }
 
             if (string.IsNullOrEmpty(eventName))
@@ -647,9 +669,9 @@ namespace Softeq.XToolkit.Bindings
         private static void HandleCommandCanExecute<T>(
             object element,
             ICommand command,
-            Binding<T, T> commandParameterBinding = null)
+            Binding<T, T>? commandParameterBinding = null)
         {
-            _bindingFactory.HandleCommandCanExecute(element, command, commandParameterBinding);
+            BindingFactory.HandleCommandCanExecute(element, command, commandParameterBinding);
         }
     }
 }
