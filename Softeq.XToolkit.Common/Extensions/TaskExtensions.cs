@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="task">The task to wait for.</param>
         /// <param name="timeout">
         ///     The time span to wait before completing the returned task,
-        ///     or <see langword="TimeSpan.FromMilliseconds(-1)" /> to wait indefinitely.
+        ///     or <see cref="T:System.Threading.Timeout.InfiniteTimeSpan"/> to wait indefinitely.
         /// </param>
         /// <exception cref="T:System.TimeoutException">When time is over.</exception>
         /// <returns>
@@ -71,7 +71,7 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <param name="task">The task to wait for.</param>
         /// <param name="timeout">
         ///     The time span to wait before completing the returned task,
-        ///     or <see langword="TimeSpan.FromMilliseconds(-1)" /> to wait indefinitely.
+        ///     or <see cref="T:System.Threading.Timeout.InfiniteTimeSpan"/> to wait indefinitely.
         /// </param>
         /// <exception cref="T:System.TimeoutException">When time is over.</exception>
         /// <returns>

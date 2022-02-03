@@ -51,7 +51,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _taskStub.AsGenericTask.FireAndForget(_logger);
 
-            await _taskStub.AwaitResultAsync();
+            await _taskStub.AwaitCompletionAsync();
             _logger.DidNotReceiveWithAnyArgs().Error(Arg.Any<Exception>());
         }
 
@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _taskStub.AsGenericTask.FireAndForget(_logger);
 
-            await Assert.ThrowsAsync<CommonTestException>(() => _taskStub.AwaitResultAsync());
+            await _taskStub.AwaitCompletionWithIgnoreExceptionAsync<CommonTestException>();
             _logger.Received(1).Error(Arg.Any<CommonTestException>());
         }
 
@@ -73,7 +73,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
 
             _taskStub.AsGenericTask.FireAndForget(_logger);
 
-            await Assert.ThrowsAsync<TaskCanceledException>(() => _taskStub.AwaitResultAsync());
+            await _taskStub.AwaitCompletionWithIgnoreExceptionAsync<TaskCanceledException>();
             _logger.Received(1).Error(Arg.Any<TaskCanceledException>());
         }
 
@@ -82,7 +82,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         {
             _taskStub.SetException(new CommonTestException());
 
-            _taskStub.AsGenericTask.FireAndForget((null as Action<Exception>)!);
+            _taskStub.AsGenericTask.FireAndForget(null as Action<Exception>);
         }
 
         [Fact]
@@ -90,29 +90,31 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         {
             _taskStub.SetResult(null);
 
-            _taskStub.AsGenericTask.FireAndForget((null as Action<Exception>)!);
+            _taskStub.AsGenericTask.FireAndForget(null as Action<Exception>);
         }
 
         [Fact]
         public async Task FireAndForget_CompletedTaskAndLoggerDelegate_ExecutesWithoutLogError()
         {
             _taskStub.SetResult(null);
+            var onException = Substitute.For<Action<Exception>>();
 
-            _taskStub.AsGenericTask.FireAndForget(_onException);
+            _taskStub.AsGenericTask.FireAndForget(onException);
 
-            await _taskStub.AwaitResultAsync();
-            _onException.DidNotReceive().Invoke(Arg.Any<Exception>());
+            await _taskStub.AwaitCompletionAsync();
+            onException.DidNotReceive().Invoke(Arg.Any<Exception>());
         }
 
         [Fact]
         public async Task FireAndForget_CancelledTaskAndLoggerDelegate_ExecutesWithLogError()
         {
             _taskStub.SetCanceled();
+            var onException = Substitute.For<Action<Exception>>();
 
-            _taskStub.AsGenericTask.FireAndForget(_onException);
+            _taskStub.AsGenericTask.FireAndForget(onException);
 
-            await Assert.ThrowsAsync<TaskCanceledException>(() => _taskStub.AwaitResultAsync());
-            _onException.Received(1).Invoke(Arg.Any<TaskCanceledException>());
+            await _taskStub.AwaitCompletionWithIgnoreExceptionAsync<TaskCanceledException>();
+            onException.Received(1).Invoke(Arg.Any<TaskCanceledException>());
         }
     }
 }

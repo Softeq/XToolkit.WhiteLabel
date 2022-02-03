@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
             var loggerWrapper = new AwaitableLoggerWrapper(_logger);
 
             var timeoutTask = generic
-                ? _taskStub.AsGenericTask.WithLoggingErrors(loggerWrapper).WithTimeoutAsync<object>(ShortTimeout)
+                ? _taskStub.AsGenericTask.WithLoggingErrors<object>(loggerWrapper).WithTimeoutAsync<object>(ShortTimeout)
                 : _taskStub.AsVoidTask.WithLoggingErrors(loggerWrapper).WithTimeoutAsync(ShortTimeout);
 
             await Assert.ThrowsAsync<CommonTestException>(() => timeoutTask);

@@ -12,13 +12,11 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
     {
         private readonly ILogger _logger;
         private readonly TaskStub<object> _taskStub;
-        private readonly Action<Exception> _onException;
 
         public TaskExtensionsTests()
         {
             _logger = Substitute.For<ILogger>();
             _taskStub = new TaskStub<object>();
-            _onException = Substitute.For<Action<Exception>>();
         }
 
         private TimeSpan LongTimeout => TimeSpan.FromDays(1);

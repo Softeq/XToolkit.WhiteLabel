@@ -24,27 +24,29 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [Fact]
         public async Task WithCancellation_CompletedTaskAndCancellationTokenIsNone_ReturnsResultWithoutCancellation()
         {
-            _taskStub.SetResult(null);
+            var expectedResult = "test result";
+            _taskStub.SetResult(expectedResult);
             var task = _taskStub.AsGenericTask;
 
-            var taskWithCancellation = task.WithCancellation(CancellationToken.None);
+            var result = await task.WithCancellation(CancellationToken.None);
 
-            await taskWithCancellation;
-            Assert.Same(task.Result, taskWithCancellation.Result);
+            Assert.Same(expectedResult, result);
         }
 
         [Fact]
         public async Task WithCancellation_CompletedTaskAndCancellationToken_ReturnsResultWithoutCancellation()
         {
             var task = _taskStub.AsGenericTask;
+            var expectedResult = "test result";
             var cancellationTokenSource = new CancellationTokenSource();
 
             var taskWithCancellation = task.WithCancellation(cancellationTokenSource.Token);
 
-            _taskStub.SetResult(null);
+            _taskStub.SetResult(expectedResult);
 
-            await taskWithCancellation;
-            Assert.Same(task.Result, taskWithCancellation.Result);
+            var result = await taskWithCancellation;
+
+            Assert.Same(expectedResult, result);
         }
 
         [Fact]

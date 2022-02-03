@@ -19,11 +19,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests.Stubs
 
         public Task AsVoidTask => _tcs.Task;
 
-        public bool IsFaulted => _tcs.Task.IsFaulted;
-
-        public bool IsCanceled => _tcs.Task.IsCanceled;
-
-        public Exception InnerException => _tcs.Task.Exception?.InnerException;
+        public bool IsCompleted => _tcs.Task.IsCompleted;
 
         public void SetResult(T result) => _tcs.SetResult(result);
 
@@ -31,6 +27,18 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests.Stubs
 
         public void SetCanceled() => _tcs.SetCanceled();
 
-        public Task AwaitResultAsync() => _tcs.Task;
+        public Task AwaitCompletionAsync() => _tcs.Task;
+
+        public async Task AwaitCompletionWithIgnoreExceptionAsync<TException>()
+        {
+            try
+            {
+                await AwaitCompletionAsync();
+            }
+            catch (Exception ex) when (ex is TException)
+            {
+                // ignored
+            }
+        }
     }
 }
