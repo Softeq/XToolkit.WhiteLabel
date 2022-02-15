@@ -80,7 +80,6 @@
     <Compile Include="Controls\SupportRotationAlertController.cs" />
     <Compile Include="Navigation\RootFrameNavigationControllerBase.cs" />
     <Compile Include="Controls\GradientFadeView.cs" />
-    <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
