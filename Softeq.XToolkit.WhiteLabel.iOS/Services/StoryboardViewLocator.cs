@@ -13,12 +13,21 @@ using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
+    /// <summary>
+    ///     Provides methods for getting <see cref="T:UIKit.UIViewController"/> instances from storyboards.
+    /// </summary>
     public class StoryboardViewLocator : IViewLocator
     {
         private readonly ILogger _logger;
         private readonly IViewControllerProvider _viewControllerProvider;
         private readonly ViewModelToViewMap _viewModelToViewMap;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="StoryboardViewLocator"/> class.
+        /// </summary>
+        /// <param name="logManager">An instance of loggers factory.</param>
+        /// <param name="viewControllerProvider">An instance of view controllers provider.</param>
+        /// <param name="viewModelToViewMap">An instance of ViewModel-to-View mapping.</param>
         public StoryboardViewLocator(
             ILogManager logManager,
             IViewControllerProvider viewControllerProvider,
@@ -29,6 +38,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             _viewModelToViewMap = viewModelToViewMap;
         }
 
+        /// <inheritdoc />
         public UIViewController GetTopViewController()
         {
             return UIApplication.SharedApplication.Windows
@@ -37,6 +47,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
                 .First();
         }
 
+        /// <inheritdoc />
         public UIViewController GetView(object viewModel)
         {
             var viewControllerType = GetTargetViewType(viewModel.GetType());

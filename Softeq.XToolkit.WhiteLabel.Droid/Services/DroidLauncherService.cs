@@ -17,6 +17,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
     {
         private readonly IContextProvider _contextProvider;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DroidLauncherService"/> class.
+        /// </summary>
+        /// <param name="contextProvider">Provider of Android.Content.Context.</param>
+        /// <param name="logManager">An instance of loggers factory.</param>
         public DroidLauncherService(
             IContextProvider contextProvider,
             ILogManager logManager)

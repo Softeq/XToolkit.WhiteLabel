@@ -12,12 +12,17 @@ using Softeq.XToolkit.WhiteLabel.Services;
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
     /// <summary>
-    ///     iOS platform-specific extended implementation of <see cref="EssentialsLauncherService"/>.
+    ///     iOS platform-specific extended implementation of <see cref="EssentialsLauncherService"/> class.
     /// </summary>
     public class IosLauncherService : EssentialsLauncherService
     {
         private readonly IViewLocator _viewLocator;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="IosLauncherService"/> class.
+        /// </summary>
+        /// <param name="viewLocator">An instance of view locator.</param>
+        /// <param name="logManager">An instance of loggers factory.</param>
         public IosLauncherService(
             IViewLocator viewLocator,
             ILogManager logManager)

@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
         /// <summary>
         ///     Initializes a new instance of the <see cref="EssentialsLauncherService"/> class.
         /// </summary>
-        /// <param name="logManager">Loggers factory.</param>
+        /// <param name="logManager">An instance of loggers factory.</param>
         public EssentialsLauncherService(ILogManager logManager)
         {
             _logger = logManager.GetLogger<EssentialsLauncherService>();
