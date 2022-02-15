@@ -7,7 +7,7 @@ using Softeq.XToolkit.WhiteLabel.Services;
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
     /// <summary>
-    ///     iOS platform-specific implementation of <see cref="EssentialsAppInfoService"/> class.
+    ///     iOS platform-specific extended implementation of <see cref="EssentialsAppInfoService"/> class.
     /// </summary>
     public class IosAppInfoService : EssentialsAppInfoService
     {

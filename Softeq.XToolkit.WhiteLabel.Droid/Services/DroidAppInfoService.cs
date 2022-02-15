@@ -7,7 +7,7 @@ using Softeq.XToolkit.WhiteLabel.Services;
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
     /// <summary>
-    ///     Android platform-specific implementation of <see cref="EssentialsAppInfoService"/> class.
+    ///     Android platform-specific extended implementation of <see cref="EssentialsAppInfoService"/> class.
     /// </summary>
     public class DroidAppInfoService : EssentialsAppInfoService
     {
