@@ -72,7 +72,7 @@
     <Compile Include="Services\DroidToastService.cs" />
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="Services\DroidLauncherService.cs" />
-    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\DroidLocationService.cs" />
     <Compile Include="ActivityBase.cs" />
     <Compile Include="FragmentBase.cs" />
     <Compile Include="Navigation\ActivityPageNavigationService.cs" />
