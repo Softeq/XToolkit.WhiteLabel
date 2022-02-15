@@ -13,6 +13,7 @@ using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
+using Softeq.XToolkit.WhiteLabel.Location;
 
 namespace Playground.Forms.iOS
 {
@@ -37,6 +38,9 @@ namespace Playground.Forms.iOS
             builder.Singleton<ViewModelToViewMap>();
             builder.Singleton<StoryboardViewLocator, IViewLocator>();
             builder.Singleton<IosLauncherService, ILauncherService>();
+
+            // location
+            builder.Singleton<IosLocationService, ILocationService>();
 
             // remote
             // - example of using custom primary http message handler

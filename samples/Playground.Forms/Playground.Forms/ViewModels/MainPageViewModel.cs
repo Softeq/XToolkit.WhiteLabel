@@ -36,6 +36,7 @@ namespace Playground.Forms.ViewModels
                     new CommandAction(new RelayCommand(PaginationSearch), "Pagination Search"),
                     new CommandAction(new RelayCommand(Remote), "Remote"),
                     new CommandAction(new RelayCommand(Launcher), "Launcher"),
+                    new CommandAction(new RelayCommand(Location), "Location"),
                 });
         }
 
@@ -107,6 +108,13 @@ namespace Playground.Forms.ViewModels
         {
             _pageNavigationService
                 .For<LauncherPageViewModel>()
+                .Navigate();
+        }
+
+        private void Location()
+        {
+            _pageNavigationService
+                .For<LocationPageViewModel>()
                 .Navigate();
         }
     }
