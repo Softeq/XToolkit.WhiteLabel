@@ -14,31 +14,14 @@ namespace Softeq.XToolkit.Common.Extensions
     public static class TaskExtensions
     {
         /// <summary>
-        ///     <see cref="T:System.Threading.Tasks.Task"/> extension to add a timeout.
-        /// </summary>
-        /// <returns>The task with timeout.</returns>
-        /// <param name="task">Task.</param>
-        /// <param name="timeout">Timeout.</param>
-        /// <typeparam name="T">Task type.</typeparam>
-        [Obsolete("Use WithTimeoutAsync<T> method instead.")]
-        public static async Task<T> WithTimeout<T>(this Task<T> task, TimeSpan timeout)
-        {
-            var retTask = await Task.WhenAny(task, Task.Delay((int) timeout.TotalMilliseconds)).ConfigureAwait(false);
-
-            if (retTask is Task<T>)
-            {
-                return task.Result;
-            }
-
-            return default!;
-        }
-
-        /// <summary>
         ///     Returns a task that completes as the original task completes or when a timeout expires, whichever happens first.
         ///     For logging exceptions of <paramref name="task"/> use <see cref="WithLoggingErrors"/> method before calling this.
         /// </summary>
         /// <param name="task">The task to wait for.</param>
-        /// <param name="timeout">The maximum time to wait.</param>
+        /// <param name="timeout">
+        ///     The time span to wait before completing the returned task,
+        ///     or <see cref="T:System.Threading.Timeout.InfiniteTimeSpan"/> to wait indefinitely.
+        /// </param>
         /// <exception cref="T:System.TimeoutException">When time is over.</exception>
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/> or
@@ -86,7 +69,10 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <typeparam name="T">The type of value returned by the original task.</typeparam>
         /// <param name="task">The task to wait for.</param>
-        /// <param name="timeout">The maximum time to wait.</param>
+        /// <param name="timeout">
+        ///     The time span to wait before completing the returned task,
+        ///     or <see cref="T:System.Threading.Timeout.InfiniteTimeSpan"/> to wait indefinitely.
+        /// </param>
         /// <exception cref="T:System.TimeoutException">When time is over.</exception>
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/> or
@@ -211,7 +197,7 @@ namespace Softeq.XToolkit.Common.Extensions
         ///     If onException is null, the exception will be re-thrown.
         /// </param>
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-        public static async void FireAndForget(this Task task, Action<Exception> onException)
+        public static async void FireAndForget(this Task task, Action<Exception>? onException)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
         {
             try
@@ -224,7 +210,7 @@ namespace Softeq.XToolkit.Common.Extensions
             }
         }
 
-        private static void LogException(Exception exception, ILogger? logger)
+        private static void LogException(Exception? exception, ILogger? logger)
         {
             if (exception == null || logger == null)
             {
