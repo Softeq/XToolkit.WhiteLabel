@@ -29,13 +29,13 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests.Stubs
 
         public Task AwaitCompletionAsync() => _tcs.Task;
 
-        public async Task AwaitCompletionWithIgnoreExceptionAsync<TException>()
+        public async Task AwaitCompletionWithIgnoreExceptionAsync<TException>() where TException : Exception
         {
             try
             {
                 await AwaitCompletionAsync();
             }
-            catch (Exception ex) when (ex is TException)
+            catch (TException)
             {
                 // ignored
             }

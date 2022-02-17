@@ -83,56 +83,6 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.TaskExtensionsTests
         [Theory]
         [InlineData(false)]
         [InlineData(true)]
-        public async Task WithTimeoutAsync_FailedTaskAndTimeout_TimesOutAndContinueExecutionUntilException(bool generic)
-        {
-            var timeoutTask = generic
-                ? _taskStub.AsGenericTask.WithTimeoutAsync<object>(ShortTimeout)
-                : _taskStub.AsVoidTask.WithTimeoutAsync(ShortTimeout);
-
-            // result task finished by timeout
-            try
-            {
-                await timeoutTask;
-            }
-            catch (TimeoutException)
-            {
-                // ignored
-            }
-
-            // target task continues to run until exception
-            _taskStub.SetException(new CommonTestException());
-
-            await Assert.ThrowsAsync<CommonTestException>(() => _taskStub.AwaitCompletionAsync());
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
-        public async Task WithTimeoutAsync_CanceledTaskAndTimeout_TimesOutAndCancellation(bool generic)
-        {
-            var timeoutTask = generic
-                ? _taskStub.AsGenericTask.WithTimeoutAsync<object>(ShortTimeout)
-                : _taskStub.AsVoidTask.WithTimeoutAsync(ShortTimeout);
-
-            // result task finished by timeout
-            try
-            {
-                await timeoutTask;
-            }
-            catch (TimeoutException)
-            {
-                // ignored
-            }
-
-            // target task was canceled
-            _taskStub.SetCanceled();
-
-            await Assert.ThrowsAsync<TaskCanceledException>(() => _taskStub.AwaitCompletionAsync());
-        }
-
-        [Theory]
-        [InlineData(false)]
-        [InlineData(true)]
         public async Task WithTimeoutAsync_TimeoutIsInfinite_ExecutesUntilTaskCompletes(bool generic)
         {
             var infiniteTimeout = Timeout.InfiniteTimeSpan;
