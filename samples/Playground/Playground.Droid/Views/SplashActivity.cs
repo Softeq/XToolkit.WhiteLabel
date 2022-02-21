@@ -6,6 +6,7 @@ using Android.OS;
 using AndroidX.AppCompat.App;
 using Playground.ViewModels;
 using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Droid.Views
 {
