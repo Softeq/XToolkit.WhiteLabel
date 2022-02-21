@@ -37,13 +37,13 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         void GoBack();
 
         /// <summary>
-        ///     Goes back to the previous frame untill the current ViewModel is not of type <typeparamref name="T"/>.
+        ///     Goes back to the previous frame until the current ViewModel is not of type <typeparamref name="T"/>.
         /// </summary>
         /// <typeparam name="T"> Type of the ViewModel that we're looking for.</typeparam>
         void GoBack<T>() where T : IViewModelBase;
 
         /// <summary>
-        ///     Use <see cref="FrameNavigationServiceExtensions.For{T}(IFrameNavigationService)" /> instead.
+        ///     Use <see cref="FluentNavigatorExtensions.For{TViewModel}(IFrameNavigationService)" /> instead.
         /// </summary>
         /// <typeparam name="TViewModel">Type of view model.</typeparam>
         /// <param name="clearBackStack">The value indicating if we should clear backstack after navigating.</param>

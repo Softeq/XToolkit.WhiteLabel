@@ -6,9 +6,9 @@ using System.Collections.Generic;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
-namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
+namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
-    public static class FluentNavigatorExtensions
+    public static class NavigationExtensions
     {
         /// <summary>
         ///     Adds multiple navigation parameters to the specified ViewModel.

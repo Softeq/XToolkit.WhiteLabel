@@ -4,7 +4,6 @@
 using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
@@ -42,11 +41,6 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
             }
 
             _platformNavigationService.GoBack();
-        }
-
-        public PageFluentNavigator<T> For<T>() where T : IViewModelBase
-        {
-            return new PageFluentNavigator<T>(this);
         }
 
         public void NavigateToViewModel<T>(

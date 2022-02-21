@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
 using Xunit;
 
