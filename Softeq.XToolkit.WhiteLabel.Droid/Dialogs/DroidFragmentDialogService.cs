@@ -10,7 +10,6 @@ using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Extensions;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 {

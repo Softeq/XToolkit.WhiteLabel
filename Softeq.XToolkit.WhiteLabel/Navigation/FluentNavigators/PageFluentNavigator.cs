@@ -69,7 +69,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
                 throw new ArgumentNullException(nameof(navigationParameters));
             }
 
-            Parameters.AddRange(navigationParameters);
+            _parameters.AddRange(navigationParameters);
             return this;
         }
 

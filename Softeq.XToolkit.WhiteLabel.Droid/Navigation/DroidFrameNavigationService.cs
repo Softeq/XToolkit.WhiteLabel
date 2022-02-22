@@ -9,7 +9,6 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Internal;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {

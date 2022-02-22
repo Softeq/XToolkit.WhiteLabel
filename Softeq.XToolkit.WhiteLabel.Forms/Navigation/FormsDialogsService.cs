@@ -10,7 +10,6 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Xamarin.Forms;
 
 namespace Softeq.XToolkit.WhiteLabel.Forms.Navigation

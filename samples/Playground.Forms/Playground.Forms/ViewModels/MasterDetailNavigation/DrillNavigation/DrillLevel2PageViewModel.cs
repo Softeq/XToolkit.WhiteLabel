@@ -21,8 +21,8 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation
             GoBackCommand = new RelayCommand(() =>
             {
                 _frameNavigationService
-                    .For<DrillLevel2PageViewModel>()
                     .From(this)
+                    .For<DrillLevel2PageViewModel>()
                     .NavigateBack();
             });
         }

@@ -13,7 +13,6 @@ using Softeq.XToolkit.WhiteLabel.iOS.Dialogs;
 using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
 using Softeq.XToolkit.WhiteLabel.Model;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
