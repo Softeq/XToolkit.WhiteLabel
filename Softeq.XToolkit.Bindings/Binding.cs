@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Bindings
         protected WeakReference? TopTarget;
 
         /// <summary>
-        ///     Occurs when the value of the databound property changes.
+        ///     Occurs when the value of the data-bound property changes.
         /// </summary>
         public abstract event EventHandler ValueChanged;
 
@@ -50,20 +50,17 @@ namespace Softeq.XToolkit.Bindings
             : TopTarget.Target;
 
         /// <summary>
-        ///     Instructs the Binding instance to stop listening to value changes and to
-        ///     remove all listeneners.
+        ///     Instructs the Binding instance to stop listening to value changes and to remove all listeners.
         /// </summary>
         public abstract void Detach();
 
         /// <summary>
-        ///     Forces the Binding's value to be reevaluated. The target value will
-        ///     be set to the source value.
+        ///     Forces the Binding's value to be reevaluated. The target value will be set to the source value.
         /// </summary>
         public abstract void ForceUpdateValueFromSourceToTarget();
 
         /// <summary>
-        ///     Forces the Binding's value to be reevaluated. The source value will
-        ///     be set to the target value.
+        ///     Forces the Binding's value to be reevaluated. The source value will be set to the target value.
         /// </summary>
         public abstract void ForceUpdateValueFromTargetToSource();
     }

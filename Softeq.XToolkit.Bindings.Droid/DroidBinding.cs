@@ -8,8 +8,6 @@ using Android.Text;
 using Android.Views;
 using Android.Widget;
 
-#nullable disable
-
 namespace Softeq.XToolkit.Bindings.Droid
 {
     /// <inheritdoc />
@@ -19,11 +17,11 @@ namespace Softeq.XToolkit.Bindings.Droid
         public DroidBinding(
             object source,
             string sourcePropertyName,
-            object target = null,
-            string targetPropertyName = null,
+            object? target = null,
+            string? targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
             : base(source, sourcePropertyName, target, targetPropertyName, mode, fallbackValue, targetNullValue)
         {
         }
@@ -32,11 +30,11 @@ namespace Softeq.XToolkit.Bindings.Droid
         public DroidBinding(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
-            object target = null,
-            Expression<Func<TTarget>> targetPropertyExpression = null,
+            object? target = null,
+            Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
             : base(source, sourcePropertyExpression, target, targetPropertyExpression, mode, fallbackValue, targetNullValue)
         {
         }
@@ -46,11 +44,11 @@ namespace Softeq.XToolkit.Bindings.Droid
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             bool? resolveTopField,
-            object target = null,
-            Expression<Func<TTarget>> targetPropertyExpression = null,
+            object? target = null,
+            Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
             : base(
                 source,
                 sourcePropertyExpression,
@@ -64,20 +62,23 @@ namespace Softeq.XToolkit.Bindings.Droid
         }
 
         /// <summary>
-        ///     Define when the binding should be evaluated when the bound source object
-        ///     is a control. Because Xamarin controls are not DependencyObjects, the
-        ///     bound property will not automatically update the binding attached to it. Instead,
-        ///     use this method to define which of the control's events should be observed.
+        ///     Define when the binding should be evaluated when the bound source object is a control.
+        ///
+        ///     Because Xamarin controls are not DependencyObjects,
+        ///     the bound property will not automatically update the binding attached to it.
+        ///
+        ///     Instead, use this method to define which of the control's events should be observed.
         /// </summary>
         /// <param name="mode">
-        ///     Defines the binding's update mode. Use
-        ///     <see cref="UpdateTriggerMode.LostFocus" /> to update the binding when
-        ///     the source control loses the focus. You can also use
-        ///     <see cref="UpdateTriggerMode.PropertyChanged" /> to update the binding
+        ///     Defines the binding's update mode.
+        ///
+        ///     Use <see cref="UpdateTriggerMode.LostFocus" /> to update the binding when the source control loses the focus.
+        ///     You can also use <see cref="UpdateTriggerMode.PropertyChanged" /> to update the binding
         ///     when the source control's property changes.
+        ///
         ///     The PropertyChanged mode should only be used with the following items:
-        ///     <para>- an EditText control and its Text property (TextChanged event).</para>
-        ///     <para>- a CompoundButton control and its Checked property (CheckedChange event).</para>
+        ///     <para>- <see cref="T:Android.Widget.EditText"/> control and its <c>Text</c> property (<c>TextChanged</c> event).</para>
+        ///     <para>- <see cref="T:Android.Widget.CompoundButton"/> control and its <c>Checked</c> property (<c>CheckedChange</c> event).</para>
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="T:System.InvalidOperationException">
@@ -87,60 +88,55 @@ namespace Softeq.XToolkit.Bindings.Droid
         /// </exception>
         public Binding<TSource, TTarget> ObserveSourceEvent(UpdateTriggerMode mode = UpdateTriggerMode.PropertyChanged)
         {
-            switch (mode)
+            return mode switch
             {
-                case UpdateTriggerMode.LostFocus:
-                    return ObserveSourceEvent<View.FocusChangeEventArgs>("FocusChange");
-
-                case UpdateTriggerMode.PropertyChanged:
-                    return CheckControlSource();
-            }
-
-            return this;
+                UpdateTriggerMode.LostFocus => ObserveSourceEvent<View.FocusChangeEventArgs>("FocusChange"),
+                UpdateTriggerMode.PropertyChanged => CheckControlSource(),
+                _ => this
+            };
         }
 
         /// <summary>
-        ///     Define when the binding should be evaluated when the bound target object
-        ///     is a control. Because Xamarin controls are not DependencyObjects, the
-        ///     bound property will not automatically update the binding attached to it. Instead,
-        ///     use this method to define which of the control's events should be observed.
+        ///     Define when the binding should be evaluated when the bound target object is a control.
+        ///
+        ///     Because Xamarin controls are not DependencyObjects,
+        ///     the bound property will not automatically update the binding attached to it.
+        ///
+        ///     Instead, use this method to define which of the control's events should be observed.
         /// </summary>
         /// <param name="mode">
-        ///     Defines the binding's update mode. Use
-        ///     <see cref="UpdateTriggerMode.LostFocus" /> to update the binding when
-        ///     the source control loses the focus. You can also use
-        ///     <see cref="UpdateTriggerMode.PropertyChanged" /> to update the binding
-        ///     when the source control's property changes.
+        ///     Defines the binding's update mode.
+        ///
+        ///     Use <see cref="UpdateTriggerMode.LostFocus" /> to update the binding when the target control loses the focus.
+        ///     You can also use <see cref="UpdateTriggerMode.PropertyChanged" /> to update the binding
+        ///     when the target control's property changes.
+        ///
         ///     The PropertyChanged mode should only be used with the following items:
-        ///     <para>- an EditText control and its Text property (TextChanged event).</para>
-        ///     <para>- a CompoundButton control and its Checked property (CheckedChange event).</para>
+        ///     <para>- <see cref="T:Android.Widget.EditText"/> control and its <c>Text</c> property (<c>TextChanged</c> event).</para>
+        ///     <para>- <see cref="T:Android.Widget.CompoundButton"/> control and its <c>Checked</c> property (<c>CheckedChange</c> event).</para>
         /// </param>
         /// <returns>The Binding instance.</returns>
         /// <exception cref="T:System.InvalidOperationException">
-        ///     When this method is called
-        ///     on a OneTime or a OneWay binding. This exception can
-        ///     also be thrown when the source object is null or has already been
-        ///     garbage collected before this method is called.
+        ///     When this method is called on a OneTime or a OneWay binding.
+        ///     This exception can also be thrown when the source object is null or
+        ///     has already been garbage collected before this method is called.
         /// </exception>
         public Binding<TSource, TTarget> ObserveTargetEvent(UpdateTriggerMode mode = UpdateTriggerMode.PropertyChanged)
         {
-            switch (mode)
+            return mode switch
             {
-                case UpdateTriggerMode.LostFocus:
-                    return ObserveTargetEvent<View.FocusChangeEventArgs>("FocusChange");
-
-                case UpdateTriggerMode.PropertyChanged:
-                    return CheckControlTarget();
-            }
-
-            return this;
+                UpdateTriggerMode.LostFocus => ObserveTargetEvent<View.FocusChangeEventArgs>("FocusChange"),
+                UpdateTriggerMode.PropertyChanged => CheckControlTarget(),
+                _ => this
+            };
         }
 
+        /// <inheritdoc />
         [SuppressMessage("ReSharper", "RedundantAssignment", Justification = "Reviewed.")]
         [SuppressMessage("ReSharper", "EntityNameCapturedOnly.Local", Justification = "Reviewed.")]
         protected override Binding<TSource, TTarget> CheckControlSource()
         {
-            switch (PropertySource.Target)
+            switch (_propertySource!.Target)
             {
                 case EditText textBox:
                 {
@@ -161,6 +157,7 @@ namespace Softeq.XToolkit.Bindings.Droid
             }
         }
 
+        /// <inheritdoc />
         [SuppressMessage("ReSharper", "RedundantAssignment", Justification = "Reviewed.")]
         [SuppressMessage("ReSharper", "EntityNameCapturedOnly.Local", Justification = "Reviewed.")]
         protected override Binding<TSource, TTarget> CheckControlTarget()
@@ -170,7 +167,7 @@ namespace Softeq.XToolkit.Bindings.Droid
                 return this;
             }
 
-            switch (PropertyTarget.Target)
+            switch (_propertyTarget!.Target)
             {
                 case EditText textBox:
                 {

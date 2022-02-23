@@ -8,6 +8,9 @@ using Softeq.XToolkit.Common.Converters;
 
 namespace Softeq.XToolkit.Bindings.Extensions
 {
+    /// <summary>
+    ///     Extensions for the Bindable components.
+    /// </summary>
     public static class BindableExtensions
     {
         /// <summary>
@@ -16,9 +19,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     to the source property. If the target implements INotifyPropertyChanged, has observable properties and
         ///     the BindingMode is TwoWay, the source will also be notified of changes to the target's properties.
         /// </summary>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data-bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound. If the source type
+        ///     The type of the target property that is being data-bound. If the source type
         ///     is not the same as the target type, an automatic conversion will be attempted. However only
         ///     simple types can be converted. For more complex conversions, use the
         ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
@@ -52,7 +55,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
             Expression<Func<TTarget>> targetPropertyExpression,
             BindingMode mode = BindingMode.Default)
         {
-            var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
+            var binding = source.SetBinding(sourcePropertyExpression!, targetPropertyExpression, mode);
 
             SetBindingTo(source, binding);
 
@@ -68,9 +71,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     The method provides the ability for advanced configuration of internal
         ///     <see cref="Binding{TSource, TTarget}" /> object.
         /// </summary>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data-bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound. If the source type
+        ///     The type of the target property that is being data-bound. If the source type
         ///     is not the same as the target type, an automatic conversion will be attempted. However only
         ///     simple types can be converted. For more complex conversions, use the
         ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
@@ -110,9 +113,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
             BindingMode mode,
             Func<Binding<TSource, TTarget>, Binding> configure)
         {
-            var binding = source.SetBinding(sourcePropertyExpression, targetPropertyExpression, mode);
+            var binding = source.SetBinding(sourcePropertyExpression!, targetPropertyExpression, mode);
 
-            var resultBinding = configure(binding);
+            var resultBinding = configure(binding!);
 
             SetBindingTo(source, resultBinding);
 
@@ -125,9 +128,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     to the source property. If the target implements INotifyPropertyChanged, has observable properties and
         ///     the BindingMode is TwoWay, the source will also be notified of changes to the target's properties.
         /// </summary>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data-bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound. If the source type
+        ///     The type of the target property that is being data-bound. If the source type
         ///     is not the same as the target type, an automatic conversion will be attempted. However only
         ///     simple types can be converted. For more complex conversions, use the
         ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
@@ -158,8 +161,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
             IConverter<TTarget, TSource> converter)
         {
             var binding = source
-                .SetBinding(sourcePropertyExpression, targetPropertyExpression)
-                .SetConverter(converter);
+                .SetBinding(sourcePropertyExpression!, targetPropertyExpression)
+                .SetConverter(converter!);
 
             SetBindingTo(source, binding);
 
@@ -172,9 +175,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
         ///     to the source property. If the target implements INotifyPropertyChanged, has observable properties and
         ///     the BindingMode is TwoWay, the source will also be notified of changes to the target's properties.
         /// </summary>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data-bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound. If the source type
+        ///     The type of the target property that is being data-bound. If the source type
         ///     is not the same as the target type, an automatic conversion will be attempted. However only
         ///     simple types can be converted. For more complex conversions, use the
         ///     <see cref="Binding{TSource, TTarget}.ConvertSourceToTarget" />
@@ -213,8 +216,8 @@ namespace Softeq.XToolkit.Bindings.Extensions
             IConverter<TTarget, TSource> converter)
         {
             var binding = source
-                .SetBinding(sourcePropertyExpression, targetPropertyExpression, mode)
-                .SetConverter(converter);
+                .SetBinding(sourcePropertyExpression!, targetPropertyExpression, mode)
+                .SetConverter(converter!);
 
             SetBindingTo(source, binding);
 
@@ -250,7 +253,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
             Expression<Func<TSource>> sourcePropertyExpression,
             Action<TSource> action)
         {
-            var binding = source.SetBinding(sourcePropertyExpression).WhenSourceChanges(action);
+            var binding = source
+                .SetBinding(sourcePropertyExpression!)
+                .WhenSourceChanges(action!);
 
             SetBindingTo(source, binding);
 
@@ -294,7 +299,9 @@ namespace Softeq.XToolkit.Bindings.Extensions
             Action<TSource> action,
             BindingMode mode)
         {
-            var binding = source.SetBinding(sourcePropertyExpression, mode).WhenSourceChanges(action);
+            var binding = source
+                .SetBinding(sourcePropertyExpression!, mode)
+                .WhenSourceChanges(action!);
 
             SetBindingTo(source, binding);
 
@@ -304,9 +311,7 @@ namespace Softeq.XToolkit.Bindings.Extensions
         /// <summary>
         ///     Detach all bindings of the source.
         /// </summary>
-        /// <param name="source">
-        ///     The source of the bindings.
-        /// </param>
+        /// <param name="source">The source of the bindings.</param>
         public static void DetachBindings(this IBindingsOwner source)
         {
             source.Bindings?.DetachAllAndClear();

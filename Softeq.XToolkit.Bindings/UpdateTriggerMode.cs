@@ -9,14 +9,12 @@ namespace Softeq.XToolkit.Bindings
     public enum UpdateTriggerMode
     {
         /// <summary>
-        ///     Defines that the binding should be updated when the control
-        ///     loses the focus.
+        ///     Defines that the binding should be updated when the control loses the focus.
         /// </summary>
         LostFocus,
 
         /// <summary>
-        ///     Defines that the binding should be updated when the control's
-        ///     bound property changes.
+        ///     Defines that the binding should be updated when the control's bound property changes.
         /// </summary>
         PropertyChanged
     }

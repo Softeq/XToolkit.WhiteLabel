@@ -2,12 +2,16 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows.Input;
 
 namespace Softeq.XToolkit.Bindings
 {
+    /// <summary>
+    ///     Defines methods for creating bindings.
+    /// </summary>
     public interface IBindingFactory
     {
         /// <summary>
@@ -33,9 +37,9 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="targetNullValue">
         ///     The value to use when the binding is unable to return a value.
         /// </param>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound.
+        ///     The type of the target property that is being data bound.
         ///     If the source type is not the same as the target type, an automatic conversion will be attempted.
         ///     However only simple types can be converted. For more complex conversions,
         ///     use the <see cref="Binding{TSource,TTarget}.ConvertSourceToTarget" />
@@ -49,8 +53,8 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default!,
-            TSource targetNullValue = default!);
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!);
 
         /// <summary>
         ///     Creates a new instance of the <see cref="Binding{TSource,TTarget}"/> class
@@ -74,9 +78,9 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="targetNullValue">
         ///     The value to use when the binding is unable to return a value.
         /// </param>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound.
+        ///     The type of the target property that is being data bound.
         ///     If the source type is not the same as the target type, an automatic conversion will be attempted.
         ///     However only simple types can be converted. For more complex conversions,
         ///     use the <see cref="Binding{TSource,TTarget}.ConvertSourceToTarget" />
@@ -89,8 +93,8 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default!,
-            TSource targetNullValue = default!);
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!);
 
         /// <summary>
         ///     Creates a new instance of the <see cref="Binding{TSource,TTarget}"/> class
@@ -114,9 +118,9 @@ namespace Softeq.XToolkit.Bindings
         /// <param name="targetNullValue">
         ///     The value to use when the binding is unable to return a value.
         /// </param>
-        /// <typeparam name="TSource">The type of the source property that is being databound.</typeparam>
+        /// <typeparam name="TSource">The type of the source property that is being data bound.</typeparam>
         /// <typeparam name="TTarget">
-        ///     The type of the target property that is being databound.
+        ///     The type of the target property that is being data bound.
         ///     If the source type is not the same as the target type, an automatic conversion will be attempted.
         ///     However only simple types can be converted. For more complex conversions,
         ///     use the <see cref="Binding{TSource,TTarget}.ConvertSourceToTarget" />
@@ -129,8 +133,8 @@ namespace Softeq.XToolkit.Bindings
             object? target = null,
             string? targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default!,
-            TSource targetNullValue = default!);
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!);
 
         /// <summary>
         ///    Creates a new instance of the <see cref="T:System.EventHandler"/> that will wrap the command.
@@ -167,7 +171,7 @@ namespace Softeq.XToolkit.Bindings
             string eventName,
             Type elementType,
             ICommand command,
-            Binding<T, T> castedBinding);
+            Binding<T, T>? castedBinding);
 
         /// <summary>
         ///    Creates a new instance of the <see cref="T:System.EventHandler`1"/> that will wrap the command.
@@ -225,9 +229,14 @@ namespace Softeq.XToolkit.Bindings
             string eventName,
             Type elementType,
             ICommand command,
-            Binding<T, T> castedBinding);
+            Binding<T, T>? castedBinding);
 
-        string GetDefaultEventNameForControl(Type type);
+        /// <summary>
+        ///     Gets the name of the default event to use when binding, based on the <paramref name="type"/> of control.
+        /// </summary>
+        /// <param name="type">The type of control.</param>
+        /// <returns>The name of the control event.</returns>
+        string? GetDefaultEventNameForControl(Type type);
 
         /// <summary>
         ///     Provides the way for command to give a feedback to the element when CanExecuteChanged event is triggered.
@@ -239,6 +248,6 @@ namespace Softeq.XToolkit.Bindings
         ///     that will passed to the <see cref="T:System.Windows.Input.ICommand"/>. Used to determine new value of CanExecute.
         /// </param>
         /// <typeparam name="T">Type of command parameter.</typeparam>
-        void HandleCommandCanExecute<T>(object element, ICommand command, Binding<T, T> commandParameterBinding);
+        void HandleCommandCanExecute<T>(object element, ICommand command, Binding<T, T>? commandParameterBinding);
     }
 }
