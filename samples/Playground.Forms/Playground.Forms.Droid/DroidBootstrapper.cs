@@ -38,6 +38,10 @@ namespace Playground.Forms.Droid
             // builder.Singleton<DroidLauncherService, ILauncherService>();
             builder.Singleton<EssentialsLauncherService, ILauncherService>();
 
+            // location
+            // YP: conflict between Google.Android.Material from Xamarin.Forms (latest) and WL.Droid (old stable)
+            // builder.Singleton<DroidLocationService, ILocationService>();
+
             // remote
             // - example of using custom primary http message handler
             builder.Singleton<HttpMessageHandler>(_ => new DroidIgnoreSslClientHandler());

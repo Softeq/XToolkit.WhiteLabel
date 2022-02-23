@@ -72,7 +72,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IosAppInfoService.cs" />
     <Compile Include="Services\IosLauncherService.cs" />
-    <Compile Include="Services\LocationService.cs" />
+    <Compile Include="Services\IosLocationService.cs" />
     <Compile Include="Services\StoryboardDialogsService.cs" />
     <Compile Include="Services\StoryboardViewLocator.cs" />
     <Compile Include="ViewControllerBase.cs" />
@@ -80,7 +80,6 @@
     <Compile Include="Controls\SupportRotationAlertController.cs" />
     <Compile Include="Navigation\RootFrameNavigationControllerBase.cs" />
     <Compile Include="Controls\GradientFadeView.cs" />
-    <Compile Include="Services\UrlDecoder.cs" />
     <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
     <Compile Include="Services\KeyboardService.cs" />
     <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
