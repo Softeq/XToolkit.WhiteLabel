@@ -11,6 +11,7 @@ using Softeq.XToolkit.WhiteLabel.Droid.Controls;
 using Softeq.XToolkit.WhiteLabel.Droid.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.ViewModels.Tab;
+using NavigationBarView = Google.Android.Material.Navigation.NavigationBarView;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 {
@@ -53,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 
             InflateMenu(context);
             BottomNavigationView.SelectedItemId = _viewModel.SelectedIndex;
-            BottomNavigationView.NavigationItemSelected += BottomNavigationViewNavigationItemSelected;
+            BottomNavigationView.ItemSelected += BottomNavigationViewNavigationItemSelected;
         }
 
         public virtual void Detach()
@@ -107,7 +108,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
 
         private void BottomNavigationViewNavigationItemSelected(
             object sender,
-            BottomNavigationView.NavigationItemSelectedEventArgs e)
+            NavigationBarView.ItemSelectedEventArgs e)
         {
             if (BottomNavigationView == null)
             {
