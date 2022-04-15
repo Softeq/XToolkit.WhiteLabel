@@ -154,11 +154,18 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
             Execute.BeginOnUIThread(() =>
             {
-                var targetViewController = _viewLocator.GetView(viewModel);
-                var topViewController = _viewLocator.GetTopViewController();
-                topViewController.View?.EndEditing(true);
-                topViewController.PresentViewController(targetViewController, true, null);
-                tcs.TrySetResult(targetViewController);
+                try
+                {
+                    var targetViewController = _viewLocator.GetView(viewModel);
+                    var topViewController = _viewLocator.GetTopViewController();
+                    topViewController.View?.EndEditing(true);
+                    topViewController.PresentViewController(targetViewController, true, () => tcs.TrySetResult(targetViewController));
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex);
+                    tcs.TrySetException(ex);
+                }
             });
 
             return tcs.Task;
