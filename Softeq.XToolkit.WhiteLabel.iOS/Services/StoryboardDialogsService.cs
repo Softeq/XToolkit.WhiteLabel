@@ -148,31 +148,39 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
             return new PresentationResult(presentedViewController, null);
         }
 
-        private Task<PresentedViewController> PresentModalViewControllerAsync(object viewModel)
+        private Task<UIViewController> PresentModalViewControllerAsync(object viewModel)
         {
-            var tcs = new TaskCompletionSource<PresentedViewController>();
+            var tcs = new TaskCompletionSource<UIViewController>();
 
             Execute.BeginOnUIThread(() =>
             {
-                var targetViewController = _viewLocator.GetView(viewModel);
-                var topViewController = _viewLocator.GetTopViewController();
-                topViewController.View?.EndEditing(true);
-                topViewController.PresentViewController(targetViewController, true, null);
-                tcs.TrySetResult(new PresentedViewController(topViewController, targetViewController));
+                try
+                {
+                    var targetViewController = _viewLocator.GetView(viewModel);
+                    var topViewController = _viewLocator.GetTopViewController();
+                    topViewController.View?.EndEditing(true);
+                    topViewController.PresentViewController(targetViewController, true, () => tcs.TrySetResult(targetViewController));
+                }
+                catch (Exception ex)
+                {
+                    _logger.Error(ex);
+                    tcs.TrySetException(ex);
+                }
             });
 
             return tcs.Task;
         }
 
-        private Task<bool> DismissViewControllerAsync(PresentedViewController controllerRequest)
+        private Task<bool> DismissViewControllerAsync(UIViewController presentedController)
         {
             var tcs = new TaskCompletionSource<bool>();
             Execute.BeginOnUIThread(() =>
             {
                 try
                 {
-                    controllerRequest.Modal.View?.EndEditing(true);
-                    controllerRequest.Parent.DismissViewController(true, () => tcs.TrySetResult(true));
+                    presentedController.View?.EndEditing(true);
+                    presentedController.PresentingViewController
+                        .DismissViewController(true, () => tcs.TrySetResult(true));
                 }
                 catch (Exception ex)
                 {
@@ -185,26 +193,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
         private class PresentationResult
         {
-            public PresentationResult(PresentedViewController viewController, object? result)
+            public PresentationResult(UIViewController viewController, object? result)
             {
                 ViewController = viewController;
                 Result = result;
             }
 
-            public PresentedViewController ViewController { get; }
+            public UIViewController ViewController { get; }
             public object? Result { get; }
-        }
-
-        private class PresentedViewController
-        {
-            public PresentedViewController(UIViewController parent, UIViewController modal)
-            {
-                Parent = parent;
-                Modal = modal;
-            }
-
-            public UIViewController Parent { get; }
-            public UIViewController Modal { get; }
         }
     }
 }
