@@ -2,11 +2,13 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Softeq.XToolkit.Common.Collections;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollectionTest
 {
+    [SuppressMessage("ReSharper", "RedundantArgumentDefaultValue", Justification = "Just for tests.")]
     public static class ObservableKeyGroupsCollectionHelper
     {
         public static string GroupKeyNull = "Zero";
@@ -15,7 +17,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public static string GroupKeySecond = "Second";
         public static string GroupKeyThird = "Third";
 
-        public static IList<string> KeysNull;
+        public static IList<string> KeysNull = null;
         public static IList<string> KeysEmpty = new List<string>();
         public static IList<string> KeysOneNull = new List<string> { null };
         public static IList<string> KeysOneEmpty = new List<string> { string.Empty };
@@ -33,7 +35,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
         public static IList<int> ItemsSecond = new List<int> { 4, 5, 6, 7, 8 };
         public static IList<int> ItemsThird = new List<int> { 6, 7, 8 };
 
-        public static IList<KeyValuePair<string, IList<int>>> PairsNull;
+        public static IList<KeyValuePair<string, IList<int>>> PairsNull = null;
+
+        // ReSharper disable once CollectionNeverUpdated.Global
         public static IList<KeyValuePair<string, IList<int>>> PairsEmpty = new List<KeyValuePair<string, IList<int>>>();
         public static IList<KeyValuePair<string, IList<int>>> PairsWithKeysWithItems = new List<KeyValuePair<string, IList<int>>>
         {
@@ -216,7 +220,9 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
             };
         }
 
+#pragma warning disable SA1201
         public static TheoryData<ObservableKeyGroupsCollection<string, int>> EmptyCollectionOptionsTestData
+#pragma warning restore SA1201
             => new TheoryData<ObservableKeyGroupsCollection<string, int>>
             {
                 CreateWithEmptyGroups(),
@@ -456,7 +462,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.ObservableKeyGroupsCollection
                 new TestItem<string, int>(GroupKeySecond, 8),
                 new TestItem<string, int>(GroupKeySecond, 5),
                 new TestItem<string, int>(GroupKeyFirst, 2),
-                new TestItem<string, int>(GroupKeyFirst, 4),
+                new TestItem<string, int>(GroupKeyFirst, 4)
             };
         }
 

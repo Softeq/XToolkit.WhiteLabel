@@ -19,12 +19,12 @@ namespace Softeq.XToolkit.Common.Tests.Converters
 
         private class TwoWayConverter : IConverter<string, bool>
         {
-            public string ConvertValue(bool value, object? parameter = null, string? language = null)
+            public string ConvertValue(bool value, object parameter = null, string language = null)
             {
                 return value.ToString();
             }
 
-            public bool ConvertValueBack(string value, object? parameter = null, string? language = null)
+            public bool ConvertValueBack(string value, object parameter = null, string language = null)
             {
                 return bool.Parse(value);
             }
@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.Common.Tests.Converters
 
         private class OneWayConverter : ConverterBase<string, bool>
         {
-            public override string ConvertValue(bool value, object? parameter = null, string? language = null)
+            public override string ConvertValue(bool value, object parameter = null, string language = null)
             {
                 return value.ToString();
             }

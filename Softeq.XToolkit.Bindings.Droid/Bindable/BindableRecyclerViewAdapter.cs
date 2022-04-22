@@ -177,7 +177,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             if (Attribute.GetCustomAttribute(viewHolderType, typeof(BindableViewHolderLayoutAttribute))
                 is BindableViewHolderLayoutAttribute attr)
             {
-                return LayoutInflater.From(parent.Context).Inflate(attr.LayoutId, parent, false);
+                return LayoutInflater.From(parent.Context)!.Inflate(attr.LayoutId, parent, false);
             }
 
             return GetCustomLayoutForViewHolder(parent, viewHolderType);
@@ -302,6 +302,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
                     {
                         NotifyItemMoved(e.OldStartingIndex + i, e.NewStartingIndex + i);
                     }
+
                     break;
                 case NotifyCollectionChangedAction.Replace:
                     NotifyItemRangeChanged(e.NewStartingIndex, e.NewItems.Count);
@@ -324,7 +325,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         public BindableRecyclerViewAdapter(
             IEnumerable<IGrouping<TKey, TItem>> items,
             Type headerViewHolder = null,
-            Type footerViewHolder = null)
+            Type footerViewHolder = null,
+            Type headerSectionViewHolder = null,
+            Type footerSectionViewHolder = null)
             : base(headerViewHolder, footerViewHolder)
         {
             _dataSource = items;
@@ -334,12 +337,15 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
                 _subscription = new NotifyCollectionKeyGroupChangedEventSubscription<TKey, TItem>(dataSourceNew, NotifyCollectionChanged);
             }
 
+            HeaderSectionViewHolder = headerSectionViewHolder;
+            FooterSectionViewHolder = footerSectionViewHolder;
+
             ReloadMapping();
         }
 
-        public Type HeaderSectionViewHolder { get; set; }
+        protected Type HeaderSectionViewHolder { get; }
 
-        public Type FooterSectionViewHolder { get; set; }
+        protected Type FooterSectionViewHolder { get; }
 
         public override int ItemCount => _flatMapping.Count;
 

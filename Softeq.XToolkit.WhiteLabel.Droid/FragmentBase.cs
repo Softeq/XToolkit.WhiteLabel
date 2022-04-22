@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             DataContext = dataContext;
         }
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public override void OnCreate(Bundle? savedInstanceState)
         {
             RestoreViewModelIfNeeded(savedInstanceState);
 
@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             ViewModel.OnDisappearing();
         }
 
-        protected virtual void RestoreViewModelIfNeeded(Bundle savedInstanceState)
+        protected virtual void RestoreViewModelIfNeeded(Bundle? savedInstanceState)
         {
             if (ViewModel == null && savedInstanceState != null)
             {

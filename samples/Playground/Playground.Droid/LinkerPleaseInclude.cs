@@ -3,6 +3,7 @@
 
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using Android.App;
 using Android.Views;
@@ -11,11 +12,12 @@ using AndroidX.AppCompat.Widget;
 
 namespace Playground.Droid
 {
+    [SuppressMessage("ReSharper", "UnusedVariable", Justification = "Disabled.")]
     public class LinkerPleaseInclude
     {
         public void Include(Button button)
         {
-            button.Click += (s, e) => button.Text = button.Text + "";
+            button.Click += (s, e) => button.Text = button.Text + string.Empty;
         }
 
         public void Include(AppCompatImageButton button)
@@ -35,19 +37,19 @@ namespace Playground.Droid
 
         public void Include(View view)
         {
-            view.Click += (s, e) => view.ContentDescription = view.ContentDescription + "";
+            view.Click += (s, e) => view.ContentDescription = view.ContentDescription + string.Empty;
         }
 
         public void Include(TextView text)
         {
-            text.TextChanged += (sender, args) => text.Text = "" + text.Text;
-            text.Hint = "" + text.Hint;
+            text.TextChanged += (sender, args) => text.Text = string.Empty + text.Text;
+            text.Hint = string.Empty + text.Hint;
         }
 
         public void Include(CheckedTextView text)
         {
-            text.TextChanged += (sender, args) => text.Text = "" + text.Text;
-            text.Hint = "" + text.Hint;
+            text.TextChanged += (sender, args) => text.Text = string.Empty + text.Text;
+            text.Hint = string.Empty + text.Hint;
         }
 
         public void Include(CompoundButton cb)
@@ -62,7 +64,7 @@ namespace Playground.Droid
 
         public void Include(Activity act)
         {
-            act.Title = act.Title + "";
+            act.Title = act.Title + string.Empty;
         }
 
         public void Include(Dialog dialog)

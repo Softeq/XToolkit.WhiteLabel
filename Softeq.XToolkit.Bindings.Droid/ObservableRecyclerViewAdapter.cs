@@ -32,6 +32,9 @@ namespace Softeq.XToolkit.Bindings.Droid
             _bindViewHolderAction = bindViewHolderAction;
         }
 
+        public event EventHandler LastItemRequested;
+        public event EventHandler DataReloaded;
+
         public IList<T> DataSource
         {
             get => _dataSource;
@@ -55,9 +58,6 @@ namespace Softeq.XToolkit.Bindings.Droid
         public bool ShouldNotifyByAction { get; set; }
 
         public override int ItemCount => _dataSource.Count;
-
-        public event EventHandler LastItemRequested;
-        public event EventHandler DataReloaded;
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
@@ -146,7 +146,8 @@ namespace Softeq.XToolkit.Bindings.Droid
             }
             catch (Exception exception)
             {
-                Log.Warn(nameof(ObservableRecyclerViewAdapter<T>),
+                Log.Warn(
+                    nameof(ObservableRecyclerViewAdapter<T>),
                     "Exception masked during Adapter RealNotifyDataSetChanged {0}. Are you trying to update your collection from a background task? See http://goo.gl/0nW0L6",
                     exception.ToString());
             }

@@ -11,7 +11,7 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
+    <DebugType>portable</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug</OutputPath>
     <DefineConstants>DEBUG;</DefineConstants>
@@ -25,6 +25,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <ConsolePause>false</ConsolePause>
+    <DebugType>portable</DebugType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -33,23 +34,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="docfx.json" />
-    <None Include="toc.yml" />
-    <None Include="index.md" />
-    <None Include="articles\toc.yml" />
-    <None Include="api\index.md" />
-    <None Include="api\.gitignore" />
-    <None Include=".gitignore" />
+    <PackageReference Include="docfx.console" Version="2.58.9">
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+      <PrivateAssets>all</PrivateAssets>
+    </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="docfx.console" Version="2.56.6"><IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-<PrivateAssets>all</PrivateAssets>
-</PackageReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="articles\contributing-workflow.md" />
-    <Content Include="articles\contributing.md" />
-    <Content Include="articles\developer-guide.md" />
     <Content Include="build.sh" />
     <Content Include="templates\material\partials\head.tmpl.partial" />
     <Content Include="templates\material\styles\main.css" />

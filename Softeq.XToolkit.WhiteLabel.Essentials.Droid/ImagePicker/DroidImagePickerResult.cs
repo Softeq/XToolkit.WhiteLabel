@@ -14,13 +14,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         public override Task<Stream> GetStream()
         {
             Stream memoryStream = new MemoryStream();
+
             if (ImageObject is Bitmap bitmap)
             {
                 var compressFormat = (ImageExtension == ImageExtension.Jpeg || ImageExtension == ImageExtension.Jpg)
                     ? CompressFormat.Jpeg
                     : CompressFormat.Png;
 
-                bitmap.Compress(compressFormat, (int) (Quality * 100), memoryStream);
+                bitmap.Compress(compressFormat, (int)(Quality * 100), memoryStream);
             }
 
             return Task.FromResult(memoryStream);

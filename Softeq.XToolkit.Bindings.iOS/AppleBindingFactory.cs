@@ -2,14 +2,16 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Windows.Input;
 using UIKit;
 
-#nullable disable
-
 namespace Softeq.XToolkit.Bindings.iOS
 {
+    /// <summary>
+    ///     The iOS-specific factory to create bindings.
+    /// </summary>
     public class AppleBindingFactory : BindingFactoryBase
     {
         /// <inheritdoc />
@@ -17,11 +19,11 @@ namespace Softeq.XToolkit.Bindings.iOS
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
             bool? resolveTopField,
-            object target = null,
-            Expression<Func<TTarget>> targetPropertyExpression = null,
+            object? target = null,
+            Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
         {
             return new AppleBinding<TSource, TTarget>(
                 source,
@@ -38,11 +40,11 @@ namespace Softeq.XToolkit.Bindings.iOS
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             Expression<Func<TSource>> sourcePropertyExpression,
-            object target = null,
-            Expression<Func<TTarget>> targetPropertyExpression = null,
+            object? target = null,
+            Expression<Func<TTarget>>? targetPropertyExpression = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
         {
             return new AppleBinding<TSource, TTarget>(
                 source,
@@ -58,11 +60,11 @@ namespace Softeq.XToolkit.Bindings.iOS
         public override Binding<TSource, TTarget> CreateBinding<TSource, TTarget>(
             object source,
             string sourcePropertyName,
-            object target = null,
-            string targetPropertyName = null,
+            object? target = null,
+            string? targetPropertyName = null,
             BindingMode mode = BindingMode.Default,
-            TSource fallbackValue = default,
-            TSource targetNullValue = default)
+            [MaybeNull] TSource fallbackValue = default!,
+            [MaybeNull] TSource targetNullValue = default!)
         {
             return new AppleBinding<TSource, TTarget>(
                 source,
@@ -74,7 +76,8 @@ namespace Softeq.XToolkit.Bindings.iOS
                 targetNullValue);
         }
 
-        public override string GetDefaultEventNameForControl(Type type)
+        /// <inheritdoc />
+        public override string? GetDefaultEventNameForControl(Type type)
         {
             if (type == typeof(UIButton) || typeof(UIButton).IsAssignableFrom(type))
             {
@@ -94,10 +97,11 @@ namespace Softeq.XToolkit.Bindings.iOS
             return null;
         }
 
+        /// <inheritdoc />
         public override void HandleCommandCanExecute<T>(
             object element,
             ICommand command,
-            Binding<T, T> commandParameterBinding)
+            Binding<T, T>? commandParameterBinding)
         {
             if (element is UIControl control)
             {
@@ -108,7 +112,7 @@ namespace Softeq.XToolkit.Bindings.iOS
         private static void HandleControlEnabled<T>(
             UIControl control,
             ICommand command,
-            Binding<T, T> commandParameterBinding)
+            Binding<T, T>? commandParameterBinding)
         {
             var commandParameter = commandParameterBinding == null
                 ? default

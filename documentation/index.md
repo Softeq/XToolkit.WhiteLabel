@@ -2,7 +2,12 @@
 
 Build clean, pixel perfect, native UIs. Share behavior and business logic in a single codebase across supported platforms, using the Model-View-ViewModel (MVVM) design pattern.
 
-XToolkit is a components specifically developed for Xamarin and the mobile ecosystem. It supports Xamarin.iOS, Xamarin.Android.
+XToolkit is a set of components specifically designed for Xamarin and the mobile ecosystem.
+
+It supports:
+- Xamarin.iOS
+- Xamarin.Android
+- Xamarin.Forms
 
 ## [Get Started](articles/getting-started.md)
 

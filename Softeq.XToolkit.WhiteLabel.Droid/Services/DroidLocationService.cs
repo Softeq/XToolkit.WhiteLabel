@@ -3,51 +3,64 @@
 
 using System;
 using System.Threading.Tasks;
+using Android.App;
 using Android.Content;
 using Android.Locations;
 using Android.OS;
 using Android.Runtime;
 using Softeq.XToolkit.Common.Weak;
-using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Location;
-using Object = Java.Lang.Object;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Services
 {
-    // TODO YP: Rework to Xamarin.Essentials
-    public class LocationService : ILocationService
+    /// <summary>
+    ///     Android platform-specific implementation of <see cref="ILocationService"/> interface.
+    /// </summary>
+    public class DroidLocationService : ILocationService
     {
-        private readonly IContextProvider _contextProvider;
-        private readonly Lazy<LocationManager> _locationManagerLazy;
-        private readonly string _providerName = LocationManager.NetworkProvider;
+        private readonly Lazy<LocationManager?> _locationManagerLazy;
 
-        public LocationService(IContextProvider contextProvider)
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DroidLocationService"/> class.
+        /// </summary>
+        public DroidLocationService()
         {
-            _contextProvider = contextProvider;
-            _locationManagerLazy = new Lazy<LocationManager>(() =>
-            {
-                var currentActivity = _contextProvider.CurrentActivity;
-                return (LocationManager) currentActivity.GetSystemService(Context.LocationService);
-            });
+            _locationManagerLazy = new Lazy<LocationManager?>(() =>
+                Application.Context.GetSystemService(Context.LocationService) as LocationManager);
         }
 
-        public bool IsLocationServiceEnabled => _locationManagerLazy.Value.IsProviderEnabled(_providerName);
+        /// <summary>
+        ///     Gets the name of the provider that is used to get the location.
+        /// </summary>
+        protected virtual string ProviderName => LocationManager.NetworkProvider;
 
+        /// <inheritdoc />
+        public bool IsLocationServiceEnabled => _locationManagerLazy.Value?.IsProviderEnabled(ProviderName) ?? false;
+
+        /// <inheritdoc />
+        /// <remarks>
+        ///     Uses Network provider to determine a location based on nearby cell tower and WiFi access points.
+        /// </remarks>
         public Task<LocationModel?> GetCurrentLocation()
         {
+            if (_locationManagerLazy.Value == null)
+            {
+                return Task.FromResult<LocationModel?>(null);
+            }
+
             var tcs = new TaskCompletionSource<LocationModel?>();
-            _contextProvider.CurrentActivity.RunOnUiThread(() =>
-                _locationManagerLazy.Value.RequestLocationUpdates(
-                    _providerName,
-                    0,
-                    0,
-                    new LocationListener(_locationManagerLazy.Value, tcs)));
+            var listener = new LocationListener(_locationManagerLazy.Value, tcs);
+            var looper = Looper.MyLooper() ?? Looper.MainLooper;
+
+            _locationManagerLazy.Value.RequestLocationUpdates(ProviderName, 0, 0, listener, looper);
+
             return tcs.Task;
         }
 
-        private class LocationListener : Object, ILocationListener
+        private class LocationListener : Java.Lang.Object, ILocationListener
         {
             private readonly WeakReferenceEx<LocationManager> _locationManagerRef;
+
             private TaskCompletionSource<LocationModel?>? _tcs;
 
             public LocationListener(
@@ -72,7 +85,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
                         Latitude = location.Latitude,
                         Longitude = location.Longitude
                     });
-                _locationManagerRef.Target.RemoveUpdates(this);
+
+                _locationManagerRef.Target?.RemoveUpdates(this);
                 _tcs = null;
             }
 

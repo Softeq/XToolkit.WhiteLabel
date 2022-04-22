@@ -9,6 +9,8 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Security.Permissions;
 
+#pragma warning disable CS1591
+
 namespace Softeq.XToolkit.Common.Collections
 {
     [Serializable]
@@ -49,6 +51,10 @@ namespace Softeq.XToolkit.Common.Collections
             _reverseDictionary = new ReverseDictionary(this);
         }
 
+        public int Count => _firstToSecond.Count;
+
+        public bool IsReadOnly => _firstToSecond.IsReadOnly || _secondToFirst.IsReadOnly;
+
         public IDictionary<TSecond, TFirst> Reverse => _reverseDictionary;
 
         object ICollection.SyncRoot => ((ICollection) _firstToSecond).SyncRoot;
@@ -56,6 +62,35 @@ namespace Softeq.XToolkit.Common.Collections
         bool ICollection.IsSynchronized => ((ICollection) _firstToSecond).IsSynchronized;
 
         bool IDictionary.IsFixedSize => ((IDictionary) _firstToSecond).IsFixedSize;
+
+        public ICollection<TFirst> Keys => _firstToSecond.Keys;
+
+        public ICollection<TSecond> Values => _firstToSecond.Values;
+
+        ICollection IDictionary.Keys => ((IDictionary) _firstToSecond).Keys;
+
+        ICollection IDictionary.Values => ((IDictionary) _firstToSecond).Values;
+
+        IEnumerable<TFirst> IReadOnlyDictionary<TFirst, TSecond>.Keys =>
+            ((IReadOnlyDictionary<TFirst, TSecond>) _firstToSecond).Keys;
+
+        IEnumerable<TSecond> IReadOnlyDictionary<TFirst, TSecond>.Values =>
+            ((IReadOnlyDictionary<TFirst, TSecond>) _firstToSecond).Values;
+
+        public TSecond this[TFirst key]
+        {
+            get => _firstToSecond[key];
+            set
+            {
+                if (_firstToSecond.ContainsKey(key))
+                {
+                    _secondToFirst.Remove(_firstToSecond[key]);
+                }
+
+                _firstToSecond[key] = value;
+                _secondToFirst[value] = key;
+            }
+        }
 
         object IDictionary.this[object key]
         {
@@ -66,10 +101,6 @@ namespace Softeq.XToolkit.Common.Collections
                 ((IDictionary) _secondToFirst)[value] = key;
             }
         }
-
-        ICollection IDictionary.Keys => ((IDictionary) _firstToSecond).Keys;
-
-        ICollection IDictionary.Values => ((IDictionary) _firstToSecond).Values;
 
         IDictionaryEnumerator IDictionary.GetEnumerator() => ((IDictionary) _firstToSecond).GetEnumerator();
 
@@ -101,29 +132,6 @@ namespace Softeq.XToolkit.Common.Collections
         {
             ((IDictionary) _firstToSecond).CopyTo(array, index);
         }
-
-        public int Count => _firstToSecond.Count;
-
-        public bool IsReadOnly => _firstToSecond.IsReadOnly || _secondToFirst.IsReadOnly;
-
-        public TSecond this[TFirst key]
-        {
-            get => _firstToSecond[key];
-            set
-            {
-                if (_firstToSecond.ContainsKey(key))
-                {
-                    _secondToFirst.Remove(_firstToSecond[key]);
-                }
-
-                _firstToSecond[key] = value;
-                _secondToFirst[value] = key;
-            }
-        }
-
-        public ICollection<TFirst> Keys => _firstToSecond.Keys;
-
-        public ICollection<TSecond> Values => _firstToSecond.Values;
 
         public IEnumerator<KeyValuePair<TFirst, TSecond>> GetEnumerator() => _firstToSecond.GetEnumerator();
 
@@ -188,12 +196,6 @@ namespace Softeq.XToolkit.Common.Collections
             _firstToSecond.CopyTo(array, arrayIndex);
         }
 
-        IEnumerable<TFirst> IReadOnlyDictionary<TFirst, TSecond>.Keys =>
-            ((IReadOnlyDictionary<TFirst, TSecond>) _firstToSecond).Keys;
-
-        IEnumerable<TSecond> IReadOnlyDictionary<TFirst, TSecond>.Values =>
-            ((IReadOnlyDictionary<TFirst, TSecond>) _firstToSecond).Values;
-
         [SecurityPermission(
             SecurityAction.LinkDemand,
             Flags = SecurityPermissionFlag.SerializationFormatter)]
@@ -240,11 +242,44 @@ namespace Softeq.XToolkit.Common.Collections
                 _owner = owner;
             }
 
+            public int Count => _owner._secondToFirst.Count;
+
+            public bool IsReadOnly => _owner._secondToFirst.IsReadOnly || _owner._firstToSecond.IsReadOnly;
+
             object ICollection.SyncRoot => ((ICollection) _owner._secondToFirst).SyncRoot;
 
             bool ICollection.IsSynchronized => ((ICollection) _owner._secondToFirst).IsSynchronized;
 
             bool IDictionary.IsFixedSize => ((IDictionary) _owner._secondToFirst).IsFixedSize;
+
+            ICollection IDictionary.Keys => ((IDictionary) _owner._secondToFirst).Keys;
+
+            ICollection IDictionary.Values => ((IDictionary) _owner._secondToFirst).Values;
+
+            public ICollection<TSecond> Keys => _owner._secondToFirst.Keys;
+
+            public ICollection<TFirst> Values => _owner._secondToFirst.Values;
+
+            IEnumerable<TSecond> IReadOnlyDictionary<TSecond, TFirst>.Keys =>
+                ((IReadOnlyDictionary<TSecond, TFirst>) _owner._secondToFirst).Keys;
+
+            IEnumerable<TFirst> IReadOnlyDictionary<TSecond, TFirst>.Values =>
+                ((IReadOnlyDictionary<TSecond, TFirst>) _owner._secondToFirst).Values;
+
+            public TFirst this[TSecond key]
+            {
+                get => _owner._secondToFirst[key];
+                set
+                {
+                    if (_owner._secondToFirst.ContainsKey(key))
+                    {
+                        _owner._firstToSecond.Remove(_owner._secondToFirst[key]);
+                    }
+
+                    _owner._secondToFirst[key] = value;
+                    _owner._firstToSecond[value] = key;
+                }
+            }
 
             object IDictionary.this[object key]
             {
@@ -255,10 +290,6 @@ namespace Softeq.XToolkit.Common.Collections
                     ((IDictionary) _owner._firstToSecond)[value] = key;
                 }
             }
-
-            ICollection IDictionary.Keys => ((IDictionary) _owner._secondToFirst).Keys;
-
-            ICollection IDictionary.Values => ((IDictionary) _owner._secondToFirst).Values;
 
             IDictionaryEnumerator IDictionary.GetEnumerator() => ((IDictionary) _owner._secondToFirst).GetEnumerator();
 
@@ -290,29 +321,6 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 ((IDictionary) _owner._secondToFirst).CopyTo(array, index);
             }
-
-            public int Count => _owner._secondToFirst.Count;
-
-            public bool IsReadOnly => _owner._secondToFirst.IsReadOnly || _owner._firstToSecond.IsReadOnly;
-
-            public TFirst this[TSecond key]
-            {
-                get => _owner._secondToFirst[key];
-                set
-                {
-                    if (_owner._secondToFirst.ContainsKey(key))
-                    {
-                        _owner._firstToSecond.Remove(_owner._secondToFirst[key]);
-                    }
-
-                    _owner._secondToFirst[key] = value;
-                    _owner._firstToSecond[value] = key;
-                }
-            }
-
-            public ICollection<TSecond> Keys => _owner._secondToFirst.Keys;
-
-            public ICollection<TFirst> Values => _owner._secondToFirst.Values;
 
             public IEnumerator<KeyValuePair<TSecond, TFirst>> GetEnumerator() => _owner._secondToFirst.GetEnumerator();
 
@@ -375,12 +383,6 @@ namespace Softeq.XToolkit.Common.Collections
             {
                 _owner._secondToFirst.CopyTo(array, arrayIndex);
             }
-
-            IEnumerable<TSecond> IReadOnlyDictionary<TSecond, TFirst>.Keys =>
-                ((IReadOnlyDictionary<TSecond, TFirst>) _owner._secondToFirst).Keys;
-
-            IEnumerable<TFirst> IReadOnlyDictionary<TSecond, TFirst>.Values =>
-                ((IReadOnlyDictionary<TSecond, TFirst>) _owner._secondToFirst).Values;
         }
     }
 }

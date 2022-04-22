@@ -21,6 +21,11 @@ namespace Softeq.XToolkit.Bindings
         protected WeakReference? TopTarget;
 
         /// <summary>
+        ///     Occurs when the value of the data-bound property changes.
+        /// </summary>
+        public abstract event EventHandler ValueChanged;
+
+        /// <summary>
         ///     Gets or sets the mode of the binding. OneTime means that the target property will be set once (when the binding is
         ///     created) but that subsequent changes will be ignored. OneWay means that the target property will be set, and
         ///     if the PropertyChanged event is raised by the source, the target property will be updated. TwoWay means that the
@@ -45,26 +50,18 @@ namespace Softeq.XToolkit.Bindings
             : TopTarget.Target;
 
         /// <summary>
-        ///     Instructs the Binding instance to stop listening to value changes and to
-        ///     remove all listeneners.
+        ///     Instructs the Binding instance to stop listening to value changes and to remove all listeners.
         /// </summary>
         public abstract void Detach();
 
         /// <summary>
-        ///     Forces the Binding's value to be reevaluated. The target value will
-        ///     be set to the source value.
+        ///     Forces the Binding's value to be reevaluated. The target value will be set to the source value.
         /// </summary>
         public abstract void ForceUpdateValueFromSourceToTarget();
 
         /// <summary>
-        ///     Forces the Binding's value to be reevaluated. The source value will
-        ///     be set to the target value.
+        ///     Forces the Binding's value to be reevaluated. The source value will be set to the target value.
         /// </summary>
         public abstract void ForceUpdateValueFromTargetToSource();
-
-        /// <summary>
-        ///     Occurs when the value of the databound property changes.
-        /// </summary>
-        public abstract event EventHandler ValueChanged;
     }
 }

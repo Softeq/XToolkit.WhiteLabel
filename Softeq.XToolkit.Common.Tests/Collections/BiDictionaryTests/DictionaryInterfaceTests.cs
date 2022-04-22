@@ -9,7 +9,7 @@ using Xunit;
 namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
 {
     /// <summary>
-    ///     Tests for IDictionary interface
+    ///     Tests for IDictionary interface.
     /// </summary>
     public class DictionaryInterfaceTests
     {

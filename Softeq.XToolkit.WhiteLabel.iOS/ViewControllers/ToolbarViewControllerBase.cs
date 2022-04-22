@@ -20,17 +20,21 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
     public abstract class ToolbarViewControllerBase<TViewModel, TKey> : ViewControllerBase<TViewModel>
         where TViewModel : ToolbarViewModelBase<TKey>
     {
-        protected ToolbarViewControllerBase(IntPtr handle) : base(handle) { }
+        protected ToolbarViewControllerBase(IntPtr handle) : base(handle)
+        {
+        }
 
-        protected ToolbarViewControllerBase() { }
+        protected ToolbarViewControllerBase()
+        {
+        }
 
         protected UITabBarController TabController { get; private set; } = default!;
 
-        protected virtual UIColor? BadgeColor { get; }
+        protected virtual UIColor? BadgeColor { get; } = null!;
 
         protected virtual Func<UITabBarController>? TabBarControllerFactory { get; } = null;
 
-        protected abstract UIImage GetImageFromKey(TKey key);
+        protected abstract UIImage? GetImageFromKey(TKey key);
 
         public override void ViewDidLoad()
         {
@@ -100,6 +104,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.ViewControllers
             {
                 return CreateRootViewController(tabViewModel);
             }
+
             throw new InvalidOperationException($"{nameof(viewModel)} must be inherited of {nameof(TabViewModel<TKey>)}");
         }
 

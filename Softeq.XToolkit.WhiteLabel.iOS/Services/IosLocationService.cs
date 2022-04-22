@@ -8,13 +8,18 @@ using Softeq.XToolkit.WhiteLabel.Location;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 {
-    public class LocationService : ILocationService
+    /// <summary>
+    ///     iOS platform-specific implementation of <see cref="ILocationService"/> interface.
+    /// </summary>
+    public class IosLocationService : ILocationService
     {
         private readonly Lazy<CLLocationManager> _locationManagerLazy =
             new Lazy<CLLocationManager>(() => new CLLocationManager());
 
+        /// <inheritdoc />
         public bool IsLocationServiceEnabled => CLLocationManager.LocationServicesEnabled;
 
+        /// <inheritdoc />
         public Task<LocationModel?> GetCurrentLocation()
         {
             LocationModel? result = default;

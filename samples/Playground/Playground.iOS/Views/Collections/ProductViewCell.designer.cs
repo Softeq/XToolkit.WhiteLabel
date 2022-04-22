@@ -24,7 +24,7 @@ namespace Playground.iOS.Views.Collections
         UIKit.UIImageView PhotoImage { get; set; }
 
         [Action("AddToCartAction:")]
-        partial void AddToCartAction(Foundation.NSObject _);
+        partial void AddToCartAction(Foundation.NSObject sender);
 
         void ReleaseDesignerOutlets()
         {

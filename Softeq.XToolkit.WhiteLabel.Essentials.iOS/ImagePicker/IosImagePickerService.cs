@@ -36,7 +36,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
 
             _taskCompletionSource = new TaskCompletionSource<UIImage?>();
 
-            UIApplication.SharedApplication.KeyWindow.RootViewController.PresentViewController(_pickerController, true, null);
+            UIApplication.SharedApplication.KeyWindow.RootViewController!.PresentViewController(_pickerController, true, null);
 
             var image = await _taskCompletionSource.Task.ConfigureAwait(false);
 

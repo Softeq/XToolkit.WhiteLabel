@@ -12,7 +12,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
     ///     Navigator service that helps to setup and perform navigation to the specified ViewModel.
     /// </summary>
     /// <typeparam name="TViewModel">Type of ViewModel to perform navigation to.</typeparam>
-    public class FrameFluentNavigator<TViewModel> : FluentNavigatorBase<TViewModel> where TViewModel : IViewModelBase
+    public class FrameFluentNavigator<TViewModel>
+        : FluentNavigatorBase<TViewModel> where TViewModel : IViewModelBase
     {
         private readonly IFrameNavigationService _navigationService;
 
@@ -69,7 +70,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
                 throw new ArgumentNullException(nameof(navigationParameters));
             }
 
-            Parameters.AddRange(navigationParameters);
+            _parameters.AddRange(navigationParameters);
             return this;
         }
 
@@ -83,6 +84,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
         /// <exception cref="T:System.ArgumentNullException">
         ///     <paramref name="initParameter"/> cannot be <see langword="null"/>.
         /// </exception>
+        [Obsolete("Initialize navigation service another way before using the navigator.")]
         public FrameFluentNavigator<TViewModel> Initialize(object initParameter)
         {
             if (initParameter == null)

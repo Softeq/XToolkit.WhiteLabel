@@ -20,10 +20,7 @@ namespace Softeq.XToolkit.Common.iOS.Tests.TextFilters.GroupFilterTests
         [Fact]
         public void Ctor_Null_ThrowsArgumentNullException()
         {
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                new GroupFilter(null!);
-            });
+            Assert.Throws<ArgumentNullException>(() => new GroupFilter(null!));
         }
 
         [Fact]

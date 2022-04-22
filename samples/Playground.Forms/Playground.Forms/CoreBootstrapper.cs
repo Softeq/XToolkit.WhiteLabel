@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Playground.Forms.Remote;
-using Playground.Forms.Remote.ViewModels;
 using Playground.Forms.Services;
 using Playground.Forms.ViewModels;
 using Playground.Forms.ViewModels.Components;
@@ -59,6 +58,8 @@ namespace Playground.Forms
             builder.PerDependency<PermissionsPageViewModel>();
             builder.PerDependency<ValidationPageViewModel>();
             builder.PerDependency<PaginationSearchPageViewModel>();
+            builder.PerDependency<LauncherPageViewModel>();
+            builder.PerDependency<LocationPageViewModel>();
 
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 

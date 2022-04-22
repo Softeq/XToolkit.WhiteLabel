@@ -10,7 +10,7 @@ using Xunit.Sdk;
 namespace Softeq.XToolkit.Common.iOS.Tests
 {
     [Register("AppDelegate")]
-    public partial class AppDelegate : RunnerAppDelegate
+    public class AppDelegate : RunnerAppDelegate
     {
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {

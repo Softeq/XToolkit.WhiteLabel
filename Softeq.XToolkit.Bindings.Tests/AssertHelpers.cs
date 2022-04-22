@@ -12,8 +12,11 @@ namespace Softeq.XToolkit.Bindings.Tests
     public static class AssertHelpers
     {
         public static void CommandHandler(
-            Delegate handler, EventArgs eventArgs,
-            ICommand command, bool canExecute, object commandParameter)
+            Delegate handler,
+            EventArgs eventArgs,
+            ICommand command,
+            bool canExecute,
+            object commandParameter)
         {
             // basic
             Assert.NotNull(handler);
@@ -25,8 +28,11 @@ namespace Softeq.XToolkit.Bindings.Tests
         }
 
         public static void CommandHandler<T>(
-            Delegate handler, T eventArgs,
-            ICommand<T> command, bool canExecute, T commandParameter)
+            Delegate handler,
+            T eventArgs,
+            ICommand<T> command,
+            bool canExecute,
+            T commandParameter)
         {
             // basic
             Assert.NotNull(handler);

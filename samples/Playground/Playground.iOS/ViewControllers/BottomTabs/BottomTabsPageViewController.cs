@@ -13,7 +13,7 @@ namespace Playground.iOS.ViewControllers.BottomTabs
         {
             base.ViewDidLoad();
 
-            View.BackgroundColor = UIColor.White;
+            View!.BackgroundColor = UIColor.White;
         }
 
         protected override UINavigationController CreateRootViewController<TFirstViewModel>(TFirstViewModel viewModel)
@@ -23,7 +23,7 @@ namespace Playground.iOS.ViewControllers.BottomTabs
             return rootController;
         }
 
-        protected override UIImage GetImageFromKey(string key)
+        protected override UIImage? GetImageFromKey(string key)
         {
             return UIImage.FromBundle(string.Concat("ic", key));
         }

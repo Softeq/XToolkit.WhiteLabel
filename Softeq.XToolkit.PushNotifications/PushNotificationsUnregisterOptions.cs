@@ -24,7 +24,9 @@ namespace Softeq.XToolkit.PushNotifications
         InSystemAndOnServer
     }
 
+#pragma warning disable SA1649
     public static class PushNotificationsUnregisterOptionsExtensions
+#pragma warning restore SA1649
     {
         public static bool ShouldUnregisterInSystem(this PushNotificationsUnregisterOptions options) =>
             options == PushNotificationsUnregisterOptions.InSystemOnly

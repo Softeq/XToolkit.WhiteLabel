@@ -31,11 +31,6 @@ namespace Playground.Forms.ViewModels.Components
             return models;
         }
 
-        protected override IList<string> FilterItems(IList<string> viewModels)
-        {
-            return base.FilterItems(viewModels);
-        }
-
         protected override async Task<PagingModel<string>> LoadAsync(string? query, int pageIndex, int pageSize)
         {
             await Task.Delay((pageIndex + 1) * 1000); // every page +1s delay

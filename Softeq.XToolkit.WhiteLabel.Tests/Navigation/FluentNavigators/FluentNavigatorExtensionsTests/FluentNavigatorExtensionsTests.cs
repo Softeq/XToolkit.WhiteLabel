@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 using Softeq.XToolkit.WhiteLabel.Tests.Stubs;
 using Xunit;
 
@@ -18,7 +17,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FluentNav
         {
             IViewModelBase viewModel = null;
 
-            Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null));
+            Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null!));
         }
 
         [Fact]
@@ -35,7 +34,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FluentNav
         {
             IViewModelBase viewModel = new ViewModelStub();
 
-            Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null));
+            Assert.Throws<ArgumentNullException>(() => viewModel.ApplyParameters(null!));
         }
 
         [Theory]

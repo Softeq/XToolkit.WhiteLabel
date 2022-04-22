@@ -17,9 +17,14 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
     public abstract class FluentNavigatorBase<TViewModel> where TViewModel : IViewModelBase
     {
         /// <summary>
+        ///     List of navigation parameters for the current navigator instance.
+        /// </summary>
+        protected readonly List<NavigationParameterModel> _parameters = new List<NavigationParameterModel>();
+
+        /// <summary>
         ///     Gets the list of navigation parameters for the current navigator instance.
         /// </summary>
-        public List<NavigationParameterModel> Parameters { get; } = new List<NavigationParameterModel>();
+        public IReadOnlyList<NavigationParameterModel> Parameters => _parameters;
 
         /// <summary>
         ///     Creates and adds navigation parameter for the specified property using reflection.
@@ -35,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             var propertyInfo = (PropertyInfo) propertyExpression.GetMemberInfo();
             var parameter = new NavigationParameterModel(value, new PropertyInfoModel(propertyInfo));
 
-            Parameters.Add(parameter);
+            _parameters.Add(parameter);
 
             return this;
         }

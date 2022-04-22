@@ -19,7 +19,9 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         {
         }
 
-        public void SetData(ObservableRangeCollection<TItem> items, Action<TItem, TView>? bindAction = null,
+        public void SetData(
+            ObservableRangeCollection<TItem> items,
+            Action<TItem, TView>? bindAction = null,
             Action<TItem, TView>? refreshBindingAction = null)
         {
             Collection = items;
@@ -31,6 +33,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         public override void AwakeFromNib()
         {
             base.AwakeFromNib();
+
             InitView();
         }
 

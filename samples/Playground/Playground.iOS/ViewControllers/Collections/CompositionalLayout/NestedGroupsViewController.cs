@@ -7,13 +7,15 @@ using UIKit;
 using static Playground.iOS.ViewControllers.Collections.CompositionalLayout.NSUtils;
 using static UIKit.NSCollectionLayoutDimension;
 
+#pragma warning disable SA1005
+
 namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
 {
     // Original sources on Swift:
     // https://github.com/TikhonovAlexander/Collection-View-Layout-iOS13/blob/master/Collection-View-Layout-iOS13/View%20Controllers/NestedGroupsViewController.swift
     public class NestedGroupsViewController : UIViewController
     {
-        private UICollectionView? _collectionView;
+        private UICollectionView _collectionView = null!;
 
         public override void ViewDidLoad()
         {
@@ -25,7 +27,7 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
 
         private void ConfigureHierarchy()
         {
-            _collectionView = new UICollectionView(View.Bounds, CreateLayout());
+            _collectionView = new UICollectionView(View!.Bounds, CreateLayout());
             _collectionView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
             _collectionView.BackgroundColor = UIColor.SystemBackgroundColor;
             _collectionView.RegisterNibForCell(DummyCell.Nib, DummyCell.Key);
@@ -127,7 +129,9 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
             dataSource.ApplySnapshot(snapshot, animatingDifferences: false);
         }
 
+#pragma warning disable SA1201
         internal enum Section
+#pragma warning restore SA1201
         {
             Main
         }

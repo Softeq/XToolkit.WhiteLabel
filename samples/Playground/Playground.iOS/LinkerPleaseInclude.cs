@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Windows.Input;
 using CoreAnimation;
 using Foundation;
@@ -9,6 +10,7 @@ using UIKit;
 
 namespace Playground.iOS
 {
+    [SuppressMessage("ReSharper", "UnusedVariable", Justification = "Disabled.")]
     public class LinkerPleaseInclude
     {
         public void Include(UIButton uiButton)
@@ -21,24 +23,24 @@ namespace Playground.iOS
         public void Include(UIBarButtonItem barButton)
         {
             barButton.Clicked += (s, e) =>
-                barButton.Title = barButton.Title + "";
+                barButton.Title = barButton.Title + string.Empty;
         }
 
         public void Include(UITextField textField)
         {
-            textField.Text = textField.Text + "";
-            textField.EditingChanged += (sender, args) => { textField.Text = ""; };
-            textField.Started += (sender, args) => { textField.Text = ""; };
-            textField.Ended += (sender, args) => { textField.Text = ""; };
-            textField.EditingDidBegin += (sender, args) => { textField.Text = ""; };
+            textField.Text = textField.Text + string.Empty;
+            textField.EditingChanged += (sender, args) => { textField.Text = string.Empty; };
+            textField.Started += (sender, args) => { textField.Text = string.Empty; };
+            textField.Ended += (sender, args) => { textField.Text = string.Empty; };
+            textField.EditingDidBegin += (sender, args) => { textField.Text = string.Empty; };
         }
 
         public void Include(UITextView textView)
         {
-            textView.Text = textView.Text + "";
-            textView.Changed += (sender, args) => { textView.Text = ""; };
-            textView.Started += (sender, args) => { textView.Text = ""; };
-            textView.Ended += (sender, args) => { textView.Text = ""; };
+            textView.Text = textView.Text + string.Empty;
+            textView.Changed += (sender, args) => { textView.Text = string.Empty; };
+            textView.Started += (sender, args) => { textView.Text = string.Empty; };
+            textView.Ended += (sender, args) => { textView.Text = string.Empty; };
         }
 
         public void Include(UIScrollView scrollView)
@@ -48,12 +50,12 @@ namespace Playground.iOS
 
         public void Include(UILabel label)
         {
-            label.Text = label.Text + "";
+            label.Text = label.Text + string.Empty;
         }
 
         public void Include(UIImageView imageView)
         {
-            imageView.Image = new UIImage(imageView.Image.CGImage);
+            imageView.Image = new UIImage(imageView.Image!.CGImage!);
         }
 
         public void Include(UIDatePicker date)

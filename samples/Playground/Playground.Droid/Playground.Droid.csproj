@@ -37,13 +37,13 @@
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugSymbols>false</DebugSymbols>
-    <DebugType>pdbonly</DebugType>
+    <DebugType>portable</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <AndroidLinkMode>None</AndroidLinkMode>
+    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
   </PropertyGroup>
   <ItemGroup>
@@ -84,7 +84,6 @@
     <Compile Include="Views\Dialogs\SimpleDialogPageFragment.cs" />
     <Compile Include="Views\Collections\GroupedCollectionPageActivity.cs" />
     <Compile Include="Views\Collections\ProductViewHolder.cs" />
-    <Compile Include="Converters\BoolToVisibilityConverter.cs" />
     <Compile Include="Views\Collections\MovieCollectionViewHolder.cs" />
     <Compile Include="Views\Collections\GroupedTablePageActivity.cs" />
     <Compile Include="Views\Collections\TablePageActivity.cs" />

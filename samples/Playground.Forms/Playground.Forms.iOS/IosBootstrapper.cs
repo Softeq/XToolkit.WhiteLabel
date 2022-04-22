@@ -7,7 +7,13 @@ using Playground.Forms.iOS.CustomComponents;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.iOS;
+using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
+using Softeq.XToolkit.WhiteLabel.iOS.Navigation;
+using Softeq.XToolkit.WhiteLabel.iOS.Services;
+using Softeq.XToolkit.WhiteLabel.Location;
 
 namespace Playground.Forms.iOS
 {
@@ -26,6 +32,15 @@ namespace Playground.Forms.iOS
             // permissions
             builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
+
+            // launcher
+            builder.Singleton<ViewControllerProvider, IViewControllerProvider>();
+            builder.Singleton<ViewModelToViewMap>();
+            builder.Singleton<StoryboardViewLocator, IViewLocator>();
+            builder.Singleton<IosLauncherService, ILauncherService>();
+
+            // location
+            builder.Singleton<IosLocationService, ILocationService>();
 
             // remote
             // - example of using custom primary http message handler

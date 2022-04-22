@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.Common.Tests.Collections.EventArgs.NotifyKeyGroupsColl
            {
                { NotifyCollectionChangedAction.Add, null },
                { NotifyCollectionChangedAction.Add, new List<int>() },
-               { NotifyCollectionChangedAction.Add, new List<int>(){ 1, 2 } },
+               { NotifyCollectionChangedAction.Add, new List<int> { 1, 2 } },
            };
     }
 }

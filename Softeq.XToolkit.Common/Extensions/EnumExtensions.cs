@@ -29,21 +29,23 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <summary>
         ///     Converts string to the specified <see cref="T:System.Enum"/>.
         /// </summary>
-        /// <returns>An object of type <typeparamref name="TEnum"/> whose value is represented by <paramref name="value" />.</returns>
+        /// <returns>
+        ///     An object of type <typeparamref name="TEnum"/> whose value is represented by <paramref name="value" />.
+        /// </returns>
         /// <param name="value">A string to convert.</param>
         /// <typeparam name="TEnum">Enum type.</typeparam>
         /// <exception cref="T:System.ArgumentNullException">
-        ///     <paramref name="enumType"/> and <paramref name="value"/> parameters cannot be <see langword="null"/>.
+        ///     <paramref name="value"/> parameters cannot be <see langword="null"/>.
         /// </exception>
         /// <exception cref="T:System.ArgumentException">
-        ///     <paramref name="enumType" /> is not an <see cref="T:System.Enum" />.
+        ///     <typeparam name="TEnum" /> is not an <see cref="T:System.Enum" />.
         ///     -or-
         ///     <paramref name="value" /> is either an empty string or only contains white space.
         ///     -or-
         ///     <paramref name="value" /> is a name, but not one of the named constants defined for the enumeration.
         /// </exception>
         /// <exception cref="T:System.OverflowException">
-        ///   <paramref name="value" /> is outside the range of the underlying type of <paramref name="enumType" />.
+        ///   <paramref name="value" /> is outside the range of the underlying type of <typeparam name="TEnum" />.
         /// </exception>
         public static TEnum Parse<TEnum>(this string value) where TEnum : Enum
         {
@@ -53,21 +55,24 @@ namespace Softeq.XToolkit.Common.Extensions
         /// <summary>
         ///     Converts string to the specified <see cref="T:System.Enum"/>.
         /// </summary>
-        /// <returns>An object of type <typeparamref name="TEnum"/> whose value is represented by <paramref name="value" />.</returns>
+        /// <returns>
+        ///     An object of type <typeparamref name="TEnum"/> whose value is represented by <paramref name="value" />.
+        /// </returns>
         /// <param name="value">A string to convert.</param>
         /// <param name="ignoreCase"><see langword="true"/> to ignore case; <see langword="false"/> to regard case.</param>
         /// <typeparam name="TEnum">Enum type.</typeparam>
         /// <exception cref="T:System.ArgumentNullException">
-        ///     paramref name="enumType" /> or <paramref name="value" /> is <see langword="null" />.
+        ///     <paramref name="value" /> is <see langword="null" />.
         /// </exception>
         /// <exception cref="T:System.ArgumentException">
-        ///     <paramref name="enumType" /> is not an <see cref="T:System.Enum" />.
+        ///     <typeparam name="TEnum" /> is not an <see cref="T:System.Enum" />.
         ///     -or-
         ///     <paramref name="value" /> is either an empty string ("") or only contains white space.
         ///     -or-
-        ///     <paramref name="value" /> is a name, but not one of the named constants defined for the enumeration.</exception>
+        ///     <paramref name="value" /> is a name, but not one of the named constants defined for the enumeration.
+        /// </exception>
         /// <exception cref="T:System.OverflowException">
-        ///     <paramref name="value" /> is outside the range of the underlying type of <paramref name="enumType" />.
+        ///     <paramref name="value" /> is outside the range of the underlying type of <typeparam name="TEnum" />.
         /// </exception>
         public static TEnum Parse<TEnum>(this string value, bool ignoreCase) where TEnum : Enum
         {
@@ -96,7 +101,7 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Returns <see cref="DescriptionAttribute"/> value of the specified <see cref="T:System.Enum"/>.
+        ///     Returns <see cref="T:System.ComponentModel.DescriptionAttribute"/> value of the specified <see cref="T:System.Enum"/>.
         /// </summary>
         /// <param name="value">Initial <see cref="T:System.Enum"/>.</param>
         /// <returns>Description string.</returns>

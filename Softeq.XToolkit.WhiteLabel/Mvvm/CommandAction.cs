@@ -6,7 +6,7 @@ using System.Windows.Input;
 namespace Softeq.XToolkit.WhiteLabel.Mvvm
 {
     /// <summary>
-    ///     Simple <see cref="ICommand"/> wrapper for comfort using with any kind of buttons.
+    ///     Simple <see cref="T:System.Windows.Input.ICommand"/> wrapper for comfort using with any kind of buttons.
     ///     It contains not only the command itself, but also button title and style.
     /// </summary>
     public class CommandAction

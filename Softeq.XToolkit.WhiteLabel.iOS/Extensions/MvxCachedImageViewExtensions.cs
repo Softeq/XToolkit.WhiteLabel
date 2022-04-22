@@ -37,7 +37,8 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Extensions
             expr.IntoAsync(imageView);
         }
 
-        public static void LoadImageWithTextPlaceholder(this UIImageView imageView,
+        public static void LoadImageWithTextPlaceholder(
+            this UIImageView imageView,
             string url,
             string name,
             AvatarStyles styles,

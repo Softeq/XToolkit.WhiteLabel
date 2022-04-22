@@ -11,10 +11,10 @@ namespace Playground.iOS.ViewControllers.Dialogs
     {
         public override UIPresentationController GetPresentationControllerForPresentedViewController(
             UIViewController presentedViewController,
-            UIViewController presentingViewController,
+            UIViewController? presentingViewController,
             UIViewController sourceViewController)
         {
-            return new CustomPresentationController(presentedViewController, presentingViewController);
+            return new CustomPresentationController(presentedViewController, presentingViewController!);
         }
 
         public override IUIViewControllerAnimatedTransitioning GetAnimationControllerForPresentedController(
@@ -41,8 +41,9 @@ namespace Playground.iOS.ViewControllers.Dialogs
             }
 
             public override CGRect FrameOfPresentedViewInContainerView =>
-                new CGRect(UIScreen.MainScreen.Bounds.Width / 2 - 200,
-                    UIScreen.MainScreen.Bounds.Height / 2 - 200,
+                new CGRect(
+                    (UIScreen.MainScreen.Bounds.Width / 2) - 200,
+                    (UIScreen.MainScreen.Bounds.Height / 2) - 200,
                     400,
                     400);
 
@@ -76,8 +77,6 @@ namespace Playground.iOS.ViewControllers.Dialogs
                 var toViewController = transitionContext.GetViewControllerForKey(UITransitionContext.ToViewControllerKey);
                 var containerView = transitionContext.ContainerView;
 
-                var animationDuration = TransitionDuration(transitionContext);
-
                 var animation = (CASpringAnimation) CASpringAnimation.FromKeyPath("position.y");
                 animation.Damping = 10;
                 animation.InitialVelocity = 20;
@@ -86,12 +85,12 @@ namespace Playground.iOS.ViewControllers.Dialogs
                 animation.From = FromObject(containerView.Bounds.Height);
                 animation.To = FromObject(UIScreen.MainScreen.Bounds.Height / 2);
                 animation.Duration = TransitionDuration(transitionContext);
-                animation.AnimationStopped += delegate
+                animation.AnimationStopped += (sender, e) =>
                 {
                     transitionContext.CompleteTransition(true);
                 };
 
-                toViewController.View.Layer.AddAnimation(animation, null);
+                toViewController.View!.Layer.AddAnimation(animation, null);
 
                 containerView.AddSubview(toViewController.View);
             }
@@ -111,10 +110,11 @@ namespace Playground.iOS.ViewControllers.Dialogs
 
                 var animationDuration = TransitionDuration(transitionContext);
 
-                containerView.AddSubview(fromViewController.View);
+                containerView.AddSubview(fromViewController.View!);
 
-                UIView.Animate(animationDuration,
-                    () => fromViewController.View.Transform = CGAffineTransform.MakeTranslation(0, containerView.Bounds.Height),
+                UIView.Animate(
+                    animationDuration,
+                    () => fromViewController.View!.Transform = CGAffineTransform.MakeTranslation(0, containerView.Bounds.Height),
                     () => transitionContext.CompleteTransition(!transitionContext.TransitionWasCancelled));
             }
 

@@ -3,9 +3,11 @@
 
 using Xunit;
 
+#pragma warning disable SA1649
+
 namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
 {
-    public class FactInDebugOnlyAttribute : FactAttribute
+    public sealed class FactInDebugOnlyAttribute : FactAttribute
     {
         internal const string SkipMessage = "Only running in debug configuration.";
 
@@ -17,7 +19,7 @@ namespace Softeq.XToolkit.Common.Tests.ObservableObjectTests.Utils
         }
     }
 
-    public class TheoryInDebugOnlyAttribute : TheoryAttribute
+    public sealed class TheoryInDebugOnlyAttribute : TheoryAttribute
     {
         public TheoryInDebugOnlyAttribute()
         {

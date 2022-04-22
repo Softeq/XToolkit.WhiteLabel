@@ -18,7 +18,6 @@ namespace Softeq.XToolkit.Remote.Tests.Client.Handlers.HttpDiagnosticsHandlerTes
     {
         private readonly HttpRequestMessage _request;
         private readonly ILogger _logger;
-        private readonly object? _mockInternalSendAsync;
         private readonly HttpMessageHandler _innerHandler;
 
         public HttpDiagnosticsHandlerTests()
@@ -31,8 +30,9 @@ namespace Softeq.XToolkit.Remote.Tests.Client.Handlers.HttpDiagnosticsHandlerTes
             _logger = Substitute.For<ILogger>();
 
             _innerHandler = Substitute.For<HttpMessageHandler>();
-            _mockInternalSendAsync = _innerHandler.Protected("SendAsync", Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>());
-            _mockInternalSendAsync.Returns(Task.FromResult(new HttpResponseMessage()));
+
+            var mockInternalSendAsync = _innerHandler.Protected("SendAsync", Arg.Any<HttpRequestMessage>(), Arg.Any<CancellationToken>());
+            mockInternalSendAsync.Returns(Task.FromResult(new HttpResponseMessage()));
         }
 
         private string RequestTitle => Arg.Is<string>(x => x.Contains("Request:"));
@@ -44,9 +44,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client.Handlers.HttpDiagnosticsHandlerTes
         public void Ctor_Null_ThrowsArgumentNullException()
         {
             Assert.Throws<ArgumentNullException>(() =>
-            {
-                new HttpDiagnosticsHandler(null!, LogVerbosity.Unspecified);
-            });
+                new HttpDiagnosticsHandler(null!, LogVerbosity.Unspecified));
         }
 
         [Fact]

@@ -13,14 +13,13 @@ namespace Playground.iOS.Views.Collections
 {
     public partial class GroupedHeaderView : BindableUICollectionReusableView<ProductHeaderViewModel>
     {
-        #region init
-
         public static readonly NSString Key = new NSString(nameof(GroupedHeaderView));
         public static readonly UINib Nib;
 
         static GroupedHeaderView() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected GroupedHeaderView(IntPtr handle) : base(handle)
+        protected GroupedHeaderView(IntPtr handle)
+            : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
         }
@@ -29,8 +28,6 @@ namespace Playground.iOS.Views.Collections
         {
             Console.WriteLine($"Finalized: {nameof(GroupedHeaderView)}");
         }
-
-        #endregion
 
         public override void AwakeFromNib()
         {
@@ -49,17 +46,17 @@ namespace Playground.iOS.Views.Collections
             TitleLabel.Text = $"{ViewModel.Category}th";
         }
 
-        partial void InfoButtonAction(NSObject _)
+        partial void InfoButtonAction(NSObject sender)
         {
             ViewModel.InfoCommand?.Execute(ViewModel);
         }
 
-        partial void GenerateButtonAction(NSObject _)
+        partial void GenerateButtonAction(NSObject sender)
         {
             ViewModel.GenerateCommand?.Execute(ViewModel);
         }
 
-        partial void AddButtonAction(NSObject _)
+        partial void AddButtonAction(NSObject sender)
         {
             ViewModel.AddCommand?.Execute(ViewModel);
         }

@@ -30,5 +30,10 @@ namespace Softeq.XToolkit.Permissions
         ///     Attempts to open the app settings to adjust the permissions.
         /// </summary>
         void OpenSettings();
+
+        /// <typeparam name="T">The type of permission.</typeparam>
+        /// <summary>Gets whether you should show UI with rationale for requesting a permission.</summary>
+        /// <returns>Returns true if rationale should be displayed, otherwise false.</returns>
+        bool ShouldShowRationale<T>() where T : BasePermission, new();
     }
 }

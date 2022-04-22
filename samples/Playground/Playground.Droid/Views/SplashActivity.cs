@@ -6,6 +6,7 @@ using Android.OS;
 using AndroidX.AppCompat.App;
 using Playground.ViewModels;
 using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Playground.Droid.Views
 {
@@ -15,7 +16,7 @@ namespace Playground.Droid.Views
         NoHistory = true)]
     public class SplashActivity : AppCompatActivity
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

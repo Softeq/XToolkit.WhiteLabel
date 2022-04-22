@@ -14,7 +14,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
     public class IosPushNotificationsService : PushNotificationsServiceBase
     {
         /// <summary>
-        /// Default Dismiss Action identifier
+        /// Default Dismiss Action identifier.
         /// </summary>
         public const string UNNotificationDismissActionIdentifier = "com.apple.UNNotificationDismissActionIdentifier";
 
@@ -31,7 +31,11 @@ namespace Softeq.XToolkit.PushNotifications.iOS
             INotificationsPermissionsService permissionsService,
             INotificationCategoriesProvider notificationCategoriesProvider,
             ILogManager logManager)
-            : base(remotePushNotificationsService, pushTokenStorageService, pushNotificationsHandler, pushNotificationParser,
+            : base(
+                remotePushNotificationsService,
+                pushTokenStorageService,
+                pushNotificationsHandler,
+                pushNotificationParser,
                 logManager)
         {
             _permissionsService = permissionsService;
@@ -53,6 +57,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
         public override void RegisterForPushNotifications()
         {
+            // ReSharper disable once AsyncVoidLambda
             UIApplication.SharedApplication.InvokeOnMainThread(async () =>
             {
                 var permissionGranted = await _permissionsService.RequestNotificationsPermissions();

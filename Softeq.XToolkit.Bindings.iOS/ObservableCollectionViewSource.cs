@@ -53,11 +53,27 @@ namespace Softeq.XToolkit.Bindings.iOS
         ///     Initializes a new instance of the <see cref="ObservableCollectionViewSource{TItem, TCell}"/> class
         ///     with a value for <see cref="IsInfiniteScroll"/> flag.
         /// </summary>
+        /// <param name="canBeScrolledInfinitely">Enable infinite scroll.</param>
         public ObservableCollectionViewSource(bool canBeScrolledInfinitely)
             : this()
         {
             IsInfiniteScroll = canBeScrolledInfinitely;
         }
+
+        /// <summary>
+        ///     Occurs when a property of this instance changes.
+        /// </summary>
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        ///     Occurs when a item was clicked in the UICollectionView.
+        /// </summary>
+        public event EventHandler<GenericEventArgs<TItem>> ItemClicked;
+
+        /// <summary>
+        ///     Occurs when a new item gets selected in the UICollectionView.
+        /// </summary>
+        public event EventHandler SelectionChanged;
 
         /// <summary>
         ///     Gets or sets a delegate to a method taking a <see cref="T:UIKit.UICollectionViewCell" />
@@ -143,21 +159,6 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         protected NSString NsReuseId => _reuseId ?? new NSString(DefaultReuseId);
-
-        /// <summary>
-        ///     Occurs when a property of this instance changes.
-        /// </summary>
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        ///     Occurs when a item was clicked in the UICollectionView.
-        /// </summary>
-        public event EventHandler<GenericEventArgs<TItem>> ItemClicked;
-
-        /// <summary>
-        ///     Occurs when a new item gets selected in the UICollectionView.
-        /// </summary>
-        public event EventHandler SelectionChanged;
 
         /// <summary>
         ///     Overrides the <see cref="M:UIKit.UICollectionViewSource.GetCell" /> method.

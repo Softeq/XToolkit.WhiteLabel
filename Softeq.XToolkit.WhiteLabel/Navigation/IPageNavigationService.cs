@@ -3,19 +3,16 @@
 
 using System.Collections.Generic;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
     public interface IPageNavigationService
     {
-        void Initialize(object navigation);
-
         bool CanGoBack { get; }
 
-        void GoBack();
+        void Initialize(object navigation);
 
-        PageFluentNavigator<T> For<T>() where T : IViewModelBase;
+        void GoBack();
 
         void NavigateToViewModel<T>(
             bool clearBackStack,

@@ -9,9 +9,9 @@ namespace Softeq.XToolkit.Bindings.Droid
 {
     public class ObservableAdapterExtended<T> : ObservableAdapter<T>
     {
-        private readonly Func<int, T, View, ViewGroup, int, View> _getTemplateDelegateExtended;
+        private readonly Func<int, T, View, ViewGroup, int, View>? _getTemplateDelegateExtended;
 
-        public ObservableAdapterExtended(IList<T> list, Func<int, T, View, ViewGroup, int, View> getTemplateDelegate)
+        public ObservableAdapterExtended(IList<T> list, Func<int, T, View, ViewGroup, int, View>? getTemplateDelegate)
         {
             DataSource = list;
             _getTemplateDelegateExtended = getTemplateDelegate;

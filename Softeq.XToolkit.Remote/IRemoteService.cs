@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.Remote
         ///     Make a simple remote request without result.
         /// </summary>
         /// <param name="operation">
-        ///     Delegate that encapsulates request operation (call the method from <see cref="TApiService"/>).
+        ///     Delegate that encapsulates request operation (call the method from <typeparamref name="TApiService"/>).
         /// </param>
         /// <param name="options">Request options (optional).</param>
         /// <returns>Task.</returns>
@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.Remote
         ///     Make a remote request with getting result.
         /// </summary>
         /// <param name="operation">
-        ///    Delegate that encapsulates request operation (call the method from <see cref="TApiService"/>).
+        ///    Delegate that encapsulates request operation (call the method from <typeparamref name="TApiService"/>).
         /// </param>
         /// <param name="options">Request options (optional).</param>
         /// <typeparam name="TResult">Type of result.</typeparam>

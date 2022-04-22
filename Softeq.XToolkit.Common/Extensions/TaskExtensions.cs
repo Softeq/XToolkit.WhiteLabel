@@ -14,38 +14,21 @@ namespace Softeq.XToolkit.Common.Extensions
     public static class TaskExtensions
     {
         /// <summary>
-        ///     <see cref="T:System.Threading.Tasks.Task"/> extension to add a timeout.
-        /// </summary>
-        /// <returns>The task with timeout.</returns>
-        /// <param name="task">Task.</param>
-        /// <param name="timeout">Timeout.</param>
-        /// <typeparam name="T">Task type.</typeparam>
-        [Obsolete("Use WithTimeoutAsync<T> method instead.")]
-        public static async Task<T> WithTimeout<T>(this Task<T> task, TimeSpan timeout)
-        {
-            var retTask = await Task.WhenAny(task, Task.Delay((int) timeout.TotalMilliseconds)).ConfigureAwait(false);
-
-            if (retTask is Task<T>)
-            {
-                return task.Result;
-            }
-
-            return default!;
-        }
-
-        /// <summary>
         ///     Returns a task that completes as the original task completes or when a timeout expires, whichever happens first.
         ///     For logging exceptions of <paramref name="task"/> use <see cref="WithLoggingErrors"/> method before calling this.
         /// </summary>
         /// <param name="task">The task to wait for.</param>
-        /// <param name="timeout">The maximum time to wait.</param>
-        /// <exception cref="TimeoutException">When time is over.</exception>
+        /// <param name="timeout">
+        ///     The time span to wait before completing the returned task,
+        ///     or <see cref="T:System.Threading.Timeout.InfiniteTimeSpan"/> to wait indefinitely.
+        /// </param>
+        /// <exception cref="T:System.TimeoutException">When time is over.</exception>
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/> or
-        ///     faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
+        ///     faults with a <see cref="T:System.TimeoutException"/> if <paramref name="timeout"/> elapses first.
         /// </returns>
         /// <example>
-        ///     If you need timeout with cancellation, use the better approach with <see cref="CancellationToken"/>:
+        ///     If you need timeout with cancellation, use the better approach with <see cref="T:System.Threading.CancellationToken"/>:
         /// <code>
         ///     using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
         ///     {
@@ -86,14 +69,17 @@ namespace Softeq.XToolkit.Common.Extensions
         /// </summary>
         /// <typeparam name="T">The type of value returned by the original task.</typeparam>
         /// <param name="task">The task to wait for.</param>
-        /// <param name="timeout">The maximum time to wait.</param>
-        /// <exception cref="TimeoutException">When time is over.</exception>
+        /// <param name="timeout">
+        ///     The time span to wait before completing the returned task,
+        ///     or <see cref="T:System.Threading.Timeout.InfiniteTimeSpan"/> to wait indefinitely.
+        /// </param>
+        /// <exception cref="T:System.TimeoutException">When time is over.</exception>
         /// <returns>
         ///     A task that completes with the result of the specified <paramref name="task"/> or
-        ///     faults with a <see cref="TimeoutException"/> if <paramref name="timeout"/> elapses first.
+        ///     faults with a <see cref="T:System.TimeoutException"/> if <paramref name="timeout"/> elapses first.
         /// </returns>
         /// <example>
-        ///     If you need timeout with cancellation, use the better approach with <see cref="CancellationToken"/>:
+        ///     If you need timeout with cancellation, use the better approach with <see cref="T:System.Threading.CancellationToken"/>:
         /// <code>
         ///     using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
         ///     {
@@ -159,15 +145,15 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
-        ///     Simple wrapper for execution task with <see cref="CancellationToken"/>.
+        ///     Simple wrapper for execution task with <see cref="T:System.Threading.CancellationToken"/>.
         ///     Target Task will continue running, but the execution will be returned.
         /// </summary>
         /// <param name="task">The task to cancellation for.</param>
         /// <param name="cancellationToken">
-        ///     The <see cref="CancellationToken"/> that will be assigned to the new continuation task.
+        ///     The <see cref="T:System.Threading.CancellationToken"/> that will be assigned to the new continuation task.
         /// </param>
         /// <typeparam name="T">Type of Task.</typeparam>
-        /// <exception cref="TaskCanceledException">The task was canceled.</exception>
+        /// <exception cref="T:System.Threading.Tasks.TaskCanceledException">The task was canceled.</exception>
         /// <returns>Task result.</returns>
         public static Task<T> WithCancellation<T>(this Task<T> task, CancellationToken cancellationToken)
         {
@@ -211,7 +197,7 @@ namespace Softeq.XToolkit.Common.Extensions
         ///     If onException is null, the exception will be re-thrown.
         /// </param>
 #pragma warning disable RECS0165 // Asynchronous methods should return a Task instead of void
-        public static async void FireAndForget(this Task task, Action<Exception> onException)
+        public static async void FireAndForget(this Task task, Action<Exception>? onException)
 #pragma warning restore RECS0165 // Asynchronous methods should return a Task instead of void
         {
             try
@@ -224,7 +210,7 @@ namespace Softeq.XToolkit.Common.Extensions
             }
         }
 
-        private static void LogException(Exception exception, ILogger? logger)
+        private static void LogException(Exception? exception, ILogger? logger)
         {
             if (exception == null || logger == null)
             {

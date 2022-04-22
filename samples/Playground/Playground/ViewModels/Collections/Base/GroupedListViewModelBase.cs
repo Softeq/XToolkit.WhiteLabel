@@ -12,6 +12,8 @@ using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
+// ReSharper disable PrivateFieldCanBeConvertedToLocalVariable
+
 namespace Playground.ViewModels.Collections.Base
 {
     public abstract class GroupedListViewModelBase : ViewModelBase

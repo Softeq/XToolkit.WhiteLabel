@@ -90,3 +90,5 @@
       href: contributing-documentation.md
     - name: Developer Guide
       href: developer-guide.md
+    - name: NuGet Release Process
+      href: nuget-release-process.md

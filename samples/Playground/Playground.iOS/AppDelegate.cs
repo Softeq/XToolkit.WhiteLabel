@@ -31,7 +31,7 @@ namespace Playground.iOS
         protected override void InitializeNavigation(IContainer container)
         {
             var navigationService = container.Resolve<IPageNavigationService>();
-            navigationService.Initialize(Window.RootViewController!);
+            navigationService.Initialize(Window!.RootViewController!);
             navigationService.For<StartPageViewModel>().Navigate();
         }
     }

@@ -3,7 +3,6 @@
 
 using Playground.ViewModels;
 using Softeq.XToolkit.WhiteLabel.iOS;
-using UIKit;
 
 namespace Playground.iOS.ViewControllers
 {
@@ -17,4 +16,3 @@ namespace Playground.iOS.ViewControllers
         }
     }
 }
-

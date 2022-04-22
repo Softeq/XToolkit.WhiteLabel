@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
         private WeakReferenceEx<TabViewModel<TKey>>? _viewModelRef;
         private Binding? _visibilityBinding;
 
-        internal BindableTabBarItem(string title, UIImage image, UIImage selectedImage)
+        internal BindableTabBarItem(string title, UIImage? image, UIImage? selectedImage)
             : base(title, image, selectedImage)
         {
         }
@@ -30,10 +30,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
             _viewModelRef = new WeakReferenceEx<TabViewModel<TKey>>((TabViewModel<TKey>) dataContext);
 
             _textBinding?.Detach();
-            _textBinding = this.SetBinding(() => _viewModelRef.Target.BadgeText).WhenSourceChanges(UpdateBadge);
+            _textBinding = this.SetBinding(() => _viewModelRef.Target!.BadgeText).WhenSourceChanges(UpdateBadge);
 
             _visibilityBinding?.Detach();
-            _visibilityBinding = this.SetBinding(() => _viewModelRef.Target.IsBadgeVisible).WhenSourceChanges(UpdateBadge);
+            _visibilityBinding = this.SetBinding(() => _viewModelRef.Target!.IsBadgeVisible).WhenSourceChanges(UpdateBadge);
         }
 
         private void UpdateBadge()
@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Controls
                 return;
             }
 
-            if (_viewModelRef.Target.IsBadgeVisible)
+            if (_viewModelRef.Target!.IsBadgeVisible)
             {
                 BadgeValue = _viewModelRef.Target.BadgeText;
             }

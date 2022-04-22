@@ -11,16 +11,18 @@ namespace Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation
 {
     public class DrillLevel1PageViewModel : ViewModelBase
     {
+        // ReSharper disable once PrivateFieldCanBeConvertedToLocalVariable
         private readonly IFrameNavigationService _frameNavigationService;
 
         public DrillLevel1PageViewModel(IFrameNavigationService frameNavigationService)
         {
             _frameNavigationService = frameNavigationService;
+
             NavigateCommand = new RelayCommand(() =>
             {
                 _frameNavigationService
-                    .For<DrillLevel2PageViewModel>()
                     .From(this)
+                    .For<DrillLevel2PageViewModel>()
                     .Navigate();
             });
         }

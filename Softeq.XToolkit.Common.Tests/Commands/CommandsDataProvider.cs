@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
-using System.Text;
 
 namespace Softeq.XToolkit.Common.Tests.Commands
 {

@@ -13,8 +13,6 @@ namespace Playground.iOS.Views
 {
     public partial class MovieCollectionViewCell : BindableCollectionViewCell<ItemViewModel>
     {
-        #region init
-
         public static readonly NSString Key = new NSString(nameof(MovieCollectionViewCell));
         public static readonly UINib Nib;
 
@@ -23,8 +21,6 @@ namespace Playground.iOS.Views
         protected MovieCollectionViewCell(IntPtr handle) : base(handle)
         {
         }
-
-        #endregion
 
         public override void DoAttachBindings()
         {

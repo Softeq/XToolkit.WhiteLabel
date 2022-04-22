@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Common.Droid.Tests.TextFilters
         [InlineData("a")]
         [InlineData("aaa")]
         [InlineData("aA%@2-")]
-        public void Ctor_WhenCalledWithAnyChars_CreatesFilter(string chars)
+        public void Ctor_WhenCalledWithAnyChars_CreatesFilter(string? chars)
         {
             var obj = new ForbiddenCharsInputFilter(chars?.ToCharArray() ?? null!);
 
@@ -96,7 +96,7 @@ namespace Softeq.XToolkit.Common.Droid.Tests.TextFilters
 
             var result = filter.FilterFormatted(source, start, end, dest, dstart, dend);
 
-            Assert.Empty(result);
+            Assert.Empty(result!);
         }
     }
 }
