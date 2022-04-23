@@ -83,10 +83,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             RegisterInternal(func, Reuse.Singleton);
         }
 
-        //public void SingletonType<TType>(IfRegistered ifRegistered = IfRegistered.AppendNew)
-        //{
-        //    _dryContainer.RegisterMany<TType>(Reuse.Singleton, null, null, MapIfAlreadyRegistered(ifRegistered));
-        //}
+        /// <inheritdoc />
+        public void SingletonType<TType>(IfRegistered ifRegistered = IfRegistered.AppendNew)
+        {
+            _dryContainer.RegisterMany<TType>(Reuse.Singleton, null, null, MapIfAlreadyRegistered(ifRegistered));
+        }
 
         /// <inheritdoc />
         public void RegisterBuildCallback(Action<IContainer> action)
