@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -81,6 +81,13 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
         public void Singleton<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(func, Reuse.Singleton);
+        }
+
+        /// <inheritdoc />
+        public void Singleton<TImplementation, TService>(object serviceKey)
+           where TImplementation : TService
+        {
+            _dryContainer.Register<TService, TImplementation>(reuse: Reuse.Singleton, serviceKey: serviceKey);
         }
 
         /// <inheritdoc />

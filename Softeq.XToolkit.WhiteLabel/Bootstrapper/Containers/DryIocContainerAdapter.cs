@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -37,6 +37,17 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             }
 
             return _container.Resolve<TService>(parameters);
+        }
+
+        /// <inheritdoc/>
+        public TService ResolveByKey<TService>(object serviceKey) where TService : notnull
+        {
+            if (_container == null)
+            {
+                throw new InvalidOperationException("DryIocContainerAdapter is not initialized");
+            }
+
+            return _container.Resolve<TService>(serviceKey: serviceKey);
         }
 
         /// <inheritdoc/>
