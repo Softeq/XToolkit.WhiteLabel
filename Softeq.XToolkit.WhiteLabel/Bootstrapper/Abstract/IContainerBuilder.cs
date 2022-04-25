@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System;
@@ -28,6 +28,9 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
         void Singleton<TService>(IfRegistered ifRegistered = IfRegistered.AppendNew);
 
         void Singleton<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew);
+
+        void Singleton<TImplementation, TService>(object serviceKey)
+             where TImplementation : TService;
 
         [Obsolete("Please use app lifecycle callbacks to access configured container")]
         void RegisterBuildCallback(Action<IContainer> action);
