@@ -6,7 +6,7 @@ using Android.Content;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
-    [BroadcastReceiver(Enabled = true)]
+    [BroadcastReceiver(Enabled = true, Exported = false)]
     [IntentFilter(new[] { Intent.ActionLocaleChanged })]
     public class LocaleChangeBroadcastReceiver : BroadcastReceiver
     {

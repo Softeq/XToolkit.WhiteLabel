@@ -232,7 +232,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         }
     }
 
-    [Service]
+    [Service(Exported = false)]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
     public class XFirebaseMessagingService : FirebaseMessagingService
     {
