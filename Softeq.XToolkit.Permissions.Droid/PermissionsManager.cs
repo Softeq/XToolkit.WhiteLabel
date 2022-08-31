@@ -23,17 +23,17 @@ namespace Softeq.XToolkit.Permissions.Droid
         }
 
         /// <inheritdoc />
+        public virtual Task<PermissionStatus> CheckAsync<T>()
+            where T : BasePermission, new()
+        {
+            return _permissionsService.CheckPermissionsAsync<T>();
+        }
+
+        /// <inheritdoc />
         public Task<PermissionStatus> CheckWithRequestAsync<T>()
             where T : BasePermission, new()
         {
             return CommonCheckWithRequestAsync<T>();
-        }
-
-        /// <inheritdoc />
-        public Task<PermissionStatus> CheckAsync<T>()
-            where T : BasePermission, new()
-        {
-            return _permissionsService.CheckPermissionsAsync<T>();
         }
 
         /// <inheritdoc />
@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                                         ?? throw new ArgumentNullException(nameof(permissionsDialogService));
         }
 
-        private bool IsPermissionDeniedEver<T>()
+        protected bool IsPermissionDeniedEver<T>()
             where T : BasePermission
         {
             return Preferences.Get(GetPermissionDeniedEverKey<T>(), false);
