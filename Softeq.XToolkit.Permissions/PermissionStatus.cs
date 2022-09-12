@@ -21,6 +21,11 @@ namespace Softeq.XToolkit.Permissions
         /// <summary>
         ///     Denied by user.
         /// </summary>
-        Denied
+        Denied,
+
+        ///
+        ///
+        ///
+        Restricted
     }
 }

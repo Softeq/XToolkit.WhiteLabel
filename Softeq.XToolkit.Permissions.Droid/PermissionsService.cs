@@ -50,7 +50,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                 PluginPermissionStatus.Denied => PermissionStatus.Denied,
                 PluginPermissionStatus.Disabled => PermissionStatus.Denied,
                 PluginPermissionStatus.Granted => PermissionStatus.Granted,
-                PluginPermissionStatus.Restricted => PermissionStatus.Granted,
+                PluginPermissionStatus.Restricted => PermissionStatus.Restricted,
                 PluginPermissionStatus.Unknown => PermissionStatus.Unknown,
                 _ => throw new InvalidEnumArgumentException(
                     nameof(permissionStatus),
