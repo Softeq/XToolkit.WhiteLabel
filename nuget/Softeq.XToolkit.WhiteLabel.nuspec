@@ -2,7 +2,7 @@
 <package >
   <metadata>
     <id>Softeq.XToolkit.WhiteLabel</id>
-    <version>2.0.0-beta9</version>
+    <version>2.0.0-beta10</version>
     <title>Softeq.XToolkit.WhiteLabel</title>
     <authors>Softeq Development Corp.</authors>
     <owners>Softeq Development Corp.</owners>
@@ -11,37 +11,37 @@
     <projectUrl>https://softeq.github.io/XToolkit.WhiteLabel/articles/xtoolkit/whitelabel.html</projectUrl>
     <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" />
     <description>XToolkit.WhiteLabel is a collection of "lego" components for fast create cross-platform mobile applications with Xamarin, based on XToolkit.</description>
-    <copyright>Copyright 2021 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2022 Softeq Development Corp.</copyright>
     <tags>softeq, xtoolkit, xamarin, ios, android, mvvm, toolkit, whitelabel</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
      <group targetFramework="netstandard2.1">
         <dependency id="DryIoc.dll" version="4.5.1" />
         <dependency id="Newtonsoft.Json" version="12.0.3" />
-        <dependency id="Xamarin.Essentials" version="1.7.0" />
+        <dependency id="Xamarin.Essentials" version="1.7.3" />
         <!-- XToolkit: -->
-        <dependency id="Softeq.XToolkit.Common" version="1.2.0" />
+        <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
       </group>
      <group targetFramework="MonoAndroid9.0">
         <dependency id="DryIoc.dll" version="4.5.1" />
         <dependency id="Newtonsoft.Json" version="12.0.3" />
-        <dependency id="Xamarin.Essentials" version="1.7.0" />
+        <dependency id="Xamarin.Essentials" version="1.7.3" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <!-- Android specific: -->
         <dependency id="Xamarin.AndroidX.AppCompat" version="1.2.0.6" />
-        <dependency id="Xamarin.Google.Android.Material" version="1.2.1.1" />
+        <dependency id="Xamarin.Google.Android.Material" version="1.4.0.2" />
         <!-- XToolkit: -->
-        <dependency id="Softeq.XToolkit.Common" version="1.2.0" />
-        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0" />
+        <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
+        <dependency id="Softeq.XToolkit.Bindings" version="2.1.0" />
       </group>
      <group targetFramework="Xamarin.iOS10">
         <dependency id="DryIoc.dll" version="4.5.1" />
         <dependency id="Newtonsoft.Json" version="12.0.3" />
-        <dependency id="Xamarin.Essentials" version="1.7.0" />
+        <dependency id="Xamarin.Essentials" version="1.7.3" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <!-- XToolkit: -->
-        <dependency id="Softeq.XToolkit.Common" version="1.2.0" />
-        <dependency id="Softeq.XToolkit.Bindings" version="2.0.0" />
+        <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
+        <dependency id="Softeq.XToolkit.Bindings" version="2.1.0" />
       </group>
    </dependencies>
   </metadata>
