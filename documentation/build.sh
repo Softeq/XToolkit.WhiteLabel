@@ -3,7 +3,7 @@
 # Build via csproj
 # msbuild -r Softeq.XToolkit.Documentation.csproj
 
-DOCFX_VERSION="2.58.9"
+DOCFX_VERSION="2.59.4"
 DOCFX_PATH="$HOME/.nuget/packages/docfx.console/$DOCFX_VERSION/tools/docfx.exe"
 DOCFX_CONFIG_PATH="docfx.json"
 

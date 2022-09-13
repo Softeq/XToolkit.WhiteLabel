@@ -3,8 +3,8 @@
 #####################################
 # This is a PowerShell port of Aaron Bernstein's NodeJS code by Arlo Godfrey.
 # Unflattens and nests the namespaces in a standard DocFx toc.yaml
-# Source: https://gist.github.com/Arlodotexe/a35f87380205ebfd79cfe969c0226eeb
-# Last updated 1/19/2022.
+# Source: https://github.com/dotnet/docfx/issues/274#issuecomment-456168196
+# Last updated 5/14/2022.
 # Licensed under MIT.
 #####################################
 
@@ -144,6 +144,11 @@ function recurse {
                 $newPath = $path + '.' + $key;
             }
 
+            # null coalescing only available in powershell 7+
+            if ($null -eq $value.items) {
+                $value.items = @();
+            }
+
             Write-Verbose "Processing $newPath";
             $newObj = [PSCustomObject]@{
                 name  = $newPath
@@ -152,11 +157,7 @@ function recurse {
             }
 
             foreach ($recursedItem in recurse $value $newPath) {
-                if ($newObj.items -eq $null)
-                {
-                    $newObj.items = @();
-                }
-                $newObj.items = $newObj.items + $recursedItem;
+                    $newObj.items = $newObj.items + $recursedItem;
             }
 
             $items = $items + $newObj;
