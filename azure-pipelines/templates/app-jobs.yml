@@ -8,13 +8,9 @@ jobs:
   steps:
     # setup env
     - task: UseDotNet@2
-      displayName: 'Use .NET Core SDK'
+      displayName: 'Use .NET SDK'
       inputs:
         version: $(DOTNET_SDK_VERSION)
-    - task: UseDotNet@2
-      displayName: 'Use .NET 5 SDK'
-      inputs:
-        version: 5.0.408
     - bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
       displayName: Switch to the latest Xamarin SDK
     - bash: |
