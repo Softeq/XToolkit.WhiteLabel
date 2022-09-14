@@ -74,9 +74,11 @@ namespace Softeq.XToolkit.Common.Tests.Files.BaseFileProviderTests
 
         [Theory]
         [InlineData("")]
-        public async void FileExistsAsync_InvalidPath_ThrowsException(string path)
+        public async void FileExistsAsync_InvalidPath_ReturnsFalse(string path)
         {
-            await Assert.ThrowsAnyAsync<Exception>(async () => await _fileProvider.FileExistsAsync(path));
+            var result = await _fileProvider.FileExistsAsync(path);
+
+            Assert.False(result);
         }
 
         #endregion
