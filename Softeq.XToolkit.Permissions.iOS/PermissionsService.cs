@@ -2,13 +2,11 @@
 // http://www.softeq.com
 
 using System;
-using System.ComponentModel;
 using System.Threading.Tasks;
 using UserNotifications;
 using Xamarin.Essentials;
 using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 using EssentialsPermissions = Xamarin.Essentials.Permissions;
-using PluginPermissionStatus = Xamarin.Essentials.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
@@ -28,7 +26,7 @@ namespace Softeq.XToolkit.Permissions.iOS
 
                 var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
 
-                return ToPermissionStatus(result);
+                return result.ToPermissionStatus();
             });
         }
 
@@ -43,7 +41,7 @@ namespace Softeq.XToolkit.Permissions.iOS
 
             var result = await EssentialsPermissions.CheckStatusAsync<T>().ConfigureAwait(false);
 
-            return ToPermissionStatus(result);
+            return result.ToPermissionStatus();
         }
 
         /// <inheritdoc />
@@ -82,22 +80,6 @@ namespace Softeq.XToolkit.Permissions.iOS
         public bool ShouldShowRationale<T>() where T : BasePermission, new()
         {
             return true;
-        }
-
-        private static PermissionStatus ToPermissionStatus(PluginPermissionStatus permissionStatus)
-        {
-            return permissionStatus switch
-            {
-                PluginPermissionStatus.Denied => PermissionStatus.Denied,
-                PluginPermissionStatus.Disabled => PermissionStatus.Denied,
-                PluginPermissionStatus.Granted => PermissionStatus.Granted,
-                PluginPermissionStatus.Restricted => PermissionStatus.Denied,
-                PluginPermissionStatus.Unknown => PermissionStatus.Unknown,
-                _ => throw new InvalidEnumArgumentException(
-                    nameof(permissionStatus),
-                    (int) permissionStatus,
-                    permissionStatus.GetType())
-            };
         }
     }
 }
