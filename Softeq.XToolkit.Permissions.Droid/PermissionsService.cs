@@ -1,12 +1,10 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.ComponentModel;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 using EssentialsPermissions = Xamarin.Essentials.Permissions;
-using PluginPermissionStatus = Xamarin.Essentials.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
