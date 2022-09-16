@@ -1,4 +1,4 @@
-// Developed by Softeq Development Corporation
+﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
 using System.ComponentModel;
@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.Permissions
                 PluginPermissionStatus.Denied => PermissionStatus.Denied,
                 PluginPermissionStatus.Disabled => PermissionStatus.Denied,
                 PluginPermissionStatus.Granted => PermissionStatus.Granted,
-                PluginPermissionStatus.Restricted => PermissionStatus.Denied,
+                PluginPermissionStatus.Restricted => PermissionStatus.Restricted,
                 PluginPermissionStatus.Unknown => PermissionStatus.Unknown,
                 _ => throw new InvalidEnumArgumentException(
                     nameof(permissionStatus),

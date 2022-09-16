@@ -21,6 +21,11 @@ namespace Softeq.XToolkit.Permissions
         /// <summary>
         ///     Denied by user.
         /// </summary>
-        Denied
+        Denied,
+
+        /// <summary>
+        ///     User restrics permission. For coarse location on Android.
+        /// </summary>
+        Restricted
     }
 }
