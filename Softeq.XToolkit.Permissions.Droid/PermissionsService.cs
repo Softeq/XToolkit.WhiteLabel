@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             return await MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
-                return ToPermissionStatus(result);
+                return result.ToPermissionStatus();
             });
         }
 
@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             where T : BasePermission, new()
         {
             var result = await EssentialsPermissions.CheckStatusAsync<T>().ConfigureAwait(false);
-            return ToPermissionStatus(result);
+            return result.ToPermissionStatus();
         }
 
         /// <inheritdoc />
@@ -41,22 +41,6 @@ namespace Softeq.XToolkit.Permissions.Droid
         public bool ShouldShowRationale<T>() where T : BasePermission, new()
         {
             return EssentialsPermissions.ShouldShowRationale<T>();
-        }
-
-        private static PermissionStatus ToPermissionStatus(PluginPermissionStatus permissionStatus)
-        {
-            return permissionStatus switch
-            {
-                PluginPermissionStatus.Denied => PermissionStatus.Denied,
-                PluginPermissionStatus.Disabled => PermissionStatus.Denied,
-                PluginPermissionStatus.Granted => PermissionStatus.Granted,
-                PluginPermissionStatus.Restricted => PermissionStatus.Granted,
-                PluginPermissionStatus.Unknown => PermissionStatus.Unknown,
-                _ => throw new InvalidEnumArgumentException(
-                    nameof(permissionStatus),
-                    (int) permissionStatus,
-                    permissionStatus.GetType())
-            };
         }
     }
 }
