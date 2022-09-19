@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
         /// </summary>
         public DryIocContainerBuilder()
         {
-            _dryContainer = new Container(rules => rules.WithoutFastExpressionCompiler());
+            _dryContainer = new Container();
             _buildActions = new List<Action<IContainer>>();
         }
 

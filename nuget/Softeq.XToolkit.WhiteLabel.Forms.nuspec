@@ -16,7 +16,7 @@
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
      <group targetFramework="netstandard2.1">
-        <dependency id="Xamarin.Forms" version="5.0.0.2244" />
+        <dependency id="Xamarin.Forms" version="5.0.0.2515" />
         <!-- XToolkit -->
         <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta10]" />
       </group>
