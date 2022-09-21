@@ -10,10 +10,8 @@ using Android.Gms.Extensions;
 using AndroidX.Core.App;
 using AndroidX.Lifecycle;
 using Firebase;
-using Firebase.Iid;
 using Firebase.Messaging;
 using Java.Interop;
-using Java.IO;
 using Softeq.XToolkit.Common.Logger;
 using XamarinShortcutBadger;
 using Object = Java.Lang.Object;
@@ -104,36 +102,24 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
         }
 
-        protected override Task<bool> UnregisterFromPushTokenInSystem()
+        protected override async Task<bool> UnregisterFromPushTokenInSystem()
         {
-            var tcs = new TaskCompletionSource<bool>();
-
             // TODO: possibly use topics and UnsubscribeFromTopic instead
-            Task.Run(() =>
+            try
             {
-                var result = false;
-                try
+                // Must be called on background thread
+                await Task.Run(async () =>
                 {
-                    // Must be called on background thread
-                    FirebaseInstanceId.Instance.DeleteInstanceId(); // Throws Java.IOException if there's no Internet Connection
-
-                    result = true;
-                }
-                catch (IOException e)
-                {
-                    Logger.Warn($"Firebase DeleteInstance failed: {e.Message}");
-                }
-                catch (Exception e)
-                {
-                    tcs.SetException(e);
-                }
-                finally
-                {
-                    tcs.TrySetResult(result);
-                }
-            });
-
-            return tcs.Task;
+                    // Throws Java.IOException if there's no Internet Connection
+                    await FirebaseMessaging.Instance.DeleteToken().AsAsync().ConfigureAwait(false);
+                }).ConfigureAwait(false);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Logger.Error($"Firebase DeleteInstance failed: {ex?.Message}");
+                return false;
+            }
         }
 
         protected override void OnMessageCustomActionInvokedInternal(PushNotificationModel parsedNotification, string actionId, string textInput)
@@ -182,10 +168,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             OnMessageReceived(pushNotification, _lifecycleObserver.IsForegrounded);
         }
 
-        private async Task<string> GetTokenAsync()
+        private async Task<string?> GetTokenAsync()
         {
-            var result = await FirebaseInstanceId.Instance.GetInstanceId().AsAsync<IInstanceIdResult>();
-            return result.Token;
+            var getTokenNativeTask = FirebaseMessaging.Instance.GetToken();
+            Java.Lang.String? token = await getTokenNativeTask.AsAsync<Java.Lang.String?>().ConfigureAwait(false);
+            return token?.ToString();
         }
 
         #region IDisposable

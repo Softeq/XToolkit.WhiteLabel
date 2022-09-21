@@ -15,7 +15,7 @@
     <FileAlignment>512</FileAlignment>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -59,9 +59,9 @@
     <Compile Include="NotificationActionsHelper.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.6" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.2.0.4" />
-    <PackageReference Include="Xamarin.Firebase.Messaging" Version="71.1740.4" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.0" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.5.1" />
+    <PackageReference Include="Xamarin.Firebase.Messaging" Version="123.0.8" />
     <PackageReference Include="Xamarin.ShortcutBadger" Version="1.1.21" />
 </ItemGroup>
   <ItemGroup>
