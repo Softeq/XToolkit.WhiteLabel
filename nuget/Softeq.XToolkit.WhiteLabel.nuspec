@@ -22,14 +22,14 @@
         <!-- XToolkit: -->
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
       </group>
-     <group targetFramework="MonoAndroid9.0">
+     <group targetFramework="MonoAndroid12.0">
         <dependency id="DryIoc.dll" version="5.2.2" />
         <dependency id="Newtonsoft.Json" version="12.0.3" />
         <dependency id="Xamarin.Essentials" version="1.7.3" />
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <!-- Android specific: -->
-        <dependency id="Xamarin.AndroidX.AppCompat" version="1.2.0.6" />
-        <dependency id="Xamarin.Google.Android.Material" version="1.4.0.2" />
+        <dependency id="Xamarin.AndroidX.AppCompat" version="1.5.0" />
+        <dependency id="Xamarin.Google.Android.Material" version="1.6.1.1" />
         <!-- XToolkit: -->
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
         <dependency id="Softeq.XToolkit.Bindings" version="2.1.0" />
@@ -59,11 +59,11 @@
     <file
       src="../Softeq.XToolkit.WhiteLabel/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid90" />
+      target="lib\MonoAndroid12.0" />
     <file
       src="../Softeq.XToolkit.WhiteLabel.Droid/bin/Release/Softeq.XToolkit.WhiteLabel.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid90" />
+      target="lib\MonoAndroid12.0" />
 
     <!-- iOS -->
     <file
