@@ -115,11 +115,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             {
                 var stackBuilder = TaskStackBuilder.Create(context);
                 stackBuilder.AddNextIntentWithParentStack(intent);
-                return stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent);
+                return stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
             }
             else
             {
-                return PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent);
+                return PendingIntent.GetActivity(context, 0, intent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
             }
         }
 
