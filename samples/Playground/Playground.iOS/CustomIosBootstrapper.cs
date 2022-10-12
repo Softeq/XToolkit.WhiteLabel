@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.Net.Http;
 using System.Reflection;
 using Playground.Extended;
 using Playground.iOS.Extended;
@@ -49,6 +50,13 @@ namespace Playground.iOS
 
             // connectivity
             builder.Singleton<IosConnectivityService, IConnectivityService>();
+
+            builder.Singleton<HttpMessageHandler>(_ =>
+            {
+                // var config = NSUrlSessionConfiguration.DefaultSessionConfiguration;
+                var handler = new CustomNSUrlSessionHandler();
+                return handler;
+            });
         }
     }
 }

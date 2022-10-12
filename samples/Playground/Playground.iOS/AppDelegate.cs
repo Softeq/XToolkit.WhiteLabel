@@ -1,6 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
+using System.Net.Http;
 using Foundation;
 using Playground.ViewModels;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
@@ -16,6 +18,8 @@ namespace Playground.iOS
     {
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            Environment.SetEnvironmentVariable("CFNETWORK_DIAGNOSTICS", "3", EnvironmentVariableTarget.Process);
+
             var result = base.FinishedLaunching(application, launchOptions);
 
             // Override point for customization after application launch.
