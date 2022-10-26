@@ -21,22 +21,28 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
         private IDryContainer _dryContainer;
 
         /// <summary>
+        ///     Initializes a new instance of the <see cref="DryIocContainerBuilder"/> class with <see cref="DefaultRules"/>.
+        /// </summary>
+        public DryIocContainerBuilder() : this(DefaultRules)
+        {
+        }
+
+        /// <summary>
         ///     Initializes a new instance of the <see cref="DryIocContainerBuilder"/> class.
         /// </summary>
-        public DryIocContainerBuilder()
+        /// <param name="rules">
+        ///     Custom <see cref="Rules" /> to alter behavior of internal <see cref="DryIoc.IContainer" />.
+        /// </param>
+        public DryIocContainerBuilder(Rules rules)
         {
-            _dryContainer = new Container(CreateContainerRules());
+            _dryContainer = new Container(rules);
             _buildActions = new List<Action<IContainer>>();
         }
 
         /// <summary>
-        ///     Gets <see cref="DryIoc.Rules" /> to alter behavior of internal <see cref="DryIoc.IContainer" />.
+        ///     Gets default <see cref="Rules" /> to alter behavior of internal <see cref="DryIoc.IContainer" />.
         /// </summary>
-        /// <returns><see cref="DryIoc.Rules"/> associated with WL Container instance.</returns>
-        protected virtual Rules CreateContainerRules()
-        {
-            return Rules.Default.WithUseInterpretation();
-        }
+        public static Rules DefaultRules => Rules.Default.WithUseInterpretation();
 
         /// <inheritdoc />
         public void PerDependency<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
