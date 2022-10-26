@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
         /// <returns><see cref="DryIoc.Rules"/> associated with WL Container instance.</returns>
         protected virtual Rules CreateContainerRules()
         {
-            return Rules.Default;
+            return Rules.Default.WithUseInterpretation();
         }
 
         /// <inheritdoc />
