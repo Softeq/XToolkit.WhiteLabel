@@ -1,132 +1,61 @@
-<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project Sdk="MSBuild.Sdk.Extras">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
-    <ProjectGuid>{8F494CF3-61BE-4140-AA49-D9660C0271C6}</ProjectGuid>
-    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFramework>xamarin.ios10</TargetFramework>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Softeq.XToolkit.Common.iOS.Tests</RootNamespace>
-    <AssemblyName>Softeq.XToolkit.Common.iOS.Tests</AssemblyName>
-    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+    <DebugType>portable</DebugType>
+    <SupportedOSPlatformVersion>12.0</SupportedOSPlatformVersion>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
-    <IOSDebuggerPort>40309</IOSDebuggerPort>
-    <MtouchLink>None</MtouchLink>
-    <MtouchArch>x86_64</MtouchArch>
-    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
     <DeviceSpecificBuild>false</DeviceSpecificBuild>
-    <MtouchVerbosity></MtouchVerbosity>
-    <LangVersion>Default</LangVersion>
-    <Nullable></Nullable>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
-    <DebugType>portable</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\iPhone\Release</OutputPath>
-    <DefineConstants></DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchUseLlvm>true</MtouchUseLlvm>
-    <MtouchFloat32>true</MtouchFloat32>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>ARM64</MtouchArch>
-    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <MtouchVerbosity></MtouchVerbosity>
-    <LangVersion>Default</LangVersion>
-    <Nullable></Nullable>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-    <DebugType>portable</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
-    <DefineConstants></DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-    <MtouchLink>None</MtouchLink>
-    <MtouchArch>x86_64</MtouchArch>
-    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <MtouchVerbosity></MtouchVerbosity>
-    <LangVersion>Default</LangVersion>
-    <Nullable></Nullable>
-  </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\iPhone\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <CodesignKey>iPhone Developer</CodesignKey>
-    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARM64</MtouchArch>
     <MtouchDebug>true</MtouchDebug>
     <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
     <MtouchFastDev>true</MtouchFastDev>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
     <MtouchFloat32>true</MtouchFloat32>
-    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
-    <IOSDebuggerPort>52119</IOSDebuggerPort>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+  </PropertyGroup>
+
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
     <MtouchLink>SdkOnly</MtouchLink>
     <MtouchArch>ARM64</MtouchArch>
-    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
-    <MtouchVerbosity></MtouchVerbosity>
-    <LangVersion>Default</LangVersion>
-    <Nullable></Nullable>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchFloat32>true</MtouchFloat32>
   </PropertyGroup>
-  <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="Xamarin.iOS" />
-  </ItemGroup>
-  <ItemGroup>
-    <InterfaceDefinition Include="LaunchScreen.storyboard" />
-  </ItemGroup>
+
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
+    <InterfaceDefinition Include="**\*.storyboard" />
+    <InterfaceDefinition Include="**\*.xib" />
   </ItemGroup>
+
   <ItemGroup>
-    <Compile Include="Extensions\NSLocaleExtensionsTests\NSLocaleExtensionsTests.cs" />
-    <Compile Include="Extensions\NSStringExtensions\NSStringExtensionsTests.cs" />
-    <Compile Include="Extensions\UIColorExtensionsTests\UIColorExtensionsTests.cs" />
-    <Compile Include="Extensions\UITextViewExtensionsTests\UITextViewExtensionsTests.cs" />
-    <Compile Include="Helpers.cs" />
-    <Compile Include="IosMainThreadExecutorTests\IosMainThreadExecutorTests.cs" />
-    <Compile Include="Main.cs" />
-    <Compile Include="AppDelegate.cs" />
-    <Compile Include="Extensions\NSRangeExtensionsTests\NSRangeExtensionsTests.cs" />
-    <Compile Include="Extensions\NSDateExtensionsTests\NSDateExtensionsTests.cs" />
-    <Compile Include="TextFilters\ForbiddenCharsFilterTests\ForbiddenCharsFilterTests.cs" />
-    <Compile Include="TextFilters\GroupFilterTests\GroupFilterTests.cs" />
-    <Compile Include="TextFilters\GroupFilterTests\MockTextFilter.cs" />
-    <Compile Include="TextFilters\LengthFilterTests\LengthFilterTests.cs" />
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
+    <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
-      <Name>Softeq.XToolkit.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
-      <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
-      <Name>Softeq.XToolkit.Common.iOS</Name>
-    </ProjectReference>
-  </ItemGroup>
+
   <Import Project="..\_Tests.Platform.targets" />
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+
 </Project>
