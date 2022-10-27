@@ -5,7 +5,7 @@
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
 
-    <!-- Assemblies Info -->
+    <!-- Assembly Info -->
     <Product>XToolkit</Product>
     <Company>Softeq Development Corporation</Company>
     <Copyright>Copyright © 2022 Softeq Development Corporation</Copyright>
