@@ -4,7 +4,11 @@
   <PropertyGroup>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+
+    <!-- Assemblies Info -->
+    <Product>XToolkit</Product>
+    <Company>Softeq Development Corporation</Company>
+    <Copyright>Copyright © 2022 Softeq Development Corporation</Copyright>
   </PropertyGroup>
 
 </Project>
