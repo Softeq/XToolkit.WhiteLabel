@@ -1,43 +1,43 @@
 
 c/bindings:
-  - any: ['*Bindings*/*', '!*Bindings*Tests/*']
+  - any: ['*Bindings*/**/*', '!*Bindings*Tests/**/*']
 
 c/common:
-  - any: ['*Common*/*', '!*Common*Tests/*']
+  - any: ['*Common*/**/*', '!*Common*Tests/**/*']
 
 c/connectivity:
-  - any: ['*Connectivity*/*', '!*Connectivity*Tests/*']
+  - any: ['*Connectivity*/**/*', '!*Connectivity*Tests/**/*']
 
 c/permissions:
-  - any: ['*Permissions*/*', '!*Permissions*Tests/*']
+  - any: ['*Permissions*/**/*', '!*Permissions*Tests/**/*']
 
 c/push-notifications:
-  - any: ['*PushNotifications*/*', '!*PushNotifications*Tests/*']
+  - any: ['*PushNotifications*/**/*', '!*PushNotifications*Tests/**/*']
 
 c/remote:
-  - any: ['*Remote*/*', '!*Remote*Tests/*']
+  - any: ['*Remote*/**/*', '!*Remote*Tests/**/*']
 
 c/wl:
-  - any: ['*WhiteLabel*/*', '!*WhiteLabel*Tests/*', '!*WhiteLabel.Essentials*/*', '!*WhiteLabel.Forms*/*']
+  - any: ['*WhiteLabel*/**/*', '!*WhiteLabel*Tests/*', '!*WhiteLabel.Essentials*/*', '!*WhiteLabel.Forms*/**/*']
 
 c/wl.essentials:
-  - any: ['*WhiteLabel.Essentials*/*', '!*WhiteLabel.Essentials*Tests/*']
+  - any: ['*WhiteLabel.Essentials*/**/*', '!*WhiteLabel.Essentials*Tests/**/*']
 
 c/wl.forms:
-  - any: ['*WhiteLabel.Forms*/*', '!*WhiteLabel.Forms*Tests/*']
+  - any: ['*WhiteLabel.Forms*/**/*', '!*WhiteLabel.Forms*Tests/**/*']
 
 c/playground:
-  - samples/Playground*/*
+  - samples/Playground*/**/*
 
 CI/CD:
-  - .github/workflows/*
-  - azure-pipelines/*
+  - .github/workflows/**/*
+  - azure-pipelines/**/*
 
 documentation:
-  - documentation/*
+  - documentation/**/*
 
 p/Android:
-  - '*.Droid/*'
+  - '*.Droid/**/*'
 
 p/iOS:
-  - '*.iOS/*'
+  - '*.iOS/**/*'
