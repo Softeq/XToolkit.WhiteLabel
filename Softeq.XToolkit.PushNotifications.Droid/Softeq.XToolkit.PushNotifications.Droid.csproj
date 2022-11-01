@@ -47,16 +47,25 @@
     <Reference Include="Mono.Android.Export" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IConsumerFilter.cs" />
+    <Compile Include="Abstract\IPushNotificationsParser.cs" />
+    <Compile Include="Abstract\IPushNotificationsConsumer.cs" />
+    <Compile Include="AppLifecycleObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="INotificationsSettingsProvider.cs" />
     <Compile Include="NotificationsHelper.cs" />
     <Compile Include="DroidPushNotificationParser.cs" />
-    <Compile Include="DroidPushNotificationsService.cs" />
     <Compile Include="PushNotificationStyles.cs" />
     <Compile Include="LocaleChangeBroadcastReceiver.cs" />
     <Compile Include="NotificationIntentActivityInfo.cs" />
     <Compile Include="NotificationChannelsHelper.cs" />
     <Compile Include="NotificationActionsHelper.cs" />
+    <Compile Include="Services\DroidPushNotificationsConsumer.cs" />
+    <Compile Include="Services\DroidPushNotificationsService.cs" />
+    <Compile Include="Utils\CompositePushNotificationsConsumer.cs" />
+    <Compile Include="Utils\ConditionalConsumer.cs" />
+    <Compile Include="Utils\ConsumerFilter.cs" />
+    <Compile Include="XFirebaseMessagingService.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.6" />

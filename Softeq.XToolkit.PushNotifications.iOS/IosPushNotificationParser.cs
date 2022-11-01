@@ -3,10 +3,11 @@
 
 using System;
 using Foundation;
+using Softeq.XToolkit.PushNotifications.iOS.Abstract;
 
 namespace Softeq.XToolkit.PushNotifications.iOS
 {
-    public class IosPushNotificationParser : IPushNotificationParser
+    public class IosPushNotificationParser : IPushNotificationsParser
     {
         /// <summary>
         ///     A root dictionary containing one or more additional Apple-defined keys instructing the system how to handle notification.
@@ -42,12 +43,11 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// </summary>
         protected virtual string DataKey => "data";
 
-        public virtual PushNotificationModel Parse(object pushNotificationData)
+        public virtual PushNotificationModel Parse(NSDictionary userInfo)
         {
-            var dictionary = (NSDictionary) pushNotificationData;
             var pushNotification = new PushNotificationModel();
 
-            var aps = dictionary.GetDictionaryByKey(ApsKey);
+            var aps = userInfo.GetDictionaryByKey(ApsKey);
             if (aps == null)
             {
                 throw new NullReferenceException($"{nameof(aps)} dictionary is null");
@@ -73,10 +73,10 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
             pushNotification.IsSilent = aps.GetIntByKey(ContentAvailableKey) == 1;
 
-            var additionalData = dictionary.GetStringByKey(DataKey);
+            var additionalData = userInfo.GetStringByKey(DataKey);
             pushNotification.AdditionalData = additionalData;
 
-            pushNotification.Type = ParseNotificationType(dictionary, aps, additionalData);
+            pushNotification.Type = ParseNotificationType(userInfo, aps, additionalData);
 
             return pushNotification;
         }

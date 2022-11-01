@@ -6,10 +6,11 @@ using System.Linq;
 using Android.App;
 using Android.OS;
 using Firebase.Messaging;
+using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
-    public class DroidPushNotificationParser : IPushNotificationParser
+    public class DroidPushNotificationParser : IPushNotificationsParser
     {
         private const string StringResourceType = "string";
 
@@ -31,20 +32,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// </summary>
         protected virtual string DataKey => "data";
 
-        public PushNotificationModel Parse(object pushNotificationData)
+        public PushNotificationModel Parse(RemoteMessage message)
         {
-            var pushNotification = new PushNotificationModel();
-
-            if (pushNotificationData is RemoteMessage remoteNotification)
-            {
-                pushNotification = ParseRemoteMessageNotification(remoteNotification);
-            }
-            else if (pushNotificationData is Bundle bundleNotification)
-            {
-                pushNotification = ParseBundleNotification(bundleNotification);
-            }
-
-            return pushNotification;
+            return ParseRemoteMessageNotification(message);
         }
 
         private PushNotificationModel ParseRemoteMessageNotification(RemoteMessage remoteNotification)
