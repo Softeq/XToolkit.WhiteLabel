@@ -33,79 +33,80 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         protected virtual string DataKey => "data";
 
         /// <inheritdoc />
-        public PushNotificationModel Parse(RemoteMessage message)
+        public bool TryParse(RemoteMessage message, out PushNotificationModel parsedPushNotificationModel)
         {
-            var pushNotification = new PushNotificationModel();
+            parsedPushNotificationModel = new PushNotificationModel();
 
             var pushMessage = message.GetNotification();
             var pushData = message.Data;
 
-            pushNotification.Title = ParseNotificationTitleFromData(pushMessage, pushData);
-            pushNotification.Body = ParseNotificationMessageFromData(pushMessage, pushData);
+            parsedPushNotificationModel.Title = ParseNotificationTitleFromData(pushMessage, pushData);
+            parsedPushNotificationModel.Body = ParseNotificationMessageFromData(pushMessage, pushData);
 
-            pushNotification.IsSilent = string.IsNullOrEmpty(pushNotification.Body);
+            parsedPushNotificationModel.IsSilent = string.IsNullOrEmpty(parsedPushNotificationModel.Body);
 
-            pushNotification.Type = ParseNotificationTypeFromData(pushData);
-            pushNotification.AdditionalData = GetStringFromDictionary(pushData, DataKey);
+            parsedPushNotificationModel.Type = ParseNotificationTypeFromData(pushData);
+            parsedPushNotificationModel.AdditionalData = GetStringFromDictionary(pushData, DataKey);
 
-            return pushNotification;
+            return true;
         }
 
         /// <inheritdoc />
-        public PushNotificationModel Parse(Bundle bundleNotification)
+        public bool TryParse(Bundle? bundle, out PushNotificationModel parsedPushNotificationModel)
         {
-            var pushNotification = new PushNotificationModel();
+            parsedPushNotificationModel = new PushNotificationModel();
 
-            pushNotification.Title = bundleNotification.GetString(DataTitleKey); // if stored inside Data
-            pushNotification.Body = bundleNotification.GetString(DataBodyKey); // if stored inside Data
+            if (bundle == null)
+            {
+                return false;
+            }
+
+            parsedPushNotificationModel.Title = bundle.GetString(DataTitleKey); // if stored inside Data
+            parsedPushNotificationModel.Body = bundle.GetString(DataBodyKey); // if stored inside Data
 
             // If we are here it means that the user tapped on a notification thus it is definitely not silent
-            pushNotification.IsSilent = false;
+            parsedPushNotificationModel.IsSilent = false;
 
-            pushNotification.AdditionalData = bundleNotification.GetString(DataKey)!;
-            pushNotification.Type = ParseNotificationTypeFromBundle(bundleNotification);
+            parsedPushNotificationModel.AdditionalData = bundle.GetString(DataKey)!;
+            parsedPushNotificationModel.Type = ParseNotificationTypeFromBundle(bundle);
 
-            return pushNotification;
+            return true;
         }
 
         protected virtual string? ParseNotificationTitleFromData(
-            RemoteMessage.Notification pushMessage,
+            RemoteMessage.Notification? pushMessage,
             IDictionary<string, string> pushNotificationData)
         {
             if (pushMessage == null)
             {
                 return GetStringFromDictionary(pushNotificationData, DataTitleKey);
             }
-            else
-            {
-                string? title = null;
-                if (!string.IsNullOrEmpty(pushMessage.TitleLocalizationKey))
-                {
-                    title = GetResourceString(pushMessage.TitleLocalizationKey, pushMessage.GetTitleLocalizationArgs());
-                }
 
-                return title ?? pushMessage.Title;
+            string? title = null;
+            if (!string.IsNullOrEmpty(pushMessage.TitleLocalizationKey))
+            {
+                title = GetResourceString(pushMessage.TitleLocalizationKey, pushMessage.GetTitleLocalizationArgs());
             }
+
+            return title ?? pushMessage.Title;
         }
 
         protected virtual string? ParseNotificationMessageFromData(
-            RemoteMessage.Notification pushMessage,
+            RemoteMessage.Notification? pushMessage,
             IDictionary<string, string> pushNotificationData)
         {
             if (pushMessage == null)
             {
                 return GetStringFromDictionary(pushNotificationData, DataBodyKey);
             }
-            else
-            {
-                string? body = null;
-                if (!string.IsNullOrEmpty(pushMessage.BodyLocalizationKey))
-                {
-                    body = GetResourceString(pushMessage.BodyLocalizationKey, pushMessage.GetBodyLocalizationArgs());
-                }
 
-                return body ?? pushMessage.Body;
+            string? body = null;
+            if (!string.IsNullOrEmpty(pushMessage.BodyLocalizationKey))
+            {
+                body = GetResourceString(pushMessage.BodyLocalizationKey, pushMessage.GetBodyLocalizationArgs());
             }
+
+            return body ?? pushMessage.Body;
         }
 
         /// <summary>
@@ -134,21 +135,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         }
 
         /// <summary>
-        ///     Obtains string by key from the specified <see cref="T:System.Collections.Generic.IDictionary`2"/>.
-        /// </summary>
-        /// <param name="data"><see cref="T:System.Collections.Generic.IDictionary`2"/> object.</param>
-        /// <param name="key">Key string.</param>
-        /// <returns>String stored under the specified key or <see langword="null"/>.</returns>
-        protected string GetStringFromDictionary(IDictionary<string, string>? data, string key)
-        {
-            return data == null
-                ? string.Empty
-                : data.TryGetValue(key, out var value)
-                    ? value
-                    : string.Empty;
-        }
-
-        /// <summary>
         ///     Obtains localized string from Android resources by the specified key with the specified arguments.
         /// </summary>
         /// <param name="resourceKey">Resource key.</param>
@@ -173,6 +159,15 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
 
             return null;
+        }
+
+        private static string GetStringFromDictionary(IDictionary<string, string>? data, string key)
+        {
+            return data == null
+                ? string.Empty
+                : data.TryGetValue(key, out var value)
+                    ? value
+                    : string.Empty;
         }
     }
 }

@@ -68,9 +68,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         }
 
         /// <inheritdoc />
-        public bool TryHandlePushNotificationExtras(Intent? intent)
+        public bool TryHandleLaunchIntent(Intent? intent)
         {
-            return intent != null && _pushNotificationsConsumer.TryHandlePushNotificationExtras(intent);
+            return intent != null && _pushNotificationsConsumer.TryHandlePushNotificationIntent(intent);
         }
 
         private void OnNotificationReceived(RemoteMessage message)

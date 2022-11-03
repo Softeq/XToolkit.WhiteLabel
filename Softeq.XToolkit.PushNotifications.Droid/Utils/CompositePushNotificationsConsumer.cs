@@ -37,10 +37,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Utils
         }
 
         /// <inheritdoc />
-        public bool TryHandlePushNotificationExtras(Intent intent)
+        public bool TryHandlePushNotificationIntent(Intent intent)
         {
             return _consumers
-                .Any(consumer => consumer.TryHandlePushNotificationExtras(intent));
+                .Any(consumer => consumer.TryHandlePushNotificationIntent(intent));
         }
 
         /// <inheritdoc />

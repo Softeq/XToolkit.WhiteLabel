@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using Foundation;
 using Softeq.XToolkit.PushNotifications.iOS.Abstract;
 
@@ -44,14 +43,14 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         protected virtual string DataKey => "data";
 
         /// <inheritdoc />
-        public virtual PushNotificationModel Parse(NSDictionary userInfo)
+        public bool TryParse(NSDictionary userInfo, out PushNotificationModel parsedPushNotificationModel)
         {
-            var pushNotification = new PushNotificationModel();
+            parsedPushNotificationModel = new PushNotificationModel();
 
             var aps = userInfo.GetDictionaryByKey(ApsKey);
             if (aps == null)
             {
-                throw new NullReferenceException($"{nameof(aps)} dictionary is null");
+                return false;
             }
 
             var alertObject = aps.GetObjectByKey(AlertKey);
@@ -69,17 +68,17 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                 body = str;
             }
 
-            pushNotification.Title = title;
-            pushNotification.Body = body;
+            parsedPushNotificationModel.Title = title;
+            parsedPushNotificationModel.Body = body;
 
-            pushNotification.IsSilent = aps.GetIntByKey(ContentAvailableKey) == 1;
+            parsedPushNotificationModel.IsSilent = aps.GetIntByKey(ContentAvailableKey) == 1;
 
             var additionalData = userInfo.GetStringByKey(DataKey);
-            pushNotification.AdditionalData = additionalData;
+            parsedPushNotificationModel.AdditionalData = additionalData;
 
-            pushNotification.Type = ParseNotificationType(userInfo, aps, additionalData);
+            parsedPushNotificationModel.Type = ParseNotificationType(userInfo, aps, additionalData);
 
-            return pushNotification;
+            return true;
         }
 
         /// <summary>

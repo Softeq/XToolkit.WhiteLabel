@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
         /// </summary>
         /// <param name="intent">Launch intent.</param>
         /// <returns><see langword="true"/> if consumer has handled remote message, <see langword="false"/> otherwise.</returns>
-        bool TryHandlePushNotificationExtras(Intent intent);
+        bool TryHandlePushNotificationIntent(Intent intent);
 
         /// <summary>
         ///     Callback called when push notification token has changed.

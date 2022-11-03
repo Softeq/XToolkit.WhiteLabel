@@ -73,7 +73,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             UNNotification notification,
             Action<UNNotificationPresentationOptions> completionHandler)
         {
-            if (!TryParsePushNotification(notification.Request.Content.UserInfo, out var parsedNotification))
+            if (!_pushNotificationsParser.TryParse(notification.Request.Content.UserInfo, out var parsedNotification))
             {
                 return false;
             }
@@ -113,7 +113,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             var actionIdentifier = response.ActionIdentifier;
             var userInfo = response.Notification.Request.Content.UserInfo;
 
-            if (!TryParsePushNotification(userInfo, out var parsedNotification))
+            if (!_pushNotificationsParser.TryParse(userInfo, out var parsedNotification))
             {
                 return false;
             }
@@ -186,22 +186,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             return deviceToken.ToString().Replace("-", string.Empty);
         }
 
-        private bool TryParsePushNotification(NSDictionary userInfo, out PushNotificationModel result)
-        {
-            try
-            {
-                result = _pushNotificationsParser.Parse(userInfo);
-                return true;
-            }
-            catch (Exception ex)
-            {
-                _pushNotificationsHandler.HandleInvalidPushNotification(ex, userInfo);
-            }
-
-            result = new PushNotificationModel();
-            return false;
-        }
-
         private void OnRegisteredForPushNotifications(string token)
         {
             if (string.IsNullOrWhiteSpace(token))
@@ -232,9 +216,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 _pushTokenStorageService.IsTokenRegisteredInSystem,
                 _pushTokenStorageService.IsTokenSavedOnServer);
-
-            // _registrationCompletionSource?.TrySetResult(new PushNotificationRegistrationResult(
-            //     _pushTokenStorageService.IsTokenRegisteredInSystem, _pushTokenStorageService.IsTokenSavedOnServer));
         }
 
         private async Task OnRegisterFailedInternal()
@@ -246,9 +227,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 _pushTokenStorageService.IsTokenRegisteredInSystem,
                 _pushTokenStorageService.IsTokenSavedOnServer);
-
-            // _registrationCompletionSource?.TrySetResult(new PushNotificationRegistrationResult(
-            //     _pushTokenStorageService.IsTokenRegisteredInSystem, _pushTokenStorageService.IsTokenSavedOnServer));
         }
 
         private async Task UnregisterFromPushNotifications()

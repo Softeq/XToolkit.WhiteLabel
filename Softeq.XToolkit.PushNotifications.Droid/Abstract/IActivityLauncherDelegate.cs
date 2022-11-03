@@ -15,6 +15,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
         /// </summary>
         /// <param name="intent">Launch intent.</param>
         /// <returns><see langword="true"/> if extras are handled as push notification payload, <see langword="false"/> otherwise.</returns>
-        bool TryHandlePushNotificationExtras(Intent? intent);
+        bool TryHandleLaunchIntent(Intent? intent);
     }
 }

@@ -12,14 +12,16 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
         ///     Parse received notification object to <see cref="PushNotificationModel"/>.
         /// </summary>
         /// <param name="message">Received notification message.</param>
-        /// <returns>Parsed notification.</returns>
-        PushNotificationModel Parse(RemoteMessage message);
+        /// <param name="parsedPushNotificationModel">Parsed notification.</param>
+        /// <returns><see langword="true"/> if notification has been parsed, <see langword="false"/> otherwise.</returns>
+        bool TryParse(RemoteMessage message, out PushNotificationModel parsedPushNotificationModel);
 
         /// <summary>
         ///     Parse received notification object to <see cref="PushNotificationModel"/>.
         /// </summary>
         /// <param name="bundle">Received notification extras.</param>
-        /// <returns>Parsed notification.</returns>
-        PushNotificationModel Parse(Bundle bundle);
+        /// <param name="parsedPushNotificationModel">Parsed notification.</param>
+        /// <returns><see langword="true"/> if notification has been parsed, <see langword="false"/> otherwise.</returns>
+        bool TryParse(Bundle? bundle, out PushNotificationModel parsedPushNotificationModel);
     }
 }
