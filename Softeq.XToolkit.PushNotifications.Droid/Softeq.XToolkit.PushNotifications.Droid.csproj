@@ -69,7 +69,6 @@
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.2.0.6" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.2.0.4" />
     <PackageReference Include="Xamarin.Firebase.Messaging" Version="121.1.0" />
-    <PackageReference Include="Xamarin.ShortcutBadger" Version="1.1.21" />
 </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">
