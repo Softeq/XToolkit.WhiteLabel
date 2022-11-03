@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
+using Android.Content;
 using Android.Gms.Extensions;
 using Android.OS;
 using Firebase.Messaging;
@@ -67,9 +68,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         }
 
         /// <inheritdoc />
-        public bool TryHandlePushNotificationExtras(Bundle? extras)
+        public bool TryHandlePushNotificationExtras(Intent? intent)
         {
-            return extras != null && _pushNotificationsConsumer.TryHandlePushNotificationExtras(extras);
+            return intent != null && _pushNotificationsConsumer.TryHandlePushNotificationExtras(intent);
         }
 
         private void OnNotificationReceived(RemoteMessage message)

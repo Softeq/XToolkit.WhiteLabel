@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Android.OS;
+using Android.Content;
 
 namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
 {
@@ -11,10 +11,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
     public interface IActivityLauncherDelegate
     {
         /// <summary>
-        ///     Callback called when application is launched by push notification.
+        ///     Callback called when activity is launched by intent.
         /// </summary>
-        /// <param name="extras">Extra payload provided to the application on launch.</param>
+        /// <param name="intent">Launch intent.</param>
         /// <returns><see langword="true"/> if extras are handled as push notification payload, <see langword="false"/> otherwise.</returns>
-        bool TryHandlePushNotificationExtras(Bundle? extras);
+        bool TryHandlePushNotificationExtras(Intent? intent);
     }
 }

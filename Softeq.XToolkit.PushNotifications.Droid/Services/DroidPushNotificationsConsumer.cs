@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Content;
 using Android.OS;
 using AndroidX.Lifecycle;
 using Firebase.Messaging;
@@ -79,9 +80,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         }
 
         /// <inheritdoc />
-        public bool TryHandlePushNotificationExtras(Bundle extras)
+        public bool TryHandlePushNotificationExtras(Intent intent)
         {
-            if (!TryParsePushNotification(extras, out var parsedNotification))
+            if (!TryParsePushNotification(intent.Extras, out var parsedNotification))
             {
                 return false;
             }
@@ -125,7 +126,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             return false;
         }
 
-        private bool TryParsePushNotification(Bundle extras, out PushNotificationModel result)
+        private bool TryParsePushNotification(Bundle? extras, out PushNotificationModel result)
         {
             try
             {

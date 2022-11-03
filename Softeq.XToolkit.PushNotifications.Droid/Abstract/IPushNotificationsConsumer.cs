@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
+using Android.Content;
 using Android.OS;
 using Firebase.Messaging;
 
@@ -22,9 +23,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
         /// <summary>
         ///    Callback called when application is launched by push notification.
         /// </summary>
-        /// <param name="extras">Received remote message payload.</param>
+        /// <param name="intent">Launch intent.</param>
         /// <returns><see langword="true"/> if consumer has handled remote message, <see langword="false"/> otherwise.</returns>
-        bool TryHandlePushNotificationExtras(Bundle extras);
+        bool TryHandlePushNotificationExtras(Intent intent);
 
         /// <summary>
         ///     Callback called when push notification token has changed.

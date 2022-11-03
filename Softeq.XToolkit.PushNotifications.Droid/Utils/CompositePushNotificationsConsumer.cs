@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.OS;
+using Android.Content;
 using Firebase.Messaging;
 using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 
@@ -37,10 +37,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Utils
         }
 
         /// <inheritdoc />
-        public bool TryHandlePushNotificationExtras(Bundle extras)
+        public bool TryHandlePushNotificationExtras(Intent intent)
         {
             return _consumers
-                .Any(consumer => consumer.TryHandlePushNotificationExtras(extras));
+                .Any(consumer => consumer.TryHandlePushNotificationExtras(intent));
         }
 
         /// <inheritdoc />
