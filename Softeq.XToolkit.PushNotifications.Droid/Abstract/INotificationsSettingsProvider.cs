@@ -16,12 +16,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
         string DefaultChannelId { get; }
 
         /// <summary>
-        ///     Gets key for saving boolean value to the Activity intent.
-        ///     This value will indicate, if the app was started from Push Notification or not.
-        /// </summary>
-        string LaunchedFromPushNotificationKey { get; }
-
-        /// <summary>
         ///     Obtains a dictionary of notification channles where the key is channel id and the value is channel name.
         ///     <para/>
         ///     Note: if you are using "notification" notifications, Firebase will use a separate channel for them when received in Background.

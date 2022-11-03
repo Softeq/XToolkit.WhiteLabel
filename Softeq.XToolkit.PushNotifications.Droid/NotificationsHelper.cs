@@ -57,7 +57,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         public static void CreateNotification(
             Context context,
             PushNotificationModel pushNotification,
-            IDictionary<string, string> notificationData)
+            IDictionary<string, string>? notificationData)
         {
             if (context == null || _notificationsSettings == null)
             {
@@ -88,7 +88,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             var intentActivityInfo = _notificationsSettings.GetIntentActivityInfoFromPush(pushNotification);
             var intent = new Intent(context, intentActivityInfo.ActivityType);
 
-            intent.PutExtra(_notificationsSettings.LaunchedFromPushNotificationKey, true);
             if (notificationData != null)
             {
                 foreach (var (key, value) in notificationData)
@@ -105,7 +104,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             NotificationManagerCompat.From(context).Notify(styles.Id, notificationBuilder.Build());
         }
 
-        private static PendingIntent CreatePendingIntent(Context context, Intent intent, bool withParentStack, ActivityFlags? flags)
+        private static PendingIntent? CreatePendingIntent(Context context, Intent intent, bool withParentStack, ActivityFlags? flags)
         {
             if (flags.HasValue)
             {
@@ -114,9 +113,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid
 
             if (withParentStack)
             {
-                var stackBuilder = TaskStackBuilder.Create(context);
-                stackBuilder.AddNextIntentWithParentStack(intent);
-                return stackBuilder.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
+                var stackBuilder = TaskStackBuilder.Create(context)?
+                    .AddNextIntentWithParentStack(intent);
+                return stackBuilder?.GetPendingIntent(0, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable);
             }
             else
             {
