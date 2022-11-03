@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             _rootViewController = CreateRootViewController();
 
             InitializeMainWindow(_rootViewController);
-            InitializeWhiteLabelRuntime();
+            InitializeWhiteLabelRuntime(application, launchOptions);
 
             return true;
         }
@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             Window.MakeKeyAndVisible();
         }
 
-        protected virtual void InitializeWhiteLabelRuntime()
+        protected virtual void InitializeWhiteLabelRuntime(UIApplication application, NSDictionary launchOptions)
         {
             // Init Bindings
             BindingExtensions.Initialize(new AppleBindingFactory());
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             Execute.Initialize(new IosMainThreadExecutor());
 
             // Init dependencies
-            var bootstrapper = CreateBootstrapper();
+            var bootstrapper = CreateBootstrapper(application, launchOptions);
             var container = bootstrapper.Initialize();
             Dependencies.Initialize(container);
 
@@ -63,7 +63,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             OnContainerInitialized(container);
         }
 
-        protected abstract IBootstrapper CreateBootstrapper();
+        protected abstract IBootstrapper CreateBootstrapper(UIApplication application, NSDictionary launchOptions);
 
         protected virtual void OnContainerInitialized(IContainer container)
         {
