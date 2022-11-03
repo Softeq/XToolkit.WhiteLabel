@@ -23,7 +23,7 @@ namespace Playground.iOS
             return result;
         }
 
-        protected override IBootstrapper CreateBootstrapper()
+        protected override IBootstrapper CreateBootstrapper(UIApplication application, NSDictionary launchOptions)
         {
             return new CustomIosBootstrapper();
         }
