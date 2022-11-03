@@ -12,28 +12,30 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Abstract
 {
     public interface IPushNotificationsConsumer
     {
+        UNAuthorizationOptions GetRequiredAuthorizationOptions();
+
         IEnumerable<UNNotificationCategory> GetCategories();
 
-        void WillPresentNotification(
+        bool TryPresentNotification(
             UNUserNotificationCenter center,
             UNNotification notification,
             Action<UNNotificationPresentationOptions> completionHandler);
 
-        void DidReceiveNotificationResponse(
+        bool TryHandleNotificationResponse(
             UNUserNotificationCenter center,
             UNNotificationResponse response,
             Action completionHandler);
 
-        void OnPushNotificationAuthorizationResult(bool isGranted);
-
-        void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken);
-
-        void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error);
-
-        void DidReceiveRemoteNotification(
+        bool TryHandleRemoteNotification(
             UIApplication application,
             NSDictionary userInfo,
             Action<UIBackgroundFetchResult> completionHandler);
+
+        void OnPushNotificationAuthorizationResult(bool isGranted);
+
+        void OnRegisteredForRemoteNotifications(UIApplication application, NSData deviceToken);
+
+        void OnFailedToRegisterForRemoteNotifications(UIApplication application, NSError error);
 
         Task OnUnregisterFromPushNotifications();
     }

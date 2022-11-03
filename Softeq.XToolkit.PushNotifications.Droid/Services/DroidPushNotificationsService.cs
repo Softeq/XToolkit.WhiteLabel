@@ -11,7 +11,7 @@ using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 
 namespace Softeq.XToolkit.PushNotifications.Droid.Services
 {
-    public class DroidPushNotificationsService : PushNotifications.Abstract.IPushNotificationsService, IDisposable
+    public sealed class DroidPushNotificationsService : PushNotifications.Abstract.IPushNotificationsService, IDisposable
     {
         private readonly IPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
@@ -56,7 +56,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
 
         private void OnNotificationReceived(RemoteMessage message)
         {
-            _pushNotificationsConsumer.OnNotificationReceived(message);
+            if (!_pushNotificationsConsumer.TryHandleNotification(message))
+            {
+                // TODO
+            }
         }
 
         private void OnPushTokenRefreshed(string token)
@@ -64,7 +67,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             _pushNotificationsConsumer.OnPushTokenRefreshed(token);
         }
 
-        protected virtual void Dispose(bool disposing)
+        private void Dispose(bool disposing)
         {
             if (disposing)
             {

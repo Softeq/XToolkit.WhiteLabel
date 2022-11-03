@@ -11,12 +11,11 @@ using UserNotifications;
 
 namespace Softeq.XToolkit.PushNotifications.iOS.Services
 {
-    public class IosPushNotificationService : PushNotifications.Abstract.IPushNotificationsService
+    public class IosPushNotificationService : PushNotifications.Abstract.IPushNotificationsService, IPushNotifficationAppDelegate
     {
         private readonly IPushNotificationsConsumer _pushNotificationsConsumer;
 
-        public IosPushNotificationService(
-            IPushNotificationsConsumer pushNotificationsConsumer)
+        public IosPushNotificationService(IPushNotificationsConsumer pushNotificationsConsumer)
         {
             _pushNotificationsConsumer = pushNotificationsConsumer;
 
@@ -24,11 +23,10 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(pushNotificationsConsumer.GetCategories().ToArray()));
         }
 
-        protected virtual UNAuthorizationOptions RequiredAuthOptions => UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound;
-
         public async Task RegisterForPushNotifications()
         {
-            var (isGranted, _) = await UNUserNotificationCenter.Current.RequestAuthorizationAsync(RequiredAuthOptions);
+            var requiredAuthorizationOptions = _pushNotificationsConsumer.GetRequiredAuthorizationOptions();
+            var (isGranted, _) = await UNUserNotificationCenter.Current.RequestAuthorizationAsync(requiredAuthorizationOptions);
             _pushNotificationsConsumer.OnPushNotificationAuthorizationResult(isGranted);
 
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
@@ -49,12 +47,12 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
 
         public void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
-            _pushNotificationsConsumer.RegisteredForRemoteNotifications(application, deviceToken);
+            _pushNotificationsConsumer.OnRegisteredForRemoteNotifications(application, deviceToken);
         }
 
         public void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
-            _pushNotificationsConsumer.FailedToRegisterForRemoteNotifications(application, error);
+            _pushNotificationsConsumer.OnFailedToRegisterForRemoteNotifications(application, error);
         }
 
         public void DidReceiveRemoteNotification(
@@ -62,7 +60,11 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             NSDictionary userInfo,
             Action<UIBackgroundFetchResult> completionHandler)
         {
-            _pushNotificationsConsumer.DidReceiveRemoteNotification(application, userInfo, completionHandler);
+            if (!_pushNotificationsConsumer.TryHandleRemoteNotification(application, userInfo, completionHandler))
+            {
+                // TODO
+                completionHandler.Invoke(UIBackgroundFetchResult.Failed);
+            }
         }
     }
 }

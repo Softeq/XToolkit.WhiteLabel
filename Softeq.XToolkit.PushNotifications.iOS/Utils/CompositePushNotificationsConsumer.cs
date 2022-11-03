@@ -14,89 +14,71 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Utils
 {
     public sealed class CompositePushNotificationsConsumer : IPushNotificationsConsumer
     {
-        private readonly IPushNotificationsConsumer _defaultConsumer;
-        private readonly IReadOnlyList<ConditionalConsumer> _conditionalConsumers;
+        private readonly IReadOnlyList<IPushNotificationsConsumer> _consumers;
 
-        public CompositePushNotificationsConsumer(IPushNotificationsConsumer defaultConsumer, IReadOnlyList<ConditionalConsumer> conditionalConsumers)
+        public CompositePushNotificationsConsumer(params IPushNotificationsConsumer[] consumers)
         {
-            _defaultConsumer = defaultConsumer;
-            _conditionalConsumers = conditionalConsumers;
+            _consumers = consumers;
+        }
+
+        public UNAuthorizationOptions GetRequiredAuthorizationOptions()
+        {
+            return _consumers
+                .Aggregate(
+                    UNAuthorizationOptions.None,
+                    (options, consumer) => options | consumer.GetRequiredAuthorizationOptions());
         }
 
         public IEnumerable<UNNotificationCategory> GetCategories()
         {
-            return AllConsumers().SelectMany(x => x.GetCategories());
+            return _consumers.SelectMany(x => x.GetCategories());
         }
 
-        public void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
+        public bool TryPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
         {
-            var consumer = SelectConsumer(notification);
-
-            consumer.WillPresentNotification(center, notification, completionHandler);
+            return _consumers
+                .Any(consumer => consumer.TryPresentNotification(center, notification, completionHandler));
         }
 
-        public void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
+        public bool TryHandleNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
         {
-            var consumer = SelectConsumer(response.Notification);
-
-            consumer.DidReceiveNotificationResponse(center, response, completionHandler);
+            return _consumers
+                .Any(consumer => consumer.TryHandleNotificationResponse(center, response, completionHandler));
         }
 
-        public void DidReceiveRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
+        public bool TryHandleRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
-            var consumer = SelectConsumer(userInfo);
-
-            consumer.DidReceiveRemoteNotification(application, userInfo, completionHandler);
+            return _consumers
+                .Any(consumer => consumer.TryHandleRemoteNotification(application, userInfo, completionHandler));
         }
 
         public void OnPushNotificationAuthorizationResult(bool isGranted)
         {
-            foreach (var consumer in AllConsumers())
+            foreach (var consumer in _consumers)
             {
                 consumer.OnPushNotificationAuthorizationResult(isGranted);
             }
         }
 
-        public void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        public void OnRegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
-            foreach (var consumer in AllConsumers())
+            foreach (var consumer in _consumers)
             {
-                consumer.RegisteredForRemoteNotifications(application, deviceToken);
+                consumer.OnRegisteredForRemoteNotifications(application, deviceToken);
             }
         }
 
-        public void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
+        public void OnFailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
-            foreach (var consumer in AllConsumers())
+            foreach (var consumer in _consumers)
             {
-                consumer.FailedToRegisterForRemoteNotifications(application, error);
+                consumer.OnFailedToRegisterForRemoteNotifications(application, error);
             }
         }
 
         public Task OnUnregisterFromPushNotifications()
         {
-            return Task.WhenAll(AllConsumers().Select(x => x.OnUnregisterFromPushNotifications()));
-        }
-
-        private IPushNotificationsConsumer SelectConsumer(NSDictionary userInfo)
-        {
-            return _conditionalConsumers
-                .FirstOrDefault(x => x.Filter.CanConsume(userInfo))?
-                .Consumer ?? _defaultConsumer;
-        }
-
-        private IPushNotificationsConsumer SelectConsumer(UNNotification notification)
-        {
-            return _conditionalConsumers
-                .FirstOrDefault(x => x.Filter.CanConsume(notification))?
-                .Consumer ?? _defaultConsumer;
-        }
-
-        private IEnumerable<IPushNotificationsConsumer> AllConsumers()
-        {
-            return _conditionalConsumers
-                .Select(x => x.Consumer)
-                .Append(_defaultConsumer);
+            return Task.WhenAll(_consumers.Select(x => x.OnUnregisterFromPushNotifications()));
         }
     }
 }

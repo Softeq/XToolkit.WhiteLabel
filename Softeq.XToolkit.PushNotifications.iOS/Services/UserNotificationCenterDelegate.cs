@@ -7,7 +7,7 @@ using UserNotifications;
 
 namespace Softeq.XToolkit.PushNotifications.iOS.Services
 {
-    public class UserNotificationCenterDelegate : UNUserNotificationCenterDelegate
+    internal sealed class UserNotificationCenterDelegate : UNUserNotificationCenterDelegate
     {
         private readonly IPushNotificationsConsumer _pushNotificationsConsumer;
 
@@ -18,12 +18,20 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
 
         public override void WillPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
         {
-            _pushNotificationsConsumer.WillPresentNotification(center, notification, completionHandler);
+            if (!_pushNotificationsConsumer.TryPresentNotification(center, notification, completionHandler))
+            {
+                // TODO
+                completionHandler.Invoke(UNNotificationPresentationOptions.None);
+            }
         }
 
         public override void DidReceiveNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
         {
-            _pushNotificationsConsumer.DidReceiveNotificationResponse(center, response, completionHandler);
+            if (!_pushNotificationsConsumer.TryHandleNotificationResponse(center, response, completionHandler))
+            {
+                // TODO
+                completionHandler.Invoke();
+            }
         }
     }
 }

@@ -8,7 +8,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
 {
     public interface IPushNotificationsConsumer
     {
-        void OnNotificationReceived(RemoteMessage message);
+        bool TryHandleNotification(RemoteMessage message);
 
         void OnPushTokenRefreshed(string token);
 

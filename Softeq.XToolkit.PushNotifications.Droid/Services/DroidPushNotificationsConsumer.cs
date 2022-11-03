@@ -25,6 +25,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
 
         public DroidPushNotificationsConsumer(
             INotificationsSettingsProvider notificationsSettings,
+            IPushNotificationsParser pushNotificationsParser,
             IPushTokenStorageService pushTokenStorageService,
             IPushNotificationsHandler pushNotificationsHandler,
             IRemotePushNotificationsService remotePushNotificationsService,
@@ -35,6 +36,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             _pushNotificationsHandler = pushNotificationsHandler;
             _remotePushNotificationsService = remotePushNotificationsService;
             _showForegroundNotificationsInSystemOptions = showForegroundNotificationsInSystemOptions;
+            _pushNotificationsParser = pushNotificationsParser;
             _logger = logManager.GetLogger<DroidPushNotificationsConsumer>();
 
             NotificationsHelper.Init(notificationsSettings);
@@ -43,17 +45,21 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
         }
 
-        public void OnNotificationReceived(RemoteMessage message)
+        public bool TryHandleNotification(RemoteMessage message)
         {
-            if (TryParsePushNotification(message, out var parsedNotification))
+            if (!TryParsePushNotification(message, out var parsedNotification))
             {
-                OnMessageReceivedInternal(parsedNotification, _lifecycleObserver.IsForegrounded);
-
-                if (!parsedNotification.IsSilent && (_showForegroundNotificationsInSystemOptions.ShouldShow() || !_lifecycleObserver.IsForegrounded))
-                {
-                    NotificationsHelper.CreateNotification(Application.Context, parsedNotification, message.Data);
-                }
+                return false;
             }
+
+            OnMessageReceivedInternal(parsedNotification, _lifecycleObserver.IsForegrounded);
+
+            if (!parsedNotification.IsSilent && (_showForegroundNotificationsInSystemOptions.ShouldShow() || !_lifecycleObserver.IsForegrounded))
+            {
+                NotificationsHelper.CreateNotification(Application.Context, parsedNotification, message.Data);
+            }
+
+            return true;
         }
 
         private bool TryParsePushNotification(RemoteMessage message, out PushNotificationModel result)

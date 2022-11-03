@@ -13,7 +13,7 @@ using UserNotifications;
 
 namespace Softeq.XToolkit.PushNotifications.iOS.Services
 {
-    public class IosPushNotificationsConsumer : IPushNotificationsConsumer
+    public sealed class IosPushNotificationsConsumer : IPushNotificationsConsumer
     {
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
         private readonly IPushNotificationsParser _pushNotificationsParser;
@@ -35,10 +35,15 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             _pushNotificationsHandler = pushNotificationsHandler;
             _pushTokenStorageService = pushTokenStorageService;
             _remotePushNotificationsService = remotePushNotificationsService;
-            _logger = logManager.GetLogger<IosPushNotificationsConsumer>();
             _showForegroundNotificationsInSystemOptions = showForegroundNotificationsInSystemOptions;
             _notificationCategoriesProvider = notificationCategoriesProvider;
             _pushNotificationsParser = pushNotificationsParser;
+            _logger = logManager.GetLogger<IosPushNotificationsConsumer>();
+        }
+
+        public UNAuthorizationOptions GetRequiredAuthorizationOptions()
+        {
+            return UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound | UNAuthorizationOptions.Badge;
         }
 
         public IEnumerable<UNNotificationCategory> GetCategories()
@@ -46,12 +51,61 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             return _notificationCategoriesProvider.NotificationCategories;
         }
 
-        public void WillPresentNotification(
+        public bool TryPresentNotification(
             UNUserNotificationCenter center,
             UNNotification notification,
             Action<UNNotificationPresentationOptions> completionHandler)
         {
-            if (TryParsePushNotification(notification.Request.Content.UserInfo, out var parsedNotification))
+            if (!TryParsePushNotification(notification.Request.Content.UserInfo, out var parsedNotification))
+            {
+                return false;
+            }
+
+            if (parsedNotification.IsSilent)
+            {
+                _pushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
+            }
+            else
+            {
+                _pushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, true);
+            }
+
+            switch (_showForegroundNotificationsInSystemOptions)
+            {
+                case ForegroundNotificationOptions.Show:
+                    completionHandler.Invoke(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);
+                    break;
+                case ForegroundNotificationOptions.ShowWithBadge:
+                    completionHandler.Invoke(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Badge);
+                    break;
+                case ForegroundNotificationOptions.DoNotShow:
+                default:
+                    completionHandler.Invoke(UNNotificationPresentationOptions.None);
+                    break;
+            }
+
+            return true;
+        }
+
+        public bool TryHandleNotificationResponse(
+            UNUserNotificationCenter center,
+            UNNotificationResponse response,
+            Action completionHandler)
+        {
+            var actionIdentifier = response.ActionIdentifier;
+            var userInfo = response.Notification.Request.Content.UserInfo;
+
+            if (!TryParsePushNotification(userInfo, out var parsedNotification))
+            {
+                return false;
+            }
+
+            if (response.IsCustomAction)
+            {
+                var textInput = (response as UNTextInputNotificationResponse)?.UserText ?? string.Empty;
+                _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionIdentifier, textInput);
+            }
+            else if (response.IsDefaultAction)
             {
                 if (parsedNotification.IsSilent)
                 {
@@ -59,22 +113,49 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
                 }
                 else
                 {
-                    _pushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, true);
+                    _pushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
                 }
             }
-
-            switch (_showForegroundNotificationsInSystemOptions)
+            else if (response.IsDismissAction)
             {
-                case ForegroundNotificationOptions.Show:
-                    completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound);
-                    break;
-                case ForegroundNotificationOptions.ShowWithBadge:
-                    completionHandler(UNNotificationPresentationOptions.Alert | UNNotificationPresentationOptions.Sound | UNNotificationPresentationOptions.Badge);
-                    break;
-                case ForegroundNotificationOptions.DoNotShow:
-                    completionHandler(UNNotificationPresentationOptions.None);
-                    break;
+                _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionIdentifier, string.Empty);
             }
+
+            completionHandler.Invoke();
+
+            return true;
+        }
+
+        public bool TryHandleRemoteNotification(
+            UIApplication application,
+            NSDictionary userInfo,
+            Action<UIBackgroundFetchResult> completionHandler)
+        {
+            // do nothing?
+            return false;
+        }
+
+        public void OnPushNotificationAuthorizationResult(bool isGranted)
+        {
+            _pushNotificationsHandler.OnPushPermissionsRequestCompleted(isGranted);
+        }
+
+        public void OnRegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        {
+            var token = ParseDeviceToken(deviceToken);
+
+            OnRegisteredForPushNotifications(token);
+        }
+
+        public void OnFailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
+        {
+            _logger.Warn($"Push Notifications failed to register: {error.Description}");
+            OnRegisterFailedInternal().FireAndForget(_logger);
+        }
+
+        public Task OnUnregisterFromPushNotifications()
+        {
+            return UnregisterFromPushNotifications();
         }
 
         private bool TryParsePushNotification(NSDictionary userInfo, out PushNotificationModel result)
@@ -91,78 +172,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
 
             result = new PushNotificationModel();
             return false;
-        }
-
-        public void DidReceiveNotificationResponse(
-            UNUserNotificationCenter center,
-            UNNotificationResponse response,
-            Action completionHandler)
-        {
-            var actionIdentifier = response.ActionIdentifier;
-            var userInfo = response.Notification.Request.Content.UserInfo;
-
-            if (response.IsCustomAction)
-            {
-                var textInput = (response as UNTextInputNotificationResponse)?.UserText ?? string.Empty;
-                if (TryParsePushNotification(userInfo, out var parsedNotification))
-                {
-                    _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionIdentifier, textInput);
-                }
-            }
-            else if (response.IsDefaultAction)
-            {
-                if (TryParsePushNotification(userInfo, out var parsedNotification))
-                {
-                    if (parsedNotification.IsSilent)
-                    {
-                        _pushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
-                    }
-                    else
-                    {
-                        _pushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
-                    }
-                }
-            }
-            else if (response.IsDismissAction)
-            {
-                if (TryParsePushNotification(userInfo, out var parsedNotification))
-                {
-                    _notificationCategoriesProvider.HandlePushNotificationCustomAction(parsedNotification, actionIdentifier, string.Empty);
-                }
-            }
-
-            completionHandler.Invoke();
-        }
-
-        public void OnPushNotificationAuthorizationResult(bool isGranted)
-        {
-            _pushNotificationsHandler.OnPushPermissionsRequestCompleted(isGranted);
-        }
-
-        public void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
-        {
-            var token = ParseDeviceToken(deviceToken);
-
-            OnRegisteredForPushNotifications(token);
-        }
-
-        public void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
-        {
-            _logger.Warn($"Push Notifications failed to register: {error.Description}");
-            OnRegisterFailedInternal().FireAndForget(_logger);
-        }
-
-        public void DidReceiveRemoteNotification(
-            UIApplication application,
-            NSDictionary userInfo,
-            Action<UIBackgroundFetchResult> completionHandler)
-        {
-            // do nothing?
-        }
-
-        public Task OnUnregisterFromPushNotifications()
-        {
-            return UnregisterFromPushNotifications();
         }
 
         private void OnRegisteredForPushNotifications(string token)

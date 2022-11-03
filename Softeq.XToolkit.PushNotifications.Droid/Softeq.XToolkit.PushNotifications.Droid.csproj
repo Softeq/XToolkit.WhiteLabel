@@ -47,7 +47,6 @@
     <Reference Include="Mono.Android.Export" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IConsumerFilter.cs" />
     <Compile Include="Abstract\IPushNotificationsParser.cs" />
     <Compile Include="Abstract\IPushNotificationsConsumer.cs" />
     <Compile Include="AppLifecycleObserver.cs" />
@@ -63,8 +62,6 @@
     <Compile Include="Services\DroidPushNotificationsConsumer.cs" />
     <Compile Include="Services\DroidPushNotificationsService.cs" />
     <Compile Include="Utils\CompositePushNotificationsConsumer.cs" />
-    <Compile Include="Utils\ConditionalConsumer.cs" />
-    <Compile Include="Utils\ConsumerFilter.cs" />
     <Compile Include="XFirebaseMessagingService.cs" />
   </ItemGroup>
   <ItemGroup>

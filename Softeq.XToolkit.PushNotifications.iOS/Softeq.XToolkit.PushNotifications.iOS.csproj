@@ -40,7 +40,7 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Abstract\IConsumerFilter.cs" />
+    <Compile Include="Abstract\IPushNotifficationAppDelegate.cs" />
     <Compile Include="Abstract\IPushNotificationsConsumer.cs" />
     <Compile Include="Abstract\IPushNotificationsParser.cs" />
     <Compile Include="NSDictionaryExtensions.cs" />
@@ -57,8 +57,6 @@
     <Compile Include="NSDataExtensions.cs" />
     <Compile Include="IosNotificationCategoriesProvider.cs" />
     <Compile Include="Utils\CompositePushNotificationsConsumer.cs" />
-    <Compile Include="Utils\ConditionalConsumer.cs" />
-    <Compile Include="Utils\ConsumerFilter.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">

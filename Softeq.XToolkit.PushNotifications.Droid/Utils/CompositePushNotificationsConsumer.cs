@@ -11,27 +11,22 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Utils
 {
     public sealed class CompositePushNotificationsConsumer : IPushNotificationsConsumer
     {
-        private readonly IPushNotificationsConsumer _defaultConsumer;
-        private readonly IReadOnlyList<ConditionalConsumer> _conditionalConsumers;
+        private readonly IReadOnlyList<IPushNotificationsConsumer> _consumers;
 
-        public CompositePushNotificationsConsumer(
-            IPushNotificationsConsumer defaultConsumer,
-            IReadOnlyList<ConditionalConsumer> conditionalConsumers)
+        public CompositePushNotificationsConsumer(params IPushNotificationsConsumer[] consumers)
         {
-            _defaultConsumer = defaultConsumer;
-            _conditionalConsumers = conditionalConsumers;
+            _consumers = consumers;
         }
 
-        public void OnNotificationReceived(RemoteMessage message)
+        public bool TryHandleNotification(RemoteMessage message)
         {
-            var consumer = SelectConsumer(message);
-
-            consumer.OnNotificationReceived(message);
+            return _consumers
+                .Any(consumer => consumer.TryHandleNotification(message));
         }
 
         public void OnPushTokenRefreshed(string token)
         {
-            foreach (var consumer in AllConsumers())
+            foreach (var consumer in _consumers)
             {
                 consumer.OnPushTokenRefreshed(token);
             }
@@ -39,21 +34,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Utils
 
         public Task OnUnregisterFromPushNotifications()
         {
-            return Task.WhenAll(AllConsumers().Select(x => x.OnUnregisterFromPushNotifications()));
-        }
-
-        private IPushNotificationsConsumer SelectConsumer(RemoteMessage message)
-        {
-            return _conditionalConsumers
-                .FirstOrDefault(x => x.Filter.CanConsume(message))?
-                .Consumer ?? _defaultConsumer;
-        }
-
-        private IEnumerable<IPushNotificationsConsumer> AllConsumers()
-        {
-            return _conditionalConsumers
-                .Select(x => x.Consumer)
-                .Append(_defaultConsumer);
+            return Task.WhenAll(_consumers.Select(x => x.OnUnregisterFromPushNotifications()));
         }
     }
 }
