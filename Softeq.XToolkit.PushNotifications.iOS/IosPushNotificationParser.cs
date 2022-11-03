@@ -47,8 +47,14 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         {
             parsedPushNotificationModel = new PushNotificationModel();
 
+            var additionalData = userInfo.GetStringByKey(DataKey);
             var aps = userInfo.GetDictionaryByKey(ApsKey);
             if (aps == null)
+            {
+                return false;
+            }
+
+            if (!TryParseNotificationType(userInfo, aps, additionalData, out var notificationType))
             {
                 return false;
             }
@@ -73,10 +79,9 @@ namespace Softeq.XToolkit.PushNotifications.iOS
 
             parsedPushNotificationModel.IsSilent = aps.GetIntByKey(ContentAvailableKey) == 1;
 
-            var additionalData = userInfo.GetStringByKey(DataKey);
             parsedPushNotificationModel.AdditionalData = additionalData;
 
-            parsedPushNotificationModel.Type = ParseNotificationType(userInfo, aps, additionalData);
+            parsedPushNotificationModel.Type = notificationType;
 
             return true;
         }
@@ -87,10 +92,16 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// <param name="pushNotification">Initial push notification dictionary.</param>
         /// <param name="aps">Dictionary stored inside 'aps' tag.</param>
         /// <param name="data">Custom data part of the notification.</param>
-        /// <returns>String type for <see cref="PushNotificationModel.Type"/>.</returns>
-        protected virtual string ParseNotificationType(NSDictionary pushNotification, NSDictionary aps, string data)
+        /// <param name="notificationType">Parsed notification type.</param>
+        /// <returns><see langword="true"/> if notification type has been parsed, <see langword="false"/> otherwise.</returns>
+        protected virtual bool TryParseNotificationType(
+            NSDictionary pushNotification,
+            NSDictionary aps,
+            string data,
+            out string notificationType)
         {
-            return string.Empty;
+            notificationType = string.Empty;
+            return true;
         }
     }
 }

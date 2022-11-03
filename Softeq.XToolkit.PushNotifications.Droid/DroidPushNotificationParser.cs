@@ -40,12 +40,17 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             var pushMessage = message.GetNotification();
             var pushData = message.Data;
 
+            if (!TryParseNotificationTypeFromData(pushData, out var notificationType))
+            {
+                return false;
+            }
+
             parsedPushNotificationModel.Title = ParseNotificationTitleFromData(pushMessage, pushData);
             parsedPushNotificationModel.Body = ParseNotificationMessageFromData(pushMessage, pushData);
 
             parsedPushNotificationModel.IsSilent = string.IsNullOrEmpty(parsedPushNotificationModel.Body);
 
-            parsedPushNotificationModel.Type = ParseNotificationTypeFromData(pushData);
+            parsedPushNotificationModel.Type = notificationType;
             parsedPushNotificationModel.AdditionalData = GetStringFromDictionary(pushData, DataKey);
 
             return true;
@@ -61,6 +66,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid
                 return false;
             }
 
+            if (!TryParseNotificationTypeFromBundle(bundle, out var notificationType))
+            {
+                return false;
+            }
+
             parsedPushNotificationModel.Title = bundle.GetString(DataTitleKey); // if stored inside Data
             parsedPushNotificationModel.Body = bundle.GetString(DataBodyKey); // if stored inside Data
 
@@ -68,9 +78,24 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             parsedPushNotificationModel.IsSilent = false;
 
             parsedPushNotificationModel.AdditionalData = bundle.GetString(DataKey)!;
-            parsedPushNotificationModel.Type = ParseNotificationTypeFromBundle(bundle);
+            parsedPushNotificationModel.Type = notificationType;
 
             return true;
+        }
+
+        /// <summary>
+        ///     Obtains string by key from the specified <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+        /// </summary>
+        /// <param name="data"><see cref="T:System.Collections.Generic.IDictionary`2"/> object.</param>
+        /// <param name="key">Key string.</param>
+        /// <returns>String stored under the specified key or <see langword="null"/>.</returns>
+        protected static string GetStringFromDictionary(IDictionary<string, string>? data, string key)
+        {
+            return data == null
+                ? string.Empty
+                : data.TryGetValue(key, out var value)
+                    ? value
+                    : string.Empty;
         }
 
         protected virtual string? ParseNotificationTitleFromData(
@@ -116,10 +141,14 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         ///     <see cref="T:System.Collections.Generic.IDictionary`2"/>
         ///     which represents <see cref="P:Firebase.Messaging.RemoteMessage.Data"/>.
         /// </param>
-        /// <returns>Notification type.</returns>
-        protected virtual string ParseNotificationTypeFromData(IDictionary<string, string> pushNotificationData)
+        /// <param name="notificationType">Parsed notification type.</param>
+        /// <returns><see langword="true"/> if notification type has been parsed, <see langword="false"/> otherwise.</returns>
+        protected virtual bool TryParseNotificationTypeFromData(
+            IDictionary<string, string> pushNotificationData,
+            out string notificationType)
         {
-            return string.Empty;
+            notificationType = string.Empty;
+            return true;
         }
 
         /// <summary>
@@ -128,10 +157,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <param name="pushNotificationBundle">
         ///     <see cref="T:Android.OS.Bundle"/> which was obtained from extras when application was started from push notification.
         /// </param>
-        /// <returns>Notification type.</returns>
-        protected virtual string ParseNotificationTypeFromBundle(Bundle pushNotificationBundle)
+        /// <param name="notificationType">Parsed notification type.</param>
+        /// <returns><see langword="true"/> if notification type has been parsed, <see langword="false"/> otherwise.</returns>
+        protected virtual bool TryParseNotificationTypeFromBundle(Bundle pushNotificationBundle, out string notificationType)
         {
-            return string.Empty;
+            notificationType = string.Empty;
+            return true;
         }
 
         /// <summary>
@@ -159,15 +190,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             }
 
             return null;
-        }
-
-        private static string GetStringFromDictionary(IDictionary<string, string>? data, string key)
-        {
-            return data == null
-                ? string.Empty
-                : data.TryGetValue(key, out var value)
-                    ? value
-                    : string.Empty;
         }
     }
 }
