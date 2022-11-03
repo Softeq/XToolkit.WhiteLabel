@@ -47,6 +47,7 @@
     <Reference Include="Mono.Android.Export" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\IActivityLauncherDelegate.cs" />
     <Compile Include="Abstract\INotificationsSettingsProvider.cs" />
     <Compile Include="Abstract\IPushNotificationsParser.cs" />
     <Compile Include="Abstract\IPushNotificationsConsumer.cs" />

@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Android.App;
+using Android.OS;
 using AndroidX.Lifecycle;
 using Firebase.Messaging;
 using Softeq.XToolkit.Common.Extensions;
@@ -78,6 +79,19 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         }
 
         /// <inheritdoc />
+        public bool TryHandlePushNotificationExtras(Bundle extras)
+        {
+            if (!TryParsePushNotification(extras, out var parsedNotification))
+            {
+                return false;
+            }
+
+            _pushNotificationsHandler.HandlePushNotificationTapped(parsedNotification);
+
+            return true;
+        }
+
+        /// <inheritdoc />
         public void OnPushTokenRefreshed(string token)
         {
             var currentToken = _pushTokenStorageService.PushToken;
@@ -105,6 +119,22 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             catch (Exception ex)
             {
                 _pushNotificationsHandler.HandleInvalidPushNotification(ex, message);
+            }
+
+            result = new PushNotificationModel();
+            return false;
+        }
+
+        private bool TryParsePushNotification(Bundle extras, out PushNotificationModel result)
+        {
+            try
+            {
+                result = _pushNotificationsParser.Parse(extras);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                _pushNotificationsHandler.HandleInvalidPushNotification(ex, extras);
             }
 
             result = new PushNotificationModel();

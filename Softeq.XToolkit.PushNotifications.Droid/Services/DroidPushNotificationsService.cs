@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Android.Gms.Extensions;
+using Android.OS;
 using Firebase.Messaging;
 using Java.IO;
 using Softeq.XToolkit.Common.Logger;
@@ -15,7 +16,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
     /// <summary>
     ///     Default implementation of <see cref="IPushNotificationsService"/> interface for Android platform.
     /// </summary>
-    public sealed class DroidPushNotificationsService : IPushNotificationsService, IDisposable
+    public sealed class DroidPushNotificationsService : IPushNotificationsService, IActivityLauncherDelegate, IDisposable
     {
         private readonly IPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
@@ -63,6 +64,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             {
                 _logger.Warn($"Firebase DeleteToken failed: {e.Message}");
             }
+        }
+
+        /// <inheritdoc />
+        public bool TryHandlePushNotificationExtras(Bundle? extras)
+        {
+            return extras != null && _pushNotificationsConsumer.TryHandlePushNotificationExtras(extras);
         }
 
         private void OnNotificationReceived(RemoteMessage message)
