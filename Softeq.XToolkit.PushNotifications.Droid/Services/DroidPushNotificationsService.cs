@@ -7,15 +7,24 @@ using Android.Gms.Extensions;
 using Firebase.Messaging;
 using Java.IO;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 
 namespace Softeq.XToolkit.PushNotifications.Droid.Services
 {
-    public sealed class DroidPushNotificationsService : PushNotifications.Abstract.IPushNotificationsService, IDisposable
+    /// <summary>
+    ///     Default implementation of <see cref="IPushNotificationsService"/> interface for Android platform.
+    /// </summary>
+    public sealed class DroidPushNotificationsService : IPushNotificationsService, IDisposable
     {
         private readonly IPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DroidPushNotificationsService"/> class.
+        /// </summary>
+        /// <param name="pushNotificationsConsumer">Consumer of the push notification related callbacks.</param>
+        /// <param name="logManager">Provides logging.</param>
         public DroidPushNotificationsService(
             IPushNotificationsConsumer pushNotificationsConsumer,
             ILogManager logManager)
@@ -27,7 +36,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             XFirebaseMessagingService.OnNotificationReceived += OnNotificationReceived;
         }
 
-        public async Task RegisterForPushNotifications()
+        /// <inheritdoc />
+        public async Task RegisterForPushNotificationsAsync()
         {
             var token = await FirebaseMessaging.Instance
                 .GetToken()
@@ -39,7 +49,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             }
         }
 
-        public async Task UnRegisterForPushNotifications()
+        /// <inheritdoc />
+        public async Task UnregisterForPushNotificationsAsync()
         {
             try
             {
@@ -58,7 +69,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         {
             if (!_pushNotificationsConsumer.TryHandleNotification(message))
             {
-                // TODO
+                _logger.Warn("Notification have not been handled by consumer");
             }
         }
 
@@ -76,7 +87,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             }
         }
 
-        public void Dispose()
+        void IDisposable.Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);

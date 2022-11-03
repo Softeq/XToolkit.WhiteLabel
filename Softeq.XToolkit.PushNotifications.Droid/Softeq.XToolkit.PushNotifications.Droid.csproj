@@ -47,11 +47,11 @@
     <Reference Include="Mono.Android.Export" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\INotificationsSettingsProvider.cs" />
     <Compile Include="Abstract\IPushNotificationsParser.cs" />
     <Compile Include="Abstract\IPushNotificationsConsumer.cs" />
     <Compile Include="AppLifecycleObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="INotificationsSettingsProvider.cs" />
     <Compile Include="NotificationsHelper.cs" />
     <Compile Include="DroidPushNotificationParser.cs" />
     <Compile Include="PushNotificationStyles.cs" />

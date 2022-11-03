@@ -32,17 +32,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// </summary>
         protected virtual string DataKey => "data";
 
+        /// <inheritdoc />
         public PushNotificationModel Parse(RemoteMessage message)
-        {
-            return ParseRemoteMessageNotification(message);
-        }
-
-        private PushNotificationModel ParseRemoteMessageNotification(RemoteMessage remoteNotification)
         {
             var pushNotification = new PushNotificationModel();
 
-            var pushMessage = remoteNotification.GetNotification();
-            var pushData = remoteNotification.Data;
+            var pushMessage = message.GetNotification();
+            var pushData = message.Data;
 
             pushNotification.Title = ParseNotificationTitleFromData(pushMessage, pushData);
             pushNotification.Body = ParseNotificationMessageFromData(pushMessage, pushData);
@@ -55,7 +51,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
             return pushNotification;
         }
 
-        private PushNotificationModel ParseBundleNotification(Bundle bundleNotification)
+        /// <inheritdoc />
+        public PushNotificationModel Parse(Bundle bundleNotification)
         {
             var pushNotification = new PushNotificationModel();
 

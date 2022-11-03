@@ -43,6 +43,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// </summary>
         protected virtual string DataKey => "data";
 
+        /// <inheritdoc />
         public virtual PushNotificationModel Parse(NSDictionary userInfo)
         {
             var pushNotification = new PushNotificationModel();

@@ -8,11 +8,15 @@ using AndroidX.Lifecycle;
 using Firebase.Messaging;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 
 namespace Softeq.XToolkit.PushNotifications.Droid.Services
 {
-    public class DroidPushNotificationsConsumer : IPushNotificationsConsumer
+    /// <summary>
+    ///     Default implementation of <see cref="IPushNotificationsConsumer"/> interface for Android platform.
+    /// </summary>
+    public sealed class DroidPushNotificationsConsumer : IPushNotificationsConsumer
     {
         private readonly IPushTokenStorageService _pushTokenStorageService;
         private readonly IPushNotificationsParser _pushNotificationsParser;
@@ -23,6 +27,16 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
 
         private readonly AppLifecycleObserver _lifecycleObserver;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="DroidPushNotificationsConsumer"/> class.
+        /// </summary>
+        /// <param name="notificationsSettings">Provides settings for notification construction.</param>
+        /// <param name="pushNotificationsParser">Parses remote messages into common format.</param>
+        /// <param name="pushTokenStorageService">Stores push notification token and it's status.</param>
+        /// <param name="pushNotificationsHandler">Handles received push notifications events.</param>
+        /// <param name="remotePushNotificationsService">Propagates push notification token to remote server.</param>
+        /// <param name="showForegroundNotificationsInSystemOptions">Defines how push notification should be presented.</param>
+        /// <param name="logManager">Provides logging.</param>
         public DroidPushNotificationsConsumer(
             INotificationsSettingsProvider notificationsSettings,
             IPushNotificationsParser pushNotificationsParser,
@@ -45,6 +59,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
         }
 
+        /// <inheritdoc />
         public bool TryHandleNotification(RemoteMessage message)
         {
             if (!TryParsePushNotification(message, out var parsedNotification))
@@ -60,6 +75,24 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             }
 
             return true;
+        }
+
+        /// <inheritdoc />
+        public void OnPushTokenRefreshed(string token)
+        {
+            var currentToken = _pushTokenStorageService.PushToken;
+            var hasNewToken = !string.IsNullOrEmpty(currentToken) && currentToken != token;
+
+            if (hasNewToken)
+            {
+                OnRegisteredForPushNotifications(token);
+            }
+        }
+
+        /// <inheritdoc />
+        public Task OnUnregisterFromPushNotifications()
+        {
+            return UnregisterFromPushNotifications();
         }
 
         private bool TryParsePushNotification(RemoteMessage message, out PushNotificationModel result)
@@ -78,7 +111,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             return false;
         }
 
-        protected virtual void OnMessageReceivedInternal(PushNotificationModel parsedNotification, bool inForeground)
+        private void OnMessageReceivedInternal(PushNotificationModel parsedNotification, bool inForeground)
         {
             if (parsedNotification.IsSilent)
             {
@@ -88,22 +121,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             {
                 _pushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, inForeground);
             }
-        }
-
-        public void OnPushTokenRefreshed(string token)
-        {
-            var currentToken = _pushTokenStorageService.PushToken;
-            var hasNewToken = !string.IsNullOrEmpty(currentToken) && currentToken != token;
-
-            if (hasNewToken)
-            {
-                OnRegisteredForPushNotifications(token);
-            }
-        }
-
-        public Task OnUnregisterFromPushNotifications()
-        {
-            return UnregisterFromPushNotifications();
         }
 
         private void OnRegisteredForPushNotifications(string token)
@@ -136,9 +153,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 _pushTokenStorageService.IsTokenRegisteredInSystem,
                 _pushTokenStorageService.IsTokenSavedOnServer);
-
-            // _registrationCompletionSource?.TrySetResult(new PushNotificationRegistrationResult(
-            //     _pushTokenStorageService.IsTokenRegisteredInSystem, _pushTokenStorageService.IsTokenSavedOnServer));
         }
 
         private async Task OnRegisterFailedInternal()
@@ -150,9 +164,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 _pushTokenStorageService.IsTokenRegisteredInSystem,
                 _pushTokenStorageService.IsTokenSavedOnServer);
-
-            // _registrationCompletionSource?.TrySetResult(new PushNotificationRegistrationResult(
-            //     _pushTokenStorageService.IsTokenRegisteredInSystem, _pushTokenStorageService.IsTokenSavedOnServer));
         }
 
         private async Task UnregisterFromPushNotifications()

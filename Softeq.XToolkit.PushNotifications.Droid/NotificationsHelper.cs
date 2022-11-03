@@ -7,6 +7,7 @@ using Android.App;
 using Android.Content;
 using Android.OS;
 using AndroidX.Core.App;
+using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 using TaskStackBuilder = Android.App.TaskStackBuilder;
 
 namespace Softeq.XToolkit.PushNotifications.Droid

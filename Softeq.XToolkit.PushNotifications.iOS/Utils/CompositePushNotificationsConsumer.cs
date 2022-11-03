@@ -12,15 +12,26 @@ using UserNotifications;
 
 namespace Softeq.XToolkit.PushNotifications.iOS.Utils
 {
+    /// <summary>
+    ///     Combines multiple consumers into one.
+    /// </summary>
     public sealed class CompositePushNotificationsConsumer : IPushNotificationsConsumer
     {
         private readonly IReadOnlyList<IPushNotificationsConsumer> _consumers;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="CompositePushNotificationsConsumer"/> class.
+        /// </summary>
+        /// <param name="consumers">
+        ///     List of the consumers. Order define the priority of the consumers - first consumer will always have a chance
+        ///     to handle push notification, last consumer will have a chance only if all other consumers haven't handled push notification.
+        /// </param>
         public CompositePushNotificationsConsumer(params IPushNotificationsConsumer[] consumers)
         {
             _consumers = consumers;
         }
 
+        /// <inheritdoc />
         public UNAuthorizationOptions GetRequiredAuthorizationOptions()
         {
             return _consumers
@@ -29,29 +40,34 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Utils
                     (options, consumer) => options | consumer.GetRequiredAuthorizationOptions());
         }
 
+        /// <inheritdoc />
         public IEnumerable<UNNotificationCategory> GetCategories()
         {
             return _consumers.SelectMany(x => x.GetCategories());
         }
 
+        /// <inheritdoc />
         public bool TryPresentNotification(UNUserNotificationCenter center, UNNotification notification, Action<UNNotificationPresentationOptions> completionHandler)
         {
             return _consumers
                 .Any(consumer => consumer.TryPresentNotification(center, notification, completionHandler));
         }
 
+        /// <inheritdoc />
         public bool TryHandleNotificationResponse(UNUserNotificationCenter center, UNNotificationResponse response, Action completionHandler)
         {
             return _consumers
                 .Any(consumer => consumer.TryHandleNotificationResponse(center, response, completionHandler));
         }
 
+        /// <inheritdoc />
         public bool TryHandleRemoteNotification(UIApplication application, NSDictionary userInfo, Action<UIBackgroundFetchResult> completionHandler)
         {
             return _consumers
                 .Any(consumer => consumer.TryHandleRemoteNotification(application, userInfo, completionHandler));
         }
 
+        /// <inheritdoc />
         public void OnPushNotificationAuthorizationResult(bool isGranted)
         {
             foreach (var consumer in _consumers)
@@ -60,6 +76,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Utils
             }
         }
 
+        /// <inheritdoc />
         public void OnRegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
             foreach (var consumer in _consumers)
@@ -68,6 +85,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Utils
             }
         }
 
+        /// <inheritdoc />
         public void OnFailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
             foreach (var consumer in _consumers)
@@ -76,6 +94,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Utils
             }
         }
 
+        /// <inheritdoc />
         public Task OnUnregisterFromPushNotifications()
         {
             return Task.WhenAll(_consumers.Select(x => x.OnUnregisterFromPushNotifications()));

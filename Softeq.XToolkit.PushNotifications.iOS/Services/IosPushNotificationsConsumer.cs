@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 using Foundation;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.PushNotifications.iOS.Abstract;
 using UIKit;
 using UserNotifications;
 
 namespace Softeq.XToolkit.PushNotifications.iOS.Services
 {
+    /// <summary>
+    ///     Default implementation of <see cref="IPushNotificationsConsumer"/> interface for Android platform.
+    /// </summary>
     public sealed class IosPushNotificationsConsumer : IPushNotificationsConsumer
     {
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
@@ -20,17 +24,27 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         private readonly INotificationCategoriesProvider _notificationCategoriesProvider;
         private readonly IPushTokenStorageService _pushTokenStorageService;
         private readonly IRemotePushNotificationsService _remotePushNotificationsService;
-        private readonly ILogger _logger;
         private readonly ForegroundNotificationOptions _showForegroundNotificationsInSystemOptions;
+        private readonly ILogger _logger;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="IosPushNotificationsConsumer"/> class.
+        /// </summary>
+        /// <param name="pushNotificationsHandler">Handles received push notifications events.</param>
+        /// <param name="pushNotificationsParser">Parses remote messages into common format.</param>
+        /// <param name="notificationCategoriesProvider">Provides Notification Categories to be registered in system.</param>
+        /// <param name="pushTokenStorageService">Stores push notification token and it's status.</param>
+        /// <param name="remotePushNotificationsService">Propagates push notification token to remote server.</param>
+        /// <param name="showForegroundNotificationsInSystemOptions">Defines how push notification should be presented.</param>
+        /// <param name="logManager">Provides logging.</param>
         public IosPushNotificationsConsumer(
             IPushNotificationsHandler pushNotificationsHandler,
             IPushNotificationsParser pushNotificationsParser,
             INotificationCategoriesProvider notificationCategoriesProvider,
             IPushTokenStorageService pushTokenStorageService,
             IRemotePushNotificationsService remotePushNotificationsService,
-            ILogManager logManager,
-            ForegroundNotificationOptions showForegroundNotificationsInSystemOptions)
+            ForegroundNotificationOptions showForegroundNotificationsInSystemOptions,
+            ILogManager logManager)
         {
             _pushNotificationsHandler = pushNotificationsHandler;
             _pushTokenStorageService = pushTokenStorageService;
@@ -41,16 +55,19 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             _logger = logManager.GetLogger<IosPushNotificationsConsumer>();
         }
 
+        /// <inheritdoc />
         public UNAuthorizationOptions GetRequiredAuthorizationOptions()
         {
             return UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound | UNAuthorizationOptions.Badge;
         }
 
+        /// <inheritdoc />
         public IEnumerable<UNNotificationCategory> GetCategories()
         {
             return _notificationCategoriesProvider.NotificationCategories;
         }
 
+        /// <inheritdoc />
         public bool TryPresentNotification(
             UNUserNotificationCenter center,
             UNNotification notification,
@@ -87,6 +104,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             return true;
         }
 
+        /// <inheritdoc />
         public bool TryHandleNotificationResponse(
             UNUserNotificationCenter center,
             UNNotificationResponse response,
@@ -126,6 +144,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             return true;
         }
 
+        /// <inheritdoc />
         public bool TryHandleRemoteNotification(
             UIApplication application,
             NSDictionary userInfo,
@@ -135,11 +154,13 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             return false;
         }
 
+        /// <inheritdoc />
         public void OnPushNotificationAuthorizationResult(bool isGranted)
         {
             _pushNotificationsHandler.OnPushPermissionsRequestCompleted(isGranted);
         }
 
+        /// <inheritdoc />
         public void OnRegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
         {
             var token = ParseDeviceToken(deviceToken);
@@ -147,15 +168,22 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             OnRegisteredForPushNotifications(token);
         }
 
+        /// <inheritdoc />
         public void OnFailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
             _logger.Warn($"Push Notifications failed to register: {error.Description}");
             OnRegisterFailedInternal().FireAndForget(_logger);
         }
 
+        /// <inheritdoc />
         public Task OnUnregisterFromPushNotifications()
         {
             return UnregisterFromPushNotifications();
+        }
+
+        private static string ParseDeviceToken(NSData deviceToken)
+        {
+            return deviceToken.ToString().Replace("-", string.Empty);
         }
 
         private bool TryParsePushNotification(NSDictionary userInfo, out PushNotificationModel result)
@@ -184,11 +212,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             {
                 OnRegisterSuccessInternal(token).FireAndForget(_logger);
             }
-        }
-
-        private static string ParseDeviceToken(NSData deviceToken)
-        {
-            return deviceToken.ToString().Replace("-", string.Empty);
         }
 
         private async Task OnRegisterSuccessInternal(string token)
