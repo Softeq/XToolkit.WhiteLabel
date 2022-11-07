@@ -4,12 +4,15 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Playground.Droid.Extended;
+using Playground.Droid.Services;
 using Playground.Extended;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
+using Softeq.XToolkit.PushNotifications;
+using Softeq.XToolkit.PushNotifications.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
@@ -52,6 +55,11 @@ namespace Playground.Droid
 
             // connectivity
             builder.Singleton<ConnectivityService, IConnectivityService>();
+
+            // push notifications
+            builder.Singleton<DroidNotificationsSettingsProvider, INotificationsSettingsProvider>();
+            builder.Singleton<DroidPushNotificationParser, IPushNotificationParser>();
+            builder.Singleton<DroidPushNotificationsService, IPushNotificationsService>();
         }
     }
 }

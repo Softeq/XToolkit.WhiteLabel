@@ -194,6 +194,14 @@ namespace Playground.ViewModels
                 (Category.Components, new CommandAction(
                     new RelayCommand(() =>
                     {
+                        _pageNavigationService
+                            .For<PushNotificationsPageViewModel>()
+                            .Navigate();
+                    }),
+                    "Push Notifications")),
+                (Category.Components, new CommandAction(
+                    new RelayCommand(() =>
+                    {
                         if (_appInfoService.Platform == Platform.iOS)
                         {
                             _pageNavigationService
