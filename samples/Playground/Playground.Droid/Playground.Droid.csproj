@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
+    <Reference Include="Mono.Android.Export" />
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
@@ -60,6 +61,8 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
+    <Compile Include="Services\DroidNotificationsSettingsProvider.cs" />
+    <Compile Include="Views\Components\PushNotificationsPageActivity.cs" />
     <Compile Include="Views\Controls\PhotoViewerActivity.cs" />
     <Compile Include="Views\Frames\FramesActivity.cs" />
     <Compile Include="Views\Frames\BlueFragment.cs" />
@@ -97,6 +100,7 @@
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\layout\activity_frames.xml" />
+    <AndroidResource Include="Resources\layout\activity_push_notifications.xml" />
     <AndroidResource Include="Resources\layout\fragment_split.xml" />
     <AndroidResource Include="Resources\layout\fragment_with_navigation.xml" />
     <AndroidResource Include="Resources\values\colors.xml" />
@@ -148,6 +152,14 @@
     <AndroidResource Include="Resources\anim\slide_down_dialog.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.PushNotifications.Droid\Softeq.XToolkit.PushNotifications.Droid.csproj">
+      <Project>{facbcce2-c5f5-4aa8-9e19-8d61b4386eea}</Project>
+      <Name>Softeq.XToolkit.PushNotifications.Droid</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">
+      <Project>{e0c9cde2-4c35-410a-ae95-a7871bee0180}</Project>
+      <Name>Softeq.XToolkit.PushNotifications</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
       <Project>{7F44F0F6-8396-42D0-8A1B-DC40CE8C478C}</Project>
       <Name>Softeq.XToolkit.WhiteLabel.Droid</Name>
@@ -196,6 +208,9 @@
       <Project>{044152C1-3B2A-45A6-B233-80A51C511129}</Project>
       <Name>Softeq.XToolkit.Connectivity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <GoogleServicesJson Include="google-services.json" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

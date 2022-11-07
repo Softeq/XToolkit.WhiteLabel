@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "68742757515",
+    "project_id": "softeq-xtoolkit",
+    "storage_bucket": "softeq-xtoolkit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:68742757515:android:c42b8085e044fd4d8d688e",
+        "android_client_info": {
+          "package_name": "com.softeq.playground_droid"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "68742757515-kmt6nv767pbo861lqdds3qnq592knobv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAQjcQXtgTtS9kHAxu1p8Ak7Prnv2d-mig"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "68742757515-kmt6nv767pbo861lqdds3qnq592knobv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
