@@ -3,9 +3,10 @@
 
 using System;
 using System.Threading.Tasks;
+using Android.App;
 using Android.Content;
 using Android.Gms.Extensions;
-using Android.OS;
+using AndroidX.Core.App;
 using Firebase.Messaging;
 using Java.IO;
 using Softeq.XToolkit.Common.Logger;
@@ -39,7 +40,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         }
 
         /// <inheritdoc />
-        public async Task RegisterForPushNotificationsAsync()
+        public async Task RegisterAsync()
         {
             var token = await FirebaseMessaging.Instance
                 .GetToken()
@@ -52,7 +53,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         }
 
         /// <inheritdoc />
-        public async Task UnregisterForPushNotificationsAsync()
+        public async Task UnregisterAsync()
         {
             try
             {
@@ -65,6 +66,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             {
                 _logger.Warn($"Firebase DeleteToken failed: {e.Message}");
             }
+        }
+
+        /// <inheritdoc />
+        public void ClearAllNotifications()
+        {
+            NotificationManagerCompat.From(Application.Context).CancelAll();
         }
 
         /// <inheritdoc />

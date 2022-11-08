@@ -105,7 +105,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         /// <inheritdoc />
         public Task OnUnregisterFromPushNotifications()
         {
-            return UnregisterFromPushNotifications();
+            return UnregisterFromRemotePushNotifications();
         }
 
         private void OnMessageReceivedInternal(PushNotificationModel parsedNotification, bool inForeground)
@@ -156,14 +156,14 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         {
             _pushTokenStorageService.IsTokenRegisteredInSystem = false;
 
-            await UnregisterFromPushNotifications();
+            await UnregisterFromRemotePushNotifications();
 
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 _pushTokenStorageService.IsTokenRegisteredInSystem,
                 _pushTokenStorageService.IsTokenSavedOnServer);
         }
 
-        private async Task UnregisterFromPushNotifications()
+        private async Task UnregisterFromRemotePushNotifications()
         {
             if (!_pushTokenStorageService.IsTokenSavedOnServer)
             {

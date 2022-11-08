@@ -38,12 +38,22 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         }
 
         /// <inheritdoc />
-        public async Task RegisterForPushNotificationsAsync()
+        public async Task RegisterAsync()
         {
             var requiredAuthorizationOptions = _pushNotificationsConsumer.GetRequiredAuthorizationOptions();
-            var (isGranted, _) = await UNUserNotificationCenter.Current.RequestAuthorizationAsync(requiredAuthorizationOptions);
+            var (isGranted, error) = await UNUserNotificationCenter.Current
+                .RequestAuthorizationAsync(requiredAuthorizationOptions)
+                .ConfigureAwait(false);
+
+            if (error != null)
+            {
+                throw new NSErrorException(error);
+            }
+
             _pushNotificationsConsumer.OnPushNotificationAuthorizationResult(isGranted);
 
+            // We should register token in any case (even when permissions are not granted) to handle the possibility
+            // of user changing permission in Settings (the system itself will disregard notifications if permissions are not granted)
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
                 UIApplication.SharedApplication.RegisterForRemoteNotifications();
@@ -51,14 +61,24 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         }
 
         /// <inheritdoc />
-        public async Task UnregisterForPushNotificationsAsync()
+        public async Task UnregisterAsync()
         {
             UIApplication.SharedApplication.InvokeOnMainThread(() =>
             {
                 UIApplication.SharedApplication.UnregisterForRemoteNotifications();
             });
 
-            await _pushNotificationsConsumer.OnUnregisterFromPushNotifications();
+            await _pushNotificationsConsumer
+                .OnUnregisterFromPushNotifications()
+                .ConfigureAwait(false);
+        }
+
+        /// <inheritdoc />
+        public void ClearAllNotifications()
+        {
+            UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
+            UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
+            UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests();
         }
 
         /// <inheritdoc />
