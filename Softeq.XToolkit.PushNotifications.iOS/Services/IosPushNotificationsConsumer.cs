@@ -178,7 +178,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         /// <inheritdoc />
         public Task OnUnregisterFromPushNotifications()
         {
-            return UnregisterFromPushNotifications();
+            return UnregisterFromRemotePushNotifications();
         }
 
         private static string ParseDeviceToken(NSData deviceToken)
@@ -222,14 +222,14 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         {
             _pushTokenStorageService.IsTokenRegisteredInSystem = false;
 
-            await UnregisterFromPushNotifications();
+            await UnregisterFromRemotePushNotifications();
 
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 _pushTokenStorageService.IsTokenRegisteredInSystem,
                 _pushTokenStorageService.IsTokenSavedOnServer);
         }
 
-        private async Task UnregisterFromPushNotifications()
+        private async Task UnregisterFromRemotePushNotifications()
         {
             if (!_pushTokenStorageService.IsTokenSavedOnServer)
             {

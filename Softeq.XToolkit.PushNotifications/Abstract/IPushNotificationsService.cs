@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.PushNotifications.Abstract
         /// <returns>
         ///     A <see cref="Task"/> representing the asynchronous operation.
         /// </returns>
-        Task RegisterForPushNotificationsAsync();
+        Task RegisterAsync();
 
         /// <summary>
         ///     Unregisters application from push notifications asynchronously.
@@ -21,6 +21,11 @@ namespace Softeq.XToolkit.PushNotifications.Abstract
         /// <returns>
         ///     A <see cref="Task"/> representing the asynchronous operation.
         /// </returns>
-        Task UnregisterForPushNotificationsAsync();
+        Task UnregisterAsync();
+
+        /// <summary>
+        ///     Clears all notifications from notifications center.
+        /// </summary>
+        void ClearAllNotifications();
     }
 }
