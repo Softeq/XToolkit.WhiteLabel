@@ -1,8 +1,13 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading.Tasks;
+using Android.Content;
+using Android.OS;
+using Firebase.Messaging;
 using Playground.Droid.Extended;
 using Playground.Droid.Services;
 using Playground.Extended;
@@ -12,7 +17,11 @@ using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.PushNotifications;
+using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.PushNotifications.Droid;
+using Softeq.XToolkit.PushNotifications.Droid.Abstract;
+using Softeq.XToolkit.PushNotifications.Droid.Services;
+using Softeq.XToolkit.PushNotifications.Droid.Utils;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
@@ -58,8 +67,40 @@ namespace Playground.Droid
 
             // push notifications
             builder.Singleton<DroidNotificationsSettingsProvider, INotificationsSettingsProvider>();
-            builder.Singleton<DroidPushNotificationParser, IPushNotificationParser>();
+            builder.Singleton<DroidPushNotificationParser, IPushNotificationsParser>();
+            builder.Singleton<DroidPushNotificationsConsumer>();
+            builder.Singleton<IPushNotificationsConsumer>(c =>
+                new CompositePushNotificationsConsumer(
+                    new DroidLogPushNotificationsConsumer(),
+                    c.Resolve<DroidPushNotificationsConsumer>()));
             builder.Singleton<DroidPushNotificationsService, IPushNotificationsService>();
+        }
+    }
+
+    public class DroidLogPushNotificationsConsumer : IPushNotificationsConsumer
+    {
+        public bool TryHandleNotification(RemoteMessage message)
+        {
+            System.Diagnostics.Debug.WriteLine($"XXX: TryHandle:RemoteMessage");
+            return false;
+        }
+
+        public bool TryHandlePushNotificationIntent(Intent intent)
+        {
+            System.Diagnostics.Debug.WriteLine($"XXX: TryHandle:Intent");
+            return false;
+        }
+
+        public void OnPushTokenRefreshed(string token)
+        {
+            System.Diagnostics.Debug.WriteLine($"XXX: TOKEN: ${token}");
+        }
+
+        public async Task OnUnregisterFromPushNotifications()
+        {
+            await Task.Delay(TimeSpan.FromSeconds(1));
+
+            throw new System.NotImplementedException();
         }
     }
 }

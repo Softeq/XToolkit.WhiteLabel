@@ -6,6 +6,7 @@ using Playground.Services.PushNotifications;
 using Playground.ViewModels.Frames;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.PushNotifications;
+using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Services;
 

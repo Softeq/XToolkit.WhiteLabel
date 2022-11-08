@@ -3,6 +3,7 @@
 
 using System.Threading.Tasks;
 using Softeq.XToolkit.PushNotifications;
+using Softeq.XToolkit.PushNotifications.Abstract;
 
 namespace Playground.Services.PushNotifications
 {

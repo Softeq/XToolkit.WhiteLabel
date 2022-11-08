@@ -10,6 +10,7 @@ using AndroidX.Core.Content;
 using Playground.Droid.Views;
 using Softeq.XToolkit.PushNotifications;
 using Softeq.XToolkit.PushNotifications.Droid;
+using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 
 namespace Playground.Droid.Services

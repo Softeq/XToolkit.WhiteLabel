@@ -5,6 +5,7 @@ using System;
 using Android.App;
 using Android.Runtime;
 using Softeq.XToolkit.PushNotifications;
+using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
@@ -34,7 +35,6 @@ namespace Playground.Droid
 
             // init push notifications
             var pushService = container.Resolve<IPushNotificationsService>();
-            pushService.Initialize(ForegroundNotificationOptions.ShowWithBadge);
         }
     }
 }
