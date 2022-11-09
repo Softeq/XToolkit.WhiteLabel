@@ -6,7 +6,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Threading.Tasks;
 using Android.Content;
-using Android.OS;
 using Firebase.Messaging;
 using Playground.Droid.Extended;
 using Playground.Droid.Services;
@@ -66,14 +65,24 @@ namespace Playground.Droid
             builder.Singleton<ConnectivityService, IConnectivityService>();
 
             // push notifications
-            builder.Singleton<DroidNotificationsSettingsProvider, INotificationsSettingsProvider>();
-            builder.Singleton<DroidPushNotificationParser, IPushNotificationsParser>();
-            builder.Singleton<DroidPushNotificationsConsumer>();
-            builder.Singleton<IPushNotificationsConsumer>(c =>
-                new CompositePushNotificationsConsumer(
-                    new DroidLogPushNotificationsConsumer(),
-                    c.Resolve<DroidPushNotificationsConsumer>()));
+            ConfigurePushNotifications(builder);
+        }
+
+        private static void ConfigurePushNotifications(IContainerBuilder builder)
+        {
             builder.Singleton<DroidPushNotificationsService, IPushNotificationsService>();
+            builder.Singleton<IActivityLauncherDelegate>(container => container.Resolve<DroidPushNotificationsService>());
+            builder.Singleton<DroidPushNotificationParser, IPushNotificationsParser>();
+            builder.Singleton<PlaygroundDroidNotificationsSettingsProvider, INotificationsSettingsProvider>();
+
+            builder.Singleton<DroidPushNotificationsConsumer>();
+            builder.Singleton<IPushNotificationsConsumer>(container =>
+            {
+                var logConsumer = new DroidLogPushNotificationsConsumer();
+                var defaultConsumer = container.Resolve<DroidPushNotificationsConsumer>(ForegroundNotificationOptions.ShowWithBadge);
+
+                return new CompositePushNotificationsConsumer(logConsumer, defaultConsumer);
+            });
         }
     }
 
@@ -99,8 +108,6 @@ namespace Playground.Droid
         public async Task OnUnregisterFromPushNotifications()
         {
             await Task.Delay(TimeSpan.FromSeconds(1));
-
-            throw new System.NotImplementedException();
         }
     }
 }

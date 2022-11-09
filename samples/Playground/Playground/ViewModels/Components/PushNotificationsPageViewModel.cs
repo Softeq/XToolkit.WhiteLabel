@@ -4,7 +4,6 @@
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Softeq.XToolkit.Common.Commands;
-using Softeq.XToolkit.PushNotifications;
 using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
@@ -29,14 +28,12 @@ namespace Playground.ViewModels.Components
 
         private async Task Register()
         {
-            // var result =
-            await _pushNotificationsService.RegisterForPushNotificationsAsync();
+            await _pushNotificationsService.RegisterAsync();
         }
 
         private async Task Unregister()
         {
-            await _pushNotificationsService.UnregisterForPushNotificationsAsync();
-            //PushNotificationsUnregisterOptions.InSystemAndOnServer
+            await _pushNotificationsService.UnregisterAsync();
         }
     }
 }

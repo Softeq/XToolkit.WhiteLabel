@@ -4,7 +4,6 @@
 using System;
 using Android.App;
 using Android.Runtime;
-using Softeq.XToolkit.PushNotifications;
 using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
@@ -19,8 +18,8 @@ namespace Playground.Droid
 #endif
     public class MainApplication : MainApplicationBase
     {
-        protected MainApplication(IntPtr handle, JniHandleOwnership transer)
-            : base(handle, transer)
+        protected MainApplication(IntPtr handle, JniHandleOwnership transfer)
+            : base(handle, transfer)
         {
         }
 

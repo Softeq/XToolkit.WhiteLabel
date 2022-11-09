@@ -16,11 +16,11 @@ using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 namespace Playground.Droid.Services
 {
     [SuppressMessage("StyleCop.CSharp.DocumentationRules", "SA1600:Elements should be documented", Justification = "Playground")]
-    public class DroidNotificationsSettingsProvider : INotificationsSettingsProvider
+    public class PlaygroundDroidNotificationsSettingsProvider : INotificationsSettingsProvider
     {
         private readonly IContextProvider _contextProvider;
 
-        public DroidNotificationsSettingsProvider(IContextProvider contextProvider)
+        public PlaygroundDroidNotificationsSettingsProvider(IContextProvider contextProvider)
         {
             _contextProvider = contextProvider;
         }

@@ -61,7 +61,7 @@
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="MainApplication.cs" />
-    <Compile Include="Services\DroidNotificationsSettingsProvider.cs" />
+    <Compile Include="Services\PlaygroundDroidNotificationsSettingsProvider.cs" />
     <Compile Include="Views\Components\PushNotificationsPageActivity.cs" />
     <Compile Include="Views\Controls\PhotoViewerActivity.cs" />
     <Compile Include="Views\Frames\FramesActivity.cs" />
@@ -211,6 +211,10 @@
   </ItemGroup>
   <ItemGroup>
     <GoogleServicesJson Include="google-services.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Google.Dagger" Version="2.41.0.2" />
+    <PackageReference Include="Xamarin.GooglePlayServices.Gcm" Version="117.0.0.5" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>
