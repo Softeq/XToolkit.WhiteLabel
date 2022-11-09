@@ -15,12 +15,12 @@ using UserNotifications;
 namespace Softeq.XToolkit.PushNotifications.iOS.Services
 {
     /// <summary>
-    ///     Default implementation of <see cref="IPushNotificationsConsumer"/> interface for Android platform.
+    ///     Default implementation of <see cref="IIosPushNotificationsConsumer"/> interface for Android platform.
     /// </summary>
-    public sealed class IosPushNotificationsConsumer : IPushNotificationsConsumer
+    public sealed class IosPushNotificationsConsumer : IIosPushNotificationsConsumer
     {
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
-        private readonly IPushNotificationsParser _pushNotificationsParser;
+        private readonly IIosPushNotificationsParser _pushNotificationsParser;
         private readonly INotificationCategoriesProvider _notificationCategoriesProvider;
         private readonly IPushTokenStorageService _pushTokenStorageService;
         private readonly IRemotePushNotificationsService _remotePushNotificationsService;
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         /// <param name="logManager">Provides logging.</param>
         public IosPushNotificationsConsumer(
             IPushNotificationsHandler pushNotificationsHandler,
-            IPushNotificationsParser pushNotificationsParser,
+            IIosPushNotificationsParser pushNotificationsParser,
             INotificationCategoriesProvider notificationCategoriesProvider,
             IPushTokenStorageService pushTokenStorageService,
             IRemotePushNotificationsService remotePushNotificationsService,

@@ -10,11 +10,11 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
 {
     internal sealed class UserNotificationCenterDelegate : UNUserNotificationCenterDelegate
     {
-        private readonly IPushNotificationsConsumer _pushNotificationsConsumer;
+        private readonly IIosPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
 
         public UserNotificationCenterDelegate(
-            IPushNotificationsConsumer pushNotificationsConsumer,
+            IIosPushNotificationsConsumer pushNotificationsConsumer,
             ILogManager logManager)
         {
             _pushNotificationsConsumer = pushNotificationsConsumer;

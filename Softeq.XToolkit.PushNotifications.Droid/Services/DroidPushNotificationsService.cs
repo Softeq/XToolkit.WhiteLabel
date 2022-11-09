@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
     /// </summary>
     public sealed class DroidPushNotificationsService : IPushNotificationsService, IActivityLauncherDelegate, IDisposable
     {
-        private readonly IPushNotificationsConsumer _pushNotificationsConsumer;
+        private readonly IDroidPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         /// <param name="pushNotificationsConsumer">Consumer of the push notification related callbacks.</param>
         /// <param name="logManager">Provides logging.</param>
         public DroidPushNotificationsService(
-            IPushNotificationsConsumer pushNotificationsConsumer,
+            IDroidPushNotificationsConsumer pushNotificationsConsumer,
             ILogManager logManager)
         {
             _pushNotificationsConsumer = pushNotificationsConsumer;

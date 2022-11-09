@@ -13,18 +13,18 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Utils
     /// <summary>
     ///     Combines multiple consumers into one.
     /// </summary>
-    public sealed class CompositePushNotificationsConsumer : IPushNotificationsConsumer
+    public sealed class CompositeDroidPushNotificationsConsumer : IDroidPushNotificationsConsumer
     {
-        private readonly IReadOnlyList<IPushNotificationsConsumer> _consumers;
+        private readonly IReadOnlyList<IDroidPushNotificationsConsumer> _consumers;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="CompositePushNotificationsConsumer"/> class.
+        ///     Initializes a new instance of the <see cref="CompositeDroidPushNotificationsConsumer"/> class.
         /// </summary>
         /// <param name="consumers">
         ///     List of the consumers. Order define the priority of the consumers - first consumer will always have a chance
         ///     to handle push notification, last consumer will have a chance only if all other consumers haven't handled push notification.
         /// </param>
-        public CompositePushNotificationsConsumer(params IPushNotificationsConsumer[] consumers)
+        public CompositeDroidPushNotificationsConsumer(params IDroidPushNotificationsConsumer[] consumers)
         {
             _consumers = consumers;
         }

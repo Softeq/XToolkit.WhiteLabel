@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Abstract
     /// <summary>
     ///     Basic interface for push notification consumer on iOS platform.
     /// </summary>
-    public interface IPushNotificationsConsumer
+    public interface IIosPushNotificationsConsumer
     {
         UNAuthorizationOptions GetRequiredAuthorizationOptions();
 

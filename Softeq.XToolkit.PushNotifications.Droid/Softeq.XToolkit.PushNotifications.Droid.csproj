@@ -49,8 +49,8 @@
   <ItemGroup>
     <Compile Include="Abstract\IActivityLauncherDelegate.cs" />
     <Compile Include="Abstract\INotificationsSettingsProvider.cs" />
-    <Compile Include="Abstract\IPushNotificationsParser.cs" />
-    <Compile Include="Abstract\IPushNotificationsConsumer.cs" />
+    <Compile Include="Abstract\IDroidPushNotificationsParser.cs" />
+    <Compile Include="Abstract\IDroidPushNotificationsConsumer.cs" />
     <Compile Include="AppLifecycleObserver.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NotificationsHelper.cs" />
@@ -62,7 +62,7 @@
     <Compile Include="NotificationActionsHelper.cs" />
     <Compile Include="Services\DroidPushNotificationsConsumer.cs" />
     <Compile Include="Services\DroidPushNotificationsService.cs" />
-    <Compile Include="Utils\CompositePushNotificationsConsumer.cs" />
+    <Compile Include="Utils\CompositeDroidPushNotificationsConsumer.cs" />
     <Compile Include="XFirebaseMessagingService.cs" />
   </ItemGroup>
   <ItemGroup>
