@@ -54,6 +54,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             _logger = logManager.GetLogger<DroidPushNotificationsConsumer>();
 
             NotificationsHelper.Init(notificationsSettings);
+            NotificationsHelper.CreateNotificationChannels(Application.Context);
 
             _lifecycleObserver = new AppLifecycleObserver();
             ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
