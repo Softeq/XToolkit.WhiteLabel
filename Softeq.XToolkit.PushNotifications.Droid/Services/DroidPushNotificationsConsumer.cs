@@ -14,12 +14,12 @@ using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 namespace Softeq.XToolkit.PushNotifications.Droid.Services
 {
     /// <summary>
-    ///     Default implementation of <see cref="IPushNotificationsConsumer"/> interface for Android platform.
+    ///     Default implementation of <see cref="IDroidPushNotificationsConsumer"/> interface for Android platform.
     /// </summary>
-    public sealed class DroidPushNotificationsConsumer : IPushNotificationsConsumer
+    public sealed class DroidPushNotificationsConsumer : IDroidPushNotificationsConsumer
     {
         private readonly IPushTokenStorageService _pushTokenStorageService;
-        private readonly IPushNotificationsParser _pushNotificationsParser;
+        private readonly IDroidPushNotificationsParser _pushNotificationsParser;
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
         private readonly IRemotePushNotificationsService _remotePushNotificationsService;
         private readonly ForegroundNotificationOptions _showForegroundNotificationsInSystemOptions;
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         /// <param name="logManager">Provides logging.</param>
         public DroidPushNotificationsConsumer(
             INotificationsSettingsProvider notificationsSettings,
-            IPushNotificationsParser pushNotificationsParser,
+            IDroidPushNotificationsParser pushNotificationsParser,
             IPushTokenStorageService pushTokenStorageService,
             IPushNotificationsHandler pushNotificationsHandler,
             IRemotePushNotificationsService remotePushNotificationsService,
@@ -54,6 +54,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             _logger = logManager.GetLogger<DroidPushNotificationsConsumer>();
 
             NotificationsHelper.Init(notificationsSettings);
+            NotificationsHelper.CreateNotificationChannels(Application.Context);
 
             _lifecycleObserver = new AppLifecycleObserver();
             ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);

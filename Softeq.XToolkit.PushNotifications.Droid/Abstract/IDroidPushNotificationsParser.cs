@@ -6,7 +6,7 @@ using Firebase.Messaging;
 
 namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
 {
-    public interface IPushNotificationsParser
+    public interface IDroidPushNotificationsParser
     {
         /// <summary>
         ///     Parse received notification object to <see cref="PushNotificationModel"/>.

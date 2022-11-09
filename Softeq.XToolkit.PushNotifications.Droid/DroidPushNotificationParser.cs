@@ -10,7 +10,7 @@ using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
-    public class DroidPushNotificationParser : IPushNotificationsParser
+    public class DroidPushNotificationParser : IDroidPushNotificationsParser
     {
         private const string StringResourceType = "string";
 

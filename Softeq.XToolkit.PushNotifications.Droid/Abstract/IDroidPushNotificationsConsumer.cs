@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
     /// <summary>
     ///     Basic interface for push notification consumer on Android platform.
     /// </summary>
-    public interface IPushNotificationsConsumer
+    public interface IDroidPushNotificationsConsumer
     {
         /// <summary>
         ///    Callback called when push notification is received.

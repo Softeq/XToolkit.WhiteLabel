@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
     /// </summary>
     public sealed class IosPushNotificationService : IPushNotificationsService, IPushNotificationAppDelegate
     {
-        private readonly IPushNotificationsConsumer _pushNotificationsConsumer;
+        private readonly IIosPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         /// <param name="pushNotificationsConsumer">Consumer of the push notification related callbacks.</param>
         /// <param name="logManager">Provides logging.</param>
         public IosPushNotificationService(
-            IPushNotificationsConsumer pushNotificationsConsumer,
+            IIosPushNotificationsConsumer pushNotificationsConsumer,
             ILogManager logManager)
         {
             _pushNotificationsConsumer = pushNotificationsConsumer;

@@ -42,8 +42,8 @@
   <ItemGroup>
     <Compile Include="Abstract\INotificationCategoriesProvider.cs" />
     <Compile Include="Abstract\IPushNotificationAppDelegate.cs" />
-    <Compile Include="Abstract\IPushNotificationsConsumer.cs" />
-    <Compile Include="Abstract\IPushNotificationsParser.cs" />
+    <Compile Include="Abstract\IIosPushNotificationsConsumer.cs" />
+    <Compile Include="Abstract\IIosPushNotificationsParser.cs" />
     <Compile Include="NSDictionaryExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="IosPushNotificationParser.cs" />
@@ -52,7 +52,7 @@
     <Compile Include="Services\UserNotificationCenterDelegate.cs" />
     <Compile Include="NSDataExtensions.cs" />
     <Compile Include="IosNotificationCategoriesProvider.cs" />
-    <Compile Include="Utils\CompositePushNotificationsConsumer.cs" />
+    <Compile Include="Utils\CompositeIosPushNotificationsConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">

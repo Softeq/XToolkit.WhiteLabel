@@ -5,7 +5,7 @@ using Foundation;
 
 namespace Softeq.XToolkit.PushNotifications.iOS.Abstract
 {
-    public interface IPushNotificationsParser
+    public interface IIosPushNotificationsParser
     {
         /// <summary>
         ///     Parse received notification object to <see cref="PushNotificationModel"/>.
