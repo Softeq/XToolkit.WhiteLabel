@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
-using Android.App;
 using Android.Content;
 using AndroidX.Lifecycle;
 using Firebase.Messaging;
@@ -22,7 +21,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         private readonly IDroidPushNotificationsParser _pushNotificationsParser;
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
         private readonly IRemotePushNotificationsService _remotePushNotificationsService;
-        private readonly ForegroundNotificationOptions _showForegroundNotificationsInSystemOptions;
+        private readonly IDroidPushNotificationPresenter _pushNotificationPresenter;
         private readonly ILogger _logger;
 
         private readonly AppLifecycleObserver _lifecycleObserver;
@@ -30,31 +29,26 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         /// <summary>
         ///     Initializes a new instance of the <see cref="DroidPushNotificationsConsumer"/> class.
         /// </summary>
-        /// <param name="notificationsSettings">Provides settings for notification construction.</param>
         /// <param name="pushNotificationsParser">Parses remote messages into common format.</param>
         /// <param name="pushTokenStorageService">Stores push notification token and it's status.</param>
         /// <param name="pushNotificationsHandler">Handles received push notifications events.</param>
         /// <param name="remotePushNotificationsService">Propagates push notification token to remote server.</param>
-        /// <param name="showForegroundNotificationsInSystemOptions">Defines how push notification should be presented.</param>
+        /// <param name="pushNotificationPresenter">Responsible for presenting push notification.</param>
         /// <param name="logManager">Provides logging.</param>
         public DroidPushNotificationsConsumer(
-            INotificationsSettingsProvider notificationsSettings,
             IDroidPushNotificationsParser pushNotificationsParser,
             IPushTokenStorageService pushTokenStorageService,
             IPushNotificationsHandler pushNotificationsHandler,
             IRemotePushNotificationsService remotePushNotificationsService,
-            ForegroundNotificationOptions showForegroundNotificationsInSystemOptions,
+            IDroidPushNotificationPresenter pushNotificationPresenter,
             ILogManager logManager)
         {
+            _pushNotificationsParser = pushNotificationsParser;
             _pushTokenStorageService = pushTokenStorageService;
             _pushNotificationsHandler = pushNotificationsHandler;
             _remotePushNotificationsService = remotePushNotificationsService;
-            _showForegroundNotificationsInSystemOptions = showForegroundNotificationsInSystemOptions;
-            _pushNotificationsParser = pushNotificationsParser;
+            _pushNotificationPresenter = pushNotificationPresenter;
             _logger = logManager.GetLogger<DroidPushNotificationsConsumer>();
-
-            NotificationsHelper.Init(notificationsSettings);
-            NotificationsHelper.CreateNotificationChannels(Application.Context);
 
             _lifecycleObserver = new AppLifecycleObserver();
             ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
@@ -70,10 +64,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
 
             OnMessageReceivedInternal(parsedNotification, _lifecycleObserver.IsForegrounded);
 
-            if (!parsedNotification.IsSilent && (_showForegroundNotificationsInSystemOptions.ShouldShow() || !_lifecycleObserver.IsForegrounded))
-            {
-                NotificationsHelper.CreateNotification(Application.Context, parsedNotification, message.Data);
-            }
+            _pushNotificationPresenter.Present(parsedNotification, message.Data, _lifecycleObserver.IsForegrounded);
 
             return true;
         }
