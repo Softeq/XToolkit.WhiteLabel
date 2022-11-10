@@ -183,7 +183,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
 
         private static string ParseDeviceToken(NSData deviceToken)
         {
-            return deviceToken.ToString().Replace("-", string.Empty);
+            return deviceToken.AsString().Replace("-", string.Empty);
         }
 
         private void OnRegisteredForPushNotifications(string token)
