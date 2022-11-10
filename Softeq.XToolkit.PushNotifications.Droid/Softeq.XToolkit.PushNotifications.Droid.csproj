@@ -60,7 +60,7 @@
     <Compile Include="NotificationIntentActivityInfo.cs" />
     <Compile Include="NotificationChannelsHelper.cs" />
     <Compile Include="NotificationActionsHelper.cs" />
-    <Compile Include="Services\ActivityLauncherDelegate.cs" />
+    <Compile Include="Services\DroidActivityLauncherDelegate.cs" />
     <Compile Include="Services\DroidPushNotificationsConsumer.cs" />
     <Compile Include="Services\DroidPushNotificationsService.cs" />
     <Compile Include="Utils\CompositeDroidPushNotificationsConsumer.cs" />
