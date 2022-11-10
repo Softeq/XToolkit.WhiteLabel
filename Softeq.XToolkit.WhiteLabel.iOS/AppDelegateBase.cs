@@ -21,13 +21,20 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         public override UIWindow? Window { get; set; }
 
+        /// <summary>
+        ///     Gets options, provided during the app launch.
+        /// </summary>
+        protected NSDictionary? LaunchOptions { get; private set; }
+
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
+            LaunchOptions = launchOptions;
+
             // YP: Hard reference kept because StoryboardNavigation service uses weak references.
             _rootViewController = CreateRootViewController();
 
             InitializeMainWindow(_rootViewController);
-            InitializeWhiteLabelRuntime(application, launchOptions);
+            InitializeWhiteLabelRuntime();
 
             return true;
         }
@@ -46,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             Window.MakeKeyAndVisible();
         }
 
-        protected virtual void InitializeWhiteLabelRuntime(UIApplication application, NSDictionary launchOptions)
+        protected virtual void InitializeWhiteLabelRuntime()
         {
             // Init Bindings
             BindingExtensions.Initialize(new AppleBindingFactory());
@@ -55,7 +62,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             Execute.Initialize(new IosMainThreadExecutor());
 
             // Init dependencies
-            var bootstrapper = CreateBootstrapper(application, launchOptions);
+            var bootstrapper = CreateBootstrapper();
             var container = bootstrapper.Initialize();
             Dependencies.Initialize(container);
 
@@ -63,7 +70,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             OnContainerInitialized(container);
         }
 
-        protected abstract IBootstrapper CreateBootstrapper(UIApplication application, NSDictionary launchOptions);
+        protected abstract IBootstrapper CreateBootstrapper();
 
         protected virtual void OnContainerInitialized(IContainer container)
         {
