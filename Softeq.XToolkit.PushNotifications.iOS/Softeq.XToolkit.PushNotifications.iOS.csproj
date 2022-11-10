@@ -49,6 +49,7 @@
     <Compile Include="IosPushNotificationParser.cs" />
     <Compile Include="Services\IosPushNotificationService.cs" />
     <Compile Include="Services\IosPushNotificationsConsumer.cs" />
+    <Compile Include="Services\IosPushNotificationAppDelegate.cs" />
     <Compile Include="Services\UserNotificationCenterDelegate.cs" />
     <Compile Include="NSDataExtensions.cs" />
     <Compile Include="IosNotificationCategoriesProvider.cs" />

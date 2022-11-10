@@ -9,15 +9,15 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
     /// <summary>
     ///     Default implementation of <see cref="IActivityLauncherDelegate"/> interface for Android platform.
     /// </summary>
-    public sealed class ActivityLauncherDelegate : IActivityLauncherDelegate
+    public sealed class DroidActivityLauncherDelegate : IActivityLauncherDelegate
     {
         private readonly IDroidPushNotificationsConsumer _pushNotificationsConsumer;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="ActivityLauncherDelegate"/> class.
+        /// Initializes a new instance of the <see cref="DroidActivityLauncherDelegate"/> class.
         /// </summary>
         /// <param name="pushNotificationsConsumer">Consumer of the push notification related callbacks.</param>
-        public ActivityLauncherDelegate(IDroidPushNotificationsConsumer pushNotificationsConsumer)
+        public DroidActivityLauncherDelegate(IDroidPushNotificationsConsumer pushNotificationsConsumer)
         {
             _pushNotificationsConsumer = pushNotificationsConsumer;
         }

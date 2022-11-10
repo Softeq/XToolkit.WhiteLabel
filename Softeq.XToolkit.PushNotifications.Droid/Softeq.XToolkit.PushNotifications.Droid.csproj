@@ -48,6 +48,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Abstract\IActivityLauncherDelegate.cs" />
+    <Compile Include="Abstract\IDroidPushNotificationPresenter.cs" />
     <Compile Include="Abstract\INotificationsSettingsProvider.cs" />
     <Compile Include="Abstract\IDroidPushNotificationsParser.cs" />
     <Compile Include="Abstract\IDroidPushNotificationsConsumer.cs" />
@@ -60,7 +61,8 @@
     <Compile Include="NotificationIntentActivityInfo.cs" />
     <Compile Include="NotificationChannelsHelper.cs" />
     <Compile Include="NotificationActionsHelper.cs" />
-    <Compile Include="Services\ActivityLauncherDelegate.cs" />
+    <Compile Include="Services\DroidActivityLauncherDelegate.cs" />
+    <Compile Include="Services\DroidPushNotificationPresenter.cs" />
     <Compile Include="Services\DroidPushNotificationsConsumer.cs" />
     <Compile Include="Services\DroidPushNotificationsService.cs" />
     <Compile Include="Utils\CompositeDroidPushNotificationsConsumer.cs" />
