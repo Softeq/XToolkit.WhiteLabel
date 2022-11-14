@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-namespace Softeq.XToolkit.PushNotifications
+namespace Softeq.XToolkit.PushNotifications.Abstract
 {
     public interface IPushTokenStorageService
     {

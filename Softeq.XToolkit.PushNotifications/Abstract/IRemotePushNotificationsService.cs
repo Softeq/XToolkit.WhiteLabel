@@ -3,7 +3,7 @@
 
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.PushNotifications
+namespace Softeq.XToolkit.PushNotifications.Abstract
 {
     public interface IRemotePushNotificationsService
     {

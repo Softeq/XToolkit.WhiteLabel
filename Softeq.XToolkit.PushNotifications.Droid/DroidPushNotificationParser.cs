@@ -6,10 +6,11 @@ using System.Linq;
 using Android.App;
 using Android.OS;
 using Firebase.Messaging;
+using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 
 namespace Softeq.XToolkit.PushNotifications.Droid
 {
-    public class DroidPushNotificationParser : IPushNotificationParser
+    public class DroidPushNotificationParser : IDroidPushNotificationsParser
     {
         private const string StringResourceType = "string";
 
@@ -31,94 +32,106 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// </summary>
         protected virtual string DataKey => "data";
 
-        public PushNotificationModel Parse(object pushNotificationData)
+        /// <inheritdoc />
+        public bool TryParse(RemoteMessage message, out PushNotificationModel parsedPushNotificationModel)
         {
-            var pushNotification = new PushNotificationModel();
+            parsedPushNotificationModel = new PushNotificationModel();
 
-            if (pushNotificationData is RemoteMessage remoteNotification)
+            var pushMessage = message.GetNotification();
+            var pushData = message.Data;
+
+            if (!TryParseNotificationTypeFromData(pushData, out var notificationType))
             {
-                pushNotification = ParseRemoteMessageNotification(remoteNotification);
-            }
-            else if (pushNotificationData is Bundle bundleNotification)
-            {
-                pushNotification = ParseBundleNotification(bundleNotification);
+                return false;
             }
 
-            return pushNotification;
+            parsedPushNotificationModel.Title = ParseNotificationTitleFromData(pushMessage, pushData);
+            parsedPushNotificationModel.Body = ParseNotificationMessageFromData(pushMessage, pushData);
+
+            parsedPushNotificationModel.IsSilent = string.IsNullOrEmpty(parsedPushNotificationModel.Body);
+
+            parsedPushNotificationModel.Type = notificationType;
+            parsedPushNotificationModel.AdditionalData = GetStringFromDictionary(pushData, DataKey);
+
+            return true;
         }
 
-        private PushNotificationModel ParseRemoteMessageNotification(RemoteMessage remoteNotification)
+        /// <inheritdoc />
+        public bool TryParse(Bundle? bundle, out PushNotificationModel parsedPushNotificationModel)
         {
-            var pushNotification = new PushNotificationModel();
+            parsedPushNotificationModel = new PushNotificationModel();
 
-            var pushMessage = remoteNotification.GetNotification();
-            var pushData = remoteNotification.Data;
+            if (bundle == null)
+            {
+                return false;
+            }
 
-            pushNotification.Title = ParseNotificationTitleFromData(pushMessage, pushData);
-            pushNotification.Body = ParseNotificationMessageFromData(pushMessage, pushData);
+            if (!TryParseNotificationTypeFromBundle(bundle, out var notificationType))
+            {
+                return false;
+            }
 
-            pushNotification.IsSilent = string.IsNullOrEmpty(pushNotification.Body);
-
-            pushNotification.Type = ParseNotificationTypeFromData(pushData);
-            pushNotification.AdditionalData = GetStringFromDictionary(pushData, DataKey);
-
-            return pushNotification;
-        }
-
-        private PushNotificationModel ParseBundleNotification(Bundle bundleNotification)
-        {
-            var pushNotification = new PushNotificationModel();
-
-            pushNotification.Title = bundleNotification.GetString(DataTitleKey); // if stored inside Data
-            pushNotification.Body = bundleNotification.GetString(DataBodyKey); // if stored inside Data
+            parsedPushNotificationModel.Title = bundle.GetString(DataTitleKey); // if stored inside Data
+            parsedPushNotificationModel.Body = bundle.GetString(DataBodyKey); // if stored inside Data
 
             // If we are here it means that the user tapped on a notification thus it is definitely not silent
-            pushNotification.IsSilent = false;
+            parsedPushNotificationModel.IsSilent = false;
 
-            pushNotification.AdditionalData = bundleNotification.GetString(DataKey)!;
-            pushNotification.Type = ParseNotificationTypeFromBundle(bundleNotification);
+            parsedPushNotificationModel.AdditionalData = bundle.GetString(DataKey)!;
+            parsedPushNotificationModel.Type = notificationType;
 
-            return pushNotification;
+            return true;
+        }
+
+        /// <summary>
+        ///     Obtains string by key from the specified <see cref="T:System.Collections.Generic.IDictionary`2"/>.
+        /// </summary>
+        /// <param name="data"><see cref="T:System.Collections.Generic.IDictionary`2"/> object.</param>
+        /// <param name="key">Key string.</param>
+        /// <returns>String stored under the specified key or <see langword="null"/>.</returns>
+        protected static string GetStringFromDictionary(IDictionary<string, string>? data, string key)
+        {
+            return data == null
+                ? string.Empty
+                : data.TryGetValue(key, out var value)
+                    ? value
+                    : string.Empty;
         }
 
         protected virtual string? ParseNotificationTitleFromData(
-            RemoteMessage.Notification pushMessage,
+            RemoteMessage.Notification? pushMessage,
             IDictionary<string, string> pushNotificationData)
         {
             if (pushMessage == null)
             {
                 return GetStringFromDictionary(pushNotificationData, DataTitleKey);
             }
-            else
-            {
-                string? title = null;
-                if (!string.IsNullOrEmpty(pushMessage.TitleLocalizationKey))
-                {
-                    title = GetResourceString(pushMessage.TitleLocalizationKey, pushMessage.GetTitleLocalizationArgs());
-                }
 
-                return title ?? pushMessage.Title;
+            string? title = null;
+            if (!string.IsNullOrEmpty(pushMessage.TitleLocalizationKey))
+            {
+                title = GetResourceString(pushMessage.TitleLocalizationKey, pushMessage.GetTitleLocalizationArgs());
             }
+
+            return title ?? pushMessage.Title;
         }
 
         protected virtual string? ParseNotificationMessageFromData(
-            RemoteMessage.Notification pushMessage,
+            RemoteMessage.Notification? pushMessage,
             IDictionary<string, string> pushNotificationData)
         {
             if (pushMessage == null)
             {
                 return GetStringFromDictionary(pushNotificationData, DataBodyKey);
             }
-            else
-            {
-                string? body = null;
-                if (!string.IsNullOrEmpty(pushMessage.BodyLocalizationKey))
-                {
-                    body = GetResourceString(pushMessage.BodyLocalizationKey, pushMessage.GetBodyLocalizationArgs());
-                }
 
-                return body ?? pushMessage.Body;
+            string? body = null;
+            if (!string.IsNullOrEmpty(pushMessage.BodyLocalizationKey))
+            {
+                body = GetResourceString(pushMessage.BodyLocalizationKey, pushMessage.GetBodyLocalizationArgs());
             }
+
+            return body ?? pushMessage.Body;
         }
 
         /// <summary>
@@ -128,10 +141,14 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         ///     <see cref="T:System.Collections.Generic.IDictionary`2"/>
         ///     which represents <see cref="P:Firebase.Messaging.RemoteMessage.Data"/>.
         /// </param>
-        /// <returns>Notification type.</returns>
-        protected virtual string ParseNotificationTypeFromData(IDictionary<string, string> pushNotificationData)
+        /// <param name="notificationType">Parsed notification type.</param>
+        /// <returns><see langword="true"/> if notification type has been parsed, <see langword="false"/> otherwise.</returns>
+        protected virtual bool TryParseNotificationTypeFromData(
+            IDictionary<string, string> pushNotificationData,
+            out string notificationType)
         {
-            return string.Empty;
+            notificationType = string.Empty;
+            return true;
         }
 
         /// <summary>
@@ -140,25 +157,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <param name="pushNotificationBundle">
         ///     <see cref="T:Android.OS.Bundle"/> which was obtained from extras when application was started from push notification.
         /// </param>
-        /// <returns>Notification type.</returns>
-        protected virtual string ParseNotificationTypeFromBundle(Bundle pushNotificationBundle)
+        /// <param name="notificationType">Parsed notification type.</param>
+        /// <returns><see langword="true"/> if notification type has been parsed, <see langword="false"/> otherwise.</returns>
+        protected virtual bool TryParseNotificationTypeFromBundle(Bundle pushNotificationBundle, out string notificationType)
         {
-            return string.Empty;
-        }
-
-        /// <summary>
-        ///     Obtains string by key from the specified <see cref="T:System.Collections.Generic.IDictionary`2"/>.
-        /// </summary>
-        /// <param name="data"><see cref="T:System.Collections.Generic.IDictionary`2"/> object.</param>
-        /// <param name="key">Key string.</param>
-        /// <returns>String stored under the specified key or <see langword="null"/>.</returns>
-        protected string GetStringFromDictionary(IDictionary<string, string>? data, string key)
-        {
-            return data == null
-                ? string.Empty
-                : data.TryGetValue(key, out var value)
-                    ? value
-                    : string.Empty;
+            notificationType = string.Empty;
+            return true;
         }
 
         /// <summary>

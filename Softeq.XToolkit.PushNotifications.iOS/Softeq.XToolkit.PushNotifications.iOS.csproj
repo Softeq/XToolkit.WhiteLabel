@@ -40,16 +40,19 @@
     <Reference Include="Xamarin.iOS" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abstract\INotificationCategoriesProvider.cs" />
+    <Compile Include="Abstract\IPushNotificationAppDelegate.cs" />
+    <Compile Include="Abstract\IIosPushNotificationsConsumer.cs" />
+    <Compile Include="Abstract\IIosPushNotificationsParser.cs" />
     <Compile Include="NSDictionaryExtensions.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="INotificationsPermissionsService.cs" />
     <Compile Include="IosPushNotificationParser.cs" />
-    <Compile Include="IosPushNotificationsService.cs" />
-    <Compile Include="IosNotificationsPermissionsService.cs" />
-    <Compile Include="UserNotificationCenterDelegate.cs" />
-    <Compile Include="INotificationCategoriesProvider.cs" />
+    <Compile Include="Services\IosPushNotificationService.cs" />
+    <Compile Include="Services\IosPushNotificationsConsumer.cs" />
+    <Compile Include="Services\UserNotificationCenterDelegate.cs" />
     <Compile Include="NSDataExtensions.cs" />
     <Compile Include="IosNotificationCategoriesProvider.cs" />
+    <Compile Include="Utils\CompositeIosPushNotificationsConsumer.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">
