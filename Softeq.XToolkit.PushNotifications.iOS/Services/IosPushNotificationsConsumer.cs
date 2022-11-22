@@ -25,6 +25,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         private readonly IPushTokenStorageService _pushTokenStorageService;
         private readonly IRemotePushNotificationsService _remotePushNotificationsService;
         private readonly ForegroundNotificationOptions _showForegroundNotificationsInSystemOptions;
+        private readonly IPushTokenSynchronizer _pushTokenSynchronizer;
         private readonly ILogger _logger;
 
         /// <summary>
@@ -38,6 +39,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         /// <param name="showForegroundNotificationsInSystemOptions">Defines how push notification should be presented.</param>
         /// <param name="logManager">Provides logging.</param>
         public IosPushNotificationsConsumer(
+            IPushTokenSynchronizer pushTokenSynchronizer,
             IPushNotificationsHandler pushNotificationsHandler,
             IIosPushNotificationsParser pushNotificationsParser,
             INotificationCategoriesProvider notificationCategoriesProvider,
@@ -46,6 +48,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             ForegroundNotificationOptions showForegroundNotificationsInSystemOptions,
             ILogManager logManager)
         {
+            _pushTokenSynchronizer = pushTokenSynchronizer;
             _pushNotificationsHandler = pushNotificationsHandler;
             _pushTokenStorageService = pushTokenStorageService;
             _remotePushNotificationsService = remotePushNotificationsService;
@@ -200,18 +203,8 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
 
         private async Task OnRegisterSuccessInternal(string token)
         {
-            _pushTokenStorageService.IsTokenRegisteredInSystem = true;
-
-            if (_pushTokenStorageService.PushToken != token || !_pushTokenStorageService.IsTokenSavedOnServer)
-            {
-                _pushTokenStorageService.PushToken = token;
-
-                if (!string.IsNullOrEmpty(token))
-                {
-                    _pushTokenStorageService.IsTokenSavedOnServer = await _remotePushNotificationsService
-                        .SendPushNotificationsToken(token).ConfigureAwait(false);
-                }
-            }
+            await _pushTokenSynchronizer.OnRegisterSuccessInternalAsync(token)
+                .ConfigureAwait(false);
 
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 _pushTokenStorageService.IsTokenRegisteredInSystem,
@@ -220,7 +213,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
 
         private async Task OnRegisterFailedInternal()
         {
-            _pushTokenStorageService.IsTokenRegisteredInSystem = false;
+            _pushTokenSynchronizer.OnRegisterFailedInternal();
 
             await UnregisterFromRemotePushNotifications();
 

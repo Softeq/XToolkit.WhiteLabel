@@ -22,6 +22,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
         private readonly IRemotePushNotificationsService _remotePushNotificationsService;
         private readonly IDroidPushNotificationPresenter _pushNotificationPresenter;
+        private readonly IPushTokenSynchronizer _pushTokenSynchronizer;
         private readonly ILogger _logger;
 
         private readonly AppLifecycleObserver _lifecycleObserver;
@@ -41,6 +42,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             IPushNotificationsHandler pushNotificationsHandler,
             IRemotePushNotificationsService remotePushNotificationsService,
             IDroidPushNotificationPresenter pushNotificationPresenter,
+            IPushTokenSynchronizer pushTokenSynchronizer,
             ILogManager logManager)
         {
             _pushNotificationsParser = pushNotificationsParser;
@@ -48,6 +50,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             _pushNotificationsHandler = pushNotificationsHandler;
             _remotePushNotificationsService = remotePushNotificationsService;
             _pushNotificationPresenter = pushNotificationPresenter;
+            _pushTokenSynchronizer = pushTokenSynchronizer;
             _logger = logManager.GetLogger<DroidPushNotificationsConsumer>();
 
             _lifecycleObserver = new AppLifecycleObserver();
@@ -126,18 +129,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
 
         private async Task OnRegisterSuccessInternal(string token)
         {
-            _pushTokenStorageService.IsTokenRegisteredInSystem = true;
-
-            if (_pushTokenStorageService.PushToken != token || !_pushTokenStorageService.IsTokenSavedOnServer)
-            {
-                _pushTokenStorageService.PushToken = token;
-
-                if (!string.IsNullOrEmpty(token))
-                {
-                    _pushTokenStorageService.IsTokenSavedOnServer = await _remotePushNotificationsService
-                        .SendPushNotificationsToken(token).ConfigureAwait(false);
-                }
-            }
+            await _pushTokenSynchronizer.OnRegisterSuccessInternalAsync(token)
+                .ConfigureAwait(false);
 
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 _pushTokenStorageService.IsTokenRegisteredInSystem,
@@ -146,7 +139,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
 
         private async Task OnRegisterFailedInternal()
         {
-            _pushTokenStorageService.IsTokenRegisteredInSystem = false;
+            _pushTokenSynchronizer.OnRegisterFailedInternal();
 
             await UnregisterFromRemotePushNotifications();
 
