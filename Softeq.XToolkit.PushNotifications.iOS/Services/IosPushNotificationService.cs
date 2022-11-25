@@ -14,11 +14,13 @@ using UserNotifications;
 namespace Softeq.XToolkit.PushNotifications.iOS.Services
 {
     /// <summary>
-    ///     Default implementation of <see cref="IPushNotificationsService"/> interface for iOS platform.
+    ///     Default implementation of <see cref="IPushNotificationsService"/> and <see cref="IPushNotificationAppDelegate"/>
+    ///     interfaces for iOS platform. Handles all interactions with the platform, related to push notifications.
     /// </summary>
-    public sealed class IosPushNotificationService : IPushNotificationsService
+    public sealed class IosPushNotificationService : IPushNotificationsService, IPushNotificationAppDelegate
     {
         private readonly IIosPushNotificationsConsumer _pushNotificationsConsumer;
+        private readonly ILogger _logger;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="IosPushNotificationService"/> class.
@@ -30,6 +32,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             ILogManager logManager)
         {
             _pushNotificationsConsumer = pushNotificationsConsumer;
+            _logger = logManager.GetLogger<IosPushNotificationService>();
 
             UNUserNotificationCenter.Current.Delegate = new UserNotificationCenterDelegate(pushNotificationsConsumer, logManager);
             UNUserNotificationCenter.Current.SetNotificationCategories(new NSSet<UNNotificationCategory>(pushNotificationsConsumer.GetCategories().ToArray()));
@@ -77,6 +80,33 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             UIApplication.SharedApplication.ApplicationIconBadgeNumber = 0;
             UNUserNotificationCenter.Current.RemoveAllDeliveredNotifications();
             UNUserNotificationCenter.Current.RemoveAllPendingNotificationRequests();
+        }
+
+        /// <inheritdoc />
+        public void RegisteredForRemoteNotifications(UIApplication application, NSData deviceToken)
+        {
+            _pushNotificationsConsumer.OnRegisteredForRemoteNotifications(application, deviceToken);
+        }
+
+        /// <inheritdoc />
+        public void FailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
+        {
+            _pushNotificationsConsumer.OnFailedToRegisterForRemoteNotifications(application, error);
+        }
+
+        /// <inheritdoc />
+        public void DidReceiveRemoteNotification(
+            UIApplication application,
+            NSDictionary userInfo,
+            Action<UIBackgroundFetchResult> completionHandler)
+        {
+            if (_pushNotificationsConsumer.TryHandleRemoteNotification(application, userInfo, completionHandler))
+            {
+                return;
+            }
+
+            _logger.Warn("Notification have not been handled by consumer, invoking default handler");
+            completionHandler.Invoke(UIBackgroundFetchResult.NoData);
         }
     }
 }

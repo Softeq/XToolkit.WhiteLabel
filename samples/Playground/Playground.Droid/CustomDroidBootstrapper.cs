@@ -72,21 +72,21 @@ namespace Playground.Droid
         {
             builder.Singleton<DroidPushNotificationsService, IPushNotificationsService>();
             builder.Singleton<IActivityLauncherDelegate>(container => container.Resolve<DroidPushNotificationsService>());
-            builder.Singleton<DroidPushNotificationParser, IPushNotificationsParser>();
+            builder.Singleton<DroidPushNotificationParser, IDroidPushNotificationsParser>();
             builder.Singleton<PlaygroundDroidNotificationsSettingsProvider, INotificationsSettingsProvider>();
 
             builder.Singleton<DroidPushNotificationsConsumer>();
-            builder.Singleton<IPushNotificationsConsumer>(container =>
+            builder.Singleton<IDroidPushNotificationsConsumer>(container =>
             {
                 var logConsumer = new DroidLogPushNotificationsConsumer();
                 var defaultConsumer = container.Resolve<DroidPushNotificationsConsumer>(ForegroundNotificationOptions.ShowWithBadge);
 
-                return new CompositePushNotificationsConsumer(logConsumer, defaultConsumer);
+                return new CompositeDroidPushNotificationsConsumer(logConsumer, defaultConsumer);
             });
         }
     }
 
-    public class DroidLogPushNotificationsConsumer : IPushNotificationsConsumer
+    public class DroidLogPushNotificationsConsumer : IDroidPushNotificationsConsumer
     {
         public bool TryHandleNotification(RemoteMessage message)
         {

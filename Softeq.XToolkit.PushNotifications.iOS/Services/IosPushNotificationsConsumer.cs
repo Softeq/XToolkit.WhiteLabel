@@ -78,14 +78,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
                 return false;
             }
 
-            if (parsedNotification.IsSilent)
-            {
-                _pushNotificationsHandler.HandleSilentPushNotification(parsedNotification);
-            }
-            else
-            {
-                _pushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, true);
-            }
+            _pushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, true);
 
             switch (_showForegroundNotificationsInSystemOptions)
             {
@@ -150,8 +143,15 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             NSDictionary userInfo,
             Action<UIBackgroundFetchResult> completionHandler)
         {
-            // do nothing?
-            return false;
+            if (!_pushNotificationsParser.TryParse(userInfo, out var notificationModel))
+            {
+                return false;
+            }
+
+            _pushNotificationsHandler.HandleSilentPushNotification(notificationModel);
+            completionHandler.Invoke(UIBackgroundFetchResult.NoData);
+
+            return true;
         }
 
         /// <inheritdoc />

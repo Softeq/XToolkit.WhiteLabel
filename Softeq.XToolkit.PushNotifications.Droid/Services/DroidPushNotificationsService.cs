@@ -4,6 +4,7 @@
 using System;
 using System.Threading.Tasks;
 using Android.App;
+using Android.Content;
 using Android.Gms.Extensions;
 using AndroidX.Core.App;
 using Firebase.Messaging;
@@ -15,9 +16,10 @@ using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 namespace Softeq.XToolkit.PushNotifications.Droid.Services
 {
     /// <summary>
-    ///     Default implementation of <see cref="IPushNotificationsService"/> interface for Android platform.
+    ///     Default implementation of <see cref="IPushNotificationsService"/> and <see cref="IActivityLauncherDelegate"/>
+    ///     interfaces for Android platform. Handles all interactions with the platform, related to push notifications.
     /// </summary>
-    public sealed class DroidPushNotificationsService : IPushNotificationsService, IDisposable
+    public sealed class DroidPushNotificationsService : IPushNotificationsService, IActivityLauncherDelegate, IDisposable
     {
         private readonly IDroidPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
@@ -71,6 +73,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         public void ClearAllNotifications()
         {
             NotificationManagerCompat.From(Application.Context).CancelAll();
+        }
+
+        /// <inheritdoc />
+        public bool TryHandleLaunchIntent(Intent? intent)
+        {
+            return intent != null && _pushNotificationsConsumer.TryHandlePushNotificationIntent(intent);
         }
 
         private void OnNotificationReceived(RemoteMessage message)
