@@ -18,6 +18,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
 
+        private readonly object _navigationLockObject = new object();
+
         private IViewModelBase? _currentViewModel;
 
         public DroidFrameNavigationService(
@@ -43,25 +45,31 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         public void GoBack()
         {
-            if (!_backStack.CanGoBack)
+            lock (_navigationLockObject)
             {
-                return;
+                if (!_backStack.CanGoBack)
+                {
+                    return;
+                }
+
+                // navigation
+                _backStack.GoBack();
+
+                // apply platform navigation
+                ApplyBackStack(_backStack);
             }
-
-            // navigation
-            _backStack.GoBack();
-
-            // apply platform navigation
-            ApplyBackStack(_backStack);
         }
 
         public void GoBack<T>() where T : IViewModelBase
         {
-            // navigation
-            _backStack.GoBackWhile(x => !(x is T));
+            lock (_navigationLockObject)
+            {
+                // navigation
+                _backStack.GoBackWhile(x => !(x is T));
 
-            // apply platform navigation
-            ApplyBackStack(_backStack);
+                // apply platform navigation
+                ApplyBackStack(_backStack);
+            }
         }
 
         public virtual void NavigateToViewModel<TViewModel>(
@@ -69,36 +77,45 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
         {
-            if (clearBackStack)
+            lock (_navigationLockObject)
             {
-                _backStack.Clear();
+                if (clearBackStack)
+                {
+                    _backStack.Clear();
+                }
+
+                var viewModel = CreateViewModel<TViewModel>(parameters);
+                _backStack.Add(viewModel);
+
+                // apply platform navigation
+                ApplyBackStack(_backStack);
             }
-
-            var viewModel = CreateViewModel<TViewModel>(parameters);
-            _backStack.Add(viewModel);
-
-            // apply platform navigation
-            ApplyBackStack(_backStack);
         }
 
         /// <inheritdoc />
         public void NavigateToFirstPage()
         {
-            if (_backStack.IsEmpty)
+            lock (_navigationLockObject)
             {
-                return;
+                if (_backStack.IsEmpty)
+                {
+                    return;
+                }
+
+                _backStack.ResetToFirst();
+
+                // apply platform navigation
+                ApplyBackStack(_backStack);
             }
-
-            _backStack.ResetToFirst();
-
-            // apply platform navigation
-            ApplyBackStack(_backStack);
         }
 
         /// <inheritdoc />
         public void RestoreNavigation()
         {
-            ApplyBackStack(_backStack);
+            lock (_navigationLockObject)
+            {
+                ApplyBackStack(_backStack);
+            }
         }
 
         protected virtual IViewModelBase CreateViewModel<TViewModel>(IReadOnlyList<NavigationParameterModel>? parameters)
