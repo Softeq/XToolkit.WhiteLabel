@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private readonly IContainer _iocContainer;
         private readonly IViewLocator _viewLocator;
 
-        private readonly object _navigationLockObject = new object();
+        private readonly object _navigationLock = new object();
 
         private IViewModelBase? _currentViewModel;
 
@@ -30,22 +30,45 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _iocContainer = iocContainer;
         }
 
-        protected FrameNavigationConfig? Config { get; private set; }
-
+        /// <inheritdoc />
         public bool IsInitialized => Config != null;
 
-        public bool IsEmptyBackStack => _backStack.IsEmpty;
+        /// <inheritdoc />
+        public bool IsEmptyBackStack
+        {
+            get
+            {
+                lock (_navigationLock)
+                {
+                    return _backStack.IsEmpty;
+                }
+            }
+        }
 
-        public bool CanGoBack => _backStack.CanGoBack;
+        /// <inheritdoc />
+        public bool CanGoBack
+        {
+            get
+            {
+                lock (_navigationLock)
+                {
+                    return _backStack.CanGoBack;
+                }
+            }
+        }
 
+        protected FrameNavigationConfig? Config { get; private set; }
+
+        /// <inheritdoc />
         public void Initialize(object navigation)
         {
             Config = navigation as FrameNavigationConfig;
         }
 
+        /// <inheritdoc />
         public void GoBack()
         {
-            lock (_navigationLockObject)
+            lock (_navigationLock)
             {
                 if (!_backStack.CanGoBack)
                 {
@@ -60,9 +83,10 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
         }
 
+        /// <inheritdoc />
         public void GoBack<T>() where T : IViewModelBase
         {
-            lock (_navigationLockObject)
+            lock (_navigationLock)
             {
                 // navigation
                 _backStack.GoBackWhile(x => !(x is T));
@@ -72,12 +96,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
         }
 
+        /// <inheritdoc />
         public virtual void NavigateToViewModel<TViewModel>(
             bool clearBackStack = false,
             IReadOnlyList<NavigationParameterModel>? parameters = null)
             where TViewModel : IViewModelBase
         {
-            lock (_navigationLockObject)
+            lock (_navigationLock)
             {
                 if (clearBackStack)
                 {
@@ -95,7 +120,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         /// <inheritdoc />
         public void NavigateToFirstPage()
         {
-            lock (_navigationLockObject)
+            lock (_navigationLock)
             {
                 if (_backStack.IsEmpty)
                 {
@@ -112,7 +137,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         /// <inheritdoc />
         public void RestoreNavigation()
         {
-            lock (_navigationLockObject)
+            lock (_navigationLock)
             {
                 ApplyBackStack(_backStack);
             }
@@ -129,6 +154,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
 
             return viewModel;
+        }
+
+        protected virtual FragmentTransaction PrepareTransaction(FragmentTransaction fragmentTransaction)
+        {
+            return fragmentTransaction;
         }
 
         private static void UpdateViewModelStorage(FragmentManager fragmentManager, IViewModelBase? viewModelToRemove, IViewModelBase viewModelToAdd)
@@ -169,20 +199,18 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
         private void ApplyBackStack(BackStack<IViewModelBase> backStack)
         {
-            Execute.BeginOnUIThread(() =>
+            if (Config?.Manager == null
+                || Config.Manager.IsDestroyed
+                || Config.Manager.IsStateSaved)
             {
-                if (Config?.Manager == null
-                    || Config.Manager.IsDestroyed
-                    || Config.Manager.IsStateSaved)
-                {
-                    return;
-                }
+                return;
+            }
 
-                var topViewModel = backStack.Current();
-                UpdateViewModelStorage(Config.Manager, _currentViewModel, topViewModel);
-                SetCurrentFragment(Config, topViewModel);
-                _currentViewModel = topViewModel;
-            });
+            var topViewModel = backStack.Current();
+            UpdateViewModelStorage(Config.Manager, _currentViewModel, topViewModel);
+            _currentViewModel = topViewModel;
+
+            SetCurrentFragment(Config, topViewModel);
         }
 
         private void SetCurrentFragment(FrameNavigationConfig config, IViewModelBase topViewModel)
@@ -199,12 +227,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 .BeginTransaction()
                 .Replace(config.ContainerId, fragment);
 
-            PrepareTransaction(transaction).Commit();
-        }
+            var preparedTransaction = PrepareTransaction(transaction);
 
-        protected virtual FragmentTransaction PrepareTransaction(FragmentTransaction fragmentTransaction)
-        {
-            return fragmentTransaction;
+            Execute.BeginOnUIThread(() =>
+            {
+                // Commit() method is executed asynchronously, so there's no way to know when will the transaction actually complete.
+                // At the same time, trying to execute multiple transactions at the same time will result in exception.
+                // ExecutePendingTransactions() should prevent exceptions even if two transactions are initiated at the same time
+                // IMPORTANT: ExecutePendingTransactions() is required to me called from UI thread
+                config.Manager.ExecutePendingTransactions();
+                preparedTransaction.Commit();
+            });
         }
     }
 }
