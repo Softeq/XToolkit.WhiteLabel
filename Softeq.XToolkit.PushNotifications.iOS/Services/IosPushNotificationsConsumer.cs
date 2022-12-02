@@ -22,8 +22,6 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
         private readonly IIosPushNotificationsParser _pushNotificationsParser;
         private readonly INotificationCategoriesProvider _notificationCategoriesProvider;
-        private readonly IPushTokenStorageService _pushTokenStorageService;
-        private readonly IRemotePushNotificationsService _remotePushNotificationsService;
         private readonly ForegroundNotificationOptions _showForegroundNotificationsInSystemOptions;
         private readonly IPushTokenSynchronizer _pushTokenSynchronizer;
         private readonly ILogger _logger;
@@ -31,11 +29,10 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         /// <summary>
         ///     Initializes a new instance of the <see cref="IosPushNotificationsConsumer"/> class.
         /// </summary>
+        /// <param name="pushTokenSynchronizer">Responsible for push token lifecycle and server syncronization.</param>
         /// <param name="pushNotificationsHandler">Handles received push notifications events.</param>
         /// <param name="pushNotificationsParser">Parses remote messages into common format.</param>
         /// <param name="notificationCategoriesProvider">Provides Notification Categories to be registered in system.</param>
-        /// <param name="pushTokenStorageService">Stores push notification token and it's status.</param>
-        /// <param name="remotePushNotificationsService">Propagates push notification token to remote server.</param>
         /// <param name="showForegroundNotificationsInSystemOptions">Defines how push notification should be presented.</param>
         /// <param name="logManager">Provides logging.</param>
         public IosPushNotificationsConsumer(
@@ -43,15 +40,11 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
             IPushNotificationsHandler pushNotificationsHandler,
             IIosPushNotificationsParser pushNotificationsParser,
             INotificationCategoriesProvider notificationCategoriesProvider,
-            IPushTokenStorageService pushTokenStorageService,
-            IRemotePushNotificationsService remotePushNotificationsService,
             ForegroundNotificationOptions showForegroundNotificationsInSystemOptions,
             ILogManager logManager)
         {
             _pushTokenSynchronizer = pushTokenSynchronizer;
             _pushNotificationsHandler = pushNotificationsHandler;
-            _pushTokenStorageService = pushTokenStorageService;
-            _remotePushNotificationsService = remotePushNotificationsService;
             _showForegroundNotificationsInSystemOptions = showForegroundNotificationsInSystemOptions;
             _notificationCategoriesProvider = notificationCategoriesProvider;
             _pushNotificationsParser = pushNotificationsParser;
@@ -168,74 +161,25 @@ namespace Softeq.XToolkit.PushNotifications.iOS.Services
         {
             var token = ParseDeviceToken(deviceToken);
 
-            OnRegisteredForPushNotifications(token);
+            _pushTokenSynchronizer.OnTokenChanged(token);
         }
 
         /// <inheritdoc />
         public void OnFailedToRegisterForRemoteNotifications(UIApplication application, NSError error)
         {
             _logger.Warn($"Push Notifications failed to register: {error.Description}");
-            OnRegisterFailedInternal().FireAndForget(_logger);
+            _pushTokenSynchronizer.OnRegisterFailedInternalAsync().FireAndForget(_logger);
         }
 
         /// <inheritdoc />
         public Task OnUnregisterFromPushNotifications()
         {
-            return UnregisterFromRemotePushNotifications();
+            return _pushTokenSynchronizer.UnregisterFromRemotePushNotificationsAsync();
         }
 
         private static string ParseDeviceToken(NSData deviceToken)
         {
             return deviceToken.AsString().Replace("-", string.Empty);
-        }
-
-        private void OnRegisteredForPushNotifications(string token)
-        {
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                OnRegisterFailedInternal().FireAndForget(_logger);
-            }
-            else
-            {
-                OnRegisterSuccessInternal(token).FireAndForget(_logger);
-            }
-        }
-
-        private async Task OnRegisterSuccessInternal(string token)
-        {
-            await _pushTokenSynchronizer.OnRegisterSuccessInternalAsync(token)
-                .ConfigureAwait(false);
-
-            _pushNotificationsHandler.OnPushRegistrationCompleted(
-                _pushTokenStorageService.IsTokenRegisteredInSystem,
-                _pushTokenStorageService.IsTokenSavedOnServer);
-        }
-
-        private async Task OnRegisterFailedInternal()
-        {
-            _pushTokenSynchronizer.OnRegisterFailedInternal();
-
-            await UnregisterFromRemotePushNotifications();
-
-            _pushNotificationsHandler.OnPushRegistrationCompleted(
-                _pushTokenStorageService.IsTokenRegisteredInSystem,
-                _pushTokenStorageService.IsTokenSavedOnServer);
-        }
-
-        private async Task UnregisterFromRemotePushNotifications()
-        {
-            if (!_pushTokenStorageService.IsTokenSavedOnServer)
-            {
-                return;
-            }
-
-            var tokenRemovedFromServer = await _remotePushNotificationsService
-                .RemovePushNotificationsToken(_pushTokenStorageService.PushToken)
-                .ConfigureAwait(false);
-            if (tokenRemovedFromServer)
-            {
-                _pushTokenStorageService.IsTokenSavedOnServer = false;
-            }
         }
     }
 }
