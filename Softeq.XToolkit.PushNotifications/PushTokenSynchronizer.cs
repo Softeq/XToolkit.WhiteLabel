@@ -75,8 +75,7 @@ namespace Softeq.XToolkit.PushNotifications
 
             if (IsTokenRegisteredInSystem && !IsTokenSavedOnServer)
             {
-                Interlocked.Exchange(ref _doSendToServerCts, new CancellationTokenSource())?.Cancel();
-                return DoSendTokenToServer(_pushTokenStorageService.PushToken, _doSendToServerCts.Token);
+                return DoSendTokenToServer(_pushTokenStorageService.PushToken);
             }
 
             return Task.CompletedTask;
@@ -138,8 +137,7 @@ namespace Softeq.XToolkit.PushNotifications
             {
                 _pushTokenStorageService.PushToken = token;
 
-                Interlocked.Exchange(ref _doSendToServerCts, new CancellationTokenSource())?.Cancel();
-                await DoSendTokenToServer(token, _doSendToServerCts.Token)
+                await DoSendTokenToServer(token)
                     .ConfigureAwait(false);
             }
 
@@ -148,8 +146,12 @@ namespace Softeq.XToolkit.PushNotifications
                 IsTokenSavedOnServer);
         }
 
-        private async Task DoSendTokenToServer(string token, CancellationToken cancellationToken)
+        private async Task DoSendTokenToServer(string token)
         {
+            Interlocked.Exchange(ref _doSendToServerCts, new CancellationTokenSource())?.Cancel();
+
+            var cancellationToken = _doSendToServerCts.Token;
+
             var attemptsCount = 0;
 
             try
@@ -157,10 +159,12 @@ namespace Softeq.XToolkit.PushNotifications
                 do
                 {
                     if (IsTokenSavedOnServer = await _remotePushNotificationsService
-                        .SendPushNotificationsToken(token).ConfigureAwait(false))
+                        .SendPushNotificationsToken(token, cancellationToken).ConfigureAwait(false))
                     {
                         break;
                     }
+
+                    cancellationToken.ThrowIfCancellationRequested();
 
                     await Task.Delay(TokenSendRetryDelay, cancellationToken)
                         .ConfigureAwait(false);
