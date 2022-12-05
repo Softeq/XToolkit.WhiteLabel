@@ -27,6 +27,7 @@
     <MtouchLink>None</MtouchLink>
     <MtouchDebug>true</MtouchDebug>
     <CodesignKey>iPhone Developer</CodesignKey>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
     <DebugType>portable</DebugType>
@@ -140,6 +141,7 @@
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\Components\PushNotificationsPageStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Frames\FramesBlueStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Frames\FramesRedStoryboard.storyboard" />
     <InterfaceDefinition Include="ViewControllers\Frames\FramesStoryboard.storyboard" />
@@ -181,6 +183,10 @@
     <Compile Include="Extended\IosChooseBetterDateDialog.cs" />
     <Compile Include="Extended\IosExtendedDialogsService.cs" />
     <Compile Include="PlaygroundStyles.cs" />
+    <Compile Include="ViewControllers\Components\PushNotificationsPageViewController.cs" />
+    <Compile Include="ViewControllers\Components\PushNotificationsPageViewController.designer.cs">
+      <DependentUpon>PushNotificationsPageViewController.cs</DependentUpon>
+    </Compile>
     <Compile Include="ViewControllers\Controls\PhotoViewerViewController.cs" />
     <Compile Include="ViewControllers\Frames\FramesBlueViewController.cs" />
     <Compile Include="ViewControllers\Frames\FramesBlueViewController.designer.cs">
@@ -328,6 +334,14 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
       <Project>{2d399ba9-1878-43e2-af05-6873eae9151b}</Project>
       <Name>Softeq.XToolkit.Bindings.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.PushNotifications.iOS\Softeq.XToolkit.PushNotifications.iOS.csproj">
+      <Project>{0eae7634-9497-4fb8-b62f-ddacf85985d2}</Project>
+      <Name>Softeq.XToolkit.PushNotifications.iOS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj">
+      <Project>{e0c9cde2-4c35-410a-ae95-a7871bee0180}</Project>
+      <Name>Softeq.XToolkit.PushNotifications</Name>
     </ProjectReference>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials.iOS\Softeq.XToolkit.WhiteLabel.Essentials.iOS.csproj">
       <Project>{23aa0e71-bf8f-47a8-a915-c8ac4841e064}</Project>

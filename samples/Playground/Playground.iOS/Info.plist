@@ -52,5 +52,10 @@
 	<string>Allow location always pls</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>PLIS</string>
+    <key>UIBackgroundModes</key>
+    <array>
+        <string>processing</string>
+        <string>remote-notification</string>
+    </array>
 </dict>
 </plist>
