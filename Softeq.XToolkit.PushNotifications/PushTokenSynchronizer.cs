@@ -75,8 +75,7 @@ namespace Softeq.XToolkit.PushNotifications
 
             if (IsTokenRegisteredInSystem && !IsTokenSavedOnServer)
             {
-                _doSendToServerCts?.Cancel();
-                _doSendToServerCts = new CancellationTokenSource();
+                Interlocked.Exchange(ref _doSendToServerCts, new CancellationTokenSource())?.Cancel();
                 return DoSendTokenToServer(_pushTokenStorageService.PushToken, _doSendToServerCts.Token);
             }
 
@@ -139,8 +138,7 @@ namespace Softeq.XToolkit.PushNotifications
             {
                 _pushTokenStorageService.PushToken = token;
 
-                _doSendToServerCts?.Cancel();
-                _doSendToServerCts = new CancellationTokenSource();
+                Interlocked.Exchange(ref _doSendToServerCts, new CancellationTokenSource())?.Cancel();
                 await DoSendTokenToServer(token, _doSendToServerCts.Token)
                     .ConfigureAwait(false);
             }
