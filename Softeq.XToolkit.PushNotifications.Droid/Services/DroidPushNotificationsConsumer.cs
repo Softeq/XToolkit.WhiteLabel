@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Android.Content;
 using AndroidX.Lifecycle;
 using Firebase.Messaging;
-using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.PushNotifications.Droid.Abstract;
@@ -17,11 +16,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
     /// </summary>
     public sealed class DroidPushNotificationsConsumer : IDroidPushNotificationsConsumer
     {
-        private readonly IPushTokenStorageService _pushTokenStorageService;
         private readonly IDroidPushNotificationsParser _pushNotificationsParser;
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
-        private readonly IRemotePushNotificationsService _remotePushNotificationsService;
         private readonly IDroidPushNotificationPresenter _pushNotificationPresenter;
+        private readonly IPushTokenSynchronizer _pushTokenSynchronizer;
         private readonly ILogger _logger;
 
         private readonly AppLifecycleObserver _lifecycleObserver;
@@ -30,24 +28,21 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         ///     Initializes a new instance of the <see cref="DroidPushNotificationsConsumer"/> class.
         /// </summary>
         /// <param name="pushNotificationsParser">Parses remote messages into common format.</param>
-        /// <param name="pushTokenStorageService">Stores push notification token and it's status.</param>
         /// <param name="pushNotificationsHandler">Handles received push notifications events.</param>
-        /// <param name="remotePushNotificationsService">Propagates push notification token to remote server.</param>
         /// <param name="pushNotificationPresenter">Responsible for presenting push notification.</param>
+        /// <param name="pushTokenSynchronizer">Responsible for push token lifecycle and server syncronization.</param>
         /// <param name="logManager">Provides logging.</param>
         public DroidPushNotificationsConsumer(
             IDroidPushNotificationsParser pushNotificationsParser,
-            IPushTokenStorageService pushTokenStorageService,
             IPushNotificationsHandler pushNotificationsHandler,
-            IRemotePushNotificationsService remotePushNotificationsService,
             IDroidPushNotificationPresenter pushNotificationPresenter,
+            IPushTokenSynchronizer pushTokenSynchronizer,
             ILogManager logManager)
         {
             _pushNotificationsParser = pushNotificationsParser;
-            _pushTokenStorageService = pushTokenStorageService;
             _pushNotificationsHandler = pushNotificationsHandler;
-            _remotePushNotificationsService = remotePushNotificationsService;
             _pushNotificationPresenter = pushNotificationPresenter;
+            _pushTokenSynchronizer = pushTokenSynchronizer;
             _logger = logManager.GetLogger<DroidPushNotificationsConsumer>();
 
             _lifecycleObserver = new AppLifecycleObserver();
@@ -85,19 +80,13 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         /// <inheritdoc />
         public void OnPushTokenRefreshed(string token)
         {
-            var currentToken = _pushTokenStorageService.PushToken;
-            var hasNewToken = !string.IsNullOrEmpty(currentToken) && currentToken != token;
-
-            if (hasNewToken)
-            {
-                OnRegisteredForPushNotifications(token);
-            }
+            _pushTokenSynchronizer.OnTokenChanged(token);
         }
 
         /// <inheritdoc />
         public Task OnUnregisterFromPushNotifications()
         {
-            return UnregisterFromRemotePushNotifications();
+            return _pushTokenSynchronizer.UnregisterFromRemotePushNotificationsAsync();
         }
 
         private void OnMessageReceivedInternal(PushNotificationModel parsedNotification, bool inForeground)
@@ -109,65 +98,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             else
             {
                 _pushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, inForeground);
-            }
-        }
-
-        private void OnRegisteredForPushNotifications(string token)
-        {
-            if (string.IsNullOrWhiteSpace(token))
-            {
-                OnRegisterFailedInternal().FireAndForget(_logger);
-            }
-            else
-            {
-                OnRegisterSuccessInternal(token).FireAndForget(_logger);
-            }
-        }
-
-        private async Task OnRegisterSuccessInternal(string token)
-        {
-            _pushTokenStorageService.IsTokenRegisteredInSystem = true;
-
-            if (_pushTokenStorageService.PushToken != token || !_pushTokenStorageService.IsTokenSavedOnServer)
-            {
-                _pushTokenStorageService.PushToken = token;
-
-                if (!string.IsNullOrEmpty(token))
-                {
-                    _pushTokenStorageService.IsTokenSavedOnServer = await _remotePushNotificationsService
-                        .SendPushNotificationsToken(token).ConfigureAwait(false);
-                }
-            }
-
-            _pushNotificationsHandler.OnPushRegistrationCompleted(
-                _pushTokenStorageService.IsTokenRegisteredInSystem,
-                _pushTokenStorageService.IsTokenSavedOnServer);
-        }
-
-        private async Task OnRegisterFailedInternal()
-        {
-            _pushTokenStorageService.IsTokenRegisteredInSystem = false;
-
-            await UnregisterFromRemotePushNotifications();
-
-            _pushNotificationsHandler.OnPushRegistrationCompleted(
-                _pushTokenStorageService.IsTokenRegisteredInSystem,
-                _pushTokenStorageService.IsTokenSavedOnServer);
-        }
-
-        private async Task UnregisterFromRemotePushNotifications()
-        {
-            if (!_pushTokenStorageService.IsTokenSavedOnServer)
-            {
-                return;
-            }
-
-            var tokenRemovedFromServer = await _remotePushNotificationsService
-                .RemovePushNotificationsToken(_pushTokenStorageService.PushToken)
-                .ConfigureAwait(false);
-            if (tokenRemovedFromServer)
-            {
-                _pushTokenStorageService.IsTokenSavedOnServer = false;
             }
         }
     }
