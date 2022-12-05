@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Interfaces;
@@ -20,6 +21,9 @@ namespace Softeq.XToolkit.PushNotifications
         private readonly IInternalSettings _internalSettings;
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
         private readonly ILogger _logger;
+        private readonly SemaphoreSlim _semaphoreSlim;
+
+        private CancellationTokenSource _doSendToServerCts;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="PushTokenSynchronizer"/> class.
@@ -42,6 +46,7 @@ namespace Softeq.XToolkit.PushNotifications
             _remotePushNotificationsService = remotePushNotificationsService;
 
             _logger = logManager.GetLogger<PushTokenSynchronizer>();
+            _semaphoreSlim = new SemaphoreSlim(1, 1);
         }
 
         protected virtual TimeSpan TokenSendRetryDelay { get; } = TimeSpan.FromSeconds(10);
@@ -70,7 +75,9 @@ namespace Softeq.XToolkit.PushNotifications
 
             if (IsTokenRegisteredInSystem && !IsTokenSavedOnServer)
             {
-                return DoSendTokenToServer(_pushTokenStorageService.PushToken);
+                _doSendToServerCts?.Cancel();
+                _doSendToServerCts = new CancellationTokenSource();
+                return DoSendTokenToServer(_pushTokenStorageService.PushToken, _doSendToServerCts.Token);
             }
 
             return Task.CompletedTask;
@@ -132,7 +139,9 @@ namespace Softeq.XToolkit.PushNotifications
             {
                 _pushTokenStorageService.PushToken = token;
 
-                await DoSendTokenToServer(token)
+                _doSendToServerCts?.Cancel();
+                _doSendToServerCts = new CancellationTokenSource();
+                await DoSendTokenToServer(token, _doSendToServerCts.Token)
                     .ConfigureAwait(false);
             }
 
@@ -141,20 +150,35 @@ namespace Softeq.XToolkit.PushNotifications
                 IsTokenSavedOnServer);
         }
 
-        private async Task DoSendTokenToServer(string token)
+        private async Task DoSendTokenToServer(string token, CancellationToken cancellationToken)
         {
-            IsTokenSavedOnServer = await _remotePushNotificationsService
-                .SendPushNotificationsToken(token).ConfigureAwait(false);
+            var attemptsCount = 0;
 
-            var attemptsCount = 1;
-
-            while (!IsTokenSavedOnServer && attemptsCount < MaxAttemptsCount)
+            try
             {
-                await Task.Delay(TokenSendRetryDelay)
-                    .ConfigureAwait(false);
-                IsTokenSavedOnServer = await _remotePushNotificationsService
-                    .SendPushNotificationsToken(token).ConfigureAwait(false);
-                attemptsCount++;
+                do
+                {
+                    if (IsTokenSavedOnServer = await _remotePushNotificationsService
+                        .SendPushNotificationsToken(token).ConfigureAwait(false))
+                    {
+                        break;
+                    }
+
+                    await Task.Delay(TokenSendRetryDelay, cancellationToken)
+                        .ConfigureAwait(false);
+
+                    cancellationToken.ThrowIfCancellationRequested();
+
+                    attemptsCount++;
+                }
+                while (!IsTokenSavedOnServer
+                    && IsTokenRegisteredInSystem
+                    && attemptsCount < MaxAttemptsCount
+                    && token == _pushTokenStorageService.PushToken);
+            }
+            catch (TaskCanceledException)
+            {
+                _logger.Info("Token sending has been cancelled");
             }
         }
     }
