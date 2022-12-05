@@ -45,7 +45,7 @@ namespace Softeq.XToolkit.PushNotifications
 
         protected virtual int MaxAttemptsCount { get; } = int.MaxValue;
 
-        public bool IsTokenSavedOnServer
+        private bool IsTokenSavedOnServer
         {
             get => _internalSettings.GetValueOrDefault(_isTokenSavedOnServerKey, default(bool));
             set => _internalSettings.AddOrUpdateValue(_isTokenSavedOnServerKey, value);
@@ -58,8 +58,13 @@ namespace Softeq.XToolkit.PushNotifications
         }
 
         /// <inheritdoc />
-        public Task ResendTokenToServerIfNeedAsync()
+        public Task SynchronizeTokenIfNeededAsync()
         {
+            if (!IsTokenRegisteredInSystem && IsTokenSavedOnServer)
+            {
+                return UnregisterFromRemotePushNotificationsAsync();
+            }
+
             if (IsTokenRegisteredInSystem && !IsTokenSavedOnServer)
             {
                 return DoSendTokenToServer(_pushTokenStorageService.PushToken);
@@ -71,6 +76,8 @@ namespace Softeq.XToolkit.PushNotifications
         /// <inheritdoc />
         public async Task UnregisterFromRemotePushNotificationsAsync()
         {
+            IsTokenRegisteredInSystem = false;
+
             if (!IsTokenSavedOnServer)
             {
                 return;
@@ -106,8 +113,6 @@ namespace Softeq.XToolkit.PushNotifications
         /// <inheritdoc />
         public async Task OnRegisterFailedInternalAsync()
         {
-            IsTokenRegisteredInSystem = false;
-
             await UnregisterFromRemotePushNotificationsAsync()
                 .ConfigureAwait(false);
 
@@ -138,7 +143,7 @@ namespace Softeq.XToolkit.PushNotifications
             IsTokenSavedOnServer = await _remotePushNotificationsService
                 .SendPushNotificationsToken(token).ConfigureAwait(false);
 
-            int attemptsCount = 1;
+            var attemptsCount = 1;
 
             while (!IsTokenSavedOnServer && attemptsCount < MaxAttemptsCount)
             {

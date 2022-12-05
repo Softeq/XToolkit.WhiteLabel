@@ -32,6 +32,6 @@ namespace Softeq.XToolkit.PushNotifications.Abstract
         /// <returns>
         ///     A <see cref="Task"/> representing the asynchronous operation.
         /// </returns>
-        Task ResendTokenToServerIfNeedAsync();
+        Task SynchronizeTokenIfNeededAsync();
     }
 }
