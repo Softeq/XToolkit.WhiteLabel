@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="5.2.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
     <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
   </ItemGroup>
 
