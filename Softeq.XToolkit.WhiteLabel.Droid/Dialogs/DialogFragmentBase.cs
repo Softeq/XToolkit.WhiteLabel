@@ -19,7 +19,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
     public abstract class DialogFragmentBase<TViewModel> : DialogFragment, IBindable, IDialogFragment
         where TViewModel : class, IDialogViewModel
     {
+        private const string ViewModelKey = "ViewModelKey";
+
         private readonly Lazy<IContextProvider> _contextProviderLazy = Dependencies.Container.Resolve<Lazy<IContextProvider>>();
+
+        private string? _key;
 
         public event EventHandler? WillDismiss;
 
@@ -43,6 +47,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         public override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
+
+            if (savedInstanceState != null)
+            {
+                _key = savedInstanceState.GetString(ViewModelKey);
+            }
 
             RestoreViewModelIfNeeded(savedInstanceState);
 
@@ -122,6 +131,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             Show(fragmentManager, null);
         }
 
+        public override void OnSaveInstanceState(Bundle outState)
+        {
+            base.OnSaveInstanceState(outState);
+
+            outState.PutString(ViewModelKey, _key);
+        }
+
         protected void SetupDialogAnimation(Dialog dialog)
         {
             if (DialogAnimationId.HasValue && dialog?.Window?.Attributes != null)
@@ -166,7 +182,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
 
         private string GetKey()
         {
-            return GetType().Name;
+            _key ??= Guid.NewGuid().ToString();
+
+            return _key;
         }
 
         private FragmentManager GetFragmentManager()
