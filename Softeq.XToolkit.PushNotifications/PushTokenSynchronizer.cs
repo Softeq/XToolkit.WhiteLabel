@@ -21,7 +21,6 @@ namespace Softeq.XToolkit.PushNotifications
         private readonly IInternalSettings _internalSettings;
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
         private readonly ILogger _logger;
-        private readonly SemaphoreSlim _semaphoreSlim;
 
         private CancellationTokenSource _doSendToServerCts;
 
@@ -46,7 +45,6 @@ namespace Softeq.XToolkit.PushNotifications
             _remotePushNotificationsService = remotePushNotificationsService;
 
             _logger = logManager.GetLogger<PushTokenSynchronizer>();
-            _semaphoreSlim = new SemaphoreSlim(1, 1);
         }
 
         protected virtual TimeSpan TokenSendRetryDelay { get; } = TimeSpan.FromSeconds(10);

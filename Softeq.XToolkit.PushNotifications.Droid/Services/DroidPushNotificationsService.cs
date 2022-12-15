@@ -2,13 +2,13 @@
 // http://www.softeq.com
 
 using System;
+using System.Threading;
 using System.Threading.Tasks;
 using Android.App;
 using Android.Content;
 using Android.Gms.Extensions;
 using AndroidX.Core.App;
 using Firebase.Messaging;
-using Java.IO;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.PushNotifications.Droid.Abstract;
@@ -23,6 +23,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
     {
         private readonly IDroidPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
+
+        private readonly SemaphoreSlim _registrationSemaphore = new SemaphoreSlim(1, 1);
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="DroidPushNotificationsService"/> class.
@@ -40,32 +42,65 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             XFirebaseMessagingService.OnNotificationReceived += OnNotificationReceived;
         }
 
+        private bool IsRegistered { get; set; }
+
         /// <inheritdoc />
         public async Task RegisterAsync()
         {
-            var token = await FirebaseMessaging.Instance
-                .GetToken()
-                .AsAsync<Java.Lang.String>();
+            await _registrationSemaphore
+                .WaitAsync()
+                .ConfigureAwait(false);
 
-            if (token != null)
+            try
             {
+                if (IsRegistered)
+                {
+                    return;
+                }
+
+                var token = await FirebaseMessaging.Instance
+                    .GetToken()
+                    .AsAsync<Java.Lang.String>()
+                    .ConfigureAwait(false);
+
+                IsRegistered = true;
+
                 _pushNotificationsConsumer.OnPushTokenRefreshed(token.ToString());
+            }
+            finally
+            {
+                _registrationSemaphore.Release();
             }
         }
 
         /// <inheritdoc />
         public async Task UnregisterAsync()
         {
+            await _registrationSemaphore
+                .WaitAsync()
+                .ConfigureAwait(false);
+
             try
             {
+                if (!IsRegistered)
+                {
+                    return;
+                }
+
                 await FirebaseMessaging.Instance
                     .DeleteToken()
-                    .AsAsync(); // Throws Java.IOException if there's no Internet Connection
-                await _pushNotificationsConsumer.OnUnregisterFromPushNotifications();
+                    .AsAsync()
+                    .ConfigureAwait(false); // Throws Java.IOException if there's no Internet Connection
+
+                IsRegistered = false;
+
+                await _pushNotificationsConsumer
+                    .OnUnregisterFromPushNotifications()
+                    .ConfigureAwait(false);
             }
-            catch (IOException e)
+            finally
             {
-                _logger.Warn($"Firebase DeleteToken failed: {e.Message}");
+                _registrationSemaphore.Release();
             }
         }
 
@@ -89,9 +124,26 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             }
         }
 
+        // FCM has an auto-init feature enabled by default. It means that even if token has been deleted - it will be
+        // re-generated automatically, even if we are not subscribed for push-notifications. To preserve consistent behaviour
+        // for consumers that push token is provided only after subscription, we need to keep track of subscription status.
+        // NOTE: disabling auto-init might not be the option, as it also requires disabling Firebase Analytics
+        // https://firebase.google.com/docs/cloud-messaging/android/client#prevent-auto-init
         private void OnPushTokenRefreshed(string token)
         {
-            _pushNotificationsConsumer.OnPushTokenRefreshed(token);
+            _registrationSemaphore.Wait();
+
+            try
+            {
+                if (IsRegistered)
+                {
+                    _pushNotificationsConsumer.OnPushTokenRefreshed(token);
+                }
+            }
+            finally
+            {
+                _registrationSemaphore.Release();
+            }
         }
 
         private void Dispose(bool disposing)
