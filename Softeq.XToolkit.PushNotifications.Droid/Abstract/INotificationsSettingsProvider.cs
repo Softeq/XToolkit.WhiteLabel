@@ -6,7 +6,7 @@ using Android.App;
 using Android.Content;
 using AndroidX.Core.App;
 
-namespace Softeq.XToolkit.PushNotifications.Droid
+namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
 {
     public interface INotificationsSettingsProvider
     {
@@ -14,12 +14,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         ///     Gets Id of the default notification channel.
         /// </summary>
         string DefaultChannelId { get; }
-
-        /// <summary>
-        ///     Gets key for saving boolean value to the Activity intent.
-        ///     This value will indicate, if the app was started from Push Notification or not.
-        /// </summary>
-        string LaunchedFromPushNotificationKey { get; }
 
         /// <summary>
         ///     Obtains a dictionary of notification channles where the key is channel id and the value is channel name.

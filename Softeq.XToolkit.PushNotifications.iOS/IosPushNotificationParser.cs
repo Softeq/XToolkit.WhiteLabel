@@ -1,12 +1,12 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using Foundation;
+using Softeq.XToolkit.PushNotifications.iOS.Abstract;
 
 namespace Softeq.XToolkit.PushNotifications.iOS
 {
-    public class IosPushNotificationParser : IPushNotificationParser
+    public class IosPushNotificationParser : IIosPushNotificationsParser
     {
         /// <summary>
         ///     A root dictionary containing one or more additional Apple-defined keys instructing the system how to handle notification.
@@ -42,15 +42,21 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// </summary>
         protected virtual string DataKey => "data";
 
-        public virtual PushNotificationModel Parse(object pushNotificationData)
+        /// <inheritdoc />
+        public bool TryParse(NSDictionary userInfo, out PushNotificationModel parsedPushNotificationModel)
         {
-            var dictionary = (NSDictionary) pushNotificationData;
-            var pushNotification = new PushNotificationModel();
+            parsedPushNotificationModel = new PushNotificationModel();
 
-            var aps = dictionary.GetDictionaryByKey(ApsKey);
+            var additionalData = userInfo.GetStringByKey(DataKey);
+            var aps = userInfo.GetDictionaryByKey(ApsKey);
             if (aps == null)
             {
-                throw new NullReferenceException($"{nameof(aps)} dictionary is null");
+                return false;
+            }
+
+            if (!TryParseNotificationType(userInfo, aps, additionalData, out var notificationType))
+            {
+                return false;
             }
 
             var alertObject = aps.GetObjectByKey(AlertKey);
@@ -68,17 +74,16 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                 body = str;
             }
 
-            pushNotification.Title = title;
-            pushNotification.Body = body;
+            parsedPushNotificationModel.Title = title;
+            parsedPushNotificationModel.Body = body;
 
-            pushNotification.IsSilent = aps.GetIntByKey(ContentAvailableKey) == 1;
+            parsedPushNotificationModel.IsSilent = aps.GetIntByKey(ContentAvailableKey) == 1;
 
-            var additionalData = dictionary.GetStringByKey(DataKey);
-            pushNotification.AdditionalData = additionalData;
+            parsedPushNotificationModel.AdditionalData = additionalData;
 
-            pushNotification.Type = ParseNotificationType(dictionary, aps, additionalData);
+            parsedPushNotificationModel.Type = notificationType;
 
-            return pushNotification;
+            return true;
         }
 
         /// <summary>
@@ -87,10 +92,16 @@ namespace Softeq.XToolkit.PushNotifications.iOS
         /// <param name="pushNotification">Initial push notification dictionary.</param>
         /// <param name="aps">Dictionary stored inside 'aps' tag.</param>
         /// <param name="data">Custom data part of the notification.</param>
-        /// <returns>String type for <see cref="PushNotificationModel.Type"/>.</returns>
-        protected virtual string ParseNotificationType(NSDictionary pushNotification, NSDictionary aps, string data)
+        /// <param name="notificationType">Parsed notification type.</param>
+        /// <returns><see langword="true"/> if notification type has been parsed, <see langword="false"/> otherwise.</returns>
+        protected virtual bool TryParseNotificationType(
+            NSDictionary pushNotification,
+            NSDictionary aps,
+            string data,
+            out string notificationType)
         {
-            return string.Empty;
+            notificationType = string.Empty;
+            return true;
         }
     }
 }

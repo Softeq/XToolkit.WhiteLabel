@@ -1,9 +1,10 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Threading;
 using System.Threading.Tasks;
 
-namespace Softeq.XToolkit.PushNotifications
+namespace Softeq.XToolkit.PushNotifications.Abstract
 {
     public interface IRemotePushNotificationsService
     {
@@ -11,11 +12,12 @@ namespace Softeq.XToolkit.PushNotifications
         ///     Send prepared token for push notifications to server.
         /// </summary>
         /// <param name="pushNotificationsToken">Push notifications token.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>
         ///     Task with <see langword="true"/> result if token was sent successfully
         ///     or <see langword="false"/> result otherwise.
         /// </returns>
-        Task<bool> SendPushNotificationsToken(string pushNotificationsToken);
+        Task<bool> SendPushNotificationsToken(string pushNotificationsToken, CancellationToken cancellationToken);
 
         /// <summary>
         ///     Request removing token for push notifications from server.

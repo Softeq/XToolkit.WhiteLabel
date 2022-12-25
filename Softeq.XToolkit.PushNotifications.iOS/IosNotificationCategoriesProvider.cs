@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Foundation;
+using Softeq.XToolkit.PushNotifications.iOS.Abstract;
 using UIKit;
 using UserNotifications;
 
@@ -12,9 +13,12 @@ namespace Softeq.XToolkit.PushNotifications.iOS
     public class IosNotificationCategoriesProvider : INotificationCategoriesProvider
     {
         private readonly Dictionary<string, IList<UNNotificationAction>> _actionsForCategories = new Dictionary<string, IList<UNNotificationAction>>();
+        private readonly List<UNNotificationCategory> _categories = new List<UNNotificationCategory>();
 
-        public IList<UNNotificationCategory> NotificationCategories { get; } = new List<UNNotificationCategory>();
+        /// <inheritdoc />
+        public IReadOnlyList<UNNotificationCategory> NotificationCategories => _categories;
 
+        /// <inheritdoc />
         public virtual void HandlePushNotificationCustomAction(
             PushNotificationModel pushNotification,
             string actionId,
@@ -97,7 +101,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                 intentIdentifiers,
                 options);
 
-            NotificationCategories.Add(messageCategory);
+            _categories.Add(messageCategory);
         }
 
         /// <summary>
@@ -130,7 +134,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                 hiddenPreviewsBodyPlaceholder,
                 options);
 
-            NotificationCategories.Add(messageCategory);
+            _categories.Add(messageCategory);
         }
 
         /// <summary>
@@ -174,7 +178,7 @@ namespace Softeq.XToolkit.PushNotifications.iOS
                     new NSString(categorySummaryFormat),
                     options);
 
-                NotificationCategories.Add(messageCategory);
+                _categories.Add(messageCategory);
             }
             else
             {
