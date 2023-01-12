@@ -229,15 +229,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             var preparedTransaction = PrepareTransaction(transaction);
 
-            Execute.BeginOnUIThread(() =>
-            {
-                // Commit() method is executed asynchronously, so there's no way to know when will the transaction actually complete.
-                // At the same time, trying to execute multiple transactions at the same time will result in exception.
-                // ExecutePendingTransactions() should prevent exceptions even if two transactions are initiated at the same time
-                // IMPORTANT: ExecutePendingTransactions() is required to me called from UI thread
-                config.Manager.ExecutePendingTransactions();
-                preparedTransaction.Commit();
-            });
+            PrepareTransaction(transaction).Commit();
         }
     }
 }
