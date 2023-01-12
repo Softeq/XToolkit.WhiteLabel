@@ -227,8 +227,6 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
                 .BeginTransaction()
                 .Replace(config.ContainerId, fragment);
 
-            var preparedTransaction = PrepareTransaction(transaction);
-
             PrepareTransaction(transaction).Commit();
         }
     }
