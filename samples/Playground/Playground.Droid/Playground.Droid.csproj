@@ -89,6 +89,21 @@
     <Compile Include="Views\Collections\TablePageActivity.cs" />
     <Compile Include="Views\Controls\PhotoBrowserActivity.cs" />
     <Compile Include="Views\Components\ConnectivityPageActivity.cs" />
+    <Compile Include="Views\FirstCustomFragment.cs" />
+    <Compile Include="Views\SecondCustomFragment.cs" />
+    <Compile Include="Views\ThirdCustomFragment.cs" />
+    <Compile Include="Views\AddEditProfile\ProfileDetailsFragment.cs" />
+    <Compile Include="Views\AddEditProfile\ProvideProfileInfoFragment.cs" />
+    <Compile Include="Views\TestApproach\EditNameFragment.cs" />
+    <Compile Include="Views\TestApproach\DetailsFragement.cs" />
+    <Compile Include="Views\Flow\FlowService.cs" />
+    <Compile Include="Views\Flow\FlowViewActivity.cs" />
+    <Compile Include="Views\Flow\IAnimationTransitionDelegateGetter.cs" />
+    <Compile Include="Views\Flow\IAnimationTransitionDelegateSetter.cs" />
+    <Compile Include="Views\NavigationHeaderView.cs" />
+    <Compile Include="Views\NavigationBarButtonSettings.cs" />
+    <Compile Include="Views\RIB\LoginActivity.cs" />
+    <Compile Include="Views\RIB\CreateAccountActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -146,6 +161,58 @@
     <AndroidResource Include="Resources\xml\file_paths.xml" />
     <AndroidResource Include="Resources\anim\slide_up_dialog.xml" />
     <AndroidResource Include="Resources\anim\slide_down_dialog.xml" />
+    <AndroidResource Include="Resources\layout\frames_activity.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_custom_first.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_custom_second.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\fragment_custom_third.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\provide_profile_info_fragment.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\profile_details_fragment.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\view_navigation_header.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\drawable\fg_button_link.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\font\open_sans_bold.ttf">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\font\open_sans_regular.ttf">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\font\open_sans_semibold.ttf">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\activity_login.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\activity_register.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Droid\Softeq.XToolkit.WhiteLabel.Droid.csproj">
@@ -196,6 +263,13 @@
       <Project>{044152C1-3B2A-45A6-B233-80A51C511129}</Project>
       <Name>Softeq.XToolkit.Connectivity</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\AddEditProfile\" />
+    <Folder Include="Views\TestApproach\" />
+    <Folder Include="Views\Flow\" />
+    <Folder Include="Resources\font\" />
+    <Folder Include="Views\RIB\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

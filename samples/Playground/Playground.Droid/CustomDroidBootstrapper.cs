@@ -4,7 +4,9 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Playground.Droid.Extended;
+using Playground.Droid.Views.Flow;
 using Playground.Extended;
+using Playground.ViewModels.Flows;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Connectivity;
@@ -52,6 +54,7 @@ namespace Playground.Droid
 
             // connectivity
             builder.Singleton<ConnectivityService, IConnectivityService>();
+            builder.PerDependency<FlowService, IFlowService>();
         }
     }
 }

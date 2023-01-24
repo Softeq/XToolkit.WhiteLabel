@@ -1,9 +1,40 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- add layout -->
 
-</RelativeLayout>
+  <Button
+    android:id="@+id/open_custom_flow_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="open custom flow"/>
+
+  <Button
+    android:id="@+id/open_edit_profile_flow_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="open edit profile flow"/>
+
+  <Button
+    android:id="@+id/open_test_approach_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="open test approach"/>
+
+  <Button
+    android:id="@+id/open_test_approach_with_flow_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="open test approach with flow"/>
+
+  <Button
+    android:id="@+id/open_rib_flow_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Open RIB Flow"/>
+  
+</LinearLayout>

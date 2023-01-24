@@ -9,4 +9,56 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <None Remove="ViewModels\Flows\" />
+    <None Remove="ViewModels\AddEditProfile\" />
+    <None Remove="ViewModels\TestApproach\" />
+    <None Remove="ViewModels\TestApproach\Flows\" />
+    <None Remove="ViewModels\TestApproach2\" />
+    <None Remove="ViewModels\TestApproach2\Flows\" />
+    <None Remove="ViewModels\CoordinatorPattern\" />
+    <None Remove="ViewModels\CoordinatorPattern\ViewModels\" />
+    <None Remove="ViewModels\BLoC\" />
+    <None Remove="ViewModels\BLoC\Flows\" />
+    <None Remove="ViewModels\RIB\" />
+    <None Remove="ViewModels\RIB\Login\" />
+    <None Remove="ViewModels\RIB\Platform\" />
+    <None Remove="System.Reactive" />
+    <None Remove="System.Reactive.Core" />
+    <None Remove="System.Reactive.Linq" />
+    <None Remove="ViewModels\RIB\CreateAccount\" />
+    <None Remove="ViewModels\RIB\Root\" />
+    <None Remove="ViewModels\RIB\Main\" />
+    <None Remove="ViewModels\RIB\Detail\" />
+    <None Remove="ViewModels\RIB\Platform\Navigation\" />
+    <None Remove="ViewModels\RIB\Services\" />
+    <None Remove="ViewModels\RIB\Services\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="ViewModels\Flows\" />
+    <Folder Include="ViewModels\AddEditProfile\" />
+    <Folder Include="ViewModels\TestApproach\" />
+    <Folder Include="ViewModels\TestApproach\Flows\" />
+    <Folder Include="ViewModels\TestApproach2\" />
+    <Folder Include="ViewModels\TestApproach2\Flows\" />
+    <Folder Include="ViewModels\CoordinatorPattern\" />
+    <Folder Include="ViewModels\CoordinatorPattern\ViewModels\" />
+    <Folder Include="ViewModels\BLoC\" />
+    <Folder Include="ViewModels\BLoC\Flows\" />
+    <Folder Include="ViewModels\RIB\" />
+    <Folder Include="ViewModels\RIB\Login\" />
+    <Folder Include="ViewModels\RIB\Platform\" />
+    <Folder Include="ViewModels\RIB\CreateAccount\" />
+    <Folder Include="ViewModels\RIB\Root\" />
+    <Folder Include="ViewModels\RIB\Main\" />
+    <Folder Include="ViewModels\RIB\Detail\" />
+    <Folder Include="ViewModels\RIB\Platform\Navigation\" />
+    <Folder Include="ViewModels\RIB\Services\" />
+    <Folder Include="ViewModels\RIB\Services\Interfaces\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="System.Reactive.Core" Version="5.0.0" />
+    <PackageReference Include="System.Reactive.Linq" Version="5.0.0" />
+  </ItemGroup>
 </Project>

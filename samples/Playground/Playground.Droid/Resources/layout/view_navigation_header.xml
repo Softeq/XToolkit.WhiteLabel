@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
+
+    <Button
+        android:id="@+id/view_navigation_header_left_button"
+        style="@style/Button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@android:color/transparent"
+        tools:text="left_button"
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"/>
+
+    <TextView
+        android:id="@+id/view_navigation_header_title_label"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="10dp"
+        android:maxLines="1"
+        android:ellipsize="end"
+        android:gravity="start"
+        style="@style/NavigationTitle"
+        tools:text="title_label"
+        android:layout_centerVertical="true"
+        android:layout_alignWithParentIfMissing="true"
+        android:layout_toEndOf="@id/view_navigation_header_left_button"
+        android:layout_toStartOf="@id/view_navigation_header_right_button"/>
+
+    <Button
+        android:id="@+id/view_navigation_header_right_button"
+        style="@style/Button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="@android:color/transparent"
+        tools:text="right_button"
+        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"/>
+</RelativeLayout>
