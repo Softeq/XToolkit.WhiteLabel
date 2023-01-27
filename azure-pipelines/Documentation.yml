@@ -29,6 +29,10 @@ jobs:
     # restore, build
     - script: 'msbuild XToolkit.sln -r /p:Configuration="Release" /p:Platform="Any CPU"'
       displayName: Build Solution
+    - task: UseDotNet@2
+      displayName: Use .NET 6 SDK
+      inputs:
+        version: 6.0.405
     - bash: 'cd documentation && sh build.sh'
       displayName: Build Documentation
     - task: CopyFiles@2
