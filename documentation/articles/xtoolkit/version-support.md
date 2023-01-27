@@ -55,11 +55,11 @@ Actual for the latest release: [v2.0.0-beta10](https://github.com/Softeq/XToolki
 
 ## Development environment
 
-Latest update [#489](https://github.com/Softeq/XToolkit.WhiteLabel/pull/489):
+Latest update in PR [#501](https://github.com/Softeq/XToolkit.WhiteLabel/pull/501):
 
 - macOS 12+
-- Xcode 13.4+
-- Mono 6.12.19+
+- Xcode 14.2+
+- Mono 6.12.21
 - .NET SDK 5.0.408+
 
 ---
