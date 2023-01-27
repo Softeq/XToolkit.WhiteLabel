@@ -3,8 +3,8 @@
 # https://github.com/actions/runner-images
 
 variables:
-  MONO_VERSION: 6_12_19
-  XCODE_VERSION: 13.4.1
+  MONO_VERSION: 6_12_21
+  XCODE_VERSION: 14.2
   DOTNET_SDK_VERSION: 5.0.408
   BuildConfiguration: 'Release'
   MACOS_VM_IMAGE: 'macos-12'

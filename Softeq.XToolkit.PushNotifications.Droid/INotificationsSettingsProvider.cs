@@ -22,10 +22,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         string LaunchedFromPushNotificationKey { get; }
 
         /// <summary>
-        ///     Obtains a dictionary of notification channles where the key is channel id and the value is channel name.
-        ///     <para/>
-        ///     Note: if you are using "notification" notifications, Firebase will use a separate channel for them when received in Background.
+        ///     Obtains a dictionary of notification channels where the key is channel id and the value is channel name.
         /// </summary>
+        /// <remarks>
+        ///     if you are using "notification" notifications,
+        ///     Firebase will use a separate channel for them when received in Background.
+        /// </remarks>
         /// <param name="context">
         ///     Context for obtaining channel names from resources.
         ///     <para/>
@@ -45,9 +47,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         /// <summary>
         ///     You can add some custom configuration for a created Notification Channel (like description, sound,
         ///     turn off badges, create and set group - <see cref="NotificationChannelsHelper"/> to create a group, etc.).
-        ///     <para/>
-        ///     This method will only be called on API 26+.
         /// </summary>
+        /// <remarks>This method will only be called on API 26+.</remarks>
         /// <param name="channelId">Channel Id string.</param>
         /// <param name="channel">
         ///     A NotificationChannel that will be registered in the system. Contains already set channelId,
@@ -68,18 +69,22 @@ namespace Softeq.XToolkit.PushNotifications.Droid
         ///     want them to replace each other.
         /// </summary>
         /// <param name="pushNotification">Push notification data.</param>
-        /// <returns></returns>
+        /// <returns>Styles.</returns>
         PushNotificationStyles GetStylesForNotification(PushNotificationModel pushNotification);
 
         /// <summary>
-        ///     You can customize how push notification will be shown (apart from ContentTitle, ContentText, channelid,
+        ///     You can customize how push notification will be shown (apart from ContentTitle, ContentText, channelId,
         ///     styles set in GetStylesForNotification and content intent). For instance, you can use SetNumber to change badge
         ///     value increment on Android 26+; add Action buttons; add groups and create additional notifications - like group
         ///     summary notification; add progress bar and later update for this notificationId; or simply save notificationId; etc.
         /// </summary>
         /// <param name="notificationBuilder">Already created notification builder that can be further customized.</param>
         /// <param name="pushNotification">Push notification data.</param>
-        void CustomizeNotificationBuilder(NotificationCompat.Builder notificationBuilder, PushNotificationModel pushNotification, int notificationId);
+        /// <param name="notificationId"></param>
+        void CustomizeNotificationBuilder(
+            NotificationCompat.Builder notificationBuilder,
+            PushNotificationModel pushNotification,
+            int notificationId);
 
         /// <summary>
         ///     Provides info about the Activity which will be opened by tap on the given notification.

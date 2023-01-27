@@ -31,6 +31,6 @@ Install-Package Softeq.XToolkit.WhiteLabel
 - [WhiteLabel.iOS](whitelabel/ios.md)
 - [WhiteLabel.Droid](whitelabel/droid.md)
 - [WhiteLabel.Essentials](whitelabel/essentials.md)
-- [WhiteLabel.Forms](whitelabel/forms.md)
+- ~~[WhiteLabel.Forms](whitelabel/forms.md)~~ (Deprecated)
 
 ---
