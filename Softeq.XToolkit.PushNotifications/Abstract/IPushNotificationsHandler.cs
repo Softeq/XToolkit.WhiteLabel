@@ -12,7 +12,6 @@ namespace Softeq.XToolkit.PushNotifications.Abstract
         /// </summary>
         /// <param name="isRegisteredInSystem">
         ///     Value that indicates if we are registered to push notifications in system with token stored in
-        ///     <see cref="IPushTokenStorageService"/>.
         /// </param>
         /// <param name="isSavedOnServer">Value that indicates if current token was saved on server.</param>
         void OnPushRegistrationCompleted(bool isRegisteredInSystem, bool isSavedOnServer);
