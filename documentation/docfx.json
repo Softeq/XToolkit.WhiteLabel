@@ -15,7 +15,8 @@
           ]
         }
       ],
-      "dest": "obj/docfxapi"
+      "dest": "obj/docfxapi",
+      "tocNamespaceStyle": "Nested"
     }
   ],
   "build": {
