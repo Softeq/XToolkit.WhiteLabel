@@ -7,16 +7,20 @@ First of all, see [Navigation Requirements](xtoolkit/whitelabel/navigation-requi
 ### 1. Create Storyboard
 
 - VS4Mac: `Solution folder -> Add -> New File -> iOS -> Storyboard`
+- Rider: `Solution folder -> Add -> Storyboard`
 - Create empty `MainPageStoryboard`
 
 ### 2. Interface Builder
 
 - Open storyboard via Interface Builder (IB)
   - VS4Mac: `MainPageStoryboard -> Open With -> Xcode Interface Builder`
-  - Rider: `todo`
+  - Rider: `MainPageStoryboard -> Open in Xcode`
 - IB: Select **Identity Inspector** and update next properties:
   - Custom Class > `Class` to `MainPageViewController`
   - Identity > `Storyboard ID` to `MainPageViewController`
+
+> More detailed info: [Creating a Storyboard with Xcode
+](https://learn.microsoft.com/en-us/xamarin/ios/user-interface/storyboards/indepth-storyboard?tabs=macos#creating-a-storyboard-with-xcode)
 
 ### 3. Setup ViewController
 
