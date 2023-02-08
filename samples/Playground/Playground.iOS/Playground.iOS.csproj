@@ -47,8 +47,12 @@
   <ItemGroup>
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
-    <InterfaceDefinition Include="**\*.storyboard" />
-    <InterfaceDefinition Include="**\*.xib" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InterfaceDefinition Include="Resources\**\*.storyboard" />
+    <InterfaceDefinition Include="ViewControllers\**\*.storyboard" />
+    <InterfaceDefinition Include="Views\**\*.xib" />
   </ItemGroup>
 
   <ItemGroup>
