@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using ObjCRuntime;
 using Playground.ViewModels.Components;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
 using Softeq.XToolkit.Common.Commands;
@@ -12,7 +12,7 @@ namespace Playground.iOS.ViewControllers.Components
 {
     public partial class GesturesPageViewController : ViewControllerBase<GesturesPageViewModel>
     {
-        public GesturesPageViewController(IntPtr handle)
+        public GesturesPageViewController(NativeHandle handle)
             : base(handle)
         {
         }

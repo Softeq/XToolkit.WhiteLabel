@@ -1,8 +1,8 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Diagnostics.CodeAnalysis;
+using ObjCRuntime;
 using Playground.ViewModels;
 using Softeq.XToolkit.WhiteLabel.iOS;
 
@@ -12,7 +12,7 @@ namespace Playground.iOS.ViewControllers
     [SuppressMessage("ReSharper", "RedundantOverriddenMember", Justification = "Just for play.")]
     public partial class EmptyPageViewController : ViewControllerBase<EmptyPageViewModel>
     {
-        public EmptyPageViewController(IntPtr handle) : base(handle)
+        public EmptyPageViewController(NativeHandle handle) : base(handle)
         {
         }
 
