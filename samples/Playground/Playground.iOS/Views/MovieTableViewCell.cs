@@ -1,9 +1,9 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using FFImageLoading;
 using Foundation;
+using ObjCRuntime;
 using Playground.Models;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
@@ -21,7 +21,7 @@ namespace Playground.iOS.Views
             Nib = UINib.FromName(nameof(MovieTableViewCell), NSBundle.MainBundle);
         }
 
-        protected MovieTableViewCell(IntPtr handle) : base(handle)
+        protected MovieTableViewCell(NativeHandle handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
         }

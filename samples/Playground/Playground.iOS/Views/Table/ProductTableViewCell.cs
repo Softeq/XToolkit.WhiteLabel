@@ -1,9 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using FFImageLoading;
 using Foundation;
+using ObjCRuntime;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
@@ -21,7 +21,7 @@ namespace Playground.iOS.Views.Table
             Nib = UINib.FromName(nameof(ProductTableViewCell), NSBundle.MainBundle);
         }
 
-        protected ProductTableViewCell(IntPtr handle)
+        protected ProductTableViewCell(NativeHandle handle)
             : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.

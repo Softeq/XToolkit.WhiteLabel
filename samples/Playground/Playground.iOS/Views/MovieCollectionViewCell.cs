@@ -1,9 +1,9 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using FFImageLoading;
 using Foundation;
+using ObjCRuntime;
 using Playground.Models;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
@@ -18,7 +18,7 @@ namespace Playground.iOS.Views
 
         static MovieCollectionViewCell() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected MovieCollectionViewCell(IntPtr handle) : base(handle)
+        protected MovieCollectionViewCell(NativeHandle handle) : base(handle)
         {
         }
 
