@@ -1,7 +1,7 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>xamarin.ios10</TargetFramework>
+    <TargetFramework>net6.0-ios16.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <DebugType>portable</DebugType>
     <SupportedOSPlatformVersion>12.0</SupportedOSPlatformVersion>
@@ -44,16 +44,10 @@
     <MtouchFloat32>true</MtouchFloat32>
   </PropertyGroup>
 
-  <ItemGroup>
-    <None Include="Info.plist" />
-    <None Include="Entitlements.plist" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <InterfaceDefinition Include="Resources\**\*.storyboard" />
-    <InterfaceDefinition Include="ViewControllers\**\*.storyboard" />
-    <InterfaceDefinition Include="Views\**\*.xib" />
-  </ItemGroup>
+<!--  <ItemGroup>-->
+<!--    <None Include="Info.plist" />-->
+<!--    <None Include="Entitlements.plist" />-->
+<!--  </ItemGroup>-->
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
