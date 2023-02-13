@@ -1,12 +1,13 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using FFImageLoading;
 using Foundation;
 using ObjCRuntime;
 using Playground.Models;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using UIKit;
 
 namespace Playground.iOS.Views
@@ -26,7 +27,7 @@ namespace Playground.iOS.Views
         {
             base.DoAttachBindings();
 
-            ImageService.Instance.LoadUrl(ViewModel.IconUrl).Into(Poster);
+            Dependencies.Container.Resolve<IIosImageService>().LoadImage(ViewModel.IconUrl, Poster);
 
             this.Bind(() => ViewModel.Title, () => Title.Text);
         }

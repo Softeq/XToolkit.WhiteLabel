@@ -1,12 +1,13 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using FFImageLoading;
 using Foundation;
 using ObjCRuntime;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using UIKit;
 
 namespace Playground.iOS.Views.Table
@@ -32,7 +33,7 @@ namespace Playground.iOS.Views.Table
         {
             base.DoAttachBindings();
 
-            ImageService.Instance.LoadUrl(ViewModel.PhotoUrl).Into(PhotoImage);
+            Dependencies.Container.Resolve<IIosImageService>().LoadImage(ViewModel.PhotoUrl, PhotoImage);
 
             this.Bind(() => ViewModel.Title, () => NameLabel.Text);
             this.Bind(() => ViewModel.Count, () => CountField.Text);

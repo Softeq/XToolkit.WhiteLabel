@@ -3,10 +3,11 @@
 
 using Android.Views;
 using Android.Widget;
-using FFImageLoading;
 using Playground.Models;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
 
 namespace Playground.Droid.Views.Collections
 {
@@ -26,9 +27,7 @@ namespace Playground.Droid.Views.Collections
         {
             base.DoAttachBindings();
 
-            ImageService.Instance
-                .LoadUrl(ViewModel.IconUrl)
-                .Into(_image);
+            Dependencies.Container.Resolve<IDroidImageService>().LoadImage(ItemView.Context!, ViewModel.IconUrl, _image);
 
             this.Bind(() => ViewModel.Title, () => _name.Text);
         }
