@@ -38,4 +38,8 @@
     <ProjectReference Include="..\Playground\Playground.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Android.Glide" Version="4.13.2.2" />
+  </ItemGroup>
+
 </Project>
