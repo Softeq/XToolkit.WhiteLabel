@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Essentials" Version="1.7.4" />
+    <PackageReference Include="Xamarin.Google.Guava.ListenableFuture" Version="1.0.0.9" />
   </ItemGroup>
 
 </Project>
