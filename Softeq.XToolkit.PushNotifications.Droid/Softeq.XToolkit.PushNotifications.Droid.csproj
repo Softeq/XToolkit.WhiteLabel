@@ -49,6 +49,7 @@
   <ItemGroup>
     <Compile Include="Abstract\IActivityLauncherDelegate.cs" />
     <Compile Include="Abstract\IDroidPushNotificationPresenter.cs" />
+    <Compile Include="Abstract\IDroidFirebaseMessagingHandler.cs" />
     <Compile Include="Abstract\INotificationsSettingsProvider.cs" />
     <Compile Include="Abstract\IDroidPushNotificationsParser.cs" />
     <Compile Include="Abstract\IDroidPushNotificationsConsumer.cs" />
@@ -80,6 +81,10 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
       <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
       <Name>Softeq.XToolkit.Common</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
+      <Project>{98c3b9f4-4e4f-4c0b-baa6-c61685e0ac49}</Project>
+      <Name>Softeq.XToolkit.WhiteLabel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

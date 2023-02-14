@@ -6,6 +6,7 @@ using Android.Content;
 using AndroidX.Lifecycle;
 using Firebase.Messaging;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.PushNotifications.Abstract;
 using Softeq.XToolkit.PushNotifications.Droid.Abstract;
 
@@ -46,7 +47,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             _logger = logManager.GetLogger<DroidPushNotificationsConsumer>();
 
             _lifecycleObserver = new AppLifecycleObserver();
-            ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
+            Execute.BeginOnUIThread(() =>
+            {
+                ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
+            });
         }
 
         /// <inheritdoc />
