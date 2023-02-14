@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Playground.Droid.Extended;
+using Playground.Droid.Services;
 using Playground.Extended;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Common.Extensions;
@@ -13,6 +14,7 @@ using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
+using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid.Services;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker;
@@ -47,6 +49,7 @@ namespace Playground.Droid
             builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
 
             // image picker
+            builder.Singleton<GlideImageService, IDroidImageService>();
             builder.Singleton<DroidImagePickerService, IImagePickerService>();
             builder.Singleton<ImagePickerActivityResultHandler, IImagePickerActivityResultHandler>();
 

@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using ObjCRuntime;
 using Playground.ViewModels.Pages;
 using Softeq.XToolkit.WhiteLabel.iOS;
 
@@ -9,7 +9,7 @@ namespace Playground.iOS.ViewControllers.Pages
 {
     public partial class DetailsPageViewController : ViewControllerBase<DetailsPageViewModel>
     {
-        public DetailsPageViewController(IntPtr handle) : base(handle)
+        public DetailsPageViewController(NativeHandle handle) : base(handle)
         {
         }
 

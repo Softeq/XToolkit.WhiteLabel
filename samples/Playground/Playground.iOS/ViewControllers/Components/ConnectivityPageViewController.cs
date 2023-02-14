@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using ObjCRuntime;
 using Playground.ViewModels.Components;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.iOS;
@@ -10,7 +10,7 @@ namespace Playground.iOS.ViewControllers.Components
 {
     public partial class ConnectivityPageViewController : ViewControllerBase<ConnectivityPageViewModel>
     {
-        public ConnectivityPageViewController(IntPtr handle)
+        public ConnectivityPageViewController(NativeHandle handle)
             : base(handle)
         {
         }

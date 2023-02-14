@@ -1,7 +1,7 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>monoandroid12.0</TargetFramework>
+    <TargetFramework>net6.0-android32.0</TargetFramework>
     <DebugType>portable</DebugType>
   </PropertyGroup>
 
@@ -27,8 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
-    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.4" />
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.0" />
     <PackageReference Include="Xamarin.Google.Android.Material" Version="1.6.1.1" />
   </ItemGroup>
