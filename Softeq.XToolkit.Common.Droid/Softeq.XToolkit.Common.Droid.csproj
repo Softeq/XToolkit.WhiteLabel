@@ -15,8 +15,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="Resources\*.cs" />
-    <Compile Remove="Resources\*.cs" />
     <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
   </ItemGroup>
 
