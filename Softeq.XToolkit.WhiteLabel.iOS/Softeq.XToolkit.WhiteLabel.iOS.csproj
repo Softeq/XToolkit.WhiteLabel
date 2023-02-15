@@ -3,15 +3,16 @@
   <PropertyGroup>
     <TargetFramework>net6.0-ios12.0</TargetFramework>
     <DebugType>portable</DebugType>
+    <CreatePackage>false</CreatePackage>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <MtouchLink>None</MtouchLink>
+    <LinkMode>None</LinkMode>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <MtouchLink>SdkOnly</MtouchLink>
+    <LinkMode>SdkOnly</LinkMode>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,19 +1,26 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
+  <!--
+    Xamarin.Android project properties:
+      https://learn.microsoft.com/en-us/xamarin/android/deploy-test/building-apps/build-properties
+  -->
+
   <PropertyGroup>
     <TargetFramework>net7.0-android33.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <DebugType>portable</DebugType>
+    <RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AndroidManagedSymbols>True</AndroidManagedSymbols>
+    <PublishTrimmed>true</PublishTrimmed>
+    <TrimMode>link</TrimMode>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
+    <RunAOTCompilation>true</RunAOTCompilation>
+    <AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>
   </PropertyGroup>
 
   <ItemGroup>
