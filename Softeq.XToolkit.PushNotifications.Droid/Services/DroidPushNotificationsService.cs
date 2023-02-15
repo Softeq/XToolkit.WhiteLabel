@@ -19,7 +19,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
     ///     Default implementation of <see cref="IPushNotificationsService"/> and <see cref="IActivityLauncherDelegate"/>
     ///     interfaces for Android platform. Handles all interactions with the platform, related to push notifications.
     /// </summary>
-    public sealed class DroidPushNotificationsService : IPushNotificationsService, IActivityLauncherDelegate, IDisposable
+    public sealed class DroidPushNotificationsService :
+        IPushNotificationsService, IActivityLauncherDelegate, IDroidFirebaseMessagingHandler
     {
         private readonly IDroidPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
@@ -37,9 +38,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         {
             _pushNotificationsConsumer = pushNotificationsConsumer;
             _logger = logManager.GetLogger<DroidPushNotificationsService>();
-
-            XFirebaseMessagingService.OnTokenRefreshed += OnPushTokenRefreshed;
-            XFirebaseMessagingService.OnNotificationReceived += OnNotificationReceived;
         }
 
         private bool IsRegistered { get; set; }
@@ -116,7 +114,8 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             return intent != null && _pushNotificationsConsumer.TryHandlePushNotificationIntent(intent);
         }
 
-        private void OnNotificationReceived(RemoteMessage message)
+        /// <inheritdoc />
+        void IDroidFirebaseMessagingHandler.OnNotificationReceived(RemoteMessage message)
         {
             if (!_pushNotificationsConsumer.TryHandleNotification(message))
             {
@@ -129,7 +128,9 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         // for consumers that push token is provided only after subscription, we need to keep track of subscription status.
         // NOTE: disabling auto-init might not be the option, as it also requires disabling Firebase Analytics
         // https://firebase.google.com/docs/cloud-messaging/android/client#prevent-auto-init
-        private void OnPushTokenRefreshed(string token)
+
+        /// <inheritdoc />
+        void IDroidFirebaseMessagingHandler.OnPushTokenRefreshed(string token)
         {
             _registrationSemaphore.Wait();
 
@@ -144,26 +145,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             {
                 _registrationSemaphore.Release();
             }
-        }
-
-        private void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                XFirebaseMessagingService.OnTokenRefreshed -= OnPushTokenRefreshed;
-                XFirebaseMessagingService.OnNotificationReceived -= OnNotificationReceived;
-            }
-        }
-
-        void IDisposable.Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~DroidPushNotificationsService()
-        {
-            Dispose(false);
         }
     }
 }
