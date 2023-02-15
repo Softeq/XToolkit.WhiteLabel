@@ -1,48 +1,46 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
+  <!--
+    Xamarin.iOS project properties:
+      https://github.com/xamarin/xamarin-macios/wiki/Project-file-properties
+  -->
+
   <PropertyGroup>
     <TargetFramework>net7.0-ios16.2</TargetFramework>
     <OutputType>Exe</OutputType>
-    <DebugType>portable</DebugType>
+    <Platforms>iPhoneSimulator;iPhone;AnyCPU</Platforms>
     <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <CreatePackage>false</CreatePackage>
+    <UseNativeHttpHandler>true</UseNativeHttpHandler>
     <CodesignKey>iPhone Developer</CodesignKey>
-    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
     <DebugSymbols>true</DebugSymbols>
-    <MtouchLink>None</MtouchLink>
-    <MtouchArch>x86_64</MtouchArch>
-    <MtouchDebug>true</MtouchDebug>
-    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-    <MtouchFastDev>true</MtouchFastDev>
-    <DeviceSpecificBuild>false</DeviceSpecificBuild>
+    <LinkMode>None</LinkMode>
+    <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
     <DebugSymbols>true</DebugSymbols>
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>ARM64</MtouchArch>
-    <MtouchDebug>true</MtouchDebug>
-    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
-    <MtouchFastDev>true</MtouchFastDev>
-    <DeviceSpecificBuild>true</DeviceSpecificBuild>
-    <MtouchUseLlvm>true</MtouchUseLlvm>
-    <MtouchFloat32>true</MtouchFloat32>
+    <LinkMode>SdkOnly</LinkMode>
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>x86_64</MtouchArch>
-    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <LinkMode>SdkOnly</LinkMode>
+    <RuntimeIdentifier>iossimulator-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
-    <MtouchLink>SdkOnly</MtouchLink>
-    <MtouchArch>ARM64</MtouchArch>
-    <MtouchUseLlvm>true</MtouchUseLlvm>
-    <MtouchFloat32>true</MtouchFloat32>
+    <LinkMode>SdkOnly</LinkMode>
+    <RuntimeIdentifier>ios-arm64</RuntimeIdentifier>
   </PropertyGroup>
+
+  <!--
+    Default properties that auto includes resources and more:
+      https://github.com/xamarin/xamarin-macios/blob/main/dotnet/targets/Microsoft.Sdk.DefaultItems.template.props
+   -->
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
