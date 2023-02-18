@@ -18,6 +18,30 @@ variables:
 - template: templates/vars.yml
 
 jobs:
-- template: templates/app-jobs.yml
-  parameters:
-    SolutionPath: 'XToolkit.sln'
+- job: macOS
+  pool:
+    vmImage: $(MACOS_VM_IMAGE)
+  steps:
+  - template: templates/setup-dotnet.yml
+    parameters:
+      version: $(DOTNET_SDK_VERSION)
+
+  - template: templates/setup-xcode.yml
+    parameters:
+      version: $(XCODE_VERSION)
+
+  - task: DotNetCoreCLI@2
+    displayName: Build Solution
+    inputs:
+      command: build
+      configuration: Release
+
+  - task: DotNetCoreCLI@2
+    displayName: Run Tests
+    inputs:
+      command: test
+      projects: |
+        **/*.Tests.csproj
+        !**/*.iOS.Tests.csproj
+        !**/*.Droid.Tests.csproj
+      configuration: Release
