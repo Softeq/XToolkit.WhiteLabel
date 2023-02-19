@@ -4,7 +4,6 @@
 using System;
 using CoreGraphics;
 using Foundation;
-using ObjCRuntime;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.Common.iOS.Extensions;
@@ -19,7 +18,7 @@ namespace Playground.iOS.Views.Collections
 
         static GroupedHeaderView() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected GroupedHeaderView(NativeHandle handle)
+        protected GroupedHeaderView(IntPtr handle)
             : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.

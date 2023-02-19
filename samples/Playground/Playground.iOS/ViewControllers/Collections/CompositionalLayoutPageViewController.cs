@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using ObjCRuntime;
+using System;
 using Playground.iOS.ViewControllers.Collections.CompositionalLayout;
 using Playground.ViewModels.Collections;
 using Softeq.XToolkit.Common.iOS.Extensions;
@@ -14,7 +14,7 @@ namespace Playground.iOS.ViewControllers.Collections
     // https://developer.apple.com/documentation/uikit/views_and_controls/collection_views/using_collection_view_compositional_layouts_and_diffable_data_sources
     public partial class CompositionalLayoutPageViewController : ViewControllerBase<CompositionalLayoutPageViewModel>
     {
-        public CompositionalLayoutPageViewController(NativeHandle handle)
+        public CompositionalLayoutPageViewController(IntPtr handle)
             : base(handle)
         {
         }

@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using ObjCRuntime;
 using Playground.ViewModels.BottomTabs.Second;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.iOS;
@@ -11,7 +10,7 @@ namespace Playground.iOS.ViewControllers.BottomTabs.Second
 {
     public partial class GreenViewController : ViewControllerBase<GreenViewModel>
     {
-        public GreenViewController(NativeHandle handle)
+        public GreenViewController(IntPtr handle)
             : base(handle)
         {
         }

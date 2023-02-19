@@ -1,8 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using Foundation;
-using ObjCRuntime;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using UIKit;
@@ -19,7 +19,7 @@ namespace Playground.iOS.Views
             Nib = UINib.FromName(Key, NSBundle.MainBundle);
         }
 
-        protected MainPageItemViewCell(NativeHandle handle) : base(handle)
+        protected MainPageItemViewCell(IntPtr handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
         }
