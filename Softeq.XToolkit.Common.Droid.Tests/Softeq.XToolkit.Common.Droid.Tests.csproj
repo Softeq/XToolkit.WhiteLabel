@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0-android32.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <DebugType>portable</DebugType>
     <IsTrimmable>false</IsTrimmable>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
