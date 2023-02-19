@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Threading.Tasks;
 using Android.Content;
 using Android.Widget;
 using Bumptech.Glide;
