@@ -29,7 +29,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xunit.Combinatorial" Version="1.4.1" />
+    <PackageReference Include="Xunit.Combinatorial" Version="1.5.25" />
   </ItemGroup>
 
   <Import Project="..\_Tests.Platform.targets" />
