@@ -9,7 +9,7 @@
     <TargetFramework>net7.0-ios16.2</TargetFramework>
     <OutputType>Exe</OutputType>
     <Platforms>iPhoneSimulator;iPhone;AnyCPU</Platforms>
-    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
     <CreatePackage>false</CreatePackage>
     <UseNativeHttpHandler>true</UseNativeHttpHandler>
     <CodesignKey>iPhone Developer</CodesignKey>
