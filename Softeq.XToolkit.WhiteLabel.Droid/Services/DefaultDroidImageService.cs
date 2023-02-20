@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
-using Android.Content;
 using Android.Graphics.Drawables;
 using Android.Util;
 using Android.Widget;
@@ -23,7 +22,7 @@ public class DefaultDroidImageService : IDroidImageService
     protected virtual SimpleLruCache<Drawable> ImageCache { get; } = new(size: 50);
 
     /// <inheritdoc />
-    public void LoadImage(Context context, string url, ImageView into)
+    public void LoadImage(string url, ImageView into)
     {
         Task.Run(async () =>
         {

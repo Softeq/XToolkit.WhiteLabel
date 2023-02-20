@@ -32,7 +32,7 @@ namespace Playground.Droid.Views.Collections
         {
             base.DoAttachBindings();
 
-            Dependencies.Container.Resolve<IDroidImageService>().LoadImage(ItemView.Context!, ViewModel.PhotoUrl, _image);
+            Dependencies.Container.Resolve<IDroidImageService>().LoadImage(ViewModel.PhotoUrl, _image);
 
             this.Bind(() => ViewModel.Title, () => _title.Text);
             this.Bind(() => ViewModel.Count, () => _count.Text, BindingMode.TwoWay);

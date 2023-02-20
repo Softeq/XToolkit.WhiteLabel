@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Android.Content;
 using Android.Widget;
 using Bumptech.Glide;
 using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
@@ -18,8 +17,8 @@ namespace Playground.Droid.Services;
 public class GlideImageService : IDroidImageService
 {
     /// <inheritdoc />
-    public void LoadImage(Context context, string url, ImageView into)
+    public void LoadImage(string url, ImageView into)
     {
-        Glide.With(context).Load(url).Into(into);
+        Glide.With(into.Context).Load(url).Into(into);
     }
 }

@@ -27,7 +27,7 @@ namespace Playground.Droid.Views.Collections
         {
             base.DoAttachBindings();
 
-            Dependencies.Container.Resolve<IDroidImageService>().LoadImage(ItemView.Context!, ViewModel.IconUrl, _image);
+            Dependencies.Container.Resolve<IDroidImageService>().LoadImage(ViewModel.IconUrl, _image);
 
             this.Bind(() => ViewModel.Title, () => _name.Text);
         }
