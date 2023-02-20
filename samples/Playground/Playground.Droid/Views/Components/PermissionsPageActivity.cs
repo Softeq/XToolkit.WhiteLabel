@@ -19,7 +19,10 @@ namespace Playground.Droid.Views.Components
     {
         private Button? _cameraButton;
         private Button? _storageButton;
-        private Button? _locationButton;
+        private Button? _locationInUseButton;
+        private Button? _locationAlwaysButton;
+        private Button? _notificationButton;
+        private Button? _bluetoothButton;
 
         protected override void OnCreate(Bundle? savedInstanceState)
         {
@@ -33,8 +36,17 @@ namespace Playground.Droid.Views.Components
             _storageButton = FindViewById<Button>(Resource.Id.buttonStorage);
             _storageButton.SetCommand(ViewModel.Storage.RequestPermissionCommand);
 
-            _locationButton = FindViewById<Button>(Resource.Id.buttonLocationInUse);
-            _locationButton.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
+            _locationInUseButton = FindViewById<Button>(Resource.Id.buttonLocationInUse);
+            _locationInUseButton.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
+
+            _locationAlwaysButton = FindViewById<Button>(Resource.Id.buttonLocationAlways);
+            _locationAlwaysButton.SetCommand(ViewModel.LocationAlways.RequestPermissionCommand);
+
+            _notificationButton = FindViewById<Button>(Resource.Id.buttonNotification);
+            _notificationButton.SetCommand(ViewModel.Notifications.RequestPermissionCommand);
+
+            _bluetoothButton = FindViewById<Button>(Resource.Id.buttonBluetooth);
+            _bluetoothButton.SetCommand(ViewModel.Bluetooth.RequestPermissionCommand);
         }
 
         protected override void DoAttachBindings()
@@ -45,7 +57,10 @@ namespace Playground.Droid.Views.Components
 
             this.Bind(() => ViewModel.Camera.IsGranted, () => _cameraButton!.Background, converter);
             this.Bind(() => ViewModel.Storage.IsGranted, () => _storageButton!.Background, converter);
-            this.Bind(() => ViewModel.LocationInUse.IsGranted, () => _locationButton!.Background, converter);
+            this.Bind(() => ViewModel.LocationInUse.IsGranted, () => _locationInUseButton!.Background, converter);
+            this.Bind(() => ViewModel.LocationAlways.IsGranted, () => _locationAlwaysButton!.Background, converter);
+            this.Bind(() => ViewModel.Notifications.IsGranted, () => _notificationButton!.Background, converter);
+            this.Bind(() => ViewModel.Bluetooth.IsGranted, () => _bluetoothButton!.Background, converter);
         }
 
         private class ColorConverter : IConverter<Drawable?, bool>

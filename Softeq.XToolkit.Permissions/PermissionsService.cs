@@ -6,7 +6,7 @@ using Xamarin.Essentials;
 using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
 using EssentialsPermissions = Xamarin.Essentials.Permissions;
 
-namespace Softeq.XToolkit.Permissions.Droid
+namespace Softeq.XToolkit.Permissions
 {
     /// <inheritdoc cref="IPermissionsService" />
     public class PermissionsService : IPermissionsService

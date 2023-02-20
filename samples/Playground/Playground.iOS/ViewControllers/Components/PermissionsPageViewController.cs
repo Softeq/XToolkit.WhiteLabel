@@ -26,6 +26,8 @@ namespace Playground.iOS.ViewControllers.Components
             Camera.SetCommand(ViewModel.Camera.RequestPermissionCommand);
             LocationInUse.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
             LocationAlways.SetCommand(ViewModel.LocationAlways.RequestPermissionCommand);
+            Notifications.SetCommand(ViewModel.Notifications.RequestPermissionCommand); ;
+            Bluetooth.SetCommand(ViewModel.Bluetooth.RequestPermissionCommand); ;
         }
 
         protected override void DoAttachBindings()
@@ -38,6 +40,8 @@ namespace Playground.iOS.ViewControllers.Components
             this.Bind(() => ViewModel.Camera.IsGranted, () => Camera.BackgroundColor, converter);
             this.Bind(() => ViewModel.LocationInUse.IsGranted, () => LocationInUse.BackgroundColor, converter);
             this.Bind(() => ViewModel.LocationAlways.IsGranted, () => LocationAlways.BackgroundColor, converter);
+            this.Bind(() => ViewModel.Notifications.IsGranted, () => Notifications.BackgroundColor, converter);
+            this.Bind(() => ViewModel.Bluetooth.IsGranted, () => Bluetooth.BackgroundColor, converter);
         }
 
         private class ColorConverter : IConverter<UIColor?, bool>
