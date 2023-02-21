@@ -18,7 +18,7 @@ namespace Playground.Droid.Views.Dialogs
         protected override int? DialogAnimationId => Resource.Style.DialogAnimation;
 
         // TODO YP: move inflate to WL
-        public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
         {
             return LayoutInflater.Inflate(Resource.Layout.dialog_simple_dialog, container, true);
         }
@@ -30,8 +30,8 @@ namespace Playground.Droid.Views.Dialogs
             _closeButton = view.FindViewById<Button>(Resource.Id.dialog_simple_dialog_close_button);
             _doneButton = view.FindViewById<Button>(Resource.Id.dialog_simple_dialog_done_button);
 
-            _closeButton.SetCommand(ViewModel.CloseCommand);
-            _doneButton.SetCommand(ViewModel.DoneCommand);
+            _closeButton!.SetCommand(ViewModel.CloseCommand);
+            _doneButton!.SetCommand(ViewModel.DoneCommand);
         }
     }
 }

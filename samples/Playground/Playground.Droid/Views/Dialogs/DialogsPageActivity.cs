@@ -46,13 +46,13 @@ namespace Playground.Droid.Views.Dialogs
             _dialogDismissResultResultTextView = FindViewById<TextView>(Resource.Id.activity_dialogs_dialog_result_label);
             _openTwoDialogsButton = FindViewById<Button>(Resource.Id.activity_dialogs_two_dialogs_button);
 
-            _openAlertButton.SetCommand(ViewModel.OpenAlertCommand);
-            _openConfirmButton.SetCommand(ViewModel.OpenConfirmCommand);
-            _openActionSheetButton.SetCommand(ViewModel.OpenActionSheetCommand);
+            _openAlertButton!.SetCommand(ViewModel.OpenAlertCommand);
+            _openConfirmButton!.SetCommand(ViewModel.OpenConfirmCommand);
+            _openActionSheetButton!.SetCommand(ViewModel.OpenActionSheetCommand);
 
-            _openDialogUntilDismissButton.SetCommand(ViewModel.OpenDialogUntilDismissCommand);
-            _openDialogUntilResultButton.SetCommand(ViewModel.OpenDialogUntilResultCommand);
-            _openTwoDialogsButton.SetCommand(ViewModel.OpenTwoDialogsCommand);
+            _openDialogUntilDismissButton!.SetCommand(ViewModel.OpenDialogUntilDismissCommand);
+            _openDialogUntilResultButton!.SetCommand(ViewModel.OpenDialogUntilResultCommand);
+            _openTwoDialogsButton!.SetCommand(ViewModel.OpenTwoDialogsCommand);
         }
 
         protected override void DoAttachBindings()

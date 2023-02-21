@@ -28,7 +28,7 @@ namespace Playground.Droid.Views.BottomTabs.First
 
             _incrementButton = FindViewById<Button>(Resource.Id.button2)!;
             _incrementButton.SetCommand(ViewModel.IncrementCommand);
-            _incrementButton.Click += (sender, e) => _incrementLabel.Text = "changed";
+            _incrementButton.Click += (_, _) => _incrementLabel.Text = "changed";
         }
 
         protected override void DoAttachBindings()
