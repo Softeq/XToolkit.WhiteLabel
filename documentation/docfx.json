@@ -11,12 +11,13 @@
             "**/obj/**",
             "**/bin/**",
             "**/*.Tests.csproj",
+            "**/*.Forms.csproj",
             "_site/**"
           ]
         }
       ],
       "dest": "obj/docfxapi",
-      "tocNamespaceStyle": "Nested"
+      "namespaceLayout": "nested"
     }
   ],
   "build": {
