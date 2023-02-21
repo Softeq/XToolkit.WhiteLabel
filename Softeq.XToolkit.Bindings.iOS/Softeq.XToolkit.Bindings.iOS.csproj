@@ -1,17 +1,17 @@
-﻿<Project Sdk="MSBuild.Sdk.Extras">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>xamarin.ios10</TargetFramework>
-    <DebugType>portable</DebugType>
+    <TargetFramework>net6.0-ios12.0</TargetFramework>
+    <CreatePackage>false</CreatePackage>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <MtouchLink>None</MtouchLink>
+    <LinkMode>None</LinkMode>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <MtouchLink>SdkOnly</MtouchLink>
+    <LinkMode>SdkOnly</LinkMode>
   </PropertyGroup>
 
   <ItemGroup>

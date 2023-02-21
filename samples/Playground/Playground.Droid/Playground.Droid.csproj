@@ -1,21 +1,22 @@
-<Project Sdk="MSBuild.Sdk.Extras">
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!--
+    Xamarin.Android project properties:
+      https://learn.microsoft.com/en-us/xamarin/android/deploy-test/building-apps/build-properties
+  -->
 
   <PropertyGroup>
-    <TargetFramework>monoandroid12.0</TargetFramework>
-    <DebugType>portable</DebugType>
-    <AndroidApplication>True</AndroidApplication>
-    <AndroidManifest>Properties\AndroidManifest.xml</AndroidManifest>
-    <AndroidHttpClientHandlerType>Xamarin.Android.Net.AndroidClientHandler</AndroidHttpClientHandlerType>
+    <TargetFramework>net7.0-android33.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AndroidManagedSymbols>True</AndroidManagedSymbols>
+    <AndroidManagedSymbols>true</AndroidManagedSymbols>
   </PropertyGroup>
 
   <ItemGroup>
@@ -36,6 +37,10 @@
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj" />
     <ProjectReference Include="..\..\..\Softeq.XToolkit.WhiteLabel.Essentials.Droid\Softeq.XToolkit.WhiteLabel.Essentials.Droid.csproj" />
     <ProjectReference Include="..\Playground\Playground.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Xamarin.Android.Glide" Version="4.13.2.2" />
   </ItemGroup>
 
 </Project>
