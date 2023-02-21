@@ -1,113 +1,29 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>8.0.30703</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{CC89DBC6-E68A-4C85-91C4-E276D3BC3C2E}</ProjectGuid>
-    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <OutputType>Library</OutputType>
-    <RootNamespace>Softeq.XToolkit.WhiteLabel.iOS</RootNamespace>
-    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
-    <AssemblyName>Softeq.XToolkit.WhiteLabel.iOS</AssemblyName>
+    <TargetFramework>net6.0-ios12.0</TargetFramework>
+    <CreatePackage>false</CreatePackage>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
-    <DebugType>portable</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <DefineConstants>DEBUG;</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <MtouchLink>None</MtouchLink>
+    <LinkMode>None</LinkMode>
   </PropertyGroup>
+
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>portable</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <ConsolePause>false</ConsolePause>
-    <MtouchLink>SdkOnly</MtouchLink>
+    <LinkMode>SdkOnly</LinkMode>
   </PropertyGroup>
+
   <ItemGroup>
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.3" />
-    <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
+    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
+    <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj" />
+    <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj" />
+    <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj" />
+    <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.IO.Compression" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="Xamarin.iOS" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AppDelegateBase.cs" />
-    <Compile Include="Controls\CustomViewBase.cs" />
-    <Compile Include="Controls\GradientView.cs" />
-    <Compile Include="Controls\NotifyingView.cs" />
-    <Compile Include="Controls\ObservableStackViewBase.cs" />
-    <Compile Include="Controls\SelectorModel.cs" />
-    <Compile Include="Controls\SupportRotationViewController.cs" />
-    <Compile Include="Dialogs\AlertAction.cs" />
-    <Compile Include="Dialogs\IosActionSheetDialog.cs" />
-    <Compile Include="Dialogs\IosAlertDialog.cs" />
-    <Compile Include="Dialogs\IosConfirmDialog.cs" />
-    <Compile Include="Dialogs\AlertViewControllerBase.cs" />
-    <Compile Include="Extensions\CommandActionStyleExtensions.cs" />
-    <Compile Include="Extensions\NavigationItemExtensions.cs" />
-    <Compile Include="Extensions\UiViewExtensions.cs" />
-    <Compile Include="Helpers\AvatarImageHelpers.cs" />
-    <Compile Include="Helpers\UIImageHelper.cs" />
-    <Compile Include="Helpers\UiTabBarControllerHelper.cs" />
-    <Compile Include="Helpers\ViewControllerHelper.cs" />
-    <Compile Include="Interfaces\IViewControllerProvider.cs" />
-    <Compile Include="IViewControllerComponent.cs" />
-    <Compile Include="Navigation\IViewLocator.cs" />
-    <Compile Include="Navigation\StoryboardFrameNavigationService.cs" />
-    <Compile Include="Navigation\StoryboardNavigation.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Services\IosAppInfoService.cs" />
-    <Compile Include="Services\IosLauncherService.cs" />
-    <Compile Include="Services\IosLocationService.cs" />
-    <Compile Include="Services\StoryboardDialogsService.cs" />
-    <Compile Include="Services\StoryboardViewLocator.cs" />
-    <Compile Include="ViewControllerBase.cs" />
-    <Compile Include="Controls\ActionsSheetControl.cs" />
-    <Compile Include="Controls\SupportRotationAlertController.cs" />
-    <Compile Include="Navigation\RootFrameNavigationControllerBase.cs" />
-    <Compile Include="Controls\GradientFadeView.cs" />
-    <Compile Include="Extensions\MvxCachedImageViewExtensions.cs" />
-    <Compile Include="Services\KeyboardService.cs" />
-    <Compile Include="ViewControllers\ToolbarViewControllerBase.cs" />
-    <Compile Include="Controls\BindableTabBarItem.cs" />
-    <Compile Include="IosBootstrapperBase.cs" />
-    <Compile Include="Services\ViewControllerProvider.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj">
-      <Project>{98C3B9F4-4E4F-4C0B-BAA6-C61685E0AC49}</Project>
-      <Name>Softeq.XToolkit.WhiteLabel</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Bindings\Softeq.XToolkit.Bindings.csproj">
-      <Project>{0F1F09A8-9CDB-4933-AA1B-898AB43D394C}</Project>
-      <Name>Softeq.XToolkit.Bindings</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Bindings.iOS\Softeq.XToolkit.Bindings.iOS.csproj">
-      <Project>{2D399BA9-1878-43E2-AF05-6873EAE9151B}</Project>
-      <Name>Softeq.XToolkit.Bindings.iOS</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj">
-      <Project>{24588814-B93D-4528-8917-9C2A3C4E85CA}</Project>
-      <Name>Softeq.XToolkit.Common</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Softeq.XToolkit.Common.iOS\Softeq.XToolkit.Common.iOS.csproj">
-      <Project>{6BCB2009-2E46-458C-BCAA-AFC27A631924}</Project>
-      <Name>Softeq.XToolkit.Common.iOS</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+
 </Project>

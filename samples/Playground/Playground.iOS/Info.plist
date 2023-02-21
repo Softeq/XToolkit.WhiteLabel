@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Playground.iOS</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.paws.haloapp</string>
+	<string>com.softeq.Playground-iOS</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
@@ -13,7 +13,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>12</string>
+	<string>10.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
@@ -51,10 +51,6 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow location always pls</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>Allow location always and when use pls</string>
-	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>Allow bluetooth pls</string>
-	<key>NSBluetoothPeripheralUsageDescription</key>
-	<string>Allow bluetooth pls</string>
+	<string>PLIS</string>
 </dict>
 </plist>

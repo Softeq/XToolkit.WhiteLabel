@@ -5,9 +5,9 @@ using System.Windows.Input;
 using Android.OS;
 using Android.Views;
 using Android.Widget;
-using FFImageLoading;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
+using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Essentials.FullScreenImage;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
 
         protected override int? DialogAnimationId => Resource.Style.FullScreenImageDialogAnimation;
 
-        public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
         {
             return LayoutInflater.Inflate(Resource.Layout.dialog_full_screen_image, container, true);
         }
@@ -37,7 +37,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
             _gestureDetector = new GestureDetector(Context, listener);
 
             // Load Image
-            var imageView = View.FindViewById<ImageView>(Resource.Id.dialog_full_screen_image_image);
+            var imageView = View!.FindViewById<ImageView>(Resource.Id.dialog_full_screen_image_image);
 
             LoadImageInto(imageView!);
         }
@@ -49,13 +49,13 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
 
         private void LoadImageInto(ImageView imageView)
         {
-            var imageService = ImageService.Instance;
+            var imageService = Dependencies.Container.Resolve<IDroidImageService>();
 
-            var task = string.IsNullOrEmpty(ViewModel.ImagePath) == false
-                ? imageService.LoadFile(ViewModel.ImagePath)
-                : imageService.LoadUrl(ViewModel.ImageUrl);
+            var url = string.IsNullOrEmpty(ViewModel.ImagePath)
+                ? ViewModel.ImageUrl
+                : ViewModel.ImagePath;
 
-            task.IntoAsync(imageView);
+            imageService.LoadImage(url!, imageView);
         }
     }
 }
