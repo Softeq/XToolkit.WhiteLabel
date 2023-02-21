@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using ObjCRuntime;
+using System;
 using Playground.ViewModels.Dialogs;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -11,7 +11,7 @@ namespace Playground.iOS.ViewControllers.Dialogs
 {
     public partial class DialogsPageViewController : ViewControllerBase<DialogsPageViewModel>
     {
-        public DialogsPageViewController(NativeHandle handle)
+        public DialogsPageViewController(IntPtr handle)
             : base(handle)
         {
         }

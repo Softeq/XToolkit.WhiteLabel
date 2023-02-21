@@ -1,0 +1,24 @@
+parameters:
+- name: version
+  type: string
+  default: 6.0.402
+
+steps:
+- task: UseDotNet@2
+  displayName: Use .NET ${{ parameters.version }}
+  inputs:
+    packageType: 'sdk'
+    version: ${{ parameters.version }}
+
+- task: UseDotNet@2
+  displayName: Use .NET from GlobalJson
+  inputs:
+    packageType: 'sdk'
+    useGlobalJson: true
+
+- task: Bash@3
+  displayName: Install .NET Workloads
+  inputs:
+    targetType: 'inline'
+    script: |
+      dotnet workload install ios android

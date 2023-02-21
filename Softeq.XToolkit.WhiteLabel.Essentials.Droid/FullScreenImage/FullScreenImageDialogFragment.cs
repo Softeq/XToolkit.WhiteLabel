@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
                 ? ViewModel.ImageUrl
                 : ViewModel.ImagePath;
 
-            imageService.LoadImage(Context!, url!, imageView);
+            imageService.LoadImage(url!, imageView);
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using Foundation;
-using ObjCRuntime;
 using Playground.ViewModels.Frames;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Common.iOS.Extensions;
@@ -14,7 +14,7 @@ namespace Playground.iOS.ViewControllers.Frames
     [Register(nameof(SplitFrameViewController))]
     public partial class SplitFrameViewController : ViewControllerBase<SplitFrameViewModel>
     {
-        public SplitFrameViewController(NativeHandle handle)
+        public SplitFrameViewController(IntPtr handle)
             : base(handle)
         {
         }

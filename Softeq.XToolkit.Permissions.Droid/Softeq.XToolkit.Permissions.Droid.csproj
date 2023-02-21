@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-android32.0</TargetFramework>
-    <DebugType>portable</DebugType>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -24,7 +23,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.4" />
+    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
     <PackageReference Include="Xamarin.Google.Guava.ListenableFuture" Version="1.0.0.9" />
   </ItemGroup>
 

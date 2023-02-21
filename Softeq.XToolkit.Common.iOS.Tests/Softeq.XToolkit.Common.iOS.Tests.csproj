@@ -3,7 +3,6 @@
   <PropertyGroup>
     <TargetFramework>net6.0-ios16.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <DebugType>portable</DebugType>
     <Platforms>iPhoneSimulator;iPhone;AnyCPU</Platforms>
     <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
     <CreatePackage>false</CreatePackage>

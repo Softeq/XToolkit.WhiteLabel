@@ -1,8 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using Foundation;
-using ObjCRuntime;
 using Playground.ViewModels.Frames;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.iOS;
@@ -13,7 +13,7 @@ namespace Playground.iOS.ViewControllers.Frames
     [Register(nameof(FramesBlueViewController))]
     public partial class FramesBlueViewController : ViewControllerBase<BlueViewModel>
     {
-        public FramesBlueViewController(NativeHandle handle)
+        public FramesBlueViewController(IntPtr handle)
             : base(handle)
         {
         }

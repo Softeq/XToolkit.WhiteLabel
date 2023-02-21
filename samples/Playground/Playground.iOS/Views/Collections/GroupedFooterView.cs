@@ -4,7 +4,6 @@
 using System;
 using CoreGraphics;
 using Foundation;
-using ObjCRuntime;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using UIKit;
@@ -16,7 +15,7 @@ namespace Playground.iOS.Views.Collections
     {
         private readonly UILabel _label;
 
-        public GroupedFooterView(NativeHandle handle)
+        public GroupedFooterView(IntPtr handle)
             : base(handle)
         {
             _label = new UILabel(new CGRect(0, 0, 300, 20));

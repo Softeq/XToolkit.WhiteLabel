@@ -3,7 +3,6 @@
 
 using System;
 using Foundation;
-using ObjCRuntime;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
@@ -20,7 +19,7 @@ namespace Playground.iOS.Views.Collections
 
         static ProductViewCell() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected ProductViewCell(NativeHandle handle)
+        protected ProductViewCell(IntPtr handle)
             : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.

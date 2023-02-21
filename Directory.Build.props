@@ -4,8 +4,11 @@
   <PropertyGroup>
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
+    <DebugType>portable</DebugType>
+  </PropertyGroup>
 
-    <!-- Assembly Info -->
+  <!-- Assembly Info -->
+  <PropertyGroup>
     <Product>XToolkit</Product>
     <Company>Softeq Development Corporation</Company>
     <Copyright>Copyright © 2023 Softeq Development Corporation</Copyright>

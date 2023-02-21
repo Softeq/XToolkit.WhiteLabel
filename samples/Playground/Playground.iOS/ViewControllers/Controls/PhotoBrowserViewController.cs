@@ -2,7 +2,6 @@
 // http://www.softeq.com
 
 using System;
-using ObjCRuntime;
 using Playground.ViewModels.Controls;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -13,7 +12,7 @@ namespace Playground.iOS.ViewControllers.Controls
 {
     public partial class PhotoBrowserViewController : ViewControllerBase<PhotoBrowserViewModel>
     {
-        public PhotoBrowserViewController(NativeHandle handle)
+        public PhotoBrowserViewController(IntPtr handle)
             : base(handle)
         {
         }

@@ -1,8 +1,8 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using Foundation;
-using ObjCRuntime;
 using UIKit;
 
 namespace Playground.iOS.Views.Collections
@@ -14,7 +14,7 @@ namespace Playground.iOS.Views.Collections
 
         static DummyCell() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected DummyCell(NativeHandle handle)
+        protected DummyCell(IntPtr handle)
             : base(handle)
         {
         }
