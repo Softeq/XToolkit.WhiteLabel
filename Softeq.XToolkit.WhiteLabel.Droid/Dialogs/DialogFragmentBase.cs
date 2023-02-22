@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             DataContext = dataContext;
         }
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 
@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             }
         }
 
-        public override Dialog OnCreateDialog(Bundle savedInstanceState)
+        public override Dialog OnCreateDialog(Bundle? savedInstanceState)
         {
             var dialog = base.OnCreateDialog(savedInstanceState);
 
@@ -98,7 +98,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
             ViewModel.DialogComponent.CloseCommand.Execute(null);
         }
 
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        public override void OnViewCreated(View view, Bundle? savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 
@@ -153,7 +153,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Dialogs
         {
         }
 
-        private void DialogComponentOnClosed(object sender, EventArgs e)
+        private void DialogComponentOnClosed(object? sender, EventArgs e)
         {
             Dismiss();
 

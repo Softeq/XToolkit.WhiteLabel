@@ -1,7 +1,6 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using ObjCRuntime;
 using Playground.ViewModels.BottomTabs.Second;
 using Softeq.XToolkit.Bindings;

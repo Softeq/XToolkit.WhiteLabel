@@ -23,7 +23,7 @@ namespace Playground.Droid.Views.Dialogs
             return LayoutInflater.Inflate(Resource.Layout.dialog_simple_dialog, container, true);
         }
 
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        public override void OnViewCreated(View view, Bundle? savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 

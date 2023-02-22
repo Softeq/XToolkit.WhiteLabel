@@ -89,7 +89,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 
             object? GetValue(object? value)
             {
-                if(value == null)
+                if (value == null)
                 {
                     return null;
                 }

@@ -16,7 +16,7 @@ namespace Playground.Droid.Views.BottomTabs
     [Activity(Theme = "@style/AppTheme")]
     public class BottomTabsPageActivity : BottomNavigationActivityBase<BottomTabsPageViewModel, string>
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

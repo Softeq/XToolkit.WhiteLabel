@@ -85,7 +85,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
                 var tabViewModel = _viewModel.TabViewModels[i];
                 var iconId = GetImageResourceId(tabViewModel.Key);
 
-                var menuItem = BottomNavigationView.Menu.Add(Menu.None, i, Menu.None, tabViewModel.Title);
+                var menuItem = BottomNavigationView.Menu.Add(IMenu.None, i, IMenu.None, tabViewModel.Title);
                 menuItem?.SetIcon(iconId);
 
                 var itemView = BottomNavigationView.FindViewById<BottomNavigationItemView>(i);
@@ -107,7 +107,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.ViewComponents
         }
 
         private void BottomNavigationViewNavigationItemSelected(
-            object sender,
+            object? sender,
             NavigationBarView.ItemSelectedEventArgs e)
         {
             if (BottomNavigationView == null)

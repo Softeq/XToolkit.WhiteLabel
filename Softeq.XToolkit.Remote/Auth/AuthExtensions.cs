@@ -8,6 +8,9 @@ using Softeq.XToolkit.Remote.Client;
 
 namespace Softeq.XToolkit.Remote.Auth
 {
+    /// <summary>
+    ///     Contains extension methods for <see cref="IHttpClientBuilder"/> related to auth.
+    /// </summary>
     public static class AuthExtensions
     {
         /// <summary>
