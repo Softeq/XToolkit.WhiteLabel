@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCFX_VERSION="2.62.1" # see https://github.com/dotnet/docfx/pull/8371
+DOCFX_VERSION="2.62.1"
 DOCFX_CONFIG_PATH="docfx.json"
 
 # install tool
