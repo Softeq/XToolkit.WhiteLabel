@@ -3,8 +3,8 @@
 
 using System;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
-using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using Microsoft.Maui.Storage;
+using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {

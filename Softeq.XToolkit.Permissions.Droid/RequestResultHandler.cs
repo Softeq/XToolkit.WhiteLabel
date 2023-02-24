@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Permissions.Droid
 
         private void HandleImpl(int requestCode, string[] permissions, [GeneratedEnum] Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            Microsoft.Maui.ApplicationModel.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 }

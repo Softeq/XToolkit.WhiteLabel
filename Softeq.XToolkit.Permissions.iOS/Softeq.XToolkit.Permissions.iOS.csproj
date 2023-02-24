@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-ios10.0</TargetFramework>
+    <UseMauiEssentials>true</UseMauiEssentials>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
 
@@ -16,10 +17,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
   </ItemGroup>
 
 </Project>

@@ -3,7 +3,7 @@
 
 namespace Softeq.XToolkit.Permissions
 {
-    public class NotificationsPermission : Xamarin.Essentials.Permissions.BasePlatformPermission
+    public class NotificationsPermission : Microsoft.Maui.ApplicationModel.Permissions.BasePlatformPermission
     {
     }
 }

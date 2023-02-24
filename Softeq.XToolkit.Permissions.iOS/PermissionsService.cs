@@ -3,10 +3,10 @@
 
 using System;
 using System.Threading.Tasks;
+using Microsoft.Maui.ApplicationModel;
 using UserNotifications;
-using Xamarin.Essentials;
-using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
-using EssentialsPermissions = Xamarin.Essentials.Permissions;
+using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
+using EssentialsPermissions = Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
