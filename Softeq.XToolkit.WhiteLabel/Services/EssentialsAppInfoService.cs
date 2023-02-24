@@ -1,9 +1,10 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Devices;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
-using Softeq.XToolkit.WhiteLabel.Model;
-using Xamarin.Essentials;
+using Platform = Softeq.XToolkit.WhiteLabel.Model.Platform;
 
 namespace Softeq.XToolkit.WhiteLabel.Services
 {
@@ -16,15 +17,15 @@ namespace Softeq.XToolkit.WhiteLabel.Services
         public abstract Platform Platform { get; }
 
         /// <inheritdoc />
-        public string? Name => AppInfo.Name;
+        public string Name => AppInfo.Name;
 
         /// <inheritdoc />
-        public string? PackageName => AppInfo.PackageName;
+        public string PackageName => AppInfo.PackageName;
 
         /// <inheritdoc />
-        public string? Version => AppInfo.VersionString;
+        public string Version => AppInfo.VersionString;
 
         /// <inheritdoc />
-        public string? Build => AppInfo.BuildString;
+        public string Build => AppInfo.BuildString;
     }
 }
