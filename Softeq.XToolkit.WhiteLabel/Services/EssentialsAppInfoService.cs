@@ -9,12 +9,60 @@ using Platform = Softeq.XToolkit.WhiteLabel.Model.Platform;
 namespace Softeq.XToolkit.WhiteLabel.Services
 {
     /// <summary>
-    ///     Xamarin.Essentials thread-safe implementation for <see cref="IAppInfoService"/> interface.
+    ///     Maui.Essentials thread-safe implementation for <see cref="IAppInfoService"/> interface.
     /// </summary>
-    public abstract class EssentialsAppInfoService : IAppInfoService
+    public class EssentialsAppInfoService : IAppInfoService
     {
         /// <inheritdoc />
-        public abstract Platform Platform { get; }
+        public virtual Platform Platform
+        {
+            get
+            {
+                var devicePlatform = DeviceInfo.Platform;
+
+                if (devicePlatform == DevicePlatform.iOS)
+                {
+                    return Platform.iOS;
+                }
+
+                if (devicePlatform == DevicePlatform.Android)
+                {
+                    return Platform.Android;
+                }
+
+                if (devicePlatform == DevicePlatform.macOS)
+                {
+                    return Platform.macOS;
+                }
+
+                if (devicePlatform == DevicePlatform.Tizen)
+                {
+                    return Platform.Tizen;
+                }
+
+                if (devicePlatform == DevicePlatform.tvOS)
+                {
+                    return Platform.tvOS;
+                }
+
+                if (devicePlatform == DevicePlatform.watchOS)
+                {
+                    return Platform.watchOS;
+                }
+
+                if (devicePlatform == DevicePlatform.WinUI)
+                {
+                    return Platform.WinUI;
+                }
+
+                if (devicePlatform == DevicePlatform.MacCatalyst)
+                {
+                    return Platform.MacCatalyst;
+                }
+
+                return Platform.Unknown;
+            }
+        }
 
         /// <inheritdoc />
         public string Name => AppInfo.Name;
