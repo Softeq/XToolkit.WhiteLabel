@@ -21,4 +21,4 @@ steps:
   inputs:
     targetType: 'inline'
     script: |
-      dotnet workload install ios android
+      dotnet workload install ios android maui-ios maui-android
