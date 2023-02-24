@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Softeq.XToolkit.WhiteLabel.Model
@@ -14,15 +15,23 @@ namespace Softeq.XToolkit.WhiteLabel.Model
         Unknown,
         Android,
         iOS,
+
+        [Obsolete]
         WindowsPhone,
         Windows,
+
+        [Obsolete]
         WindowsTablet,
+
+        [Obsolete]
         SurfaceHub,
         Xbox,
         IoT,
         tvOS,
         watchOS,
         macOS,
-        Tizen
+        Tizen,
+        MacCatalyst,
+        WinUI
     }
 }
