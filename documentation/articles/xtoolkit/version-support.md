@@ -4,62 +4,63 @@ Actual for the latest release: [v2.0.0-beta10](https://github.com/Softeq/XToolki
 
 ## Main Versions
 
-- Android v5.0 (API level 21), target v12.0 (API level 31)
+- Android v5.0 (API level 21), target v12.0 (API level 32)
 - iOS 12+
 
 ## Components Versions
 
 ### Common
 
-- netstandard 2.1
-- Android - target v12 (API level 31)
-- iOS 11+
+- .NET 6
+- Android - target v12 (API level 32)
+- iOS 12+
 
 ### Bindings
 
-- netstandard 2.1
-- Android - target v12 (API level 31)
-- iOS 11+
+- .NET 6
+- Android - target v12 (API level 32)
+- iOS 12+
 
 ### Connectivity
 
-- netstandard 2.1
-- iOS 13+
+- .NET 6
+- iOS 10+
 
 ### Permissions
 
-- netstandard 2.1
-- Android - target v12 (API level 31)
+- .NET 6
+- Android - target v12 (API level 32)
+- iOS 10+
 
 ### Push Notifications
 
-- netstandard 2.1
-- Android - target v12 (API level 31)
-- iOS 11+
+- .NET 6
+- Android - target v12 (API level 32)
+- iOS 10+
 
 ### Remote
 
-- netstandard 2.1
+- .NET 6
 
 ### WhiteLabel
 
-- netstandard 2.1
-- Android - target v12 (API level 31)
-- iOS 11+
+- .NET 6
+- Android - target v12 (API level 32)
+- iOS 12+
 
 ### WhiteLabel.Essentials
 
-- netstandard 2.1
-- Android - target v12 (API level 31)
-- iOS 11+
+- .NET 6
+- Android - target v12 (API level 32)
+- iOS 12+
 
 ## Development environment
 
-Latest update in PR [#501](https://github.com/Softeq/XToolkit.WhiteLabel/pull/501):
+Latest update in PR [#513](https://github.com/Softeq/XToolkit.WhiteLabel/pull/513):
 
 - macOS 12+
 - Xcode 14.2+
-- Mono 6.12.21
-- .NET SDK 5.0.408+
+- .NET SDK 6.0.402 (XToolkit)
+- .NET SDK 7.0.103 (Playground)
 
 ---
