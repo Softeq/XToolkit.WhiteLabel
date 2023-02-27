@@ -4,6 +4,7 @@
 using System;
 using CoreGraphics;
 using Foundation;
+using ObjCRuntime;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using Softeq.XToolkit.Common.iOS.Extensions;
@@ -18,7 +19,7 @@ namespace Playground.iOS.Views.Table
 
         static GroupedTableHeaderView() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected GroupedTableHeaderView(IntPtr handle) : base(handle)
+        protected GroupedTableHeaderView(NativeHandle handle) : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
         }

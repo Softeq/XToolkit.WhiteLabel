@@ -28,13 +28,13 @@ namespace Playground.Droid.Views.Components
             SetContentView(Resource.Layout.activity_permissions);
 
             _cameraButton = FindViewById<Button>(Resource.Id.buttonCamera);
-            _cameraButton.SetCommand(ViewModel.Camera.RequestPermissionCommand);
+            _cameraButton!.SetCommand(ViewModel.Camera.RequestPermissionCommand);
 
             _storageButton = FindViewById<Button>(Resource.Id.buttonStorage);
-            _storageButton.SetCommand(ViewModel.Storage.RequestPermissionCommand);
+            _storageButton!.SetCommand(ViewModel.Storage.RequestPermissionCommand);
 
             _locationButton = FindViewById<Button>(Resource.Id.buttonLocationInUse);
-            _locationButton.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
+            _locationButton!.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
         }
 
         protected override void DoAttachBindings()

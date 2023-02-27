@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             };
         }
 
-        private void OnImagePicked(object sender, Bitmap? e)
+        private void OnImagePicked(object? sender, Bitmap? e)
         {
             ImagePickerActivity.ImagePicked -= OnImagePicked;
             _taskCompletionSource!.SetResult(e);

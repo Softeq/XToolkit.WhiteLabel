@@ -19,11 +19,14 @@ namespace Playground.ViewModels.Collections.Products
 
         #region for Collect to Group
 
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            var headerObj = (ProductHeaderViewModel) obj;
+            if (obj is ProductHeaderViewModel headerObj)
+            {
+                return Category == headerObj.Category;
+            }
 
-            return Category == headerObj.Category;
+            return false;
         }
 
         public override int GetHashCode()

@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     public static class ImagePickerUtils
     {
-        public static Stream GetContentStream(Context context, Uri uri)
+        public static Stream? GetContentStream(Context context, Uri uri)
         {
             var stream = Stream.Null;
             try

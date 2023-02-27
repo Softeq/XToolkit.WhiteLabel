@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public ImageButton RightImageButton => _rightButton;
 
-        public void SetLeftButton(int resourceId, ICommand command, int? color = null)
+        public void SetLeftButton(int resourceId, ICommand? command, int? color = null)
         {
             _leftButton.SetImageResource(resourceId);
             _leftButton.Visibility = ViewStates.Visible;
@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             }
         }
 
-        public void SetRightButton(int resourceId, ICommand command)
+        public void SetRightButton(int resourceId, ICommand? command)
         {
             _rightButton.SetImageResource(resourceId);
             _rightButton.Visibility = ViewStates.Visible;
@@ -76,7 +76,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             }
         }
 
-        public void SetRightButton(Drawable drawable, ICommand command)
+        public void SetRightButton(Drawable drawable, ICommand? command)
         {
             _rightButton.SetImageDrawable(drawable);
             _rightButton.Visibility = ViewStates.Visible;
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             }
         }
 
-        public void SetRightButton(string label, ICommand command)
+        public void SetRightButton(string label, ICommand? command)
         {
             RightTextButton.Text = label;
             RightTextButton.Visibility = ViewStates.Visible;
@@ -98,7 +98,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             }
         }
 
-        public void SetCenterImage(int resourceId, ICommand command)
+        public void SetCenterImage(int resourceId, ICommand? command)
         {
             _centerImageView.SetImageResource(resourceId);
             _centerImageView.Visibility = ViewStates.Visible;
@@ -117,7 +117,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public void SetBackground(int resourceId)
         {
-            var view = FindViewById<View>(Resource.Id.control_navigation_bar_container);
+            var view = FindViewById<View>(Resource.Id.control_navigation_bar_container)!;
             view.SetBackgroundResource(resourceId);
         }
 
@@ -125,19 +125,19 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         {
             Inflate(context, Resource.Layout.control_navigation_bar, this);
 
-            _leftButton = FindViewById<ImageButton>(Resource.Id.control_navigation_bar_left_button);
+            _leftButton = FindViewById<ImageButton>(Resource.Id.control_navigation_bar_left_button)!;
             _leftButton.Visibility = ViewStates.Gone;
 
-            _rightButton = FindViewById<ImageButton>(Resource.Id.control_navigation_bar_right_button);
+            _rightButton = FindViewById<ImageButton>(Resource.Id.control_navigation_bar_right_button)!;
             _rightButton.Visibility = ViewStates.Gone;
 
-            RightTextButton = FindViewById<Button>(Resource.Id.control_navigation_bar_right_text_button);
+            RightTextButton = FindViewById<Button>(Resource.Id.control_navigation_bar_right_text_button)!;
             RightTextButton.Visibility = ViewStates.Gone;
 
-            _centerImageView = FindViewById<ImageView>(Resource.Id.control_navigation_bar_center_image);
+            _centerImageView = FindViewById<ImageView>(Resource.Id.control_navigation_bar_center_image)!;
             _centerImageView.Visibility = ViewStates.Gone;
 
-            _titleTextView = FindViewById<TextView>(Resource.Id.control_navigation_bar_title);
+            _titleTextView = FindViewById<TextView>(Resource.Id.control_navigation_bar_title)!;
             _titleTextView.Visibility = ViewStates.Gone;
         }
     }
