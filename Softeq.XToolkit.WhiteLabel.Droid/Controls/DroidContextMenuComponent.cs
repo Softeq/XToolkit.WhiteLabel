@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             return popup;
         }
 
-        private void Popup_MenuItemClick(object sender, PopupMenu.MenuItemClickEventArgs e)
+        private void Popup_MenuItemClick(object? sender, PopupMenu.MenuItemClickEventArgs e)
         {
             ExecuteCommand(e.Item.ItemId, null);
         }

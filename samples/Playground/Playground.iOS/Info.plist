@@ -51,6 +51,8 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow location always pls</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>PLIS</string>
+	<string>Allow location always and when is use pls</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Allow bluetooth pls</string>
 </dict>
 </plist>

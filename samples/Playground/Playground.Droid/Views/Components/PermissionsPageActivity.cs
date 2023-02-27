@@ -31,22 +31,22 @@ namespace Playground.Droid.Views.Components
             SetContentView(Resource.Layout.activity_permissions);
 
             _cameraButton = FindViewById<Button>(Resource.Id.buttonCamera);
-            _cameraButton.SetCommand(ViewModel.Camera.RequestPermissionCommand);
+            _cameraButton!.SetCommand(ViewModel.Camera.RequestPermissionCommand);
 
             _storageButton = FindViewById<Button>(Resource.Id.buttonStorage);
-            _storageButton.SetCommand(ViewModel.Storage.RequestPermissionCommand);
+            _storageButton!.SetCommand(ViewModel.Storage.RequestPermissionCommand);
 
             _locationInUseButton = FindViewById<Button>(Resource.Id.buttonLocationInUse);
-            _locationInUseButton.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
+            _locationInUseButton!.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
 
             _locationAlwaysButton = FindViewById<Button>(Resource.Id.buttonLocationAlways);
-            _locationAlwaysButton.SetCommand(ViewModel.LocationAlways.RequestPermissionCommand);
+            _locationAlwaysButton!.SetCommand(ViewModel.LocationAlways.RequestPermissionCommand);
 
             _notificationButton = FindViewById<Button>(Resource.Id.buttonNotification);
-            _notificationButton.SetCommand(ViewModel.Notifications.RequestPermissionCommand);
+            _notificationButton!.SetCommand(ViewModel.Notifications.RequestPermissionCommand);
 
             _bluetoothButton = FindViewById<Button>(Resource.Id.buttonBluetooth);
-            _bluetoothButton.SetCommand(ViewModel.Bluetooth.RequestPermissionCommand);
+            _bluetoothButton!.SetCommand(ViewModel.Bluetooth.RequestPermissionCommand);
         }
 
         protected override void DoAttachBindings()

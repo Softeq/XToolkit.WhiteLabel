@@ -18,12 +18,12 @@ namespace Playground.Droid.Views.BottomTabs.Second
         private Button _incrementButton = null!;
         private TextView _incrementLabel = null!;
 
-        public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
         {
             return inflater.Inflate(Resource.Layout.fragment_blue, container, false);
         }
 
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        public override void OnViewCreated(View view, Bundle? savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 
@@ -34,7 +34,7 @@ namespace Playground.Droid.Views.BottomTabs.Second
 
             _incrementButton = view.FindViewById<Button>(Resource.Id.button2)!;
             _incrementButton.SetCommand(ViewModel.IncrementCommand);
-            _incrementButton.Click += (sender, e) => _incrementLabel.Text = "changed";
+            _incrementButton.Click += (_, _) => _incrementLabel.Text = "changed";
         }
 
         protected override void DoAttachBindings()

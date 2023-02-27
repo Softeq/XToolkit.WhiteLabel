@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using NSubstitute;
-using NSubstitute.ReceivedExtensions;
 using Softeq.XToolkit.Common.Extensions;
 using Xunit;
 

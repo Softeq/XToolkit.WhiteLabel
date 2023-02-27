@@ -50,7 +50,7 @@ namespace Playground.Droid.Views.Collections
             _addToCartButton.Click -= AddToCartButton_Click;
         }
 
-        private void AddToCartButton_Click(object sender, System.EventArgs e)
+        private void AddToCartButton_Click(object? sender, System.EventArgs e)
         {
             ViewModel.AddToBasketCommand!.Execute(ViewModel);
         }
@@ -92,17 +92,17 @@ namespace Playground.Droid.Views.Collections
             _addButton.Click -= AddButton_Click;
         }
 
-        private void AddButton_Click(object sender, System.EventArgs e)
+        private void AddButton_Click(object? sender, System.EventArgs e)
         {
             ViewModel.AddCommand!.Execute(ViewModel);
         }
 
-        private void GenerateButton_Click(object sender, System.EventArgs e)
+        private void GenerateButton_Click(object? sender, System.EventArgs e)
         {
             ViewModel.GenerateCommand!.Execute(ViewModel);
         }
 
-        private void InfoButton_Click(object sender, System.EventArgs e)
+        private void InfoButton_Click(object? sender, System.EventArgs e)
         {
             ViewModel.InfoCommand!.Execute(ViewModel);
         }

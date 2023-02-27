@@ -40,7 +40,7 @@ namespace Playground.ViewModels.Components
             _connectivityService.ConnectivityTypeChanged -= ConnectivityServiceConnectivityTypeChanged;
         }
 
-        private void ConnectivityServiceConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
+        private void ConnectivityServiceConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
         {
             Execute.BeginOnUIThread(() =>
             {
@@ -48,7 +48,7 @@ namespace Playground.ViewModels.Components
             });
         }
 
-        private void ConnectivityServiceConnectivityTypeChanged(object sender, ConnectivityTypeChangedEventArgs e)
+        private void ConnectivityServiceConnectivityTypeChanged(object? sender, ConnectivityTypeChangedEventArgs e)
         {
             Execute.BeginOnUIThread(() =>
             {

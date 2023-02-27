@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using ObjCRuntime;
 using Playground.ViewModels.Components;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Extensions;
@@ -13,7 +13,7 @@ namespace Playground.iOS.ViewControllers.Components
 {
     public partial class PermissionsPageViewController : ViewControllerBase<PermissionsPageViewModel>
     {
-        public PermissionsPageViewController(IntPtr handle)
+        public PermissionsPageViewController(NativeHandle handle)
             : base(handle)
         {
         }

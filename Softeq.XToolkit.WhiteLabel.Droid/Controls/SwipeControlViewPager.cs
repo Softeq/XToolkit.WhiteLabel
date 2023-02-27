@@ -20,12 +20,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public bool SwipesEnabled { get; set; }
 
-        public override bool OnTouchEvent(MotionEvent e)
+        public override bool OnTouchEvent(MotionEvent? e)
         {
             return SwipesEnabled && base.OnTouchEvent(e);
         }
 
-        public override bool OnInterceptTouchEvent(MotionEvent ev)
+        public override bool OnInterceptTouchEvent(MotionEvent? ev)
         {
             return SwipesEnabled && base.OnInterceptTouchEvent(ev);
         }

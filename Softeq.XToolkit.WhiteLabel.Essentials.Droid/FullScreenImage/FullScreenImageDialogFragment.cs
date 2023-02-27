@@ -25,7 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage
             return LayoutInflater.Inflate(Resource.Layout.dialog_full_screen_image, container, true);
         }
 
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        public override void OnViewCreated(View view, Bundle? savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 
