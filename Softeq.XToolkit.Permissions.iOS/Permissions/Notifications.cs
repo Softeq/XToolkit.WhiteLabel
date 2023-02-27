@@ -6,8 +6,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreBluetooth;
 using UserNotifications;
-using BasePlatformPermission = Xamarin.Essentials.Permissions.BasePlatformPermission;
-using EssentialsPermissionStatus = Xamarin.Essentials.PermissionStatus;
+using BasePlatformPermission = Microsoft.Maui.ApplicationModel.Permissions.BasePlatformPermission;
+using EssentialsPermissionStatus = Microsoft.Maui.ApplicationModel.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions.iOS.Permissions
 {

@@ -5,6 +5,8 @@ using Playground.Services;
 using Playground.ViewModels.Frames;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Interfaces;
+using Softeq.XToolkit.WhiteLabel.Services;
 
 namespace Playground
 {
@@ -12,6 +14,8 @@ namespace Playground
     {
         public static void Configure(IContainerBuilder builder)
         {
+            builder.Singleton<EssentialsAppInfoService, IAppInfoService>();
+
             // Playground
             builder.Singleton<DataService, IDataService>();
             builder.Singleton<PermissionsService, IPermissionsService>();

@@ -15,10 +15,8 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
 using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
-using Softeq.XToolkit.WhiteLabel.Droid.Services;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using IImagePickerService = Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker.IImagePickerService;
 
@@ -37,8 +35,6 @@ namespace Playground.Droid
         {
             // core
             CustomBootstrapper.Configure(builder);
-
-            builder.Singleton<DroidAppInfoService, IAppInfoService>();
 
             builder.Singleton<DroidFragmentDialogService, IDialogsService>();
             builder.Singleton<DroidExtendedDialogsService, IExtendedDialogsService>();

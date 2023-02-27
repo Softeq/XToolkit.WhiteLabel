@@ -3,8 +3,8 @@
 
 using System;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
-using EssentialsBasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using Microsoft.Maui.Storage;
+using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
 using XToolkitPermissions = Softeq.XToolkit.Permissions;
 using XToolkitPermissionsIos = Softeq.XToolkit.Permissions.iOS.Permissions;
 
@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.Permissions.iOS
 
         /// <inheritdoc />
         public virtual Task<PermissionStatus> CheckWithRequestAsync<T>()
-            where T : EssentialsBasePermission, new()
+            where T : BasePermission, new()
         {
             var permissionType = typeof(T);
 
@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.Permissions.iOS
 
         /// <inheritdoc />
         public Task<PermissionStatus> CheckAsync<T>()
-            where T : EssentialsBasePermission, new()
+            where T : BasePermission, new()
         {
             var permissionType = typeof(T);
 
@@ -86,7 +86,7 @@ namespace Softeq.XToolkit.Permissions.iOS
         }
 
         private async Task<PermissionStatus> CommonCheckWithRequestAsync<T>()
-            where T : EssentialsBasePermission, new()
+            where T : BasePermission, new()
         {
             var permissionStatus = await _permissionsService.CheckPermissionsAsync<T>().ConfigureAwait(false);
             if (permissionStatus == PermissionStatus.Granted)
@@ -112,7 +112,7 @@ namespace Softeq.XToolkit.Permissions.iOS
         }
 
         private async Task<PermissionStatus> OpenSettingsWithConfirmationAsync<T>()
-            where T : EssentialsBasePermission
+            where T : BasePermission
         {
             var openSettingsConfirmed = await _permissionsDialogService
                 .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);

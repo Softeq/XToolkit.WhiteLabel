@@ -27,7 +27,7 @@ First of all, see [Navigation Requirements](xtoolkit/whitelabel/navigation-requi
 ```cs
 public partial class MainPageViewController : ViewControllerBase<MainPageViewModel>
 {
-    public MainPageViewController(IntPtr handle)
+    public MainPageViewController(NativeHandle handle)
         : base(handle)
     {
     }
@@ -38,7 +38,7 @@ public partial class MainPageViewController : ViewControllerBase<MainPageViewMod
 You must add this constructor when you want to use storyboard:
 
 ```cs
-public MainPageViewController(IntPtr handle) : base(handle) {}
+public MainPageViewController(NativeHandle handle) : base(handle) {}
 ```
 
 If you load storyboard via code you have to create constructor without parameters.

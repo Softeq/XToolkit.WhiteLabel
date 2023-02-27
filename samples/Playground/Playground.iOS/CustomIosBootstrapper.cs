@@ -15,7 +15,6 @@ using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS;
 using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using Softeq.XToolkit.WhiteLabel.iOS.Services;
@@ -36,8 +35,6 @@ namespace Playground.iOS
         {
             // core
             CustomBootstrapper.Configure(builder);
-
-            builder.Singleton<IosAppInfoService, IAppInfoService>();
 
             builder.Singleton<StoryboardDialogsService, IDialogsService>();
             builder.Singleton<IosExtendedDialogsService, IExtendedDialogsService>();

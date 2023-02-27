@@ -26,8 +26,8 @@ namespace Playground.iOS.ViewControllers.Components
             Camera.SetCommand(ViewModel.Camera.RequestPermissionCommand);
             LocationInUse.SetCommand(ViewModel.LocationInUse.RequestPermissionCommand);
             LocationAlways.SetCommand(ViewModel.LocationAlways.RequestPermissionCommand);
-            Notifications.SetCommand(ViewModel.Notifications.RequestPermissionCommand); ;
-            Bluetooth.SetCommand(ViewModel.Bluetooth.RequestPermissionCommand); ;
+            Notifications.SetCommand(ViewModel.Notifications.RequestPermissionCommand);
+            Bluetooth.SetCommand(ViewModel.Bluetooth.RequestPermissionCommand);
         }
 
         protected override void DoAttachBindings()

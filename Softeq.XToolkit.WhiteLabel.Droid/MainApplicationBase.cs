@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void InitializeExternalDependencies()
         {
-            Xamarin.Essentials.Platform.Init(this);
+            Microsoft.Maui.ApplicationModel.Platform.Init(this);
         }
 
         protected abstract IBootstrapper CreateBootstrapper();

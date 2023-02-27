@@ -6,12 +6,12 @@ using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using BluetoothPermission = Softeq.XToolkit.Permissions.Bluetooth;
-using CameraPermission = Xamarin.Essentials.Permissions.Camera;
-using LocationAlwaysPermission = Xamarin.Essentials.Permissions.LocationAlways;
-using LocationWhenInUsePermission = Xamarin.Essentials.Permissions.LocationWhenInUse;
+using CameraPermission = Microsoft.Maui.ApplicationModel.Permissions.Camera;
+using LocationAlwaysPermission = Microsoft.Maui.ApplicationModel.Permissions.LocationAlways;
+using LocationWhenInUsePermission = Microsoft.Maui.ApplicationModel.Permissions.LocationWhenInUse;
 using NotificationsPermission = Softeq.XToolkit.Permissions.Notifications;
-using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
-using StoragePermission = Xamarin.Essentials.Permissions.StorageWrite;
+using PhotosPermission = Microsoft.Maui.ApplicationModel.Permissions.Photos;
+using StoragePermission = Microsoft.Maui.ApplicationModel.Permissions.StorageWrite;
 
 namespace Playground.ViewModels.Components
 {

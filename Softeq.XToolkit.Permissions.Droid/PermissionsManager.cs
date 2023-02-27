@@ -4,8 +4,8 @@
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
-using EssentialsBasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using Microsoft.Maui.Storage;
+using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
 using XToolkitPermissions = Softeq.XToolkit.Permissions;
 using XToolkitPermissionsDroid = Softeq.XToolkit.Permissions.Droid.Permissions;
 
@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.Permissions.Droid
 
         /// <inheritdoc />
         public virtual Task<PermissionStatus> CheckAsync<T>()
-            where T : EssentialsBasePermission, new()
+            where T : BasePermission, new()
         {
             var permissionType = typeof(T);
             if (permissionType == typeof(XToolkitPermissions.Notifications))
@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.Permissions.Droid
 
         /// <inheritdoc />
         public Task<PermissionStatus> CheckWithRequestAsync<T>()
-            where T : EssentialsBasePermission, new()
+            where T : BasePermission, new()
         {
             var permissionType = typeof(T);
             if (permissionType == typeof(XToolkitPermissions.Notifications))
@@ -77,7 +77,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         }
 
         private void RemoveOldKeys<T>()
-            where T : EssentialsBasePermission, new()
+            where T : BasePermission, new()
         {
             var requestedKey = GetPermissionRequestedKey<T>();
             if (Preferences.ContainsKey(requestedKey))
@@ -105,7 +105,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         }
 
         private async Task<PermissionStatus> CommonCheckWithRequestAsync<T>()
-            where T : EssentialsBasePermission, new()
+            where T : BasePermission, new()
         {
             var permissionStatus = await _permissionsService.CheckPermissionsAsync<T>().ConfigureAwait(false);
             if (permissionStatus == PermissionStatus.Granted)
@@ -135,7 +135,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         }
 
         private async Task OpenSettingsWithConfirmationAsync<T>()
-            where T : EssentialsBasePermission
+            where T : BasePermission
         {
             var openSettingsConfirmed = await _permissionsDialogService
                 .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);

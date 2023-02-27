@@ -2,14 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
+    <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
 
   <PropertyGroup>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Xamarin.Essentials" Version="1.7.5" />
-  </ItemGroup>
 
 </Project>
