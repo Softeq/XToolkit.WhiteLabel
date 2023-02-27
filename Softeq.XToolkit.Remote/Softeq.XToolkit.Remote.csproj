@@ -9,8 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Polly" Version="7.2.2" />
-    <PackageReference Include="refit" Version="5.2.4" />
+    <PackageReference Include="Polly" Version="7.2.3" />
+    <PackageReference Include="refit" Version="6.3.2" />
+    <PackageReference Include="Refit.Newtonsoft.Json" Version="6.3.2" />
   </ItemGroup>
 
   <ItemGroup>

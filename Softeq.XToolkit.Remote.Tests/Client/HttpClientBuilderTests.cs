@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client
             var result = _clientBuilder.WithBaseUrl(TestBaseUrl).Build();
 
             Assert.IsAssignableFrom<HttpClient>(result);
-            Assert.Equal(TestBaseUrl, result.BaseAddress.ToString());
+            Assert.Equal(TestBaseUrl, result.BaseAddress?.ToString());
         }
     }
 }

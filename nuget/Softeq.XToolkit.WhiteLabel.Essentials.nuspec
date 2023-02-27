@@ -20,11 +20,13 @@
         <dependency id="Softeq.XToolkit.Permissions" version="2.1.0" />
         <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta10]" />
       </group>
-     <group targetFramework="MonoAndroid9.0">
+     <group targetFramework="MonoAndroid12.0">
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
         <!-- XToolkit: -->
         <dependency id="Softeq.XToolkit.Permissions" version="2.1.0" />
         <dependency id="Softeq.XToolkit.WhiteLabel" version="[2.0.0-beta10]" />
+        <!-- Android specific: -->
+        <dependency id="Xamarin.AndroidX.AppCompat" version="1.5.0" />
       </group>
      <group targetFramework="Xamarin.iOS10">
         <dependency id="Xamarin.FFImageLoading" version="2.4.11.982" />
@@ -48,11 +50,11 @@
     <file
       src="../Softeq.XToolkit.WhiteLabel.Essentials/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.Essentials.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid90" />
+      target="lib\MonoAndroid12.0" />
     <file
       src="../Softeq.XToolkit.WhiteLabel.Essentials.Droid/bin/Release/Softeq.XToolkit.WhiteLabel.Essentials.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid90" />
+      target="lib\MonoAndroid12.0" />
     <!-- iOS -->
     <file
       src="../Softeq.XToolkit.WhiteLabel.Essentials/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.Essentials.*"

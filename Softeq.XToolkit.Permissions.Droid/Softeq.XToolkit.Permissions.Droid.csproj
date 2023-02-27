@@ -8,7 +8,7 @@
     <OutputType>Library</OutputType>
     <RootNamespace>Softeq.XToolkit.Permissions.Droid</RootNamespace>
     <AssemblyName>Softeq.XToolkit.Permissions.Droid</AssemblyName>
-    <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
     <AndroidResgenFile>Resources\Resource.designer.cs</AndroidResgenFile>
     <AndroidResgenClass>Resource</AndroidResgenClass>
     <MonoAndroidResourcePrefix>Resources</MonoAndroidResourcePrefix>
