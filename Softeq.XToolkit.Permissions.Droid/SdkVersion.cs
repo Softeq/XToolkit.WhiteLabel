@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using Android.OS;
-using Xamarin.Essentials;
+using Microsoft.Maui.ApplicationModel;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {

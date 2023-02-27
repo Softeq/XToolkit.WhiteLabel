@@ -92,13 +92,13 @@ namespace Softeq.XToolkit.Permissions.Droid
             }
 
             string GetPermissionRequestedKey<TPermission>()
-                where TPermission : EssentialsBasePermission
+                where TPermission : BasePermission
             {
                 return $"{nameof(PermissionsManager)}_IsPermissionRequested_{typeof(T).Name}";
             }
 
             string GetPermissionDeniedEverKey<T>()
-                where T : EssentialsBasePermission
+                where T : BasePermission
             {
                 return $"{nameof(PermissionsManager)}_IsPermissionDeniedEver_{typeof(T).Name}";
             }

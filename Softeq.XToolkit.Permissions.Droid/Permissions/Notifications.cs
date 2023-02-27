@@ -5,7 +5,7 @@
 using Android;
 using Android.OS;
 #endif
-using EssentialsPermissions = Xamarin.Essentials.Permissions;
+using EssentialsPermissions = Microsoft.Maui.ApplicationModel.Permissions;
 
 namespace Softeq.XToolkit.Permissions.Droid.Permissions
 {
