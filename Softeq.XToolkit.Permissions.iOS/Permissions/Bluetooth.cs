@@ -40,7 +40,7 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
             {
                 var centralMamangerDelegate = new CentralManagerDelegate();
                 await centralMamangerDelegate.StatusObserverable
-                    .Select(x => x != CBCentralManagerState.Unknown)
+                    .Select(x => x != CBManagerState.Unknown)
                     .FirstAsync()
                     .ToTask();
             }
@@ -63,15 +63,15 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
         private class CentralManagerDelegate : CBCentralManagerDelegate
         {
             private readonly CBCentralManager _manager;
-            private readonly Subject<CBCentralManagerState> _subject
-                = new Subject<CBCentralManagerState>();
+            private readonly Subject<CBManagerState> _subject
+                = new Subject<CBManagerState>();
 
             public CentralManagerDelegate()
             {
                 _manager = new CBCentralManager(this, null);
             }
 
-            public IObservable<CBCentralManagerState> StatusObserverable => _subject;
+            public IObservable<CBManagerState> StatusObserverable => _subject;
 
             public override void UpdatedState(CBCentralManager central)
             {
