@@ -2,7 +2,9 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using System.Runtime.ExceptionServices;
 
 namespace Softeq.XToolkit.Common.Weak
@@ -27,6 +29,7 @@ namespace Softeq.XToolkit.Common.Weak
                 return;
             }
 
+            AssertCompilerGeneratedTarget(@delegate);
             DelegateTargetReference = new WeakReference(@delegate.Target);
             if (!ReferenceEquals(@delegate.Target, target))
             {
@@ -136,6 +139,19 @@ namespace Softeq.XToolkit.Common.Weak
             return IsCustomTargetAlive
                 ? DelegateTargetReference?.Target
                 : null;
+        }
+
+        [Conditional("DEBUG")]
+        private static void AssertCompilerGeneratedTarget(TDelegate @delegate)
+        {
+            var isCompilerGenerated = @delegate.Target.GetType().GetCustomAttribute<CompilerGeneratedAttribute>() != null;
+            if (!isCompilerGenerated)
+            {
+                return;
+            }
+
+            Debug.WriteLine("WeakDelegate's target is compiler-generated, it might be garbage-collected");
+            Debug.WriteLine(Environment.StackTrace);
         }
     }
 }
