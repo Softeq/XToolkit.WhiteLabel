@@ -16,7 +16,7 @@
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
       <group targetFramework="netstandard2.1" />
-      <group targetFramework="MonoAndroid12.0" />
+      <group targetFramework="MonoAndroid10" />
       <group targetFramework="Xamarin.iOS10" />
     </dependencies>
   </metadata>
@@ -34,11 +34,11 @@
     <file
       src="../Softeq.XToolkit.Common/bin/Release/netstandard2.1/Softeq.XToolkit.Common.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\MonoAndroid10" />
     <file
       src="../Softeq.XToolkit.Common.Droid/bin/Release/Softeq.XToolkit.Common.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\MonoAndroid10" />
 
     <!-- iOS -->
     <file

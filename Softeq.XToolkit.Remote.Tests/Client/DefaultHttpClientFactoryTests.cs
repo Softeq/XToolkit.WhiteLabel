@@ -52,7 +52,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client
             var result = _factory.CreateClient(TestBaseUrl, _logger);
 
             Assert.IsAssignableFrom<HttpClient>(result);
-            Assert.Equal(TestBaseUrl, result.BaseAddress?.ToString());
+            Assert.Equal(TestBaseUrl, result.BaseAddress.ToString());
         }
 
         [Fact]
@@ -87,7 +87,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client
             var result = _factory.CreateAuthClient(TestBaseUrl, _sessionContext, _logger);
 
             Assert.IsAssignableFrom<HttpClient>(result);
-            Assert.Equal(TestBaseUrl, result.BaseAddress?.ToString());
+            Assert.Equal(TestBaseUrl, result.BaseAddress.ToString());
         }
 
         [Fact]

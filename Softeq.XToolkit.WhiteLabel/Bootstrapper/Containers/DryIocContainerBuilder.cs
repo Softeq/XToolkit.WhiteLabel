@@ -21,28 +21,13 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
         private IDryContainer _dryContainer;
 
         /// <summary>
-        ///     Initializes a new instance of the <see cref="DryIocContainerBuilder"/> class with <see cref="DefaultRules"/>.
-        /// </summary>
-        public DryIocContainerBuilder() : this(DefaultRules)
-        {
-        }
-
-        /// <summary>
         ///     Initializes a new instance of the <see cref="DryIocContainerBuilder"/> class.
         /// </summary>
-        /// <param name="rules">
-        ///     Custom <see cref="Rules" /> to alter behavior of internal <see cref="DryIoc.IContainer" />.
-        /// </param>
-        public DryIocContainerBuilder(Rules rules)
+        public DryIocContainerBuilder()
         {
-            _dryContainer = new Container(rules);
+            _dryContainer = new Container(rules => rules.WithoutFastExpressionCompiler());
             _buildActions = new List<Action<IContainer>>();
         }
-
-        /// <summary>
-        ///     Gets default <see cref="Rules" /> to alter behavior of internal <see cref="DryIoc.IContainer" />.
-        /// </summary>
-        public static Rules DefaultRules => Rules.Default.WithUseInterpretation();
 
         /// <inheritdoc />
         public void PerDependency<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
