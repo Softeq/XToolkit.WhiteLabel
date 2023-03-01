@@ -10,25 +10,15 @@ using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.WhiteLabel.Services
 {
-    /// <summary>
-    /// A <see langword="class"/> implementing <see cref="IJsonSerializer"/> using the Newtonsoft.Json APIs.
-    /// </summary>
-    public class NewtonsoftJsonSerializer : IJsonSerializer
+    public class JsonSerializer : IJsonSerializer
     {
         private readonly JsonSerializerSettings _settings;
 
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="NewtonsoftJsonSerializer"/> class with the specified parameters.
-        /// </summary>
-        /// <param name="settings">The serialization settings to use for the current instance.</param>
-        public NewtonsoftJsonSerializer(JsonSerializerSettings? settings = null)
+        public JsonSerializer(JsonSerializerSettings? settings = null)
         {
             _settings = settings ?? DefaultSettings;
         }
 
-        /// <summary>
-        ///     Gets default serialization settings.
-        /// </summary>
         public static JsonSerializerSettings DefaultSettings { get; } = new JsonSerializerSettings
         {
             Formatting = Formatting.None,
@@ -63,7 +53,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
                 using (var streamWriter = new StreamWriter(stream))
                 using (var jsonTextWriter = new JsonTextWriter(streamWriter))
                 {
-                    var serializer = JsonSerializer.Create(_settings);
+                    var serializer = Newtonsoft.Json.JsonSerializer.Create(_settings);
                     serializer.Serialize(jsonTextWriter, value);
                 }
             });
@@ -78,7 +68,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
                 using (var streamReader = new StreamReader(stream))
                 using (var jsonTextReader = new JsonTextReader(streamReader))
                 {
-                    var serializer = JsonSerializer.Create(_settings);
+                    var serializer = Newtonsoft.Json.JsonSerializer.Create(_settings);
                     return serializer.Deserialize<T>(jsonTextReader)!;
                 }
             });

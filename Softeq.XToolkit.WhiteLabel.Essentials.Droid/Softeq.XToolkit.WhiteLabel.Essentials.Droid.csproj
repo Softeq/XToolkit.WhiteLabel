@@ -14,7 +14,7 @@
         <FileAlignment>512</FileAlignment>
         <AndroidResgenFile>Resources\Resource.Designer.cs</AndroidResgenFile>
         <GenerateSerializationAssemblies>Off</GenerateSerializationAssemblies>
-        <TargetFrameworkVersion>v12.0</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v10.0</TargetFrameworkVersion>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
         <DebugSymbols>true</DebugSymbols>
@@ -88,7 +88,6 @@
       </ProjectReference>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.4.2.1" />
       <PackageReference Include="Xamarin.FFImageLoading" Version="2.4.11.982" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />

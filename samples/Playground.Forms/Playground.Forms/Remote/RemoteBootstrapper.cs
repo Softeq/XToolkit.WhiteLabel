@@ -46,7 +46,7 @@ namespace Playground.Forms.Remote
             {
                 // JsonSerializerSettings object also can be used via IoC
                 ContentSerializer = new NewtonsoftJsonContentSerializer(
-                    Softeq.XToolkit.WhiteLabel.Services.NewtonsoftJsonSerializer.DefaultSettings)
+                    Softeq.XToolkit.WhiteLabel.Services.JsonSerializer.DefaultSettings)
             });
 
             // Optional: Use custom HttpClient for FFImageLoading
