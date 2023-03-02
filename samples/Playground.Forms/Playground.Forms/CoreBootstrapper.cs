@@ -13,6 +13,7 @@ using Playground.Forms.ViewModels.Dialogs.Modal;
 using Playground.Forms.ViewModels.MasterDetailNavigation;
 using Playground.Forms.ViewModels.MasterDetailNavigation.DrillNavigation;
 using Playground.Forms.ViewModels.SimpleNavigation;
+using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Forms;
 using Softeq.XToolkit.WhiteLabel.Forms.Navigation;
@@ -64,6 +65,7 @@ namespace Playground.Forms
             builder.PerDependency<ViewModelFactoryService, IViewModelFactoryService>();
 
             builder.Singleton<PlaygroundViewLocator, IFormsViewLocator>(IfRegistered.Replace);
+            builder.Singleton<PermissionsService, IPermissionsService>();
         }
     }
 }

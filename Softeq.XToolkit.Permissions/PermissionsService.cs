@@ -6,7 +6,7 @@ using Microsoft.Maui.ApplicationModel;
 using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
 using EssentialsPermissions = Microsoft.Maui.ApplicationModel.Permissions;
 
-namespace Softeq.XToolkit.Permissions.Droid
+namespace Softeq.XToolkit.Permissions
 {
     /// <inheritdoc cref="IPermissionsService" />
     public class PermissionsService : IPermissionsService

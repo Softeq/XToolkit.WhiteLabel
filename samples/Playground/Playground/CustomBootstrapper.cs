@@ -3,6 +3,7 @@
 
 using Playground.Services;
 using Playground.ViewModels.Frames;
+using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Services;
@@ -17,6 +18,7 @@ namespace Playground
 
             // Playground
             builder.Singleton<DataService, IDataService>();
+            builder.Singleton<PermissionsService, IPermissionsService>();
 
             builder.PerDependency<TopShellViewModel>();
         }
