@@ -6,7 +6,7 @@ using Microsoft.Maui.ApplicationModel;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
-    public static class SdkVersion
+    internal static class SdkVersion
     {
         public static bool IsBuildVersionLower(BuildVersionCodes versionCode)
         {

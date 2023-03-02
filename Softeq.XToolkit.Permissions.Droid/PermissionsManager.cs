@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
 using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
-using XToolkitPermissions = Softeq.XToolkit.Permissions;
+using XToolkitPermissions = Softeq.XToolkit.Permissions.Permissions;
 using XToolkitPermissionsDroid = Softeq.XToolkit.Permissions.Droid.Permissions;
 
 namespace Softeq.XToolkit.Permissions.Droid
@@ -115,6 +115,8 @@ namespace Softeq.XToolkit.Permissions.Droid
 
             RemoveOldKeys<T>();
 
+            // Timer are used for confirm a fact of showing a request of permission access popup
+            // in another case user should see screen with settings for changing permission state
             var timer = new Stopwatch();
             timer.Start();
 

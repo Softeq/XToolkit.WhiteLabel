@@ -13,6 +13,9 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
 {
     public class Notifications : BasePlatformPermission
     {
+        public static UNAuthorizationOptions AuthorizationOptions =
+            UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound;
+
         public override async Task<EssentialsPermissionStatus> CheckStatusAsync()
         {
             var notificationSettings = await UNUserNotificationCenter.Current
@@ -24,8 +27,7 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
         public override async Task<EssentialsPermissionStatus> RequestAsync()
         {
             var notificationCenter = UNUserNotificationCenter.Current;
-            var (isGranted, _) = await notificationCenter.RequestAuthorizationAsync(
-                UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound);
+            var (isGranted, _) = await notificationCenter.RequestAuthorizationAsync(AuthorizationOptions);
             return isGranted
                 ? EssentialsPermissionStatus.Granted
                 : EssentialsPermissionStatus.Denied;

@@ -11,15 +11,23 @@ namespace Softeq.XToolkit.Permissions.Droid.Permissions
 {
     public class Notifications : EssentialsPermissions.BasePlatformPermission
     {
-        public override (string, bool)[] RequiredPermissions =>
+        public override (string, bool)[] RequiredPermissions
+        {
+            get
+            {
 #if __ANDROID_33__
-            (SdkVersion.IsBuildVersionAtLeast(BuildVersionCodes.Tiramisu) &&
-            SdkVersion.IsDeviceVersionAtLeast(BuildVersionCodes.Tiramisu) &&
-            EssentialsPermissions.IsDeclaredInManifest(Manifest.Permission.PostNotifications)) ?
-                new (string, bool)[] { (Manifest.Permission.PostNotifications, true) } :
-                new (string, bool)[] { };
+                var isSupport =
+                    SdkVersion.IsBuildVersionAtLeast(BuildVersionCodes.Tiramisu) &&
+                    SdkVersion.IsDeviceVersionAtLeast(BuildVersionCodes.Tiramisu) &&
+                    EssentialsPermissions.IsDeclaredInManifest(Manifest.Permission.PostNotifications);
+
+                return isSupport ?
+                    new (string, bool)[] { (Manifest.Permission.PostNotifications, true) } :
+                    System.Array.Empty<(string, bool)>();
 #else
-            new (string, bool)[] { };
+                return new (string, bool)[] { };
 #endif
+            }
+        }
     }
 }

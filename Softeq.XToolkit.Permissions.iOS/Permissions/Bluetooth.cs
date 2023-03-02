@@ -22,7 +22,7 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
         {
             EnsureDeclared();
 
-            return Task.FromResult(ParseAuthorization(CoreBluetooth.CBManager.Authorization));
+            return Task.FromResult(ParseAuthorization(CBManager.Authorization));
         }
 
         public override async Task<EssentialsPermissionStatus> RequestAsync()
@@ -38,11 +38,8 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
 
             if (CBManager.Authorization == CBManagerAuthorization.NotDetermined)
             {
-                var centralMamangerDelegate = new CentralManagerDelegate();
-                await centralMamangerDelegate.StatusObserverable
-                    .Select(x => x != CBManagerState.Unknown)
-                    .FirstAsync()
-                    .ToTask();
+                var centralManagerDelegate = new CentralManagerDelegate();
+                await centralManagerDelegate.RequestAccessAsync();
             }
 
             return ParseAuthorization(CBManager.Authorization);
@@ -62,20 +59,28 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
 
         private class CentralManagerDelegate : CBCentralManagerDelegate
         {
-            private readonly CBCentralManager _manager;
-            private readonly Subject<CBManagerState> _subject
-                = new Subject<CBManagerState>();
+            private readonly CBCentralManager _centralManager;
+
+            private TaskCompletionSource<CBManagerState> _statusRequest =
+                new TaskCompletionSource<CBManagerState>();
 
             public CentralManagerDelegate()
             {
-                _manager = new CBCentralManager(this, null);
+                _centralManager = new CBCentralManager(this, null);
             }
 
-            public IObservable<CBManagerState> StatusObserverable => _subject;
-
-            public override void UpdatedState(CBCentralManager central)
+            public async Task<CBManagerState> RequestAccessAsync()
             {
-                _subject.OnNext(_manager.State);
+                var state = await _statusRequest.Task;
+                return state;
+            }
+
+            public override void UpdatedState(CBCentralManager centralManager)
+            {
+                if (_centralManager.State != CBManagerState.Unknown)
+                {
+                    _statusRequest.TrySetResult(_centralManager.State);
+                }
             }
         }
     }

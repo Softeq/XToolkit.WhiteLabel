@@ -5,7 +5,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Playground.iOS</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.softeq.Playground-iOS</string>
+	<string>com.paws.haloapp</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1.0</string>
 	<key>CFBundleVersion</key>

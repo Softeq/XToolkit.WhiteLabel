@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using BluetoothPermission = Softeq.XToolkit.Permissions.Bluetooth;
+using BluetoothPermission = Softeq.XToolkit.Permissions.Permissions.Bluetooth;
 using CameraPermission = Microsoft.Maui.ApplicationModel.Permissions.Camera;
 using LocationAlwaysPermission = Microsoft.Maui.ApplicationModel.Permissions.LocationAlways;
 using LocationWhenInUsePermission = Microsoft.Maui.ApplicationModel.Permissions.LocationWhenInUse;
-using NotificationsPermission = Softeq.XToolkit.Permissions.Notifications;
+using NotificationsPermission = Softeq.XToolkit.Permissions.Permissions.Notifications;
 using PhotosPermission = Microsoft.Maui.ApplicationModel.Permissions.Photos;
 using StoragePermission = Microsoft.Maui.ApplicationModel.Permissions.StorageWrite;
 

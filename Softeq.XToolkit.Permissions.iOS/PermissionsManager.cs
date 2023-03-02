@@ -5,7 +5,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
 using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
-using XToolkitPermissions = Softeq.XToolkit.Permissions;
+using XToolkitPermissions = Softeq.XToolkit.Permissions.Permissions;
 using XToolkitPermissionsIos = Softeq.XToolkit.Permissions.iOS.Permissions;
 
 namespace Softeq.XToolkit.Permissions.iOS
