@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 #pragma warning disable SA1122
 
-namespace Softeq.XToolkit.WhiteLabel.Tests.Services.NewtonsoftJsonSerializerTests;
+namespace Softeq.XToolkit.WhiteLabel.Tests.Services.JsonSerializers;
 
-public static class JsonSerializerTestsSerializationDataProvider
+internal static class JsonSerializationDataProvider
 {
     public static IEnumerable<object[]> Data
     {

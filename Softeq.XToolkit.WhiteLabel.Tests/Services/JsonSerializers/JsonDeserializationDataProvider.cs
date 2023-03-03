@@ -5,11 +5,11 @@ using System;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
-namespace Softeq.XToolkit.WhiteLabel.Tests.Services.NewtonsoftJsonSerializerTests;
+namespace Softeq.XToolkit.WhiteLabel.Tests.Services.JsonSerializers;
 
 #pragma warning disable SA1122
 
-public static class JsonSerializerTestsDeserializationDataProvider
+internal static class JsonDeserializationDataProvider
 {
     public static IEnumerable<object[]> Data
     {
@@ -88,7 +88,7 @@ public static class JsonSerializerTestsDeserializationDataProvider
             yield return new object[]
             {
                 "TestString",
-                "TestString"
+                "ignore"
             };
         }
     }

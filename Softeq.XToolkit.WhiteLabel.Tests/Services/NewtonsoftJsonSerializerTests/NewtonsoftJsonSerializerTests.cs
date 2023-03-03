@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Services;
+using Softeq.XToolkit.WhiteLabel.Tests.Services.JsonSerializers;
 using Xunit;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Services.NewtonsoftJsonSerializerTests;
@@ -21,21 +22,21 @@ public class NewtonsoftJsonSerializerTests
     }
 
     [Fact]
-    public void DefaultSettings_StaticGet_ReturnsJsonSerializerSettings()
-    {
-        Assert.IsType<JsonSerializerSettings>(NewtonsoftJsonSerializer.DefaultSettings);
-    }
-
-    [Fact]
     public void Ctor_Default_ReturnsIJsonSerializer()
     {
         Assert.IsAssignableFrom<IJsonSerializer>(new NewtonsoftJsonSerializer());
     }
 
+    [Fact]
+    public void DefaultSettings_StaticGet_ReturnsJsonSerializerSettings()
+    {
+        Assert.IsType<JsonSerializerSettings>(NewtonsoftJsonSerializer.DefaultSettings);
+    }
+
     [Theory]
     [MemberData(
-        nameof(JsonSerializerTestsSerializationDataProvider.Data),
-        MemberType = typeof(JsonSerializerTestsSerializationDataProvider))]
+        nameof(JsonSerializationDataProvider.Data),
+        MemberType = typeof(JsonSerializationDataProvider))]
     public void Serialize_WithValidData_ExpectedResult(object data, string expected)
     {
         var result = _serializer.Serialize(data);
@@ -45,8 +46,8 @@ public class NewtonsoftJsonSerializerTests
 
     [Theory]
     [MemberData(
-        nameof(JsonSerializerTestsDeserializationDataProvider.Data),
-        MemberType = typeof(JsonSerializerTestsDeserializationDataProvider))]
+        nameof(JsonDeserializationDataProvider.Data),
+        MemberType = typeof(JsonDeserializationDataProvider))]
     public void Deserialize_WithValidData_ExpectedResult<T>(string data, T expected)
     {
         var result = _serializer.Deserialize<T>(data);
@@ -56,8 +57,8 @@ public class NewtonsoftJsonSerializerTests
 
     [Theory]
     [MemberData(
-        nameof(JsonSerializerTestsDeserializationDataProvider.InvalidData),
-        MemberType = typeof(JsonSerializerTestsDeserializationDataProvider))]
+        nameof(JsonDeserializationDataProvider.InvalidData),
+        MemberType = typeof(JsonDeserializationDataProvider))]
 #pragma warning disable xUnit1026
     public void Deserialize_WithInvalidData_ThrowsException<T>(string data, T expected)
 #pragma warning restore xUnit1026
@@ -70,8 +71,8 @@ public class NewtonsoftJsonSerializerTests
 
     [Theory]
     [MemberData(
-        nameof(JsonSerializerTestsSerializationDataProvider.Data),
-        MemberType = typeof(JsonSerializerTestsSerializationDataProvider))]
+        nameof(JsonSerializationDataProvider.Data),
+        MemberType = typeof(JsonSerializationDataProvider))]
     public async Task SerializeAsync_WithValidData_ExpectedResult(object data, string expected)
     {
         using var stream = new MemoryStream();
@@ -85,8 +86,8 @@ public class NewtonsoftJsonSerializerTests
 
     [Theory]
     [MemberData(
-        nameof(JsonSerializerTestsDeserializationDataProvider.Data),
-        MemberType = typeof(JsonSerializerTestsDeserializationDataProvider))]
+        nameof(JsonDeserializationDataProvider.Data),
+        MemberType = typeof(JsonDeserializationDataProvider))]
     public async Task DeserializeAsync_WithValidData_ExpectedResult<T>(string data, T expected)
     {
         using var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));

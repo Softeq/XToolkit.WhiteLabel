@@ -4,7 +4,7 @@
 using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Softeq.XToolkit.WhiteLabel.Tests.Services.NewtonsoftJsonSerializerTests;
+namespace Softeq.XToolkit.WhiteLabel.Tests.Services.JsonSerializers;
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global", Justification = "Reviewed.")]
 public class StubSerializerData
