@@ -3,7 +3,6 @@
 
 using System;
 using System.Diagnostics.CodeAnalysis;
-using Newtonsoft.Json;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Services.NewtonsoftJsonSerializerTests;
 
@@ -15,13 +14,13 @@ public class StubSerializerData
     public DateTime? Date { get; set; }
     public TimeSpan? Time { get; set; }
 
-    [JsonProperty("first_name")]
+    [Newtonsoft.Json.JsonProperty("first_name")]
     public string FirstName { get; set; }
 
 #pragma warning disable SA1300
     public string last_name { get; set; }
 #pragma warning restore SA1300
 
-    [JsonIgnore]
+    [Newtonsoft.Json.JsonIgnore]
     public string IgnoreData { get; set; }
 }
