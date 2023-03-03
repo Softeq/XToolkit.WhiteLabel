@@ -18,7 +18,7 @@ internal static class JsonDeserializationDataProvider
             yield return new object[]
             {
                 "{\"name\":\"Test\",\"age\":1,\"date\":\"2022-09-18T00:00:00Z\",\"time\":\"10:25:38\"}",
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     Name = "Test",
                     Age = 1,
@@ -29,7 +29,7 @@ internal static class JsonDeserializationDataProvider
             yield return new object[]
             {
                 "{\"name\":\"\"}",
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     Name = string.Empty
                 }
@@ -37,7 +37,7 @@ internal static class JsonDeserializationDataProvider
             yield return new object[]
             {
                 "{\"first_name\":\"First\",\"last_name\":\"Last\"}",
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     FirstName = "First",
                     last_name = "Last"

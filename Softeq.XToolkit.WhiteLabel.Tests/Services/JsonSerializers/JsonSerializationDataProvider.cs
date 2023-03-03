@@ -16,7 +16,7 @@ internal static class JsonSerializationDataProvider
         {
             yield return new object[]
             {
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     Name = "Test",
                     Age = 1,
@@ -27,7 +27,7 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     Name = string.Empty
                 },
@@ -35,7 +35,7 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     Date = TimeZoneInfo.ConvertTimeFromUtc(
                         new DateTime(2023, 08, 22, 20, 15, 00),
@@ -45,7 +45,7 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     Age = null,
                     Date = null,
@@ -55,7 +55,7 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     Name = "Test"
                 },
@@ -63,7 +63,7 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     FirstName = "First",
                     last_name = "Last"
@@ -72,12 +72,12 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
-                new StubSerializerData { IgnoreData = "IgnoreData" },
+                new JsonSerializationTestsStub { IgnoreData = "IgnoreData" },
                 "{}"
             };
             yield return new object[]
             {
-                new StubSerializerData
+                new JsonSerializationTestsStub
                 {
                     Date = TimeZoneInfo.ConvertTimeFromUtc(
                         new DateTime(2022, 10, 16, 10, 34, 47),
