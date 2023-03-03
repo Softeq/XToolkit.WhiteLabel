@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
@@ -49,8 +48,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
         }
 
         /// <inheritdoc />
-        [return:MaybeNull]
-        public T Deserialize<T>(string value)
+        public T? Deserialize<T>(string value)
         {
             return JsonConvert.DeserializeObject<T>(value, _settings);
         }
@@ -70,10 +68,9 @@ namespace Softeq.XToolkit.WhiteLabel.Services
         }
 
         /// <inheritdoc />
-        [return:MaybeNull]
-        public Task<T> DeserializeAsync<T>(Stream stream)
+        public Task<T?> DeserializeAsync<T>(Stream stream)
         {
-            return Task.Run(() =>
+            return Task.Run<T?>(() =>
             {
                 using (var streamReader = new StreamReader(stream))
                 using (var jsonTextReader = new JsonTextReader(streamReader))

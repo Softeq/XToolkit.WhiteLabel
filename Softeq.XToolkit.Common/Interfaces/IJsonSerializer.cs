@@ -25,8 +25,7 @@ namespace Softeq.XToolkit.Common.Interfaces
         /// <param name="value">The Stream that contains the JSON structure to deserialize.</param>
         /// <returns>The deserialized object from the JSON string.</returns>
         /// <typeparam name="TResult">Object type.</typeparam>
-        [return:MaybeNull]
-        TResult Deserialize<TResult>(string value);
+        TResult? Deserialize<TResult>(string value);
 
         /// <summary>
         ///     Asynchronously serializes the specified object to a JSON string.
@@ -48,7 +47,6 @@ namespace Softeq.XToolkit.Common.Interfaces
         ///     The value of the <c>TResult</c> parameter contains the deserialized object from the JSON string.
         /// </returns>
         /// <typeparam name="TResult">Object type.</typeparam>
-        [return:MaybeNull]
-        Task<TResult> DeserializeAsync<TResult>(Stream stream);
+        Task<TResult?> DeserializeAsync<TResult>(Stream stream);
     }
 }
