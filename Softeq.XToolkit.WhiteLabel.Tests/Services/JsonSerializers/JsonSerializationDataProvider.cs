@@ -97,6 +97,11 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
+                "123",
+                "\"123\""
+            };
+            yield return new object[]
+            {
                 "TestString",
                 "\"TestString\""
             };

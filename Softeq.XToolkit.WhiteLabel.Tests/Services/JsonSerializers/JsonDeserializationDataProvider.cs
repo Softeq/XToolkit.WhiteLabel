@@ -28,6 +28,14 @@ internal static class JsonDeserializationDataProvider
             };
             yield return new object[]
             {
+                "{\"age\":\"2\"}",
+                new JsonSerializationTestsStub
+                {
+                    Age = 2
+                }
+            };
+            yield return new object[]
+            {
                 "{\"name\":\"\"}",
                 new JsonSerializationTestsStub
                 {
@@ -65,6 +73,11 @@ internal static class JsonDeserializationDataProvider
             };
             yield return new object[]
             {
+                "\"123\"",
+                "123"
+            };
+            yield return new object[]
+            {
                 "\"TestString\"",
                 "TestString"
             };
@@ -88,6 +101,16 @@ internal static class JsonDeserializationDataProvider
             yield return new object[]
             {
                 "TestString",
+                "ignore"
+            };
+            yield return new object[]
+            {
+                "{\"a:123/* comment*/}",
+                "ignore"
+            };
+            yield return new object[]
+            {
+                "{\"a:123 // comment}",
                 "ignore"
             };
         }
