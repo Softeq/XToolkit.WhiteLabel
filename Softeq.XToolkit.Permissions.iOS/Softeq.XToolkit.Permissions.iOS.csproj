@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-ios10.0</TargetFramework>
+    <TargetFramework>net6.0-ios13.0</TargetFramework>
     <UseMauiEssentials>true</UseMauiEssentials>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
@@ -19,4 +19,7 @@
     <ProjectReference Include="..\Softeq.XToolkit.Permissions\Softeq.XToolkit.Permissions.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Reactive" Version="5.0.0" />
+  </ItemGroup>
 </Project>

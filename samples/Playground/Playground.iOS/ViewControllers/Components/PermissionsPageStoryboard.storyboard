@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Oox-w9-UZv">
-    <device id="retina4_0" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="21507" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="Oox-w9-UZv">
+    <device id="retina4_0" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="21505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -22,23 +20,31 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="0dN-eX-pWc">
-                                <rect key="frame" x="16" y="20" width="288" height="548"/>
+                                <rect key="frame" x="16" y="0.0" width="288" height="568"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ybe-xI-8r5">
-                                        <rect key="frame" x="0.0" y="0.0" width="288" height="137"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ybe-xI-8r5">
+                                        <rect key="frame" x="0.0" y="0.0" width="288" height="94.5"/>
                                         <state key="normal" title="PHOTOS"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwx-Sp-ddS">
-                                        <rect key="frame" x="0.0" y="137" width="288" height="137"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gwx-Sp-ddS">
+                                        <rect key="frame" x="0.0" y="94.5" width="288" height="95"/>
                                         <state key="normal" title="CAMERA"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWH-x1-eY8">
-                                        <rect key="frame" x="0.0" y="274" width="288" height="137"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YWH-x1-eY8">
+                                        <rect key="frame" x="0.0" y="189.5" width="288" height="94.5"/>
                                         <state key="normal" title="LOCATIONINUSE"/>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tDV-tg-74J">
-                                        <rect key="frame" x="0.0" y="411" width="288" height="137"/>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tDV-tg-74J">
+                                        <rect key="frame" x="0.0" y="284" width="288" height="94.5"/>
                                         <state key="normal" title="LOCATIONALWAYS"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="QIy-gT-QlA" userLabel="Notifications">
+                                        <rect key="frame" x="0.0" y="378.5" width="288" height="95"/>
+                                        <state key="normal" title="NOTIFICATIONS"/>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zJd-O7-7o1" userLabel="Bluetooth">
+                                        <rect key="frame" x="0.0" y="473.5" width="288" height="94.5"/>
+                                        <state key="normal" title="BLUETOOTH"/>
                                     </button>
                                 </subviews>
                             </stackView>
@@ -52,9 +58,11 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="Bluetooth" destination="zJd-O7-7o1" id="gUB-hO-7QC"/>
                         <outlet property="Camera" destination="gwx-Sp-ddS" id="name-outlet-gwx-Sp-ddS"/>
                         <outlet property="LocationAlways" destination="tDV-tg-74J" id="name-outlet-tDV-tg-74J"/>
                         <outlet property="LocationInUse" destination="YWH-x1-eY8" id="name-outlet-YWH-x1-eY8"/>
+                        <outlet property="Notifications" destination="QIy-gT-QlA" id="R4Y-la-9tf"/>
                         <outlet property="Photos" destination="Ybe-xI-8r5" id="name-outlet-Ybe-xI-8r5"/>
                     </connections>
                 </viewController>

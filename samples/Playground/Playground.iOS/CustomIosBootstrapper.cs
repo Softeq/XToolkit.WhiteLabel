@@ -40,7 +40,6 @@ namespace Playground.iOS
             builder.Singleton<IosExtendedDialogsService, IExtendedDialogsService>();
 
             // permissions
-            builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
 
             // image picker

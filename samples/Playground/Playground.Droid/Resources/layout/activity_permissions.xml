@@ -18,5 +18,20 @@
         android:id="@+id/buttonLocationInUse"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Location" />
+        android:text="Location In Use" />
+    <Button
+        android:id="@+id/buttonLocationAlways"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Location Always" />
+    <Button
+        android:id="@+id/buttonNotification"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Notification" />
+    <Button
+        android:id="@+id/buttonBluetooth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Bluetooth" />
 </LinearLayout>
