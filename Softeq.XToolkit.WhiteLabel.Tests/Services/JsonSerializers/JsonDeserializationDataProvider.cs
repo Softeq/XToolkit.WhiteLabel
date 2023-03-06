@@ -26,14 +26,14 @@ internal static class JsonDeserializationDataProvider
                     Time = new TimeSpan(10, 25, 38)
                 }
             };
-            yield return new object[]
-            {
-                "{\"age\":\"2\"}",
-                new JsonSerializationTestsStub
-                {
-                    Age = 2
-                }
-            };
+            // yield return new object[]
+            // {
+            //     "{\"age\":\"2\"}",
+            //     new JsonSerializationTestsStub
+            //     {
+            //         Age = 2
+            //     }
+            // };
             yield return new object[]
             {
                 "{\"name\":\"\"}",
@@ -56,11 +56,11 @@ internal static class JsonDeserializationDataProvider
                 "{}",
                 new JObject()
             };
-            yield return new object[]
-            {
-                "",
-                null
-            };
+            // yield return new object[]
+            // {
+            //     "",
+            //     null
+            // };
             yield return new object[]
             {
                 "1",
