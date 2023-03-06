@@ -12,6 +12,7 @@
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="5.3.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="System.Text.Json" Version="7.0.2" />
   </ItemGroup>
 
   <ItemGroup>

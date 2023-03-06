@@ -16,6 +16,7 @@ internal class JsonSerializationTestsStub
     public TimeSpan? Time { get; set; }
 
     [Newtonsoft.Json.JsonProperty("first_name")]
+    [System.Text.Json.Serialization.JsonPropertyName("first_name")]
     public string FirstName { get; set; }
 
 #pragma warning disable SA1300
@@ -23,6 +24,7 @@ internal class JsonSerializationTestsStub
 #pragma warning restore SA1300
 
     [Newtonsoft.Json.JsonIgnore]
+    [System.Text.Json.Serialization.JsonIgnore]
     public string IgnoreData { get; set; }
 }
 
