@@ -2,12 +2,13 @@
 // http://www.softeq.com
 
 using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Services.JsonSerializers;
 
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global", Justification = "Reviewed.")]
-public class JsonSerializationTestsStub
+internal class JsonSerializationTestsStub
 {
     public string Name { get; set; }
     public int? Age { get; set; }
@@ -23,4 +24,12 @@ public class JsonSerializationTestsStub
 
     [Newtonsoft.Json.JsonIgnore]
     public string IgnoreData { get; set; }
+}
+
+// circular references
+internal class JsonSerializationTestsStubRef
+{
+    public string Id { get; set; }
+    public JsonSerializationTestsStubRef Child { get; set; }
+    public List<JsonSerializationTestsStubRef> Children { get; set; }
 }

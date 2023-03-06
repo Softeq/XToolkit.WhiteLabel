@@ -125,6 +125,18 @@ internal static class JsonSerializationDataProvider
                 new { total = "123" },
                 "{\"total\":\"123\"}"
             };
+
+            var child = new JsonSerializationTestsStubRef { Id = "child" };
+            yield return new object[]
+            {
+                new JsonSerializationTestsStubRef
+                {
+                    Id = "root",
+                    Child = child,
+                    Children = new List<JsonSerializationTestsStubRef> { child }
+                },
+                "{\"id\":\"root\",\"child\":{\"id\":\"child\"},\"children\":[{\"id\":\"child\"}]}"
+            };
         }
     }
 }
