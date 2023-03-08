@@ -35,14 +35,14 @@ public class DefaultJsonSerializer : IJsonSerializer
 
     private static JsonSerializerOptions CreateDefaultOptions() => new()
     {
-        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-        PropertyNameCaseInsensitive = false,
-        NumberHandling = JsonNumberHandling.AllowReadingFromString,
         Converters =
         {
             new DateTimeUtcJsonConverter()
-        }
+        },
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        PropertyNameCaseInsensitive = false
     };
 
     /// <inheritdoc />
@@ -52,8 +52,18 @@ public class DefaultJsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc />
-    public TResult? Deserialize<TResult>(string value)
+    public TResult? Deserialize<TResult>(string? value)
     {
+        if (value == null)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
+
+        if (value.Length == 0)
+        {
+            return default;
+        }
+
         return JsonSerializer.Deserialize<TResult>(value, _options);
     }
 
@@ -64,9 +74,19 @@ public class DefaultJsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc />
-    public Task<TResult?> DeserializeAsync<TResult>(Stream stream)
+    public async Task<TResult?> DeserializeAsync<TResult>(Stream? stream)
     {
-        return JsonSerializer.DeserializeAsync<TResult>(stream, _options).AsTask();
+        if (stream == null)
+        {
+            throw new ArgumentNullException(nameof(stream));
+        }
+
+        if (stream.Length == 0)
+        {
+            return default;
+        }
+
+        return await JsonSerializer.DeserializeAsync<TResult>(stream, _options).AsTask().ConfigureAwait(false);
     }
 }
 
@@ -74,17 +94,19 @@ public class DefaultJsonSerializer : IJsonSerializer
 ///     Custom System.Json converter that implements Newtonsoft.Json DateTime settings:
 ///     (DateFormatHandling.IsoDateFormat, DateTimeZoneHandling.Utc).
 /// </summary>
-public class DateTimeUtcJsonConverter : JsonConverter<DateTime>
+public sealed class DateTimeUtcJsonConverter : JsonConverter<DateTime>
 {
     /// <inheritdoc />
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
-        return DateTime.Parse(reader.GetString() ?? string.Empty).ToUniversalTime();
+        var dateTime = reader.GetDateTime();
+        return dateTime.ToUniversalTime();
     }
 
     /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        writer.WriteStringValue(value.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture));
+        var str = value.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
+        writer.WriteStringValue(str);
     }
 }
