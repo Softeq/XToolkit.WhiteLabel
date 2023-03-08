@@ -72,7 +72,6 @@ public class NewtonsoftJsonSerializerTests
         await _serializer.SerializeAsync(data, stream);
 
         var result = Encoding.UTF8.GetString(stream.ToArray());
-
         Assert.Equal(expected, result);
     }
 

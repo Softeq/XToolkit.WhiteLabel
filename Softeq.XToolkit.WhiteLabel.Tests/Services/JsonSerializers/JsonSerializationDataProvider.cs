@@ -72,7 +72,10 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
-                new JsonSerializationTestsStub { IgnoreData = "IgnoreData" },
+                new JsonSerializationTestsStub
+                {
+                    IgnoreData = "IgnoreData"
+                },
                 "{}"
             };
             yield return new object[]
@@ -107,8 +110,46 @@ internal static class JsonSerializationDataProvider
             };
             yield return new object[]
             {
+                new Dictionary<string, object>
+                {
+                    { "first", "TestString" },
+                    { "Second", 123 },
+                },
+                "{\"first\":\"TestString\",\"Second\":123}"
+            };
+            yield return new object[]
+            {
                 new DateTime(2022, 09, 18),
                 "\"2022-09-18T00:00:00Z\""
+            };
+            yield return new object[]
+            {
+                new byte[] { 127, 0, 0, 1 },
+                "\"fwAAAQ==\""
+            };
+            yield return new object[]
+            {
+                new List<byte> { 127, 0, 0, 1 },
+                "[127,0,0,1]"
+            };
+            yield return new object[]
+            {
+                new EnumJsonSerializationTestsStub
+                {
+                    AsString = JsonSerializationTestsEnum.StringValue,
+                    AsNumber = JsonSerializationTestsEnum.NumberValue
+                },
+                "{\"asString\":\"StringValue\",\"asNumber\":123}"
+            };
+            yield return new object[]
+            {
+                JsonSerializationTestsEnum.NumberValue,
+                123
+            };
+            yield return new object[]
+            {
+                JsonSerializationTestsEnum.StringValue,
+                1
             };
             yield return new object[]
             {

@@ -26,14 +26,14 @@ internal static class JsonDeserializationDataProvider
                     Time = new TimeSpan(10, 25, 38)
                 }
             };
-            // yield return new object[]
-            // {
-            //     "{\"age\":\"2\"}",
-            //     new JsonSerializationTestsStub
-            //     {
-            //         Age = 2
-            //     }
-            // };
+            yield return new object[]
+            {
+                "{\"age\":\"2\"}",
+                new JsonSerializationTestsStub
+                {
+                    Age = 2
+                }
+            };
             yield return new object[]
             {
                 "{\"name\":\"\"}",
@@ -83,8 +83,45 @@ internal static class JsonDeserializationDataProvider
             };
             yield return new object[]
             {
+                "{\"first\":\"TestString\"}",
+                new Dictionary<string, string>
+                {
+                    { "first", "TestString" }
+                }
+            };
+            yield return new object[]
+            {
                 "\"2022-09-18T00:00:00Z\"",
                 new DateTime(2022, 09, 18)
+            };
+            yield return new object[]
+            {
+                "\"fwAAAQ==\"",
+                new byte[] { 127, 0, 0, 1 },
+            };
+            yield return new object[]
+            {
+                "[127,0,0,1]",
+                new List<byte> { 127, 0, 0, 1 }
+            };
+            yield return new object[]
+            {
+                "{\"asString\":\"StringValue\",\"asNumber\":123}",
+                new EnumJsonSerializationTestsStub
+                {
+                    AsString = JsonSerializationTestsEnum.StringValue,
+                    AsNumber = JsonSerializationTestsEnum.NumberValue
+                },
+            };
+            yield return new object[]
+            {
+                123,
+                JsonSerializationTestsEnum.NumberValue
+            };
+            yield return new object[]
+            {
+                1,
+                JsonSerializationTestsEnum.StringValue
             };
         }
     }

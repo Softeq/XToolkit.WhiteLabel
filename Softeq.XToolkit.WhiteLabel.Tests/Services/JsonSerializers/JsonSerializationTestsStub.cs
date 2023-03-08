@@ -7,6 +7,22 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Services.JsonSerializers;
 
+internal enum JsonSerializationTestsEnum
+{
+    Undefined,
+    StringValue,
+    NumberValue = 123
+}
+
+internal class EnumJsonSerializationTestsStub
+{
+    [Newtonsoft.Json.JsonConverter(typeof(Newtonsoft.Json.Converters.StringEnumConverter))]
+    [System.Text.Json.Serialization.JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter))]
+    public JsonSerializationTestsEnum AsString { get; set; }
+
+    public JsonSerializationTestsEnum AsNumber { get; set; }
+}
+
 [SuppressMessage("ReSharper", "UnusedAutoPropertyAccessor.Global", Justification = "Reviewed.")]
 internal class JsonSerializationTestsStub
 {
