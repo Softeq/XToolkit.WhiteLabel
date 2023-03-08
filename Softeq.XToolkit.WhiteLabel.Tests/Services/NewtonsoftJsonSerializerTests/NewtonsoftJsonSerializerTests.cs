@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
@@ -63,6 +64,15 @@ public class NewtonsoftJsonSerializerTests
         });
     }
 
+    [Fact]
+    public void Deserialize_Null_ThrowsArgumentNullException()
+    {
+        Assert.Throws<ArgumentNullException>(() =>
+        {
+            _serializer.Deserialize<object>(null!);
+        });
+    }
+
     [Theory]
     [MemberData(nameof(JsonSerializationDataProvider.Data), MemberType = typeof(JsonSerializationDataProvider))]
     public async Task SerializeAsync_WithValidData_ExpectedResult(object data, string expected)
@@ -79,10 +89,18 @@ public class NewtonsoftJsonSerializerTests
     [MemberData(nameof(JsonDeserializationDataProvider.Data), MemberType = typeof(JsonDeserializationDataProvider))]
     public async Task DeserializeAsync_WithValidData_ExpectedResult<T>(string data, T expected)
     {
-        using var stream = new MemoryStream(Encoding.UTF8.GetBytes(data));
+        var bytes = Encoding.UTF8.GetBytes(data);
+        using var stream = new MemoryStream(bytes);
 
         var result = await _serializer.DeserializeAsync<T>(stream)!;
 
         Assert.Equivalent(expected, result);
+    }
+
+    [Fact]
+    public async Task DeserializeAsync_Null_ThrowsArgumentNullException()
+    {
+        await Assert.ThrowsAsync<ArgumentNullException>(() =>
+            _serializer.DeserializeAsync<object>(null!));
     }
 }

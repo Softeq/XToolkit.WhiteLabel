@@ -56,11 +56,11 @@ internal static class JsonDeserializationDataProvider
                 "{}",
                 new JObject()
             };
-            // yield return new object[]
-            // {
-            //     "",
-            //     null
-            // };
+            yield return new object[]
+            {
+                "",
+                null
+            };
             yield return new object[]
             {
                 "1",
