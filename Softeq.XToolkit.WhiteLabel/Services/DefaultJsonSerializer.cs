@@ -33,20 +33,17 @@ public class DefaultJsonSerializer : IJsonSerializer
     /// </summary>
     public static JsonSerializerOptions DefaultOptions { get; } = CreateDefaultOptions();
 
-    private static JsonSerializerOptions CreateDefaultOptions()
+    private static JsonSerializerOptions CreateDefaultOptions() => new()
     {
-        var options = new JsonSerializerOptions
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        PropertyNameCaseInsensitive = false,
+        NumberHandling = JsonNumberHandling.AllowReadingFromString,
+        Converters =
         {
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            PropertyNameCaseInsensitive = false
-        };
-
-        options.Converters.Add(new DateTimeUtcJsonConverter());
-        // options.Converters.Add(new NullableStructJsonConverter());
-
-        return options;
-    }
+            new DateTimeUtcJsonConverter()
+        }
+    };
 
     /// <inheritdoc />
     public string Serialize(object value)
