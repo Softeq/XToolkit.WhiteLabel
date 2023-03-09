@@ -96,6 +96,9 @@ public class DefaultJsonSerializer : IJsonSerializer
 /// </summary>
 public sealed class DateTimeUtcJsonConverter : JsonConverter<DateTime>
 {
+    // Source: https://github.com/JamesNK/Newtonsoft.Json/blob/0a2e291c0d9c0c7675d445703e51750363a549ef/Src/Newtonsoft.Json/Utilities/DateTimeUtils.cs#L85-L86
+    private const string IsoDateFormat = "yyyy-MM-ddTHH:mm:ss.FFFFFFFZ";
+
     /// <inheritdoc />
     public override DateTime Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -106,7 +109,7 @@ public sealed class DateTimeUtcJsonConverter : JsonConverter<DateTime>
     /// <inheritdoc />
     public override void Write(Utf8JsonWriter writer, DateTime value, JsonSerializerOptions options)
     {
-        var str = value.ToString("yyyy-MM-ddTHH:mm:ssZ", CultureInfo.InvariantCulture);
-        writer.WriteStringValue(str);
+        var dateTimeString = value.ToString(IsoDateFormat, CultureInfo.InvariantCulture);
+        writer.WriteStringValue(dateTimeString);
     }
 }

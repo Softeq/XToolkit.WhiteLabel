@@ -25,7 +25,7 @@ public class DefaultJsonSerializerTests
     [Fact]
     public void Ctor_Default_ReturnsIJsonSerializer()
     {
-        Assert.IsAssignableFrom<IJsonSerializer>(new DefaultJsonSerializer());
+        Assert.IsAssignableFrom<IJsonSerializer>(_serializer);
     }
 
     [Fact]

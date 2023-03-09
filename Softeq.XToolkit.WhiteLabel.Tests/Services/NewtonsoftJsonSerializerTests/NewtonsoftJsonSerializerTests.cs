@@ -25,7 +25,7 @@ public class NewtonsoftJsonSerializerTests
     [Fact]
     public void Ctor_Default_ReturnsIJsonSerializer()
     {
-        Assert.IsAssignableFrom<IJsonSerializer>(new NewtonsoftJsonSerializer());
+        Assert.IsAssignableFrom<IJsonSerializer>(_serializer);
     }
 
     [Fact]
