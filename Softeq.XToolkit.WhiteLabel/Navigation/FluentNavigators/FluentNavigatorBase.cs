@@ -38,7 +38,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation.FluentNavigators
             TValue value)
         {
             var propertyInfo = (PropertyInfo) propertyExpression.GetMemberInfo();
-            var parameter = new NavigationParameterModel(value, new PropertyInfoModel(propertyInfo));
+            var parameter = new NavigationParameterModel(value, NavigationPropertyInfo.FromPropertyInfo(propertyInfo));
 
             _parameters.Add(parameter);
 

@@ -12,40 +12,43 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PropertyInfoModelTests
         [Theory]
         [PairwiseData]
         public void Ctor_WithPropertyAndTypeNames_InitializesProperties(
-            [CombinatorialValues(null, "", "a", "abc")] string propertyName,
-            [CombinatorialValues(null, "", "a", "abc")] string typeName)
+            [CombinatorialValues("", "abc")] string propertyName,
+            [CombinatorialValues("", "abc")] string typeName)
         {
-            var model = new PropertyInfoModel(propertyName, typeName);
-
-            Assert.NotNull(model.PropertyName);
-            Assert.NotNull(model.AssemblyQualifiedTypeName);
-
-            Assert.Equal(propertyName ?? string.Empty, model.PropertyName);
-            Assert.Equal(typeName ?? string.Empty, model.AssemblyQualifiedTypeName);
-        }
-
-        [Theory]
-        [MemberData(
-            nameof(PropertyInfoModelDataProvider.ValidPropertyInfoData),
-            MemberType = typeof(PropertyInfoModelDataProvider))]
-        public void Ctor_WithPropertyInfo_InitializesProperties(
-            PropertyInfo propertyInfo,
-            string propertyName,
-            string typeName)
-        {
-            var model = new PropertyInfoModel(propertyInfo);
-
-            Assert.NotNull(model.PropertyName);
-            Assert.NotNull(model.AssemblyQualifiedTypeName);
+            var model = new NavigationPropertyInfo(propertyName, typeName);
 
             Assert.Equal(propertyName, model.PropertyName);
             Assert.Equal(typeName, model.AssemblyQualifiedTypeName);
         }
 
         [Fact]
-        public void Ctor_WithNullPropertyInfo_InitializesPropertiesToEmptyStrings()
+        public void Ctor_WithNullArgs_InitializesPropertiesToEmptyStrings()
         {
-            var model = new PropertyInfoModel(null);
+            var model = new NavigationPropertyInfo(null, null);
+
+            Assert.Empty(model.PropertyName);
+            Assert.Empty(model.AssemblyQualifiedTypeName);
+        }
+
+        [Theory]
+        [MemberData(
+            nameof(PropertyInfoModelDataProvider.ValidPropertyInfoData),
+            MemberType = typeof(PropertyInfoModelDataProvider))]
+        public void FromPropertyInfo_WithPropertyInfo_InitializesProperties(
+            PropertyInfo propertyInfo,
+            string propertyName,
+            string typeName)
+        {
+            var model = NavigationPropertyInfo.FromPropertyInfo(propertyInfo);
+
+            Assert.Equal(propertyName, model.PropertyName);
+            Assert.Equal(typeName, model.AssemblyQualifiedTypeName);
+        }
+
+        [Fact]
+        public void FromPropertyInfo_WithNullPropertyInfo_InitializesPropertiesToEmptyStrings()
+        {
+            var model = NavigationPropertyInfo.FromPropertyInfo(null);
 
             Assert.Empty(model.PropertyName);
             Assert.Empty(model.AssemblyQualifiedTypeName);
@@ -59,7 +62,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PropertyInfoModelTests
             string propertyName,
             string typeName)
         {
-            var model = new PropertyInfoModel(propertyName, typeName);
+            var model = new NavigationPropertyInfo(propertyName, typeName);
 
             Assert.Throws<PropertyNotFoundException>(() => model.ToPropertyInfo());
         }
@@ -72,7 +75,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PropertyInfoModelTests
             string propertyName,
             string typeName)
         {
-            var model = new PropertyInfoModel(propertyName, typeName);
+            var model = new NavigationPropertyInfo(propertyName, typeName);
 
             Assert.Throws<PropertyNotFoundException>(() => model.ToPropertyInfo());
         }
@@ -86,7 +89,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PropertyInfoModelTests
             string propertyName,
             string typeName)
         {
-            var model = new PropertyInfoModel(propertyName, typeName);
+            var model = new NavigationPropertyInfo(propertyName, typeName);
 
             var propertyInfo = model.ToPropertyInfo();
 
