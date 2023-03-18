@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.PropertyInfoModelTests
 {
-    public class PropertyInfoModelTests
+    public class NavigationPropertyInfoTests
     {
         [Theory]
         [PairwiseData]
