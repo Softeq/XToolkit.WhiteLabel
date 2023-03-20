@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
-    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2515" />
+    <PackageReference Include="Xamarin.Forms" Version="5.0.0.2244" />
   </ItemGroup>
 
   <ItemGroup>

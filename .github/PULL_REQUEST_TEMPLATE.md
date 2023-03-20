@@ -1,4 +1,4 @@
-<!-- WAIT!
+<!-- WAIT! 
      Before you submit this PR, make sure you're building on and targeting the right branch!
 
      PLEASE DELETE THE ALL THESE COMMENTS BEFORE SUBMITTING! THANKS!!!
@@ -21,12 +21,12 @@ Added:
 
 Changed:
  - object FakeControl.MakeShiny => FakeControl FakeControl.MakeShiny
-
+ 
  Removed:
  - object FakeControl.MakeShiny => FakeControl FakeControl.MakeShiny
-
+ 
  -->
-
+ 
  None
 
 ### Platforms Affected
@@ -51,6 +51,6 @@ Not applicable
 <!-- Go over all the following points, and put an `x` in all the boxes that apply. -->
 
 - [ ] I have read the [CONTRIBUTING](https://github.com/Softeq/XToolkit.WhiteLabel/blob/master/.github/CONTRIBUTING.md) document
-- [ ] My code follows the [code styles](https://github.com/Softeq/dotnet-guidelines/tree/xamarin_guidelines)
+- [ ] My code follows the [code styles](https://github.com/Softeq/dotnet-guidelines)
 - [ ] Targets the correct branch
 - [ ] Tests are passing (or failures are unrelated)

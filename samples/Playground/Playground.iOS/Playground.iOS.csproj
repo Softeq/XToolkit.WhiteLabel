@@ -76,7 +76,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json">
-      <Version>13.0.1</Version>
+      <Version>12.0.3</Version>
     </PackageReference>
     <PackageReference Include="WebP.Touch">
       <Version>1.0.8</Version>

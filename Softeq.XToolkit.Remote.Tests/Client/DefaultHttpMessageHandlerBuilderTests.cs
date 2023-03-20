@@ -115,7 +115,7 @@ namespace Softeq.XToolkit.Remote.Tests.Client
             Assert.Same(additionalHandler2, result.InnerHandler);
 
             // primary handler at the root
-            Assert.Same(_primaryHandler, ((DelegatingHandler)result.InnerHandler!).InnerHandler);
+            Assert.Same(_primaryHandler, ((DelegatingHandler)result.InnerHandler).InnerHandler);
         }
     }
 }

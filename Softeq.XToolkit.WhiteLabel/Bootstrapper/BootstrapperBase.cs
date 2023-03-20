@@ -55,7 +55,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             builder.Singleton<BackStackManager, IBackStackManager>(IfRegistered.Keep);
 
             // json
-            builder.Singleton<Services.NewtonsoftJsonSerializer, IJsonSerializer>();
+            builder.Singleton<Services.JsonSerializer, IJsonSerializer>();
         }
 
         /// <summary>

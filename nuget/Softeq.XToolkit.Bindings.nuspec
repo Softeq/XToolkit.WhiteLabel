@@ -18,9 +18,9 @@
      <group targetFramework="netstandard2.1">
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
       </group>
-     <group targetFramework="MonoAndroid12.0">
+     <group targetFramework="MonoAndroid9.0">
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
-        <dependency id="Xamarin.AndroidX.RecyclerView" version="1.2.1.7" />
+        <dependency id="Xamarin.AndroidX.RecyclerView" version="1.1.0.8" />
       </group>
      <group targetFramework="Xamarin.iOS10">
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
@@ -41,11 +41,11 @@
     <file
       src="../Softeq.XToolkit.Bindings/bin/Release/netstandard2.1/Softeq.XToolkit.Bindings.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\MonoAndroid90" />
     <file
       src="../Softeq.XToolkit.Bindings.Droid/bin/Release/Softeq.XToolkit.Bindings.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\MonoAndroid90" />
 
     <!-- iOS -->
     <file
