@@ -47,7 +47,7 @@ namespace Softeq.XToolkit.Common.Commands
 
             try
             {
-                await executionProvider.Invoke();
+                await executionProvider.Invoke().ConfigureAwait(false);
             }
             finally
             {
