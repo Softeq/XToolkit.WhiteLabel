@@ -87,46 +87,5 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.EnumerableExtensionsTests
 
             _testAction.ReceivedWithAnyArgs(_testEnumerable.Count()).Invoke(Arg.Any<int>());
         }
-
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(0)]
-        [InlineData(1)]
-        public void Chunkify_NullEnumerable_ThrowsArgumentNullException(int size)
-        {
-            IEnumerable<int> enumerable = null;
-
-            Assert.Throws<ArgumentNullException>(() =>
-            {
-                enumerable.Chunk(size).ToList();
-            });
-        }
-
-        [Theory]
-        [InlineData(-1)]
-        [InlineData(0)]
-        public void Chunkify_IncorrectSize_ThrowsOutOfRangeException(int size)
-        {
-            Assert.Throws<ArgumentOutOfRangeException>(() =>
-            {
-                _testEnumerable.Chunk(size).ToList();
-            });
-        }
-
-        [Theory]
-        [MemberData(nameof(EnumerableExtensionsDataProvider.ChunkifyData), MemberType = typeof(EnumerableExtensionsDataProvider))]
-        public void Chunkify_CorrectSize_ReturnsExpectedChunks(IEnumerable<int> data, int size, IEnumerable<int[]> expectedChunks)
-        {
-            var result = data.Chunk(size).ToList();
-
-            Assert.Equal(expectedChunks.Count(), result.Count());
-
-            var i = 0;
-            foreach (var expectedChunk in expectedChunks)
-            {
-                Assert.Equal(expectedChunk, result[i]);
-                i++;
-            }
-        }
     }
 }
