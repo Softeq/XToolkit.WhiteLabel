@@ -98,7 +98,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.EnumerableExtensionsTests
 
             Assert.Throws<ArgumentNullException>(() =>
             {
-                enumerable.Chunkify(size).ToList();
+                enumerable.Chunk(size).ToList();
             });
         }
 
@@ -109,7 +109,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.EnumerableExtensionsTests
         {
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
-                _testEnumerable.Chunkify(size).ToList();
+                _testEnumerable.Chunk(size).ToList();
             });
         }
 
@@ -117,7 +117,7 @@ namespace Softeq.XToolkit.Common.Tests.Extensions.EnumerableExtensionsTests
         [MemberData(nameof(EnumerableExtensionsDataProvider.ChunkifyData), MemberType = typeof(EnumerableExtensionsDataProvider))]
         public void Chunkify_CorrectSize_ReturnsExpectedChunks(IEnumerable<int> data, int size, IEnumerable<int[]> expectedChunks)
         {
-            var result = data.Chunkify(size).ToList();
+            var result = data.Chunk(size).ToList();
 
             Assert.Equal(expectedChunks.Count(), result.Count());
 
