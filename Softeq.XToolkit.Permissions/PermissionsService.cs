@@ -12,10 +12,10 @@ namespace Softeq.XToolkit.Permissions
     public class PermissionsService : IPermissionsService
     {
         /// <inheritdoc />
-        public async Task<PermissionStatus> RequestPermissionsAsync<T>()
+        public Task<PermissionStatus> RequestPermissionsAsync<T>()
             where T : BasePermission, new()
         {
-            return await MainThread.InvokeOnMainThreadAsync(async () =>
+            return MainThread.InvokeOnMainThreadAsync(async () =>
             {
                 var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
                 return result.ToPermissionStatus();
