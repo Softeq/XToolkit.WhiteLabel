@@ -8,30 +8,13 @@ using System.Reflection;
 using Android.Content;
 using Android.OS;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
-    public interface IBundleService
-    {
-        void SaveInstanceState(Bundle bundle);
-
-        void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel>? parameters);
-
-        /// <summary>
-        ///
-        ///     Skip restore when:
-        ///     1) ViewModel was alive
-        ///     2) Activity never been destroyed
-        ///     3) we don't have data to restore.
-        /// </summary>
-        /// <param name="viewModel">ViewModel.</param>
-        /// <param name="intent">Android Intent.</param>
-        /// <param name="bundle">Android Bundle.</param>
-        void TryToRestoreParams(ViewModelBase viewModel, Intent? intent, Bundle? bundle);
-    }
-
+    /// <inheritdoc />
     public class BundleService : IBundleService
     {
         private const string ShouldRestoreStateKey = "WL_ShouldRestore";
@@ -44,11 +27,13 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             _serializer = serializer;
         }
 
+        /// <inheritdoc />
         public void SaveInstanceState(Bundle bundle)
         {
             bundle.PutBoolean(ShouldRestoreStateKey, true);
         }
 
+        /// <inheritdoc />
         public void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel>? parameters)
         {
             if (parameters != null && parameters.Any())
