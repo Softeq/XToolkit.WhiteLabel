@@ -4,11 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using Android.Content;
 using Android.OS;
-using Newtonsoft.Json.Linq;
 using Softeq.XToolkit.Common.Extensions;
-using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 
@@ -16,6 +15,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
 {
     public interface IBundleService
     {
+        void SaveInstanceState(Bundle bundle);
+
         void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel>? parameters);
 
         /// <summary>
@@ -28,9 +29,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         /// <param name="viewModel">ViewModel.</param>
         /// <param name="intent">Android Intent.</param>
         /// <param name="bundle">Android Bundle.</param>
-        void TryToRestoreParams(ViewModelBase viewModel, Intent intent, Bundle? bundle);
-
-        void SaveInstanceState(Bundle bundle);
+        void TryToRestoreParams(ViewModelBase viewModel, Intent? intent, Bundle? bundle);
     }
 
     public class BundleService : IBundleService
@@ -38,35 +37,52 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         private const string ShouldRestoreStateKey = "WL_ShouldRestore";
         private const string ParametersKey = "WL_Parameters";
 
-        private readonly IJsonSerializer _jsonSerializer;
+        private readonly INavigationSerializer _serializer;
 
-        public BundleService(
-            IJsonSerializer jsonSerializer)
+        public BundleService(INavigationSerializer serializer)
         {
-            _jsonSerializer = jsonSerializer;
+            _serializer = serializer;
+        }
+
+        public void SaveInstanceState(Bundle bundle)
+        {
+            bundle.PutBoolean(ShouldRestoreStateKey, true);
         }
 
         public void TryToSetParams(Intent intent, IReadOnlyList<NavigationParameterModel>? parameters)
         {
             if (parameters != null && parameters.Any())
             {
-                intent.PutExtra(ParametersKey, _jsonSerializer.Serialize(parameters));
+                var serializedParameters = _serializer.Serialize(parameters);
+                intent.PutExtra(ParametersKey, serializedParameters);
             }
         }
 
         /// <inheritdoc />
-        public void TryToRestoreParams(ViewModelBase viewModel, Intent intent, Bundle? bundle)
+        public void TryToRestoreParams(ViewModelBase viewModel, Intent? intent, Bundle? bundle)
         {
-            if (viewModel.IsInitialized
-                || bundle == null
-                || !bundle.ContainsKey(ShouldRestoreStateKey)
-                || !intent.HasExtra(ParametersKey))
+            if (viewModel.IsInitialized)
+            {
+                return;
+            }
+
+            if (bundle == null || !bundle.ContainsKey(ShouldRestoreStateKey))
+            {
+                return;
+            }
+
+            if (intent == null || !intent.HasExtra(ParametersKey))
             {
                 return;
             }
 
             var parametersObject = intent.GetStringExtra(ParametersKey);
-            var parameters = _jsonSerializer
+            if (string.IsNullOrEmpty(parametersObject))
+            {
+                return;
+            }
+
+            var parameters = _serializer
                 .Deserialize<IReadOnlyList<NavigationParameterModel>>(parametersObject)
                 .EmptyIfNull();
 
@@ -78,31 +94,31 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             intent.RemoveExtra(ShouldRestoreStateKey);
         }
 
-        public void SaveInstanceState(Bundle bundle)
+        private void SetValueToProperty(ViewModelBase viewModel, NavigationParameterModel parameter)
         {
-            bundle.PutBoolean(ShouldRestoreStateKey, true);
+            var property = parameter.PropertyInfo?.ToPropertyInfo();
+
+            if (property != null)
+            {
+                var value = DeserializeValueFromProperty(parameter.Value, property);
+
+                property.SetValue(viewModel, value, null);
+            }
         }
 
-        private static void SetValueToProperty(ViewModelBase viewModel, NavigationParameterModel parameter)
+        private object? DeserializeValueFromProperty(object? value, PropertyInfo propertyInfo)
         {
-            var property = parameter.PropertyInfo.ToPropertyInfo();
-
-            object? GetValue(object? value)
+            if (value == null)
             {
-                if (value == null)
-                {
-                    return null;
-                }
-
-                if (property.PropertyType.IsEnum)
-                {
-                    return Enum.ToObject(property.PropertyType, value);
-                }
-
-                return ((JObject) value).ToObject(property.PropertyType);
+                return null;
             }
 
-            property.SetValue(viewModel, GetValue(parameter.Value), null);
+            if (propertyInfo.PropertyType.IsEnum)
+            {
+                return Enum.ToObject(propertyInfo.PropertyType, value);
+            }
+
+            return _serializer.Deserialize(value, propertyInfo.PropertyType);
         }
     }
 }
