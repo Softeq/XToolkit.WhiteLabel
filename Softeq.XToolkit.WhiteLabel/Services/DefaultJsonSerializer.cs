@@ -8,7 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
-using JsonSerializer = System.Text.Json.JsonSerializer;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Services;
 
@@ -74,7 +74,7 @@ public class DefaultJsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc />
-    public async Task<TResult?> DeserializeAsync<TResult>(Stream? stream)
+    public async Task<TResult?> DeserializeAsync<TResult>(Stream stream)
     {
         if (stream == null)
         {

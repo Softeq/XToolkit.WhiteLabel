@@ -10,7 +10,7 @@ using Softeq.XToolkit.WhiteLabel.Navigation;
 namespace Softeq.XToolkit.WhiteLabel
 {
     /// <summary>
-    ///     Static class that contains referencies to application services.
+    ///     Static class that contains references to application services.
     ///     <para/>
     ///     Please, avoid using this class.
     ///     Use it only if you don't have other options to add service reference.
