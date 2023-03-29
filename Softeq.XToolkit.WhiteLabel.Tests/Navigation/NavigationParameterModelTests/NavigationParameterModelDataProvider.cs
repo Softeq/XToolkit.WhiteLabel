@@ -8,11 +8,11 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.NavigationParameterModelTe
 {
     internal static class NavigationParameterModelDataProvider
     {
-        private static readonly PropertyInfoModel EmptyPropertyInfoModel = new PropertyInfoModel(null, null);
+        private static readonly NavigationPropertyInfo EmptyPropertyInfoModel = new NavigationPropertyInfo(null, null);
         private static readonly object EmptyObject = new object();
 
-        public static TheoryData<object, PropertyInfoModel> CtorData
-           => new TheoryData<object, PropertyInfoModel>
+        public static TheoryData<object, NavigationPropertyInfo> CtorData
+           => new TheoryData<object, NavigationPropertyInfo>
            {
                { null, null },
                { null, EmptyPropertyInfoModel },

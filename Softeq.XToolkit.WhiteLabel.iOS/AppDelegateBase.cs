@@ -19,8 +19,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     {
         private UIViewController _rootViewController = default!;
 
+        /// <inheritdoc />
         public override UIWindow? Window { get; set; }
 
+        /// <inheritdoc />
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
             // YP: Hard reference kept because StoryboardNavigation service uses weak references.

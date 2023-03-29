@@ -11,10 +11,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
     ///     that contains only property and type names.
     ///     Used for serialization.
     /// </summary>
-    public class PropertyInfoModel
+    public class NavigationPropertyInfo
     {
         /// <summary>
-        ///     Initializes a new instance of the <see cref="PropertyInfoModel"/> class.
+        ///     Initializes a new instance of the <see cref="NavigationPropertyInfo"/> class.
         /// </summary>
         /// <param name="propertyName">The string containing the name of the public property.</param>
         /// <param name="assemblyQualifiedTypeName">
@@ -24,19 +24,10 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         ///     If the type is in the currently executing assembly or in mscorlib.dll/System.Private.CoreLib.dll,
         ///     it is sufficient to supply the type name qualified by its namespace.
         /// </param>
-        public PropertyInfoModel(string? propertyName, string? assemblyQualifiedTypeName)
+        public NavigationPropertyInfo(string? propertyName, string? assemblyQualifiedTypeName)
         {
             PropertyName = propertyName ?? string.Empty;
             AssemblyQualifiedTypeName = assemblyQualifiedTypeName ?? string.Empty;
-        }
-
-        /// <summary>
-        ///     Initializes a new instance of the <see cref="PropertyInfoModel"/> class.
-        /// </summary>
-        /// <param name="propertyInfo">Property information.</param>
-        public PropertyInfoModel(PropertyInfo propertyInfo)
-            : this(propertyInfo?.Name, propertyInfo?.DeclaringType?.AssemblyQualifiedName)
-        {
         }
 
         /// <summary>
@@ -54,6 +45,18 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         public string AssemblyQualifiedTypeName { get; }
 
         /// <summary>
+        ///     Creates a new instance of the <see cref="NavigationPropertyInfo"/> class.
+        /// </summary>
+        /// <param name="propertyInfo">Property information.</param>
+        /// <returns>New instance of the <see cref="NavigationPropertyInfo"/> class.</returns>
+        public static NavigationPropertyInfo FromPropertyInfo(PropertyInfo? propertyInfo)
+        {
+            return new NavigationPropertyInfo(
+                propertyInfo?.Name,
+                propertyInfo?.DeclaringType?.AssemblyQualifiedName);
+        }
+
+        /// <summary>
         ///     Converts current model to the <see cref="T:System.Reflection.PropertyInfo"/>.
         /// </summary>
         /// <returns>
@@ -64,8 +67,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         /// </exception>
         public PropertyInfo ToPropertyInfo()
         {
-            Type type;
-            PropertyInfo propertyInfo;
+            Type? type;
+            PropertyInfo? propertyInfo;
 
             try
             {

@@ -152,4 +152,46 @@ internal static class JsonDeserializationDataProvider
             };
         }
     }
+
+    public static IEnumerable<object[]> CustomObjects
+    {
+        get
+        {
+            yield return new object[]
+            {
+                "{\"name\":\"Test\",\"age\":1}",
+                new JsonSerializationTestsStub
+                {
+                    Name = "Test",
+                    Age = 1,
+                }
+            };
+            yield return new object[]
+            {
+                "{\"age\":\"2\"}",
+                new JsonSerializationTestsStub
+                {
+                    Age = 2
+                }
+            };
+            yield return new object[]
+            {
+                "{\"name\":\"\"}",
+                new JsonSerializationTestsStub
+                {
+                    Name = string.Empty
+                }
+            };
+            yield return new object[]
+            {
+                "2.5",
+                2.5
+            };
+            yield return new object[]
+            {
+                "\"123\"",
+                "123"
+            };
+        }
+    }
 }

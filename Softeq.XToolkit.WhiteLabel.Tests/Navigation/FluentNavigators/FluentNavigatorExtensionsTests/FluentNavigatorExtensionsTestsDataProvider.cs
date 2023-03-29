@@ -16,13 +16,13 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.FluentNavigators.FluentNav
 
         private static readonly PropertyInfo ValidPropertyInfo1
             = typeof(ViewModelStub).GetProperty(nameof(ViewModelStub.StringParameter));
-        private static readonly PropertyInfoModel ValidPropertyInfoModel1
-            = new PropertyInfoModel(ValidPropertyInfo1);
+        private static readonly NavigationPropertyInfo ValidPropertyInfoModel1
+            = NavigationPropertyInfo.FromPropertyInfo(ValidPropertyInfo1);
 
         private static readonly PropertyInfo ValidPropertyInfo2
             = typeof(ViewModelStub).GetProperty(nameof(ViewModelStub.IntParameter));
-        private static readonly PropertyInfoModel ValidPropertyInfoModel2
-            = new PropertyInfoModel(ValidPropertyInfo2);
+        private static readonly NavigationPropertyInfo ValidPropertyInfoModel2
+            = NavigationPropertyInfo.FromPropertyInfo(ValidPropertyInfo2);
 
         private static readonly NavigationParameterModel ValidNavigationParameter1
             = new NavigationParameterModel(PropertyValue1, ValidPropertyInfoModel1);

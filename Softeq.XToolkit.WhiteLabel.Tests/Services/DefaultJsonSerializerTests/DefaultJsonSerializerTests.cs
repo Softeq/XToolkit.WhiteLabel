@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Softeq.XToolkit.WhiteLabel.Tests.Services.DefaultJsonSerializerTests;
 
-public class DefaultJsonSerializerTests
+public partial class DefaultJsonSerializerTests
 {
     private readonly DefaultJsonSerializer _serializer;
 

@@ -8,14 +8,15 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Interfaces;
-using JsonSerializer = System.Text.Json.JsonSerializer;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 
 namespace Softeq.XToolkit.WhiteLabel.Services;
 
 /// <summary>
-///     A <see langword="class"/> implementing <see cref="IJsonSerializer"/> using the System.Text.Json APIs.
+///     A <see langword="class"/> implementing <see cref="IJsonSerializer"/> and <see cref="INavigationSerializer"/>
+///     using the System.Text.Json APIs.
 /// </summary>
-public class DefaultJsonSerializer : IJsonSerializer
+public class DefaultJsonSerializer : IJsonSerializer, INavigationSerializer
 {
     private readonly JsonSerializerOptions? _options;
 
@@ -45,14 +46,14 @@ public class DefaultJsonSerializer : IJsonSerializer
         PropertyNameCaseInsensitive = false
     };
 
-    /// <inheritdoc />
+    /// <inheritdoc cref="IJsonSerializer.Serialize" />
     public string Serialize(object value)
     {
         return JsonSerializer.Serialize(value, _options);
     }
 
-    /// <inheritdoc />
-    public TResult? Deserialize<TResult>(string? value)
+    /// <inheritdoc cref="IJsonSerializer.Serialize" />
+    public TResult? Deserialize<TResult>(string value)
     {
         if (value == null)
         {
@@ -68,13 +69,29 @@ public class DefaultJsonSerializer : IJsonSerializer
     }
 
     /// <inheritdoc />
+    public object? Deserialize(object? value, Type returnType)
+    {
+        if (value == null)
+        {
+            throw new ArgumentNullException(nameof(value));
+        }
+
+        if (value is not JsonElement jsonElement)
+        {
+            throw new NotSupportedException("Value can't be deserialized by this serializer.");
+        }
+
+        return jsonElement.Deserialize(returnType, DefaultOptions);
+    }
+
+    /// <inheritdoc />
     public Task SerializeAsync(object value, Stream stream)
     {
         return JsonSerializer.SerializeAsync(stream, value, _options);
     }
 
     /// <inheritdoc />
-    public async Task<TResult?> DeserializeAsync<TResult>(Stream? stream)
+    public async Task<TResult?> DeserializeAsync<TResult>(Stream stream)
     {
         if (stream == null)
         {
