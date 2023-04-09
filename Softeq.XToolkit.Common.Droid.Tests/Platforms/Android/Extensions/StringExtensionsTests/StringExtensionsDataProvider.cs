@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 using Android.Text.Style;
 using Softeq.XToolkit.Common.Helpers;
 using Xunit;
-using AndroidGraphics = Android.Graphics;
 using JObject = Java.Lang.Object;
 using JString = Java.Lang.String;
 
@@ -23,13 +22,13 @@ namespace Softeq.XToolkit.Common.Droid.Tests.Extensions.StringExtensionsTests
         private static readonly string TestString2 = "abcdefghijk";
         private static readonly string TestStringWithSingleChar = "a";
 
-        private static readonly StyleSpan StyleSpan1 = new StyleSpan(AndroidGraphics.TypefaceStyle.Bold);
-        private static readonly StyleSpan StyleSpan2 = new StyleSpan(AndroidGraphics.TypefaceStyle.Italic);
-        private static readonly StyleSpan StyleSpan3 = new StyleSpan(AndroidGraphics.TypefaceStyle.Normal);
+        private static readonly StyleSpan StyleSpan1 = new StyleSpan(Android.Graphics.TypefaceStyle.Bold);
+        private static readonly StyleSpan StyleSpan2 = new StyleSpan(Android.Graphics.TypefaceStyle.Italic);
+        private static readonly StyleSpan StyleSpan3 = new StyleSpan(Android.Graphics.TypefaceStyle.Normal);
 
-        private static readonly ForegroundColorSpan ForegroundColorSpan1 = new ForegroundColorSpan(AndroidGraphics.Color.White);
-        private static readonly ForegroundColorSpan ForegroundColorSpan2 = new ForegroundColorSpan(AndroidGraphics.Color.Transparent);
-        private static readonly ForegroundColorSpan ForegroundColorSpan3 = new ForegroundColorSpan(AndroidGraphics.Color.Red);
+        private static readonly ForegroundColorSpan ForegroundColorSpan1 = new ForegroundColorSpan(Android.Graphics.Color.White);
+        private static readonly ForegroundColorSpan ForegroundColorSpan2 = new ForegroundColorSpan(Android.Graphics.Color.Transparent);
+        private static readonly ForegroundColorSpan ForegroundColorSpan3 = new ForegroundColorSpan(Android.Graphics.Color.Red);
 
         public static TheoryData<string> FormatSpannableStringsTestData
            => new TheoryData<string>
