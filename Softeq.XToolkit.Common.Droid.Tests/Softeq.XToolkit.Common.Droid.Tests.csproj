@@ -1,36 +1,51 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net6.0-android32.0</TargetFramework>
-    <OutputType>Exe</OutputType>
-    <IsTrimmable>false</IsTrimmable>
-    <IsPackable>false</IsPackable>
-  </PropertyGroup>
+    <PropertyGroup>
+        <TargetFramework>net6.0-android32.0</TargetFramework>
+        <OutputType>Exe</OutputType>
+        <UseMaui>true</UseMaui>
+        <SingleProject>true</SingleProject>
+        <ImplicitUsings>disable</ImplicitUsings>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <AndroidLinkMode>None</AndroidLinkMode>
-  </PropertyGroup>
+        <!-- Display name -->
+        <ApplicationTitle>Softeq.XToolkit.Common.Droid.Tests</ApplicationTitle>
 
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <AndroidLinkMode>SdkOnly</AndroidLinkMode>
-    <AndroidManagedSymbols>True</AndroidManagedSymbols>
-  </PropertyGroup>
+        <!-- App Identifier -->
+        <ApplicationId>com.softeq.xtoolkit.common.droid.tests</ApplicationId>
 
-  <ItemGroup>
-    <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
-    <AndroidResource Include="Resources\**\*.png" />
-  </ItemGroup>
+        <!-- Versions -->
+        <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
+        <ApplicationVersion>1</ApplicationVersion>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
-    <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj" />
-  </ItemGroup>
+        <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Xunit.Combinatorial" Version="1.5.25" />
-  </ItemGroup>
+    <ItemGroup>
+        <!-- App Icon -->
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
 
-  <Import Project="..\_Tests.Platform.targets" />
+        <!-- Splash Screen -->
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#512BD4" BaseSize="128,128" />
+
+        <!-- Images -->
+        <MauiImage Include="Resources\Images\*" />
+
+        <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
+        <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
+        <PackageReference Include="Shiny.Xunit.Runners.Maui" Version="1.0.0" />
+        <PackageReference Include="Xunit.Combinatorial" Version="1.5.25" />
+    </ItemGroup>
+
+    <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">
+        <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <MauiPlatformSpecificFolder Remove="Platforms\iOS\" />
+    </ItemGroup>
 
 </Project>
