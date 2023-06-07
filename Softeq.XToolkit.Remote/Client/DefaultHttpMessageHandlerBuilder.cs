@@ -13,7 +13,7 @@ namespace Softeq.XToolkit.Remote.Client
         ///     with default primary handler provided by <see cref="HttpMessageHandlerProvider"/>.
         /// </summary>
         public DefaultHttpMessageHandlerBuilder()
-            : this(HttpMessageHandlerProvider.CreateDefaultHandler()!)
+            : this(HttpMessageHandlerProvider.CreateOrGetCachedDefaultHandler()!)
         {
         }
 
