@@ -7,7 +7,7 @@ using BasePlatformPermission = Xamarin.Essentials.Permissions.BasePlatformPermis
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
-    public class NotificationsPlatformsPermission : BasePlatformPermission
+    public class NotificationsPlatformPermission : BasePlatformPermission
     {
         public override (string androidPermission, bool isRuntime)[] RequiredPermissions
         {

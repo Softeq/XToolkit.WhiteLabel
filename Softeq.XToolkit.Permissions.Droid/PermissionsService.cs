@@ -21,7 +21,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                 if (typeof(T) == typeof(NotificationsPermission))
                 {
                     result = await EssentialsPermissions
-                        .RequestAsync<NotificationsPlatformsPermission>()
+                        .RequestAsync<NotificationsPlatformPermission>()
                         .ConfigureAwait(false);
                 }
                 else
@@ -43,7 +43,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             if (typeof(T) == typeof(NotificationsPermission))
             {
                 result = await EssentialsPermissions
-                    .CheckStatusAsync<NotificationsPlatformsPermission>()
+                    .CheckStatusAsync<NotificationsPlatformPermission>()
                     .ConfigureAwait(false);
             }
             else
@@ -65,7 +65,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         public bool ShouldShowRationale<T>() where T : BasePermission, new()
         {
             return typeof(T) == typeof(NotificationsPermission)
-                ? EssentialsPermissions.ShouldShowRationale<NotificationsPlatformsPermission>()
+                ? EssentialsPermissions.ShouldShowRationale<NotificationsPlatformPermission>()
                 : EssentialsPermissions.ShouldShowRationale<T>();
         }
     }
