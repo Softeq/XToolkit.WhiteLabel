@@ -17,7 +17,20 @@ namespace Softeq.XToolkit.Permissions.Droid
         {
             return await MainThread.InvokeOnMainThreadAsync(async () =>
             {
-                var result = await EssentialsPermissions.RequestAsync<T>().ConfigureAwait(false);
+                Xamarin.Essentials.PermissionStatus result;
+                if (typeof(T) == typeof(NotificationsPermission))
+                {
+                    result = await EssentialsPermissions
+                        .RequestAsync<NotificationsPlatformPermission>()
+                        .ConfigureAwait(false);
+                }
+                else
+                {
+                    result = await EssentialsPermissions
+                        .RequestAsync<T>()
+                        .ConfigureAwait(false);
+                }
+
                 return result.ToPermissionStatus();
             });
         }
@@ -26,7 +39,20 @@ namespace Softeq.XToolkit.Permissions.Droid
         public async Task<PermissionStatus> CheckPermissionsAsync<T>()
             where T : BasePermission, new()
         {
-            var result = await EssentialsPermissions.CheckStatusAsync<T>().ConfigureAwait(false);
+            Xamarin.Essentials.PermissionStatus result;
+            if (typeof(T) == typeof(NotificationsPermission))
+            {
+                result = await EssentialsPermissions
+                    .CheckStatusAsync<NotificationsPlatformPermission>()
+                    .ConfigureAwait(false);
+            }
+            else
+            {
+                result = await EssentialsPermissions
+                    .CheckStatusAsync<T>()
+                    .ConfigureAwait(false);
+            }
+
             return result.ToPermissionStatus();
         }
 
@@ -38,7 +64,9 @@ namespace Softeq.XToolkit.Permissions.Droid
 
         public bool ShouldShowRationale<T>() where T : BasePermission, new()
         {
-            return EssentialsPermissions.ShouldShowRationale<T>();
+            return typeof(T) == typeof(NotificationsPermission)
+                ? EssentialsPermissions.ShouldShowRationale<NotificationsPlatformPermission>()
+                : EssentialsPermissions.ShouldShowRationale<T>();
         }
     }
 }
