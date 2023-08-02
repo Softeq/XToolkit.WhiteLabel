@@ -6,23 +6,28 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
 using CoreFoundation;
+using Microsoft.Maui.Networking;
 using Network;
-using Plugin.Connectivity.Abstractions;
 
 namespace Softeq.XToolkit.Connectivity.iOS
 {
+    /// <summary>
+    ///     iOS implementation of <see cref="IConnectivityService"/>.
+    ///     Uses iOS 12+ Network framework: https://developer.apple.com/documentation/network?language=objc
+    ///     MAUI.Essentials issue: https://github.com/dotnet/maui/issues/2574 .
+    /// </summary>
     public class IosConnectivityService : IConnectivityService
     {
-        private readonly ReaderWriterLockSlim _statusesLock = new ReaderWriterLockSlim();
-
+        private readonly ReaderWriterLockSlim _statusesLock;
         private readonly Dictionary<NWInterfaceType, bool> _connectionStatuses;
         private readonly IList<NWPathMonitor> _monitors;
 
-        public event EventHandler<ConnectivityChangedEventArgs>? ConnectivityChanged;
-        public event EventHandler<ConnectivityTypeChangedEventArgs>? ConnectivityTypeChanged;
-
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="IosConnectivityService"/> class.
+        /// </summary>
         public IosConnectivityService()
         {
+            _statusesLock = new ReaderWriterLockSlim();
             _connectionStatuses = new Dictionary<NWInterfaceType, bool>();
             _monitors = new List<NWPathMonitor>
             {
@@ -39,6 +44,10 @@ namespace Softeq.XToolkit.Connectivity.iOS
             Dispose(false);
         }
 
+        /// <inheritdoc />
+        public event EventHandler<ConnectivityChangedEventArgs>? ConnectivityChanged;
+
+        /// <inheritdoc />
         public bool IsConnected
         {
             get
@@ -55,9 +64,8 @@ namespace Softeq.XToolkit.Connectivity.iOS
             }
         }
 
-        public bool IsSupported => true;
-
-        public IEnumerable<ConnectionType> ConnectionTypes
+        /// <inheritdoc />
+        public IEnumerable<ConnectionProfile> ConnectionProfiles
         {
             get
             {
@@ -74,12 +82,19 @@ namespace Softeq.XToolkit.Connectivity.iOS
             }
         }
 
+        /// <inheritdoc />
         public void Dispose()
         {
             Dispose(true);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        ///     Releases the unmanaged and optionally the managed resources.
+        /// </summary>
+        /// <param name="disposing"><c>true</c> to dispose managed state.</param>
+        /// <seealso cref="Dispose"/>
+        /// <seealso cref="T:System.IDisposable"/>
         protected virtual void Dispose(bool disposing)
         {
             if (disposing)
@@ -101,7 +116,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
                 .Any(x => x.Value);
         }
 
-        protected virtual IEnumerable<ConnectionType> FilterConnectionTypes(IList<NWInterfaceType> activeNetworkTypes)
+        protected virtual IEnumerable<ConnectionProfile> FilterConnectionTypes(IList<NWInterfaceType> activeNetworkTypes)
         {
             if (activeNetworkTypes.Contains(NWInterfaceType.Other) && activeNetworkTypes.Count > 1)
             {
@@ -111,13 +126,15 @@ namespace Softeq.XToolkit.Connectivity.iOS
             return activeNetworkTypes.Select(Convert);
         }
 
-        protected virtual ConnectionType Convert(NWInterfaceType networkType)
+        protected virtual ConnectionProfile Convert(NWInterfaceType networkType)
         {
             return networkType switch
             {
-                NWInterfaceType.Cellular => ConnectionType.Cellular,
-                NWInterfaceType.Wifi => ConnectionType.WiFi,
-                _ => ConnectionType.Other
+                NWInterfaceType.Cellular => ConnectionProfile.Cellular,
+                NWInterfaceType.Wifi => ConnectionProfile.WiFi,
+                NWInterfaceType.Wired => ConnectionProfile.Ethernet,
+                NWInterfaceType.Loopback => ConnectionProfile.Unknown,
+                _ => ConnectionProfile.Unknown
             };
         }
 
@@ -149,7 +166,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
         private void HandleUpdateSnapshot(NWPath nWPath, NWInterfaceType type)
         {
             var isConnectedOld = IsConnected;
-            var connectionTypesOld = ConnectionTypes;
+            var connectionTypesOld = ConnectionProfiles;
 
             _statusesLock.EnterWriteLock();
             try
@@ -161,21 +178,14 @@ namespace Softeq.XToolkit.Connectivity.iOS
                 _statusesLock.ExitWriteLock();
             }
 
-            if (isConnectedOld != IsConnected)
-            {
-                ConnectivityChanged?.Invoke(this, new ConnectivityChangedEventArgs
-                {
-                    IsConnected = IsConnected
-                });
-            }
+            var isConnectedNew = IsConnected;
+            var connectionTypesNew = ConnectionProfiles;
 
-            if (!ConnectionTypes.SequenceEqual(connectionTypesOld))
+            if (isConnectedOld != isConnectedNew ||
+                !connectionTypesNew.SequenceEqual(connectionTypesOld))
             {
-                ConnectivityTypeChanged?.Invoke(this, new ConnectivityTypeChangedEventArgs
-                {
-                    IsConnected = IsConnected,
-                    ConnectionTypes = ConnectionTypes
-                });
+                var access = isConnectedNew ? NetworkAccess.Internet : NetworkAccess.None;
+                ConnectivityChanged?.Invoke(this, new ConnectivityChangedEventArgs(access, ConnectionProfiles));
             }
         }
     }
