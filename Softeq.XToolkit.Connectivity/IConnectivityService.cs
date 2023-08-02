@@ -3,20 +3,28 @@
 
 using System;
 using System.Collections.Generic;
-using Plugin.Connectivity.Abstractions;
+using Microsoft.Maui.Networking;
 
 namespace Softeq.XToolkit.Connectivity
 {
+    /// <summary>
+    ///     Interface for Connectivity Service.
+    /// </summary>
     public interface IConnectivityService : IDisposable
     {
+        /// <summary>
+        ///     Event handler when connection state changes.
+        /// </summary>
         event EventHandler<ConnectivityChangedEventArgs> ConnectivityChanged;
 
-        event EventHandler<ConnectivityTypeChangedEventArgs> ConnectivityTypeChanged;
-
+        /// <summary>
+        ///     Gets a value indicating whether there is an active internet connection.
+        /// </summary>
         bool IsConnected { get; }
 
-        bool IsSupported { get; }
-
-        IEnumerable<ConnectionType> ConnectionTypes { get; }
+        /// <summary>
+        ///     Gets the active connectivity types for the device.
+        /// </summary>
+        IEnumerable<ConnectionProfile> ConnectionProfiles { get; }
     }
 }
