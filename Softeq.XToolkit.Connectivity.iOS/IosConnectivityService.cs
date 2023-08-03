@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.Connectivity.iOS
     ///     Uses iOS 12+ Network framework: https://developer.apple.com/documentation/network?language=objc
     ///     MAUI.Essentials issue: https://github.com/dotnet/maui/issues/2574 .
     /// </summary>
-    public class IosConnectivityService : IConnectivityService
+    public class IosConnectivityService : IConnectivityService, IDisposable
     {
         private readonly ReaderWriterLockSlim _statusesLock;
         private readonly Dictionary<NWInterfaceType, bool> _connectionStatuses;

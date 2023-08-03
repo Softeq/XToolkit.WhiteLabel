@@ -11,7 +11,7 @@ namespace Softeq.XToolkit.Connectivity
     /// <summary>
     ///    MAUI.Essentials cross-platform implementation of <see cref="IConnectivityService"/>.
     /// </summary>
-    public class EssentialsConnectivityService : IConnectivityService
+    public class EssentialsConnectivityService : IConnectivityService, IDisposable
     {
         private readonly IConnectivity _connectivity;
 

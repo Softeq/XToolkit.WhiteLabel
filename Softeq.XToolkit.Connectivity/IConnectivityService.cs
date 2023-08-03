@@ -10,7 +10,7 @@ namespace Softeq.XToolkit.Connectivity
     /// <summary>
     ///     Interface for Connectivity Service.
     /// </summary>
-    public interface IConnectivityService : IDisposable
+    public interface IConnectivityService
     {
         /// <summary>
         ///     Event handler when connection state changes.
