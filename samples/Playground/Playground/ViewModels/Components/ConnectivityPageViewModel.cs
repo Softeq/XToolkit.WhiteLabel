@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using Plugin.Connectivity.Abstractions;
+using Microsoft.Maui.Networking;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.Connectivity;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
@@ -19,17 +19,15 @@ namespace Playground.ViewModels.Components
 
         public string ConnectionStatus => _connectivityService.IsConnected ? "Connected" : "No Connection";
 
-        public string ConnectionTypes => string.Join(", ", _connectivityService.ConnectionTypes);
+        public string ConnectionProfiles => string.Join(", ", _connectivityService.ConnectionProfiles);
 
         public override void OnAppearing()
         {
             base.OnAppearing();
 
             _connectivityService.ConnectivityChanged += ConnectivityServiceConnectivityChanged;
-            _connectivityService.ConnectivityTypeChanged += ConnectivityServiceConnectivityTypeChanged;
 
-            RaisePropertyChanged(nameof(ConnectionStatus));
-            RaisePropertyChanged(nameof(ConnectionTypes));
+            UpdateStates();
         }
 
         public override void OnDisappearing()
@@ -37,22 +35,19 @@ namespace Playground.ViewModels.Components
             base.OnDisappearing();
 
             _connectivityService.ConnectivityChanged -= ConnectivityServiceConnectivityChanged;
-            _connectivityService.ConnectivityTypeChanged -= ConnectivityServiceConnectivityTypeChanged;
         }
 
         private void ConnectivityServiceConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
         {
-            Execute.BeginOnUIThread(() =>
-            {
-                RaisePropertyChanged(nameof(ConnectionStatus));
-            });
+            UpdateStates();
         }
 
-        private void ConnectivityServiceConnectivityTypeChanged(object? sender, ConnectivityTypeChangedEventArgs e)
+        private void UpdateStates()
         {
             Execute.BeginOnUIThread(() =>
             {
-                RaisePropertyChanged(nameof(ConnectionTypes));
+                RaisePropertyChanged(nameof(ConnectionStatus));
+                RaisePropertyChanged(nameof(ConnectionProfiles));
             });
         }
     }

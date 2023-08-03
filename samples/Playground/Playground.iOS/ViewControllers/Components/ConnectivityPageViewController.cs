@@ -20,7 +20,7 @@ namespace Playground.iOS.ViewControllers.Components
             base.ViewDidLoad();
 
             this.Bind(() => ViewModel.ConnectionStatus, () => ConnectionStatusLabel.Text);
-            this.Bind(() => ViewModel.ConnectionTypes, () => ConnectionTypeLabel.Text);
+            this.Bind(() => ViewModel.ConnectionProfiles, () => ConnectionTypeLabel.Text);
         }
     }
 }

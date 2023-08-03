@@ -49,7 +49,7 @@ namespace Playground.Droid
             builder.Singleton<ImagePickerActivityResultHandler, IImagePickerActivityResultHandler>();
 
             // connectivity
-            builder.Singleton<ConnectivityService, IConnectivityService>();
+            builder.Singleton<IConnectivityService>(_ => EssentialsConnectivityService.Default());
         }
     }
 }
