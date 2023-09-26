@@ -36,5 +36,10 @@ namespace Softeq.XToolkit.WhiteLabel.iOS.Services
 
             return Task.FromResult(result);
         }
+
+        protected CLLocationManager GetCLLocationManager()
+        {
+            return _locationManagerLazy.Value;
+        }
     }
 }
