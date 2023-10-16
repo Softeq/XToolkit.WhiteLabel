@@ -25,6 +25,11 @@ namespace Softeq.XToolkit.WhiteLabel.Location
             return Equals(obj as LocationModel);
         }
 
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(Latitude, Longitude);
+        }
+
         public bool Equals(LocationModel other)
         {
             if (ReferenceEquals(null, other))
@@ -37,14 +42,8 @@ namespace Softeq.XToolkit.WhiteLabel.Location
                 return true;
             }
 
-            return other is LocationModel model &&
-                   Latitude == model.Latitude &&
-                   Longitude == model.Longitude;
-        }
-
-        public override int GetHashCode()
-        {
-            return HashCode.Combine(Latitude, Longitude);
+            return Latitude == other.Latitude &&
+                   Longitude == other.Longitude;
         }
     }
 }
