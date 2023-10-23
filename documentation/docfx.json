@@ -17,6 +17,7 @@
         }
       ],
       "dest": "obj/docfxapi",
+      "filter": "filterConfig.yml",
       "namespaceLayout": "nested"
     }
   ],
