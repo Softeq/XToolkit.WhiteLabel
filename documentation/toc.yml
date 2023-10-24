@@ -1,6 +1,6 @@
 - name: Articles
   href: articles/getting-started.md
 - name: API Documentation
-  topicUid: Softeq.XToolkit.Common
+  href: api/Softeq.XToolkit.Common.html
 - name: GitHub
   href: https://github.com/Softeq/XToolkit.WhiteLabel
