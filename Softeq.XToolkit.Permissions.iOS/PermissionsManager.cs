@@ -5,8 +5,8 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
 using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
-using XToolkitPermissions = Softeq.XToolkit.Permissions.Permissions;
-using XToolkitPermissionsIos = Softeq.XToolkit.Permissions.iOS.Permissions;
+using CustomPermissions = Softeq.XToolkit.Permissions.Permissions;
+using PlatformCustomPermissions = Softeq.XToolkit.Permissions.iOS.Permissions;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
@@ -39,13 +39,13 @@ namespace Softeq.XToolkit.Permissions.iOS
         {
             var permissionType = typeof(T);
 
-            if (permissionType == typeof(XToolkitPermissions.Notifications))
+            if (permissionType == typeof(CustomPermissions.Notifications))
             {
-                return CommonCheckWithRequestAsync<XToolkitPermissionsIos.Notifications>();
+                return CommonCheckWithRequestAsync<PlatformCustomPermissions.Notifications>();
             }
-            else if (permissionType == typeof(XToolkitPermissions.Bluetooth))
+            else if (permissionType == typeof(CustomPermissions.Bluetooth))
             {
-                return CommonCheckWithRequestAsync<XToolkitPermissionsIos.Bluetooth>();
+                return CommonCheckWithRequestAsync<PlatformCustomPermissions.Bluetooth>();
             }
             else
             {
@@ -59,13 +59,13 @@ namespace Softeq.XToolkit.Permissions.iOS
         {
             var permissionType = typeof(T);
 
-            if (permissionType == typeof(XToolkitPermissions.Notifications))
+            if (permissionType == typeof(CustomPermissions.Notifications))
             {
-                return _permissionsService.CheckPermissionsAsync<XToolkitPermissionsIos.Notifications>();
+                return _permissionsService.CheckPermissionsAsync<PlatformCustomPermissions.Notifications>();
             }
-            else if (permissionType == typeof(XToolkitPermissions.Bluetooth))
+            else if (permissionType == typeof(CustomPermissions.Bluetooth))
             {
-                return _permissionsService.CheckPermissionsAsync<XToolkitPermissionsIos.Bluetooth>();
+                return _permissionsService.CheckPermissionsAsync<PlatformCustomPermissions.Bluetooth>();
             }
             else
             {

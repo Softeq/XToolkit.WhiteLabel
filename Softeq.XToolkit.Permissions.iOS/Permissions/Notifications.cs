@@ -2,9 +2,7 @@
 // http://www.softeq.com
 
 using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using CoreBluetooth;
 using UserNotifications;
 using BasePlatformPermission = Microsoft.Maui.ApplicationModel.Permissions.BasePlatformPermission;
 using EssentialsPermissionStatus = Microsoft.Maui.ApplicationModel.PermissionStatus;
@@ -16,6 +14,7 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
         public static UNAuthorizationOptions AuthorizationOptions =
             UNAuthorizationOptions.Alert | UNAuthorizationOptions.Sound;
 
+        /// <inheritdoc />
         public override async Task<EssentialsPermissionStatus> CheckStatusAsync()
         {
             var notificationSettings = await UNUserNotificationCenter.Current
@@ -24,10 +23,13 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
             return ParseAuthorization(notificationSettings.AuthorizationStatus);
         }
 
+        /// <inheritdoc />
         public override async Task<EssentialsPermissionStatus> RequestAsync()
         {
             var notificationCenter = UNUserNotificationCenter.Current;
-            var (isGranted, _) = await notificationCenter.RequestAuthorizationAsync(AuthorizationOptions);
+            var (isGranted, _) = await notificationCenter
+                .RequestAuthorizationAsync(AuthorizationOptions)
+                .ConfigureAwait(false);
             return isGranted
                 ? EssentialsPermissionStatus.Granted
                 : EssentialsPermissionStatus.Denied;
