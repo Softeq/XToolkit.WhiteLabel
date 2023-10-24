@@ -1,5 +1,4 @@
 {
-  "homepages": [],
   "source_base_path": "/Users/runner/work/1/s/documentation",
   "xrefmap": "xrefmap.yml",
   "files": [
@@ -16,8 +15,7 @@
       "source_relative_path": "articles/configure-android.md",
       "output": {
         ".html": {
-          "relative_path": "articles/configure-android.html",
-          "hash": "BQG7QkV+4v898VTZYyMHw5E0wPJoCy0qtY3REm+MN8s="
+          "relative_path": "articles/configure-android.html"
         }
       },
       "version": ""
@@ -27,8 +25,7 @@
       "source_relative_path": "articles/configure-ios.md",
       "output": {
         ".html": {
-          "relative_path": "articles/configure-ios.html",
-          "hash": "1QowTRae2L3Qt6wMOS+IGCLdI8tczeYqnjVmsfklIGo="
+          "relative_path": "articles/configure-ios.html"
         }
       },
       "version": ""
@@ -38,8 +35,7 @@
       "source_relative_path": "articles/contributing-documentation.md",
       "output": {
         ".html": {
-          "relative_path": "articles/contributing-documentation.html",
-          "hash": "R8F76OKEy2cua3Y9e+gTp+kR/FiDClYuPbUmT+Ylq5E="
+          "relative_path": "articles/contributing-documentation.html"
         }
       },
       "version": ""
@@ -49,8 +45,7 @@
       "source_relative_path": "articles/contributing-workflow.md",
       "output": {
         ".html": {
-          "relative_path": "articles/contributing-workflow.html",
-          "hash": "hXs3SeVIgowofAldLoqPoiBTnZtEhlpuZRjiXclBQHY="
+          "relative_path": "articles/contributing-workflow.html"
         }
       },
       "version": ""
@@ -60,8 +55,7 @@
       "source_relative_path": "articles/contributing.md",
       "output": {
         ".html": {
-          "relative_path": "articles/contributing.html",
-          "hash": "1UqXF5Cajis+MFdfjpl2AQL58Lk42vuSadZeoB5lgzY="
+          "relative_path": "articles/contributing.html"
         }
       },
       "version": ""
@@ -71,8 +65,7 @@
       "source_relative_path": "articles/create-activity.md",
       "output": {
         ".html": {
-          "relative_path": "articles/create-activity.html",
-          "hash": "s90dYB6/T8Rg4MlORo0l0mf+GPtnplJ1KMYV4VpZVk4="
+          "relative_path": "articles/create-activity.html"
         }
       },
       "version": ""
@@ -82,8 +75,7 @@
       "source_relative_path": "articles/create-storyboard-viewcontroller.md",
       "output": {
         ".html": {
-          "relative_path": "articles/create-storyboard-viewcontroller.html",
-          "hash": "pPzwcmnwAmYAkRVLgAKt5uMj9AW04yo5zC3AF6fWNRk="
+          "relative_path": "articles/create-storyboard-viewcontroller.html"
         }
       },
       "version": ""
@@ -93,8 +85,7 @@
       "source_relative_path": "articles/create-viewmodel.md",
       "output": {
         ".html": {
-          "relative_path": "articles/create-viewmodel.html",
-          "hash": "8MuxuMu8PMSpVM42b1DyXcSlxBn4VdNC4plMgf9bvWw="
+          "relative_path": "articles/create-viewmodel.html"
         }
       },
       "version": ""
@@ -104,8 +95,7 @@
       "source_relative_path": "articles/developer-guide.md",
       "output": {
         ".html": {
-          "relative_path": "articles/developer-guide.html",
-          "hash": "9uM6KizK2AW7fs0DLwIqCEJglwF7FpOTCSgpd0bMpeA="
+          "relative_path": "articles/developer-guide.html"
         }
       },
       "version": ""
@@ -115,8 +105,7 @@
       "source_relative_path": "articles/getting-started.md",
       "output": {
         ".html": {
-          "relative_path": "articles/getting-started.html",
-          "hash": "8Dqnbn9VCpUfYmXLzbEa+xJ5vFgneTvf216CGHg+Xd8="
+          "relative_path": "articles/getting-started.html"
         }
       },
       "version": ""
@@ -129,8 +118,7 @@
       "source_relative_path": "articles/how-to/create-ios-collection-view.md",
       "output": {
         ".html": {
-          "relative_path": "articles/how-to/create-ios-collection-view.html",
-          "hash": "t7Kurzn4fTeV/YnZmaYxbTjIR2bYIDHef8ZPHX125EM="
+          "relative_path": "articles/how-to/create-ios-collection-view.html"
         }
       },
       "version": ""
@@ -140,8 +128,7 @@
       "source_relative_path": "articles/how-to/create-ios-custom-view.md",
       "output": {
         ".html": {
-          "relative_path": "articles/how-to/create-ios-custom-view.html",
-          "hash": "L6nKTz5of51S+sYApnMUV7OoDnF1b9Q+RqVZdcVVO2Q="
+          "relative_path": "articles/how-to/create-ios-custom-view.html"
         }
       },
       "version": ""
@@ -151,8 +138,7 @@
       "source_relative_path": "articles/how-to/index.md",
       "output": {
         ".html": {
-          "relative_path": "articles/how-to/index.html",
-          "hash": "6d/naECTEbQk5WRdnwK99JLYQA2i+8nUKajE+upPSEk="
+          "relative_path": "articles/how-to/index.html"
         }
       },
       "version": ""
@@ -162,8 +148,7 @@
       "source_relative_path": "articles/manifesto.md",
       "output": {
         ".html": {
-          "relative_path": "articles/manifesto.html",
-          "hash": "Zxs6ZuzhdB4fIwfrEP0cIje6T1VGGc+u6w5WvNZYdOw="
+          "relative_path": "articles/manifesto.html"
         }
       },
       "version": ""
@@ -173,8 +158,7 @@
       "source_relative_path": "articles/nuget-release-process.md",
       "output": {
         ".html": {
-          "relative_path": "articles/nuget-release-process.html",
-          "hash": "744ExncduhHCG9B8fwOQvAtooIqM1RcJwjJlOFLjOJM="
+          "relative_path": "articles/nuget-release-process.html"
         }
       },
       "version": ""
@@ -184,8 +168,7 @@
       "source_relative_path": "articles/practices/android-res-naming.md",
       "output": {
         ".html": {
-          "relative_path": "articles/practices/android-res-naming.html",
-          "hash": "63T59OFd58yQKfLlcCdOuIyOPdKh3HLcys4g/BJe8Gk="
+          "relative_path": "articles/practices/android-res-naming.html"
         }
       },
       "version": ""
@@ -195,8 +178,7 @@
       "source_relative_path": "articles/practices/index.md",
       "output": {
         ".html": {
-          "relative_path": "articles/practices/index.html",
-          "hash": "tHhfQD34OEsGdsLtyoJEIzfYjDHJnGxJeK2nibmSgOk="
+          "relative_path": "articles/practices/index.html"
         }
       },
       "version": ""
@@ -206,8 +188,17 @@
       "source_relative_path": "articles/practices/unit-tests.md",
       "output": {
         ".html": {
-          "relative_path": "articles/practices/unit-tests.html",
-          "hash": "5/zeADubZeyP/bqr0E821UBdwFGgTBBcDpFbGt2KS4Y="
+          "relative_path": "articles/practices/unit-tests.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "type": "Toc",
+      "source_relative_path": "articles/toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "articles/toc.json"
         }
       },
       "version": ""
@@ -217,8 +208,7 @@
       "source_relative_path": "articles/xtoolkit/bindings.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/bindings.html",
-          "hash": "rnnTJXtRfeMmljlDB4aR3gPHQp0QM8yc8Sd4maPobFI="
+          "relative_path": "articles/xtoolkit/bindings.html"
         }
       },
       "version": ""
@@ -231,8 +221,7 @@
       "source_relative_path": "articles/xtoolkit/bindings/advanced.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/bindings/advanced.html",
-          "hash": "jicBGFqmqUD7z/Fh92SbcI2QJhNdwmqaZYRdytPYzVA="
+          "relative_path": "articles/xtoolkit/bindings/advanced.html"
         }
       },
       "version": ""
@@ -245,8 +234,7 @@
       "source_relative_path": "articles/xtoolkit/bindings/bindable.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/bindings/bindable.html",
-          "hash": "EXzBEPxpjjBcssuAd/HCR8EzJSGOfyvZj2DRXkChjQw="
+          "relative_path": "articles/xtoolkit/bindings/bindable.html"
         }
       },
       "version": ""
@@ -259,8 +247,7 @@
       "source_relative_path": "articles/xtoolkit/bindings/collections.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/bindings/collections.html",
-          "hash": "je4YE5RgK7bKUNbGBAticD2SoiRfxrMrV6OC2WQ8Li4="
+          "relative_path": "articles/xtoolkit/bindings/collections.html"
         }
       },
       "version": ""
@@ -273,8 +260,7 @@
       "source_relative_path": "articles/xtoolkit/common.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/common.html",
-          "hash": "ZAugyBDlW+Pd84/6oWWor+rZbB/oMG1v/kuYg7EHTK0="
+          "relative_path": "articles/xtoolkit/common.html"
         }
       },
       "version": ""
@@ -287,8 +273,7 @@
       "source_relative_path": "articles/xtoolkit/connectivity.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/connectivity.html",
-          "hash": "U2UAxdO33vMmXL+7FCOMgVRLph7SZvufvqk+5fmYP+U="
+          "relative_path": "articles/xtoolkit/connectivity.html"
         }
       },
       "version": ""
@@ -298,8 +283,7 @@
       "source_relative_path": "articles/xtoolkit/overview.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/overview.html",
-          "hash": "mZbhmaF/s3ml685LkvXaX2exug1VR/FXpLGMio8O3+Q="
+          "relative_path": "articles/xtoolkit/overview.html"
         }
       },
       "version": ""
@@ -312,8 +296,7 @@
       "source_relative_path": "articles/xtoolkit/permissions.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/permissions.html",
-          "hash": "JvBfvCiL2Z7qoJRha8Sg8t8nNVbSSBDSkN8QOAX49vs="
+          "relative_path": "articles/xtoolkit/permissions.html"
         }
       },
       "version": ""
@@ -323,8 +306,7 @@
       "source_relative_path": "articles/xtoolkit/push-notifications.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/push-notifications.html",
-          "hash": "LtBWAJlTYvXQlKlPJ028Aa68l9dtScWHfR9DEe0V2kA="
+          "relative_path": "articles/xtoolkit/push-notifications.html"
         }
       },
       "version": ""
@@ -337,8 +319,7 @@
       "source_relative_path": "articles/xtoolkit/remote.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/remote.html",
-          "hash": "gu3lrBRU9l+WdrTokNRwAokQH72Se/7dXc8rVjdf3DY="
+          "relative_path": "articles/xtoolkit/remote.html"
         }
       },
       "version": ""
@@ -348,8 +329,7 @@
       "source_relative_path": "articles/xtoolkit/version-support.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/version-support.html",
-          "hash": "fjviIzMNhsWSVjUm0WYeIWZ5n6NxB+eiCkWQp1XGXKw="
+          "relative_path": "articles/xtoolkit/version-support.html"
         }
       },
       "version": ""
@@ -359,8 +339,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel.html",
-          "hash": "4los3G75PjjTkqm15mLsINJjoNSJh4GS4wm9BMMDVCQ="
+          "relative_path": "articles/xtoolkit/whitelabel.html"
         }
       },
       "version": ""
@@ -373,8 +352,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/bootstrapper.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/bootstrapper.html",
-          "hash": "0gbikTXQWUkN8dnMW9zxf2/9vAI4Jt3nbWxBBvKw3kU="
+          "relative_path": "articles/xtoolkit/whitelabel/bootstrapper.html"
         }
       },
       "version": ""
@@ -387,8 +365,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/di.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/di.html",
-          "hash": "8GSHKMBc1DUFfX6T2ghDRFL0sc/Xhus8r+YRz3v/DRo="
+          "relative_path": "articles/xtoolkit/whitelabel/di.html"
         }
       },
       "version": ""
@@ -401,8 +378,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/droid.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/droid.html",
-          "hash": "G/5AesmnBr4wp1KqEuohTcuWhrdEinnTCLd4J6KPBNU="
+          "relative_path": "articles/xtoolkit/whitelabel/droid.html"
         }
       },
       "version": ""
@@ -412,8 +388,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/essentials.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/essentials.html",
-          "hash": "KxDI+guAZxIH3qYX0LKzQ287DA1m5JPNZvUOc7sxRrQ="
+          "relative_path": "articles/xtoolkit/whitelabel/essentials.html"
         }
       },
       "version": ""
@@ -426,8 +401,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/forms.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/forms.html",
-          "hash": "O9wKDOmBCpZdsLa061BOTEx4lDbRWj9Mg7wFUJtpw5s="
+          "relative_path": "articles/xtoolkit/whitelabel/forms.html"
         }
       },
       "version": ""
@@ -440,8 +414,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/ios.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/ios.html",
-          "hash": "sw3H+Ykes6TFq+Y+kbRbaGKvlSV6WwO/Hm77JfV0VSk="
+          "relative_path": "articles/xtoolkit/whitelabel/ios.html"
         }
       },
       "version": ""
@@ -454,8 +427,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/mvvm.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/mvvm.html",
-          "hash": "dcyiKavOM/oq9k4gCvohvhFXUQN5w9D86g/AbVth2aQ="
+          "relative_path": "articles/xtoolkit/whitelabel/mvvm.html"
         }
       },
       "version": ""
@@ -465,8 +437,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/navigation-requirements.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/navigation-requirements.html",
-          "hash": "u23f5OSqtHXjdmN6ZBg6ru760IyT0YZv4ws4jspyowA="
+          "relative_path": "articles/xtoolkit/whitelabel/navigation-requirements.html"
         }
       },
       "version": ""
@@ -476,8 +447,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/navigation.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/navigation.html",
-          "hash": "W8xoYzPvFA2REfwxQryc9Pryd3eOlWBWh9raqiwA5T4="
+          "relative_path": "articles/xtoolkit/whitelabel/navigation.html"
         }
       },
       "version": ""
@@ -490,8 +460,7 @@
       "source_relative_path": "articles/xtoolkit/whitelabel/validation.md",
       "output": {
         ".html": {
-          "relative_path": "articles/xtoolkit/whitelabel/validation.html",
-          "hash": "tHDRLFCP9rVoFomVOAVsmvWRhLD+DqumLtLUZIacBEo="
+          "relative_path": "articles/xtoolkit/whitelabel/validation.html"
         }
       },
       "version": ""
@@ -531,14 +500,25 @@
       "source_relative_path": "index.md",
       "output": {
         ".html": {
-          "relative_path": "index.html",
-          "hash": "n6lbz82u0W5itvPPpCdP589f8hiWScXyKJnoKLRSUDo="
+          "relative_path": "index.html"
+        }
+      },
+      "version": ""
+    },
+    {
+      "log_codes": [
+        "InvalidFileLink"
+      ],
+      "type": "Toc",
+      "source_relative_path": "toc.yml",
+      "output": {
+        ".json": {
+          "relative_path": "toc.json"
         }
       },
       "version": ""
     }
   ],
-  "version_info": {},
   "groups": [
     {
       "xrefmap": "xrefmap.yml"
