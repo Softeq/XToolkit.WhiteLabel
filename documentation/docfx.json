@@ -118,7 +118,8 @@
     "dest": "_site",
     "template": [
       "statictoc",
-      "templates/material-classic"
+      "modern",
+      "templates/material-modern"
     ]
   }
 }
