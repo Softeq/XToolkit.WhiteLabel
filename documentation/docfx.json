@@ -118,7 +118,7 @@
     "dest": "_site",
     "template": [
       "statictoc",
-      "templates/material"
+      "templates/material-classic"
     ]
   }
 }
