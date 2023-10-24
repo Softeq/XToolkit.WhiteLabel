@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -12,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="DryIoc.dll" Version="5.3.3" />
     <PackageReference Include="System.Text.Json" Version="7.0.2" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.0-rc.2.9373" />
   </ItemGroup>
 
   <ItemGroup>

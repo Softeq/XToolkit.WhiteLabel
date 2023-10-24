@@ -2,7 +2,6 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-android34.0</TargetFramework>
-    <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -29,6 +28,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.0" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.0-rc.2.9373" />
   </ItemGroup>
 
 </Project>

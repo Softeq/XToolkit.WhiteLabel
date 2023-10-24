@@ -2,11 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
-    <UseMauiEssentials>true</UseMauiEssentials>
-  </PropertyGroup>
-
-  <PropertyGroup>
     <ProduceReferenceAssembly>True</ProduceReferenceAssembly>
   </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.0-rc.2.9373" />
+  </ItemGroup>
 
 </Project>

@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0-ios13.0</TargetFramework>
-    <UseMauiEssentials>true</UseMauiEssentials>
+    <TargetFramework>net8.0-ios16.1</TargetFramework>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
 
@@ -21,5 +20,6 @@
 
   <ItemGroup>
     <PackageReference Include="System.Reactive" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.0-rc.2.9373" />
   </ItemGroup>
 </Project>

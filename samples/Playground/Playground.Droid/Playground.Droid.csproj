@@ -8,7 +8,6 @@
   <PropertyGroup>
     <TargetFramework>net8.0-android34.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <UseMauiEssentials>true</UseMauiEssentials>
     <RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
   </PropertyGroup>
 
@@ -42,6 +41,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Glide" Version="4.13.2.2" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.0-rc.2.9373" />
   </ItemGroup>
 
 </Project>
