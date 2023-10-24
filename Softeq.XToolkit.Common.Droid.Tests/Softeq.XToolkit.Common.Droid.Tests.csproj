@@ -42,10 +42,6 @@
         <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <MauiPlatformSpecificFolder Remove="Platforms\iOS\" />
-    </ItemGroup>
-
     <Import Project="..\_Tests.Platform.targets" />
 
 </Project>
