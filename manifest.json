@@ -507,7 +507,7 @@
     },
     {
       "log_codes": [
-        "InvalidFileLink"
+        "UidNotFound"
       ],
       "type": "Toc",
       "source_relative_path": "toc.yml",
