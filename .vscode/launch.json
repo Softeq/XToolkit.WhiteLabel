@@ -1,0 +1,26 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Common.iOS.Tests (Debug)",
+            "type": "maui",
+            "request": "launch",
+            "project": "Softeq.XToolkit.Common.iOS.Tests/Softeq.XToolkit.Common.iOS.Tests.csproj",
+            "configuration": "Debug",
+            "targetFramework": "net8.0-ios",
+            "preLaunchTask": "maui: Build"
+        },
+        {
+            "name": "Common.Droid.Tests (Debug)",
+            "type": "maui",
+            "request": "launch",
+            "project": "Softeq.XToolkit.Common.Droid.Tests/Softeq.XToolkit.Common.Droid.Tests.csproj",
+            "configuration": "Debug",
+            "targetFramework": "net8.0-android",
+            "preLaunchTask": "maui: Build"
+        }
+    ]
+}
