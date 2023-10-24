@@ -3,7 +3,6 @@
     <PropertyGroup>
         <TargetFramework>net8.0-ios</TargetFramework>
         <OutputType>Exe</OutputType>
-        <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>disable</ImplicitUsings>
 
@@ -36,6 +35,7 @@
 
     <ItemGroup>
         <PackageReference Include="Xunit.Combinatorial" Version="1.5.25" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.0-rc.2.9373" />
     </ItemGroup>
 
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">
