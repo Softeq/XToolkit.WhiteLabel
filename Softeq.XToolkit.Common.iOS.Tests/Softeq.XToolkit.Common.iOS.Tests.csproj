@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0-ios</TargetFramework>
+        <TargetFramework>net8.0-ios16.4</TargetFramework>
         <OutputType>Exe</OutputType>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>disable</ImplicitUsings>

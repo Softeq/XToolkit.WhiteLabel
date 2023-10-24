@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net8.0-android</TargetFramework>
+        <TargetFramework>net8.0-android34.0</TargetFramework>
         <OutputType>Exe</OutputType>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>disable</ImplicitUsings>
