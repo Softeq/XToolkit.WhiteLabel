@@ -6,7 +6,7 @@
   -->
 
   <PropertyGroup>
-    <TargetFramework>net7.0-ios16.2</TargetFramework>
+    <TargetFramework>net8.0-ios16.2</TargetFramework>
     <OutputType>Exe</OutputType>
     <UseMauiEssentials>true</UseMauiEssentials>
     <Platforms>iPhoneSimulator;iPhone;AnyCPU</Platforms>

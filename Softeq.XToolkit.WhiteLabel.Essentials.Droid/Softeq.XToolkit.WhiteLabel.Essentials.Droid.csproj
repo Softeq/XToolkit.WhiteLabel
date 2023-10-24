@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-android32.0</TargetFramework>
+    <TargetFramework>net8.0-android34.0</TargetFramework>
     <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
 

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0-ios15.0</TargetFramework>
+        <TargetFramework>net8.0-ios</TargetFramework>
         <OutputType>Exe</OutputType>
         <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>

@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-ios13.0</TargetFramework>
+    <TargetFramework>net8.0-ios13.0</TargetFramework>
     <UseMauiEssentials>true</UseMauiEssentials>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
