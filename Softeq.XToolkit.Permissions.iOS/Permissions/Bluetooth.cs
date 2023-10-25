@@ -3,9 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Reactive.Linq;
-using System.Reactive.Subjects;
-using System.Reactive.Threading.Tasks;
 using System.Threading.Tasks;
 using CoreBluetooth;
 using BasePlatformPermission = Microsoft.Maui.ApplicationModel.Permissions.BasePlatformPermission;
@@ -15,9 +12,11 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
 {
     public class Bluetooth : BasePlatformPermission
     {
+        /// <inheritdoc />
         protected override Func<IEnumerable<string>> RequiredInfoPlistKeys =>
             () => new string[] { "NSBluetoothAlwaysUsageDescription" };
 
+        /// <inheritdoc />
         public override Task<EssentialsPermissionStatus> CheckStatusAsync()
         {
             EnsureDeclared();
@@ -25,11 +24,12 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
             return Task.FromResult(ParseAuthorization(CBManager.Authorization));
         }
 
+        /// <inheritdoc />
         public override async Task<EssentialsPermissionStatus> RequestAsync()
         {
             EnsureDeclared();
 
-            var status = await CheckStatusAsync();
+            var status = await CheckStatusAsync().ConfigureAwait(false);
 
             if (status == EssentialsPermissionStatus.Granted)
             {
@@ -39,7 +39,7 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
             if (CBManager.Authorization == CBManagerAuthorization.NotDetermined)
             {
                 var centralManagerDelegate = new CentralManagerDelegate();
-                await centralManagerDelegate.RequestAccessAsync();
+                await centralManagerDelegate.RequestAccessAsync().ConfigureAwait(false);
             }
 
             return ParseAuthorization(CBManager.Authorization);
@@ -61,7 +61,7 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
         {
             private readonly CBCentralManager _centralManager;
 
-            private TaskCompletionSource<CBManagerState> _statusRequest =
+            private readonly TaskCompletionSource<CBManagerState> _statusRequest =
                 new TaskCompletionSource<CBManagerState>();
 
             public CentralManagerDelegate()
@@ -71,7 +71,7 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
 
             public async Task<CBManagerState> RequestAccessAsync()
             {
-                var state = await _statusRequest.Task;
+                var state = await _statusRequest.Task.ConfigureAwait(false);
                 return state;
             }
 

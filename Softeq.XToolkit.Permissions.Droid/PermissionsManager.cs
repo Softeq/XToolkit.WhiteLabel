@@ -6,8 +6,8 @@ using System.Diagnostics;
 using System.Threading.Tasks;
 using Microsoft.Maui.Storage;
 using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
-using XToolkitPermissions = Softeq.XToolkit.Permissions.Permissions;
-using XToolkitPermissionsDroid = Softeq.XToolkit.Permissions.Droid.Permissions;
+using CustomPermissions = Softeq.XToolkit.Permissions.Permissions;
+using PlatformCustomPermissions = Softeq.XToolkit.Permissions.Droid.Permissions;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
@@ -31,13 +31,13 @@ namespace Softeq.XToolkit.Permissions.Droid
             where T : BasePermission, new()
         {
             var permissionType = typeof(T);
-            if (permissionType == typeof(XToolkitPermissions.Notifications))
+            if (permissionType == typeof(CustomPermissions.Notifications))
             {
-                return _permissionsService.CheckPermissionsAsync<XToolkitPermissionsDroid.Notifications>();
+                return _permissionsService.CheckPermissionsAsync<PlatformCustomPermissions.Notifications>();
             }
-            else if (permissionType == typeof(XToolkitPermissions.Bluetooth))
+            else if (permissionType == typeof(CustomPermissions.Bluetooth))
             {
-                return _permissionsService.CheckPermissionsAsync<XToolkitPermissionsDroid.Bluetooth>();
+                return _permissionsService.CheckPermissionsAsync<PlatformCustomPermissions.Bluetooth>();
             }
             else
             {
@@ -50,13 +50,13 @@ namespace Softeq.XToolkit.Permissions.Droid
             where T : BasePermission, new()
         {
             var permissionType = typeof(T);
-            if (permissionType == typeof(XToolkitPermissions.Notifications))
+            if (permissionType == typeof(CustomPermissions.Notifications))
             {
-                return CommonCheckWithRequestAsync<XToolkitPermissionsDroid.Notifications>();
+                return CommonCheckWithRequestAsync<PlatformCustomPermissions.Notifications>();
             }
-            else if (permissionType == typeof(XToolkitPermissions.Bluetooth))
+            else if (permissionType == typeof(CustomPermissions.Bluetooth))
             {
-                return CommonCheckWithRequestAsync<XToolkitPermissionsDroid.Bluetooth>();
+                return CommonCheckWithRequestAsync<PlatformCustomPermissions.Bluetooth>();
             }
             else
             {
