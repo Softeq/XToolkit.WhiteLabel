@@ -165,14 +165,11 @@ namespace Softeq.XToolkit.Common.Collections
             _groups.Clear();
 
             var insertedGroups = InsertGroupsWithoutNotify(0, items, _emptyGroupsDisabled);
-            if (insertedGroups == null)
-            {
-                return;
-            }
+            var insertedGroupKeys = insertedGroups?.Select(x => x.Key).ToList() ?? new List<TKey>();
 
             var newItems = new Collection<(int, IReadOnlyList<TKey>)>
             {
-                (0, insertedGroups.Select(x => x.Key).ToList())
+                (0, insertedGroupKeys)
             };
 
             OnChanged(
