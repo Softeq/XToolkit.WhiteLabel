@@ -702,8 +702,8 @@ namespace Softeq.XToolkit.Common.Collections
 
         private void NotifyCountIfNeeded(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
         {
-            var countOfGroupsChanged = IsActionCanModifyGroup(args.Action);
-            if (countOfGroupsChanged)
+            var isCountOfGroupsChanged = IsActionCanModifyGroup(args.Action);
+            if (isCountOfGroupsChanged)
             {
                 OnPropertyChanged(nameof(Count));
             }
