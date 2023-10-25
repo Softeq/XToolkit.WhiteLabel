@@ -538,6 +538,8 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             ItemsChanged?.Invoke(this, args);
+
+            NotifyCountIfNeeded(args);
         }
 
         private IEnumerable<Group>? InsertGroupsWithoutNotify(
@@ -701,6 +703,23 @@ namespace Softeq.XToolkit.Common.Collections
             }
         }
 
+        private void NotifyCountIfNeeded(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
+        {
+            var countOfGroupsChanged = IsActionCanModifyGroup(args.Action);
+            if (countOfGroupsChanged)
+            {
+                OnPropertyChanged(nameof(Count));
+            }
+        }
+
+        private bool IsActionCanModifyGroup(NotifyCollectionChangedAction? action)
+        {
+            return action
+                is NotifyCollectionChangedAction.Add
+                or NotifyCollectionChangedAction.Remove
+                or NotifyCollectionChangedAction.Replace
+                or NotifyCollectionChangedAction.Reset;
+        }
 
         private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
