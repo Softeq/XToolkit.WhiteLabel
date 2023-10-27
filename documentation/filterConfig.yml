@@ -1,0 +1,4 @@
+apiRules:
+- exclude:
+    uidRegex: Droid\.Resource
+    type: Class
