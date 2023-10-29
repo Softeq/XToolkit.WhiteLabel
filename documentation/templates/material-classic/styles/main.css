@@ -1,16 +1,22 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;400;700&display=swap');
+
 /* COLOR VARIABLES*/
 :root {
   --header-bg-color: #00adff;
   --header-ft-color: #fff;
   --highlight-light: #45c3ff;
   --highlight-dark: #00adff;
-  --font-color: #000;
-  --custom-box-shadow: 0 1px 2px 0 rgba(61, 65, 68, 0.06), 0 1px 3px 1px rgba(61, 65, 68, 0.16);
+  --accent-dim: #e0e0e0;
+  --accent-super-dim: #f3f3f3;
+  --font-color: #34393e;
+  --card-box-shadow: 0 1px 2px 0 rgba(61, 65, 68, 0.06), 0 1px 3px 1px rgba(61, 65, 68, 0.16);
+  --search-box-shadow: 0 1px 2px 0 rgba(41, 45, 48, 0.36), 0 1px 3px 1px rgba(41, 45, 48, 0.46);
+  --transition: 350ms;
 }
 
 body {
   color: var(--font-color);
-  font-family: sans-serif;
+  font-family: 'Roboto', sans-serif;
   line-height: 1.5;
   font-size: 16px;
   -ms-text-size-adjust: 100%;
@@ -104,9 +110,9 @@ article h4 {
 .navbar {
   border: none;
   /* Both navbars use box-shadow */
-  -webkit-box-shadow: var(--custom-box-shadow);
-  -moz-box-shadow: var(--custom-box-shadow);
-  box-shadow: var(--custom-box-shadow);
+  -webkit-box-shadow: var(--card-box-shadow);
+  -moz-box-shadow: var(--card-box-shadow);
+  box-shadow: var(--card-box-shadow);
 }
 
 .subnav {
@@ -125,6 +131,7 @@ article h4 {
   background-color: var(--header-bg-color);
   border-bottom: 3px solid transparent;
   padding-bottom: 12px;
+  transition: 350ms;
 }
 
 .navbar-inverse .navbar-nav > li > a:focus,
@@ -143,8 +150,30 @@ article h4 {
 }
 
 .navbar-form .form-control {
+  border: 0;
+  border-radius: 4px;
+  box-shadow: var(--search-box-shadow);
+  transition: var(--transition);
+}
+
+.navbar-form .form-control:hover {
+  background-color: var(--accent-dim);
+}
+
+/* NAVBAR TOGGLED (small screens) */
+
+.navbar-inverse .navbar-collapse,
+.navbar-inverse .navbar-form {
   border: none;
-  border-radius: 20px;
+}
+.navbar-inverse .navbar-toggle {
+  box-shadow: var(--card-box-shadow);
+  border: none;
+}
+
+.navbar-inverse .navbar-toggle:focus,
+.navbar-inverse .navbar-toggle:hover {
+  background-color: var(--highlight-dark);
 }
 
 /* SIDEBAR */
@@ -170,13 +199,20 @@ article h4 {
 }
 
 .toc-filter {
-  padding: 10px;
+  padding: 5px;
   margin: 0;
+  box-shadow: var(--card-box-shadow);
+  transition: var(--transition);
+}
+
+.toc-filter:hover {
+  background-color: var(--accent-super-dim);
 }
 
 .toc-filter > input {
-  border: 2px solid #ddd;
-  border-radius: 20px;
+  border: none;
+  background-color: inherit;
+  transition: inherit;
 }
 
 .toc-filter > .filter-icon {
@@ -200,7 +236,7 @@ article h4 {
   color: inherit;
   background-color: inherit;
   border: none;
-  box-shadow: var(--custom-box-shadow);
+  box-shadow: var(--card-box-shadow);
 }
 
 .alert > p {
@@ -249,13 +285,36 @@ pre {
   background-color: #fffaef;
   border-radius: 4px;
   border: none;
-  box-shadow: var(--custom-box-shadow);
+  box-shadow: var(--card-box-shadow);
 }
 
+/* STYLE FOR IMAGES */
+
+.article .small-image {
+  margin-top: 15px;
+  box-shadow: var(--card-box-shadow);
+  max-width: 350px;
+}
+
+.article .medium-image {
+  margin-top: 15px;
+  box-shadow: var(--card-box-shadow);
+  max-width: 550px;
+}
+
+.article .large-image {
+  margin-top: 15px;
+  box-shadow: var(--card-box-shadow);
+  max-width: 700px;
+}
+
+
 /* SOFTEQ CUSTOM STYLES */
+
 .navbar-brand > img {
-  height: 40px;
-  padding-top: 10px;
+  width: 20px;
+  margin-top: 12px;
+  margin-right: 20px;
 }
 .toc ul.nav.level3 {
   margin: 0 0 0 10px;

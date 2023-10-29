@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DOCFX_VERSION="2.62.1"
+DOCFX_VERSION="2.71.1"
 DOCFX_CONFIG_PATH="docfx.json"
 
 # install tool

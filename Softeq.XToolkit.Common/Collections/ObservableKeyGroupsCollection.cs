@@ -6,7 +6,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Extensions;
 
@@ -21,7 +23,8 @@ namespace Softeq.XToolkit.Common.Collections
     public sealed class ObservableKeyGroupsCollection<TKey, TValue>
         : IObservableKeyGroupsCollection<TKey, TValue>,
             INotifyKeyGroupCollectionChanged<TKey, TValue>,
-            INotifyCollectionChanged
+            INotifyCollectionChanged,
+            INotifyPropertyChanged
         where TKey : notnull
         where TValue : notnull
     {
@@ -42,6 +45,7 @@ namespace Softeq.XToolkit.Common.Collections
 
         public event NotifyCollectionChangedEventHandler? CollectionChanged;
         public event EventHandler<NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue>>? ItemsChanged;
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public IList<TKey> Keys => _groups.Select(item => item.Key).ToList();
 
@@ -161,14 +165,11 @@ namespace Softeq.XToolkit.Common.Collections
             _groups.Clear();
 
             var insertedGroups = InsertGroupsWithoutNotify(0, items, _emptyGroupsDisabled);
-            if (insertedGroups == null)
-            {
-                return;
-            }
+            var insertedGroupKeys = insertedGroups?.Select(x => x.Key).ToList() ?? new List<TKey>();
 
             var newItems = new Collection<(int, IReadOnlyList<TKey>)>
             {
-                (0, insertedGroups.Select(x => x.Key).ToList())
+                (0, insertedGroupKeys)
             };
 
             OnChanged(
@@ -534,6 +535,8 @@ namespace Softeq.XToolkit.Common.Collections
             }
 
             ItemsChanged?.Invoke(this, args);
+
+            NotifyCountIfNeeded(args);
         }
 
         private IEnumerable<Group>? InsertGroupsWithoutNotify(
@@ -695,6 +698,29 @@ namespace Softeq.XToolkit.Common.Collections
                     return;
                 }
             }
+        }
+
+        private void NotifyCountIfNeeded(NotifyKeyGroupCollectionChangedEventArgs<TKey, TValue> args)
+        {
+            var isCountOfGroupsChanged = IsActionCanModifyGroup(args.Action);
+            if (isCountOfGroupsChanged)
+            {
+                OnPropertyChanged(nameof(Count));
+            }
+        }
+
+        private bool IsActionCanModifyGroup(NotifyCollectionChangedAction? action)
+        {
+            return action
+                is NotifyCollectionChangedAction.Add
+                or NotifyCollectionChangedAction.Remove
+                or NotifyCollectionChangedAction.Replace
+                or NotifyCollectionChangedAction.Reset;
+        }
+
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         private class Group : List<TValue>, IGrouping<TKey, TValue>
