@@ -28,7 +28,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.0" />
-    <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.0-rc.2.9373" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
   </ItemGroup>
 
 </Project>
