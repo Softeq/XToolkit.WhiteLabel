@@ -15,9 +15,9 @@
     <tags>softeq, xtoolkit, xamarin, ios, android, mvvm, toolkit, kit</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
-      <group targetFramework="netstandard2.1" />
-      <group targetFramework="MonoAndroid12.0" />
-      <group targetFramework="Xamarin.iOS10" />
+      <group targetFramework="net6.0" />
+      <group targetFramework="net6.0-android32.0" />
+      <group targetFramework="net6.0-ios12.0" />
     </dependencies>
   </metadata>
   <files>
@@ -26,29 +26,29 @@
 
     <!-- Core -->
     <file
-      src="../Softeq.XToolkit.Common/bin/Release/netstandard2.1/Softeq.XToolkit.Common.*"
+      src="../Softeq.XToolkit.Common/bin/Release/net6.0/Softeq.XToolkit.Common.*"
       exclude="**/*.deps.json"
-      target="lib\netstandard2.1" />
+      target="lib\net6.0" />
 
     <!-- Droid -->
     <file
-      src="../Softeq.XToolkit.Common/bin/Release/netstandard2.1/Softeq.XToolkit.Common.*"
+      src="../Softeq.XToolkit.Common/bin/Release/net6.0/Softeq.XToolkit.Common.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\net6.0-android32.0" />
     <file
       src="../Softeq.XToolkit.Common.Droid/bin/Release/Softeq.XToolkit.Common.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\net6.0-android32.0" />
 
     <!-- iOS -->
     <file
-      src="../Softeq.XToolkit.Common/bin/Release/netstandard2.1/Softeq.XToolkit.Common.*"
+      src="../Softeq.XToolkit.Common/bin/Release/net6.0/Softeq.XToolkit.Common.*"
       exclude="**/*.deps.json"
-      target="lib\Xamarin.iOS10" />
+      target="lib\net6.0-ios12.0" />
     <file
       src="../Softeq.XToolkit.Common.iOS/bin/Release/Softeq.XToolkit.Common.iOS.*"
       exclude="**/*.deps.json"
-      target="lib\Xamarin.iOS10" />
+      target="lib\net6.0-ios12.0" />
 
   </files>
 </package>

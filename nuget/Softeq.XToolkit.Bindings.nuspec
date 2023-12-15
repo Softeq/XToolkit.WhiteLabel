@@ -15,14 +15,14 @@
     <tags>softeq, xtoolkit, xamarin, ios, android, mvvm, bindings</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
-     <group targetFramework="netstandard2.1">
+     <group targetFramework="net6.0">
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
       </group>
-     <group targetFramework="MonoAndroid12.0">
+     <group targetFramework="net6.0-android32.0">
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
         <dependency id="Xamarin.AndroidX.RecyclerView" version="1.2.1.7" />
       </group>
-     <group targetFramework="Xamarin.iOS10">
+     <group targetFramework="net6.0-ios12.0">
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
       </group>
    </dependencies>
@@ -33,29 +33,29 @@
 
     <!-- Core -->
     <file
-      src="../Softeq.XToolkit.Bindings/bin/Release/netstandard2.1/Softeq.XToolkit.Bindings.*"
+      src="../Softeq.XToolkit.Bindings/bin/Release/net6.0/Softeq.XToolkit.Bindings.*"
       exclude="**/*.deps.json"
-      target="lib\netstandard2.1" />
+      target="lib\net6.0" />
 
     <!-- Droid -->
     <file
-      src="../Softeq.XToolkit.Bindings/bin/Release/netstandard2.1/Softeq.XToolkit.Bindings.*"
+      src="../Softeq.XToolkit.Bindings/bin/Release/net6.0/Softeq.XToolkit.Bindings.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\net6.0-android32.0" />
     <file
       src="../Softeq.XToolkit.Bindings.Droid/bin/Release/Softeq.XToolkit.Bindings.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\net6.0-android32.0" />
 
     <!-- iOS -->
     <file
-      src="../Softeq.XToolkit.Bindings/bin/Release/netstandard2.1/Softeq.XToolkit.Bindings.*"
+      src="../Softeq.XToolkit.Bindings/bin/Release/net6.0/Softeq.XToolkit.Bindings.*"
       exclude="**/*.deps.json"
-      target="lib\Xamarin.iOS10" />
+      target="lib\net6.0-ios12.0" />
     <file
       src="../Softeq.XToolkit.Bindings.iOS/bin/Release/Softeq.XToolkit.Bindings.iOS.*"
       exclude="**/*.deps.json"
-      target="lib\Xamarin.iOS10" />
+      target="lib\net6.0-ios12.0" />
 
   </files>
 </package>

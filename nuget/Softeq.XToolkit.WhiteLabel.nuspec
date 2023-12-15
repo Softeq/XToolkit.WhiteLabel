@@ -15,14 +15,14 @@
     <tags>softeq, xtoolkit, xamarin, ios, android, mvvm, toolkit, whitelabel</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
-     <group targetFramework="netstandard2.1">
+     <group targetFramework="net6.0">
         <dependency id="DryIoc.dll" version="5.2.2" />
         <dependency id="Newtonsoft.Json" version="12.0.3" />
         <dependency id="Xamarin.Essentials" version="1.7.3" />
         <!-- XToolkit: -->
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
       </group>
-     <group targetFramework="MonoAndroid12.0">
+     <group targetFramework="net6.0-android32.0">
         <dependency id="DryIoc.dll" version="5.2.2" />
         <dependency id="Newtonsoft.Json" version="12.0.3" />
         <dependency id="Xamarin.Essentials" version="1.7.3" />
@@ -34,7 +34,7 @@
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
         <dependency id="Softeq.XToolkit.Bindings" version="2.1.0" />
       </group>
-     <group targetFramework="Xamarin.iOS10">
+     <group targetFramework="net6.0-ios12.0">
         <dependency id="DryIoc.dll" version="5.2.2" />
         <dependency id="Newtonsoft.Json" version="12.0.3" />
         <dependency id="Xamarin.Essentials" version="1.7.3" />
@@ -51,29 +51,29 @@
 
     <!-- Core -->
     <file
-      src="../Softeq.XToolkit.WhiteLabel/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.*"
+      src="../Softeq.XToolkit.WhiteLabel/bin/Release/net6.0/Softeq.XToolkit.WhiteLabel.*"
       exclude="**/*.deps.json"
-      target="lib\netstandard2.1" />
+      target="lib\net6.0" />
 
     <!-- Droid -->
     <file
-      src="../Softeq.XToolkit.WhiteLabel/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.*"
+      src="../Softeq.XToolkit.WhiteLabel/bin/Release/net6.0/Softeq.XToolkit.WhiteLabel.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\net6.0-android32.0" />
     <file
       src="../Softeq.XToolkit.WhiteLabel.Droid/bin/Release/Softeq.XToolkit.WhiteLabel.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\MonoAndroid12.0" />
+      target="lib\net6.0-android32.0" />
 
     <!-- iOS -->
     <file
-      src="../Softeq.XToolkit.WhiteLabel/bin/Release/netstandard2.1/Softeq.XToolkit.WhiteLabel.*"
+      src="../Softeq.XToolkit.WhiteLabel/bin/Release/net6.0/Softeq.XToolkit.WhiteLabel.*"
       exclude="**/*.deps.json"
-      target="lib\Xamarin.iOS10" />
+      target="lib\net6.0-ios12.0" />
     <file
       src="../Softeq.XToolkit.WhiteLabel.iOS/bin/Release/Softeq.XToolkit.WhiteLabel.iOS.*"
       exclude="**/*.deps.json"
-      target="lib\Xamarin.iOS10" />
+      target="lib\net6.0-ios12.0" />
 
   </files>
 </package>
