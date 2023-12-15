@@ -6,7 +6,7 @@
   -->
 
   <PropertyGroup>
-    <TargetFramework>net8.0-ios16.4</TargetFramework>
+    <TargetFramework>net8.0-ios17.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <Platforms>iPhoneSimulator;iPhone;AnyCPU</Platforms>
     <SupportedOSPlatformVersion>14.0</SupportedOSPlatformVersion>
