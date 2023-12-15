@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-android32.0</TargetFramework>
+    <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
     <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
 
