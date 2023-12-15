@@ -11,7 +11,7 @@
     <projectUrl>https://softeq.github.io/XToolkit.WhiteLabel/articles/xtoolkit/whitelabel/essentials.html</projectUrl>
     <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" />
     <description>Library over the Softeq.XToolkit.WhiteLabel that contains optional components for any application.</description>
-    <copyright>Copyright 2022 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2023 Softeq Development Corp.</copyright>
     <tags>softeq, xtoolkit, android, ios, whitelabel, xamarin, essentials, imagepicker, picker</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>

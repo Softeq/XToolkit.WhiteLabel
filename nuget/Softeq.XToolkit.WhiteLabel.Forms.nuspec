@@ -11,7 +11,7 @@
     <projectUrl>https://softeq.github.io/XToolkit.WhiteLabel/articles/xtoolkit/whitelabel/forms.html</projectUrl>
     <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" />
     <description>Integration library for using Softeq.XToolkit.WhiteLabel in Xamarin.Forms projects.</description>
-    <copyright>Copyright 2022 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2023 Softeq Development Corp.</copyright>
     <tags>softeq, xtoolkit, whitelabel, xamarin, forms, xamarinforms, xamarin.forms</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>

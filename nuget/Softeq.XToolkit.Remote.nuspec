@@ -11,7 +11,7 @@
     <projectUrl>https://softeq.github.io/XToolkit.WhiteLabel/articles/xtoolkit/remote.html</projectUrl>
     <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" />
     <description>Advanced HttpClient infrastructure for mobile applications.</description>
-    <copyright>Copyright 2022 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2023 Softeq Development Corp.</copyright>
     <tags>softeq, xtoolkit, xamarin, ios, android, mvvm, toolkit, remote, http, rest, api, auth</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
