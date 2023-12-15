@@ -16,6 +16,7 @@ namespace Softeq.XToolkit.Permissions.Droid.Permissions
             get
             {
 #if __ANDROID_33__
+#pragma warning disable CA1416
                 var isSupport =
                     SdkVersion.IsBuildVersionAtLeast(BuildVersionCodes.Tiramisu) &&
                     SdkVersion.IsDeviceVersionAtLeast(BuildVersionCodes.Tiramisu) &&
@@ -24,6 +25,7 @@ namespace Softeq.XToolkit.Permissions.Droid.Permissions
                 return isSupport ?
                     new (string, bool)[] { (Manifest.Permission.PostNotifications, true) } :
                     System.Array.Empty<(string, bool)>();
+#pragma warning restore CA1416
 #else
                 return new (string, bool)[] { };
 #endif
