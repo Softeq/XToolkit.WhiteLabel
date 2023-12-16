@@ -30,10 +30,6 @@ jobs:
     parameters:
       version: $(XCODE_VERSION)
 
-  - bash: |
-      $ANDROID_HOME/tools/bin/sdkmanager --install "build-tools;32.0.0"
-    displayName: Install Android SDK
-
   - task: DotNetCoreCLI@2
     displayName: Build Solution
     inputs:
