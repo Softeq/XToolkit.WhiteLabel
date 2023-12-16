@@ -16,7 +16,7 @@
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
       <group targetFramework="net6.0" />
-      <group targetFramework="net6.0-android32.0" />
+      <group targetFramework="net6.0-android33.0" />
       <group targetFramework="net6.0-ios12.0" />
     </dependencies>
   </metadata>
@@ -34,11 +34,11 @@
     <file
       src="../Softeq.XToolkit.Common/bin/Release/net6.0/Softeq.XToolkit.Common.*"
       exclude="**/*.deps.json"
-      target="lib\net6.0-android32.0" />
+      target="lib\net6.0-android33.0" />
     <file
       src="../Softeq.XToolkit.Common.Droid/bin/Release/Softeq.XToolkit.Common.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\net6.0-android32.0" />
+      target="lib\net6.0-android33.0" />
 
     <!-- iOS -->
     <file

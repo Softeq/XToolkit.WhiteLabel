@@ -18,7 +18,7 @@
      <group targetFramework="net6.0">
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
       </group>
-     <group targetFramework="net6.0-android32.0">
+     <group targetFramework="net6.0-android33.0">
         <dependency id="Softeq.XToolkit.Common" version="1.3.0" />
         <dependency id="Xamarin.AndroidX.RecyclerView" version="1.2.1.7" />
       </group>
@@ -41,11 +41,11 @@
     <file
       src="../Softeq.XToolkit.Bindings/bin/Release/net6.0/Softeq.XToolkit.Bindings.*"
       exclude="**/*.deps.json"
-      target="lib\net6.0-android32.0" />
+      target="lib\net6.0-android33.0" />
     <file
       src="../Softeq.XToolkit.Bindings.Droid/bin/Release/Softeq.XToolkit.Bindings.Droid.*"
       exclude="**/*.deps.json"
-      target="lib\net6.0-android32.0" />
+      target="lib\net6.0-android33.0" />
 
     <!-- iOS -->
     <file
