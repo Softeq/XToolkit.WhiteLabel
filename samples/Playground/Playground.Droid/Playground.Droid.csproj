@@ -9,7 +9,7 @@
     <TargetFramework>net8.0-android34.0</TargetFramework>
     <OutputType>Exe</OutputType>
     <RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
-    <SupportedOSPlatformVersion>26</SupportedOSPlatformVersion>
+    <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
