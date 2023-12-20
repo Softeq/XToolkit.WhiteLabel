@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net6.0-ios13.0</TargetFramework>
+    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
     <UseMauiEssentials>true</UseMauiEssentials>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
