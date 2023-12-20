@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-ios17.0</TargetFramework>
+    <SupportedOSPlatformVersion>13.0</SupportedOSPlatformVersion>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
 

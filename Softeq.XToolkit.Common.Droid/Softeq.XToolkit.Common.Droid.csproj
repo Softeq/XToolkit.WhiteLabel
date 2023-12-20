@@ -2,6 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net8.0-android34.0</TargetFramework>
+    <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
