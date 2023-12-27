@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-android33.0</TargetFramework>
+    <TargetFramework>net8.0-android34.0</TargetFramework>
     <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
@@ -27,7 +27,7 @@
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.0" />
     <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.5.1" />
     <PackageReference Include="Xamarin.Firebase.Messaging" Version="123.0.8" />
-    <PackageReference Include="Xamarin.ShortcutBadger" Version="1.1.21" />
+    <PackageReference Include="Xamarin.ShortcutBadger" Version="1.1.21.80" />
   </ItemGroup>
 
 </Project>

@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-android33.0</TargetFramework>
+    <TargetFramework>net8.0-android34.0</TargetFramework>
     <SupportedOSPlatformVersion>21.0</SupportedOSPlatformVersion>
-    <UseMauiEssentials>true</UseMauiEssentials>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -30,6 +29,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.0" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
   </ItemGroup>
 
 </Project>

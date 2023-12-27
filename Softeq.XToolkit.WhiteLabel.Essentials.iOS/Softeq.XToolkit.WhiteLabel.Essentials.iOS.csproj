@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0-ios13.0</TargetFramework>
+    <TargetFramework>net8.0-ios17.0</TargetFramework>
     <SupportedOSPlatformVersion>10.0</SupportedOSPlatformVersion>
-    <UseMauiEssentials>true</UseMauiEssentials>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
 
@@ -25,6 +24,10 @@
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel.iOS\Softeq.XToolkit.WhiteLabel.iOS.csproj" />
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel.Essentials\Softeq.XToolkit.WhiteLabel.Essentials.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
   </ItemGroup>
 
 </Project>

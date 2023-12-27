@@ -1,8 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <UseMauiEssentials>true</UseMauiEssentials>
+    <TargetFramework>net8.0</TargetFramework>
   </PropertyGroup>
 
   <PropertyGroup>
@@ -11,6 +10,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
   </ItemGroup>
 
 </Project>

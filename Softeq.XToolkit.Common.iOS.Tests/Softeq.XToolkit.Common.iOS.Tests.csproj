@@ -1,9 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>net6.0-ios15.0</TargetFramework>
+        <TargetFramework>net8.0-ios17.0</TargetFramework>
         <OutputType>Exe</OutputType>
-        <UseMaui>true</UseMaui>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>disable</ImplicitUsings>
 
@@ -36,6 +35,8 @@
 
     <ItemGroup>
         <PackageReference Include="Xunit.Combinatorial" Version="1.5.25" />
+        <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+        <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
     </ItemGroup>
 
     <ItemGroup Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">

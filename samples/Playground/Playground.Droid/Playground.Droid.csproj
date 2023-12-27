@@ -6,10 +6,10 @@
   -->
 
   <PropertyGroup>
-    <TargetFramework>net7.0-android33.0</TargetFramework>
+    <TargetFramework>net8.0-android34.0</TargetFramework>
     <OutputType>Exe</OutputType>
-    <UseMauiEssentials>true</UseMauiEssentials>
     <RuntimeIdentifiers>android-arm;android-arm64;android-x86;android-x64</RuntimeIdentifiers>
+    <SupportedOSPlatformVersion>26.0</SupportedOSPlatformVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -42,6 +42,7 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.Android.Glide" Version="4.13.2.2" />
+    <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
   </ItemGroup>
 
 </Project>
