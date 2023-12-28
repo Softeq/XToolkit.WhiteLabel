@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
 using Android.Content;
 using AndroidX.Lifecycle;
@@ -15,7 +16,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
     /// <summary>
     ///     Default implementation of <see cref="IDroidPushNotificationsConsumer"/> interface for Android platform.
     /// </summary>
-    public sealed class DroidPushNotificationsConsumer : IDroidPushNotificationsConsumer
+    public sealed class DroidPushNotificationsConsumer : IDroidPushNotificationsConsumer, IDisposable
     {
         private readonly IDroidPushNotificationsParser _pushNotificationsParser;
         private readonly IPushNotificationsHandler _pushNotificationsHandler;
@@ -51,6 +52,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             {
                 ProcessLifecycleOwner.Get().Lifecycle.AddObserver(_lifecycleObserver);
             });
+        }
+
+        ~DroidPushNotificationsConsumer()
+        {
+            Dispose(false);
         }
 
         /// <inheritdoc />
@@ -93,6 +99,12 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             return _pushTokenSynchronizer.UnregisterFromRemotePushNotificationsAsync();
         }
 
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
         private void OnMessageReceivedInternal(PushNotificationModel parsedNotification, bool inForeground)
         {
             if (parsedNotification.IsSilent)
@@ -102,6 +114,17 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             else
             {
                 _pushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, inForeground);
+            }
+        }
+
+        private void Dispose(bool isDisposing)
+        {
+            if (isDisposing)
+            {
+                Execute.BeginOnUIThread(() =>
+                {
+                    ProcessLifecycleOwner.Get().Lifecycle.RemoveObserver(_lifecycleObserver);
+                });
             }
         }
     }

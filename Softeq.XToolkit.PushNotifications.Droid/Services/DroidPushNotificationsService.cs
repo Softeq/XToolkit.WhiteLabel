@@ -20,7 +20,7 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
     ///     interfaces for Android platform. Handles all interactions with the platform, related to push notifications.
     /// </summary>
     public sealed class DroidPushNotificationsService :
-        IPushNotificationsService, IActivityLauncherDelegate, IDroidFirebaseMessagingHandler
+        IPushNotificationsService, IActivityLauncherDelegate, IDroidFirebaseMessagingHandler, IDisposable
     {
         private readonly IDroidPushNotificationsConsumer _pushNotificationsConsumer;
         private readonly ILogger _logger;
@@ -38,6 +38,11 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         {
             _pushNotificationsConsumer = pushNotificationsConsumer;
             _logger = logManager.GetLogger<DroidPushNotificationsService>();
+        }
+
+        ~DroidPushNotificationsService()
+        {
+            Dispose(false);
         }
 
         private bool IsRegistered { get; set; }
@@ -112,6 +117,20 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
         public bool TryHandleLaunchIntent(Intent? intent)
         {
             return intent != null && _pushNotificationsConsumer.TryHandlePushNotificationIntent(intent);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        private void Dispose(bool isDisposing)
+        {
+            if (isDisposing)
+            {
+                _registrationSemaphore.Dispose();
+            }
         }
 
         /// <inheritdoc />
