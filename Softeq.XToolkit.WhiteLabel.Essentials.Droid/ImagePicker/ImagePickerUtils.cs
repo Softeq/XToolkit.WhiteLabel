@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     public static class ImagePickerUtils
     {
-        public static Stream GetContentStream(Context context, Uri uri)
+        public static Stream? GetContentStream(Context context, Uri uri)
         {
             var stream = Stream.Null;
             try
@@ -91,7 +91,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         {
             if (Build.VERSION.SdkInt >= BuildVersionCodes.P)
             {
+#pragma warning disable CA1416
                 return ImageDecoder.DecodeBitmap(ImageDecoder.CreateSource(context.ContentResolver!, uri));
+#pragma warning restore CA1416
             }
 
             return MediaStore.Images.Media.GetBitmap(context.ContentResolver, uri);

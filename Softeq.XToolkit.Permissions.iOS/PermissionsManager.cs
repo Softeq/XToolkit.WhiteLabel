@@ -3,8 +3,10 @@
 
 using System;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
-using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using Microsoft.Maui.Storage;
+using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
+using CustomPermissions = Softeq.XToolkit.Permissions.Permissions;
+using PlatformCustomPermissions = Softeq.XToolkit.Permissions.iOS.Permissions;
 
 namespace Softeq.XToolkit.Permissions.iOS
 {
@@ -35,53 +37,52 @@ namespace Softeq.XToolkit.Permissions.iOS
         public virtual Task<PermissionStatus> CheckWithRequestAsync<T>()
             where T : BasePermission, new()
         {
-            return typeof(T) == typeof(NotificationsPermission)
-                ? NotificationsCheckWithRequestAsync()
-                : CommonCheckWithRequestAsync<T>();
+            var permissionType = typeof(T);
+
+            if (permissionType == typeof(CustomPermissions.Notifications))
+            {
+                return CommonCheckWithRequestAsync<PlatformCustomPermissions.Notifications>();
+            }
+            else if (permissionType == typeof(CustomPermissions.Bluetooth))
+            {
+                return CommonCheckWithRequestAsync<PlatformCustomPermissions.Bluetooth>();
+            }
+            else
+            {
+                return CommonCheckWithRequestAsync<T>();
+            }
         }
 
         /// <inheritdoc />
         public Task<PermissionStatus> CheckAsync<T>()
             where T : BasePermission, new()
         {
-            return _permissionsService.CheckPermissionsAsync<T>();
+            var permissionType = typeof(T);
+
+            if (permissionType == typeof(CustomPermissions.Notifications))
+            {
+                return _permissionsService.CheckPermissionsAsync<PlatformCustomPermissions.Notifications>();
+            }
+            else if (permissionType == typeof(CustomPermissions.Bluetooth))
+            {
+                return _permissionsService.CheckPermissionsAsync<PlatformCustomPermissions.Bluetooth>();
+            }
+            else
+            {
+                return _permissionsService.CheckPermissionsAsync<T>();
+            }
         }
 
         /// <inheritdoc />
         public void SetPermissionDialogService(IPermissionsDialogService permissionsDialogService)
         {
-            _permissionsDialogService = permissionsDialogService
-                                        ?? throw new ArgumentNullException(nameof(permissionsDialogService));
+            _permissionsDialogService = permissionsDialogService ??
+                throw new ArgumentNullException(nameof(permissionsDialogService));
         }
 
         private void OpenSettings()
         {
             _permissionsService.OpenSettings();
-        }
-
-        private async Task<PermissionStatus> NotificationsCheckWithRequestAsync()
-        {
-            if (!IsNotificationsPermissionRequested)
-            {
-                var isConfirmed = await _permissionsDialogService.ConfirmPermissionAsync<NotificationsPermission>()
-                    .ConfigureAwait(false);
-                if (!isConfirmed)
-                {
-                    return PermissionStatus.Denied;
-                }
-            }
-
-            var permissionStatus =
-                await _permissionsService.RequestPermissionsAsync<NotificationsPermission>().ConfigureAwait(false);
-
-            if (IsNotificationsPermissionRequested && permissionStatus != PermissionStatus.Granted)
-            {
-                permissionStatus = await OpenSettingsWithConfirmationAsync<NotificationsPermission>().ConfigureAwait(false);
-            }
-
-            IsNotificationsPermissionRequested = true;
-
-            return permissionStatus;
         }
 
         private async Task<PermissionStatus> CommonCheckWithRequestAsync<T>()
@@ -114,7 +115,7 @@ namespace Softeq.XToolkit.Permissions.iOS
             where T : BasePermission
         {
             var openSettingsConfirmed = await _permissionsDialogService
-                                            .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);
+                .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);
             if (openSettingsConfirmed)
             {
                 OpenSettings();

@@ -4,20 +4,14 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Security.Permissions;
 
 #pragma warning disable CS1591
 
 namespace Softeq.XToolkit.Common.Collections
 {
-    [Serializable]
     public class BiDictionary<TFirst, TSecond> :
         IDictionary<TFirst, TSecond>, IReadOnlyDictionary<TFirst, TSecond>,
-        IDictionary,
-        ISerializable
+        IDictionary
     {
         private readonly IDictionary<TFirst, TSecond> _firstToSecond = new Dictionary<TFirst, TSecond>();
 
@@ -29,24 +23,6 @@ namespace Softeq.XToolkit.Common.Collections
 
         public BiDictionary()
         {
-            _secondToFirst = new Dictionary<TSecond, TFirst>();
-            _reverseDictionary = new ReverseDictionary(this);
-        }
-
-        protected BiDictionary(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
-
-            var data = (byte[]) info.GetValue("firstToSecond", typeof(byte[]));
-            using (var memoryStream = new MemoryStream(data))
-            {
-                var binaryFormatter = new BinaryFormatter();
-                _firstToSecond = (Dictionary<TFirst, TSecond>) binaryFormatter.Deserialize(memoryStream);
-            }
-
             _secondToFirst = new Dictionary<TSecond, TFirst>();
             _reverseDictionary = new ReverseDictionary(this);
         }
@@ -194,35 +170,6 @@ namespace Softeq.XToolkit.Common.Collections
         void ICollection<KeyValuePair<TFirst, TSecond>>.CopyTo(KeyValuePair<TFirst, TSecond>[] array, int arrayIndex)
         {
             _firstToSecond.CopyTo(array, arrayIndex);
-        }
-
-        [SecurityPermission(
-            SecurityAction.LinkDemand,
-            Flags = SecurityPermissionFlag.SerializationFormatter)]
-        public virtual void GetObjectData(SerializationInfo info, StreamingContext context)
-        {
-            if (info == null)
-            {
-                throw new ArgumentNullException(nameof(info));
-            }
-
-            using (var memoryStream = new MemoryStream())
-            {
-                var binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(memoryStream, _firstToSecond);
-                var array = memoryStream.ToArray();
-                info.AddValue("firstToSecond", array, typeof(byte[]));
-            }
-        }
-
-        [OnDeserialized]
-        internal void OnDeserialized(StreamingContext context)
-        {
-            _secondToFirst.Clear();
-            foreach (var item in _firstToSecond)
-            {
-                _secondToFirst.Add(item.Value, item.Key);
-            }
         }
 
         private static KeyValuePair<TItem, TKey> ReverseItem<TKey, TItem>(KeyValuePair<TKey, TItem> item)

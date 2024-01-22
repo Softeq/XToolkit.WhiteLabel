@@ -31,7 +31,7 @@ namespace Playground.Droid.Views.Components
             base.DoAttachBindings();
 
             this.Bind(() => ViewModel.ConnectionStatus, () => _connectionTextView!.Text);
-            this.Bind(() => ViewModel.ConnectionTypes, () => _typesTextView!.Text);
+            this.Bind(() => ViewModel.ConnectionProfiles, () => _typesTextView!.Text);
         }
     }
 }

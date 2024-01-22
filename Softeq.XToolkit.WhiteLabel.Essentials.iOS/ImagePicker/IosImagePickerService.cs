@@ -14,11 +14,13 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
         private TaskCompletionSource<UIImage?>? _taskCompletionSource;
         private UIImagePickerController? _pickerController;
 
+        /// <inheritdoc />
         public Task<ImagePickerResult?> PickPhotoAsync(float quality)
         {
             return GetImageAsync(UIImagePickerControllerSourceType.PhotoLibrary, quality);
         }
 
+        /// <inheritdoc />
         public Task<ImagePickerResult?> TakePhotoAsync(float quality)
         {
             return GetImageAsync(UIImagePickerControllerSourceType.Camera, quality);
@@ -48,14 +50,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.ImagePicker
             };
         }
 
-        private void OnFinishedPickingMedia(object sender, UIImagePickerMediaPickedEventArgs e)
+        private void OnFinishedPickingMedia(object? sender, UIImagePickerMediaPickedEventArgs e)
         {
             _pickerController!.FinishedPickingMedia -= OnFinishedPickingMedia;
             _taskCompletionSource!.SetResult(e.OriginalImage);
             ReleaseImagePicker();
         }
 
-        private void OnCanceled(object sender, EventArgs e)
+        private void OnCanceled(object? sender, EventArgs e)
         {
             _pickerController!.Canceled -= OnCanceled;
             _taskCompletionSource!.SetResult(null);

@@ -96,8 +96,8 @@ Install-Package Softeq.XToolkit.PushNotifications
 2. Perform standard Firebase setup
   * Create application project in Firebase Console and pass Server Key to the server-side
   * Add `Xamarin.Firebase.Messaging` to packages
-  * Add `google-services.json` to root Droid project with GoogleServicesJson Build Action
-  * Add the following to your **AndroidManifet.xml** inside application tag
+  * Add `google-services.json` to root Droid project with Build Action > `GoogleServicesJson`
+  * Add the following to your **AndroidManifet.xml** inside `<application>`:
 
 ```xml
 <receiver android:name="com.google.firebase.iid.FirebaseInstanceIdInternalReceiver" android:exported="false" />
@@ -109,8 +109,8 @@ Install-Package Softeq.XToolkit.PushNotifications
     </intent-filter>
 </receiver>
 ```
+  * Optionally add also the following to specify icon and color:
 
-  * Optionally add also the following to specify icon and color
 ```xml
 <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/ic_notification" />
 <meta-data android:name="com.google.firebase.messaging.default_notification_color" android:resource="@color/notification_color" />

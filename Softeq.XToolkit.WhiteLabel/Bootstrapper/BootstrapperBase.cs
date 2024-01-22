@@ -10,6 +10,7 @@ using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Services;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
@@ -55,7 +56,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             builder.Singleton<BackStackManager, IBackStackManager>(IfRegistered.Keep);
 
             // json
-            builder.Singleton<Services.NewtonsoftJsonSerializer, IJsonSerializer>();
+            builder.Singleton<DefaultJsonSerializer, IJsonSerializer>();
         }
 
         /// <summary>

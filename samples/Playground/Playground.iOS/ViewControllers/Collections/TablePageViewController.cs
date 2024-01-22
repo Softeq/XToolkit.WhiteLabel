@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using ObjCRuntime;
 using Playground.iOS.Views;
 using Playground.Models;
 using Playground.ViewModels.Collections;
@@ -12,7 +12,7 @@ namespace Playground.iOS.ViewControllers.Collections
 {
     public partial class TablePageViewController : ViewControllerBase<TablePageViewModel>
     {
-        public TablePageViewController(IntPtr handle)
+        public TablePageViewController(NativeHandle handle)
             : base(handle)
         {
         }
