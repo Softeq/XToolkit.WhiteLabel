@@ -130,14 +130,11 @@ namespace Softeq.XToolkit.PushNotifications
         private async Task OnRegisterSuccessInternalAsync(string token)
         {
             IsTokenRegisteredInSystem = true;
+            IsTokenSavedOnServer = false;
+            _pushTokenStorageService.PushToken = token;
 
-            if (!IsTokenSavedOnServer)
-            {
-                _pushTokenStorageService.PushToken = token;
-
-                await DoSendTokenToServer(token)
-                    .ConfigureAwait(false);
-            }
+            await DoSendTokenToServer(token)
+                .ConfigureAwait(false);
 
             _pushNotificationsHandler.OnPushRegistrationCompleted(
                 true,
@@ -156,8 +153,10 @@ namespace Softeq.XToolkit.PushNotifications
             {
                 do
                 {
-                    if (IsTokenSavedOnServer = await _remotePushNotificationsService
-                        .SendPushNotificationsToken(token, cancellationToken).ConfigureAwait(false))
+                    IsTokenSavedOnServer = await _remotePushNotificationsService
+                        .SendPushNotificationsToken(token, cancellationToken)
+                        .ConfigureAwait(false);
+                    if (IsTokenSavedOnServer)
                     {
                         break;
                     }
