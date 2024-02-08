@@ -12,7 +12,7 @@ namespace Softeq.XToolkit.WhiteLabel.Tests.Navigation.NavigationParameterModelTe
         [MemberData(
             nameof(NavigationParameterModelDataProvider.CtorData),
             MemberType = typeof(NavigationParameterModelDataProvider))]
-        public void Ctor_InitializesProperties(object value, PropertyInfoModel propertyInfo)
+        public void Ctor_InitializesProperties(object value, NavigationPropertyInfo propertyInfo)
         {
             var navigationParameterModel = new NavigationParameterModel(value, propertyInfo);
 

@@ -10,6 +10,12 @@ namespace Softeq.XToolkit.Remote.Api
     /// </summary>
     public interface IApiServiceFactory
     {
+        /// <summary>
+        ///     Creates API service implementation.
+        /// </summary>
+        /// <param name="httpClient">Configured instance of HttpClient.</param>
+        /// <typeparam name="TApiService">Type of API service.</typeparam>
+        /// <returns>API service implementation.</returns>
         TApiService CreateService<TApiService>(HttpClient httpClient);
     }
 }

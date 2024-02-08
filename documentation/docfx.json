@@ -4,18 +4,44 @@
       "src": [
         {
           "files": [
-            "**/Softeq.XToolkit.*.csproj"
+            "Softeq.XToolkit.Bindings/bin/Release/*/Softeq.XToolkit.Bindings.dll",
+            "Softeq.XToolkit.Bindings.Droid/bin/Release/*/Softeq.XToolkit.Bindings.Droid.dll",
+            "Softeq.XToolkit.Bindings.iOS/bin/Release/*/Softeq.XToolkit.Bindings.iOS.dll",
+
+            "Softeq.XToolkit.Common/bin/Release/*/Softeq.XToolkit.Common.dll",
+            "Softeq.XToolkit.Common.Droid/bin/Release/*/Softeq.XToolkit.Common.Droid.dll",
+            "Softeq.XToolkit.Common.iOS/bin/Release/*/Softeq.XToolkit.Common.iOS.dll",
+
+            "Softeq.XToolkit.Connectivity/bin/Release/*/Softeq.XToolkit.Connectivity.dll",
+            "Softeq.XToolkit.Connectivity.iOS/bin/Release/*/Softeq.XToolkit.Connectivity.iOS.dll",
+
+            "Softeq.XToolkit.Permissions/bin/Release/*/Softeq.XToolkit.Permissions.dll",
+            "Softeq.XToolkit.Permissions.Droid/bin/Release/*/Softeq.XToolkit.Permissions.Droid.dll",
+            "Softeq.XToolkit.Permissions.iOS/bin/Release/*/Softeq.XToolkit.Permissions.iOS.dll",
+
+            "Softeq.XToolkit.PushNotifications/bin/Release/*/Softeq.XToolkit.PushNotifications.dll",
+            "Softeq.XToolkit.PushNotifications.Droid/bin/Release/*/Softeq.XToolkit.PushNotifications.Droid.dll",
+            "Softeq.XToolkit.PushNotifications.iOS/bin/Release/*/Softeq.XToolkit.PushNotifications.iOS.dll",
+
+            "Softeq.XToolkit.Remote/bin/Release/*/Softeq.XToolkit.Remote.dll",
+
+            "Softeq.XToolkit.WhiteLabel/bin/Release/*/Softeq.XToolkit.WhiteLabel.dll",
+            "Softeq.XToolkit.WhiteLabel.Droid/bin/Release/*/Softeq.XToolkit.WhiteLabel.Droid.dll",
+            "Softeq.XToolkit.WhiteLabel.iOS/bin/Release/*/Softeq.XToolkit.WhiteLabel.iOS.dll",
+
+            "Softeq.XToolkit.WhiteLabel.Essentials/bin/Release/*/Softeq.XToolkit.WhiteLabel.Essentials.dll",
+            "Softeq.XToolkit.WhiteLabel.Essentials.Droid/bin/Release/*/Softeq.XToolkit.WhiteLabel.Essentials.Droid.dll",
+            "Softeq.XToolkit.WhiteLabel.Essentials.iOS/bin/Release/*/Softeq.XToolkit.WhiteLabel.Essentials.iOS.dll"
           ],
           "src": "..",
           "exclude": [
-            "**/obj/**",
-            "**/bin/**",
-            "**/*.Tests.csproj",
             "_site/**"
           ]
         }
       ],
-      "dest": "obj/docfxapi"
+      "dest": "obj/docfxapi",
+      "filter": "filterConfig.yml",
+      "namespaceLayout": "nested"
     }
   ],
   "build": {
@@ -92,7 +118,8 @@
     "dest": "_site",
     "template": [
       "statictoc",
-      "templates/material"
+      "modern",
+      "templates/material-modern"
     ]
   }
 }

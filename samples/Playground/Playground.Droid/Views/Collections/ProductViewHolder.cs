@@ -3,11 +3,12 @@
 
 using Android.Views;
 using Android.Widget;
-using FFImageLoading;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Droid.Bindable;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
 
 namespace Playground.Droid.Views.Collections
 {
@@ -31,9 +32,7 @@ namespace Playground.Droid.Views.Collections
         {
             base.DoAttachBindings();
 
-            ImageService.Instance
-                .LoadUrl(ViewModel.PhotoUrl)
-                .Into(_image);
+            Dependencies.Container.Resolve<IDroidImageService>().LoadImage(ViewModel.PhotoUrl, _image);
 
             this.Bind(() => ViewModel.Title, () => _title.Text);
             this.Bind(() => ViewModel.Count, () => _count.Text, BindingMode.TwoWay);
@@ -51,7 +50,7 @@ namespace Playground.Droid.Views.Collections
             _addToCartButton.Click -= AddToCartButton_Click;
         }
 
-        private void AddToCartButton_Click(object sender, System.EventArgs e)
+        private void AddToCartButton_Click(object? sender, System.EventArgs e)
         {
             ViewModel.AddToBasketCommand!.Execute(ViewModel);
         }
@@ -93,17 +92,17 @@ namespace Playground.Droid.Views.Collections
             _addButton.Click -= AddButton_Click;
         }
 
-        private void AddButton_Click(object sender, System.EventArgs e)
+        private void AddButton_Click(object? sender, System.EventArgs e)
         {
             ViewModel.AddCommand!.Execute(ViewModel);
         }
 
-        private void GenerateButton_Click(object sender, System.EventArgs e)
+        private void GenerateButton_Click(object? sender, System.EventArgs e)
         {
             ViewModel.GenerateCommand!.Execute(ViewModel);
         }
 
-        private void InfoButton_Click(object sender, System.EventArgs e)
+        private void InfoButton_Click(object? sender, System.EventArgs e)
         {
             ViewModel.InfoCommand!.Execute(ViewModel);
         }

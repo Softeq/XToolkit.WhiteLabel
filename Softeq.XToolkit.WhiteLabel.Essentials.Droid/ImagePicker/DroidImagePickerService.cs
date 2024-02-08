@@ -7,9 +7,9 @@ using Android.Graphics;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
-using CameraPermission = Xamarin.Essentials.Permissions.Camera;
+using CameraPermission = Microsoft.Maui.ApplicationModel.Permissions.Camera;
 using PermissionStatus = Softeq.XToolkit.Permissions.PermissionStatus;
-using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
+using PhotosPermission = Microsoft.Maui.ApplicationModel.Permissions.Photos;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
@@ -75,7 +75,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             };
         }
 
-        private void OnImagePicked(object sender, Bitmap? e)
+        private void OnImagePicked(object? sender, Bitmap? e)
         {
             ImagePickerActivity.ImagePicked -= OnImagePicked;
             _taskCompletionSource!.SetResult(e);

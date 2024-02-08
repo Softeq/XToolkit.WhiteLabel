@@ -41,7 +41,7 @@ namespace Softeq.XToolkit.Common.Threading
             if (_queue.IsEmpty)
             {
                 _semaphoreSlim.Release();
-                return await tcs.Task;
+                return await tcs.Task.ConfigureAwait(false);
             }
 
             var result = await ExecuteAsync(taskFactory).ConfigureAwait(false);
@@ -54,7 +54,7 @@ namespace Softeq.XToolkit.Common.Threading
 
             _semaphoreSlim.Release();
 
-            return await tcs.Task;
+            return await tcs.Task.ConfigureAwait(false);
         }
 
         private static async Task<T> ExecuteAsync(Func<Task<T>> taskFactory)

@@ -13,7 +13,7 @@
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>MinimumOSVersion</key>
-	<string>12.0</string>
+	<string>14.0</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
@@ -51,6 +51,8 @@
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>Allow location always pls</string>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>PLIS</string>
+	<string>Allow location always and when is use pls</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>Allow bluetooth pls</string>
 </dict>
 </plist>

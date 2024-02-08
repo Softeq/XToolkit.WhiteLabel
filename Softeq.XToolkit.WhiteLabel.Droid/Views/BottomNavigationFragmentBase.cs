@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             base.OnViewModelRestored();
         }
 
-        public override View OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
         {
             var view = inflater.Inflate(BottomNavigationComponent.Layout, null);
 
@@ -42,7 +42,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
             return view;
         }
 
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        public override void OnViewCreated(View view, Bundle? savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 

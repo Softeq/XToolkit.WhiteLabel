@@ -79,7 +79,7 @@ namespace Softeq.XToolkit.Common.Timers
         {
             do
             {
-                await Task.Delay(_interval);
+                await Task.Delay(_interval).ConfigureAwait(false);
                 if (IsActive && _taskFactory != null)
                 {
                     await _taskFactory().ConfigureAwait(false);

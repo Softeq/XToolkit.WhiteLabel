@@ -1,6 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System.Diagnostics.CodeAnalysis;
 using Android.App;
 using Android.OS;
 using Android.Views;
@@ -19,6 +20,7 @@ namespace Playground.Droid.Views
     {
         private ExpandableListView _listView = null!;
 
+        [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Just for demo.")]
         protected override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);

@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System.Collections.Generic;
+using System.IO;
 using System.IO.Abstractions.TestingHelpers;
 using Softeq.XToolkit.Common.Files.Abstractions;
 using IDirectory = Softeq.XToolkit.Common.Files.Abstractions.IDirectory;
@@ -28,6 +29,10 @@ namespace Softeq.XToolkit.Common.Tests.Files.BaseFileProviderTests
             : base(mockFileDataAccessor)
         {
         }
+
+        Stream IFile.OpenWrite(string path) => OpenWrite(path);
+
+        Stream IFile.OpenRead(string path) => OpenRead(path);
     }
 
     internal class MockDirectoryWrapper : MockDirectory, IDirectory

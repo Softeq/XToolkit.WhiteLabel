@@ -1,0 +1,13 @@
+parameters:
+- name: version
+  type: string
+  default: 14.2
+
+steps:
+- task: Bash@3
+  displayName: Select Xcode
+  inputs:
+    targetType: 'inline'
+    script: |
+      echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_${{ parameters.version }}.app
+      sudo xcode-select -s /Applications/Xcode_${{ parameters.version }}.app/Contents/Developer
