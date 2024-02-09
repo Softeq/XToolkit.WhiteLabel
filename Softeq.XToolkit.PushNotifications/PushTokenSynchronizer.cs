@@ -130,8 +130,8 @@ namespace Softeq.XToolkit.PushNotifications
         private async Task OnRegisterSuccessInternalAsync(string token)
         {
             IsTokenRegisteredInSystem = true;
-            IsTokenSavedOnServer = false;
             _pushTokenStorageService.PushToken = token;
+            IsTokenSavedOnServer = false;
 
             await DoSendTokenToServer(token)
                 .ConfigureAwait(false);
