@@ -7,6 +7,7 @@ using System.Linq;
 using System.Reflection;
 using Softeq.XToolkit.Common.Interfaces;
 using Softeq.XToolkit.Common.Logger;
+using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
@@ -56,6 +57,12 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 
             // json
             builder.Singleton<Services.NewtonsoftJsonSerializer, IJsonSerializer>();
+
+            // UI Thread executor
+            builder.Singleton(_ => Execute.CurrentExecutor);
+
+            // messenger
+            builder.Singleton(_ => Messenger.Messenger.Default);
         }
 
         /// <summary>
