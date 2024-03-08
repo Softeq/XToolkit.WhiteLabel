@@ -303,6 +303,8 @@ namespace Softeq.XToolkit.Common.Collections
                     Items.Remove(item);
                 }
 
+                OnPropertyChanged(EventArgsCache.CountPropertyChanged);
+                OnPropertyChanged(EventArgsCache.IndexerPropertyChanged);
                 OnCollectionChanged(EventArgsCache.ResetCollectionChanged);
 
                 return;
