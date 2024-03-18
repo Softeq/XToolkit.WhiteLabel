@@ -46,7 +46,7 @@ namespace Softeq.XToolkit.Permissions.Droid
         }
 
         /// <inheritdoc />
-        public Task<PermissionStatus> CheckWithRequestAsync<T>()
+        public virtual Task<PermissionStatus> CheckWithRequestAsync<T>()
             where T : BasePermission, new()
         {
             var permissionType = typeof(T);
@@ -71,12 +71,7 @@ namespace Softeq.XToolkit.Permissions.Droid
                 ?? throw new ArgumentNullException(nameof(permissionsDialogService));
         }
 
-        private void OpenSettings()
-        {
-            _permissionsService.OpenSettings();
-        }
-
-        private void RemoveOldKeys<T>()
+        protected virtual void RemoveOldKeys<T>()
             where T : BasePermission, new()
         {
             var requestedKey = GetPermissionRequestedKey<T>();
@@ -102,6 +97,11 @@ namespace Softeq.XToolkit.Permissions.Droid
             {
                 return $"{nameof(PermissionsManager)}_IsPermissionDeniedEver_{typeof(T).Name}";
             }
+        }
+
+        private void OpenSettings()
+        {
+            _permissionsService.OpenSettings();
         }
 
         private async Task<PermissionStatus> CommonCheckWithRequestAsync<T>()
