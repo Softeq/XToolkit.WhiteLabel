@@ -16,12 +16,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Abstract
         string DefaultChannelId { get; }
 
         /// <summary>
-        ///     Gets key for saving boolean value to the Activity intent.
-        ///     This value will indicate, if the app was started from Push Notification or not.
-        /// </summary>
-        string LaunchedFromPushNotificationKey { get; }
-
-        /// <summary>
         ///     Obtains a dictionary of notification channels where the key is channel id and the value is channel name.
         /// </summary>
         /// <remarks>
