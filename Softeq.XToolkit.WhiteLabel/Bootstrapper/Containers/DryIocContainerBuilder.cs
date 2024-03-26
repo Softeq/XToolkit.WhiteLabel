@@ -79,6 +79,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
             RegisterInternal(func, Reuse.Transient, ifRegistered);
         }
 
+        public void PerDependency(Type implementationType, Type serviceType, IfRegistered ifRegistered = IfRegistered.AppendNew)
+        {
+            RegisterInternal(implementationType, serviceType, Reuse.Transient, ifRegistered);
+        }
+
         /// <inheritdoc />
         public void Singleton<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
             where TImplementation : TService
@@ -96,6 +101,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
         public void Singleton<TService>(Func<IContainer, TService> func, IfRegistered ifRegistered = IfRegistered.AppendNew)
         {
             RegisterInternal(func, Reuse.Singleton);
+        }
+
+        public void Singleton(Type implementationType, Type serviceType, IfRegistered ifRegistered = IfRegistered.AppendNew)
+        {
+            RegisterInternal(implementationType, serviceType, Reuse.Singleton, ifRegistered);
         }
 
         /// <inheritdoc />
@@ -142,6 +152,11 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers
         private void RegisterInternal(Type type, IReuse reuse, IfRegistered ifRegistered)
         {
             _dryContainer.Register(type, reuse, null, null, MapIfAlreadyRegistered(ifRegistered));
+        }
+
+        private void RegisterInternal(Type typeImpl, Type typeService, IReuse reuse, IfRegistered ifRegistered)
+        {
+            _dryContainer.Register(typeService, typeImpl, reuse: reuse, ifAlreadyRegistered: MapIfAlreadyRegistered(ifRegistered));
         }
 
         private void RegisterInternal<TService>(
