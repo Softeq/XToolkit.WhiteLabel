@@ -11,7 +11,7 @@
     <projectUrl>https://softeq.github.io/XToolkit.WhiteLabel/articles/xtoolkit/common.html</projectUrl>
     <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" />
     <description>The most common components without dependencies that can be reused in any project.</description>
-    <copyright>Copyright 2023 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2024 Softeq Development Corp.</copyright>
     <tags>softeq, xtoolkit, xamarin, ios, android, mvvm, toolkit, kit</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>

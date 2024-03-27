@@ -21,7 +21,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <AndroidResource Include="Resources\**\*.xml" SubType="Designer" Generator="MSBuild:UpdateAndroidResources" />
     <AndroidResource Include="Resources\**\*.png" />
   </ItemGroup>
 

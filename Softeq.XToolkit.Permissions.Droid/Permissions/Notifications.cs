@@ -18,8 +18,8 @@ namespace Softeq.XToolkit.Permissions.Droid.Permissions
 #if __ANDROID_33__
 #pragma warning disable CA1416
                 var isSupport =
-                    SdkVersion.IsBuildVersionAtLeast(BuildVersionCodes.Tiramisu) &&
-                    SdkVersion.IsDeviceVersionAtLeast(BuildVersionCodes.Tiramisu) &&
+                    SdkVersion.IsTargetSdkAtLeast(BuildVersionCodes.Tiramisu) &&
+                    SdkVersion.IsBuildSdkAtLeast(BuildVersionCodes.Tiramisu) &&
                     EssentialsPermissions.IsDeclaredInManifest(Manifest.Permission.PostNotifications);
 
                 return isSupport ?
