@@ -20,15 +20,15 @@ namespace Softeq.XToolkit.Permissions.Droid.Permissions
 
                 // When targeting Android 11 or lower, AccessFineLocation is required for Bluetooth.
                 // For Android 12 and above, it is optional.
-                if (SdkVersion.IsBuildVersionLower(BuildVersionCodes.R) ||
+                if (SdkVersion.IsTargetSdkLower(BuildVersionCodes.R) ||
                     EssentialsPermissions.IsDeclaredInManifest(Manifest.Permission.AccessFineLocation))
                 {
                     permissions.Add((Manifest.Permission.AccessFineLocation, true));
                 }
 
 #if __ANDROID_31__
-                if (SdkVersion.IsBuildVersionAtLeast(BuildVersionCodes.S) &&
-                    SdkVersion.IsDeviceVersionAtLeast(BuildVersionCodes.S))
+                if (SdkVersion.IsTargetSdkAtLeast(BuildVersionCodes.S) &&
+                    SdkVersion.IsBuildSdkAtLeast(BuildVersionCodes.S))
                 {
                     if (EssentialsPermissions.IsDeclaredInManifest(Manifest.Permission.BluetoothScan))
                     {

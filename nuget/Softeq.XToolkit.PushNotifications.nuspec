@@ -11,7 +11,7 @@
     <projectUrl>https://softeq.github.io/XToolkit.WhiteLabel/articles/xtoolkit/push-notifications.html</projectUrl>
     <repository type="git" url="https://github.com/Softeq/XToolkit.WhiteLabel.git" />
     <description>Simple cross platform plugin to use push-notifications for Android and iOS.</description>
-    <copyright>Copyright 2023 Softeq Development Corp.</copyright>
+    <copyright>Copyright 2024 Softeq Development Corp.</copyright>
     <tags>softeq, xtoolkit, xamarin, ios, android, push-notifications, firebase, apns, fcm</tags>
     <releaseNotes>Releases: https://github.com/Softeq/XToolkit.WhiteLabel/releases</releaseNotes>
     <dependencies>
