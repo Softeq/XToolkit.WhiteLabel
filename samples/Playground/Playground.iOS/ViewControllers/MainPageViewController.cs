@@ -1,7 +1,7 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using ObjCRuntime;
 using Playground.iOS.Views;
 using Playground.ViewModels;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
@@ -15,7 +15,7 @@ namespace Playground.iOS.ViewControllers
 {
     public partial class MainPageViewController : ViewControllerBase<MainPageViewModel>
     {
-        public MainPageViewController(IntPtr handle)
+        public MainPageViewController(NativeHandle handle)
             : base(handle)
         {
         }

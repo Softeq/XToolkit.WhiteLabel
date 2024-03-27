@@ -30,7 +30,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public override void OnClick(View widget)
         {
-            _clickAction?.Invoke();
+            _clickAction.Invoke();
         }
 
         public override void UpdateDrawState(TextPaint ds)

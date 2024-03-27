@@ -2,15 +2,19 @@
 // http://www.softeq.com
 
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
-using Xamarin.Essentials;
-using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using Microsoft.Maui.Storage;
+using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
+using CustomPermissions = Softeq.XToolkit.Permissions.Permissions;
+using PlatformCustomPermissions = Softeq.XToolkit.Permissions.Droid.Permissions;
 
 namespace Softeq.XToolkit.Permissions.Droid
 {
     /// <inheritdoc cref="IPermissionsManager" />
     public class PermissionsManager : IPermissionsManager
     {
+        private readonly TimeSpan _showPermissionDialogThreshold = TimeSpan.FromMilliseconds(200);
         private readonly IPermissionsService _permissionsService;
 
         private IPermissionsDialogService _permissionsDialogService;
@@ -26,63 +30,60 @@ namespace Softeq.XToolkit.Permissions.Droid
         public virtual Task<PermissionStatus> CheckAsync<T>()
             where T : BasePermission, new()
         {
-            return _permissionsService.CheckPermissionsAsync<T>();
+            var permissionType = typeof(T);
+            if (permissionType == typeof(CustomPermissions.Notifications))
+            {
+                return _permissionsService.CheckPermissionsAsync<PlatformCustomPermissions.Notifications>();
+            }
+            else if (permissionType == typeof(CustomPermissions.Bluetooth))
+            {
+                return _permissionsService.CheckPermissionsAsync<PlatformCustomPermissions.Bluetooth>();
+            }
+            else
+            {
+                return _permissionsService.CheckPermissionsAsync<T>();
+            }
         }
 
         /// <inheritdoc />
-        public Task<PermissionStatus> CheckWithRequestAsync<T>()
+        public virtual Task<PermissionStatus> CheckWithRequestAsync<T>()
             where T : BasePermission, new()
         {
-            return CommonCheckWithRequestAsync<T>();
+            var permissionType = typeof(T);
+            if (permissionType == typeof(CustomPermissions.Notifications))
+            {
+                return CommonCheckWithRequestAsync<PlatformCustomPermissions.Notifications>();
+            }
+            else if (permissionType == typeof(CustomPermissions.Bluetooth))
+            {
+                return CommonCheckWithRequestAsync<PlatformCustomPermissions.Bluetooth>();
+            }
+            else
+            {
+                return CommonCheckWithRequestAsync<T>();
+            }
         }
 
         /// <inheritdoc />
         public void SetPermissionDialogService(IPermissionsDialogService permissionsDialogService)
         {
             _permissionsDialogService = permissionsDialogService
-                                        ?? throw new ArgumentNullException(nameof(permissionsDialogService));
+                ?? throw new ArgumentNullException(nameof(permissionsDialogService));
         }
 
-        protected bool IsPermissionDeniedEver<T>()
-            where T : BasePermission
-        {
-            return Preferences.Get(GetPermissionDeniedEverKey<T>(), false);
-        }
-
-        private void SetPermissionDenied<T>(bool value)
-            where T : BasePermission
-        {
-            Preferences.Set(GetPermissionDeniedEverKey<T>(), value);
-        }
-
-        private string GetPermissionDeniedEverKey<T>()
-            where T : BasePermission
-        {
-            return $"{nameof(PermissionsManager)}_IsPermissionDeniedEver_{typeof(T).Name}";
-        }
-
-        private void OpenSettings()
-        {
-            _permissionsService.OpenSettings();
-        }
-
-        private void ApplyKeysMigration<T>(PermissionStatus permissionStatus)
+        protected virtual void RemoveOldKeys<T>()
             where T : BasePermission, new()
         {
-            var requestedKeyName = GetPermissionRequestedKey<T>();
-            if (!Preferences.ContainsKey(requestedKeyName))
+            var requestedKey = GetPermissionRequestedKey<T>();
+            if (Preferences.ContainsKey(requestedKey))
             {
-                return;
+                Preferences.Remove(requestedKey);
             }
 
-            if (Preferences.Get(requestedKeyName, false))
+            var deniedEverKey = GetPermissionDeniedEverKey<T>();
+            if (Preferences.ContainsKey(deniedEverKey))
             {
-                if (permissionStatus == PermissionStatus.Denied)
-                {
-                    SetPermissionDenied<T>(true);
-                }
-
-                Preferences.Remove(requestedKeyName);
+                Preferences.Remove(deniedEverKey);
             }
 
             string GetPermissionRequestedKey<TPermission>()
@@ -90,6 +91,17 @@ namespace Softeq.XToolkit.Permissions.Droid
             {
                 return $"{nameof(PermissionsManager)}_IsPermissionRequested_{typeof(T).Name}";
             }
+
+            string GetPermissionDeniedEverKey<T>()
+                where T : BasePermission
+            {
+                return $"{nameof(PermissionsManager)}_IsPermissionDeniedEver_{typeof(T).Name}";
+            }
+        }
+
+        private void OpenSettings()
+        {
+            _permissionsService.OpenSettings();
         }
 
         private async Task<PermissionStatus> CommonCheckWithRequestAsync<T>()
@@ -101,21 +113,24 @@ namespace Softeq.XToolkit.Permissions.Droid
                 return permissionStatus;
             }
 
-            ApplyKeysMigration<T>(permissionStatus);
+            RemoveOldKeys<T>();
 
-            if (permissionStatus == PermissionStatus.Denied
-                && IsPermissionDeniedEver<T>()
-                && !_permissionsService.ShouldShowRationale<T>())
-            {
-                await OpenSettingsWithConfirmationAsync<T>().ConfigureAwait(false);
-                return PermissionStatus.Denied;
-            }
+            // Timer are used for confirm a fact of showing a request of permission access popup
+            // in another case user should see screen with settings for changing permission state
+            var timer = new Stopwatch();
+            timer.Start();
 
             var confirmationResult = await _permissionsDialogService.ConfirmPermissionAsync<T>().ConfigureAwait(false);
             if (confirmationResult)
             {
                 permissionStatus = await _permissionsService.RequestPermissionsAsync<T>().ConfigureAwait(false);
-                SetPermissionDenied<T>(permissionStatus == PermissionStatus.Denied);
+            }
+
+            if (permissionStatus == PermissionStatus.Denied
+                && timer.Elapsed < _showPermissionDialogThreshold)
+            {
+                await OpenSettingsWithConfirmationAsync<T>().ConfigureAwait(false);
+                return PermissionStatus.Denied;
             }
 
             return permissionStatus;
@@ -125,7 +140,7 @@ namespace Softeq.XToolkit.Permissions.Droid
             where T : BasePermission
         {
             var openSettingsConfirmed = await _permissionsDialogService
-                                            .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);
+                .ConfirmOpenSettingsForPermissionAsync<T>().ConfigureAwait(false);
             if (openSettingsConfirmed)
             {
                 OpenSettings();

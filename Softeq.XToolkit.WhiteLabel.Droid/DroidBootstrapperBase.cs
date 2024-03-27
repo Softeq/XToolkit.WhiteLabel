@@ -6,9 +6,11 @@ using System.Reflection;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
+using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Droid.Navigation;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Services;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
 {
@@ -29,6 +31,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
             // navigation
             builder.Singleton<ActivityPageNavigationService, IPlatformNavigationService>(IfRegistered.Keep);
+            builder.Singleton<DefaultJsonSerializer, INavigationSerializer>(IfRegistered.Keep);
             builder.Singleton<BundleService, IBundleService>(IfRegistered.Keep);
             builder.Singleton<DroidViewLocator, IViewLocator>(IfRegistered.Keep);
             builder.PerDependency<DroidFrameNavigationService, IFrameNavigationService>(IfRegistered.Keep);

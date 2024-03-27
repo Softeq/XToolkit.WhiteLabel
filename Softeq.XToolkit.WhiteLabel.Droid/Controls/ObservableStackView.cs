@@ -101,7 +101,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             _refreshBindingAction = null;
         }
 
-        protected virtual void OnCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        protected virtual void OnCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
             switch (e.Action)
             {

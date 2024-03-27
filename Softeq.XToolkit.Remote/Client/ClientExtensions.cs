@@ -8,6 +8,9 @@ using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote.Client
 {
+    /// <summary>
+    ///     Contains extension methods for <see cref="IHttpClientBuilder"/>.
+    /// </summary>
     public static class ClientExtensions
     {
         /// <summary>

@@ -6,6 +6,9 @@ using System.Reflection;
 
 namespace Softeq.XToolkit.WhiteLabel.Extensions
 {
+    /// <summary>
+    ///     Extension methods for <see cref="T:System.Linq.Expressions.Expression"/>.
+    /// </summary>
     public static class ExpressionExtensions
     {
         /// <summary>

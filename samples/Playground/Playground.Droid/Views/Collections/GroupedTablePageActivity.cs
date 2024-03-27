@@ -63,7 +63,7 @@ namespace Playground.Droid.Views.Collections
         {
             base.DoAttachBindings();
 
-            this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => SupportActionBar.Title);
+            this.Bind(() => ViewModel.ProductBasketViewModel.Status, () => SupportActionBar!.Title);
             this.Bind(() => ViewModel.ProductListViewModel.IsBusy, () => _progress.Visibility, VisibilityConverter.Gone);
         }
     }

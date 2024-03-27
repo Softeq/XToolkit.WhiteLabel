@@ -9,6 +9,9 @@ using Softeq.XToolkit.Remote.Primitives;
 
 namespace Softeq.XToolkit.Remote
 {
+    /// <summary>
+    ///     Contains extension methods for <see cref="IRemoteService{T}"/>.
+    /// </summary>
     public static class RemoteServiceExtensions
     {
         /// <summary>
