@@ -1,8 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 using CoreBluetooth;
 using BasePlatformPermission = Microsoft.Maui.ApplicationModel.Permissions.BasePlatformPermission;
@@ -12,10 +10,6 @@ namespace Softeq.XToolkit.Permissions.iOS.Permissions
 {
     public class Bluetooth : BasePlatformPermission
     {
-        /// <inheritdoc />
-        protected override Func<IEnumerable<string>> RequiredInfoPlistKeys =>
-            () => new string[] { "NSBluetoothAlwaysUsageDescription" };
-
         /// <inheritdoc />
         public override Task<EssentialsPermissionStatus> CheckStatusAsync()
         {
