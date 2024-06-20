@@ -54,11 +54,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             });
         }
 
-        ~DroidPushNotificationsConsumer()
-        {
-            Dispose(false);
-        }
-
         /// <inheritdoc />
         public bool TryHandleNotification(RemoteMessage message)
         {
@@ -101,8 +96,10 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
+            Execute.BeginOnUIThread(() =>
+            {
+                ProcessLifecycleOwner.Get().Lifecycle.RemoveObserver(_lifecycleObserver);
+            });
         }
 
         private void OnMessageReceivedInternal(PushNotificationModel parsedNotification, bool inForeground)
@@ -114,17 +111,6 @@ namespace Softeq.XToolkit.PushNotifications.Droid.Services
             else
             {
                 _pushNotificationsHandler.HandlePushNotificationReceived(parsedNotification, inForeground);
-            }
-        }
-
-        private void Dispose(bool isDisposing)
-        {
-            if (isDisposing)
-            {
-                Execute.BeginOnUIThread(() =>
-                {
-                    ProcessLifecycleOwner.Get().Lifecycle.RemoveObserver(_lifecycleObserver);
-                });
             }
         }
     }

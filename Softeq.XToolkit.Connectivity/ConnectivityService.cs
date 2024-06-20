@@ -19,11 +19,6 @@ namespace Softeq.XToolkit.Connectivity
             CrossConnectivity.Current.ConnectivityTypeChanged += CurrentConnectivityTypeChanged;
         }
 
-        ~ConnectivityService()
-        {
-            Dispose(false);
-        }
-
         public virtual bool IsConnected => CrossConnectivity.Current.IsConnected;
 
         public bool IsSupported => CrossConnectivity.IsSupported;
@@ -32,17 +27,8 @@ namespace Softeq.XToolkit.Connectivity
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                CrossConnectivity.Current.ConnectivityChanged -= CurrentConnectivityChanged;
-                CrossConnectivity.Current.ConnectivityTypeChanged -= CurrentConnectivityTypeChanged;
-            }
+            CrossConnectivity.Current.ConnectivityChanged -= CurrentConnectivityChanged;
+            CrossConnectivity.Current.ConnectivityTypeChanged -= CurrentConnectivityTypeChanged;
         }
 
         private void CurrentConnectivityChanged(object sender, ConnectivityChangedEventArgs e)
