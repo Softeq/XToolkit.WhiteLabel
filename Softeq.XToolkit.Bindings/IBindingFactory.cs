@@ -248,6 +248,7 @@ namespace Softeq.XToolkit.Bindings
         ///     that will passed to the <see cref="T:System.Windows.Input.ICommand"/>. Used to determine new value of CanExecute.
         /// </param>
         /// <typeparam name="T">Type of command parameter.</typeparam>
-        void HandleCommandCanExecute<T>(object element, ICommand command, Binding<T, T>? commandParameterBinding);
+        /// <returns>Disposable subscriptions to CanExecute related events.</returns>
+        IDisposable HandleCommandCanExecute<T>(object element, ICommand command, Binding<T, T>? commandParameterBinding);
     }
 }
