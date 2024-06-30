@@ -83,11 +83,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
         protected virtual void DoDetachBindings()
         {
             this.DetachBindings();
-            for (int i = 0; i < _commandsSubscriptions.Count; i++)
-            {
-                _commandsSubscriptions[i].Dispose();
-                _commandsSubscriptions.RemoveAt(i);
-            }
+
+            _commandsSubscriptions.Apply(x => x.Dispose());
+            _commandsSubscriptions.Clear();
         }
 
         protected virtual IEnumerable<IDisposable>? SetCommands()
