@@ -1,12 +1,14 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Collections.Generic;
 using Android.OS;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
@@ -14,6 +16,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     public class FragmentBase<TViewModel> : Fragment, IBindable
         where TViewModel : ViewModelBase
     {
+        private IList<IDisposable> _commandsSubscriptions;
+
         public List<Binding> Bindings { get; } = new List<Binding>();
 
         public object DataContext { get; private set; } = default!;
@@ -69,11 +73,27 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void DoAttachBindings()
         {
+            _commandsSubscriptions = new List<IDisposable>();
+            var commands = SetCommands();
+            if (commands != null)
+            {
+                _commandsSubscriptions.AddRange(commands);
+            }
         }
 
         protected virtual void DoDetachBindings()
         {
             this.DetachBindings();
+            for (int i = 0; i < _commandsSubscriptions.Count; i++)
+            {
+                _commandsSubscriptions[i].Dispose();
+                _commandsSubscriptions.RemoveAt(i);
+            }
+        }
+
+        protected virtual IEnumerable<IDisposable>? SetCommands()
+        {
+            return default;
         }
 
         protected virtual void OnViewModelRestored()

@@ -544,6 +544,14 @@ namespace Softeq.XToolkit.Bindings
             HandleCommandCanExecute(element, command, castedBinding);
         }
 
+        /// <inheritdoc cref="SetCommandWithDisposing(object,string,ICommand)" />
+        public static IDisposable SetCommandWithDisposing(
+            this object element,
+            ICommand command)
+        {
+            return SetCommandWithDisposing(element, string.Empty, command);
+        }
+
         /// <summary>
         ///     Sets a <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
         ///     This method can only be used when the event uses a standard <see cref="T:System.EventHandler"/>.
