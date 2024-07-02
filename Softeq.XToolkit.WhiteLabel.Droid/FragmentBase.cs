@@ -88,9 +88,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             _commandsSubscriptions.Clear();
         }
 
-        protected virtual IEnumerable<IDisposable>? SetCommands()
+        protected virtual IList<IDisposable>? SetCommands()
         {
-            return default;
+            return new List<IDisposable>();
         }
 
         protected virtual void OnViewModelRestored()
