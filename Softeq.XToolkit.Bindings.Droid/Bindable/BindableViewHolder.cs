@@ -7,7 +7,7 @@ using Android.Views;
 using AndroidX.RecyclerView.Widget;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Disposables;
 using Softeq.XToolkit.Common.Weak;
 
 #nullable disable
@@ -17,12 +17,13 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     public abstract class BindableViewHolder<TViewModel>
         : RecyclerView.ViewHolder, IBindableViewHolder
     {
-        private readonly List<IDisposable> _commandsSubscriptions = new();
+        private readonly DisposableSubscriptionsComponent _subscriptionsComponent;
 
         private IDisposable _itemViewClickSubscription;
 
         protected BindableViewHolder(View itemView) : base(itemView)
         {
+            _subscriptionsComponent = new DisposableSubscriptionsComponent(SetCommandsWithDisposing);
         }
 
         public event EventHandler ItemClicked;
@@ -66,16 +67,14 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public virtual void DoAttachBindings()
         {
-            var commandsSubscriptions = SetCommandsWithDisposing();
-            _commandsSubscriptions.AddRange(commandsSubscriptions);
+            _subscriptionsComponent.CreateSubscriptions();
         }
 
         public virtual void DoDetachBindings()
         {
             this.DetachBindings();
 
-            _commandsSubscriptions.Apply(x => x.Dispose());
-            _commandsSubscriptions.Clear();
+            _subscriptionsComponent.DisposeSubscriptions();
         }
 
         protected virtual IEnumerable<IDisposable> SetCommandsWithDisposing()

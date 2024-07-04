@@ -3,13 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Android.OS;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
-using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Disposables;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Droid
@@ -17,7 +16,12 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     public class FragmentBase<TViewModel> : Fragment, IBindable
         where TViewModel : ViewModelBase
     {
-        private readonly List<IDisposable> _commandsSubscriptions = new();
+        private readonly DisposableSubscriptionsComponent _subscriptionsComponent;
+
+        protected FragmentBase()
+        {
+            _subscriptionsComponent = new DisposableSubscriptionsComponent(SetCommandsWithDisposing);
+        }
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 
@@ -74,16 +78,14 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void DoAttachBindings()
         {
-            var commandsSubscriptions = SetCommandsWithDisposing();
-            _commandsSubscriptions.AddRange(commandsSubscriptions);
+            _subscriptionsComponent.CreateSubscriptions();
         }
 
         protected virtual void DoDetachBindings()
         {
             this.DetachBindings();
 
-            _commandsSubscriptions.Apply(x => x.Dispose());
-            _commandsSubscriptions.Clear();
+            _subscriptionsComponent.DisposeSubscriptions();
         }
 
         protected virtual IEnumerable<IDisposable> SetCommandsWithDisposing()
