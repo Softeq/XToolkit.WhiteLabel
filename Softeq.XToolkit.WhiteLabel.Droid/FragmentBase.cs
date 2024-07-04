@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Android.OS;
 using AndroidX.Fragment.App;
 using Softeq.XToolkit.Bindings;
@@ -85,9 +86,9 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             _commandsSubscriptions.Clear();
         }
 
-        protected virtual IList<IDisposable> SetCommandsWithDisposing()
+        protected virtual IEnumerable<IDisposable> SetCommandsWithDisposing()
         {
-            return new List<IDisposable>();
+            return [];
         }
 
         protected virtual void OnViewModelRestored()
