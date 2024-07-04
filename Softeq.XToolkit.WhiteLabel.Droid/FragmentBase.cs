@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
     public class FragmentBase<TViewModel> : Fragment, IBindable
         where TViewModel : ViewModelBase
     {
-        private IList<IDisposable> _commandsSubscriptions = new List<IDisposable>();
+        private readonly List<IDisposable> _commandsSubscriptions = new();
 
         public List<Binding> Bindings { get; } = new List<Binding>();
 
@@ -73,11 +73,8 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
 
         protected virtual void DoAttachBindings()
         {
-            var commands = SetCommands();
-            if (commands != null)
-            {
-                _commandsSubscriptions.AddRange(commands);
-            }
+            var commandsSubscriptions = SetCommandsWithDisposing();
+            _commandsSubscriptions.AddRange(commandsSubscriptions);
         }
 
         protected virtual void DoDetachBindings()
@@ -88,7 +85,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid
             _commandsSubscriptions.Clear();
         }
 
-        protected virtual IList<IDisposable>? SetCommands()
+        protected virtual IList<IDisposable> SetCommandsWithDisposing()
         {
             return new List<IDisposable>();
         }
