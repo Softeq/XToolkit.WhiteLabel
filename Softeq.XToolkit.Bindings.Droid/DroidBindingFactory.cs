@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Windows.Input;
 using Android.Views;
 using Android.Widget;
+using Softeq.XToolkit.Common.Disposables;
 using Softeq.XToolkit.Common.Threading;
 
 namespace Softeq.XToolkit.Bindings.Droid
@@ -147,18 +148,20 @@ namespace Softeq.XToolkit.Bindings.Droid
         }
 
         /// <inheritdoc />
-        public override void HandleCommandCanExecute<T>(
+        public override IDisposable HandleCommandCanExecute<T>(
             object element,
             ICommand command,
             Binding<T, T>? commandParameterBinding)
         {
             if (element is View view)
             {
-                HandleViewEnabled(view, command, commandParameterBinding);
+                return HandleViewEnabled(view, command, commandParameterBinding);
             }
+
+            return Disposable.Create(() => { });
         }
 
-        private static void HandleViewEnabled<T>(
+        private static IDisposable HandleViewEnabled<T>(
             View view,
             ICommand command,
             Binding<T, T>? commandParameterBinding)
@@ -171,20 +174,32 @@ namespace Softeq.XToolkit.Bindings.Droid
                 () => view.Enabled = command.CanExecute(commandParameter));
 
             // set by CanExecute
-            command.CanExecuteChanged += (s, args) =>
-            {
-                Execute.BeginOnUIThread(
-                    () => view.Enabled = command.CanExecute(commandParameter));
-            };
+            command.CanExecuteChanged += OnCommandCanExecuteChanged;
 
             // set by bindable command parameter
             if (commandParameterBinding != null)
             {
-                commandParameterBinding.ValueChanged += (s, args) =>
+                commandParameterBinding.ValueChanged += OnCommandParameterBindingValueChanged;
+            }
+
+            return Disposable.Create(() =>
+            {
+                if (commandParameterBinding != null)
                 {
-                    Execute.BeginOnUIThread(
-                        () => view.Enabled = command.CanExecute(commandParameterBinding.Value));
-                };
+                    commandParameterBinding.ValueChanged -= OnCommandParameterBindingValueChanged;
+                }
+
+                command.CanExecuteChanged -= OnCommandCanExecuteChanged;
+            });
+
+            void OnCommandCanExecuteChanged(object? s, EventArgs args)
+            {
+                Execute.BeginOnUIThread(() => view.Enabled = command.CanExecute(commandParameter));
+            }
+
+            void OnCommandParameterBindingValueChanged(object? s, EventArgs args)
+            {
+                Execute.BeginOnUIThread(() => view.Enabled = command.CanExecute(commandParameterBinding.Value));
             }
         }
     }

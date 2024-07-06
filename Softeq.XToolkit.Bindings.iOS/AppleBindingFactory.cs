@@ -5,6 +5,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Windows.Input;
+using Softeq.XToolkit.Common.Disposables;
 using UIKit;
 
 namespace Softeq.XToolkit.Bindings.iOS
@@ -98,18 +99,20 @@ namespace Softeq.XToolkit.Bindings.iOS
         }
 
         /// <inheritdoc />
-        public override void HandleCommandCanExecute<T>(
+        public override IDisposable HandleCommandCanExecute<T>(
             object element,
             ICommand command,
             Binding<T, T>? commandParameterBinding)
         {
             if (element is UIControl control)
             {
-                HandleControlEnabled(control, command, commandParameterBinding);
+                return HandleControlEnabled(control, command, commandParameterBinding);
             }
+
+            return Disposable.Create(() => { });
         }
 
-        private static void HandleControlEnabled<T>(
+        private static IDisposable HandleControlEnabled<T>(
             UIControl control,
             ICommand command,
             Binding<T, T>? commandParameterBinding)
@@ -122,20 +125,32 @@ namespace Softeq.XToolkit.Bindings.iOS
                 () => control.Enabled = command.CanExecute(commandParameter));
 
             // set by CanExecute
-            command.CanExecuteChanged += (s, args) =>
-            {
-                control.BeginInvokeOnMainThread(
-                    () => control.Enabled = command.CanExecute(commandParameter));
-            };
+            command.CanExecuteChanged += OnCommandCanExecuteChanged;
 
             // set by bindable command parameter
             if (commandParameterBinding != null)
             {
-                commandParameterBinding.ValueChanged += (s, args) =>
+                commandParameterBinding.ValueChanged += OnCommandParameterBindingValueChanged;
+            }
+
+            return Disposable.Create(() =>
+            {
+                if (commandParameterBinding != null)
                 {
-                    control.BeginInvokeOnMainThread(
-                        () => control.Enabled = command.CanExecute(commandParameterBinding.Value));
-                };
+                    commandParameterBinding.ValueChanged -= OnCommandParameterBindingValueChanged;
+                }
+
+                command.CanExecuteChanged -= OnCommandCanExecuteChanged;
+            });
+
+            void OnCommandCanExecuteChanged(object? s, EventArgs args)
+            {
+                control.BeginInvokeOnMainThread(() => control.Enabled = command.CanExecute(commandParameter));
+            }
+
+            void OnCommandParameterBindingValueChanged(object? s, EventArgs args)
+            {
+                control.BeginInvokeOnMainThread(() => control.Enabled = command.CanExecute(commandParameterBinding.Value));
             }
         }
     }
