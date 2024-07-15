@@ -19,7 +19,7 @@ namespace Softeq.XToolkit.Common.Commands
         ///     If the command does not require data to be passed, this object can be set to null.
         /// </param>
         /// <returns>The Task to execute.</returns>
-        Task ExecuteAsync(object parameter);
+        Task ExecuteAsync(object? parameter);
     }
 
     /// <summary>

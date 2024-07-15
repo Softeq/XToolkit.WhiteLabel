@@ -397,7 +397,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             _subscription?.Dispose();
         }
 
-        private void ReloadMapping()
+        protected void ReloadMapping()
         {
             _flatMapping.Clear();
 

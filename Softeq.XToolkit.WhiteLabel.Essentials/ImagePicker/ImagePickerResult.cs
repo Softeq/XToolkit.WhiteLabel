@@ -49,21 +49,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
 
         public void Dispose()
         {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        ~ImagePickerResult()
-        {
-            Dispose(false);
-        }
-
-        protected void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                ImageObject?.Dispose();
-            }
+            ImageObject?.Dispose();
         }
 
         /// <summary>
