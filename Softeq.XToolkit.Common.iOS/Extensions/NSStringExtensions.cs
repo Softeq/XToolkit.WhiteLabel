@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using Foundation;
 using Softeq.XToolkit.Common.Extensions;
+using Softeq.XToolkit.Common.Logger;
 using UIKit;
 
 namespace Softeq.XToolkit.Common.iOS.Extensions
@@ -48,10 +49,12 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
         /// </summary>
         /// <param name="html">Any HTML string.</param>
         /// <param name="encoding">HTML encoding.</param>
+        /// <param name="logger">logger for error logging.</param>
         /// <returns>New instance of <see cref="T:Foundation.NSMutableAttributedString"/>.</returns>
         public static NSMutableAttributedString BuildAttributedStringFromHtml(
             this string html,
-            NSStringEncoding encoding = NSStringEncoding.UTF8)
+            NSStringEncoding encoding = NSStringEncoding.UTF8,
+            ILogger? logger = null)
         {
             var importParams = new NSAttributedStringDocumentAttributes
             {
@@ -59,10 +62,27 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 StringEncoding = encoding
             };
 
-            var error = new NSError();
+            NSError? error = null;
 
-            var attributedString = new NSAttributedString(html, importParams, ref error);
-            return new NSMutableAttributedString(attributedString);
+            try
+            {
+#pragma warning disable CS8601 // Possible null reference assignment.
+                var attributedString = new NSAttributedString(html, importParams, ref error);
+#pragma warning restore CS8601 // Possible null reference assignment.
+                return new NSMutableAttributedString(attributedString);
+            }
+            catch (Exception ex)
+            {
+                logger?.Error(ex);
+                throw;
+            }
+            finally
+            {
+                if (error != null)
+                {
+                    logger?.Info("Error message: " + error.Description);
+                }
+            }
         }
 
         /// <summary>
