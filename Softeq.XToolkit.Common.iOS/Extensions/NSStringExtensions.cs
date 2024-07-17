@@ -62,11 +62,13 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 StringEncoding = encoding
             };
 
-            var error = new NSError();
+            NSError? error = null;
 
             try
             {
+#pragma warning disable CS8601 // Possible null reference assignment.
                 var attributedString = new NSAttributedString(html, importParams, ref error);
+#pragma warning restore CS8601 // Possible null reference assignment.
                 return new NSMutableAttributedString(attributedString);
             }
             catch (Exception ex)
