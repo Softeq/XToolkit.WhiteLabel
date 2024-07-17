@@ -62,7 +62,7 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 StringEncoding = encoding
             };
 
-            NSError error = new NSError();
+            var error = new NSError();
 
             try
             {
@@ -72,8 +72,14 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             catch (Exception ex)
             {
                 logger?.Error(ex);
-                logger?.Info("Error message: " + error.Description);
                 throw;
+            }
+            finally
+            {
+                if (error != null)
+                {
+                    logger?.Info("Error message: " + error.Description);
+                }
             }
         }
 
