@@ -49,7 +49,7 @@ namespace Softeq.XToolkit.Bindings
         public abstract string? GetDefaultEventNameForControl(Type type);
 
         /// <inheritdoc />
-        public abstract void HandleCommandCanExecute<T>(
+        public abstract IDisposable HandleCommandCanExecute<T>(
             object element,
             ICommand command,
             Binding<T, T>? commandParameterBinding);

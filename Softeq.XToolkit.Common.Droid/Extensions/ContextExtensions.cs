@@ -57,9 +57,9 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
                 return;
             }
 
-            using (var metrics = context.Resources.DisplayMetrics)
+            using (var metrics = context.Resources!.DisplayMetrics)
             {
-                _displayDensity = metrics.Density;
+                _displayDensity = metrics!.Density;
             }
         }
 
@@ -121,7 +121,7 @@ namespace Softeq.XToolkit.Common.Droid.Extensions
         /// <param name="intent">Intent that should be handled.</param>
         public static bool TryStartActivity(this Context context, Intent intent)
         {
-            var canResolveActivity = intent.ResolveActivity(context.PackageManager) != null;
+            var canResolveActivity = intent.ResolveActivity(context.PackageManager!) != null;
             if (canResolveActivity)
             {
                 context.StartActivity(intent);

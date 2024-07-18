@@ -4,7 +4,8 @@
 using System;
 using Android.App;
 using Android.Content;
-using Xamarin.Essentials;
+using Microsoft.Maui.ApplicationModel;
+using EssentialsActivityState = Microsoft.Maui.ApplicationModel.ActivityState;
 
 #nullable disable
 
@@ -57,17 +58,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Providers
 
         public Context AppContext => Platform.AppContext;
 
-        private static ActivityState ToLifecycleState(Xamarin.Essentials.ActivityState activityState)
+        private static ActivityState ToLifecycleState(EssentialsActivityState activityState)
         {
             return activityState switch
             {
-                Xamarin.Essentials.ActivityState.Created => ActivityState.Created,
-                Xamarin.Essentials.ActivityState.Destroyed => ActivityState.Destroyed,
-                Xamarin.Essentials.ActivityState.Paused => ActivityState.Paused,
-                Xamarin.Essentials.ActivityState.Resumed => ActivityState.Resumed,
-                Xamarin.Essentials.ActivityState.SaveInstanceState => ActivityState.SaveInstanceState,
-                Xamarin.Essentials.ActivityState.Started => ActivityState.Started,
-                Xamarin.Essentials.ActivityState.Stopped => ActivityState.Stopped,
+                EssentialsActivityState.Created => ActivityState.Created,
+                EssentialsActivityState.Destroyed => ActivityState.Destroyed,
+                EssentialsActivityState.Paused => ActivityState.Paused,
+                EssentialsActivityState.Resumed => ActivityState.Resumed,
+                EssentialsActivityState.SaveInstanceState => ActivityState.SaveInstanceState,
+                EssentialsActivityState.Started => ActivityState.Started,
+                EssentialsActivityState.Stopped => ActivityState.Stopped,
                 _ => throw new NotImplementedException()
             };
         }

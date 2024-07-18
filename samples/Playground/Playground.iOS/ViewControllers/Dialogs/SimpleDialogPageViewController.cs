@@ -2,6 +2,7 @@
 // http://www.softeq.com
 
 using System;
+using ObjCRuntime;
 using Playground.ViewModels.Dialogs;
 using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.WhiteLabel.iOS;
@@ -13,7 +14,7 @@ namespace Playground.iOS.ViewControllers.Dialogs
     {
         private static readonly Random _rand = new Random();
 
-        public SimpleDialogPageViewController(IntPtr handle) : base(handle)
+        public SimpleDialogPageViewController(NativeHandle handle) : base(handle)
         {
             ModalPresentationStyle = (UIModalPresentationStyle) _rand.Next(1, 8);
 

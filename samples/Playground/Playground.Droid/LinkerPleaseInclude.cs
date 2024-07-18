@@ -13,6 +13,7 @@ using AndroidX.AppCompat.Widget;
 namespace Playground.Droid
 {
     [SuppressMessage("ReSharper", "UnusedVariable", Justification = "Disabled.")]
+    [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Disabled.")]
     public class LinkerPleaseInclude
     {
         public void Include(Button button)

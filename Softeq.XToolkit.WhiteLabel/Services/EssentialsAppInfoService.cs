@@ -1,30 +1,79 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using Microsoft.Maui.ApplicationModel;
+using Microsoft.Maui.Devices;
 using Softeq.XToolkit.WhiteLabel.Interfaces;
-using Softeq.XToolkit.WhiteLabel.Model;
-using Xamarin.Essentials;
+using Platform = Softeq.XToolkit.WhiteLabel.Model.Platform;
 
 namespace Softeq.XToolkit.WhiteLabel.Services
 {
     /// <summary>
-    ///     Xamarin.Essentials thread-safe implementation for <see cref="IAppInfoService"/> interface.
+    ///     Maui.Essentials thread-safe implementation for <see cref="IAppInfoService"/> interface.
     /// </summary>
-    public abstract class EssentialsAppInfoService : IAppInfoService
+    public class EssentialsAppInfoService : IAppInfoService
     {
         /// <inheritdoc />
-        public abstract Platform Platform { get; }
+        public virtual Platform Platform
+        {
+            get
+            {
+                var devicePlatform = DeviceInfo.Platform;
+
+                if (devicePlatform == DevicePlatform.iOS)
+                {
+                    return Platform.iOS;
+                }
+
+                if (devicePlatform == DevicePlatform.Android)
+                {
+                    return Platform.Android;
+                }
+
+                if (devicePlatform == DevicePlatform.macOS)
+                {
+                    return Platform.macOS;
+                }
+
+                if (devicePlatform == DevicePlatform.Tizen)
+                {
+                    return Platform.Tizen;
+                }
+
+                if (devicePlatform == DevicePlatform.tvOS)
+                {
+                    return Platform.tvOS;
+                }
+
+                if (devicePlatform == DevicePlatform.watchOS)
+                {
+                    return Platform.watchOS;
+                }
+
+                if (devicePlatform == DevicePlatform.WinUI)
+                {
+                    return Platform.WinUI;
+                }
+
+                if (devicePlatform == DevicePlatform.MacCatalyst)
+                {
+                    return Platform.MacCatalyst;
+                }
+
+                return Platform.Unknown;
+            }
+        }
 
         /// <inheritdoc />
-        public string? Name => AppInfo.Name;
+        public string Name => AppInfo.Name;
 
         /// <inheritdoc />
-        public string? PackageName => AppInfo.PackageName;
+        public string PackageName => AppInfo.PackageName;
 
         /// <inheritdoc />
-        public string? Version => AppInfo.VersionString;
+        public string Version => AppInfo.VersionString;
 
         /// <inheritdoc />
-        public string? Build => AppInfo.BuildString;
+        public string Build => AppInfo.BuildString;
     }
 }

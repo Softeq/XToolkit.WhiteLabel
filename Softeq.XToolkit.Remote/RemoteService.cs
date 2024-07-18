@@ -57,6 +57,11 @@ namespace Softeq.XToolkit.Remote
                 .ConfigureAwait(false);
         }
 
+        /// <summary>
+        ///     Creates custom Polly policy.
+        /// </summary>
+        /// <param name="options">Request options.</param>
+        /// <returns>Polly policy.</returns>
         protected virtual IAsyncPolicy CreatePolicy(RequestOptions options)
         {
             return _executorFactory

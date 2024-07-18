@@ -20,7 +20,7 @@ namespace Playground.Droid.Views
 
             SetContentView(Resource.Layout.activity_empty);
 
-            SupportActionBar.SetDisplayHomeAsUpEnabled(true);
+            SupportActionBar!.SetDisplayHomeAsUpEnabled(true);
         }
 
         public override bool OnOptionsItemSelected(IMenuItem item)

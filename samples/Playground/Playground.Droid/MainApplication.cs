@@ -16,8 +16,8 @@ namespace Playground.Droid
 #endif
     public class MainApplication : MainApplicationBase
     {
-        protected MainApplication(IntPtr handle, JniHandleOwnership transer)
-            : base(handle, transer)
+        protected MainApplication(IntPtr handle, JniHandleOwnership transfer)
+            : base(handle, transfer)
         {
         }
 

@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Internal
         {
             if (_cache.TryGetValue(containerId, out var container))
             {
-                return (TViewModel) container.GetValueOrDefault(key);
+                return container.GetValueOrDefault(key) as TViewModel;
             }
 
             return null;

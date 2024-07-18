@@ -1,9 +1,9 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using ObjCRuntime;
 using Playground.iOS.Views.Table;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
@@ -17,7 +17,7 @@ namespace Playground.iOS.ViewControllers.Collections
 {
     public partial class GroupedListPageViewController : ViewControllerBase<GroupedTablePageViewModel>
     {
-        public GroupedListPageViewController(IntPtr handle) : base(handle)
+        public GroupedListPageViewController(NativeHandle handle) : base(handle)
         {
         }
 

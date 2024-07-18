@@ -29,7 +29,7 @@ namespace Playground.iOS.ViewControllers.Collections.CompositionalLayout
         {
             _collectionView = new UICollectionView(View!.Bounds, CreateLayout());
             _collectionView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleHeight;
-            _collectionView.BackgroundColor = UIColor.SystemBackgroundColor;
+            _collectionView.BackgroundColor = UIColor.SystemBackground;
             _collectionView.RegisterNibForCell(DummyCell.Nib, DummyCell.Key);
             View.AddSubview(_collectionView);
         }

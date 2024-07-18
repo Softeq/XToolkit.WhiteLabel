@@ -30,7 +30,6 @@ namespace Playground.Forms.iOS
             base.ConfigureIoc(builder);
 
             // permissions
-            builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
 
             // launcher

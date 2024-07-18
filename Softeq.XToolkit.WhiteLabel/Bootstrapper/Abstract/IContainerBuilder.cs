@@ -11,6 +11,8 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
     /// </summary>
     public interface IContainerBuilder
     {
+        void PerDependency(Type implementationType, Type serviceType, IfRegistered ifRegistered = IfRegistered.AppendNew);
+
         void PerDependency<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
             where TImplementation : TService;
 
@@ -21,6 +23,8 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract
         void PerDependency(Type type, IfRegistered ifRegistered = IfRegistered.AppendNew);
 
         void PerDependency<TService>(Func<IContainer, object> func, IfRegistered ifRegistered = IfRegistered.AppendNew);
+
+        void Singleton(Type implementationType, Type serviceType, IfRegistered ifRegistered = IfRegistered.AppendNew);
 
         void Singleton<TImplementation, TService>(IfRegistered ifRegistered = IfRegistered.AppendNew)
             where TImplementation : TService;

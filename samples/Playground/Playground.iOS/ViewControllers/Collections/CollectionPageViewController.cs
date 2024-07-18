@@ -1,7 +1,7 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
+using ObjCRuntime;
 using Playground.iOS.Views;
 using Playground.Models;
 using Playground.ViewModels.Collections;
@@ -13,7 +13,7 @@ namespace Playground.iOS.ViewControllers.Collections
     public partial class CollectionPageViewController
         : ViewControllerBase<CollectionPageViewModel>
     {
-        public CollectionPageViewController(IntPtr handle) : base(handle)
+        public CollectionPageViewController(NativeHandle handle) : base(handle)
         {
         }
 

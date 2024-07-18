@@ -2,8 +2,8 @@
 // http://www.softeq.com
 
 using System;
+using Microsoft.Maui.Storage;
 using Softeq.XToolkit.Common.Interfaces;
-using Xamarin.Essentials;
 
 namespace Softeq.XToolkit.WhiteLabel.Services
 {

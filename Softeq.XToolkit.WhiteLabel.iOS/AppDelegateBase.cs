@@ -19,17 +19,11 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
     {
         private UIViewController _rootViewController = default!;
 
+        /// <inheritdoc />
         public override UIWindow? Window { get; set; }
-
-        /// <summary>
-        ///     Gets options, provided during the app launch.
-        /// </summary>
-        protected NSDictionary? LaunchOptions { get; private set; }
 
         public override bool FinishedLaunching(UIApplication application, NSDictionary launchOptions)
         {
-            LaunchOptions = launchOptions;
-
             // YP: Hard reference kept because StoryboardNavigation service uses weak references.
             _rootViewController = CreateRootViewController();
 

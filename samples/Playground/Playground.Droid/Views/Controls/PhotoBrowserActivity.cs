@@ -29,8 +29,8 @@ namespace Playground.Droid.Views.Controls
             _galleryButton = FindViewById<Button>(Resource.Id.buttonGallery);
             _imageView = FindViewById<ImageView>(Resource.Id.imageView1);
 
-            _cameraButton.SetCommand(ViewModel.CameraCommand);
-            _galleryButton.SetCommand(ViewModel.GalleryCommand);
+            _cameraButton!.SetCommand(ViewModel.CameraCommand);
+            _galleryButton!.SetCommand(ViewModel.GalleryCommand);
         }
 
         protected override void DoAttachBindings()

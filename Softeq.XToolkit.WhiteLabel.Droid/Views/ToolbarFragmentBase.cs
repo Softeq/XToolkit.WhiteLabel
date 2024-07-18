@@ -15,7 +15,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Views
 
         protected abstract ToolbarComponent<TViewModel, TKey> ToolbarComponent { get; }
 
-        public override void OnCreate(Bundle savedInstanceState)
+        public override void OnCreate(Bundle? savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
 

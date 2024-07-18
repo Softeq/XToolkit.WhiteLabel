@@ -13,16 +13,16 @@ namespace Playground.Droid.Views.Frames
 {
     public class YellowFragment : FragmentBase<YellowViewModel>
     {
-        public override View? OnCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+        public override View? OnCreateView(LayoutInflater inflater, ViewGroup? container, Bundle? savedInstanceState)
         {
             return inflater.Inflate(Resource.Layout.fragment_with_navigation, container, false);
         }
 
-        public override void OnViewCreated(View view, Bundle savedInstanceState)
+        public override void OnViewCreated(View view, Bundle? savedInstanceState)
         {
             base.OnViewCreated(view, savedInstanceState);
 
-            var next = View.FindViewById<Button>(Resource.Id.fragment_with_navigation_next)!;
+            var next = View!.FindViewById<Button>(Resource.Id.fragment_with_navigation_next)!;
             next.Visibility = ViewStates.Gone;
 
             var back = View.FindViewById<Button>(Resource.Id.fragment_with_navigation_back)!;

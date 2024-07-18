@@ -41,11 +41,11 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
 
         public ColorStateList BackgroundColor
         {
-            get => ((GradientDrawable) _textView.Background).Color;
-            set => ((GradientDrawable) _textView.Background).SetColor(value);
+            get => ((GradientDrawable) _textView.Background!).Color!;
+            set => ((GradientDrawable) _textView.Background!).SetColor(value);
         }
 
-        public ColorStateList TextColor
+        public ColorStateList? TextColor
         {
             get => _textView.TextColors;
             set => _textView.SetTextColor(value);
@@ -58,14 +58,15 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
             _viewModelRef = new WeakReferenceEx<TabViewModel<TKey>>(viewModel);
 
             this.DetachBindings();
-            this.Bind(() => _viewModelRef.Target.BadgeText, () => _textView.Text);
-            this.Bind(() => _viewModelRef.Target.IsBadgeVisible, () => Visibility, GoneConverter.Instance);
+            this.Bind(() => _viewModelRef.Target!.BadgeText, () => _textView.Text);
+            this.Bind(() => _viewModelRef.Target!.IsBadgeVisible, () => Visibility, VisibilityConverter.Gone);
         }
 
         private void Initialize(Context context)
         {
             Inflate(context, Resource.Layout.control_notification_badge, this);
-            _textView = FindViewById<TextView>(Resource.Id.notification_badge_text_view);
+
+            _textView = FindViewById<TextView>(Resource.Id.notification_badge_text_view)!;
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         {
         }
 
-        public override bool OnTouchEvent(MotionEvent e)
+        public override bool OnTouchEvent(MotionEvent? e)
         {
             base.OnTouchEvent(e);
             return false; // We return false to pass touches to the views below

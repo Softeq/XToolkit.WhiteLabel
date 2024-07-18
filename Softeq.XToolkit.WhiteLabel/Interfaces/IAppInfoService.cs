@@ -18,21 +18,21 @@ namespace Softeq.XToolkit.WhiteLabel.Interfaces
         /// <summary>
         ///     Gets application Name.
         /// </summary>
-        string? Name { get; }
+        string Name { get; }
 
         /// <summary>
         ///     Gets package Name/Application Identifier (com.company.test_app).
         /// </summary>
-        string? PackageName { get; }
+        string PackageName { get; }
 
         /// <summary>
         ///     Gets application Version (1.0.0).
         /// </summary>
-        string? Version { get; }
+        string Version { get; }
 
         /// <summary>
         ///     Gets application Build Number (1).
         /// </summary>
-        string? Build { get; }
+        string Build { get; }
     }
 }

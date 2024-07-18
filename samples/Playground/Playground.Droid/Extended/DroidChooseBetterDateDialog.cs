@@ -37,7 +37,7 @@ namespace Playground.Droid.Extended
                 };
 
                 var items = options.Select(x => x.ToString(CultureInfo.CurrentCulture)).ToArray();
-                builder.SetItems(items, (_, args) =>
+                builder!.SetItems(items, (_, args) =>
                 {
                     dialogResult.TrySetResult(options[args.Which]);
                 });

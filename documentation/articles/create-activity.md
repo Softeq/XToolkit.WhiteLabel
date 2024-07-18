@@ -10,7 +10,7 @@ First of all, see [Navigation Requirements](xtoolkit/whitelabel/navigation-requi
 [Activity]
 public class MainPageActivity : ActivityBase<MainPageViewModel>
 {
-    protected override void OnCreate(Bundle savedInstanceState)
+    protected override void OnCreate(Bundle? savedInstanceState)
     {
         base.OnCreate(savedInstanceState);
 

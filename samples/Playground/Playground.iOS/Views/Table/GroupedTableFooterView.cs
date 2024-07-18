@@ -3,6 +3,7 @@
 
 using System;
 using CoreGraphics;
+using ObjCRuntime;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
 using UIKit;
@@ -13,7 +14,7 @@ namespace Playground.iOS.Views.Table
     {
         private readonly UILabel _label;
 
-        public GroupedTableFooterView(IntPtr handle)
+        public GroupedTableFooterView(NativeHandle handle)
             : base(handle)
         {
             _label = new UILabel(new CGRect(0, 0, 300, 20));

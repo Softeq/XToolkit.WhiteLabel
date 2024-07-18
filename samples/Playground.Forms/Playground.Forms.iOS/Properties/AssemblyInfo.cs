@@ -12,7 +12,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Softeq Development Corporation")]
 [assembly: AssemblyProduct("XToolkit")]
-[assembly: AssemblyCopyright("Copyright © Softeq Development Corporation 2020")]
+[assembly: AssemblyCopyright("Copyright © Softeq Development Corporation 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 [assembly: ComVisible(false)]

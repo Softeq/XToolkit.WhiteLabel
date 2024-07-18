@@ -16,7 +16,7 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
         ///     Model representing information about
         ///     a property that should store <paramref name="value"/>.
         /// </param>
-        public NavigationParameterModel(object? value, PropertyInfoModel propertyInfo)
+        public NavigationParameterModel(object? value, NavigationPropertyInfo? propertyInfo)
         {
             Value = value;
             PropertyInfo = propertyInfo;
@@ -29,8 +29,8 @@ namespace Softeq.XToolkit.WhiteLabel.Navigation
 
         /// <summary>
         ///     Gets the model representing information about
-        ///     a property that should store <paramref name="value"/>.
+        ///     a property that should store <see cref="Value"/>.
         /// </summary>
-        public PropertyInfoModel PropertyInfo { get; }
+        public NavigationPropertyInfo? PropertyInfo { get; }
     }
 }

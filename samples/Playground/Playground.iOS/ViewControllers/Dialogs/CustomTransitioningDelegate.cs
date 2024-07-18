@@ -63,9 +63,8 @@ namespace Playground.iOS.ViewControllers.Dialogs
             private CGPath GeneratePath()
             {
                 var path = new CGPath();
-                path.AddEllipseInRect(new CGRect(120, 0, 160, 300));
-                path.AddEllipseInRect(new CGRect(50, 200, 150, 150));
-                path.AddEllipseInRect(new CGRect(200, 200, 150, 150));
+                path.AddEllipseInRect(new CGRect(100, 0, 200, 100));
+                path.AddRoundedRect(new CGRect(50, 100, 300, 200), 20, 20);
                 return path;
             }
         }

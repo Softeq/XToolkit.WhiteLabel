@@ -11,6 +11,7 @@ using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Containers;
 using Softeq.XToolkit.WhiteLabel.Navigation;
+using Softeq.XToolkit.WhiteLabel.Services;
 
 namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
 {
@@ -56,7 +57,7 @@ namespace Softeq.XToolkit.WhiteLabel.Bootstrapper
             builder.Singleton<BackStackManager, IBackStackManager>(IfRegistered.Keep);
 
             // json
-            builder.Singleton<Services.NewtonsoftJsonSerializer, IJsonSerializer>();
+            builder.Singleton<DefaultJsonSerializer, IJsonSerializer>();
 
             // UI Thread executor
             builder.Singleton(_ => Execute.CurrentExecutor);

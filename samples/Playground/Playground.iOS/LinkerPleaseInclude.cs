@@ -11,6 +11,7 @@ using UIKit;
 namespace Playground.iOS
 {
     [SuppressMessage("ReSharper", "UnusedVariable", Justification = "Disabled.")]
+    [SuppressMessage("ReSharper", "UnusedParameter.Local", Justification = "Disabled.")]
     public class LinkerPleaseInclude
     {
         public void Include(UIButton uiButton)

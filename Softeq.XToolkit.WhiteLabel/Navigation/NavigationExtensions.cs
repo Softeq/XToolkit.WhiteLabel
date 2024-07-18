@@ -8,6 +8,9 @@ using Softeq.XToolkit.WhiteLabel.Mvvm;
 
 namespace Softeq.XToolkit.WhiteLabel.Navigation
 {
+    /// <summary>
+    ///     Extension methods regarding navigation.
+    /// </summary>
     public static class NavigationExtensions
     {
         /// <summary>

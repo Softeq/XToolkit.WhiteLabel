@@ -32,7 +32,7 @@ namespace Softeq.XToolkit.Common.Files
             {
                 var tasks = _fileSystem.Directory.GetFiles(path).
                     Select(async x => await RemoveFileAsync(x).ConfigureAwait(false));
-                await Task.WhenAll(tasks);
+                await Task.WhenAll(tasks).ConfigureAwait(false);
             });
         }
 
@@ -69,10 +69,10 @@ namespace Softeq.XToolkit.Common.Files
         public async Task WriteFileAsync(string path, Stream stream)
         {
             path = GetAbsolutePath(path);
-            using (var outputStream = await OpenFileForWriteAsync(path))
+            using (var outputStream = await OpenFileForWriteAsync(path).ConfigureAwait(false))
             {
                 stream.Position = 0;
-                await stream.CopyToAsync(outputStream);
+                await stream.CopyToAsync(outputStream).ConfigureAwait(false);
 
                 stream.Dispose();
             }

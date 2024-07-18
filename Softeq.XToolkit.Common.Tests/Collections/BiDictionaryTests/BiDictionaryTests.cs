@@ -3,10 +3,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using Softeq.XToolkit.Common.Collections;
 using Xunit;
 
 namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
@@ -139,29 +136,6 @@ namespace Softeq.XToolkit.Common.Tests.Collections.BiDictionaryTests
             Assert.False(wasNotRemoved1);
             Assert.Null(notRemovedValue);
             Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", dictionary.GetResult());
-        }
-
-        [Fact]
-        public void Serialization()
-        {
-            var dictionary = BiDictionaryHelper.CreateWithTwoItems();
-
-            var sb = new StringBuilder();
-
-            using (var memoryStream = new MemoryStream())
-            {
-                var binaryFormatter = new BinaryFormatter();
-                binaryFormatter.Serialize(memoryStream, dictionary);
-                memoryStream.Position = 0;
-
-                var newDict = (BiDictionary<int, string>) binaryFormatter.Deserialize(memoryStream);
-
-                sb.AppendJoin(",", newDict);
-                sb.Append("-");
-                sb.AppendJoin(",", newDict.Reverse);
-            }
-
-            Assert.Equal("[0, 0],[1, 1]-[0, 0],[1, 1]", sb.ToString());
         }
 
         [Fact]

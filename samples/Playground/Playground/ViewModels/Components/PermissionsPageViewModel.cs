@@ -5,11 +5,13 @@ using System.Threading.Tasks;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
-using CameraPermission = Xamarin.Essentials.Permissions.Camera;
-using LocationAlwaysPermission = Xamarin.Essentials.Permissions.LocationAlways;
-using LocationWhenInUsePermission = Xamarin.Essentials.Permissions.LocationWhenInUse;
-using PhotosPermission = Xamarin.Essentials.Permissions.Photos;
-using StoragePermission = Xamarin.Essentials.Permissions.StorageWrite;
+using BluetoothPermission = Softeq.XToolkit.Permissions.Permissions.Bluetooth;
+using CameraPermission = Microsoft.Maui.ApplicationModel.Permissions.Camera;
+using LocationAlwaysPermission = Microsoft.Maui.ApplicationModel.Permissions.LocationAlways;
+using LocationWhenInUsePermission = Microsoft.Maui.ApplicationModel.Permissions.LocationWhenInUse;
+using NotificationsPermission = Softeq.XToolkit.Permissions.Permissions.Notifications;
+using PhotosPermission = Microsoft.Maui.ApplicationModel.Permissions.Photos;
+using StoragePermission = Microsoft.Maui.ApplicationModel.Permissions.StorageWrite;
 
 namespace Playground.ViewModels.Components
 {
@@ -22,6 +24,8 @@ namespace Playground.ViewModels.Components
             Storage = new PermissionViewModel<StoragePermission>(permissionsManager);
             LocationInUse = new PermissionViewModel<LocationWhenInUsePermission>(permissionsManager);
             LocationAlways = new PermissionViewModel<LocationAlwaysPermission>(permissionsManager);
+            Notifications = new PermissionViewModel<NotificationsPermission>(permissionsManager);
+            Bluetooth = new PermissionViewModel<BluetoothPermission>(permissionsManager);
         }
 
         public PermissionViewModel<PhotosPermission> Photos { get; }
@@ -33,6 +37,10 @@ namespace Playground.ViewModels.Components
         public PermissionViewModel<LocationWhenInUsePermission> LocationInUse { get; }
 
         public PermissionViewModel<LocationAlwaysPermission> LocationAlways { get; }
+
+        public PermissionViewModel<NotificationsPermission> Notifications { get; }
+
+        public PermissionViewModel<BluetoothPermission> Bluetooth { get; }
 
         public override void OnAppearing()
         {
@@ -52,6 +60,10 @@ namespace Playground.ViewModels.Components
             await LocationInUse.CheckStatus();
 
             await LocationAlways.CheckStatus();
+
+            await Notifications.CheckStatus();
+
+            await Bluetooth.CheckStatus();
         }
     }
 }

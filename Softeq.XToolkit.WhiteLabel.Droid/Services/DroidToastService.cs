@@ -116,7 +116,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Services
                 _commandAction = commandAction;
             }
 
-            public override void OnDismissed(Object transientBottomBar, int eventCode)
+            public override void OnDismissed(Object? transientBottomBar, int eventCode)
             {
                 base.OnDismissed(transientBottomBar, eventCode);
 

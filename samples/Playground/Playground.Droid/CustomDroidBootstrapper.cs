@@ -4,6 +4,7 @@
 using System.Collections.Generic;
 using System.Reflection;
 using Playground.Droid.Extended;
+using Playground.Droid.Services;
 using Playground.Extended;
 using Softeq.XToolkit.Common.Droid.Permissions;
 using Softeq.XToolkit.Common.Extensions;
@@ -13,10 +14,9 @@ using Softeq.XToolkit.Permissions.Droid;
 using Softeq.XToolkit.WhiteLabel.Bootstrapper.Abstract;
 using Softeq.XToolkit.WhiteLabel.Droid;
 using Softeq.XToolkit.WhiteLabel.Droid.Dialogs;
-using Softeq.XToolkit.WhiteLabel.Droid.Services;
+using Softeq.XToolkit.WhiteLabel.Droid.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker;
-using Softeq.XToolkit.WhiteLabel.Interfaces;
 using Softeq.XToolkit.WhiteLabel.Navigation;
 using IImagePickerService = Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker.IImagePickerService;
 
@@ -36,22 +36,20 @@ namespace Playground.Droid
             // core
             CustomBootstrapper.Configure(builder);
 
-            builder.Singleton<DroidAppInfoService, IAppInfoService>();
-
             builder.Singleton<DroidFragmentDialogService, IDialogsService>();
             builder.Singleton<DroidExtendedDialogsService, IExtendedDialogsService>();
 
             // permissions
-            builder.Singleton<PermissionsService, IPermissionsService>();
             builder.Singleton<PermissionsManager, IPermissionsManager>();
             builder.Singleton<RequestResultHandler, IPermissionRequestHandler>();
 
             // image picker
+            builder.Singleton<GlideImageService, IDroidImageService>();
             builder.Singleton<DroidImagePickerService, IImagePickerService>();
             builder.Singleton<ImagePickerActivityResultHandler, IImagePickerActivityResultHandler>();
 
             // connectivity
-            builder.Singleton<ConnectivityService, IConnectivityService>();
+            builder.Singleton<IConnectivityService>(_ => EssentialsConnectivityService.Default());
         }
     }
 }

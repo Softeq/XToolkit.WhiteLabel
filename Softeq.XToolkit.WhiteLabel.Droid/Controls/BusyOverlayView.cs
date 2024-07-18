@@ -35,7 +35,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Controls
         public void SetOverlayBackgroundResource(int resourceId)
         {
             var view = FindViewById<View>(Resource.Id.control_busy_overlay_container);
-            view.SetBackgroundResource(resourceId);
+            view!.SetBackgroundResource(resourceId);
         }
 
         private void Init(Context context)

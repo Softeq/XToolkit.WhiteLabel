@@ -1,18 +1,18 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System;
-using FFImageLoading;
+using ObjCRuntime;
 using Softeq.XToolkit.Bindings.iOS.Gestures;
 using Softeq.XToolkit.WhiteLabel.Essentials.FullScreenImage;
 using Softeq.XToolkit.WhiteLabel.iOS;
+using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
 {
     public partial class FullScreenImageViewController : ViewControllerBase<FullScreenImageViewModel>
     {
-        public FullScreenImageViewController(IntPtr handle)
+        public FullScreenImageViewController(NativeHandle handle)
             : base(handle)
         {
         }
@@ -61,13 +61,13 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
 
         private void LoadImage()
         {
-            var imageService = ImageService.Instance;
+            var imageService = Dependencies.Container.Resolve<IIosImageService>();
 
-            var task = string.IsNullOrEmpty(ViewModel.ImagePath) == false
-                ? imageService.LoadFile(ViewModel.ImagePath)
-                : imageService.LoadUrl(ViewModel.ImageUrl);
+            var url = string.IsNullOrEmpty(ViewModel.ImagePath)
+                ? ViewModel.ImageUrl
+                : ViewModel.ImagePath;
 
-            task.IntoAsync(ImageView);
+            imageService.LoadImage(url!, ImageView);
         }
     }
 }

@@ -2,9 +2,9 @@
 
 Before starting you should create three projects:
 
-1. ApplicationName (should be .Net Standart project) which will include your shared ViewModels
-2. ApplicationName.iOS
-3. ApplicationName.Droid
+1. `ApplicationName` (should be .NET6+ project) which will include your shared ViewModels
+2. `ApplicationName.iOS`
+3. `ApplicationName.Droid`
 
 ## Configuration
 

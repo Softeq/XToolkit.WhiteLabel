@@ -9,7 +9,7 @@ namespace Playground.iOS
     {
         public static UIColor DefaultBackgroundColor =>
             UIDevice.CurrentDevice.CheckSystemVersion(13, 0)
-                ? UIColor.SystemBackgroundColor
+                ? UIColor.SystemBackground
                 : UIColor.White;
     }
 }

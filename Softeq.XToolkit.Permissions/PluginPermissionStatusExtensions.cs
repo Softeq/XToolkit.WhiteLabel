@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using System.ComponentModel;
-using PluginPermissionStatus = Xamarin.Essentials.PermissionStatus;
+using PluginPermissionStatus = Microsoft.Maui.ApplicationModel.PermissionStatus;
 
 namespace Softeq.XToolkit.Permissions
 {

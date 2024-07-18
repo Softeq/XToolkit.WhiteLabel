@@ -2,7 +2,7 @@
 // http://www.softeq.com
 
 using System.Threading.Tasks;
-using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
 
 namespace Softeq.XToolkit.Permissions
 {

@@ -48,8 +48,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             {
                 using (var stream = ImagePickerUtils.GetContentStream(context, fileUri))
                 {
-                    bitmap = await ImagePickerUtils.FixRotation(bitmap, new ExifInterface(stream))
-                        .ConfigureAwait(false);
+#pragma warning disable CA1416
+                    bitmap = await ImagePickerUtils.FixRotation(bitmap, new ExifInterface(stream)).ConfigureAwait(false);
+#pragma warning restore CA1416
                 }
             }
             else

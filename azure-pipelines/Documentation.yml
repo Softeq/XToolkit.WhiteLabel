@@ -15,27 +15,30 @@ jobs:
   pool:
     vmImage: $(MACOS_VM_IMAGE)
   steps:
-    # setup env
-    - task: UseDotNet@2
-      displayName: Use .NET SDK
-      inputs:
-        version: $(DOTNET_SDK_VERSION)
-    - bash: sudo $AGENT_HOMEDIRECTORY/scripts/select-xamarin-sdk.sh $(MONO_VERSION)
-      displayName: Select Xamarin SDK
-    - bash: |
-        echo '##vso[task.setvariable variable=MD_APPLE_SDK_ROOT;]'/Applications/Xcode_$(XCODE_VERSION).app
-        sudo xcode-select -s /Applications/Xcode_$(XCODE_VERSION).app/Contents/Developer
-      displayName: Select Xcode
-    # restore, build
-    - script: 'msbuild XToolkit.sln -r /p:Configuration="Release" /p:Platform="Any CPU"'
-      displayName: Build Solution
-    - bash: 'cd documentation && sh build.sh'
-      displayName: Build Documentation
-    - task: CopyFiles@2
-      inputs:
-        contents: 'documentation/_site/**'
-        targetFolder: $(Build.ArtifactStagingDirectory)
-    - task: PublishBuildArtifacts@1
-      inputs:
-        pathToPublish: $(Build.ArtifactStagingDirectory)
-        artifactName: drop
+  - template: templates/setup-dotnet.yml
+    parameters:
+      version: $(DOTNET_SDK_VERSION)
+
+  - template: templates/setup-xcode.yml
+    parameters:
+      version: $(XCODE_VERSION)
+
+  - task: DotNetCoreCLI@2
+    displayName: Build Solution
+    inputs:
+      command: build
+      configuration: Release
+      arguments: --verbosity Detailed
+
+  - bash: 'cd documentation && sh build.sh'
+    displayName: Build Documentation
+
+  - task: CopyFiles@2
+    inputs:
+      contents: 'documentation/_site/**'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+
+  - task: PublishBuildArtifacts@1
+    inputs:
+      pathToPublish: $(Build.ArtifactStagingDirectory)
+      artifactName: drop

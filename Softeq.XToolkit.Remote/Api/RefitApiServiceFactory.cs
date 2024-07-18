@@ -14,11 +14,16 @@ namespace Softeq.XToolkit.Remote.Api
     {
         private readonly RefitSettings? _settings;
 
+        /// <summary>
+        ///     Initializes a new instance of the <see cref="RefitApiServiceFactory"/> class.
+        /// </summary>
+        /// <param name="settings">Refit settings.</param>
         public RefitApiServiceFactory(RefitSettings? settings = null)
         {
             _settings = settings;
         }
 
+        /// <inheritdoc />
         public TApiService CreateService<TApiService>(HttpClient httpClient)
         {
             if (httpClient == null)

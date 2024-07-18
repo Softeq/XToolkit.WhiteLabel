@@ -7,7 +7,7 @@ using Softeq.XToolkit.Common;
 using Softeq.XToolkit.Common.Commands;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.Permissions;
-using BasePermission = Xamarin.Essentials.Permissions.BasePermission;
+using BasePermission = Microsoft.Maui.ApplicationModel.Permissions.BasePermission;
 using PermissionStatus = Softeq.XToolkit.Permissions.PermissionStatus;
 
 namespace Playground.ViewModels.Components

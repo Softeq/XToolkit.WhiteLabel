@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RuleSet Name="Rules for Softeq.XToolkit" Description="Code analysis rules for Softeq.XToolkit." ToolsVersion="15.0">
   <IncludeAll Action="Warning" />
+  <Rules AnalyzerId="Microsoft.Analyzers.ManagedCodeAnalysis" RuleNamespace="Microsoft.Rules.Managed">
+    <Rule Id="CA2007" Action="Warning" /> <!-- Decorate all async calls with a `.ConfigureAwait(false);` suffix -->
+  </Rules>
   <Rules AnalyzerId="StyleCop.Analyzers" RuleNamespace="StyleCop.Analyzers">
-	<Rule Id="SA0001" Action="None" />
-    <!-- <Rule Id="SA0002" Action="Error" />
-    <Rule Id="SA1000" Action="Error" />
-    <Rule Id="SA1001" Action="Error" />
-    <Rule Id="SA1002" Action="Error" /> -->
-    <Rule Id="SA1003" Action="None" /> <!-- @ Error --> 
-    <!-- <Rule Id="SA1004" Action="Error" />
-    <Rule Id="SA1005" Action="Error" />
-    <Rule Id="SA1006" Action="Error" />
-    <Rule Id="SA1007" Action="Error" />
-    <Rule Id="SA1008" Action="Error" /> -->
-    <Rule Id="SA1009" Action="None" /> <!-- @ Error --> 
+    <Rule Id="SA0001" Action="None" />
+    <!-- <Rule Id="SA0002" Action="Error" /> -->
+    <!-- <Rule Id="SA1000" Action="Error" /> -->
+    <!-- <Rule Id="SA1001" Action="Error" /> -->
+    <!-- <Rule Id="SA1002" Action="Error" /> -->
+    <Rule Id="SA1003" Action="None" /> <!-- @ Error -->
+    <!-- <Rule Id="SA1004" Action="Error" /> -->
+    <!-- <Rule Id="SA1005" Action="Error" /> -->
+    <!-- <Rule Id="SA1006" Action="Error" /> -->
+    <!-- <Rule Id="SA1007" Action="Error" /> -->
+    <!-- <Rule Id="SA1008" Action="Error" /> -->
+    <Rule Id="SA1009" Action="None" /> <!-- @ Error -->
     <!-- <Rule Id="SA1010" Action="Error" /> -->
     <Rule Id="SA1011" Action="None" />
     <!-- <Rule Id="SA1012" Action="Error" />
@@ -32,74 +35,69 @@
     <Rule Id="SA1025" Action="Error" />
     <Rule Id="SA1026" Action="Error" />
     <Rule Id="SA1027" Action="Error" /> -->
-    <Rule Id="SA1028" Action="Warning" />  <!-- @ Error --> 
+    <Rule Id="SA1028" Action="Warning" />  <!-- @ Error -->
     <!-- <Rule Id="SA1100" Action="Error" /> -->
     <Rule Id="SA1101" Action="None" /> <!-- Prefix local calls with this -->
     <!-- <Rule Id="SA1102" Action="Error" /> -->
     <Rule Id="SA1103" Action="None" />  <!-- !!! -->
-    <!-- <Rule Id="SA1104" Action="Error" />
-    <Rule Id="SA1105" Action="Error" />
-    <Rule Id="SA1106" Action="Error" />
-    <Rule Id="SA1107" Action="Error" /> -->
+    <!-- <Rule Id="SA1104" Action="Error" /> -->
+    <!-- <Rule Id="SA1105" Action="Error" /> -->
+    <!-- <Rule Id="SA1106" Action="Error" /> -->
+    <!-- <Rule Id="SA1107" Action="Error" /> -->
     <Rule Id="SA1108" Action="None" /> <!-- !!! -->
     <Rule Id="SA1109" Action="None" /> <!-- !!! -->
-    <!-- <Rule Id="SA1110" Action="Error" />
-    <Rule Id="SA1111" Action="Error" />
-    <Rule Id="SA1112" Action="Error" />
-    <Rule Id="SA1113" Action="Error" />
-    <Rule Id="SA1114" Action="Error" />
-    <Rule Id="SA1115" Action="Error" /> -->
-    <Rule Id="SA1116" Action="Warning" /> <!-- @ Error --> 
-    <!-- <Rule Id="SA1117" Action="Error" />
-    <Rule Id="SA1118" Action="Error" />
-    <Rule Id="SA1119" Action="Error" />
-    <Rule Id="SA1120" Action="Error" />
-    <Rule Id="SA1121" Action="Error" />
-    <Rule Id="SA1122" Action="Error" />
-    <Rule Id="SA1123" Action="Error" /> -->
+    <!-- <Rule Id="SA1110" Action="Error" /> -->
+    <!-- <Rule Id="SA1111" Action="Error" /> -->
+    <!-- <Rule Id="SA1112" Action="Error" /> -->
+    <!-- <Rule Id="SA1113" Action="Error" /> -->
+    <!-- <Rule Id="SA1114" Action="Error" /> -->
+    <!-- <Rule Id="SA1115" Action="Error" /> -->
+    <Rule Id="SA1116" Action="Warning" /> <!-- @ Error -->
+    <!-- <Rule Id="SA1117" Action="Error" /> -->
+    <!-- <Rule Id="SA1118" Action="Error" /> -->
+    <!-- <Rule Id="SA1119" Action="Error" /> -->
+    <!-- <Rule Id="SA1120" Action="Error" /> -->
+    <!-- <Rule Id="SA1121" Action="Error" /> -->
+    <!-- <Rule Id="SA1122" Action="Error" /> -->
+    <!-- <Rule Id="SA1123" Action="Error" /> -->
     <Rule Id="SA1124" Action="None" /> <!-- DoNotUseRegions -->
-  <!--
-    <Rule Id="SA1125" Action="Error" /> -->
+    <!-- <Rule Id="SA1125" Action="Error" /> -->
     <Rule Id="SA1126" Action="None" />
-    <Rule Id="SA1127" Action="None" /> <!-- @ Error --> 
-	  <Rule Id="SA1128" Action="None" /> <!-- Constructor initializers should be on their own line -->
-    <!--
-    <Rule Id="SA1129" Action="Error" />
-    <Rule Id="SA1130" Action="Error" />
-    <Rule Id="SA1131" Action="Error" />
-    <Rule Id="SA1132" Action="Error" />
-    <Rule Id="SA1133" Action="Error" />
-    <Rule Id="SA1134" Action="Error" />
-    <Rule Id="SA1135" Action="Error" />
-    <Rule Id="SA1136" Action="Error" />
-    <Rule Id="SA1137" Action="Error" />
-    <Rule Id="SA1139" Action="Error" /> -->
+    <Rule Id="SA1127" Action="None" /> <!-- @ Error -->
+    <Rule Id="SA1128" Action="None" /> <!-- Constructor initializers should be on their own line -->
+    <!-- <Rule Id="SA1129" Action="Error" /> -->
+    <!-- <Rule Id="SA1130" Action="Error" /> -->
+    <!-- <Rule Id="SA1131" Action="Error" /> -->
+    <!-- <Rule Id="SA1132" Action="Error" /> -->
+    <!-- <Rule Id="SA1133" Action="Error" /> -->
+    <!-- <Rule Id="SA1134" Action="Error" /> -->
+    <!-- <Rule Id="SA1135" Action="Error" /> -->
+    <!-- <Rule Id="SA1136" Action="Error" /> -->
+    <!-- <Rule Id="SA1137" Action="Error" /> -->
+    <!-- <Rule Id="SA1139" Action="Error" /> -->
     <Rule Id="SA1200" Action="None" />
-    <Rule Id="SA1201" Action="Warning" /> <!-- @ Error - ordering --> 
+    <Rule Id="SA1201" Action="Warning" /> <!-- @ Error - ordering -->
     <Rule Id="SA1202" Action="None" />
     <!-- <Rule Id="SA1203" Action="Error" /> -->
-    <Rule Id="SA1204" Action="Warning" /> <!-- @ Error - ordering --> 
-<!--     <Rule Id="SA1205" Action="Error" />
-    <Rule Id="SA1206" Action="Error" />
-    <Rule Id="SA1207" Action="Error" />
-    <Rule Id="SA1208" Action="Error" />
-    <Rule Id="SA1209" Action="Error" />
-    <Rule Id="SA1210" Action="Error" />
-    <Rule Id="SA1211" Action="Error" />
-    <Rule Id="SA1212" Action="Error" />
-    <Rule Id="SA1213" Action="Error" />
-    <Rule Id="SA1214" Action="Error" />
-    <Rule Id="SA1215" Action="Error" />
-    <Rule Id="SA1216" Action="Error" />
-    <Rule Id="SA1217" Action="Error" />
-    <Rule Id="SA1300" Action="Error" />
-    <Rule Id="SA1301" Action="Error" />
-    <Rule Id="SA1302" Action="Error" />
-    <Rule Id="SA1303" Action="Error" />
-    <Rule Id="SA1304" Action="Error" /> -->
-
-
-
+    <Rule Id="SA1204" Action="Warning" /> <!-- @ Error - ordering -->
+    <!-- <Rule Id="SA1205" Action="Error" /> -->
+    <!-- <Rule Id="SA1206" Action="Error" /> -->
+    <!-- <Rule Id="SA1207" Action="Error" /> -->
+    <!-- <Rule Id="SA1208" Action="Error" /> -->
+    <!-- <Rule Id="SA1209" Action="Error" /> -->
+    <!-- <Rule Id="SA1210" Action="Error" /> -->
+    <!-- <Rule Id="SA1211" Action="Error" /> -->
+    <!-- <Rule Id="SA1212" Action="Error" /> -->
+    <!-- <Rule Id="SA1213" Action="Error" /> -->
+    <!-- <Rule Id="SA1214" Action="Error" /> -->
+    <!-- <Rule Id="SA1215" Action="Error" /> -->
+    <!-- <Rule Id="SA1216" Action="Error" /> -->
+    <!-- <Rule Id="SA1217" Action="Error" /> -->
+    <!-- <Rule Id="SA1300" Action="Error" /> -->
+    <!-- <Rule Id="SA1301" Action="Error" /> -->
+    <!-- <Rule Id="SA1302" Action="Error" /> -->
+    <!-- <Rule Id="SA1303" Action="Error" /> -->
+    <!-- <Rule Id="SA1304" Action="Error" /> -->
     <Rule Id="SA1306" Action="None" />
     <!-- <Rule Id="SA1307" Action="Error" /> -->
     <!-- <Rule Id="SA1308" Action="Error" /> -->
@@ -109,49 +107,49 @@
     <!-- <Rule Id="SA1313" Action="Error" /> -->
     <!-- <Rule Id="SA1314" Action="Error" /> -->
     <!-- <Rule Id="SA1400" Action="Error" /> -->
-    <Rule Id="SA1401" Action="None" /> <!-- @ Warning --> 
+    <Rule Id="SA1401" Action="None" /> <!-- @ Warning -->
     <Rule Id="SA1402" Action="None" />
     <!-- <Rule Id="SA1403" Action="Error" /> -->
-    <Rule Id="SA1407" Action="Warning" /> <!-- @ Warning --> 
-    <!-- <Rule Id="SA1408" Action="Error" /> --> <!-- @ Warning --> 
+    <Rule Id="SA1407" Action="Warning" /> <!-- @ Warning -->
+    <!-- <Rule Id="SA1408" Action="Error" /> --> <!-- @ Warning -->
     <!-- <Rule Id="SA1411" Action="Error" /> -->
-    <Rule Id="SA1412" Action="None" /> <!-- @ Error --> 
+    <Rule Id="SA1412" Action="None" /> <!-- @ Error -->
     <Rule Id="SA1413" Action="None" />
     <!-- <Rule Id="SA1500" Action="Error" /> -->
     <!-- <Rule Id="SA1501" Action="Error" /> -->
     <Rule Id="SA1502" Action="Warning" /> <!-- !!! -->
-	<!-- <Rule Id="SA1504" Action="Error" />
-    <Rule Id="SA1505" Action="Error" />
-    <Rule Id="SA1506" Action="Error" />
-    <Rule Id="SA1507" Action="Error" />
-    <Rule Id="SA1508" Action="Error" />
-    <Rule Id="SA1509" Action="Error" />
-    <Rule Id="SA1510" Action="Error" />
-    <Rule Id="SA1511" Action="Error" /> -->
-    <Rule Id="SA1512" Action="None" /> 
-    <Rule Id="SA1516" Action="None" /> <!-- @ Warning --> 
-    <!-- <Rule Id="SA1517" Action="Error" />
-    <Rule Id="SA1519" Action="Error" />
-    <Rule Id="SA1520" Action="Error" /> -->
-    <Rule Id="SA1600" Action="None" /> <!-- @ Warning --> 
+    <!-- <Rule Id="SA1504" Action="Error" /> -->
+    <!-- <Rule Id="SA1505" Action="Error" /> -->
+    <!-- <Rule Id="SA1506" Action="Error" /> -->
+    <!-- <Rule Id="SA1507" Action="Error" /> -->
+    <!-- <Rule Id="SA1508" Action="Error" /> -->
+    <!-- <Rule Id="SA1509" Action="Error" /> -->
+    <!-- <Rule Id="SA1510" Action="Error" /> -->
+    <!-- <Rule Id="SA1511" Action="Error" /> -->
+    <Rule Id="SA1512" Action="None" />
+    <Rule Id="SA1516" Action="None" /> <!-- @ Warning -->
+    <!-- <Rule Id="SA1517" Action="Error" /> -->
+    <!-- <Rule Id="SA1519" Action="Error" /> -->
+    <!-- <Rule Id="SA1520" Action="Error" /> -->
+    <Rule Id="SA1600" Action="None" /> <!-- @ Warning -->
     <Rule Id="SA1601" Action="None" />
     <Rule Id="SA1602" Action="None" />
-	<!-- <Rule Id="SA1603" Action="Error" /> -->
+    <!-- <Rule Id="SA1603" Action="Error" /> -->
     <Rule Id="SA1609" Action="None" />
-    <!-- <Rule Id="SA1630" Action="Error" />
-    <Rule Id="SA1641" Action="Error" /> -->
+    <!-- <Rule Id="SA1630" Action="Error" /> -->
+    <!-- <Rule Id="SA1641" Action="Error" /> -->
     <Rule Id="SA1642" Action="Warning" />
-    <!-- <Rule Id="SA1643" Action="Error" />
-    <Rule Id="SA1644" Action="Error" />
-    <Rule Id="SA1645" Action="Error" />
-  	<Rule Id="SA1646" Action="Error" />
-  	<Rule Id="SA1647" Action="Error" />
-	<Rule Id="SA1648" Action="Error" /> -->
-  	<Rule Id="SA1649" Action="Warning" /> <!-- @ Error --> 
-  	<!-- <Rule Id="SA1650" Action="Error" />
-  	<Rule Id="SA1651" Action="Error" />
-  	<Rule Id="SX1101" Action="Error" /> -->
-	<Rule Id="SX1309" Action="Warning" /> <!-- @ Error --> 
-  	<!-- <Rule Id="SX1309S" Action="Error" /> -->
+    <!-- <Rule Id="SA1643" Action="Error" /> -->
+    <!-- <Rule Id="SA1644" Action="Error" /> -->
+    <!-- <Rule Id="SA1645" Action="Error" /> -->
+    <!-- <Rule Id="SA1646" Action="Error" /> -->
+    <!-- <Rule Id="SA1647" Action="Error" /> -->
+    <!-- <Rule Id="SA1648" Action="Error" /> -->
+    <Rule Id="SA1649" Action="Warning" /> <!-- @ Error -->
+    <!-- <Rule Id="SA1650" Action="Error" /> -->
+    <!-- <Rule Id="SA1651" Action="Error" /> -->
+    <!-- <Rule Id="SX1101" Action="Error" /> -->
+    <Rule Id="SX1309" Action="Warning" /> <!-- @ Error -->
+    <!-- <Rule Id="SX1309S" Action="Error" /> -->
   </Rules>
 </RuleSet>

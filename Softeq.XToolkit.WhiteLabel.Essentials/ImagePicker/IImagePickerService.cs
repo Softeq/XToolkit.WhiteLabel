@@ -16,9 +16,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
         /// <param name="quality">
         ///     The compression quality to use, 0 is the maximum compression (worse quality),
         ///     and 1 minimum compression (best quality)
-        ///     Default is 1 = 100%
+        ///     Default is 1 = 100%.
         /// </param>
-        /// <returns></returns>
+        /// <returns>Operation result.</returns>
         Task<ImagePickerResult?> PickPhotoAsync(float quality = 1);
 
         /// <summary>
@@ -27,9 +27,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker
         /// <param name="quality">
         ///     The compression quality to use, 0 is the maximum compression (worse quality),
         ///     and 1 minimum compression (best quality)
-        ///     Default is 1 = 100%
+        ///     Default is 1 = 100%.
         /// </param>
-        /// <returns></returns>
+        /// <returns>Operation result.</returns>
         Task<ImagePickerResult?> TakePhotoAsync(float quality = 1);
     }
 }

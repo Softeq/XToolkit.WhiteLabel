@@ -544,6 +544,14 @@ namespace Softeq.XToolkit.Bindings
             HandleCommandCanExecute(element, command, castedBinding);
         }
 
+        /// <inheritdoc cref="SetCommandWithDisposing(object,string,ICommand)" />
+        public static IDisposable SetCommandWithDisposing(
+            this object element,
+            ICommand command)
+        {
+            return SetCommandWithDisposing(element, string.Empty, command);
+        }
+
         /// <summary>
         ///     Sets a <see cref="T:System.Windows.Input.ICommand"/> to an object and actuates the command when a specific event is raised.
         ///     This method can only be used when the event uses a standard <see cref="T:System.EventHandler"/>.
@@ -565,9 +573,13 @@ namespace Softeq.XToolkit.Bindings
 
             e.AddEventHandler(element, handler);
 
-            HandleCommandCanExecute(element, command);
+            var canExecuteSubscriptions = HandleCommandCanExecute(element, command);
 
-            return Disposable.Create(() => e.RemoveEventHandler(element, handler));
+            return Disposable.Create(() =>
+            {
+                canExecuteSubscriptions.Dispose();
+                e.RemoveEventHandler(element, handler);
+            });
         }
 
         /// <inheritdoc cref="SetCommand(object,string,ICommand)" />
@@ -659,19 +671,19 @@ namespace Softeq.XToolkit.Bindings
             return info;
         }
 
-        private static void HandleCommandCanExecute(
+        private static IDisposable HandleCommandCanExecute(
             object element,
             ICommand command)
         {
-            HandleCommandCanExecute<object>(element, command);
+            return HandleCommandCanExecute<object>(element, command);
         }
 
-        private static void HandleCommandCanExecute<T>(
+        private static IDisposable HandleCommandCanExecute<T>(
             object element,
             ICommand command,
             Binding<T, T>? commandParameterBinding = null)
         {
-            BindingFactory.HandleCommandCanExecute(element, command, commandParameterBinding);
+            return BindingFactory.HandleCommandCanExecute(element, command, commandParameterBinding);
         }
     }
 }

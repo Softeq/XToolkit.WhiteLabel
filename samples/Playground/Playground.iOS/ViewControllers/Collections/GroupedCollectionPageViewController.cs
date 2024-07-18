@@ -4,6 +4,7 @@
 using System;
 using System.Linq;
 using Foundation;
+using ObjCRuntime;
 using Playground.iOS.Views.Collections;
 using Playground.ViewModels.Collections;
 using Playground.ViewModels.Collections.Products;
@@ -19,7 +20,7 @@ namespace Playground.iOS.ViewControllers.Collections
 {
     public partial class GroupedCollectionPageViewController : ViewControllerBase<GroupedCollectionPageViewModel>
     {
-        public GroupedCollectionPageViewController(IntPtr handle)
+        public GroupedCollectionPageViewController(NativeHandle handle)
             : base(handle)
         {
         }

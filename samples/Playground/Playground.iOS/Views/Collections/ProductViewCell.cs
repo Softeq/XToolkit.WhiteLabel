@@ -2,11 +2,13 @@
 // http://www.softeq.com
 
 using System;
-using FFImageLoading;
 using Foundation;
+using ObjCRuntime;
 using Playground.ViewModels.Collections.Products;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Bindings.iOS.Bindable;
+using Softeq.XToolkit.WhiteLabel;
+using Softeq.XToolkit.WhiteLabel.iOS.Interfaces;
 using UIKit;
 
 namespace Playground.iOS.Views.Collections
@@ -18,7 +20,7 @@ namespace Playground.iOS.Views.Collections
 
         static ProductViewCell() => Nib = UINib.FromName(Key, NSBundle.MainBundle);
 
-        protected ProductViewCell(IntPtr handle)
+        protected ProductViewCell(NativeHandle handle)
             : base(handle)
         {
             // Note: this .ctor should not contain any initialization logic.
@@ -34,7 +36,7 @@ namespace Playground.iOS.Views.Collections
         {
             base.DoAttachBindings();
 
-            ImageService.Instance.LoadUrl(ViewModel.PhotoUrl).Into(PhotoImage);
+            Dependencies.Container.Resolve<IIosImageService>().LoadImage(ViewModel.PhotoUrl, PhotoImage);
 
             this.Bind(() => ViewModel.Title, () => NameLabel.Text);
             this.Bind(() => ViewModel.Count, () => CountField.Text);
