@@ -139,6 +139,8 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             base.OnViewRecycled(holder);
         }
 
+        public void StopListeningToSourceUpdates() => _subscription?.Dispose();
+
         protected virtual RecyclerView.ViewHolder OnCreateHeaderViewHolder(ViewGroup parent)
         {
             return CreateViewHolder(parent, HeaderViewHolder);
@@ -394,7 +396,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            _subscription?.Dispose();
+            StopListeningToSourceUpdates();
         }
 
         protected void ReloadMapping()
