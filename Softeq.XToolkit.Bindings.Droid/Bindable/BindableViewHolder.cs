@@ -32,6 +32,8 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public object DataContext { get; private set; }
 
+        public bool AreBindingsAttached { get; private set; }
+
         protected TViewModel ViewModel => (TViewModel) DataContext;
 
         void IBindable.SetDataContext(object dataContext)
@@ -67,6 +69,12 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public virtual void DoAttachBindings()
         {
+            if (AreBindingsAttached)
+            {
+                return;
+            }
+
+            AreBindingsAttached = true;
             _subscriptionsComponent.CreateSubscriptions();
         }
 
@@ -75,6 +83,8 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             this.DetachBindings();
 
             _subscriptionsComponent.DisposeSubscriptions();
+
+            AreBindingsAttached = false;
         }
 
         protected virtual IEnumerable<IDisposable> SetCommandsWithDisposing()
