@@ -7,5 +7,5 @@ public interface IBindableRecyclerViewAdapter
 {
     void DoAttachBindings();
     void DoDetachBindings();
-    void OnDestroy();
+    void CleanUp();
 }

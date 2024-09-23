@@ -116,7 +116,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             _existingBindableViewHolders.ForEach(x => x.DoDetachBindings());
         }
 
-        public void OnDestroy()
+        public void CleanUp()
         {
             _subscription?.Dispose();
             DoDetachBindings();
@@ -419,7 +419,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            OnDestroy();
+            CleanUp();
         }
 
         protected void ReloadMapping()
