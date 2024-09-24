@@ -13,6 +13,7 @@ using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Weak;
 
 #nullable disable
@@ -108,7 +109,9 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public void DoAttachBindings()
         {
-            _existingBindableViewHolders.ForEach(x => x.DoAttachBindings());
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            _existingBindableViewHolders.Where(x => x.DataContext != null)
+                .Apply(x => x.DoAttachBindings());
         }
 
         public void DoDetachBindings()
