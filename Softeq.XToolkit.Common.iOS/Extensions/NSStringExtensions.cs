@@ -76,16 +76,16 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                 logger?.Error(ex);
                 if (html == null)
                 {
-                    logger?.Info("String: null");
+                    logger?.Error("String: null");
                 }
                 else
                 {
-                    logger?.Info("String: " + html);
+                    logger?.Error("String: " + html);
                 }
 
                 if (error != null)
                 {
-                    logger?.Info("Error message: " + error.Description);
+                    logger?.Error("Error message: " + error.Description);
                 }
 
                 throw;
