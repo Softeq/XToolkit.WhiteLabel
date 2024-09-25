@@ -83,12 +83,14 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
                     logger?.Error("String: " + html);
                 }
 
+                throw;
+            }
+            finally
+            {
                 if (error != null)
                 {
                     logger?.Error("Error message: " + error.Description);
                 }
-
-                throw;
             }
         }
 
