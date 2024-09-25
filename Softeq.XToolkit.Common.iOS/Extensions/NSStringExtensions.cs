@@ -74,13 +74,22 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
             catch (Exception ex)
             {
                 logger?.Error(ex);
+                if (html == null)
+                {
+                    logger?.Error("String: null");
+                }
+                else
+                {
+                    logger?.Error("String: " + html);
+                }
+
                 throw;
             }
             finally
             {
                 if (error != null)
                 {
-                    logger?.Info("Error message: " + error.Description);
+                    logger?.Error("Error message: " + error.Description);
                 }
             }
         }
