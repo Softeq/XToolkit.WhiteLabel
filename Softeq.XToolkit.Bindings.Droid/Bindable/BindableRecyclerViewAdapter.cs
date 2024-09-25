@@ -110,7 +110,8 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         public void DoAttachBindings()
         {
             // ReSharper disable once ConditionIsAlwaysTrueOrFalse
-            _existingBindableViewHolders.Where(x => x.DataContext != null)
+            _existingBindableViewHolders
+                .Where(x => !x.AreBindingsAttached && x.DataContext != null)
                 .Apply(x => x.DoAttachBindings());
         }
 

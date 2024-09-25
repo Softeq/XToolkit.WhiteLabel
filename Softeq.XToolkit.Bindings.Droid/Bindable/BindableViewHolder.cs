@@ -69,11 +69,6 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public virtual void DoAttachBindings()
         {
-            if (AreBindingsAttached)
-            {
-                return;
-            }
-
             AreBindingsAttached = true;
             _subscriptionsComponent.CreateSubscriptions();
         }
@@ -83,7 +78,6 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             this.DetachBindings();
 
             _subscriptionsComponent.DisposeSubscriptions();
-
             AreBindingsAttached = false;
         }
 
