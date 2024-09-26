@@ -18,7 +18,7 @@ namespace Softeq.XToolkit.PushNotifications
         }
 
         /// <inheritdoc />
-        public string PushToken
+        public string? PushToken
         {
             get => _internalSettings.GetValueOrDefault(_pushTokenKey, default(string));
             set => _internalSettings.AddOrUpdateValue(_pushTokenKey, value);
