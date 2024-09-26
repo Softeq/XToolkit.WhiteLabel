@@ -73,7 +73,7 @@ namespace Softeq.XToolkit.PushNotifications
 
             if (IsTokenRegisteredInSystem && !IsTokenSavedOnServer)
             {
-                return DoSendTokenToServer(_pushTokenStorageService.PushToken);
+                return DoSendTokenToServer(_pushTokenStorageService.PushToken!);
             }
 
             return Task.CompletedTask;
@@ -90,7 +90,7 @@ namespace Softeq.XToolkit.PushNotifications
             }
 
             var tokenRemovedFromServer = await _remotePushNotificationsService
-                .RemovePushNotificationsToken(_pushTokenStorageService.PushToken)
+                .RemovePushNotificationsToken(_pushTokenStorageService.PushToken!)
                 .ConfigureAwait(false);
             if (tokenRemovedFromServer)
             {

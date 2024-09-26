@@ -8,6 +8,6 @@ namespace Softeq.XToolkit.PushNotifications.Abstract
         /// <summary>
         ///     Gets or sets push token in custom storage.
         /// </summary>
-        string PushToken { get; set; }
+        string? PushToken { get; set; }
     }
 }

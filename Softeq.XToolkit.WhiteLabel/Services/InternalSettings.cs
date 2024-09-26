@@ -24,7 +24,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
             Preferences.Set(key, value);
         }
 
-        public void AddOrUpdateValue(string key, string value)
+        public void AddOrUpdateValue(string key, string? value)
         {
             Preferences.Set(key, value);
         }
@@ -69,7 +69,7 @@ namespace Softeq.XToolkit.WhiteLabel.Services
             return Preferences.Get(key, defaultValue);
         }
 
-        public string GetValueOrDefault(string key, string? defaultValue = default)
+        public string? GetValueOrDefault(string key, string? defaultValue = default)
         {
             return Preferences.Get(key, defaultValue);
         }
