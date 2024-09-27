@@ -13,21 +13,23 @@ using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.Common.Collections;
 using Softeq.XToolkit.Common.Collections.EventArgs;
 using Softeq.XToolkit.Common.Commands;
+using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.Common.Weak;
 
 #nullable disable
 
 namespace Softeq.XToolkit.Bindings.Droid.Bindable
 {
-    public abstract class BindableRecyclerViewAdapterBase<TItem, TItemHolder> : RecyclerView.Adapter
+    public abstract class BindableRecyclerViewAdapterBase<TItem, TItemHolder> : RecyclerView.Adapter, IBindableRecyclerViewAdapter
         where TItemHolder : BindableViewHolder<TItem>
     {
         protected readonly IList<FlatItem> _flatMapping = new List<FlatItem>();
+        private readonly List<IBindableViewHolder> _existingBindableViewHolders = new();
 
         protected IDisposable _subscription;
-        private protected ICommand<TItem> _itemClick;
+        private ICommand<TItem> _itemClick;
 
-        public BindableRecyclerViewAdapterBase(
+        protected BindableRecyclerViewAdapterBase(
             Type headerViewHolder,
             Type footerViewHolder)
         {
@@ -93,24 +95,51 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
             base.OnViewDetachedFromWindow(holder);
         }
 
-        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        public sealed override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        {
+            var result = DoCreateViewHolder(parent, viewType);
+
+            if (result is IBindableViewHolder bindableViewHolder)
+            {
+                _existingBindableViewHolders.Add(bindableViewHolder);
+            }
+
+            return result;
+        }
+
+        public void DoAttachBindings()
+        {
+            // ReSharper disable once ConditionIsAlwaysTrueOrFalse
+            _existingBindableViewHolders
+                .Where(x => !x.AreBindingsAttached && x.DataContext != null)
+                .Apply(x => x.DoAttachBindings());
+        }
+
+        public void DoDetachBindings()
+        {
+            _existingBindableViewHolders.ForEach(x => x.DoDetachBindings());
+        }
+
+        public void CleanUp()
+        {
+            _subscription?.Dispose();
+            DoDetachBindings();
+            _existingBindableViewHolders.Clear();
+        }
+
+        protected virtual RecyclerView.ViewHolder DoCreateViewHolder(ViewGroup parent, int viewType)
         {
             var itemType = (ItemType) viewType;
 
-            switch (itemType)
+            return itemType switch
             {
-                case ItemType.Header:
-                    return OnCreateHeaderViewHolder(parent);
-
-                case ItemType.Item:
-                    return OnCreateItemViewHolder(parent, itemType);
-
-                case ItemType.Footer:
-                    return OnCreateFooterViewHolder(parent);
-
-                default:
-                    throw new ArgumentException($"Unable to create a view holder for \"{viewType}\" view type.", nameof(viewType));
-            }
+                ItemType.Header => OnCreateHeaderViewHolder(parent),
+                ItemType.Item => OnCreateItemViewHolder(parent, itemType),
+                ItemType.Footer => OnCreateFooterViewHolder(parent),
+                _ => throw new ArgumentException(
+                    $"Unable to create a view holder for \"{viewType}\" view type.",
+                    nameof(viewType))
+            };
         }
 
         public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
@@ -138,8 +167,6 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
             base.OnViewRecycled(holder);
         }
-
-        public void StopListeningToSourceUpdates() => _subscription?.Dispose();
 
         protected virtual RecyclerView.ViewHolder OnCreateHeaderViewHolder(ViewGroup parent)
         {
@@ -351,7 +378,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
 
         public override int ItemCount => _flatMapping.Count;
 
-        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
+        protected override RecyclerView.ViewHolder DoCreateViewHolder(ViewGroup parent, int viewType)
         {
             var itemType = (ItemType) viewType;
 
@@ -363,7 +390,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
                     return OnCreateSectionFooterViewHolder(parent, ItemType.SectionFooter);
 
                 default:
-                    return base.OnCreateViewHolder(parent, viewType);
+                    return base.DoCreateViewHolder(parent, viewType);
             }
         }
 
@@ -396,7 +423,7 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            StopListeningToSourceUpdates();
+            CleanUp();
         }
 
         protected void ReloadMapping()
