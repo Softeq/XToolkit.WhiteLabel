@@ -10,6 +10,8 @@ namespace Softeq.XToolkit.Bindings.Droid.Bindable
     {
         event EventHandler ItemClicked;
 
+        bool AreBindingsAttached { get; }
+
         void OnAttachedToWindow();
         void OnDetachedFromWindow();
         void OnViewRecycled();

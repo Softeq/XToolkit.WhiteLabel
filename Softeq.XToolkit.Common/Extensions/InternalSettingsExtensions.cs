@@ -1,7 +1,6 @@
 ﻿// Developed by Softeq Development Corporation
 // http://www.softeq.com
 
-using System.Diagnostics.CodeAnalysis;
 using Softeq.XToolkit.Common.Interfaces;
 
 namespace Softeq.XToolkit.Common.Extensions
@@ -12,7 +11,7 @@ namespace Softeq.XToolkit.Common.Extensions
             this IInternalSettings internalSettings,
             IJsonSerializer jsonSerializer,
             string key,
-            T value)
+            T? value)
         {
             if (value == null)
             {
@@ -24,14 +23,13 @@ namespace Softeq.XToolkit.Common.Extensions
             internalSettings.AddOrUpdateValue(key, json);
         }
 
-        [return: MaybeNull]
-        public static T GetJsonValueOrDefault<T>(
+        public static T? GetJsonValueOrDefault<T>(
             this IInternalSettings internalSettings,
             IJsonSerializer jsonSerializer,
             string key,
-            [MaybeNull] T defaultValue = default!)
+            T? defaultValue = default)
         {
-            var json = internalSettings.GetValueOrDefault(key, default(string)!);
+            var json = internalSettings.GetValueOrDefault(key, default(string));
             return string.IsNullOrEmpty(json)
                 ? defaultValue
                 : jsonSerializer.Deserialize<T>(json);
