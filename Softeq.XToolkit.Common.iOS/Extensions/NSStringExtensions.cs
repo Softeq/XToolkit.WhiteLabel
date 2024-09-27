@@ -66,9 +66,22 @@ namespace Softeq.XToolkit.Common.iOS.Extensions
 
             try
             {
+                NSAttributedString? attributedString;
+
+                if (UIDevice.CurrentDevice.CheckSystemVersion(15, 0))
+                {
+                    var markdown = new Html2Markdown.Converter().Convert(html);
 #pragma warning disable CS8601 // Possible null reference assignment.
-                var attributedString = new NSAttributedString(html, importParams, ref error);
+                    attributedString = new NSAttributedString(markdown, default, default, out error);
 #pragma warning restore CS8601 // Possible null reference assignment.
+                }
+                else
+                {
+#pragma warning disable CS8601 // Possible null reference assignment.
+                    attributedString = new NSAttributedString(html, importParams, ref error);
+#pragma warning restore CS8601 // Possible null reference assignment.
+                }
+
                 return new NSMutableAttributedString(attributedString);
             }
             catch (Exception ex)

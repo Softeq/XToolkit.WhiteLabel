@@ -19,4 +19,8 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Html2Markdown" Version="7.0.1.9" />
+  </ItemGroup>
+
 </Project>
