@@ -14,6 +14,7 @@ namespace Softeq.XToolkit.Permissions
             {
                 PluginPermissionStatus.Denied => PermissionStatus.Denied,
                 PluginPermissionStatus.Disabled => PermissionStatus.Denied,
+                PluginPermissionStatus.Limited => PermissionStatus.Granted,
                 PluginPermissionStatus.Granted => PermissionStatus.Granted,
                 PluginPermissionStatus.Restricted => PermissionStatus.Restricted,
                 PluginPermissionStatus.Unknown => PermissionStatus.Unknown,
