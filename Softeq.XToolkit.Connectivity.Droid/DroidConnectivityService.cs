@@ -39,13 +39,6 @@ namespace Softeq.XToolkit.Connectivity.Droid
             Dispose(false);
         }
 
-        /// <inheritdoc />
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
         /// <summary>
         ///     Releases the unmanaged and optionally the managed resources.
         /// </summary>
