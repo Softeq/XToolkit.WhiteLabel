@@ -13,7 +13,6 @@ namespace Softeq.XToolkit.Connectivity
     /// </summary>
     public class EssentialsConnectivityService : IConnectivityService, IDisposable
     {
-        private readonly IConnectivity _connectivity;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EssentialsConnectivityService"/> class.
@@ -24,9 +23,8 @@ namespace Softeq.XToolkit.Connectivity
         /// </param>
         public EssentialsConnectivityService(IConnectivity connectivity)
         {
-            _connectivity = connectivity;
-
-            _connectivity.ConnectivityChanged += CurrentConnectivityChanged;
+            Connectivity = connectivity;
+            Connectivity.ConnectivityChanged += CurrentConnectivityChanged;
         }
 
         ~EssentialsConnectivityService()
@@ -37,13 +35,15 @@ namespace Softeq.XToolkit.Connectivity
         /// <inheritdoc />
         public event EventHandler<ConnectivityChangedEventArgs>? ConnectivityChanged;
 
+        protected IConnectivity Connectivity { get; private set; }
+
         /// <inheritdoc />
         public virtual bool IsConnected
         {
             get
             {
-                var profiles = _connectivity.ConnectionProfiles;
-                var access = _connectivity.NetworkAccess;
+                var profiles = Connectivity.ConnectionProfiles;
+                var access = Connectivity.NetworkAccess;
 
                 var hasAnyConnection = profiles.Any();
                 var hasInternet = access == NetworkAccess.Internet;
@@ -53,7 +53,7 @@ namespace Softeq.XToolkit.Connectivity
         }
 
         /// <inheritdoc />
-        public IEnumerable<ConnectionProfile> ConnectionProfiles => _connectivity.ConnectionProfiles;
+        public IEnumerable<ConnectionProfile> ConnectionProfiles => Connectivity.ConnectionProfiles;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="EssentialsConnectivityService"/> class
@@ -79,11 +79,11 @@ namespace Softeq.XToolkit.Connectivity
         {
             if (disposing)
             {
-                _connectivity.ConnectivityChanged -= CurrentConnectivityChanged;
+                Connectivity.ConnectivityChanged -= CurrentConnectivityChanged;
             }
         }
 
-        private void CurrentConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
+        protected void CurrentConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
         {
             ConnectivityChanged?.Invoke(sender, e);
         }

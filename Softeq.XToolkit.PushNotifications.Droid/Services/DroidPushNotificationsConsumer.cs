@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Android.Content;
 using AndroidX.Lifecycle;
 using Firebase.Messaging;
+using Softeq.XToolkit.Common.Droid;
 using Softeq.XToolkit.Common.Logger;
 using Softeq.XToolkit.Common.Threading;
 using Softeq.XToolkit.PushNotifications.Abstract;

@@ -15,6 +15,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj" />
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
     <ProjectReference Include="..\Softeq.XToolkit.PushNotifications\Softeq.XToolkit.PushNotifications.csproj" />
     <ProjectReference Include="..\Softeq.XToolkit.WhiteLabel\Softeq.XToolkit.WhiteLabel.csproj" />
@@ -22,7 +23,6 @@
 
   <ItemGroup>
     <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.0" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.6.2.1" />
     <PackageReference Include="Xamarin.Firebase.Messaging" Version="123.1.2.1" />
     <PackageReference Include="Xamarin.ShortcutBadger" Version="1.1.21.80" />
   </ItemGroup>

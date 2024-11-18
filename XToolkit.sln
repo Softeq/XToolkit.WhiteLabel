@@ -81,6 +81,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.iOS.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Common.Droid.Tests", "Softeq.XToolkit.Common.Droid.Tests\Softeq.XToolkit.Common.Droid.Tests.csproj", "{73ABD70F-00C8-4EFC-B743-F85C1B4A50F4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Softeq.XToolkit.Connectivity.Droid", "Softeq.XToolkit.Connectivity.Droid\Softeq.XToolkit.Connectivity.Droid.csproj", "{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Any CPU = Release|Any CPU
@@ -304,6 +306,14 @@ Global
 		{73ABD70F-00C8-4EFC-B743-F85C1B4A50F4}.Debug.Droid|Any CPU.Build.0 = Debug|Any CPU
 		{73ABD70F-00C8-4EFC-B743-F85C1B4A50F4}.Debug.iOS|iPhoneSimulator.ActiveCfg = Debug|Any CPU
 		{73ABD70F-00C8-4EFC-B743-F85C1B4A50F4}.Debug.iOS|iPhone.ActiveCfg = Debug|Any CPU
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}.Debug.Droid|Any CPU.ActiveCfg = Debug|Any CPU
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}.Debug.Droid|Any CPU.Build.0 = Debug|Any CPU
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}.Debug.iOS|iPhoneSimulator.ActiveCfg = Debug|Any CPU
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}.Debug.iOS|iPhoneSimulator.Build.0 = Debug|Any CPU
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}.Debug.iOS|iPhone.ActiveCfg = Debug|Any CPU
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD}.Debug.iOS|iPhone.Build.0 = Debug|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{24588814-B93D-4528-8917-9C2A3C4E85CA} = {2CC5305B-22A3-48B0-858A-98478AC14EF9}
@@ -337,5 +347,6 @@ Global
 		{6B7105F6-6F18-4999-BA4E-8069D92F3150} = {6A926916-1067-40F9-A266-A2F71C3B2DD4}
 		{F0224985-D9FF-4E50-992F-C78079DC3DDB} = {2CC5305B-22A3-48B0-858A-98478AC14EF9}
 		{73ABD70F-00C8-4EFC-B743-F85C1B4A50F4} = {2CC5305B-22A3-48B0-858A-98478AC14EF9}
+		{74E2AFAC-B39C-473C-8EE1-72A9F81DE5BD} = {9D45EECA-8CBD-4E56-B24F-1804F6313657}
 	EndGlobalSection
 EndGlobal
