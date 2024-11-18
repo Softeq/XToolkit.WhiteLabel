@@ -20,7 +20,11 @@ namespace Softeq.XToolkit.Connectivity.Droid
         /// <summary>
         ///     Initializes a new instance of the <see cref="DroidConnectivityService"/> class.
         /// </summary>
-        public DroidConnectivityService(IConnectivity connectivity, ILifecycleObserver lifecycleObserver) : base(connectivity)
+        /// <param name="connectivity">
+        ///     Custom instance of <see cref="T:Microsoft.Maui.Networking.IConnectivity"/>
+        ///     or you can use <see cref="Default"/> static method.
+        /// </param>
+        public DroidConnectivityService(IConnectivity connectivity) : base(connectivity)
         {
             _startAction = new WeakAction(OnAppStart);
             _lifecycleObserver = new AppLifecycleObserver(startAction: _startAction);
