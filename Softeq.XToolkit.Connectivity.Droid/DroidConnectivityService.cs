@@ -49,7 +49,10 @@ namespace Softeq.XToolkit.Connectivity.Droid
         {
             if (disposing)
             {
-                ProcessLifecycleOwner.Get().Lifecycle.RemoveObserver(_lifecycleObserver);
+                Execute.BeginOnUIThread(() =>
+                {
+                    ProcessLifecycleOwner.Get().Lifecycle.RemoveObserver(_lifecycleObserver);
+                });
             }
         }
 
@@ -57,6 +60,7 @@ namespace Softeq.XToolkit.Connectivity.Droid
         {
             Connectivity.ConnectivityChanged -= CurrentConnectivityChanged;
             Connectivity.ConnectivityChanged += CurrentConnectivityChanged;
+            CurrentConnectivityChanged(this, new ConnectivityChangedEventArgs(Connectivity.NetworkAccess, Connectivity.ConnectionProfiles));
         }
     }
 }
