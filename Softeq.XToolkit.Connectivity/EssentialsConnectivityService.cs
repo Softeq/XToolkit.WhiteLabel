@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Maui.Networking;
+using Softeq.XToolkit.Common.Logger;
 
 namespace Softeq.XToolkit.Connectivity
 {
@@ -13,7 +14,7 @@ namespace Softeq.XToolkit.Connectivity
     /// </summary>
     public class EssentialsConnectivityService : IConnectivityService, IDisposable
     {
-
+        private readonly ILogger _logger;
         /// <summary>
         ///     Initializes a new instance of the <see cref="EssentialsConnectivityService"/> class.
         /// </summary>
@@ -21,8 +22,9 @@ namespace Softeq.XToolkit.Connectivity
         ///     Custom instance of <see cref="T:Microsoft.Maui.Networking.IConnectivity"/>
         ///     or you can use <see cref="Default"/> static method.
         /// </param>
-        public EssentialsConnectivityService(IConnectivity connectivity)
+        public EssentialsConnectivityService(IConnectivity connectivity, ILogManager logManager)
         {
+            _logger = logManager.GetLogger<EssentialsConnectivityService>();
             Connectivity = connectivity;
             Connectivity.ConnectivityChanged += CurrentConnectivityChanged;
         }
@@ -60,7 +62,7 @@ namespace Softeq.XToolkit.Connectivity
         ///     with a default instance of <see cref="T:Microsoft.Maui.Networking.IConnectivity"/>.
         /// </summary>
         /// <returns><see cref="EssentialsConnectivityService"/> instance.</returns>
-        public static EssentialsConnectivityService Default() => new(Microsoft.Maui.Networking.Connectivity.Current);
+        // public static EssentialsConnectivityService Default() => new(Microsoft.Maui.Networking.Connectivity.Current);
 
         /// <inheritdoc />
         public void Dispose()
@@ -85,6 +87,7 @@ namespace Softeq.XToolkit.Connectivity
 
         protected void CurrentConnectivityChanged(object? sender, ConnectivityChangedEventArgs e)
         {
+            _logger.Info("CurrentConnectivityChanged");
             ConnectivityChanged?.Invoke(sender, e);
         }
     }
