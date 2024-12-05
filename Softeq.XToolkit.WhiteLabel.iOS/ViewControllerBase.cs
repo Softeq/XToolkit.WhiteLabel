@@ -66,7 +66,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         public override void ViewWillAppear(bool animated)
         {
             base.ViewWillAppear(animated);
-            ViewModel.OnAppearing();
+            NotifyViewModelAboutAppearing();
             AttachBindings();
         }
 
@@ -74,7 +74,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         {
             base.ViewWillDisappear(animated);
             DetachBindings();
-            ViewModel.OnDisappearing();
+            NotifyViewModelAboutDisappearing();
         }
 
         public override void ViewDidDisappear(bool animated)
@@ -82,6 +82,16 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
             base.ViewDidDisappear(animated);
 
             CloseDialogIfNeeded();
+        }
+
+        protected virtual void NotifyViewModelAboutAppearing()
+        {
+            ViewModel.OnAppearing();
+        }
+
+        protected virtual void NotifyViewModelAboutDisappearing()
+        {
+            ViewModel.OnDisappearing();
         }
 
         protected virtual void DoAttachBindings()
