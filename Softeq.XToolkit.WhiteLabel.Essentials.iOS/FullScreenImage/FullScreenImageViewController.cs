@@ -47,9 +47,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.iOS.FullScreenImage
             StatusBarHidden = true;
         }
 
-        public override void ViewWillDisappear(bool animated)
+        protected override void ViewWillReallyDisappear(bool animated)
         {
-            base.ViewWillDisappear(animated);
+            base.ViewWillReallyDisappear(animated);
 
             StatusBarHidden = false;
         }
