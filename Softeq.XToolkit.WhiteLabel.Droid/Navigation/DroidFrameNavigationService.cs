@@ -129,7 +129,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         }
 
         /// <inheritdoc />
-        public void NavigateToFirstPage()
+        public virtual void NavigateToFirstPage()
         {
             lock (_navigationLock)
             {
