@@ -57,6 +57,17 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
             }
         }
 
+        protected IViewModelBase Current
+        {
+            get
+            {
+                lock (_navigationLock)
+                {
+                    return _backStack.Current();
+                }
+            }
+        }
+
         protected FrameNavigationConfig? Config { get; private set; }
 
         /// <inheritdoc />
@@ -66,7 +77,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         }
 
         /// <inheritdoc />
-        public void GoBack()
+        public virtual void GoBack()
         {
             lock (_navigationLock)
             {
@@ -118,7 +129,7 @@ namespace Softeq.XToolkit.WhiteLabel.Droid.Navigation
         }
 
         /// <inheritdoc />
-        public void NavigateToFirstPage()
+        public virtual void NavigateToFirstPage()
         {
             lock (_navigationLock)
             {
