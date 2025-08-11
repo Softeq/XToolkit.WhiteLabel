@@ -28,7 +28,7 @@ namespace Softeq.XToolkit.WhiteLabel.Model
         /// <summary>
         ///     Gets the tab title.
         /// </summary>
-        public string Title { get; }
+        public virtual string Title { get; }
 
         /// <summary>
         ///     Gets the tab key.
