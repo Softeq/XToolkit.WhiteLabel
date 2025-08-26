@@ -7,6 +7,7 @@ using Softeq.XToolkit.Bindings;
 using Softeq.XToolkit.Bindings.Abstract;
 using Softeq.XToolkit.Bindings.Extensions;
 using Softeq.XToolkit.WhiteLabel.Mvvm;
+using Softeq.XToolkit.WhiteLabel.Navigation;
 using UIKit;
 
 namespace Softeq.XToolkit.WhiteLabel.iOS
@@ -120,7 +121,7 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
 
         private void CloseDialogIfNeeded()
         {
-            if (ViewModel is DialogViewModelBase dialogViewModel)
+            if (ViewModel is IDialogViewModel dialogViewModel)
             {
                 if (IsBeingDismissed || IsMovingFromParentViewController)
                 {
