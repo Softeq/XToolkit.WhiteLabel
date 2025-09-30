@@ -167,6 +167,27 @@ namespace Softeq.XToolkit.Common.Extensions
         }
 
         /// <summary>
+        ///     Simple wrapper for execution task with <see cref="T:System.Threading.CancellationToken"/>.
+        ///     Target Task will continue running, but the execution will be returned.
+        /// </summary>
+        /// <param name="task">The task to cancellation for.</param>
+        /// <param name="cancellationToken">
+        ///     The <see cref="T:System.Threading.CancellationToken"/> that will be assigned to the new continuation task.
+        /// </param>
+        /// <exception cref="T:System.Threading.Tasks.TaskCanceledException">The task was canceled.</exception>
+        /// <returns>Task result.</returns>
+        public static Task WithCancellation(this Task task, CancellationToken cancellationToken)
+        {
+            return task.IsCompleted
+                ? task
+                : task.ContinueWith(
+                    completedTask => completedTask.GetAwaiter().GetResult(),
+                    cancellationToken,
+                    TaskContinuationOptions.ExecuteSynchronously,
+                    TaskScheduler.Default);
+        }
+
+        /// <summary>
         ///     Useful for fire-and-forget calls to async methods.
         ///     Exceptions will be ignored.
         /// </summary>
