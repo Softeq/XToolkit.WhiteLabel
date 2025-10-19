@@ -21,10 +21,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.5.0" />
-    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.6.2.1" />
-    <PackageReference Include="Xamarin.Firebase.Messaging" Version="123.1.2.1" />
-    <PackageReference Include="Xamarin.ShortcutBadger" Version="1.1.21.80" />
+    <PackageReference Include="Xamarin.AndroidX.AppCompat" Version="1.7.1.1" />
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.9.3" />
+    <PackageReference Include="Xamarin.Firebase.Messaging" Version="125.0.0.1" />
+    <PackageReference Include="Xamarin.ShortcutBadger" Version="1.1.22.80" />
   </ItemGroup>
 
 </Project>
