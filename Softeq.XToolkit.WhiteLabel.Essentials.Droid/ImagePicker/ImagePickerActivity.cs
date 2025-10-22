@@ -15,7 +15,6 @@ using Java.IO;
 using Softeq.XToolkit.Common.Extensions;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using AUri = Android.Net.Uri;
-using ImageOrientation = Android.Media.Orientation;
 using IOException = System.IO.IOException;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
@@ -26,6 +25,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
     {
         public const int Camera = 1;
         public const int Gallery = 2;
+        public const int ImageCropOnly = 3;
     }
 
     [Activity]
@@ -35,6 +35,8 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         private const string ImagesFolder = "Pictures";
         private const string CameraFileUriKey = "CameraFileUri";
+
+        private readonly IImagePickerActivityResultHandler _handler = Dependencies.Container.Resolve<IImagePickerActivityResultHandler>();
 
         private AUri? _fileUri;
         private Intent _pickIntent = default!;
@@ -75,6 +77,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
                     case ImagePickerMode.Gallery:
                         PickImage();
                         break;
+                    case ImagePickerMode.ImageCropOnly:
+                        HandleImagePickerGalleryResultAsync(Intent.Data).FireAndForget();
+                        break;
                 }
             }
             catch
@@ -83,8 +88,16 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             }
             finally
             {
-                _pickIntent.Dispose();
+                _pickIntent?.Dispose();
             }
+        }
+
+        private async Task HandleImagePickerGalleryResultAsync(AUri? fileUri)
+        {
+            var bitmap = await _handler
+                .HandleImagePickerGalleryResultAsync(this, fileUri)
+                .ConfigureAwait(false);
+            OnImagePicked(bitmap);
         }
 
         protected override void OnSaveInstanceState(Bundle outState)
@@ -104,25 +117,34 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         private async Task HandleOnActivityResult(int requestCode, [GeneratedEnum] Result resultCode, Intent? data)
         {
-            var handler = Dependencies.Container.Resolve<IImagePickerActivityResultHandler>();
-
             if (requestCode == ImagePickerMode.Camera)
             {
-                var bitmap = await handler
-                    .HandleImagePickerCameraResultAsync(this, resultCode, _fileUri)
-                    .ConfigureAwait(false);
-                OnImagePicked(bitmap);
+                if (resultCode == Result.Ok)
+                {
+                    var bitmap = await _handler
+                        .HandleImagePickerCameraResultAsync(this, _fileUri)
+                        .ConfigureAwait(false);
+                    OnImagePicked(bitmap);
+                }
+                else
+                {
+                    OnImagePicked(null);
+                }
             }
             else if (requestCode == ImagePickerMode.Gallery)
             {
-                var bitmap = await handler
-                    .HandleImagePickerGalleryResultAsync(this, resultCode, data)
-                    .ConfigureAwait(false);
-                OnImagePicked(bitmap);
+                if (resultCode == Result.Ok)
+                {
+                    HandleImagePickerGalleryResultAsync(data?.Data).FireAndForget();
+                }
+                else
+                {
+                    OnImagePicked(null);
+                }
             }
             else
             {
-                handler.HandleCustomResultAsync(requestCode, resultCode, data).FireAndForget();
+                _handler.HandleCustomResultAsync(requestCode, resultCode, data).FireAndForget();
             }
         }
 
@@ -143,7 +165,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 
         private void PickImage()
         {
-            _pickIntent = new Intent(Intent.ActionPick);
+            _pickIntent = new Intent(Intent.ActionOpenDocument);
+            _pickIntent.AddCategory(Intent.CategoryOpenable);
+            _pickIntent.AddFlags(ActivityFlags.GrantReadUriPermission);
             _pickIntent.SetType("image/*");
             StartActivityForResult(_pickIntent, ImagePickerMode.Gallery);
         }

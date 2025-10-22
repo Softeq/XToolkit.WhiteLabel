@@ -11,9 +11,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     public interface IImagePickerActivityResultHandler
     {
-        Task<Bitmap?> HandleImagePickerCameraResultAsync(Activity activity, Result resultCode, Uri? fileUri);
+        Task<Bitmap?> HandleImagePickerCameraResultAsync(Activity activity, Uri? fileUri);
 
-        Task<Bitmap?> HandleImagePickerGalleryResultAsync(Activity activity, Result resultCode, Intent? data);
+        Task<Bitmap?> HandleImagePickerGalleryResultAsync(Activity activity, Uri? fileUri);
 
         Task HandleCustomResultAsync(int requestCode, Result resultCode, Intent? data);
     }
