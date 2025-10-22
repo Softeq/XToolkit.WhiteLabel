@@ -13,9 +13,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
     public sealed class ImagePickerActivityResultHandler : IImagePickerActivityResultHandler
     {
-        public Task<Bitmap?> HandleImagePickerCameraResultAsync(Activity activity, Result resultCode, Uri? fileUri)
+        public Task<Bitmap?> HandleImagePickerCameraResultAsync(Activity activity, Uri? fileUri)
         {
-            if (resultCode == Result.Ok && fileUri != null)
+            if (fileUri != null)
             {
                 return GetBitmapFromUriAsync(activity, fileUri);
             }
@@ -23,11 +23,9 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             return Task.FromResult(default(Bitmap?));
         }
 
-        public Task<Bitmap?> HandleImagePickerGalleryResultAsync(Activity activity, Result resultCode, Intent? data)
+        public Task<Bitmap?> HandleImagePickerGalleryResultAsync(Activity activity, Uri? fileUri)
         {
-            var fileUri = data?.Data;
-
-            if (resultCode == Result.Ok && fileUri != null)
+            if (fileUri != null)
             {
                 return GetBitmapFromUriAsync(activity, fileUri);
             }
