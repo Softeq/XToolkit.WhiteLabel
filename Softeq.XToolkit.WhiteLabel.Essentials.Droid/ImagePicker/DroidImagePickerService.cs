@@ -8,7 +8,6 @@ using Android.Net;
 using AndroidX.Activity.Result;
 using AndroidX.Activity.Result.Contract;
 using AndroidX.AppCompat.App;
-using Java.Lang;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
@@ -22,17 +21,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         private readonly IPermissionsManager _permissionsManager;
         private readonly IContextProvider _contextProvider;
         private readonly ActivityResultLauncher? _activityResultLauncher;
-        private readonly IImagePickerActivityResultHandler _handler;
 
-        private TaskCompletionSource<Uri?>? _pickPhotofileUriCompletionSource;
+        private TaskCompletionSource<Uri?>? _pickPhotoFileUriCompletionSource;
         private TaskCompletionSource<Bitmap?>? _bitmapTaskCompletionSource;
 
         public DroidImagePickerService(
-            IImagePickerActivityResultHandler handler,
             IPermissionsManager permissionsManager,
             IContextProvider contextProvider)
         {
-            _handler = handler;
             _permissionsManager = permissionsManager;
             _contextProvider = contextProvider;
             if (ActivityResultContracts.PickVisualMedia.InvokeIsPhotoPickerAvailable(_contextProvider.CurrentActivity)
@@ -47,14 +43,14 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
         {
             if (_activityResultLauncher != null)
             {
-                _pickPhotofileUriCompletionSource = new TaskCompletionSource<Uri?>();
+                _pickPhotoFileUriCompletionSource = new TaskCompletionSource<Uri?>();
 
                 var request = new PickVisualMediaRequest.Builder()
                     .SetMediaType(ActivityResultContracts.PickVisualMedia.ImageOnly.Instance)
                     .Build();
                 _activityResultLauncher.Launch(request);
 
-                var fileUri = await _pickPhotofileUriCompletionSource.Task
+                var fileUri = await _pickPhotoFileUriCompletionSource.Task
                     .ConfigureAwait(false);
 
                 return await GetImageAsync(ImagePickerMode.ImageCropOnly, quality, fileUri)
@@ -110,10 +106,10 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             _bitmapTaskCompletionSource!.SetResult(e);
         }
 
-        void IActivityResultCallback.OnActivityResult(Object? result)
+        void IActivityResultCallback.OnActivityResult(Java.Lang.Object? result)
         {
             var uri = result as Uri;
-            _pickPhotofileUriCompletionSource!.TrySetResult(uri);
+            _pickPhotoFileUriCompletionSource!.TrySetResult(uri);
         }
     }
 }
