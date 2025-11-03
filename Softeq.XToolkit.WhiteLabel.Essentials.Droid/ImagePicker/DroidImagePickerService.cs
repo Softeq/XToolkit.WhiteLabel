@@ -1,22 +1,28 @@
 // Developed by Softeq Development Corporation
 // http://www.softeq.com
 
+using System;
 using System.Threading.Tasks;
 using Android.Content;
 using Android.Graphics;
-using Android.Net;
 using AndroidX.Activity.Result;
 using AndroidX.Activity.Result.Contract;
-using AndroidX.AppCompat.App;
 using Softeq.XToolkit.Permissions;
 using Softeq.XToolkit.WhiteLabel.Droid.Providers;
 using Softeq.XToolkit.WhiteLabel.Essentials.ImagePicker;
 using CameraPermission = Microsoft.Maui.ApplicationModel.Permissions.Camera;
 using PermissionStatus = Softeq.XToolkit.Permissions.PermissionStatus;
+using Uri = Android.Net.Uri;
 
 namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
 {
-    public class DroidImagePickerService : Java.Lang.Object, IImagePickerService, IActivityResultCallback
+    public interface IDroidImagePickerActivity
+    {
+        ActivityResultLauncher? ActivityResultLauncher { get; }
+        void SetActivityResultCallback(Action<Java.Lang.Object> callback);
+    }
+
+    public class DroidImagePickerService : Java.Lang.Object, IImagePickerService
     {
         private readonly IPermissionsManager _permissionsManager;
         private readonly IContextProvider _contextProvider;
@@ -32,10 +38,10 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             _permissionsManager = permissionsManager;
             _contextProvider = contextProvider;
             if (ActivityResultContracts.PickVisualMedia.InvokeIsPhotoPickerAvailable(_contextProvider.CurrentActivity)
-                && _contextProvider.CurrentActivity is AppCompatActivity appCompatActivity)
+                && _contextProvider.CurrentActivity is IDroidImagePickerActivity droidImagePickerActivity)
             {
-                _activityResultLauncher = appCompatActivity.RegisterForActivityResult(
-                    new ActivityResultContracts.PickVisualMedia(), this);
+                droidImagePickerActivity.SetActivityResultCallback(OnActivityResult);
+                _activityResultLauncher = droidImagePickerActivity.ActivityResultLauncher;
             }
         }
 
@@ -106,7 +112,7 @@ namespace Softeq.XToolkit.WhiteLabel.Essentials.Droid.ImagePicker
             _bitmapTaskCompletionSource!.SetResult(e);
         }
 
-        void IActivityResultCallback.OnActivityResult(Java.Lang.Object? result)
+        private void OnActivityResult(Java.Lang.Object? result)
         {
             var uri = result as Uri;
             _pickPhotoFileUriCompletionSource!.TrySetResult(uri);
