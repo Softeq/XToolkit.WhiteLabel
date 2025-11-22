@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0-android</TargetFramework>
+        <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+    </PropertyGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Softeq.XToolkit.Common.Droid\Softeq.XToolkit.Common.Droid.csproj" />
+      <ProjectReference Include="..\Softeq.XToolkit.Connectivity\Softeq.XToolkit.Connectivity.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="Microsoft.Maui.Essentials" Version="$(MauiVersion)" />
+    </ItemGroup>
+</Project>

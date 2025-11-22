@@ -18,4 +18,8 @@
     <ProjectReference Include="..\Softeq.XToolkit.Common\Softeq.XToolkit.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Xamarin.AndroidX.Lifecycle.Process" Version="2.6.2.1" />
+  </ItemGroup>
+
 </Project>
