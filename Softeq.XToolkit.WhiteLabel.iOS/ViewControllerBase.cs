@@ -74,6 +74,14 @@ namespace Softeq.XToolkit.WhiteLabel.iOS
         public override void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
+            if (IsViewLoaded)
+            {
+                ViewWillReallyDisappear(animated);
+            }
+        }
+
+        protected virtual void ViewWillReallyDisappear(bool animated)
+        {
             DetachBindings();
             NotifyViewModelAboutDisappearing();
         }
