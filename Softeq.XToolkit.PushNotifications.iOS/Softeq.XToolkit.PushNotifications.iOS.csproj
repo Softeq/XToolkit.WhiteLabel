@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net8.0-ios;net9.0-ios</TargetFrameworks>
+    <TargetFrameworks>net10.0-ios;net10.0-ios</TargetFrameworks>
     <SupportedOSPlatformVersion>12.2</SupportedOSPlatformVersion>
     <CreatePackage>false</CreatePackage>
   </PropertyGroup>
